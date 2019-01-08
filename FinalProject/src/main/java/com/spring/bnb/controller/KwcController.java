@@ -20,7 +20,7 @@ public class KwcController {
 	private AES256 aes;
 	
 	@RequestMapping(value = "/main.air", method = RequestMethod.GET)
-	public String index() {
+	public String index_2() {
 		return "main/index";
 	}
 }
