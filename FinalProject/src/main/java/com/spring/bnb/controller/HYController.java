@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HYController {
+	
 	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
 	public String index() {
 		return "home/homeDetail.hometiles";
