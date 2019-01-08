@@ -7,8 +7,9 @@ import com.spring.bnb.dao.*;
 
 //===== #31. Service ����  =====
 @Service
-public class KwcService implements InterHYService {
+public class KwcService implements InterKwcDAO {
 	//===== #34. ������ü �����ϱ�(DI:Dependency Injection)  =====
+	
 	@Autowired
 	private InterKwcDAO dao; // �������̽��� ��õ� �޼ҵ常 ��밡���ϴ�.
 }

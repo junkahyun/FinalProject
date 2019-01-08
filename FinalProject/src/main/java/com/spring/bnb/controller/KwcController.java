@@ -1,14 +1,15 @@
 package com.spring.bnb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.bnb.service.*;
 import com.spring.common.AES256;
 
-@Controller
+@Controller 
+@Component
 public class KwcController {
 	
 	//===== #35. ������ü �����ϱ�(DI:Dependency Injection)  =====

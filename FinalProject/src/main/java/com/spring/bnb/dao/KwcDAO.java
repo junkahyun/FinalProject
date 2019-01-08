@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 //===== #32. DAO ����  =====
 @Repository
-public class KwcDAO implements InterHYDAO {
+public class KwcDAO implements InterKwcDAO {
 	//===== #33. ������ü �����ϱ�(DI:Dependency Injection)  =====
 	@Autowired
 	private SqlSessionTemplate sqlsession; // SqlSessionTemplate --> root-context.xml  #15.

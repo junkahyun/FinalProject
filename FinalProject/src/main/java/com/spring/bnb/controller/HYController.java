@@ -1,7 +1,7 @@
 package com.spring.bnb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -9,13 +9,14 @@ import com.spring.bnb.service.InterHYService;
 import com.spring.common.AES256;
 
 @Controller
+@Component
 public class HYController {
 	
-	//===== #35. ÀÇÁ¸°´Ã¼ ÁÖÀÔÇÏ±â(DI:Dependency Injection)  =====
+	//===== #35. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½(DI:Dependency Injection)  =====
 	@Autowired
-	private InterHYService service; // ÀÎÅÍÆäÀÌ½º¿¡ ¸í½ÃµÈ ¸Þ¼Òµå¸¸ »ç¿ë°¡´ÉÇÏ´Ù.
+	private InterHYService service; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµï¿½ ï¿½Þ¼Òµå¸¸ ï¿½ï¿½ë°¡ï¿½ï¿½ï¿½Ï´ï¿½.
 	
-	// 45. ¾ç¹æÇâ ¾ÏÈ£È­ ¾Ë°í¸®ÁòÀÎ AES256¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£È­/º¹È£È­ ÇÏ±â À§ÇÑ Å¬·¡½º ÀÇÁ¸°´Ã¼ ÁÖÀÔÇÏ±â(DI:Dependency Injection)
+	// 45. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­ ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ï¿½ AES256ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½È£È­/ï¿½ï¿½È£È­ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½(DI:Dependency Injection)
 	@Autowired
 	private AES256 aes;
 	
