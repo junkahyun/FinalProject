@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ======= #21. tiles 레이아웃 설정하기 ======= -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<!-- notiles -->
+	<!-- ==== tiles 를 사용하지 않는 레이아웃 설정 시작 ==== -->
+	<definition name="layout-notiles" template="/WEB-INF/tiles/layout/layout-notiles.jsp"> 
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="*.notiles" extends="layout-notiles">
+		<put-attribute name="content" value="/WEB-INF/views/notiles/{1}.jsp"/>
+	</definition>
+	<!-- ==== tiles 를 사용하지 않는 레이아웃 설정 끝 ==== -->
+    
+    <!-- hometiles -->
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 시작 ==== -->
+	<definition name="layout-hometiles" template="/WEB-INF/tiles/layout/layout-hometiles.jsp"> 
+		<put-attribute name="header" value="/WEB-INF/tiles/hometiles/header.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/hometiles/footer.jsp" />
+	</definition>
+	
+	<definition name="*.hometiles" extends="layout-hometiles">
+		<put-attribute name="content" value="/WEB-INF/views/hometiles/{1}.jsp"/>
+	</definition>
+	<definition name="*/*.hometiles" extends="layout-hometiles">
+		<put-attribute name="content" value="/WEB-INF/views/hometiles/{1}/{2}.jsp"/>
+	</definition>
+	<definition name="*/*/*.hometiles" extends="layout-hometiles">
+		<put-attribute name="content" value="/WEB-INF/views/hometiles/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->    
+    
+    <!-- hometiles_nofooter -->
+    <!-- ==== tiles 를 사용하는 레이아웃 설정 시작 ==== -->
+	<definition name="layout-hometiles_nofooter" template="/WEB-INF/tiles/layout/layout-hometiles_nofooter.jsp"> 
+		<put-attribute name="header" value="/WEB-INF/tiles/hometiles_nofooter/header.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="*.hometiles_nofooter" extends="layout-hometiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hometiles_nofooter/{1}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*.hometiles_nofooter" extends="layout-hometiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hometiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
+	
+	<!-- hosttiles -->
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 시작 ==== -->
+	<definition name="layout-hosttiles" template="/WEB-INF/tiles/layout/layout-hosttiles.jsp"> 
+		<put-attribute name="header" value="/WEB-INF/tiles/hosttiles/header.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/hosttiles/footer.jsp" />
+	</definition>
+	
+	<definition name="*.hosttiles" extends="layout-hosttiles">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles/{1}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*.hosttiles" extends="layout-hosttiles">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*.hosttiles" extends="layout-hosttiles">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles/{1}/{2}/{3}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
+	
+	<!-- hosttiles_nofooter -->
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 시작 ==== -->
+	<definition name="layout-hosttiles_nofooter" template="/WEB-INF/tiles/layout/layout-hosttiles_nofooter.jsp"> 
+		<put-attribute name="header" value="/WEB-INF/tiles/hosttiles_nofooter/header.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
+	
+	<!-- admin -->
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 시작 ==== -->
+	<definition name="layout-admintiles" template="/WEB-INF/tiles/layout/admintiles.jsp"> 
+		<put-attribute name="header" value="/WEB-INF/tiles/admintiles/header.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="*.admintiles" extends="layout-admintiles">
+		<put-attribute name="content" value="/WEB-INF/views/admintiles/{1}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*.admintiles" extends="layout-admintiles">
+		<put-attribute name="content" value="/WEB-INF/views/admintiles/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
+	
+</tiles-definitions>       
+
+
+
+
+
+
+
+
