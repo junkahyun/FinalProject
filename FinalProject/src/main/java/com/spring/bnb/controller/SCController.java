@@ -13,9 +13,6 @@ public class SCController {
 	@Autowired
 	private InterHYService service;
 	
-	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
-	public String hostroomList() {
-		return "hostroomList.hosttiles";
-	}
+	
 }
 
