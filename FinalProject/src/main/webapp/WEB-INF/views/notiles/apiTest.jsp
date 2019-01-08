@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <div id="locationField">
-  <input id="autocomplete" placeholder="Enter your address" type="text">
+  <input id="autocomplete" placeholder="Enter your address" type="text"> 
 </div>
  
 <input class="field" id="lat" />
