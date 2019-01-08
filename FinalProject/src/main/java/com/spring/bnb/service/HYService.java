@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterHYDAO;
 
-//===== #31. Service ����  =====
 @Service
 public class HYService implements InterHYService {
 	
