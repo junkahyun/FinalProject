@@ -10,14 +10,10 @@ import com.spring.common.AES256;
 
 @Controller
 public class HYController {
-<<<<<<< HEAD
-	
-
 
 	//===== #35. 의존객체 주입하기(DI:Dependency Injection)  =====
-=======
 
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+
 	@Autowired
 	private InterHYService service; 
 

@@ -15,7 +15,7 @@
 <link rel="stylesheet" media="screen" href="/css/embed/embed-light.css" />
 <link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" href="/resources/demos/style.css">    
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlVD1-NAOFaAxcEbj82AwExEZKyEXFPzM&libraries=places&callback=initAutocomplete" async defer></script>
@@ -116,9 +116,9 @@ div{
             	<input id="autocomplete" placeholder="지역을 선택하세요." type="text" style="border: 0px solid; margin-left: 120px;">
             	<input type="hidden" class="field" id="lat" />
 				<input type="hidden" class="field" id="lng" />
-            	
-            	날짜
-            	<input type="text" id="datepicker" placeholder="일정을 입력하세요.">
+           	
+            	<input type="text" id="datepicker" placeholder="체크인 날짜">&nbsp;~&nbsp;
+            	<input type="text" id="datepicker" placeholder="체크아웃 날짜">
             </div>
             <div class="optionbox">임대유형
             	<span class="optioninput" style="margin-left: 130px; padding-right: 100px;">완전한 렌탈</span>
