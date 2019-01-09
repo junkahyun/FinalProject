@@ -41,20 +41,22 @@
 			      <th>성별</th>
 			      <th>전화</th>
 			      <th>주소</th>
+			      <th>회원삭제</th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			    <tr>
 			      <td>1</td>
-			      <td>Mark</td>
+			      <td><a href="">Mark</a></td>
 			      <td>Otto</td>
 			      <td>남</td>
 			      <td>01054881234</td>
 			      <td>경기도 구리시 토평동 푸르지오 1004-102</td>
+			      <td><button type="button" class="btn btn-danger">삭제</button></td>
 			    </tr>
 			    <tr>
 			      <td>2</td>
-			      <td>Mark</td>
+			      <td><a href="">Mark</a></td>
 			      <td>Otto</td>
 			      <td>남</td>
 			      <td>01054881234</td>
@@ -62,7 +64,7 @@
 			    </tr>
 			    <tr>
 			      <td>3</td>
-			      <td>Mark</td>
+			      <td><a href="">Mark</a></td>
 			      <td>Otto</td>
 			      <td>남</td>
 			      <td>01054881234</td>
@@ -70,7 +72,7 @@
 			    </tr>
 			    <tr>
 			      <td>4</td>
-			      <td>Mark</td>
+			      <td><a href="">Mark</a></td>
 			      <td>Otto</td>
 			      <td>남</td>
 			      <td>01054881234</td>
