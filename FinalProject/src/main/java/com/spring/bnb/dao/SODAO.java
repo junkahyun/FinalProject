@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 //===== #32. DAO 선언  =====
 @Repository
 //DB Exception Translation
-public class SWDAO implements InterSWDAO {
+public class SODAO implements InterSODAO {
 	
 	//===== #33. 의존 객체 주입하기 (DI:Dependency Injection) =====
 	@Autowired

@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.bnb.service.InterHYService;
-import com.spring.bnb.service.InterSWService;
+import com.spring.bnb.service.InterSOService;
 import com.spring.common.AES256;
 
 @Controller
-public class SWController {
+public class SOController {
 	@Autowired
-	private InterSWService service; 
+	private InterSOService service; 
 	
 	@Autowired
 	private AES256 aes;
