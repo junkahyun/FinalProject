@@ -26,7 +26,7 @@
  
     display: inline-block; 
  
-    outline: none; 
+    outline: buttonshadow; 
  
     cursor: pointer; 
  
@@ -43,6 +43,7 @@
     text-align: center; 
     
     font-size: 14pt;
+    }
 </style>
 
 
@@ -63,7 +64,7 @@
 </head>
 <body>
 <div>
-<button class="round-button" style="border-radius: 100%">x</button>
+<button class="round-button" style="border-radius: 100% " >x</button>
 
 <div class="container-fluid">
   
@@ -72,7 +73,7 @@
     
     
     <div>
-    <button class="col-sm-12" style="vertical-align:middle; background-color:#f8585b; color:#fff; text-align: center; border-radius: 10px; height: 5%">로그인</button>
+    <button class="col-sm-12" style="vertical-align:middle; background-color:#fd5a61; color:#fff; text-align: center; border-radius: 10px; height: 5%">로그인</button>
   </div>
   </div>
 </div>

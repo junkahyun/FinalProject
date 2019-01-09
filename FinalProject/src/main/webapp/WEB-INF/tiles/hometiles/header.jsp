@@ -28,20 +28,26 @@
 	  <!-- Modal content-->
 	   
       <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="btn btn-default myclose" style="border-radius: 100%" data-dismiss="modal">X</button>
-          <button type="button" class="close myclose" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" align="left" style="border: solid 1px silver; width: 25%;"></h4>또는<h4 class="modal-title" align="left" style="border: solid 1px silver; width: 25%;"></h4>
-        </div>
-        <div class="modal-body" style="height: 568px; width: 567px;">
-          <div id="idFind">
-          	<iframe style="border: none; width: 10%; height: 10%;" src="<%=request.getContextPath() %>/login.air">
-          	</iframe>
+        <div>
+        <button class="round-button" type="button" style="border-radius: 100%" data-dismiss="modal">X</button>
           </div>
+        <div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:40%;"></div><span style="height:20px;width:10%;padding:0;margin-left:5%;float:left;">또는</span><div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:45%;"></div>
+          
+        <div>  
+          <button class="col-sm-12" style="vertical-align:middle; background-color:#fd5a61; color:#fff; text-align: center; border-radius: 10px; height: 100%">로그인</button>
         </div>
-        <div class="modal-footer">
+        
+        
+          
+        
+        <div class="modal-body" style="height: 568px; width: 567px;">
+          
+          	<iframe style="border: none; " src="<%=request.getContextPath() %>/login.air">
+          	 
+          	</iframe>
          
         </div>
+       
       </div>
       
     </div>

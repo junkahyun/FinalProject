@@ -70,3 +70,20 @@ html{
 	padding: 12px 18px;
 	float:left;
 }
+.round-button{ 
+    width: 60px; 
+    height: 60px; 
+    text-decoration: none; 
+    display: inline-block; 
+    outline: none; 
+    cursor: pointer; 
+    border-style: ridge; 
+    color: black; 
+    background-color: white; 
+    border-radius: 100%; 
+    overflow: none; 
+    text-align: center; 
+    font-size: 14pt;
+    margin-left: 5%;
+    margin-top: 5%;
+    }
