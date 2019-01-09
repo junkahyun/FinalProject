@@ -11,18 +11,18 @@
  .border {
     border: 1px solid gray;
  }
-.panel {
-	 background-color: white;
-}
+
 </style>
 
 
    <div class="container">
        <div class="panel panel-default">
-          <div class="col-md-1"><img alt="" src="<%=request.getContextPath()%>/resources/images/home.png"></div>
-            <div class="panel-body">게스트가 예약을 취소할 경우에도 수입을 올리세요 환불 불가 조건으로 10% 할인된 요금에 예약할 수 있는 옵션을 제공해보세요. 숙소의 경쟁력을 한층 높일 수 있으며 예약이 취소되어도 수입이 보장됩니다.
+            <div class="panel-body">
+            	<div class="col-md-1"><img alt="" src="<%=request.getContextPath()%>/resources/images/home.png"></div>
+            	<div class="col-md-11">게스트가 예약을 취소할 경우에도 수입을 올리세요 환불 불가 조건으로 10% 할인된 요금에 예약할 수 있는 옵션을 제공해보세요. 숙소의 경쟁력을 한층 높일 수 있으며 예약이 취소되어도 수입이 보장됩니다.
                <a>자세히 알아보기.</a></div>
-       </div>
+       		</div>
+   		</div>
    </div>
    <div class="row">
       <div class="col-md-1" style="margin-left: 20%;">
@@ -41,7 +41,7 @@
           <div class="col-md-12">
          <h2>운영 중</h2>
             <div class="panel panel-default">
-                <div class="panel-heading panel">                   
+                <div class="panel-heading" style="background-color: white;">                   
                    <div class="row">
                       <div class="col-md-4">
                          <span style="font-size: 15pt;">숙소이름</span>
@@ -63,28 +63,28 @@
             </div>
          </div>
          
-         <div class="col-md-12 border">
+         <div class="col-md-12">
          <h2>운영 중지</h2>
-            <div class="panel panel-default border">
-                <div class="panel-heading panel">                   
-                   <div class="row border">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background-color: white;">                   
+                   <div class="row">
                       <div class="col-md-4">
-                         <span class="border" style="font-size: 15pt;">숙소이름</span>
+                         <span style="font-size: 15pt;">숙소이름</span>
                          <br/><br/><br/><br/>
-                         <span class="border" style="font-size: 9pt;">최종업데이트 날짜:</span>
+                         <span style="font-size: 9pt;">최종업데이트 날짜:</span>
                       </div>
                       
                       <div class="col-md-8">
-                         <img class="border" alt="" src="<%=request.getContextPath()%>/resources/images/숙소1.png" style="padding-left: 60%;"/>
+                         <img alt="" src="<%=request.getContextPath()%>/resources/images/숙소1.png" style="padding-left: 60%;"/>
                       </div>
                    </div>
                 </div>
-                <div class="panel-body border">
+                <div class="panel-body">
                    <img alt="" src="<%=request.getContextPath()%>/resources/images/time_icon-icons.com_65742.png">
                    <span><span style="font-weight: bold;">숙소 재설정</span><br/>
-                   현재 휴식모드 입니다. 숙소를 '운영 재개'로 설정하시면 검색 결과에 다시 표시됩니다.</span>
+                   	현재 휴식모드 입니다. 숙소를 '운영 재개'로 설정하시면 검색 결과에 다시 표시됩니다.</span>
                 </div>
-                <div class="panel-footer panel">
+                <div class="panel-footer" style="background-color: white;">
                    <a>수정하기</a>
                    <a>미리보기</a>
                    <a>달력</a>
