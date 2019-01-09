@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 import com.spring.bnb.dao.InterHYDAO;
 
 @Service
-public class HYService implements InterHYService {
-	
+public class SHService implements InterSHService {
+
 	@Autowired
-	private InterHYDAO dao; 
+	private InterHYDAO dao;
+	
 }

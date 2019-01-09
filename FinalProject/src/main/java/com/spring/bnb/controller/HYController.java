@@ -10,15 +10,14 @@ import com.spring.common.AES256;
 
 @Controller
 public class HYController {
-	
-	//===== #35. 의존객체 주입하기(DI:Dependency Injection)  =====
+
 	@Autowired
-	private InterHYService service; // 인터페이스에 명시된 메소드만 사용가능하다.
+	private InterHYService service; 
 	
-	// 45. 양방향 암호화 알고리즘인 AES256를 사용하여 암호화/복호화 하기 위한 클래스 의존객체 주입하기(DI:Dependency Injection)
 	@Autowired
 	private AES256 aes;
 	
+
 	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
 	public String index() {
 		return "home/homeDetail.hometiles";
@@ -27,5 +26,10 @@ public class HYController {
 	public String apiTest() {
 		return "apiTest.notiles";
 	} 
+	
+	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
+	public String hostroomList() {
+		return "host/hostroomList.hosttiles";
+	}
 }
 
