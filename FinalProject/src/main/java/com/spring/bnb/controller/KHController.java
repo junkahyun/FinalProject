@@ -38,9 +38,5 @@ public class KHController {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////
-	// ***** 호스트 등록된 숙소 수정하기 ***** //
-	@RequestMapping(value="/hostRoomEdit.air", method= {RequestMethod.GET})
-	public String hostRoomEdit (HttpServletRequest req) {
-		return "host/hostRoomEdit.hosttiles";
-	}
+	
 }

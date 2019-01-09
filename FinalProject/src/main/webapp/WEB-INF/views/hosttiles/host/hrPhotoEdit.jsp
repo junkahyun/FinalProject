@@ -8,8 +8,11 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<div style="width: 70%; border: 1px soild red;">
-	<div><i class="fas fa-angle-left"></i></div>
+<div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
+
+	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; text-decoration: underline;">수정으로 돌아가기</a>
+	
+	<h3 align="left" style="font-weight: bold; margin-left: 1.2%;">사진</h3>
 	
 
 </div>
