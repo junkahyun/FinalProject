@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +10,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>AirBnb Test</title>
 </head>
-<body>
+<body>  
+<div>
 	<div id="header">
 		<div class="row height_maxPer">
 			<div id="headerlogo">
@@ -31,5 +31,6 @@
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>

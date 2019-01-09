@@ -10,10 +10,9 @@ import com.spring.common.AES256;
 
 @Controller
 public class HYController {
-	
+
 	@Autowired
 	private InterHYService service; 
-	 
 
 	@Autowired
 	private AES256 aes;
@@ -26,7 +25,6 @@ public class HYController {
 	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
 	public String apiTest() {
 		return "apiTest.notiles";
-	} 
-	 
+	}  
 }
 
