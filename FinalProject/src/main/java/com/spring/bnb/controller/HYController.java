@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.bnb.service.InterHYService;
 import com.spring.common.AES256;
 
 @Controller
@@ -24,9 +23,7 @@ public class HYController {
 		return "apiTest.notiles";
 	} 
 	
-	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
-	public String hostroomList() {
-		return "host/hostroomList.hosttiles";
-	}
+	
+
 }
 

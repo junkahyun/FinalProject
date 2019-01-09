@@ -116,7 +116,7 @@ div{border: /* 1px solid gray;  */
 
 <body>
 
-<%-- <div class="row" style="border-bottom: 1px solid #ccc; padding: 0.5%; margin-left: 0.3%; " >
+<div class="row" style="border-bottom: 1px solid #ccc; padding: 0.5%; margin-left: 0.3%; " >
 	<img src="<%=request.getContextPath() %>/resources/images/호스트아이콘.JPG" align="left" style="width:3%; cursor: pointer;" onclick=""/>
 	<div class="col-md-1" ><span class="hostheader" onclick="">홈</span></div>
 	<div class="col-md-1" ><span class="hostheader" onclick="">메시지</span></div>
@@ -125,7 +125,7 @@ div{border: /* 1px solid gray;  */
 	<div class="col-md-1" ><span class="hostheader" onclick="">성취도</span></div>
 	<div class="col-md-5"><button>숙소등록하기</button></div>
 </div>
- --%>
+
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
 	
 	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">숙소이름

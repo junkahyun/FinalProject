@@ -42,6 +42,6 @@ public class KHController {
 	@RequestMapping(value="/hostRoomEdit.air", method= {RequestMethod.GET})
 	public String hostRoomEdit (HttpServletRequest req) {
 		
-		return "hostRoomEdit/hostRoomEdit.notiles";
+		return "host/hostRoomEdit.hosttiles";
 	}
 }
