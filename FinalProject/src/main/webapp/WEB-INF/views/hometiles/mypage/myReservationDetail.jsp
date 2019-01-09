@@ -61,7 +61,7 @@
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
- <div class="col-md-6">
+ <div class="col-md-7">
    	<div class="box" style="margin-bottom: 6%">
 		<h3>투숙 완료했던 숙소 입니다!</h3><p>고객님이 묵었던 숙소들 입니다!</p><a href="javascript:history.back();">>>>예약페이지로 돌아가기</a>
 	</div>	
@@ -84,7 +84,7 @@
 						<div class="col-md-7" style="border: 0px solid gray; float:left;">
 							<div style="margin-bottom: 3%">218773244</div>
 							<div style="margin-bottom: 2%">
-								<span class="calcel"><img src="<%= request.getContextPath() %>/resources/image/checked.png" height="18pt" />&nbsp;투숙 완료!</span>
+								<span class="calcel"><img src="<%= request.getContextPath() %>/resources/images/checked.png" height="18pt" />&nbsp;투숙 완료!</span>
 							</div>
 						</div>
 					</div> 
@@ -102,8 +102,8 @@
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>연락처 정보</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%">예약자 메일</div>
-							<div style="margin: 1%;">예약자 폰번호</div>
+							<div style="margin-bottom: 5%; margin-left: 5%">예약자 메일</div>
+							<div style="margin: 1%; margin-left: 5%">예약자 폰번호</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">

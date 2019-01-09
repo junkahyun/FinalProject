@@ -35,7 +35,10 @@
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
-	
+	$(document).ready(function(){
+		
+		
+	});
 </script>
 
 <div class="row firstDIV" style="border: 1px soild red;">
@@ -45,19 +48,22 @@
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="true" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
 			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
+			    </li>
+			    <li>
+			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
-    <div class="col-md-6">
+    <div class="col-md-7">
      
       <div id="dashboard-content">
    
@@ -76,12 +82,15 @@
 	    
 	    <!--  투숙 예정 예약  -->
 	    <div id="home" class="tab-pane fade in active" style="padding:1%; border: 0px solid yellow;">
-	    
+
 	      <div class="panel-header" style="margin-top: 3%; border: 1px solid #dbdfdf">
 	     	 <h3 class="edit-profile-section-heading">투숙 예정 호텔</h3>
 	      </div>
 	      <div class="panel-body" style="border: 1px solid #dbdfdf;">
-	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box">
+	      
+	      <!--  for 문 시작 -->
+	      <c:forEach var="fori" begin="1" end="3">
+	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
 	        		<img src="<%= request.getContextPath() %>/resources/image/changHotel.jpg" width="100%" height="90%"/>
 	        	</div>
@@ -103,7 +112,7 @@
 								<div style="font-size: 8pt; text-align: left; border: 0px solid blue">체크인</div>
 								<div style="border: 0px solid blue; text-align: left; font-size: 20pt">12</div>
 							</div>
-							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0; border-right : 1px dashed gray">
+							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 1; border-right : 1px dashed gray">
 								<ul class="list-layout reviews-list">
 							       	<li class="reviews-list-item"><br/></li>	  
 									  <li>18년 6월 화</li>
@@ -112,24 +121,25 @@
 						  </div>
 						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin: 0">
 							 
-								<div class="col-md-7" style="border: 0px solid blue; padding: 0; margin: 0;">
-									<div style="font-size: 8pt; padding-left:3px; border: 0px solid blue">체크아웃</div>
+								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
+									<div style="font-size: 8pt; padding-left:1px; border: 0px solid blue">체크아웃</div>
 									<div style="border: 0px solid blue; padding-left:3px; font-size: 20pt">15</div>
 								</div>
-								<div class="col-md-5" style="border: 0px solid blue; padding: 0; margin: 0;">
+								<div class="col-md-6" style= "padding: 0; margin: 0;">
 										<ul class="list-layout reviews-list">
 									       	<li class="reviews-list-item"><br/></li>	  
-											  <li>18년6월 화</li>
+											  <li>18년 6월 화</li>
 									    </ul>
 							    </div> 
 							
 						     
 						  </div>					   
 					  </div>
-					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>  
-					  
-		      </div>  	       	   	       
+					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
+		      </div> 	           	   	       
 	        </div> 	 
+	    </c:forEach>
+	            <!--  for 문 끝 --> 		         
          </div>
        </div>
 	    <!--  투숙 예정 예약  끝-->
@@ -141,11 +151,13 @@
 
 
       <div class="panel-body" style="border: 1px solid #dbdfdf;">
+      	      <!--  for 문 시작 -->
+	      <c:forEach var="fori" begin="1" end="3">
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box">
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
 	        		<img src="<%= request.getContextPath() %>/resources/image/changHotel.jpg" width="100%" height="90%"/>
 	        	</div>
-	     	 
+	     	
 	     	 	<div  class="col-md-8" class="row">
 		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일 </div>
 		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
@@ -189,25 +201,29 @@
 					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>  
 					  
 		      </div>  	       	   	       
-	        </div> 	 
+	        </div> 	
+	     </c:forEach>
+	     <!-- for문 끝 --> 
          </div>
 	    </div>	
-	      <!--  투숙 완료 예약 끝 -->
+	   <!--  투숙 완료 예약 끝 -->
 	<!--  취소 된 예약  -->
-		<div id="menu2" class="tab-pane tab-panel"  style="padding:1%; border: 1px solid yellow;">
- 			<div class="panel-header" style="margin-top: 3%; border: 1px solid #dbdfdf"">
+		<div id="menu2" class="tab-pane tab-panel"  style="padding:1%; border: 0px solid yellow;">
+ 			<div class="panel-header" style="margin-top: 3%; border: 1px solid #dbdfdf">
 	     	 <h3 class="edit-profile-section-heading">취소된 호텔 예약</h3>
 	      </div>
 
 
       <div class="panel-body" style="border: 1px solid #dbdfdf;">
+         <!--  for 문 시작 -->
+	      <c:forEach var="fori" begin="1" end="3">
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box">
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
 	        		<img src="<%= request.getContextPath() %>/resources/image/changHotel.jpg" width="100%" height="90%"/>
 	        	</div>
 	     	 
 	     	 	<div  class="col-md-8" class="row">
-		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일 </div>
+		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약 취소일 </div>
 		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>후아 창 헤리티지 호텔 (Hua Chang Heritage Hotel)</h4></li></ul></div>
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list">
@@ -250,6 +266,8 @@
 					  
 		      </div>  	       	   	       
 	        </div> 	 
+	        </c:forEach>
+	        <!-- for문 끝 -->
          </div>
 	    </div>	
 	    <!--  취소 된 예약  -->

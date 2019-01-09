@@ -51,7 +51,11 @@ table{
 td{
 	padding: 3%;
 }
-
+#checkCoupon{
+ cursor: pointer;
+ color: green;
+ font-weight: bold;
+}
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
@@ -60,12 +64,12 @@ td{
 		$("#checkCoupon").click(function(){
 			var url ="/couponReg.hometiles"
 			window.open("","쿠폰등록","width=400,height=300",true);
-		   
+		   var frm = couponRegFrm.document;
 			frm.method = "POST";
 		    frm.action = url;
 		    frm.idx.value = idx
 		    frm.target = "쿠폰등록";
-		    frm.submit();
+		   // frm.submit();
 			
 		});
 	});
@@ -97,7 +101,8 @@ td{
      <div style="padding:2%; border: 1px solid #dbdfdf;" >
 		<h3>상품할인쿠폰</h3>
 		<p>고객님이 받으신 e-mail 이나 오프라인에서 지급받으신 쿠폰 번호를 입력하시면, 할인쿠폰을 지급해 드립니다.</p>
-		<input type="text" style="width: 40%" placeholder="쿠폰번호입력"/>  <span id="checkCoupon">할인쿠폰등록하기</span>
+		<span id="checkCoupon">쿠폰등록 하러가기</span>
+		<!-- <input type="text" style="width: 40%" placeholder="쿠폰번호입력"/>   -->
 	</div>	
     <div id="dashboard-content" class="margin_top">   
 <!--  상단 바 -->
@@ -190,7 +195,7 @@ td{
 	<!-- 사용한 쿠폰 리스트 -->
 
 
-<form name="couponRegFrm"></form>
+<form name="couponRegFrm"><input type="text" name="userid" value="회원아이디넣는칸"/></form>
 	  </div>
 	</div>
  </div>
