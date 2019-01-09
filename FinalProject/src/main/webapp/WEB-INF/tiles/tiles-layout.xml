@@ -93,7 +93,7 @@
 	
 	<!-- admin -->
 	<!-- ==== tiles 를 사용하는 레이아웃 설정 시작 ==== -->
-	<definition name="layout-admintiles" template="/WEB-INF/tiles/layout/admintiles.jsp"> 
+	<definition name="layout-admintiles" template="/WEB-INF/tiles/layout/layout-admintiles.jsp"> 
 		<put-attribute name="header" value="/WEB-INF/tiles/admintiles/header.jsp" />
 		<put-attribute name="content" value="" />
 	</definition>
