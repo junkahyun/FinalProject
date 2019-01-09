@@ -44,43 +44,63 @@
 		margin-top:2%;
 	}
 	.infoDiv{
-		margin: 1% 0;
+		margin: 3% 0;
 		border-bottom: 1px solid lightgray;
+		padding-bottom: 3%;
 	}
 	.mainSubInfo{
 		height:100%;
 		border-right: 1px solid lightgray;
 	}
+	.DetailButtonsHY{
+		position:absolute; 
+		top: 3%;
+		right: 18%;
+		background-color:white;
+		width: 9%;
+		border-radius:5px;
+		height: 35px;
+		box-shadow: 1px 1px 3px gray;
+		padding: 7px 18px;
+		font-weight:bold;
+	}
 </style>
-<div style="width: 1240px;margin: 1% auto;">
-	<div class="row maxWidth" style="margin-top:3%;">
-		<div class="col-md-8 noSpace">
-			<div  style="height:99px;">
-				<div style="font-size:0.8em;">주택의 개인실</div>
-				<div id="detailSubject">Sometimesjeju 201호!안전도어락! 통유리오션뷰!제주공항7.8km!</div>
-				<div style="line-height:80%;">Jeju-si</div>
+<div style="width: 1240px;margin: 0 auto;">
+	<div class="row noSpace">
+		<div class="col-md-12 noSpace">
+			<div class="row">
+				<div class="col-md-10" style="height:600px;padding:0;">
+					<img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/>
+				</div>
+				<div class="col-md-2 noSpace" style="height:600px;border:solid;">
+					<div style="width:100%;float:left;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/></div>
+					<div style="width:100%;float:left;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/></div>
+				</div>
+				<div class="DetailButtonsHY"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/connections.png" style="width:25px;height:25px;"/><span style="margin-left: 15%">공유</span></div>
+				<div class="DetailButtonsHY" style="right: 30%;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/heart.png" style="width: 20px; height: 20px;"/><span style="margin-left: 15%">관심</span></div>
 			</div>
-			<div class="row noSpace" style="width:100%;">
-				<div class="col-md-12 noSpace"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%; overflow:hidden;"/></div>
-				<div class="col-md-12 noSpace" style="height:100px; width:100%;padding: 1% 0; box-shadow: 1px 1px 3px lightgray;">
-					<div class="col-md-4 mainSubInfo" style="height:100%;">
-						<div style="font-size:1.2em;font-weight:bold;"><span style="margin-left:10%;">숙소유형/건물유형</span></div>
+		</div>
+	</div>
+	<div class="row maxWidth" style="margin-top:2%;">
+		<div class="col-md-8 noSpace">
+			<div style="height:99px;">
+				<div class="row">
+					<div class="col-md-10">
+						<div style="font-size:0.8em;">주택의 개인실</div>
+						<div id="detailSubject">Sometimesjeju 201호!안전도어락! 통유리오션뷰!제주공항7.8km!</div>
+						<div style="line-height:80%;">Jeju-si</div>
 					</div>
-					<div class="col-md-4 mainSubInfo" style="height:100%;">
-						<div style="font-size:1.2em;font-weight:bold;"><span style="margin-left:10%;">최대 수용인원</span></div>
-					</div>
-					<div class="col-md-4 mainSubInfo" style="height:100%;border:none;">
-						<div style="font-size:1.2em;font-weight:bold;width:80%;margin:0 auto;"><span style="margin-left:10%;">방갯수</span></div>
-					</div>
+					<div class="col-md-2"></div>
 				</div>
 			</div>
-			<div class="check infoDiv">
+			<div class="infoDiv" style="font-weight:bold;">
 				<img src="<%=request.getContextPath()%>/resources/images/homeDetail/multiple-users-silhouette.png" />
-				<span>침실갯수</span>
-				<span>침대갯수</span>
-				<span>단독사용욕실갯수</span>
+				<span style="margin-right:5%;margin-left:1%;">인원 명</span>
+				<span style="margin-right:5%;">침실갯수</span>
+				<span style="margin-right:5%;">침대갯수</span>
+				<span style="margin-right:5%;">단독사용욕실갯수</span>
 			</div>
-			<div class="check infoDiv">
+			<div class="infoDiv">
 			안녕하세요? 
 			이사벨입니다. 
 			저희 집 소개를 해드릴게요..
@@ -100,15 +120,10 @@
 			섬타임즈제주는 우리나라 대부분의 포털 사이트에서 홈페이지 검색도 가능합니다
 			
 			
-			이 공간 자세히 알아보기
+			<a>이 공간 자세히 알아보기</a>
 			</div>
 		</div>
 		<div class="col-md-4 noSpace">
-			<div class="row noSpace" style="width:100%;height:99px;padding-top:5%;">
-				<div class="col-md-3 col-md-offset-2 rightborder" style=""><img src="<%=request.getContextPath() %>/resources/images/homeDetail/heart.png" style="width:25px;height:25px;"/><span style="margin-left: 15%">관심</span></div>
-				<div class="col-md-3 rightborder"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/connections.png" style="width:25px;height:25px;"/><span style="margin-left: 15%">공유</span></div>
-				<div class="col-md-3">등급 : <span> 점</span></div>
-			</div>
 			<div style="width:100%;padding: 0 3%;">
 				<div style="height:380px;border:1px solid lightgray; padding: 5%;">
 					<div style="height:60px; border-bottom: 1px solid lightgray;">

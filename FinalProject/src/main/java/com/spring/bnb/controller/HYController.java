@@ -18,7 +18,7 @@ public class HYController {
 	private AES256 aes;
 	
 
-	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index() {
 		return "home/homeDetail.hometiles";
 	}
