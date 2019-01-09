@@ -15,12 +15,11 @@ public class WCController {
 	 
 	@Autowired
 	private AES256 aes;
-	
-
+	 
 	@RequestMapping(value = "/main.air", method = RequestMethod.GET)
 	public String index_2() {
-		return "main/index";
-	} 
+		return "main/index";   
+	}  
 	@RequestMapping(value = "/admin.air", method = RequestMethod.GET)
 	public String admin_index() {
 		return "admin/index.admintiles";
