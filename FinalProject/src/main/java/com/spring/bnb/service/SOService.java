@@ -3,6 +3,6 @@ package com.spring.bnb.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SWService implements InterSWService{
+public class SOService implements InterSOService{
 
 }
