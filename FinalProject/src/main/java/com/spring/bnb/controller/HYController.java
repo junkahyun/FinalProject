@@ -18,15 +18,23 @@ public class HYController {
 	private AES256 aes;
 	
 
+<<<<<<< HEAD
 	@RequestMapping(value = "/index.air", method = RequestMethod.GET) 
+=======
+	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	public String index() {
 		return "home/homeDetail.hometiles";
 	}
 	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
 	public String apiTest() {
 		return "apiTest.notiles";
+<<<<<<< HEAD
 
 	} 
 
+=======
+	}
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 }
 
