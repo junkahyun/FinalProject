@@ -27,24 +27,23 @@
 	 
 	  <!-- Modal content-->
 	   
-      <div class="modal-content">
+      <div class="modal-content" style="height: 567px; width: 568px;">
         <div>
         <button class="round-button" type="button" style="border-radius: 100%" data-dismiss="modal">X</button>
           </div>
-        <div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:40%;"></div><span style="height:20px;width:10%;padding:0;margin-left:5%;float:left;">또는</span><div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:45%;"></div>
+        <div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:38%; margin-left:7%;"></div><span style="height:20px;width:10%;padding:0;margin-left:5%;float:left;">또는</span><div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:35%; margin-right:5%;"></div>
           
-        <div>  
-          <button class="col-sm-12" style="vertical-align:middle; background-color:#fd5a61; color:#fff; text-align: center; border-radius: 10px; height: 100%">로그인</button>
-        </div>
+          	<br/>
+          <input type="text" style="margin-top: 1%; margin-left:5%; border-radius: 5px;"/>
+          
+          <button class="col-sm-11" style="vertical-align:middle; background-color:#fd5a61; color:#fff; text-align: center; border-radius: 10px; height:50px; margin-left:5%;">로그인</button>
         
         
           
         
-        <div class="modal-body" style="height: 568px; width: 567px;">
+        <div class="modal-body" >
           
-          	<iframe style="border: none; " src="<%=request.getContextPath() %>/login.air">
-          	 
-          	</iframe>
+          	
          
         </div>
        
