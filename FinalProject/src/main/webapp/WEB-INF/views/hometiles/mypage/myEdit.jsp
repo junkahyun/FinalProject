@@ -32,6 +32,16 @@
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+	$("#showInputPhone").hide();
+	
+});
+
+function showPhone(){
+	$("#showInputPhone").show();
+}
+
 </script>
 </head>
 <body>
@@ -286,10 +296,10 @@
 	          전화번호
 	        </label>
 	        <div class="col-sm-9">
-	        <div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false">전화번호 입력</button></div>
+	        <div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 입력</button></div>
 	       	<!--  전화번호 입력 버튼 선택 시  -->
 	      <!--  번호 입력 네모 박스 -->
-	       <div class="col-sm-9">
+	       <div class="col-sm-9" id="showInputPhone">
                 <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055"><div dir="ltr" data-reactroot=""><div style="margin-top:9px"><div><strong>입력된 전화번호가 없습니다.</strong><div style="margin-top:4px"><div class="text-muted">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div></div>
 	                <div style="margin-top:8px"><div class="phone-number-verify-widget "><div class="_16lavrk"><div class="phone-number-input-widget"><strong>전화번호 추가하기</strong><div style="margin-bottom: 16px;">이 전화번호로 알림을 보내드립니다.</div><div class=""></div><div class="pniw-number-container clearfix"><input type="tel" id="phone_number" style="width: 70%" ></div>
 		                <div style="margin-top: 16px;"><button type="button" class="btn btn-primary" style="margin: 2%">문자로 인증하기</button><button type="button" class="btn btn-primary">전화로 인증</button></div>

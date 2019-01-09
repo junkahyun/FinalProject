@@ -11,7 +11,7 @@
 <title>AirBnb Test</title>
 </head>
 <body>  
-<div>
+<div>   
 	<div id="header">
 		<div class="row height_maxPer">
 			<div id="headerlogo">
