@@ -13,14 +13,14 @@ public class SHController {
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 	
-		return "admin/adminMember";
+		return "admin/adminMember.admintiles";
 	}
 	
 	// 회원 상세 페이지
 	@RequestMapping(value="/adminMemberDetail.air", method= {RequestMethod.GET})
 	public String adminMemberDetail(HttpServletRequest req) {
 	
-		return "admin/adminMemberDetail";
+		return "admintiles/admin/adminMemberDetail";
 	}
 	
 	
