@@ -1,7 +1,7 @@
 package com.spring.bnb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,7 +27,10 @@ public class HYController {
 		return "apiTest.notiles";
 	} 
 	
+	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
+	public String hostroomList() {
+		return "host/hostroomList.hosttiles";
+	} 
 	
-
 }
 
