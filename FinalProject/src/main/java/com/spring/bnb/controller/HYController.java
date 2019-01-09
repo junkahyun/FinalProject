@@ -32,5 +32,6 @@ public class HYController {
 	public String hostroomList() {
 		return "host/hostroomList.hosttiles";
 	} 
+	
 }
 
