@@ -34,9 +34,13 @@
         <div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:38%; margin-left:7%;"></div><span style="height:20px;width:10%;padding:0;margin-left:5%;float:left;">또는</span><div style="border-bottom: 1px solid lightgray;height:10px;float:left;width:35%; margin-right:5%;"></div>
           
           	<br/>
-          <input type="text" style="margin-top: 1%; margin-left:5%; border-radius: 5px;"/>
+          <input type="text" style="border: 1px solid lightgray; margin-top: 2%; margin-left:6%; border-radius: 5px; height:40px; width:90%;" value="이메일 주소"/>
+          <br/>
+          <input type="text" style="border: 1px solid lightgray; style="background-image:url('/FinalProject/src/main/webapp/resources/ymimg/message.png'); background-position:0px 0px;"  margin-top: 2%; margin-left:6%; border-radius: 5px; height:40px; width:90%;" value="비밀번호"/>
+          <img src="">
           
-          <button class="col-sm-11" style="vertical-align:middle; background-color:#fd5a61; color:#fff; text-align: center; border-radius: 10px; height:50px; margin-left:5%;">로그인</button>
+          
+          <button class="col-sm-11" style="vertical-align:middle; background-color:#fd5a61; color:#fff; text-align: center; border-radius: 10px; height:50px; margin-left:5%; margin-top: 2%;">로그인</button>
         
         
           
