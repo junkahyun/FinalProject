@@ -113,6 +113,20 @@ div{
     border: 0px solid;
 }
 
+.rs-container *{
+    box-sizing:border-box;-webkit-touch-callout:none;
+    -webkit-user-select:none;-khtml-user-select:none;
+    -moz-user-select:none;-ms-user-select:none;user-select:none
+    
+}
+.rs-container{
+    font-family:Arial,Helvetica,sans-serif;height:45px;position:relative
+    
+}
+.rs-container .rs-bg,.rs-container .rs-selected{
+    background-color:#eee;border:1px solid #ededed;height:10px;left:0;position:absolute;top:5px;width:80%;border-radius:3px;
+}
+
 .subjectstyle {font-weight: bold;
     	           color: red;
     	           cursor: pointer; }
