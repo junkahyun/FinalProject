@@ -1,24 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
 
 <style type="text/css">
  .border {
     border: 1px solid gray;
  }
-
+.panel {
+	 background-color: white;
+}
 </style>
 
-</head>
-<body>
 
    <div class="container">
        <div class="panel panel-default">
@@ -36,14 +32,15 @@
       
       <div class="col-md-6 container" style="padding-left: 10%;">
           <div class="panel panel-default">
-             <div class="col-md-1"><img alt="" src="<%=request.getContextPath()%>/resources/images/ligth.png"></div>
-               <div class="panel-body">원하시는 대금 수령 방법을 알려주세요. <a>대금 수령 방법을 설정하세요.</a></div>
+               <div class="panel-body">
+               <img alt="" src="<%=request.getContextPath()%>/resources/images/light.png">
+               	원하시는 대금 수령 방법을 알려주세요. <a>대금 수령 방법을 설정하세요.</a></div>
           </div>
           
           <div class="col-md-12">
          <h2>운영 중</h2>
             <div class="panel panel-default">
-                <div class="panel-body">                   
+                <div class="panel-heading panel">                   
                    <div class="row">
                       <div class="col-md-4">
                          <span style="font-size: 15pt;">숙소이름</span>
@@ -68,7 +65,7 @@
          <div class="col-md-12 border">
          <h2>운영 중지</h2>
             <div class="panel panel-default border">
-                <div class="panel-heading">                   
+                <div class="panel-heading panel">                   
                    <div class="row border">
                       <div class="col-md-4">
                          <span class="border" style="font-size: 15pt;">숙소이름</span>
@@ -86,7 +83,7 @@
                    <span><span style="font-weight: bold;">숙소 재설정</span><br/>
                    현재 휴식모드 입니다. 숙소를 '운영 재개'로 설정하시면 검색 결과에 다시 표시됩니다.</span>
                 </div>
-                <div class="panel-footer">
+                <div class="panel-footer panel">
                    <a>수정하기</a>
                    <a>미리보기</a>
                    <a>달력</a>
@@ -97,6 +94,3 @@
       </div>
    </div>
    
-
-</body>
-</html>
