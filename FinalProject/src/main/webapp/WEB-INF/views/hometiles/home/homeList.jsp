@@ -112,6 +112,7 @@
 div{
     border: 0px solid;
 }
+
 .subjectstyle {font-weight: bold;
     	           color: red;
     	           cursor: pointer; }
@@ -202,8 +203,8 @@ div{
         </div>
         <div id="optionRight" class="col-md-7">
         	<div class="optionbox">
-        		<span class="optionname" style="margin-right: 50px;">가격대</span>
-        		<input type="text" id="slider3" class="slider" style="margin-left: 50px;"/>
+        		<span class="optionname" style="margin-right: 50px;">가격(만원)</span>
+        		<input type="text" id="slider3" class="slider" />
         	</div>
             <div class="optionbox"><input type="text" class="optioninput"/></div>
             <div class="optionbox"><input type="text" class="optioninput"/></div>
