@@ -10,17 +10,41 @@
 
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow">
-<script src="/js/embed/highlight.pack.js"></script>
+<!-- <script src="/js/embed/highlight.pack.js"></script>
 <script src="/js/embed/embed.js"></script>
-<link rel="stylesheet" media="screen" href="/css/embed/embed-light.css" />
+<link rel="stylesheet" media="screen" href="/css/embed/embed-light.css" /> -->
 <link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">    
+<!-- <link rel="stylesheet" href="/resources/demos/style.css">     -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlVD1-NAOFaAxcEbj82AwExEZKyEXFPzM&libraries=places&callback=initAutocomplete" async defer></script>
 
  <script type="text/javascript">
+ 
+ $(document).ready(function(){
+	
+	 $(".optioninput").click(function(){
+		 var $target = $(event.target);
+		 $target.addClass("subjectstyle");
+		 
+	 });
+	 
+	 $(".person").spinner({
+         spin : function(event, ui) {
+            if (ui.value > 100) {
+               $(this).spinner("value", 100);
+               return false;
+            }
+            else if (ui.value < 0) {
+               $(this).spinner("value", 0);
+               return false;
+            }
+         }
+      }); // end of $("#spinnerPqty").spinner();---------------
+	 
+ });
+ 
         var height;
         var force_height = null;
         var slug = "gg2hqba3";
@@ -48,7 +72,7 @@
         
 	// 달력
 	$( function() {
-    $( "#datepicker" ).datepicker({
+    $( ".datepicker" ).datepicker({
       numberOfMonths: 2,
       showButtonPanel: true
     });
@@ -61,6 +85,9 @@
 div{
     border: 0px solid;
 }
+.subjectstyle {font-weight: bold;
+    	           color: red;
+    	           cursor: pointer; }
 .optionName{
     font-size: 16px; 
     font-weight: 800;
@@ -72,6 +99,11 @@ div{
 .foldText{
     font-size: 0.8em;
     color:gray;
+}
+.optionname{
+	font-size: 11pt;
+	font-weight: bold;
+	
 }
 .dropBtn{
     width:100%; 
@@ -99,6 +131,7 @@ div{
 	margin-bottom:14px;
 	background-color:white;
 	padding-left: 14px;
+	padding-top: 10px;
 }
 .optioninput{
 	border:none;
@@ -112,22 +145,32 @@ div{
         <div id="optionLeft" class="col-md-5">
         <div>
             <div id="locationField" class="optionbox">
-            	지역
-            	<input id="autocomplete" placeholder="지역을 선택하세요." type="text" style="border: 0px solid; margin-left: 120px;">
+            	<span class="optionname">지역</span>
+            	<input id="autocomplete" placeholder="지역을 입력하세요." type="text" style="border: 0px solid; margin-left: 110px;">            	
             	<input type="hidden" class="field" id="lat" />
 				<input type="hidden" class="field" id="lng" />
-           	
-            	<input type="text" id="datepicker" placeholder="체크인 날짜">&nbsp;~&nbsp;
-            	<input type="text" id="datepicker" placeholder="체크아웃 날짜">
             </div>
-            <div class="optionbox">임대유형
-            	<span class="optioninput" style="margin-left: 130px; padding-right: 100px;">완전한 렌탈</span>
-            	<span class="optioninput" style="padding-right: 100px;">별도의 싱글룸</span>
-            	<span class="optioninput" style="padding-right: 100px;">쉐어 룸</span>
+           
+           	<div class="optionbox">
+            	<span class="optionname">날짜</span>
+            	<input type="text" class="datepicker" placeholder="체크인 날짜" style="margin-left: 110px; width: 100px;">&nbsp;~&nbsp;
+            	<input type="text" class="datepicker" placeholder="체크아웃 날짜" style="width: 100px;">
+            </div>  
+            
+            <div class="optionbox">
+            	<span class="optionname">임대유형</span>
+            	<span class="optioninput" id="lental" style="margin-left: 80px; padding-right: 70px; cursor: pointer;">완전한 렌탈</span>
+            	<span class="optioninput" id="single" style="padding-right: 70px; cursor: pointer;">별도의 싱글룸</span>
+            	<span class="optioninput" id="share" style="cursor: pointer;">쉐어 룸</span>
             </div>
         </div>
-            <div class="optionbox">43<input type="text" class="optioninput"/></div>
-            <div class="optionbox">12<input type="text" class="optioninput"/></div>
+            <div class="optionbox">
+            	<span class="optionname" style="margin-right: 80px;">인원 (명)</span>
+            	<span style="margin-right: 50px;">성인&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" /></span>
+            	<span style="margin-right: 50px;">어린이(2~12세)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" /></span>
+            	<span style="margin-right: 50px;">유아(2세 미만)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" /></span>
+            </div>
+            
             <div class="optionbox">67<input type="text" class="optioninput"/></div>
         </div>
         <div id="optionRight" class="col-md-7">
