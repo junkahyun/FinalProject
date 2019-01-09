@@ -69,6 +69,36 @@ public class boboController {
 		return "become-host/room-stap2.hosttiles_nofooter";
 	}
 	
+	@RequestMapping(value="/roomimage.air", method={RequestMethod.GET})
+	public String roomimage() {
+		
+		return "become-host/roomimage.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/roominfo.air", method={RequestMethod.GET})
+	public String roominfo() {
+		
+		return "become-host/roominfo.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/roomtitle.air", method={RequestMethod.GET})
+	public String roomtitle() {
+		
+		return "become-host/roomtitle.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/roomstap3.air", method={RequestMethod.GET})
+	public String roomstap3() {
+		
+		return "become-host/room-stap3.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/guestrule.air", method={RequestMethod.GET})
+	public String guestrule() {
+		
+		return "become-host/guestrule.hosttiles_nofooter";
+	}
+	
 	
 	
 	
