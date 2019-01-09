@@ -57,6 +57,18 @@ public class boboController {
 		return "become-host/map.hosttiles_nofooter";
 	}
 	
+	@RequestMapping(value="/option.air", method={RequestMethod.GET})
+	public String option() {
+		
+		return "become-host/option.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/roomstap2.air", method={RequestMethod.GET})
+	public String roomstap2() {
+		
+		return "become-host/room-stap2.hosttiles_nofooter";
+	}
+	
 	
 	
 	

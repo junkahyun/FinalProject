@@ -21,26 +21,11 @@
           padding-top: 2px;
           padding-bottom: 2px;
           margin: 0px}        
-
-   .select{font-size: var(--font-form-element-font-size, 16px) ;
-          line-height: var(--font-form-element-line-height, 24px) ;
-          letter-spacing: var(--font-form-element-letter-spacing, normal) ;
-          font-family: var(--font-form-element-font-family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) ;
-          text-transform: var(--font-form-element-text-transform, undefined) ;
-          color: #484848 ;
-          padding-top: var(--spacing-form-element-vertical, 10px) ;
-          padding-bottom: var(--spacing-form-element-vertical, 10px) ;
-          font-weight: var(--font-light-font-weight, normal) ;
-          background-color: transparent ;
-          border-radius: 3px;}  
-
-   .selecthead{font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif ;
-             overflow-wrap: break-word ;
-             font-size: 16px ;
-             font-weight: 600 ;
-             line-height: 1.375em ;
-             color: rgb(118, 118, 118) ;
-             margin-bottom: 8px ;} 
+          
+    #cklist{font-size: 16px;
+    		color: #5D5D5D;}
+	#cklistDetail{font-size: 13px;
+	color: #5D5D5D;}
 
 </style>
 
@@ -54,14 +39,37 @@
 	  </div>
 	</div> 
 
-      <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
-         <div class="title">핀이 놓인 위치가 정확한가요?</div>
-         <div class="row" style="padding: 0; border: 0px solid green;" >
-            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid red;">
-				필요한 경우 핀을 드래그해 위치를 조정할 수 있어요. 숙소의 정확한 위치는 예약이 확정된 게스트만 볼 수 있습니다.
-            </div>
-            <div class="col-md-12" style="padding: 50px; border: 1px solid red;">
-            
+      <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 1px solid red;">
+         <div class="title">어떤 편의시설을 제공하시나요?</div>
+         <div class="row" style="padding: 0; border: 1px solid green;" >
+            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 1px solid blue;">
+				 <div class="row" style="border: 1px solid red; padding-left: 2px;">   
+                        <div class="col-md-1" style="border: 1px solid black; ">
+                              <input type="radio" id="a" name="option"/>
+                        </div>
+
+                        <div class="col-md-11" style="border: 1px solid blue;" >
+                              <label for="a">
+                              	<span id="cklist">필수 품목</span><br/>
+                              	<span id="cklistDetail">수건, 침대 시트, 비누, 화장지, 베개</span>
+                              
+                              </label>
+                        </div>
+                 </div>
+                 
+                 <div class="row" style="border: 1px solid red; padding-left: 2px; margin-top: 25px;">   
+                        <div class="col-md-1" style="border: 1px solid black; ">
+                              <input type="radio" id="b" name="option"/>
+                        </div>
+
+                        <div class="col-md-11" style="border: 1px solid blue;" >
+                              <label for="b">
+                              	<span id="cklist">필수 품목</span><br/>
+                              	<span id="cklistDetail">수건, 침대 시트, 비누, 화장지, 베개</span>
+                              
+                              </label>
+                        </div>
+                 </div>
             </div>
   
          </div>
