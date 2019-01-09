@@ -21,7 +21,7 @@ public class HYController {
 	private AES256 aes;
 	
 
-	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index() {
 		return "home/homeDetail.hometiles";
 	}
@@ -29,6 +29,6 @@ public class HYController {
 	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
 	public String apiTest() {
 		return "apiTest.notiles";
-	}  
+	}
 }
 
