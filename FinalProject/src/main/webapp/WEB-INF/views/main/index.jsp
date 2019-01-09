@@ -24,6 +24,15 @@
 		    background-size: cover;
 		    height: 606px;
 		}
+		.bg_up{
+			background: url('<%= ctxPath %>/resources/images/main/bg_repeat.png') repeat-x;
+			position: absolute;
+		    display: inline-block;
+		    width: 100%;
+		    height: 200px;
+		    top: 0;
+		    z-index: 9;
+		}
 	</style>
 	<!-- Link JS -->  
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>

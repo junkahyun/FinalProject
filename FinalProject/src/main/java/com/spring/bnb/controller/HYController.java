@@ -11,14 +11,14 @@ import com.spring.common.AES256;
 @Controller
 public class HYController {
 	
-	//===== #35. ������ü �����ϱ�(DI:Dependency Injection)  =====
 	@Autowired
-	private InterHYService service; // �������̽��� ��õ� �޼ҵ常 ��밡���ϴ�.
-	
-	// 45. ����� ��ȣȭ �˰����� AES256�� ����Ͽ� ��ȣȭ/��ȣȭ �ϱ� ���� Ŭ���� ������ü �����ϱ�(DI:Dependency Injection)
+	private InterHYService service; 
+	 
+
 	@Autowired
 	private AES256 aes;
 	
+
 	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
 	public String index() {
 		return "home/homeDetail.hometiles";
@@ -27,6 +27,10 @@ public class HYController {
 	public String apiTest() {
 		return "apiTest.notiles";
 	} 
-
+	
+	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
+	public String hostroomList() {
+		return "host/hostroomList.hosttiles";
+	} 
 }
 
