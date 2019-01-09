@@ -3,7 +3,7 @@
 <%-- 참조 : https://www.airbnb.co.kr/rooms/7331795?guests=1&adults=1&s=6yWJyZHp --%>
 <style>
 .check{
-	border: 1px solid;
+	border: 1px solid gray;
 }
 	.maxWidth{
 		width:1240px;
@@ -75,6 +75,10 @@
 		font-weight:bold;
 		font-size:1.1em;
 	}
+	.infoSubjectHYBig{
+		font-weight:bold;
+		font-size:24px;
+	}
 </style>
 <div style="width: 1240px;margin: 0 auto;">
 	<div class="row noSpace">
@@ -83,7 +87,7 @@
 				<div class="col-md-10" style="height:600px;padding:0;">
 					<img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/>
 				</div>
-				<div class="col-md-2 noSpace" style="height:600px;border: 1px solid;">
+				<div class="col-md-2 noSpace check" style="height:600px;">
 					<div style="width:100%;float:left;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/></div>
 					<div style="width:100%;float:left;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/></div>
 				</div>
@@ -163,9 +167,15 @@
 				</div>
 			</div>
 			<div class="infoDiv">
-				<div style="font-weight:bold;">후기</div>
+				<div class="infoSubjectHYBig">후기</div>
 				<div class="row noSpace" style="margin-top:3%;">
-					달력
+					
+				</div>
+			</div>
+			<div class="infoDiv">
+				<div class="infoSubjectHYBig">지역정보</div>
+				<div class="row noSpace" style="margin-top:3%;">
+					
 				</div>
 			</div>
 		</div>
@@ -174,7 +184,7 @@
 				<div style="height:380px;border:1px solid lightgray; padding: 5%;">
 					<div style="height:60px; border-bottom: 1px solid lightgray;">
 						<div style="height:50px;font-size: 24px;font-weight:bold; padding-bottom: 10%;">
-							<div>￦가격/박</div>
+							<div>￦60,000<span style="font-size:12px;">/박</span></div>
 							<div style="font-size:10px;"><span style="color:#148487;">★★★★★</span>100</div>
 						</div>
 						<div style="height:240px;padding-top:5%;">
