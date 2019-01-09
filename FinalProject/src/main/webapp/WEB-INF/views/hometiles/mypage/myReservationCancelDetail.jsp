@@ -6,14 +6,6 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
-<!DOCTYPE html>
-<html>
-<head>
-
-<title>예약 관리</title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -34,6 +26,12 @@
 		font-weight: bold;
 		color: red;
 	}
+
+.firstDIV{
+	margin-top: 5%;
+	margin-bottom: 5%; 
+}
+	
  
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
@@ -41,10 +39,9 @@
 <script type="text/javascript">
 	
 </script>
-</head>
-<body>
 
-<div class="row" style="border: 0px soild red;">
+
+<div class="row firstDIV" style="border: 0px soild red;">
 <!--  사이드바 -->
 <div class="col-md-1"></div>
     <div class="col-md-2">
@@ -139,8 +136,3 @@
 	    </div>	
 	    <!--  취소 된 예약  -->
 	   </div>
-
-
-
-</body>
-</html>

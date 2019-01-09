@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +11,7 @@
 <title>AirBnb Test</title>
 </head>
 <body>  
-<div>
+<div>   
 	<div id="header">
 		<div class="row height_maxPer">
 			<div id="headerlogo">
