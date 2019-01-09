@@ -105,7 +105,7 @@ div{border: /* 1px solid gray;  */
 	
 </script>
 
-<body>
+
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
 	
