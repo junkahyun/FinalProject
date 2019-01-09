@@ -105,6 +105,8 @@
 	<definition name="layout-admintiles" template="/WEB-INF/tiles/layout/layout-admintiles.jsp"> 
 		<put-attribute name="header" value="/WEB-INF/tiles/admintiles/header.jsp" />
 		<put-attribute name="content" value="" />
+		<put-attribute name="sideinfo" value="/WEB-INF/tiles/admintiles/sideinfo.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/admintiles/footer.jsp" />
 	</definition>
 	
 	<definition name="*.admintiles" extends="layout-admintiles">
