@@ -81,7 +81,11 @@ div{border: /* 1px solid gray;  */
 }
 .bedAndPeople{font-size: 12pt; margin-bottom: 3%;
 }
-.hostheader{border-bottom: 2px solid #008489; padding-bottom: 1%; font-size: 15pt; cursor: pointer; border: 1px solid gray; 
+.hostheader:hover{border-bottom: 3px solid #008489; 
+}
+.hostheader{font-size: 13pt; padding-bottom: 36%; cursor: pointer; font-weight: bold;
+}
+.col-md-1{margin-top: 0.5%; width: 5%; 
 }
 
 </style>
@@ -112,8 +116,14 @@ div{border: /* 1px solid gray;  */
 
 <body>
 
-<div class="col-md-12" style="border-bottom: 1px solid #ccc; padding-bottom: 2%;">
-	<h3>홈</h3>
+<div class="row" style="border-bottom: 1px solid #ccc; padding: 0.5%; margin-left: 0.3%; " >
+	<img src="<%=request.getContextPath() %>/resources/images/호스트아이콘.JPG" align="left" style="width:3%; cursor: pointer;" onclick=""/>
+	<div class="col-md-1" ><span class="hostheader" onclick="">홈</span></div>
+	<div class="col-md-1" ><span class="hostheader" onclick="">메시지</span></div>
+	<div class="col-md-1" ><span class="hostheader" onclick="">예약</span></div>
+	<div class="col-md-1" ><span class="hostheader" onclick="">숙소</span></div>
+	<div class="col-md-1" ><span class="hostheader" onclick="">성취도</span></div>
+	<div class="col-md-5"><button>숙소등록하기</button></div>
 </div>
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
