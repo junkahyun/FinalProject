@@ -24,6 +24,15 @@
 	.rightborder{
 		border-right: 1px solid lightgray;
 	}
+	#rsvBtn{
+		width: 90%;
+		margin-left:5%;
+		border: none;
+		height: 40px;
+		background-color: #fd5a61;
+		color: white;
+		font-weight:bold;
+	}
 </style>
 <div style="width: 1240px;margin: 1% auto;">
 	<div class="row maxWidth">
@@ -51,12 +60,18 @@
 				<div class="col-md-3 rightborder"><img src="<%=request.getContextPath() %>/resources/images/connections.png" style="width:25px;height:25px;"/><span style="margin-left: 15%">공유</span></div>
 				<div class="col-md-3">등급 : <span> 점</span></div>
 			</div>
-			<div class="check" style="width:100%;">
-				<div class="check" style="height:600px;">
-					<div class="check" style="height:210px;">
-						<div class="check">￦가격</div>
-						<div class="check">기간선택</div>
-						<div><button type="button">예약하기</button></div>
+			<div style="width:100%;">
+				<div style="height:600px;border:1px solid lightgray; padding: 2%;">
+					<div style="height:60px; border-bottom: 1px solid lightgray;">
+						<div style="height:50px;margin-top:2%;font-size: 24px;font-weight:bold;">
+							<div>￦가격</div>
+							<div style="font-size:10px;"><span style="color:#148487;">★★★★★</span>100</div>
+						</div>
+						<div class="check" style="height:150px;">
+							
+							<button type="button" id="rsvBtn">예약하기</button>
+							<div style="margin: 0 auto;">예약 확정전에는 요금이 청구되지 않습니다.</div>
+						</div>
 					</div>
 					<div class="check" style="height:375px;margin-top: 3%;"></div>
 				</div>
