@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
 
 <style>
 hr{width: 70%; 
@@ -26,7 +23,7 @@ a{font-weight: bold; color: #008489; font-size: 10pt;
 h4,h3{font-weight: bold; margin-top: 2%; 
 }
 
-div{border:  0px solid gray;  
+div{border:  1px solid gray;  
 }
 
 /* Style the tab */
@@ -78,10 +75,8 @@ div{border:  0px solid gray;
 }
 </style>
 
-<div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
-	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">수정으로 돌아가기</a>
-	<h3 align="left" style="font-weight: bold;">사진</h3>
-	<p>게스트에게 숙소의 실제 모습을 보여주는 사진을 추가하세요.</p>
+<div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; border: 1px soil gray;">
+	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">사진 전체로 돌아가기</a>
 	<hr align="left">
 </div>
 
@@ -95,14 +90,12 @@ div{border:  0px solid gray;
  	<br>
 	<button type="button" class="btn"><span class="editbtn">캡션 추가하기</span></button>
 </div>
-	
-<div class="col-md-12" style="width: 75%; margin-left: 22%;">
-	<hr align="left">
-	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
-	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
-	<img alt="" src="<%=request.getContextPath()%>/resources/images/crop-square_icon-icons.com_56094.png">
-</div>
-	
-	
-	
+
+
+
+
+
+
+
+
 

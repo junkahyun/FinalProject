@@ -38,6 +38,10 @@ public class SCController {
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
-		
+	// 호스트 숙소사진 수정
+	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = RequestMethod.GET)
+	public String hrDetailPhotoEdit() {
+		return "hostRoomEdit/hrDetailPhotoEdit.hosttiles_nofooter";
+	}	
 }
 
