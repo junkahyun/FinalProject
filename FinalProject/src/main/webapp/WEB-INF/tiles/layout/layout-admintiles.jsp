@@ -20,8 +20,12 @@
 				<tiles:insertAttribute name="header" />
 			</div>
 		
-			<div id="mycontent">
+			<div id="wholeContent">
+				<tiles:insertAttribute name="sideinfo" />
 				<tiles:insertAttribute name="content"/>
+			</div> 
+			<div id="myfooter">
+				<tiles:insertAttribute name="footer"/>
 			</div> 
 		</div>
 	</body>

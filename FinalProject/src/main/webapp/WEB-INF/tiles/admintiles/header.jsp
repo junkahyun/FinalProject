@@ -21,7 +21,7 @@
 		  });
 	</script>
 	<nav class="navbar navbar-default navbar-static-top">
-    <div class="container-fluid">
+    <div class="container-fluid" style="display:block;">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed">
@@ -41,54 +41,11 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
 			
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right" style="display:block;">
 				<li><a href="http://www.pingpong-labs.com" target="_blank">Visit Site</a></li>
-				<li class="dropdown ">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						Account
-						<span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li class="dropdown-header">SETTINGS</li>
-							<li class=""><a href="#">Other Link</a></li>
-							<li class=""><a href="#">Other Link</a></li>
-							<li class=""><a href="#">Other Link</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Logout</a></li>
-						</ul>
-					</li>
-				</ul>
+				
+			</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
-	</nav>  	<div class="container-fluid main-container">
-  		<div class="col-md-2 sidebar">
-  			<div class="row">
-	<!-- uncomment code for absolute positioning tweek see top comment in css -->
-	<div class="absolute-wrapper"> </div>
-	<!-- Menu -->
-	<div class="side-menu">
-		<nav class="navbar navbar-default" role="navigation">
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#"> 관리자_메인</a></li>
-					<li><a href="#">회원관리</a></li>
-					<li><a href="#">숙소관리</a></li>
-					<li><a href="#">1:1문의관리</a></li>
-					<li><a href="#">항공관리</a></li>
-					<li><a href="#">트립관리</a></li>
-					<li><a href="#">통계</a></li>  
-					<li><a href="#">로그아웃</a></li> 
-				</ul>
-			</div><!-- /.navbar-collapse -->
-		</nav> 
-		</div>
-	</div>  		
-</div>
-  
-	<footer class="pull-left footer">
-		<p class="col-md-12">
-			<hr class="divider">
-			Copyright &COPY; 2015 <a href="http://www.pingpong-labs.com">Airbnb</a>
-		</p>
-	</footer>
-</div>
+	</nav>  	
+	
