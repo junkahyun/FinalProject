@@ -25,4 +25,4 @@ public class WCController {
 	public String admin_index() {
 		return "admin/index.admintiles";
 	}
-}
+} 
