@@ -55,4 +55,10 @@ public class KHController {
 	public String changeDefaultRoomCharge (HttpServletRequest req) {
 		return "hostRoomEdit/changeDefaultRoomCharge.hosttiles_nofooter";
 	}
+	
+	// ***** 호스트 등록된 숙소 수정하기(추가요금 수정) ***** //
+	@RequestMapping(value="/changePlusRoomCharge.air", method= {RequestMethod.GET})
+	public String changePlusRoomCharge (HttpServletRequest req) {
+		return "hostRoomEdit/changePlusRoomCharge.hosttiles_nofooter";
+	}
 }
