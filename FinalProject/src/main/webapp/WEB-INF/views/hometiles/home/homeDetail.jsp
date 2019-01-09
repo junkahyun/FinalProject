@@ -26,7 +26,7 @@
 	}
 </style>
 <div style="width: 1240px;margin: 1% auto;">
-	<div class="check row maxWidth">
+	<div class="row maxWidth">
 		<div class="col-md-8 noSpace">
 			<div  style="height:99px;">
 				<div style="font-size:0.8em;">주택의 개인실</div>
@@ -36,10 +36,10 @@
 			<div class="row noSpace" style="width:100%;">
 				<div class="col-md-10 noSpace"><img src="<%=request.getContextPath() %>/resources/images/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%; overflow:hidden;"/></div>
 				<div class="col-md-2 check" style="height:100%;"></div>
-				<div class="col-md-12 noSpace" style="height:125px; width:100%;">
-					<div class="col-md-4" style="height:100%;"></div>
-					<div class="col-md-4" style="height:100%;"></div>
-					<div class="col-md-4" style="height:100%;"></div>
+				<div class="col-md-12 noSpace check" style="height:125px; width:100%;">
+					<div class="col-md-4 check" style="height:100%;"></div>
+					<div class="col-md-4 check" style="height:100%;"></div>
+					<div class="col-md-4 check" style="height:100%;"></div>
 				</div>
 			</div>
 			<div>
@@ -52,8 +52,14 @@
 				<div class="col-md-3">등급 : <span> 점</span></div>
 			</div>
 			<div class="check" style="width:100%;">
-				<div class="check"></div>
-				<div class="check"></div>
+				<div class="check" style="height:600px;">
+					<div class="check" style="height:210px;">
+						<div class="check">￦가격</div>
+						<div class="check">기간선택</div>
+						<div><button type="button">예약하기</button></div>
+					</div>
+					<div class="check" style="height:375px;margin-top: 3%;"></div>
+				</div>
 			</div>
 		</div>
 	</div>

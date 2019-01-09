@@ -21,6 +21,9 @@
 	<definition name="*/*.notiles" extends="layout-notiles">
 		<put-attribute name="content" value="/WEB-INF/views/notiles/{1}/{2}.jsp"/>
 	</definition>
+	<definition name="*/*/*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
 	<!-- ==== tiles 를 사용하지 않는 레이아웃 설정 끝 ==== -->
     
     <!-- hometiles -->
@@ -54,6 +57,9 @@
 	</definition>
 	<definition name="*/*.hometiles_nofooter" extends="layout-hometiles_nofooter">
 		<put-attribute name="content" value="/WEB-INF/views/hometiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*/*/*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
 	</definition>
 	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
 	
@@ -89,6 +95,9 @@
 	<definition name="*/*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
 		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
 	</definition>
+	<definition name="*/*/*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
 	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
 	
 	<!-- admin -->
@@ -103,6 +112,9 @@
 	</definition>
 	<definition name="*/*.admintiles" extends="layout-admintiles">
 		<put-attribute name="content" value="/WEB-INF/views/admintiles/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
+	</definition>
+	<definition name="*/*/*.hosttiles_nofooter" extends="layout-hosttiles_nofooter">
+		<put-attribute name="content" value="/WEB-INF/views/hosttiles_nofooter/{1}/{2}.jsp"/> <!--  {1} : 첫번째 * -->
 	</definition>
 	<!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
 	
