@@ -5,15 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.bnb.service.InterHYService;
 import com.spring.common.AES256;
 
 @Controller
 public class HYController {
 
-	@Autowired
-	private InterHYService service; 
-	
 	@Autowired
 	private AES256 aes;
 	
