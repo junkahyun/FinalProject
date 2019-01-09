@@ -12,7 +12,7 @@ import com.spring.common.AES256;
 @Controller
 public class SOController {
 	@Autowired
-	private InterSOService service; 
+	private InterSOService service;  
 	
 	@Autowired
 	private AES256 aes;
