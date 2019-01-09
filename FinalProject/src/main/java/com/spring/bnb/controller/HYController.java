@@ -10,23 +10,23 @@ import com.spring.common.AES256;
 
 @Controller
 public class HYController {
-	
+
 	@Autowired
 	private InterHYService service; 
-	 
 
 	@Autowired
 	private AES256 aes;
 	
 
-	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/index.air", method = RequestMethod.GET) 
 	public String index() {
 		return "home/homeDetail.hometiles";
 	}
 	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
 	public String apiTest() {
 		return "apiTest.notiles";
+
 	} 
-	
+
 }
 
