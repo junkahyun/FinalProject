@@ -16,12 +16,5 @@ public class SHController {
 		return "admin/adminMember.admintiles";
 	}
 	
-	// 회원 상세 페이지
-	@RequestMapping(value="/adminMemberDetail.air", method= {RequestMethod.GET})
-	public String adminMemberDetail(HttpServletRequest req) {
-	
-		return "admintiles/admin/adminMemberDetail";
-	}
-	
 	
 }
