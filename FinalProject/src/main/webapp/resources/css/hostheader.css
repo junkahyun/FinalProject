@@ -1,12 +1,9 @@
 @charset "UTF-8";
-html{
-	overflow-x : hidden;
-}
 .test{
 	border: 1px solid;
 }
-.headermenus{
-	float:right;
+.hostheadermenus{
+	float:left;
 	height:80px;
 	margin-right: 1%;
 }
@@ -18,8 +15,18 @@ html{
 	font-size: 14px;
 	margin: 0 8px;
 }
+.headermenuButton{
+	float:right;
+	height: 80px;
+	font-weight: bold;
+	padding: 29px 8px;
+	font-size: 14px;
+	margin: 0 8px;
+	margin-right: 5%;
+}
+
 .headermenu:hover{
-	border-bottom: 3px solid gray;
+	border-bottom: 3px solid #008489;
 	cursor: pointer;
 }
 .height_maxPer{height:100%;}
@@ -33,7 +40,8 @@ html{
 	padding:0;
 	margin:0;
 	float:left;
-	padding: 24px 42px;
+	padding: 17px 50px;
+	cursor: pointer;
 }
 #searchbarDiv{
 	height:100%;
