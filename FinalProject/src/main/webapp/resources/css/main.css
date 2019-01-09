@@ -169,12 +169,7 @@ section#company_A div.info_company p{
 section#company_A div.info_company > div > svg{
 	margin-top:20px;
 }
-section#best_reviewes{
-	margin-top:40px;
-	background: url(../img/main/bg_comment.jpg) no-repeat center top;
-    background-size: cover;
-    height: 606px;
-}
+
 section#best_reviewes .index_T {
     text-align: center;
     font-family: "microsoft yahei";

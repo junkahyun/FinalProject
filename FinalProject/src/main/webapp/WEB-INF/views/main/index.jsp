@@ -17,6 +17,14 @@
 	<!-- Link CSS -->
 	<link rel="stylesheet" href="<%=ctxPath %>/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/main.css">
+	<style type="text/css">
+		section#best_reviewes{
+			margin-top:40px;
+			background: url(<%= ctxPath %>/resources/images/main/bg_comment.jpg) no-repeat center top;
+		    background-size: cover;
+		    height: 606px;
+		}
+	</style>
 	<!-- Link JS -->  
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/bootstrap.min.js"></script>	

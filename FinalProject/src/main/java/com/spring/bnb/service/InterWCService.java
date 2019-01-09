@@ -1,5 +1,5 @@
 package com.spring.bnb.service;
 
-public interface InterKwcService {
+public interface InterWCService {
 
 }

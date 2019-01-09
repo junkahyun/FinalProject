@@ -9,7 +9,6 @@ import com.spring.bnb.service.InterHYService;
 import com.spring.common.AES256;
 
 @Controller
-@Component
 public class HYController {
 	
 	//===== #35. ������ü �����ϱ�(DI:Dependency Injection)  =====
@@ -28,5 +27,6 @@ public class HYController {
 	public String apiTest() {
 		return "apiTest.notiles";
 	} 
+
 }
 
