@@ -28,15 +28,19 @@
     color: var(--color-text-link, #008489) !important;
     font-family: var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;
 }
+.firstDIV{
+	margin-top: 5%;
+	margin-bottom: 5%; 
+}
+
+
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
 </script>
-</head>
-<body>
 
-<div class="row">
+<div class="row firstDIV">
 <!--  사이드바 -->
 <div class="col-md-1" style="border: 1px solid red"></div>
     <div class="col-md-2" style="border: 0px solid red;">
@@ -152,6 +156,3 @@
 
      </div>
 
-
-</body>
-</html>
