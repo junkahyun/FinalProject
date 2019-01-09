@@ -1,27 +1,8 @@
-<<<<<<< HEAD
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div id="header">
-	<div class="row height_maxPer">
-		<div id="headerlogo">
-			<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="width:28px; height:31px;"/>
-		</div>
-		<div id="searchbarDiv">
-			<div id="searchbar">
-				<div id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px"></div>
-				<input type="text" id="searchInput" placeholder="검색" style="">
-			</div>
-=======
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/hostheader.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div id="header">
 	<div class="row height_maxPer">
 		<div id="headerlogo" >
 			<img src="<%=request.getContextPath() %>/resources/images/호스트아이콘.JPG " onclick=""/>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		</div>
 		<div class="hostheadermenus" >
 			<div class="headermenu" onClick="">홈</div>
@@ -36,8 +17,4 @@
 			</button>
 		</div>
 	</div>
-<<<<<<< HEAD
 </div>
-=======
-</div>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
