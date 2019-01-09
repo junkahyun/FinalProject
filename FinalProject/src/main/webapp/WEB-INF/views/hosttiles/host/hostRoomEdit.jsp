@@ -81,8 +81,6 @@ div{border: /* 1px solid gray;  */
 }
 .bedAndPeople{font-size: 12pt; margin-bottom: 3%;
 }
-.hostheader{border-bottom: 2px solid #008489; padding-bottom: 1%; font-size: 15pt; cursor: pointer; border: 1px solid gray; 
-}
 
 </style>
 
@@ -111,10 +109,6 @@ div{border: /* 1px solid gray;  */
 </script>
 
 <body>
-
-<div class="col-md-12" style="border-bottom: 1px solid #ccc; padding-bottom: 2%;">
-	<h3>홈</h3>
-</div>
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
 	
