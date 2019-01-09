@@ -7,7 +7,6 @@
 <meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow">
 <!-- <script src="/js/embed/highlight.pack.js"></script>
@@ -20,14 +19,28 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlVD1-NAOFaAxcEbj82AwExEZKyEXFPzM&libraries=places&callback=initAutocomplete" async defer></script>
 
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/css/rSlider.min.css">
+<script src="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/js/rSlider.min.js"></script>
+ 
+ 
  <script type="text/javascript">
  
  $(document).ready(function(){
-	
+	var flag = false;
 	 $(".optioninput").click(function(){
-		 var $target = $(event.target);
-		 $target.addClass("subjectstyle");
-		 
+		 if(!flag){
+			 var $target = $(event.target);
+			 $target.addClass("subjectstyle");	
+			 flag = true;
+		 }
+		 else{
+			 var $target = $(event.target);
+			 $target.removeClass("subjectstyle");	
+			 flag = false;
+		 }
 	 });
 	 
 	 $(".person").spinner({
@@ -71,13 +84,34 @@
 	}        
         
 	// 달력
-	$( function() {
-    $( ".datepicker" ).datepicker({
-      numberOfMonths: 2,
-      showButtonPanel: true
+	$(function() {
+    	$( ".datepicker" ).datepicker({
+      	numberOfMonths: 2,
+      	showButtonPanel: true
+    	});
     });
-  } );
 	
+	// 가격대 슬라이드바
+	$(function () {
+        'use strict';
+
+        var init = function () {  
+            var slider3 = new rSlider({
+                target: '#slider3',
+                values: {min: 0, max: 150},
+                step: 10,
+                range: true,
+                set: [0, 40],
+                scale: true,
+                labels: true,
+                width: null,
+				tooltip:true,
+                onChange: function (vals) {                    
+                }
+            });
+        };
+        window.onload = init;
+    });
         
 </script>
 
@@ -174,7 +208,10 @@ div{
             <div class="optionbox">67<input type="text" class="optioninput"/></div>
         </div>
         <div id="optionRight" class="col-md-7">
-        	<div class="optionbox"><input type="text" class="optioninput"/></div>
+        	<div class="optionbox">
+        		<span class="optionname" style="margin-right: 50px;">가격대</span>
+        		<input type="text" id="slider3" class="slider" style="margin-left: 50px;"/>
+        	</div>
             <div class="optionbox"><input type="text" class="optioninput"/></div>
             <div class="optionbox"><input type="text" class="optioninput"/></div>
             <div class="optionbox"><input type="text" class="optioninput"/></div>
