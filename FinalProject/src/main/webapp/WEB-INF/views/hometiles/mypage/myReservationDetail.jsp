@@ -7,19 +7,6 @@
 <% String ctxPath = request.getContextPath(); %>
 
 
-
-
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-
-<title>예약 관리</title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/startspring/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -30,6 +17,12 @@
 <link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
           <style data-aphrodite="data-aphrodite">._1k01n3v1{color:#008489 !important;font:inherit !important;font-family:Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;text-decoration:none !important;-webkit-appearance:none !important;-moz-appearance:none !important;appearance:none !important;background:transparent !important;border:0px !important;cursor:pointer !important;margin:0px !important;padding:0px !important;-webkit-user-select:auto !important;-moz-user-select:auto !important;-ms-user-select:auto !important;user-select:auto !important;text-align:left !important;}._1k01n3v1:hover{text-decoration:underline !important;color:#008489 !important;}._1k01n3v1:focus{text-decoration:underline !important;}@supports(--custom: properties){._1k01n3v1{color:var(--color-text-link, #008489) !important;font-family:var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;}._1k01n3v1:hover{color:var(--color-text-link-hover, #008489) !important;}._1k01n3v1:active{color:var(--color-text-link-active, #006C70) !important;}}._1k01n3v1:active{color:#006C70 !important;outline:0px !important;}</style>
 <style type="text/css">
+.firstDIV{
+	margin-top: 5%;
+	margin-bottom: 5%; 
+}
+
+
 .box {
   border: 1px solid #dbdfdf;
   padding: 5px;
@@ -47,8 +40,7 @@
 <script type="text/javascript">
 	
 </script>
-</head>
-<body>
+
 
 <div class="row" style="border: 0px soild red;">
 <!--  사이드바 -->
@@ -69,7 +61,7 @@
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
- <div class="col-md-6">
+ <div class="col-md-7">
    	<div class="box" style="margin-bottom: 6%">
 		<h3>투숙 완료했던 숙소 입니다!</h3><p>고객님이 묵었던 숙소들 입니다!</p><a href="javascript:history.back();">>>>예약페이지로 돌아가기</a>
 	</div>	
@@ -92,7 +84,7 @@
 						<div class="col-md-7" style="border: 0px solid gray; float:left;">
 							<div style="margin-bottom: 3%">218773244</div>
 							<div style="margin-bottom: 2%">
-								<span class="calcel"><img src="<%= request.getContextPath() %>/resources/image/checked.png" height="18pt" />&nbsp;투숙 완료!</span>
+								<span class="calcel"><img src="<%= request.getContextPath() %>/resources/images/checked.png" height="18pt" />&nbsp;투숙 완료!</span>
 							</div>
 						</div>
 					</div> 
@@ -110,8 +102,8 @@
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>연락처 정보</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%">예약자 메일</div>
-							<div style="margin: 1%;">예약자 폰번호</div>
+							<div style="margin-bottom: 5%; margin-left: 5%">예약자 메일</div>
+							<div style="margin: 1%; margin-left: 5%">예약자 폰번호</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
@@ -154,7 +146,3 @@
 	    </div>	
 </div>
 </div>
-
-</body>
-</html>
-
