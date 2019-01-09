@@ -1,8 +1,14 @@
 @charset "UTF-8";
+html{
+	margin:0;
+	padding:0;
+}
 h1.page-header {
     margin-top: -5px;
+} 
+.inherits{
+	height:inherit;
 }
-
 .sidebar {
 	padding-left: 0;
 }
@@ -211,6 +217,9 @@ h1.page-header {
 		-webkit-transform-style: preserve-3d;
 		transform-style: preserve-3d;
 	}
+	div.side-menu nav.navbar div.side-menu-container > ul.nav.navbar-nav > li > a{
+		height: inherit !important;
+	} 
 	@-moz-keyframes bodyslidein {
 		0% {
 			left: 0;

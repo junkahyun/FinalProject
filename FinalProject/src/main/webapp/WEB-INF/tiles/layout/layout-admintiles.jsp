@@ -18,8 +18,7 @@
 		<div id="mycontainer">
 			<div id="myheader">
 				<tiles:insertAttribute name="header" />
-			</div>
-		
+			</div> 
 			<div id="wholeContent">
 				<tiles:insertAttribute name="sideinfo" />
 				<tiles:insertAttribute name="content"/>

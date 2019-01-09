@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/admin.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 	<script type="text/javascript">
 		$(function () {
 		  	$('.navbar-toggle-sidebar').click(function () {
@@ -20,8 +16,8 @@
 		  	});
 		  });
 	</script>
-	<nav class="navbar navbar-default navbar-static-top">
-    <div class="container-fluid" style="display:block;">
+	<nav class="navbar navbar-default navbar-static-top" >
+    <div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed">
