@@ -100,6 +100,7 @@ div{border:  1px solid gray;
 	<hr align="left">
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
+	<img alt="" src="<%=request.getContextPath()%>/resources/images/crop-square_icon-icons.com_56094.png">
 </div>
 	
 	
