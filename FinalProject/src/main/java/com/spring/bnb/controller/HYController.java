@@ -27,9 +27,7 @@ public class HYController {
 		return "apiTest.notiles";
 	} 
 	
-	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
-	public String hostroomList() {
-		return "host/hostroomList.hosttiles";
-	}
+	
+
 }
 
