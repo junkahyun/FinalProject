@@ -29,13 +29,13 @@ public class SCController {
 	// 호스트 등록된 숙소 수정하기 
 	@RequestMapping(value="/hostRoomEdit.air", method= {RequestMethod.GET})
 	public String hostRoomEdit (HttpServletRequest req) {
-		return "host/hostRoomEdit.hosttiles";
+		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
 	}
 	
 	// 호스트 숙소사진 수정
 	@RequestMapping(value = "/hrPhotoEdit.air", method = RequestMethod.GET)
 	public String hrPhotoEdit() {
-		return "host/hrPhotoEdit.hosttiles";
+		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
 		

@@ -20,10 +20,10 @@ p{font-size: 12pt;
 body{color: #484848;
 }
 
-a{font-weight: bold; color: #008489; font-size: 13pt; 
+a{font-weight: bold; color: #008489; font-size: 10pt; 
 }
 
-h4,h3{font-weight: bold; margin-top: 5%; 
+h4,h3{font-weight: bold; margin-top: 2%; 
 }
 
 div{border:  1px solid gray;  
@@ -74,27 +74,34 @@ div{border:  1px solid gray;
 .bedAndPeople{font-size: 12pt; margin-bottom: 3%;
 }
 
+.fa-angle-left:focus{text-decoration: underline;
+}
 </style>
 
-<div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
-
-	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; text-decoration: underline;">수정으로 돌아가기</a>
-	
+<div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; border: 1px soil gray;">
+	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">수정으로 돌아가기</a>
 	<h3 align="left" style="font-weight: bold;">사진</h3>
 	<p>게스트에게 숙소의 실제 모습을 보여주는 사진을 추가하세요.</p>
 	<hr align="left">
-	<div class="col-md-5 tabcontent" >
-
-			<img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">
-		
-	</div>
-	<div class="col-md-4">
-			<button type="button" class="btn"><span class="editbtn">달력보기</span></button>
-		</div>
-	
-
-	
-	
-	
-	
 </div>
+
+<div class="col-md-4" style="margin-left: 22%; border: 1px soil gray;" align="center">
+	<img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">
+</div>
+
+ <div class="col-md-3" style="border: 1px soil gray;">
+ 	<span style="font-weight: bold;">커버사진</span>
+ 	<a><span style="margin-left: 60%;">변경</span></a>
+ 	<br>
+	<button type="button" class="btn"><span class="editbtn">캡션 추가하기</span></button>
+</div>
+	
+<div class="col-md-12" style="width: 75%; margin-left: 22%; border: 1px soil gray;">
+	<hr align="left">
+	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
+	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
+</div>
+	
+	
+	
+
