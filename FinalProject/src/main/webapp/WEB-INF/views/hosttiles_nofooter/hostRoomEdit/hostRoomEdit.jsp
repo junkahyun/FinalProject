@@ -285,7 +285,7 @@ div{border: /* 1px solid gray;  */
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn"><span class="editbtn" onclick="">수정</span></button>
 		    </div>
 	    </div>
 	    
