@@ -10,10 +10,21 @@ import com.spring.common.AES256;
 
 @Controller
 public class HYController {
+<<<<<<< HEAD
+	
+=======
 
 	@Autowired
 	private InterHYService service; 
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	
+<<<<<<< HEAD
+	@Autowired
+	private InterHYService service; // �������̽��� ��õ� �޼ҵ常 ��밡���ϴ�.
+	
+	
+=======
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	@Autowired
 	private AES256 aes;
 	
