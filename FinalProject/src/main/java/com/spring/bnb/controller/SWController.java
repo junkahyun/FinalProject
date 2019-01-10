@@ -19,7 +19,7 @@ public class SWController {
 			testList.add(i);
 		}
 		req.setAttribute("testList", testList);
-		return "home/homeList.hometiles";
+		return "home/homeList.hometiles_nofooter";
 	}
 	
 }

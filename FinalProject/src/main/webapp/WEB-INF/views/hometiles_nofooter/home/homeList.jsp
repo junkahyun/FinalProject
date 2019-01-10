@@ -2,32 +2,27 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<!-- <script src="/js/embed/highlight.pack.js"></script>
-<script src="/js/embed/embed.js"></script>
-<link rel="stylesheet" media="screen" href="/css/embed/embed-light.css" /> -->
 <link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!-- <link rel="stylesheet" href="/resources/demos/style.css">     -->
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/css/rSlider.min.css">
 
-
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlVD1-NAOFaAxcEbj82AwExEZKyEXFPzM&libraries=places&callback=initAutocomplete" async defer></script> 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
 <script src="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/js/rSlider.min.js"></script>
 
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBlVD1-NAOFaAxcEbj82AwExEZKyEXFPzM"></script>
- 
- <script type="text/javascript">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/homeList.css">
+<script type="text/javascript">
  
  $(document).ready(function(){
-	 
-	// 구글 맵 보여주기
-	 google.maps.event.addDomListener(window, 'load', initialize);
-	 
+
 	var flag = false;
 	 $(".optioninput").click(function(){
 		 if(!flag){
@@ -55,6 +50,28 @@
          }
       }); // end of $("#spinnerPqty").spinner();---------------
 	 
+     /* // 상단바 고정
+	 var jbOffset = $( '.menu' ).offset();
+     $( window ).scroll( function() {
+       if ( $( document ).scrollTop() > jbOffset.top ) {
+         $( '.menu' ).addClass( 'menuFixed' );
+       }
+       else {
+         $( '.menu' ).removeClass( 'menuFixed' );
+       }
+     });    
+     
+  	// 지도 고정
+	 var jbOffset = $( '.map' ).offset();
+     $( window ).scroll( function() {
+       if ( $( document ).scrollTop() > jbOffset.top ) {
+         $( '.map' ).addClass( 'menuFixed' );
+       }
+       else {
+         $( '.map' ).removeClass( 'menuFixed' );
+       }
+     });     */
+   
       
  });
  
@@ -64,25 +81,7 @@
     var show_src = "//fiddle.jshell.net/gg2hqba3/1/show/light/";
     var resize_element_counter = 0;
     var shell_edit_url = "/gg2hqba3/1/light/";
-
-	var placeSearch, autocomplete;
-	function initAutocomplete() {
-	  // Create the autocomplete object, restricting the search to geographical
-	  // location types.
-	  autocomplete = new google.maps.places.Autocomplete(
-	                                      (document.getElementById('autocomplete')),{types: ['geocode']});
-	  // When the user selects an address from the dropdown, populate the address
-	  // fields in the form.
-	  autocomplete.addListener('place_changed', fillInAddress);
-	}
-	
-	function fillInAddress() {
-	  // Get the place details from the autocomplete object.
-	  var place = autocomplete.getPlace();
-	    document.getElementById("lat").value=place.geometry.location.lat();
-	    document.getElementById("lng").value=place.geometry.location.lng();
-	}        
-        
+       
 	// 달력
 	$(function() {
     	$( ".datepicker" ).datepicker({
@@ -114,7 +113,7 @@
     });
         
 	// 지도보여주기
-	function initialize() {
+	/* function initialize() {
 		// 구글 맵 옵션 설정
 		var mapOptions = { 
 	        zoom : 18, // 기본 확대율
@@ -140,104 +139,23 @@
 	        map.setCenter(center); 
 	    });
 	
-	}
-</script>
-
-<style>
-
-.rs-container *{
-    box-sizing:border-box;-webkit-touch-callout:none;
-    -webkit-user-select:none;-khtml-user-select:none;
-    -moz-user-select:none;-ms-user-select:none;user-select:none
-    
-}
-.rs-container{
-    font-family:Arial,Helvetica,sans-serif;width:100%;height:45px;position:relative; float: right; margin-right: 30px;
-    margin-top: -10px;    
-}
-.rs-container .rs-bg,
-.rs-container .rs-selected{
-    background-color:#eee;border:1px solid #ededed;height:10px;left:0;position:absolute;top:5px;width:100%;border-radius:3px;
-}
-
-.rs-container .rs-selected{background-color:#00b3bc;border:1px solid #00969b;transition:all .2s linear;width:0}
-.rs-container.disabled .rs-selected{background-color:#ccc;border-color:#bbb}
-.rs-container .rs-pointer{background-color:#fff;border:1px solid #bbb;border-radius:4px;cursor:pointer;height:20px;left:-10px;position:absolute;top:0;transition:all .2s linear;width:30px;box-shadow:inset 0 0 1px #FFF,inset 0 1px 6px #ebebeb,1px 1px 4px rgba(0,0,0,.1)}
-.rs-container.disabled .rs-pointer{border-color:#ccc;cursor:default}
-.rs-container .rs-pointer::after,.rs-container .rs-pointer::before{content:'';position:absolute;width:1px;height:9px;background-color:#ddd;left:12px;top:5px}
-.rs-container .rs-pointer::after{left:auto;right:12px}
-.rs-container.sliding .rs-pointer,.rs-container.sliding .rs-selected{transition:none}
-.rs-container .rs-scale{left:0;position:absolute;top:5px;white-space:nowrap}.rs-container .rs-scale span{float:left;position:relative}
-.rs-container .rs-scale span::before{background-color:#ededed;content:"";height:8px;left:0;position:absolute;top:10px;width:1px}
-.rs-container.rs-noscale span::before{display:none}.rs-container.rs-noscale span:first-child::before,.rs-container.rs-noscale span:last-child::before{display:block}
-.rs-container .rs-scale span:last-child{margin-left:-1px;width:0}.rs-container .rs-scale span ins{color:#333;display:inline-block;font-size:12px;margin-top:20px;text-decoration:none}
-.rs-container.disabled .rs-scale span ins{color:#999}.rs-tooltip{color:#333;width:50px;min-width:60px;height:30px;background:#fff;border:1px solid #00969b;border-radius:3px;position:absolute;transform:translate(-50%,-35px);left:13px;text-align:center;font-size:13px;padding:6px 10px 0}
-.rs-container.disabled .rs-tooltip{border-color:#ccc;color:#999}
-
-.subjectstyle {font-weight: bold;
-    	           color: red;
-    	           cursor: pointer; }
-.optionName{
-    font-size: 16px; 
-    font-weight: 800;
-    margin-bottom: 3%;
-    border: none;
-    background: none;
-    padding: 0;
-}
-.foldText{
-    font-size: 0.8em;
-    color:gray;
-}
-.optionname{
-	font-size: 11pt;
-	font-weight: bold;
+	} */	
 	
-}
-.dropBtn{
-    width:100%; 
-    background: none; 
-    border: 1px solid lightgray; 
-    border-radius: 3px; 
-    height: 35px;
-}
-.dropBtn:hover{
-    background-color: #f1f1f1;
-    border: 1px solid #f1f1f1;
-    transition: 0.5s;
-}
-#optionSection{
-	height: 230px;
-	width: 99.1vw; 
-	background-color: #f1f1f1;
-	padding-top: 14px;
-	margin:0;
-}
-.optionbox{
-	height:40px;
-	width: 100%;
-	border: none;
-	margin-bottom:14px;
-	background-color:white;
-	padding-left: 14px;
-	padding-top: 10px;
-}
-.optioninput{
-	border:none;
-}
-#optionLeft,#optionRight{
-	height:100%;
-}
-</style>
+ 
+</script>
 <body>
-	<div id="optionSection" class="row">
+	<div id="optionSection" class="row menu">
         <div id="optionLeft" class="col-md-5">
         <div>
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역</span>
-            	<input id="autocomplete" placeholder="지역을 입력하세요." type="text" style="border: 0px solid; margin-left: 110px;">            	
-            	<input type="hidden" class="field" id="lat" />
-				<input type="hidden" class="field" id="lng" />
+            	<select id=city style="border: 0px solid; margin-left: 110px;">
+            		<option>서울</option>
+            		<option>대전</option>
+            		<option>대구</option>
+            		<option>부산</option>            		
+            	</select>
+            	<!-- <input id="city" placeholder="지역을 입력하세요." type="text" value="부산" style="border: 0px solid; margin-left: 110px;">   -->         	
             </div>
            
            	<div class="optionbox">
@@ -262,6 +180,7 @@
             
            
         </div>
+        
         <div id="optionRight" class="col-md-7">
         	<div class="optionbox">
         		<span class="optionname" style="margin-right: 50px;">가격 (만 원)</span>
@@ -272,15 +191,58 @@
             <div class="optionbox"><input type="text" class="optioninput"/></div>
         </div>
     </div>
-    <div class="row" style="width: 100vw; margin-left: 1px;">
-        
-        <div class="col-md-4" style="height:100vh; margin-top: 18px; padding: 0; border: solid;">
-            <div style="height: 100%; margin: 0; padding: 0;" id="googleMap" class="optionbox map"></div>
+    
+    <div class="row" style="width: 100vw; margin-left: 1px;">        
+        <div class="col-md-4 " style="height:100vh; margin-top: 18px; padding: 0; border: solid;">
+            <div style="height: 100%; margin: 0; padding: 0;" id="map" class="optionbox map"></div>
+
+	<script>	
+		  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	       mapOption = {
+	           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
+	           level: 3 // 지도의 확대 레벨
+	       };  
+	   
+	   // 지도를 생성합니다    
+	   var map = new daum.maps.Map(mapContainer, mapOption); 
+	   
+	   // 주소-좌표 변환 객체를 생성합니다
+	   var geocoder = new daum.maps.services.Geocoder();
+	   
+	   // 주소로 좌표를 검색합니다
+	  alert(document.getElementById('city').value);
+	   geocoder.addressSearch(document.getElementById('city').value, function(result, status) {
+	   
+	       // 정상적으로 검색이 완료됐으면 
+	        if (status === daum.maps.services.Status.OK) {
+	   
+	           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+	   
+	           // 결과값으로 받은 위치를 마커로 표시합니다
+	           var marker = new daum.maps.Marker({
+	               map: map,
+	               position: coords
+	           });
+	   
+	          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
+	           var infowindow = new daum.maps.InfoWindow({
+	               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
+	           });
+	           infowindow.open(map, marker); */
+	   
+	           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	           map.setCenter(coords);
+	          
+	       } 
+	   });  
+
+		</script>
+	
         </div>
         
         <div class="col-md-8" style="height:100vh; padding: 1%;">
             <div class="row">
-            	<c:forEach items="${testList}" var="test">
+            <c:forEach items="${testList}" var="test">
                 <div class="col-md-4" style="margin-bottom: 2%;">
                     <div style="margin-bottom: 3%;">
                         <img src="https://a0.muscache.com/im/pictures/68d2bca8-bf81-489a-9ba7-b6a24f91557d.jpg?aki_policy=large" style="border-radius: 5px; width: 100%;" />
@@ -298,7 +260,7 @@
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
                     </div>
                 </div>
-                </c:forEach>
+            </c:forEach>
             </div>
         </div>
     </div>	
