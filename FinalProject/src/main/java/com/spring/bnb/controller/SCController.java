@@ -21,7 +21,7 @@ public class SCController {
 	private AES256 aes;
 	
 	// 호스트 숙소 리스트
-	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/hostroomList.air", method = {RequestMethod.GET})
 	public String hostroomList() {
 		return "host/hostroomList.hosttiles";
 	}
@@ -33,15 +33,26 @@ public class SCController {
 	}
 	
 	// 호스트 숙소사진 수정
-	@RequestMapping(value = "/hrPhotoEdit.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/hrPhotoEdit.air", method = {RequestMethod.GET})
 	public String hrPhotoEdit() {
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
 	// 호스트 숙소사진 수정
-	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = {RequestMethod.GET})
 	public String hrDetailPhotoEdit() {
 		return "hostRoomEdit/hrDetailPhotoEdit.hosttiles_nofooter";
-	}	
+	}
+	
+	// 호스트 숙소 제목 수정
+	@RequestMapping(value = "/roomtitleEdit.air", method = {RequestMethod.GET})
+	public String roomtitleEdit() {
+		return "hostRoomEdit/roomtitleEdit.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/bedroomEdit.air", method={RequestMethod.GET})
+	public String bedroomEdit() {
+		return "hostRoomEdit/bedroomEdit.hosttiles_nofooter";
+	}
 }
 

@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-3.3.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <style>
-hr{width: 70%; 
-}
+.line{width: 70%;
 
+}
+.line2{
+	width: 78%;
+}
+.homeimg{
+	width: 100%;
+}
 p{font-size: 12pt; 
 }
 
@@ -23,7 +23,7 @@ a{font-weight: bold; color: #008489; font-size: 10pt;
 h4,h3{font-weight: bold; margin-top: 2%; 
 }
 
-div{border:  1px solid gray;  
+div{border:  0px solid gray;  
 }
 
 /* Style the tab */
@@ -75,20 +75,29 @@ div{border:  1px solid gray;
 }
 </style>
 
-<div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; border: 1px soil gray;">
+<div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">사진 전체로 돌아가기</a>
-	<hr align="left">
+	<hr class="line" align="left">
 </div>
 
-<div class="col-md-4" style="margin-left: 22%;" align="center">
-	<img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">
+<div class="col-md-4" style="margin-left: 22%;">
+	<img class="homeimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">
 </div>
 
  <div class="col-md-3">
  	<span style="font-weight: bold;">커버사진</span>
- 	<a><span style="margin-left: 60%;">변경</span></a>
- 	<br>
-	<button type="button" class="btn"><span class="editbtn">캡션 추가하기</span></button>
+ 	<hr class="line2" align="left">
+ 	<p>설명</p>
+ 	<p>사진에 대한 세부정보를 추가하세요</p>
+ 	<textarea rows="5" cols="45"></textarea>
+ 	<br><br>
+	<button class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">설정 저장하기</span></button>
+	<br><br>
+	<a>사진 삭제</a>
+</div>
+
+<div class="col-md-12" style="margin-left: 22%; width: 75%;">
+	<hr class="line" align="left">
 </div>
 
 
