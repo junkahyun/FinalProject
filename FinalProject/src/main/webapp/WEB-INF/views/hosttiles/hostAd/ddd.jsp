@@ -98,156 +98,89 @@ function chart(){
 	});//end of ajax
 }// end of function
 </script>
-<div class="_uy08umt"><div style="margin: 0px;"><div class="_11rakzh" style="margin-top: 48px;">
-<div><div role="tablist" class="_csc5ey">
-	<div class="_36rlri"><a href="/progress/ratings" class="_1somn25j" role="tab" aria-selected="true" aria-busy="false">평점</a></div>
-	<div class="_36rlri"><a href="/progress/earnings" class="_1clmh92x" role="tab" aria-selected="false" aria-busy="false">수입</a></div>
-	<div class="_36rlri"><a href="/progress/views" class="_1clmh92x" role="tab" aria-selected="false" aria-busy="false">조회수</a></div>
-	<div class="_36rlri"><a href="/progress/opportunities" class="_1clmh92x" role="tab" aria-selected="false" aria-busy="false">발전 기회</a></div>
-	</div>
-</div>
-<div style="margin-top: 48px;">
-		<div class="row">
-			<div class="col-lg-8">
-			
-				<div style="margin-bottom: 0px;">
-					<div class="_9hxttoo">
-						<div style="margin-bottom: 8px;">
-							<label class="_rin72m" for="listingSelector"><div class="_6mxuijo">숙소 선택</div></label>
-						</div>
-						<div class="_wlf6154"><div class="_y9ev9r">
-							<select id="listingSelector" name="selected_listing" class="_bwyiq2l">
-								<option value="all">모든 숙소</option><option value="31077617">ㄴㅇㄹ</option>
-								<option value="31027844">ㄴㅇㄹ (미등록)</option>
-							</select>
-						</div>
-							<span class="_1idvclr">
-								<svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style="height: 16px; width: 16px; display: block; fill: rgb(72, 72, 72);">
-									<path d="m16.29 4.3a1 1 0 1 1 1.41 1.42l-8 8a1 1 0 0 1 -1.41 0l-8-8a1 1 0 1 1 1.41-1.42l7.29 7.29z" fill-rule="evenodd"></path>
-								</svg>
-							</span>
-						</div>
-					</div>
-				</div>
-			<header class="_15lzjb6">
-				<div class="_1rlifxji">
-					<div style="margin-bottom: 8px;">
-						<div class="_19odbsb1">표시할 내용이 없습니다</div>
-							<div class="_1r804a6o">첫 번째 후기를 참고해 숙소를 재단장하거나 <a href="/rooms">숙소를 업데이트</a>해서 게스트의 관심을 끌어보세요.</div>
-					</div>
-				</div>
-			</header>
-			<div class="_1p75mxn1"><div class="_1dl27thl">평점 (0개)</div></div>
-				<div style="margin-top: 32px;">
-					<table class="_zdxht7">	
-						<tbody>
-							<tr class="_mcc0b8">
-								<th scope="row" class="_sdqx8w"><div role="group" aria-label="별 5개" class="_1u0gt3t">
-									<div class="_qtix31">
-										<div class="_ni9axhe">
-											<div class="_1r804a6o">5</div>
-										</div>
-										<div class="_ni9axhe">
-											<div style="margin-left: 8px;">
-												<img src="<%= request.getContextPath() %>/resources/images/star.png" height="20px;"/>
-											</div>
-										</div>
-									</div></div>
-								</th>
-								<td class="_zdxht7">
-									<div class="_hgs47m"><div class="_10ejfg4u">
-										<div class="_i1d6d66"><div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" class="_1i5cl6ai" style="transform: translate3d(-99.9999%, 0px, 0px);"></div>
-										</div></div>
-									</div>
-								</td>
-								<td class="_18j2f1c"><div class="_1r804a6o">0%</div></td>
-							</tr>
-							<tr class="_mcc0b8">
-								<th scope="row" class="_sdqx8w"><div role="group" aria-label="별 4개" class="_1u0gt3t">
-									<div class="_qtix31"><div class="_ni9axhe"><div class="_1r804a6o">4</div></div>
-										<div class="_ni9axhe"><div style="margin-left: 8px;"><svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; display: block; fill: rgb(255, 180, 0);"><path d="M971.5 379.5c9 28 2 50-20 67L725.4 618.6l87 280.1c11 39-18 75-54 75-12 0-23-4-33-12l-226.1-172-226.1 172.1c-25 17-59 12-78-12-12-16-15-33-8-51l86-278.1L46.1 446.5c-21-17-28-39-19-67 8-24 29-40 52-40h280.1l87-278.1c7-23 28-39 52-39 25 0 47 17 54 41l87 276.1h280.1c23.2 0 44.2 16 52.2 40z"></path></svg>
-											</div>
-										</div>
-									</div></div>
-								</th>
-								<td class="_zdxht7"><div class="_hgs47m"><div class="_10ejfg4u"><div class="_i1d6d66"><div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" class="_1i5cl6ai" style="transform: translate3d(-99.9999%, 0px, 0px);"></div></div></div></div></td>
-								<td class="_18j2f1c"><div class="_1r804a6o">0%</div></td>
-							</tr>
-							<tr class="_mcc0b8">
-								<th scope="row" class="_sdqx8w"><div role="group" aria-label="별 3개" class="_1u0gt3t">
-									<div class="_qtix31">
-										<div class="_ni9axhe">
-											<div class="_1r804a6o">3</div>
-										</div>
-										<div class="_ni9axhe"><div style="margin-left: 8px;">
-											<svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; display: block; fill: rgb(255, 180, 0);">
-											<path d="M971.5 379.5c9 28 2 50-20 67L725.4 618.6l87 280.1c11 39-18 75-54 75-12 0-23-4-33-12l-226.1-172-226.1 172.1c-25 17-59 12-78-12-12-16-15-33-8-51l86-278.1L46.1 446.5c-21-17-28-39-19-67 8-24 29-40 52-40h280.1l87-278.1c7-23 28-39 52-39 25 0 47 17 54 41l87 276.1h280.1c23.2 0 44.2 16 52.2 40z"></path>
-											</svg></div>
-										</div>
-									</div></div>
-								</th>
-								<td class="_zdxht7"><div class="_hgs47m"><div class="_10ejfg4u"><div class="_i1d6d66">
-									<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" class="_1i5cl6ai" style="transform: translate3d(-99.9999%, 0px, 0px);"></div></div></div></div>
-								</td>
-								<td class="_18j2f1c"><div class="_1r804a6o">0%</div></td>
-							</tr>
-							<tr class="_mcc0b8"><th scope="row" class="_sdqx8w"><div role="group" aria-label="별 2개" class="_1u0gt3t"><div class="_qtix31"><div class="_ni9axhe"><div class="_1r804a6o">2</div></div>
-								<div class="_ni9axhe"><div style="margin-left: 8px;"><svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; display: block; fill: rgb(255, 180, 0);">
-								<path d="M971.5 379.5c9 28 2 50-20 67L725.4 618.6l87 280.1c11 39-18 75-54 75-12 0-23-4-33-12l-226.1-172-226.1 172.1c-25 17-59 12-78-12-12-16-15-33-8-51l86-278.1L46.1 446.5c-21-17-28-39-19-67 8-24 29-40 52-40h280.1l87-278.1c7-23 28-39 52-39 25 0 47 17 54 41l87 276.1h280.1c23.2 0 44.2 16 52.2 40z"></path></svg></div></div></div></div></th>
-								<td class="_zdxht7"><div class="_hgs47m"><div class="_10ejfg4u"><div class="_i1d6d66"><div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" class="_1i5cl6ai" style="transform: translate3d(-99.9999%, 0px, 0px);"></div></div></div></div></td>
-								<td class="_18j2f1c"><div class="_1r804a6o">0%</div></td>
-							</tr>
-							<tr class="_mcc0b8"><th scope="row" class="_sdqx8w"><div role="group" aria-label="별 1개" class="_1u0gt3t"><div class="_qtix31"><div class="_ni9axhe"><div class="_1r804a6o">1</div></div>
-								<div class="_ni9axhe"><div style="margin-left: 8px;"><svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; display: block; fill: rgb(255, 180, 0);"><path d="M971.5 379.5c9 28 2 50-20 67L725.4 618.6l87 280.1c11 39-18 75-54 75-12 0-23-4-33-12l-226.1-172-226.1 172.1c-25 17-59 12-78-12-12-16-15-33-8-51l86-278.1L46.1 446.5c-21-17-28-39-19-67 8-24 29-40 52-40h280.1l87-278.1c7-23 28-39 52-39 25 0 47 17 54 41l87 276.1h280.1c23.2 0 44.2 16 52.2 40z"></path></svg></div></div></div></div></th>
-								<td class="_zdxht7"><div class="_hgs47m"><div class="_10ejfg4u"><div class="_i1d6d66"><div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" class="_1i5cl6ai" style="transform: translate3d(-99.9999%, 0px, 0px);"></div></div></div></div></td>
-								<td class="_18j2f1c"><div class="_1r804a6o">0%</div>
-								</td>
-							</tr>
-					</tbody>
-				</table>
+<div class="col-md-1"></div>
+<div class="col-md-9">
+	<div class="_uy08umt">
+		<div style="margin: 0px;"><div class="_11rakzh" style="margin-top: 48px;">
+			<div role="tablist" class="_csc5ey">
+				<div><a href="/progress/ratings" class="_1somn25j" role="tab" aria-selected="true" aria-busy="false">평점</a></div>
+				<div><a href="/progress/earnings" class="_1clmh92x" role="tab" aria-selected="false" aria-busy="false">수입</a></div>
+				<div><a href="/progress/views" class="_1clmh92x" role="tab" aria-selected="false" aria-busy="false">조회수</a></div>
+				<div><a href="/progress/opportunities" class="_1clmh92x" role="tab" aria-selected="false" aria-busy="false">발전 기회</a></div>
 			</div>
-			111111111111111111111111111111111111111111
-				<div style="margin-top: 40px;"><div class="_1p75mxn1"><div class="_1dl27thl">후기(0개)</div></div>
-					<div style="margin-top: 32px; margin-bottom: 32px;">
-						<div>
-							<div class="_9hxttoo"><div style="margin-bottom: 8px;"><label class="_rin72m" for="reviewRatingFilter"><div class="_6mxuijo">전체 평점으로 필터링</div></label></div>
-								<div class="_wlf6154"><div class="_y9ev9r">
-									<select id="reviewRatingFilter" name="review_rating_filter" class="_bwyiq2l">
-										<option value="all">평점이 있는 숙소</option>
-										<option value="5">별 5개</option>
-										<option value="4">별 4개</option>
-										<option value="3">별 3개</option>
-										<option value="2">별 2개</option>
-										<option value="1">별 1개</option>
-									</select>
+		<div style="margin-top: 48px;">
+			<div class="row">
+				<div class="col-lg-8">
+				
+					<div style="margin-bottom: 0px;">
+						<div class="_9hxttoo">
+							<div style="margin-bottom: 8px;">
+								<label class="_rin72m" for="listingSelector"><div class="_6mxuijo">숙소 선택</div></label>
+							</div>
+							<div class="_wlf6154"><div class="_y9ev9r">
+								<select id="listingSelector" name="selected_listing" class="_bwyiq2l">
+									<option value="all">모든 숙소</option><option value="31077617">ㄴㅇㄹ</option>
+									<option value="31027844">ㄴㅇㄹ (미등록)</option>
+								</select>
+							</div>
+								<span class="_1idvclr">
+									<svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style="height: 16px; width: 16px; display: block; fill: rgb(72, 72, 72);">
+										<path d="m16.29 4.3a1 1 0 1 1 1.41 1.42l-8 8a1 1 0 0 1 -1.41 0l-8-8a1 1 0 1 1 1.41-1.42l7.29 7.29z" fill-rule="evenodd"></path>
+									</svg>
+								</span>
+							</div>
+						</div>
+					</div>
+	
+				<header class="_15lzjb6">
+					<div class="_1rlifxji">
+						<div style="margin-bottom: 8px;">
+							<div class="_19odbsb1">표시할 내용이 없습니다</div>
+								<div class="_1r804a6o">첫 번째 후기를 참고해 숙소를 재단장하거나 <a href="/rooms">숙소를 업데이트</a>해서 게스트의 관심을 끌어보세요.</div>
+						</div>
+					</div>
+				</header>
+				<div class="_1p75mxn1"><div class="_1dl27thl">평점 (0개)</div></div>
+					<div style="margin-top: 32px;">
+				</div>
+	차트 보여질곳
+					<div style="margin-top: 40px;"><div class="_1p75mxn1"><div class="_1dl27thl">후기(0개)</div></div>
+						<div style="margin-top: 32px; margin-bottom: 32px;">
+							<div>
+								<div class="_9hxttoo"><div style="margin-bottom: 8px;"><label class="_rin72m" for="reviewRatingFilter"><div class="_6mxuijo">전체 평점으로 필터링</div></label></div>
+									<div class="_wlf6154"><div class="_y9ev9r">
+										<select id="reviewRatingFilter" name="review_rating_filter" class="_bwyiq2l">
+											<option value="all">평점이 있는 숙소</option>
+											<option value="5">별 5개</option>
+											<option value="4">별 4개</option>
+											<option value="3">별 3개</option>
+											<option value="2">별 2개</option>
+											<option value="1">별 1개</option>
+										</select>
+										</div>
+										<span class="_1idvclr"><svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style="height: 16px; width: 16px; display: block; fill: rgb(72, 72, 72);"><path d="m16.29 4.3a1 1 0 1 1 1.41 1.42l-8 8a1 1 0 0 1 -1.41 0l-8-8a1 1 0 1 1 1.41-1.42l7.29 7.29z" fill-rule="evenodd"></path></svg></span>
 									</div>
-									<span class="_1idvclr"><svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style="height: 16px; width: 16px; display: block; fill: rgb(72, 72, 72);"><path d="m16.29 4.3a1 1 0 1 1 1.41 1.42l-8 8a1 1 0 0 1 -1.41 0l-8-8a1 1 0 1 1 1.41-1.42l7.29 7.29z" fill-rule="evenodd"></path></svg></span>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	<div class="row"><div class="col-lg-8"></div></div>
-	<div class="row">
-		<div class="col-lg-8">
-			<div style="margin-top: 24px;">
-				<table class="_1cap30x">
-					<tbody>
-						<tr>
-							<th class="_282le74"><div class="_9zwlhy1">0 / 0</div></th>
-								<td class="_1attqu0p"></td>
-						</tr>
-					</tbody>
-				</table>
+		<div class="row"><div class="col-lg-8"></div></div>
+		<div class="row">
+			<div class="col-lg-8">
+				<div style="margin-top: 24px;">
+					<table class="_1cap30x">
+						<tbody>
+							<tr>
+								<th class="_282le74"><div class="_9zwlhy1">0 / 0</div></th>
+									<td class="_1attqu0p"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
+	</div></div></div>
 	</div>
-</div></div></div>
-
-
-
-
-		
 </div>
