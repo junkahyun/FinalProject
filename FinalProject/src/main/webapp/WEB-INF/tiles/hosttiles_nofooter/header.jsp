@@ -1,8 +1,6 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/hostheader.css">
+<style>
+</style>
 <div id="header">
 	<div class="row height_maxPer">
 		<div id="headerlogo" >
@@ -17,15 +15,11 @@
 		</div>
 		
 		<div class="headermenuButton" onClick="" >
+
 			<button class="btn" style="background-color:  #008489;">
-
 				<span style="color: white; font-weight: bold;">숙소등록하기</span>
-
 			</button>
-
 		</div> 
-
 	</div>
-
 </div>
 

@@ -24,9 +24,9 @@ public class HYController {
 	public String index() {
 		return "home/homeDetail.hometiles";
 	}
-	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
-	public String apiTest() {
-		return "apiTest.notiles";
+	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
+	public String hostMain() {
+		return "host/hostMain.hosttiles";
 	}
 
 }
