@@ -23,7 +23,9 @@
 		<div class="headermenuButton" onClick="" >
 			<button class="btn" style="background-color:  #008489;">
 				<span style="color: white; font-weight: bold;">숙소등록하기</span>
+
 			</button>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 		</div>
@@ -35,11 +37,20 @@
 =======
 >>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		</div>
+=======
+
+		</div> 
+
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	</div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 </div>
 
 =======
+=======
+
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 </div>
 >>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
