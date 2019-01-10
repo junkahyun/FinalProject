@@ -26,11 +26,18 @@ public class HYController {
 
 	public String index() {
 		return "home/homeDetail.hometiles";
+<<<<<<< HEAD
 	}
 	
 	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
 	public String apiTest() {
 		return "apiTest.notiles";
+=======
+	}
+	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
+	public String hostMain() {
+		return "host/hostMain.hosttiles";
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	}
 
 }
