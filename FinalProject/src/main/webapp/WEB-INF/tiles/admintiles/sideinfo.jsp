@@ -20,14 +20,14 @@
 			<!-- Main Menu -->
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav" >
-					<li class="active"><a href="#" class="inherits"> 관리자_메인</a></li>
-					<li><a href="#" class="inherits">회원관리</a></li>
-					<li><a href="#" class="inherits">숙소관리</a></li>
+					<li class="active"><a href="admin.air" class="inherits"> 관리자_메인</a></li>
+					<li><a href="adminMember.air" class="inherits">회원관리</a></li>
+					<li><a href="lodgingManage.air" class="inherits">숙소관리</a></li>
 					<li><a href="#" class="inherits">1:1문의관리</a></li>
-					<li><a href="#" class="inherits">항공관리</a></li>
-					<li><a href="#" class="inherits">트립관리</a></li>
-					<li><a href="#" class="inherits">통계</a></li>  
-					<li><a href="#" class="inherits">로그아웃</a></li> 
+					<li><a href="#" class="inherits">신고관리</a></li>
+					<li><a href="#" class="inherits">숙소관리</a></li>
+					<li><a href="#" class="inherits">숙소등록관리</a></li>
+					<li><a href="#" class="inherits">통계</a></li>   
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</nav> 
