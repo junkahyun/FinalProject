@@ -52,7 +52,7 @@
 <script>
 	$(document).ready(function(){
 		$(".sampleimg").bind("click",function(){
-			$(".cover").empty().append(this);
+			$(".showedImg").attr("src", $(this).attr("src"));
 		});
 	});
 
@@ -82,7 +82,7 @@
 	</div>
 	
 	<div class="col-md-12 cover">
-		<img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">		
+		<img class="showedImg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">		
 	</div>
 	
 	<div class="col-md-12 imgContent">
