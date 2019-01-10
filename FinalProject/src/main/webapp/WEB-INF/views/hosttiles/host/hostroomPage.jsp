@@ -51,7 +51,9 @@
 </style>
 <script>
 	$(document).ready(function(){
-		
+		$(".sampleimg").bind("click",function(){
+			$(".cover").empty().append(this);
+		});
 	});
 
 </script>
@@ -79,7 +81,7 @@
 		<p>호스트님의 숙소에서 지내는 모습을 게스트가 상상할 수 있도록 해주세요.</p>
 	</div>
 	
-	<div class="col-md-12">
+	<div class="col-md-12 cover">
 		<img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">		
 	</div>
 	
@@ -90,18 +92,18 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12 imgList">
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleroom1.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
 			
 		</div>
 		
 		<div class="col-md-12 imgList">
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
-			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3 sampleimg" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
 			
 		</div>
 	</div>
