@@ -319,8 +319,8 @@ div{
 			<div class="infoDiv" style="padding-bottom:0;">
 				<div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
 					<div class="col-md-8 infoSubjectHYBig">후기 ...개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
-					<div class="col-md-4"><input type="text" class="form-control input-data" style="width:100%;">
-						<img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;right: 25px;">
+					<div class="col-md-4"><input type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
+						<img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
 					</div>
 				</div>
 				<%-- 별점 평균 --%>
