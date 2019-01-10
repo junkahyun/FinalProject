@@ -16,5 +16,16 @@ public class SHController {
 		return "admin/adminMember.admintiles";
 	}
 	
+	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
+	public String adminVan(HttpServletRequest req) {
+		
+		return "admin/adminVan.admintiles";
+	}
+	
+	@RequestMapping(value="/vanWrite.air", method= {RequestMethod.GET})
+	public String vanWrite(HttpServletRequest req) {
+		
+		return "home/vanWrite.hometiles";
+	}
 	
 }

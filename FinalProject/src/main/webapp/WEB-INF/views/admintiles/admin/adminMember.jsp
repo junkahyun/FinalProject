@@ -8,7 +8,7 @@
 <div class="col-md-10">
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
 		<div class="">
-			<h2 class="home_title">회원관리</h2>
+			<h1 class="home_title">회원관리</h1>
 		</div>
 	</div>
 	
@@ -75,9 +75,15 @@
 		</div>
 	</div>
 	
+	<div id="searchbar" style="text-align: center;">
+        <input type="text" id="searchInput" placeholder="검색" style="" />
+        <div id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px"></div>
+    </div>
+	
 	<div class="pageBar" style="text-align: center; margin: 2%;">
 		[이전]    1    2    3    4    5		6		7		8		9    [다음]
 	</div>
+	
 	
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
