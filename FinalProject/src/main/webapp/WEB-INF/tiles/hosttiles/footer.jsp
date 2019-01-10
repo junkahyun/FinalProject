@@ -2,7 +2,7 @@
 
 <style>
 
-.footer{color: #767676;
+div{color: #767676;
 }
 
 </style>

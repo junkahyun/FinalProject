@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -33,11 +34,15 @@ input[type="number"]::-webkit-inner-spin-button{
 }
 .click{border: 1px solid #008489; }
 
+select:focus {
+  outline: none; 
+}
 </style>
 
 <script>
 
 	$(document).ready(function(){
+		
 		$(".successbtn").css('opacity',0.5);
 		
 		$(".panel-default").click(function(){
@@ -45,19 +50,12 @@ input[type="number"]::-webkit-inner-spin-button{
 			$(".successbtn").css('opacity',1); 
 		});
 		
-		$("#betta").click(function(){
-			
-			alert("베타 테스트 중입니다!");
-			
-		});
-		
 		
 	});
 	
-	function changeCharge(){
-		alert("이용요금 변경 확인");
+	function changeHosting(){
 		
-		var frm = document.changeDefualt;
+		var frm = document.changeHostingPeople;
 		frm.method="POST";
 		frm.action="";
 		//frm.submit();
@@ -69,20 +67,46 @@ input[type="number"]::-webkit-inner-spin-button{
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
    <i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; ">뒤로</a>
 
-	<h3 >기본 요금</h3>
-	<span style="font-size: 12pt; font-weight: bold;">스마트 요금&nbsp;&nbsp;</span><button type="button" class="btn" id="betta">베타테스트중</button><br><br>
-	<span style="font-size: 12pt;">수요에 따라 요금이 자동으로 조정됩니다. 요금은 회원님이 설정하신 범위 안에서 책정되며,<br> 언제든 변경하실 수 있습니다.</span>
-	<hr width="50%;" align="left" style="margin-top: 2%;">	
-	
-	<form name="changeDefualt">
-	<span style="font-size: 12pt; font-weight: bold; margin-top: 2%;">기본 요금&nbsp;&nbsp;</span>
-	<div align="left" style="width: 35%; margin-bottom: 10%;">
-	  <div class="panel panel-default" style="margin-top: 3%;" >
-	    <div class="panel-body">₩&nbsp;&nbsp;<input type="number" class="chargetext" type="text" style="border: none; font-size: 13pt; "/></div>
+	<h3 >숙박 인원</h3>
+	<!-- 숙박 인원 -->
+	<form name="changeHostingPeople">
+	<hr style="width: 50%;" align="left">
+	<div class="col-md-6" style="width:30%;">
+	<span style="font-size: 12pt; font-weight: bold; margin-top: 2%;">기본 수용 인원&nbsp;&nbsp;</span><br>
+	<div align="left" style="width: 80%; margin-bottom: 3%;" class="chargetext">
+	  <div class="panel panel-default" style="margin-top: 3%; " >
+	    <div class="panel-body">
+	    <!-- 인원 선택 -->
+	    	<select id="Guest" style="border-style: none; width: 100%; font-size: 12pt; ">
+	    		<option selected="selected">인원 선택</option>
+		    	<c:forEach var="cnt" begin="1" end="7" >
+		    		<option value="${cnt}" >${cnt}명</option>
+		    	</c:forEach>	
+	    	</select>
+	    </div>
 	  </div>
+	  </div>
+	</div>
+	
+	<div class="col-md-6" style="width:30%; margin-bottom: 20%;">
+	<span style="font-size: 12pt; font-weight: bold; margin-top: 2%;">최대 수용 인원&nbsp;&nbsp;</span><br>
+	<div align="left" style="width: 80%; margin-bottom: 3%;" class="chargetext">
+	  <div class="panel panel-default" style="margin-top: 3%; " >
+	    <div class="panel-body">
+	    <!-- 최대 수용 인원 선택 -->
+	    	<select id="maxGuest" style="border-style: none; width: 100%; font-size: 12pt; ">
+	    		<option selected="selected">수용 인원 선택</option>
+		    	<c:forEach var="cnt" begin="1" end="7" >
+	    			<option value="${cnt}" >${cnt}명</option>
+		    	</c:forEach>	
+	    	</select>
+	    </div>
+	  </div>
+	</div>
 	</div>
 	</form>
 	
+	<img src="<%=request.getContextPath() %>/resources/images/host/unnamed.png" />
 	<hr style="width: 50%;" align="left">
-	<button class="btn successbtn" onClick="changeCharge();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn cancelbtn" onclick="javascript:history.back();">취소</button>
+	<button class="btn successbtn" onClick="changeHosting();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn cancelbtn" onclick="javascript:history.back();">취소</button>
 </div>
