@@ -19,13 +19,11 @@
 		<div class="headermenuButton" onClick="" >
 			<button class="btn" style="background-color:  #008489;">
 				<span style="color: white; font-weight: bold;">숙소등록하기</span>
+
 			</button>
-		</div>
-		<div class="headermenus">
-			<div class="headermenu" onClick="">호스트가 되어보세요</div>
-			<div class="headermenu" onClick="">도움말</div>
-			<div class="headermenu" onClick="">회원가입</div>
-			<div class="headermenu" onClick="">로그인</div>
-		</div>
+
+		</div> 
+
 	</div>
+
 </div>
