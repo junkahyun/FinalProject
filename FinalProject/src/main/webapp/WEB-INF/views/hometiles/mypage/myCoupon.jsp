@@ -62,14 +62,14 @@ td{
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#checkCoupon").click(function(){
-			var url ="/couponReg.hometiles"
-			window.open("","쿠폰등록","width=400,height=300",true);
+			var url ="/couponReg.air"
+			window.open("/bnb"+url,"쿠폰등록","width=400,height=300",true);
 		   var frm = couponRegFrm.document;
-			frm.method = "POST";
+			frm.method = "GET";
 		    frm.action = url;
 		    frm.idx.value = idx
 		    frm.target = "쿠폰등록";
-		   // frm.submit();
+		    frm.submit();
 			
 		});
 	});

@@ -48,4 +48,10 @@ public class SOController {
 		
 		return "mypage/review.hometiles";
 	}
+	@RequestMapping(value = "/couponReg.air", method = RequestMethod.GET)
+	public String couponReg() {
+		  
+		return "mypage/couponReg.hometiles";
+	}
+	
 }
