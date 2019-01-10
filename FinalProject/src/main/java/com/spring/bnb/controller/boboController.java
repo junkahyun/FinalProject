@@ -1,5 +1,7 @@
 package com.spring.bnb.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -15,20 +17,32 @@ public class boboController {
 	@Autowired
 	private boboService service;
 
-	@RequestMapping(value="/newroom.air", method={RequestMethod.GET})
+/*	
+    @RequestMapping(value="/newroom.air", method={RequestMethod.GET})
 	public String newroom() {
 		
 		return "become-host/newroom.hosttiles_nofooter";
 	}
+*/
 	
 	@RequestMapping(value="/roomstart.air", method={RequestMethod.GET})
-	public String roomstart() {
-		
+	public String roomstart(HttpServletRequest req) {
+
 		return "become-host/roomstart.hosttiles_nofooter";
 	}
 	
 	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
-	public String roomtype() {
+	public String roomtype(HttpServletRequest req) {
+		
+		String room_type = req.getParameter("room_type");
+		String person_capacity = req.getParameter("person_capacity");
+		
+		if(room_type != null && person_capacity != null) {
+			//insert작업
+		}
+		
+	//	System.out.println(room_type);
+	//	System.out.println(person_capacity);
 		
 		return "become-host/roomtype.hosttiles_nofooter";
 	}
@@ -45,14 +59,17 @@ public class boboController {
 		return "become-host/bathroom.hosttiles_nofooter";
 	}
 	
-	@RequestMapping(value="/loction.air", method={RequestMethod.GET})
-	public String loction() {
+	@RequestMapping(value="/location.air", method={RequestMethod.GET})
+	public String location() {
 		
-		return "become-host/loction.hosttiles_nofooter";
+		return "become-host/location.hosttiles_nofooter";
 	} 
 	
 	@RequestMapping(value="/map.air", method={RequestMethod.GET})
-	public String map() {
+	public String map(HttpServletRequest req) {
+		
+		String address = req.getParameter("address");
+		req.setAttribute("address", address);
 		
 		return "become-host/map.hosttiles_nofooter";
 	}
@@ -97,6 +114,12 @@ public class boboController {
 	public String guestrule() {
 		
 		return "become-host/guestrule.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/checkInOutTime.air", method={RequestMethod.GET})
+	public String checkInOutTime() {
+		
+		return "become-host/checkInOutTime.hosttiles_nofooter";
 	}
 	
 	
