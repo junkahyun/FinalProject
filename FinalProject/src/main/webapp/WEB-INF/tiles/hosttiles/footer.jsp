@@ -7,8 +7,9 @@
 
 </style>
 <div class="container footer" style="margin-top: 10%; margin-right: 18%; width: 63%;" >
-	<div class=" col-md-12 footer_menues footer" >	
-		<div class="col-md-3 footer">
+
+	<div class=" col-md-12 footer_menues" >	
+		<div class="col-md-3">
 			<span style="font-weight: bold; color: black;">에어비앤비</span><br><br>
 			<span>채용정보</span><br>
 			<span>미디어</span><br>
