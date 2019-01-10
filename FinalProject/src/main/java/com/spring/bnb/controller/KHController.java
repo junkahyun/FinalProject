@@ -42,7 +42,6 @@ public class KHController {
 		
 		return "reservationAndPay/reservationFinalConfirm.notiles";
 	}
-	
 	///////////////////////////////////////////////////////////////////////////////////
 	// ***** 호스트 등록된 숙소 수정하기 ***** //
 	@RequestMapping(value="/hostRoomEdit.air", method= {RequestMethod.GET})

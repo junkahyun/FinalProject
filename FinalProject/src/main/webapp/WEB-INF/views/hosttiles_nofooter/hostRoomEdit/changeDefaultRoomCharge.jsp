@@ -64,7 +64,7 @@ h3{font-weight: bold; margin-top: 5%; margin-bottom: 3%;
 	<span style="font-size: 12pt; font-weight: bold; margin-top: 2%;">기본 요금&nbsp;&nbsp;</span>
 	<div align="left" style="width: 50%; margin-bottom: 10%;">
 	  <div class="panel panel-default" style="margin-top: 3%;" >
-	    <div class="panel-body">₩&nbsp;&nbsp;<input type="text" style="border: 0px; "/></div>
+	    <div class="panel-body">₩&nbsp;&nbsp;<input type="text" style="background-color: transparent; border: none;"/></div>
 	  </div>
 	</div>
 	</form>
