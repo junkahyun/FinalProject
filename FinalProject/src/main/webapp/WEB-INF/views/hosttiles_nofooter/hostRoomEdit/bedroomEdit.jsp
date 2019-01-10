@@ -82,6 +82,7 @@ div{border:  0px solid gray;
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; margin-bottom: 5%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">수정으로 돌아가기</a>
+	
 	<h3 align="left" style="font-weight: bold;">숙소</h3>
 	<p>게스트가 머물게 될 공간에 대해 자세히 설명해 주세요.</p>
 
@@ -113,7 +114,7 @@ div{border:  0px solid gray;
     	</ul>
   	</div>
 	<br>
-	<span>숙박인원</span>
+	<span>숙박 인원</span>
 	
 	<span style="margin-left: 33%;">
 		<img alt="" src="<%=request.getContextPath()%>/resources/images/remove.png">
@@ -124,11 +125,11 @@ div{border:  0px solid gray;
 	<hr class="line" align="left">
 	
 	<p>게스트만 사용하도록 만들어진 숙소인가요?</p>
-	<input type="radio" id="yes" name="select"><label for="yes">예, 게스트용으로 따로 마련된 숙소입니다.</label><br/>
-	<input type="radio" id="no" name="select"><label for="no">아니요, 게스트용으로 따로 마련된 숙소입니다.</label>
-	<hr class="line" align="left">
-	<h4>침대유형</h4>
+	<input type="radio" id="select1" name="select"><label for="select1">예, 게스트용으로 따로 마련된 숙소입니다.</label>
+	<br>
+	<input type="radio" id="select2" name="select"><label for="select2">아니요, 게스트용으로 따로 마련된 숙소입니다.</label>
 	
+	<hr class="line" align="left">
 	<span>침대 수</span>
 	
 	<span style="margin-left: 33%;">
@@ -146,9 +147,23 @@ div{border:  0px solid gray;
 		<img alt="" src="<%=request.getContextPath()%>/resources/images/add.png">
 	</span>
 	<hr class="line" align="left">
+		
+	<span>1번침실 <br>침대 1개</span>
 	
 	
+	<hr class="line" align="left">
+	<h4>욕실</h4>
+	<span>욕실 수</span>
 	
+	<span style="margin-left: 33%;">
+		<img alt="" src="<%=request.getContextPath()%>/resources/images/remove.png">
+			&nbsp;<span>8</span>&nbsp;
+		<img alt="" src="<%=request.getContextPath()%>/resources/images/add.png">
+	</span>
+	<h5>게스트가 단독으로 사용하는 욕실인가요?</h5>
+	<input type="radio" id="select3" name="select"><label for="select3">예, 게스트용으로 따로 마련된 숙소입니다.</label>
+	<br>
+	<input type="radio" id="select4" name="select"><label for="select4">아니요, 게스트용으로 따로 마련된 숙소입니다.</label>
 	<hr class="line" align="left">
 	<button type="button" class="btn"><span class="editbtn">저장하기</span></button>
 	<button class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>

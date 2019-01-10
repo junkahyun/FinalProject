@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-
+<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/hostheader.css">
 <style type="text/css">
- .border {
-    border: 1px solid gray;
- }
 
 </style>
 

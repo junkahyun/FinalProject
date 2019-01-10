@@ -38,7 +38,7 @@ public class SCController {
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
-	// 호스트 숙소사진 수정
+	// 호스트 숙소세부사진 수정
 	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = {RequestMethod.GET})
 	public String hrDetailPhotoEdit() {
 		return "hostRoomEdit/hrDetailPhotoEdit.hosttiles_nofooter";
@@ -50,9 +50,17 @@ public class SCController {
 		return "hostRoomEdit/roomtitleEdit.hosttiles_nofooter";
 	}
 	
+	// 호스트 숙소 침실 수정
 	@RequestMapping(value="/bedroomEdit.air", method={RequestMethod.GET})
 	public String bedroomEdit() {
 		return "hostRoomEdit/bedroomEdit.hosttiles_nofooter";
 	}
+	
+	// 숙소 페이지 
+	@RequestMapping(value="/hostroomPage.air", method={RequestMethod.GET})
+	public String hostroomPage() {
+		return "host/hostroomPage.hosttiles";
+	}
+	
 }
 
