@@ -425,7 +425,7 @@ div{
 							    				<button type="button" class="dropUpDown">-</button><span style="margin: 0 13%;text-align:center;">1</span><button type="button" class="dropUpDown">+</button>
 							    			</div>
 							    		</div>
-								    	<div style="font-weight:500; font-size:0.9em;color:gray;text-align:center;border-top: 1px solid #f0f0f0; padding-top:5%;margin-top:10%;">최대 3명. 유아는 숙박인원에 포함되지 않습니다.</div>
+								    	<div style="font-weight:500; font-size:0.9em;color:gray;text-align:center;border-top: 1px solid #f0f0f0; padding-top:3%;margin-top:10%;">최대 3명. 유아는 숙박인원에 포함되지 않습니다.</div>
 								    </div>
 								</div>
 								<script>
