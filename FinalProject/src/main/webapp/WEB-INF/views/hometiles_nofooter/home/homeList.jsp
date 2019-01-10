@@ -61,11 +61,12 @@
     var shell_edit_url = "/gg2hqba3/1/light/";
        
 	// 달력
-	$(function() {
-		 
-    	$( ".datepicker" ).datepicker({ 
+	$(function() { 
+    	$( ".datepicker" ).datepicker({     		
+    	minDate : 0,
       	numberOfMonths: 2,
-      	altFormat: "yy-mm-dd",
+      	dateFormat: "yy-mm-dd", 
+      	showOtherMonths: true,
       	showButtonPanel: true
     	});
     });
