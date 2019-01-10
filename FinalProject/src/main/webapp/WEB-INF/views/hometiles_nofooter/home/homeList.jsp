@@ -61,16 +61,47 @@
     var shell_edit_url = "/gg2hqba3/1/light/";
        
 	// 달력
-	$(function() { 
+	/* $(function() { 
     	$( ".datepicker" ).datepicker({     		
     	minDate : 0,
+    	prevText: '이전 달',
+  	  	nextText: '다음 달',
+	  	monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	  	monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	  	dayNames: ['일','월','화','수','목','금','토'],
+	  	dayNamesShort: ['일','월','화','수','목','금','토'],
+	  	dayNamesMin: ['일','월','화','수','목','금','토'],
       	numberOfMonths: 2,
       	dateFormat: "yy-mm-dd", 
       	showOtherMonths: true,
       	showButtonPanel: true
     	});
-    });
-	
+    }); */
+    $(function() {
+    	  var dates = $( "#from, #to " ).datepicker({
+    	  prevText: '이전 달',
+    	  nextText: '다음 달',
+    	  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    	  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    	  dayNames: ['일','월','화','수','목','금','토'],
+    	  dayNamesShort: ['일','월','화','수','목','금','토'],
+    	  dayNamesMin: ['일','월','화','수','목','금','토'],
+    	  dateFormat: 'yy-mm-dd',
+    	  numberOfMonths: 2,
+    	  showMonthAfterYear: true,
+    	  yearSuffix: '년',
+    	maxDate:'+30d',
+    	  onSelect: function( selectedDate ) {
+    	    var option = this.id == "from" ? "minDate" : "maxDate",
+    	      instance = $( this ).data( "datepicker" ),
+    	      date = $.datepicker.parseDate(
+    	        instance.settings.dateFormat ||
+    	        $.datepicker._defaults.dateFormat,
+    	        selectedDate, instance.settings );
+    	    dates.not( this ).datepicker( "option", option, date );
+    	  }
+    	  });
+    	});
 	// 가격대 슬라이드바
 	$(function () {
         'use strict';
@@ -112,8 +143,9 @@
            
            	<div class="optionbox">
             	<span class="optionname">날짜</span>
-            	<input type="text" class="datepicker" placeholder="체크인 날짜" style="margin-left: 90px; width: 100px;">&nbsp;~&nbsp;
-            	<input type="text" class="datepicker" placeholder="체크아웃 날짜" style="width: 100px;">
+            	<!-- <input type="text" class="datepicker" placeholder="체크인 날짜" style="margin-left: 90px; width: 100px;">&nbsp;~&nbsp;
+            	<input type="text" class="datepicker" placeholder="체크아웃 날짜" style="width: 100px;"> -->
+            	<input type="text" id="from"> ~ <input type="text" id="to"></p>
             </div>  
             
             <div class="optionbox">
