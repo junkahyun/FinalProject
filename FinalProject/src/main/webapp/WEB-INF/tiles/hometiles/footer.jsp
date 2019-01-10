@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-
-<style>
-
-div{color: #767676;
-}
-
-</style>
-<div class="container" style="margin-top: 10%; margin-right: 18%; width: 63%;" >
+<div style="width:100%;border-top:1px solid lightgray;">
+<div class="container" style="margin-top: 10%; margin-right: 18%; width: 63%;margin-top:2%;" >
 	<div class=" col-md-12 footer_menues" >	
 		<div class="col-md-3">
 			<span style="font-weight: bold; color: black;">에어비앤비</span><br><br>
@@ -48,4 +42,5 @@ div{color: #767676;
 		<div class="col-md-1" style="width: 5%;"><img src="<%=request.getContextPath() %>/resources/images/에어비앤비 푸터아이콘.JPG" /></div>
 		<div class="col-md-2" style="margin-top:0.5%; "><span >© Airbnb, Inc.</span></div>
 	</div>
+</div>
 </div>
