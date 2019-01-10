@@ -49,29 +49,7 @@
             }
          }
       }); // end of $("#spinnerPqty").spinner();---------------
-	 
-     /* // 상단바 고정
-	 var jbOffset = $( '.menu' ).offset();
-     $( window ).scroll( function() {
-       if ( $( document ).scrollTop() > jbOffset.top ) {
-         $( '.menu' ).addClass( 'menuFixed' );
-       }
-       else {
-         $( '.menu' ).removeClass( 'menuFixed' );
-       }
-     });    
-     
-  	// 지도 고정
-	 var jbOffset = $( '.map' ).offset();
-     $( window ).scroll( function() {
-       if ( $( document ).scrollTop() > jbOffset.top ) {
-         $( '.map' ).addClass( 'menuFixed' );
-       }
-       else {
-         $( '.map' ).removeClass( 'menuFixed' );
-       }
-     });     */
-   
+	
       
  });
  
@@ -84,8 +62,10 @@
        
 	// 달력
 	$(function() {
-    	$( ".datepicker" ).datepicker({
+		 
+    	$( ".datepicker" ).datepicker({ 
       	numberOfMonths: 2,
+      	altFormat: "yy-mm-dd",
       	showButtonPanel: true
     	});
     });
@@ -111,74 +91,46 @@
         };
         window.onload = init;
     });
-        
-	// 지도보여주기
-	/* function initialize() {
-		// 구글 맵 옵션 설정
-		var mapOptions = { 
-	        zoom : 18, // 기본 확대율
-	        center : new google.maps.LatLng(37.566011, 126.982621), // 지도 중앙 위치
-	        disableDefaultUI : false,  // 기본 UI 비활성화 여부
-	        scrollwheel : true,        // 마우스 휠로 확대, 축소 사용 여부
-	        zoomControl : true,        // 지도의 확대/축소 수준을 변경하는 데 사용되는 "+"와 "-" 버튼을 표시
-	        mapTypeControl : true,     // 지도 유형 컨트롤은 드롭다운이나 가로 버튼 막대 스타일로 제공되며, 사용자가 지도 유형(ROADMAP, SATELLITE, HYBRID 또는 TERRAIN)을 선택할 수 있다. 이 컨트롤은 기본적으로 지도의 왼쪽 위 모서리에 나타난다.
-	        streetViewControl : true,  // 스트리트 뷰 컨트롤에는 지도로 드래그해서 스트리트 뷰를 활성화할 수 있는 펙맨 아이콘이 있다. 기본적으로 이 컨트롤은 지도의 오른쪽 아래 근처에 나타난다.
-	        scaleControl: true,        // 배율 컨트롤은 지도 배율 요소를 표시한다. 이 컨트롤은 기본적으로 비활성화되어 있다.
-	    };
-	    // 구글맵 옵션내역 사이트 아래 참조 
-	    // https://developers.google.com/maps/documentation/javascript/reference#MapOptions
-	 
-	    var targetmap = new google.maps.Map(document.getElementById('googleMap'), mapOptions);  
-		// 구글 맵을 사용할 타겟
-		// !!! 주의 !!!  document.getElementById('googleMap') 라고 해야지
-		//              $("#googleMap") 이라고 하면 지도가 나타나지 않는다.
-	    
-	    google.maps.event.addDomListener(window, "resize", function() {
-	        var center = targetmap.getCenter();
-	        google.maps.event.trigger(targetmap, "resize");
-	        map.setCenter(center); 
-	    });
-	
-	} */	
-	
- 
+   
 </script>
 <body>
+	<form>
 	<div id="optionSection" class="row menu">
         <div id="optionLeft" class="col-md-5">
         <div>
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역</span>
-            	<select id=city style="border: 0px solid; margin-left: 110px;">
-            		<option>서울</option>
-            		<option>대전</option>
-            		<option>대구</option>
-            		<option>부산</option>            		
+            	<select id=city style="border: 0px solid; margin-left: 90px;">
+            		<option value="서울">서울</option>
+            		<option value="대전">대전</option>
+            		<option value="대구">대구</option>
+            		<option value="부산">부산</option>            		
             	</select>
             	<!-- <input id="city" placeholder="지역을 입력하세요." type="text" value="부산" style="border: 0px solid; margin-left: 110px;">   -->         	
             </div>
            
            	<div class="optionbox">
             	<span class="optionname">날짜</span>
-            	<input type="text" class="datepicker" placeholder="체크인 날짜" style="margin-left: 110px; width: 100px;">&nbsp;~&nbsp;
+            	<input type="text" class="datepicker" placeholder="체크인 날짜" style="margin-left: 90px; width: 100px;">&nbsp;~&nbsp;
             	<input type="text" class="datepicker" placeholder="체크아웃 날짜" style="width: 100px;">
             </div>  
             
             <div class="optionbox">
             	<span class="optionname">임대유형</span>
-            	<span class="optioninput" id="lental" style="margin-left: 80px; padding-right: 70px; cursor: pointer;">완전한 렌탈</span>
-            	<span class="optioninput" id="single" style="padding-right: 70px; cursor: pointer;">별도의 싱글룸</span>
+            	<span class="optioninput" id="lental" style="margin-left: 60px; padding-right: 40px; cursor: pointer;">완전한 렌탈</span>
+            	<span class="optioninput" id="single" style="padding-right: 60px; cursor: pointer;">별도의 싱글룸</span>
             	<span class="optioninput" id="share" style="cursor: pointer;">쉐어 룸</span>
             </div>
         </div>
             <div class="optionbox">
-            	<span class="optionname" style="margin-right: 80px;">인원 (명)</span>
-            	<span style="margin-right: 50px;">성인&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" /></span>
-            	<span style="margin-right: 50px;">어린이(2~12세)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" /></span>
-            	<span style="margin-right: 50px;">유아(2세 미만)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" /></span>
-            </div>
-            
-           
+            	<span class="optionname" style="margin-right: 60px;">건물 유형</span>
+            	<%-- <c:forEach items="" var=""></c:forEach>--%>
+            	<input type="checkbox" class="" />&nbsp;전원주택
+            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;게스트하우스
+            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;아파트
+            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;리조트
+            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;호텔
+            </div>          
         </div>
         
         <div id="optionRight" class="col-md-7">
@@ -186,9 +138,28 @@
         		<span class="optionname" style="margin-right: 50px;">가격 (만 원)</span>
         		<input type="hidden" id="slider3" class="slider" />
         	</div>
-            <div class="optionbox"><input type="text" class="optioninput"/></div>
-            <div class="optionbox"><input type="text" class="optioninput"/></div>
-            <div class="optionbox"><input type="text" class="optioninput"/></div>
+            
+            <div class="optionbox">
+            	<span class="optionname" style="margin-right: 60px;">고객 편의</span>
+            	<%-- <c:forEach items="" var=""></c:forEach>--%>
+            	<input type="checkbox" class="" />&nbsp;조식제공
+            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;주차공간
+            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;헬스시설
+            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;수영장 
+            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;와이파이
+            </div>
+            <div class="optionbox">
+            	<span class="optionname" style="margin-right: 30px;">숙소 이용규칙</span>
+            	<input type="checkbox" class="" />&nbsp;흡연가능
+            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;반려동물 입실가능&nbsp;
+            	<input type="checkbox" class="" style="margin-left: 20px;"/>&nbsp;이벤트 및 행사가능
+            </div>
+            <div class="optionbox">
+            	<span class="optionname" style="margin-right: 60px;">인원 (명)</span>
+            	<span style="margin-right: 50px;">성인&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" value="0" /></span>
+            	<span style="margin-right: 50px;">어린이(2~12세)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" value="0"/></span>
+            	<span style="margin-right: 50px;">유아(2세 미만)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" value="0"/></span>
+            </div>
         </div>
     </div>
     
@@ -196,47 +167,53 @@
         <div class="col-md-4 " style="height:100vh; margin-top: 18px; padding: 0; border: solid;">
             <div style="height: 100%; margin: 0; padding: 0;" id="map" class="optionbox map"></div>
 
-	<script>	
-		  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	<script type="text/javascript">	
+	   markOnMap();
+	   $("select#city").bind("change", function(){
+		   markOnMap();
+	   });
+
+	   function markOnMap(){
+		   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	       mapOption = {
 	           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
 	           level: 3 // 지도의 확대 레벨
 	       };  
-	   
-	   // 지도를 생성합니다    
-	   var map = new daum.maps.Map(mapContainer, mapOption); 
-	   
-	   // 주소-좌표 변환 객체를 생성합니다
-	   var geocoder = new daum.maps.services.Geocoder();
-	   
-	   // 주소로 좌표를 검색합니다
-	  alert(document.getElementById('city').value);
-	   geocoder.addressSearch(document.getElementById('city').value, function(result, status) {
-	   
-	       // 정상적으로 검색이 완료됐으면 
-	        if (status === daum.maps.services.Status.OK) {
-	   
-	           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-	   
-	           // 결과값으로 받은 위치를 마커로 표시합니다
-	           var marker = new daum.maps.Marker({
-	               map: map,
-	               position: coords
-	           });
-	   
-	          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
-	           var infowindow = new daum.maps.InfoWindow({
-	               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
-	           });
-	           infowindow.open(map, marker); */
-	   
-	           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-	           map.setCenter(coords);
-	          
-	       } 
-	   });  
-
-		</script>
+		   
+		   // 지도를 생성합니다    
+		   var map = new daum.maps.Map(mapContainer, mapOption); 
+		   
+		   // 주소-좌표 변환 객체를 생성합니다
+		   var geocoder = new daum.maps.services.Geocoder();
+		   
+		   // 주소로 좌표를 검색합니다
+	//	   alert(document.getElementById('city').value);
+		   geocoder.addressSearch(document.getElementById('city').value, function(result, status) {
+		   
+		       // 정상적으로 검색이 완료됐으면 
+		        if (status === daum.maps.services.Status.OK) {
+		   
+		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+		   
+		           // 결과값으로 받은 위치를 마커로 표시합니다
+		           var marker = new daum.maps.Marker({
+		               map: map,
+		               position: coords
+		           });
+		   
+		          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
+		           var infowindow = new daum.maps.InfoWindow({
+		               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
+		           });
+		           infowindow.open(map, marker); */
+		   
+		           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		           map.setCenter(coords);
+		          
+		       } 
+		   });   
+	   }
+	</script>
 	
         </div>
         
@@ -263,5 +240,6 @@
             </c:forEach>
             </div>
         </div>
-    </div>	
+    </div>
+    </form>	
 </body>
