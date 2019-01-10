@@ -14,7 +14,7 @@
 		<div class="row">
 		<!-- 숙소 상세 리스트는 평점이 낮은 순으로 화면에 뿌릴 것 -->
 			<div class="col-md-12" style="border: 0px solid gray;">
-			<table class="table">
+			<table class="table"> 
 					<col width="10%;"/>
 					<col width="15%;"/>
 					<col width="8%;"/>
