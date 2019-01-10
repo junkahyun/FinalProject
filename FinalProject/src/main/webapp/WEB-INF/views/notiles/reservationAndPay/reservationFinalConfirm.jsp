@@ -45,8 +45,9 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 		$("#btnsubmit").click(function(){
 			
 			var frm = document.reservationFinalConfirm;
-			frm.submit="get";//post로 바꿔야함
-			<%-- frm.action = "<%=ctxPath%>/mybatistest/reservationFinalConfirm.action"; --%>//메인 페이지로 이동
+			frm.submit="GET";//post로 바꿔야함
+			frm.action = "<%=ctxPath%>/main.air"; 
+			//메인 페이지로 이동
 			frm.submit();
 		});//
 		
@@ -60,7 +61,7 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
-    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/로고.jpg" /></div>
+    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;"/></div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 >  2. 게스트 정보 입력 >  3. 확인 및 결제  >  4. 예약완료 </span></div>
   </div>
 </div>

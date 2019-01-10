@@ -1,4 +1,7 @@
 @charset "UTF-8";
+html{
+	overflow-x : hidden;
+}
 .test{
 	border: 1px solid;
 }

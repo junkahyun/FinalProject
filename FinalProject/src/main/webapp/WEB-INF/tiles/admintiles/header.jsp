@@ -1,35 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="header.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>AirBnb Test</title>
-</head>
-<body>
-	<div id="header">
-		<div class="row height_maxPer">
-			<div id="headerlogo">
-				<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="width:28px; height:31px;"/>
-			</div>
-			<div id="searchbarDiv">
-				<div id="searchbar">
-					<div id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px"></div>
-					<input type="text" id="searchInput" placeholder="검색" style="">
-				</div>
-			</div>
-			<div class="headermenus">
-				<div class="headermenu" onClick="">호스트가 되어보세요</div>
-				<div class="headermenu" onClick="">도움말</div>
-				<div class="headermenu" onClick="">회원가입</div>
-				<div class="headermenu" onClick="">로그인</div>
-			</div>
+  
+	<script type="text/javascript">
+		$(function () {
+		  	$('.navbar-toggle-sidebar').click(function () {
+		  		$('.navbar-nav').toggleClass('slide-in');
+		  		$('.side-body').toggleClass('body-slide-in');
+		  		$('#search').removeClass('in').addClass('collapse').slideUp(200);
+		  	});
+
+		  	$('#search-trigger').click(function () {
+		  		$('.navbar-nav').removeClass('slide-in');
+		  		$('.side-body').removeClass('body-slide-in');
+		  		$('.search-input').focus();
+		  	});
+		  });
+	</script>
+	<nav class="navbar navbar-default navbar-static-top" >
+    <div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed">
+			MENU
+			</button>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">
+				Administrator
+			</a>
 		</div>
-	</div>
-</body>
-</html>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
+			
+			<ul class="nav navbar-nav navbar-right" style="display:block;">
+				<li><a href="http://www.pingpong-labs.com" target="_blank">Visit Site</a></li>
+				
+			</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>  	

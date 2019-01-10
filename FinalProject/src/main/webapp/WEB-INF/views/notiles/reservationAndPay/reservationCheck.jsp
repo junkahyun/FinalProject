@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -130,7 +131,7 @@ h3{font-size: 14pt;
 
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
-    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/로고.jpg" /></div>
+    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" /></div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
 </div>
@@ -141,7 +142,7 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 240%;"/></div>
+				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 240%; "/></div>
 				<div class="col-md-11">
 				      숙소 예약이 곧 마감될 수 있습니다. Bangkok, 태국의 여행 트렌드를 
 				      분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
@@ -170,6 +171,7 @@ h3{font-size: 14pt;
 		 <a href="#" style="color: #008489;">자세히 알아보기</a>
 		</div>
 		<br><br>
+		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>
 		<!-- 주의할사항 이미지 -->
 		<i class="fas fa-paw fa-lg fa-border "></i>
 		<span style="margin-left: 2%; font-size: 12pt;">어린이와 유아에게 적합함.</span><br>
@@ -186,7 +188,7 @@ h3{font-size: 14pt;
 		<!-- 추가규칙  -->
 		<div id="plusRole" style="-webkit-font-smoothing: antialiased;">
 			<div style="font-size:12pt;">
-			<span style="font-weight:bold;">추가규칙</span><br><br>
+			<span style="font-weight:bold;">이용규칙</span><br><br>
             <i class="fas fa-check"></i> 2인 숙박만 허용함(3인 이상 체크인 시 추가요금 있음)<br>
             <i class="fas fa-check"></i> 주변을 배려해서 조용하게 머물러 주세요.<br>
             <i class="fas fa-check"></i> 삼겹살 등 냄새나는 음식은 조리 불가능합니다.<br>
