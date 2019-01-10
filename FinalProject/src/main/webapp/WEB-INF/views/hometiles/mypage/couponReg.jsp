@@ -1,15 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-
     pageEncoding="UTF-8"%>
-
+<%-- ======= #22. tiles 를 사용하는 레이아웃1 페이지 만들기  ======= --%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"  %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<% String ctxPath = request.getContextPath(); %>
-
+<% String ctxPath = request.getContextPath(); %>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AirB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://a0.muscache.com/airbnb/static/packages/dls/common_o2.1_cereal-b820ae7d16d76b0900accdef6c28185e.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
+</head>
+<body>
 
 <style data-aphrodite="data-aphrodite">
 ._1k01n3v1 {
@@ -65,11 +75,11 @@ td{
 			var url ="/couponReg.air"
 			window.open("","쿠폰등록","width=400,height=300",true);
 		   var frm = couponRegFrm.document;
-			frm.method = "POST";
+			frm.method = "GET";
 		    frm.action = url;
-		    frm.idx.value = idx
+		    frm.idx.value = idx;
 		    frm.target = "쿠폰등록";
-		   // frm.submit();
+		    frm.submit();
 			
 		});
 	});
@@ -80,3 +90,6 @@ td{
 		<input type="text"/>
 	</div>
 </div>
+
+</body>
+</html>

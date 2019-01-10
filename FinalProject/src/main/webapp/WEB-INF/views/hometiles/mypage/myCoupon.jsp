@@ -39,7 +39,7 @@ text-align: center;
 }
 
 .firstDIV{
-	margin-top: 5%;
+	margin-top: 10%;
 	margin-bottom: 5%; 
 }
 .margin_top{
@@ -62,15 +62,15 @@ td{
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#checkCoupon").click(function(){
-			var url ="/couponReg.air"
-			window.open("/bnb"+url,"쿠폰등록","width=400,height=300",true);
-		   var frm = couponRegFrm.document;
-			frm.method = "GET";
-		    frm.action = url;
-		    frm.idx.value = idx
-		    frm.target = "쿠폰등록";
-		    frm.submit();
+			var url ="/bnb/couponReg.air";
+			window.open(url,"쿠폰등록","width=400,height=300");
 			
+		    var frm = document.couponRegFrm;
+		    frm.action=url;
+			frm.method = "POST";  
+		    frm.target = "쿠폰등록"; 
+		    frm.submit(); 
+		  
 		});
 	});
 </script>
@@ -82,16 +82,16 @@ td{
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="#" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="#" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="#" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="true" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="#" aria-selected="true" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
@@ -195,7 +195,9 @@ td{
 	<!-- 사용한 쿠폰 리스트 -->
 
 
-<form name="couponRegFrm"><input type="text" name="userid" value="회원아이디넣는칸"/></form>
+<form name="couponRegFrm">
+	<input type="text" name="userid" value="회원아이디넣는칸"/>
+</form>
 	  </div>
 	</div>
  </div>

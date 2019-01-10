@@ -1,5 +1,8 @@
 package com.spring.bnb.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,10 +51,18 @@ public class SOController {
 		
 		return "mypage/review.hometiles";
 	}
-	@RequestMapping(value = "/couponReg.air", method = RequestMethod.GET)
-	public String couponReg() {
-		  
-		return "mypage/couponReg.hometiles";
+	@RequestMapping(value = "/couponReg.air", method = RequestMethod.POST)
+	public String couponReg(HttpServletRequest req, HttpServletResponse res) {
+		   String method = req.getMethod();
+		   System.out.println(method);
+		return "mypage/couponReg.notiles";
 	}
+	
+	@RequestMapping(value = "/couponRegEnd.air", method = RequestMethod.POST)
+	public String couponRegEnd(HttpServletRequest req, HttpServletResponse res) {
+
+		return "mypage/couponRegEnd.notiles";
+	}
+	
 	
 }
