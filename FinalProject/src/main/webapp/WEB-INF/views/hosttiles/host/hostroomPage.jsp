@@ -44,6 +44,10 @@
 	margin-top: 2%;
 }
 
+.imgList>img{
+	display: block;
+}
+
 </style>
 <script>
 	$(document).ready(function(){
@@ -84,4 +88,22 @@
 		<br>
 		<p>갖고 있는 사진을 사용하고 싶지 않다면 저희가 제공하는 사진 중에서 선택하세요.</p>
 	</div>
+	<div class="row">
+		<div class="col-md-12 imgList">
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			
+		</div>
+		
+		<div class="col-md-12 imgList">
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			<img class="col-md-3" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg" >
+			
+		</div>
+	</div>
+	
 </div>
