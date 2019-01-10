@@ -34,8 +34,13 @@
 			</a>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">   
-			<a href="<%= request.getContextPath() %>/main.air" class="visitSite">Visit Site</a>
-		</div><!-- /.navbar-collapse -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
+			
+			<ul class="nav navbar-nav navbar-right" style="display:block;">
+				<li><a href="<%= request.getContextPath() %>/main.air">Visit Site</a></li>
+				<li><a href="http://www.pingpong-labs.com" target="_blank">로그아웃</a></li>
+				
+			</ul>
+			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
 	</nav>  	
