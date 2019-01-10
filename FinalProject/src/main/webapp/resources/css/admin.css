@@ -1,7 +1,18 @@
-@charset "UTF-8";
-html{
-	margin:0;
-	padding:0;
+@charset "UTF-8"; 
+#myheader{
+	line-height:3.5em;
+}
+.adminlogo_img{
+	width:10%;
+}
+.visitSite{
+	text-decoration:none;
+	float:right;
+	color:#333;
+}
+.visitSite:hover{
+	text-decoration:none;
+	color:rgb(255,90,95);
 }
 h1.page-header {
     margin-top: -5px;

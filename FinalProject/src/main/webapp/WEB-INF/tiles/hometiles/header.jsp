@@ -83,7 +83,28 @@
        	 <span  style="border: 0px solid;  margin-left: 5%; margin-top: 2%; " >회원 가입을 하시려면 만 18세 이상이어야 합니다. 생일은 다른 회원에게는</span> 
        	 <br/>
        	 <span  style="border: 0px solid;  margin-left: 5%; margin-top: 2%; " > 공개되지 않습니다.</span> 	
+         <br/>
          
+         <div class="dropdown" >
+		    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 198.66px; height: 46px; text-align: left; margin-left: 5%; margin-top: 2%;">월
+		    <span class="caret"></span></button>
+		    <ul class="dropdown-menu" style="width: 198.66px; height: 346px; text-align: left; margin-left: 5%; ">
+		      <li><a href="#">월</a></li>
+		      <li><a href="#">1월</a></li>
+		      <li><a href="#">2월</a></li>
+		      <li><a href="#">3월</a></li>
+		      <li><a href="#">4월</a></li>
+		      <li><a href="#">5월</a></li>
+		      <li><a href="#">6월</a></li>
+		      <li><a href="#">7월</a></li>
+		      <li><a href="#">8월</a></li>
+		      <li><a href="#">9월</a></li>
+		      <li><a href="#">10월</a></li>
+		      <li><a href="#">11월</a></li>
+		      <li><a href="#">12월</a></li>
+
+    </ul>
+  </div>
          
           <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%;">가입하기</button>
 

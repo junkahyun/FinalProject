@@ -6,7 +6,7 @@
 %> 
 <div class="col-md-10">
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-		<div class="">
+		<div class="give_after_underline">
 			<h2 class="home_title">회원관리</h2>
 		</div>
 	</div>

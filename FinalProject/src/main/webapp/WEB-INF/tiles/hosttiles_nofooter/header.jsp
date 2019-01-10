@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -21,6 +24,7 @@
 			<button class="btn" style="background-color:  #008489;">
 				<span style="color: white; font-weight: bold;">숙소등록하기</span>
 			</button>
+<<<<<<< HEAD
 
 		</div>
 		<div class="headermenus">
@@ -28,8 +32,14 @@
 			<div class="headermenu" onClick="">도움말</div>
 			<div class="headermenu" onClick="">회원가입</div>
 			<div class="headermenu" onClick="">로그인</div>
+=======
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		</div>
 	</div>
+<<<<<<< HEAD
 
 </div>
 
+=======
+</div>
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
