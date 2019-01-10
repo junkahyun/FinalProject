@@ -38,7 +38,16 @@
 <script type="text/javascript" src="/startspring/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
-	
+	$(document).ready(function(){
+		$("#lodgLocation").click(function(){
+			showLocation();
+		});		
+	});
+	function showLocation(){
+		var url = "/bnb/myReservationMAP.air";
+		window.open(url,"숙소위치","width=500,height=350");
+		
+	}
 </script>
 
 
@@ -73,7 +82,8 @@
 				<div class="property-info">
 					<h3><a href="#">호텔 몬토레 에델호프 삿포로</a></h3>
 					<p><span data-selenium="hotel-address-map">1-1 Nishi, Kita 2-jo, Chuo-Ku, 삿포로 일본 060-0002 - </span>
-					<a href="#">숙소 위치 확인</a></p>
+					<span style="cursor: pointer;" id="lodgLocation"><a>숙소 위치 확인</a></span></p>
+					<!--  ===========숙소 등록시 위치값 받아아고 =============================================================-->
 				</div>
 			</div>
 			<div  class="col-md-12">			

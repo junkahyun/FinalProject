@@ -65,4 +65,10 @@ public class SOController {
 	}
 	
 	
+	@RequestMapping(value = "/myReservationMAP.air", method = RequestMethod.GET)
+	public String myReservationMAP(HttpServletRequest req, HttpServletResponse res) {
+
+		return "mypage/myReservationMAP.notiles";
+	}
+	
 }
