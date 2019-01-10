@@ -82,28 +82,73 @@
        	 <br/>
        	 <span  style="border: 0px solid;  margin-left: 5%; margin-top: 2%; " >회원 가입을 하시려면 만 18세 이상이어야 합니다. 생일은 다른 회원에게는</span> 
        	 <br/>
-       	 <span  style="border: 0px solid;  margin-left: 5%; margin-top: 2%; " > 공개되지 않습니다.</span> 	
+       	 <span  style="border: 0px solid;  margin-left: 5%; margin-top: 2%; " >공개되지 않습니다.</span> 	
          <br/>
          
          <div class="dropdown" >
-		    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 198.66px; height: 46px; text-align: left; margin-left: 5%; margin-top: 2%;">월
+			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 198.66px; height: 46px; text-align: left; margin-left: 15%; margin-top: 2%;">월
 		    <span class="caret"></span></button>
-		    <ul class="dropdown-menu" style="width: 198.66px; height: 346px; text-align: left; margin-left: 5%; ">
-		      <li><a href="#">월</a></li>
-		      <li><a href="#">1월</a></li>
-		      <li><a href="#">2월</a></li>
-		      <li><a href="#">3월</a></li>
-		      <li><a href="#">4월</a></li>
-		      <li><a href="#">5월</a></li>
-		      <li><a href="#">6월</a></li>
-		      <li><a href="#">7월</a></li>
-		      <li><a href="#">8월</a></li>
-		      <li><a href="#">9월</a></li>
-		      <li><a href="#">10월</a></li>
-		      <li><a href="#">11월</a></li>
-		      <li><a href="#">12월</a></li>
+			   <ul class="dropdown-menu" style="width: 198.66px; height: 346px; text-align: left; margin-left: 15%; ">
+			      <li><a href="#">월</a></li>
+			      <li><a href="#">1월</a></li>
+			      <li><a href="#">2월</a></li>
+			      <li><a href="#">3월</a></li>
+			      <li><a href="#">4월</a></li>
+			      <li><a href="#">5월</a></li>
+			      <li><a href="#">6월</a></li>
+			      <li><a href="#">7월</a></li>
+			      <li><a href="#">8월</a></li>
+			      <li><a href="#">9월</a></li>
+			      <li><a href="#">10월</a></li>
+			      <li><a href="#">11월</a></li>
+			      <li><a href="#">12월</a></li>
+	
+	   		   </ul>
+    
+     		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 1126px; height: 46px; text-align: left; margin-left: 15%; margin-top: 2%;">일
+		    <span class="caret"></span></button>
+			  <ul class="dropdown-menu" style="width: 198.66px; height: 346px; text-align: left; margin-left: 15%; ">
+			      <li><a href="#">일</a></li>
+			      <li><a href="#">1일</a></li>
+			      <li><a href="#">2일</a></li>
+			      <li><a href="#">3일</a></li>
+			      <li><a href="#">4일</a></li>
+			      <li><a href="#">5일</a></li>
+			      <li><a href="#">6일</a></li>
+			      <li><a href="#">7일</a></li>
+			      <li><a href="#">8일</a></li>
+			      <li><a href="#">9일</a></li>
+			      <li><a href="#">10일</a></li>
+			      <li><a href="#">11일</a></li>
+			      <li><a href="#">12일</a></li>
+			      <li><a href="#">13일</a></li>
+			      <li><a href="#">14일</a></li>
+			      <li><a href="#">15일</a></li>
+			      <li><a href="#">16일</a></li>
+			      <li><a href="#">17일</a></li>
+			      <li><a href="#">18일</a></li>
+			      <li><a href="#">19일</a></li>
+			      <li><a href="#">20일</a></li>
+			      <li><a href="#">21일</a></li>
+			      <li><a href="#">22일</a></li>
+			      <li><a href="#">23일</a></li>
+			      <li><a href="#">24일</a></li>
+			      <li><a href="#">25일</a></li>
+			      <li><a href="#">26일</a></li>
+			      <li><a href="#">27일</a></li>
+			      <li><a href="#">28일</a></li>
+			      <li><a href="#">12일</a></li>
+			      <li><a href="#">12일</a></li>
+			      <li><a href="#">12일</a></li>
 
-    </ul>
+	    	  </ul>
+    
+    
+    
+    
+    
+    
+    
   </div>
          
           <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%;">가입하기</button>
