@@ -7,8 +7,13 @@
 
 <div class="col-md-10">
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
+<<<<<<< HEAD
 		<div class="">
 			<h1 class="home_title">회원관리</h1>
+=======
+		<div class="give_after_underline">
+			<h2 class="home_title">회원관리</h2>
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		</div>
 	</div>
 	

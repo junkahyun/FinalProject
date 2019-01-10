@@ -19,7 +19,11 @@
 		<div class="headermenuButton" onClick="" >
 			<button class="btn" style="background-color:  #008489;">
 				<span style="color: white; font-weight: bold;">숙소등록하기</span>
+
 			</button>
-		</div>
+
+		</div> 
+
 	</div>
+
 </div>

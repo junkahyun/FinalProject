@@ -29,15 +29,16 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">
-				Administrator
+			<a class="navbar-brand " href="#">
+				<img class="adminlogo_img" alt="logo" src="<%=request.getContextPath()%>/resources/images/admin/admin_logo.png">
 			</a>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
 			
 			<ul class="nav navbar-nav navbar-right" style="display:block;">
-				<li><a href="http://www.pingpong-labs.com" target="_blank">Visit Site</a></li>
+				<li><a href="<%= request.getContextPath() %>/main.air">Visit Site</a></li>
+				<li><a href="http://www.pingpong-labs.com" target="_blank">로그아웃</a></li>
 				
 			</ul>
 			</div><!-- /.navbar-collapse -->
