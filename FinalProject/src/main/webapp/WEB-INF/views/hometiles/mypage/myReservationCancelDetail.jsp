@@ -25,7 +25,7 @@
  
 }
 .cancel{
-		font-weight: bold;
+	font-size:9pt;
 		color: red;
 	}
 
@@ -71,69 +71,67 @@
 		<h3>[ 예약이  <span class="cancel-highlight">취소</span> 되었습니다 ]</h3><p>고객님의 예약이 취소되었으며, 다른 조치는 취하지 않으셔도 됩니다.</p><p><a class="find-another" href="/ko-kr/?cid=-1">다른 숙소</a> 를 검색해 예약하실 수도 있음을 알려드립니다.</p>
 	</div>	
 	 <div id="dashboard-content">	
-     <div class="panel-body box" style="border-top: 1px solid #dbdfdf;">     			
-		<div class="row" style="border:padding:2%;">
-		
-			<div style="margin-left: 2%;">
-				<div class="property-info">
-					<h3><a href="#">호텔 몬토레 에델호프 삿포로</a></h3>
-					<p><span data-selenium="hotel-address-map">1-1 Nishi, Kita 2-jo, Chuo-Ku, 삿포로 일본 060-0002 - </span>
-					<a href="#">숙소 위치 확인</a></p>
+	     <div class="panel-body box" style="border-top: 1px solid #dbdfdf;">     			
+			<div class="row">			
+				<div style="margin-left: 2%;">
+					<div class="property-info">
+						<h3><a href="#">호텔 몬토레 에델호프 삿포로</a></h3>
+						<p><span data-selenium="hotel-address-map">1-1 Nishi, Kita 2-jo, Chuo-Ku, 삿포로 일본 060-0002 - </span>
+						<a href="#">숙소 위치 확인</a></p>
+					</div>
 				</div>
-			</div>
-			<div  class="col-md-12">			
-				<div class="col-md-3"><img src="//pix6.agoda.net/hotelImages/108/108308/108308_16120714230049506378.jpg?s=450x302" width="200px"></div>					
-				<div class="col-md-9 push_left">
-					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
-						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
-						<div class="col-md-7" style="border: 0px solid gray; float:left;">
-							<div style="margin-bottom: 3%">218773244</div>
-							<div style="margin-bottom: 2%">
-								<span class="calcel"><img src="<%= request.getContextPath() %>/resources/images/delete.png" height="18pt" />&nbsp;예약 취소일: 2017년 6월 28일 수요일</span>
+				<div  class="col-md-12">			
+					<div class="col-md-3"><img src="//pix6.agoda.net/hotelImages/108/108308/108308_16120714230049506378.jpg?s=450x302" width="200px"></div>					
+					<div class="col-md-8" style="padding-right: 5%; float: right;">
+						<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
+							<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
+							<div class="col-md-7" style="border: 0px solid gray; float:left;">
+								<div style="margin-bottom: 3%">218773244</div>
+								<div style="margin-bottom: 2%">
+									<span class="cancel"><img src="<%= request.getContextPath() %>/resources/images/delete.png" height="15pt" />&nbsp;예약 취소일: 2017년 6월 28일 수요일</span>
+								</div>
+							</div>
+						</div> 
+						<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding:1%; margin-top: 3%">
+							<div class="col-md-12" style="float:left;">
+								<div class="col-md-5" style="border: 0px solid red; float:left;"><h5>체크인</h5></div>
+								<div class="col-md-7" style="float:left;">2017년 8월 1일 화요일</div>					
+							</div>	 
+							<div class="col-md-12">			
+								<div class="col-md-5" style="float:left;"><h5>체크아웃</h5></div>
+								<div class="col-md-7" data-selenium="check-out-content">2017년 8월 4일 금요일</div>
+							</div>
+						</div> 
+						<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding:1%; margin-top: 3%"">
+							<div class="col-md-5"  style="padding-left: 5%"><h5>연락처 정보</h5></div>
+							<div class="col-md-7" style="padding-left:6%;">
+								<div style="margin-bottom: 3%">예약자 메일</div>
+								<div style="margin-bottom: 3%">예약자 폰번호</div>
 							</div>
 						</div>
-					</div> 
-					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding:1%;">
-						<div class="col-md-12" style="float:left;">
-							<div class="col-md-5" style="border: 0px solid red; float:left;"><h5>체크인</h5></div>
-							<div class="col-md-7" style="float:left;">2017년 8월 1일 화요일</div>					
-						</div>	 
-						<div class="col-md-12">			
-							<div class="col-md-5" style="float:left;"><h5>체크아웃</h5></div>
-							<div class="col-md-7" data-selenium="check-out-content">2017년 8월 4일 금요일</div>
-							<!-- <div style="float:left;" data-selenium="number-of-stay">3박</div> -->
+						<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
+							<div class="col-md-5"  style="float:left;"><h5>투숙객 이름</h5></div>
+							<div class="col-md-6 row">
+								<div style="margin: 1%;">suwook choi</div>
+							</div>
 						</div>
-					</div> 
-					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
-						<div class="col-md-5"  style="float:left;"><h5>연락처 정보</h5></div>
-						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%">예약자 메일</div>
-							<div style="margin: 1%;">예약자 폰번호</div>
+						<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
+							<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
+							<div class="col-md-6 row">
+								<div style="margin: 1%;">스탠다드 트윈 (금연) (1개)</div>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
-						<div class="col-md-5"  style="float:left;"><h5>투숙객 이름</h5></div>
-						<div class="col-md-6 row">
-							<div style="margin: 1%;">suwook choi</div>
-						</div>
-					</div>
-					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
-						<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
-						<div class="col-md-6 row">
-							<div style="margin: 1%;">스탠다드 트윈 (금연) (1개)</div>
-						</div>
-					</div>
-					<div class="col-md-12" style="padding: 3%;">
-						<div class="col-md-5"  style="float:left;"><h5>총 예약 인원</h5></div>
-						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%;">성인 2명</div>
+						<div class="col-md-12" style="padding: 3%;">
+							<div class="col-md-5"  style="float:left;"><h5>총 예약 인원</h5></div>
+							<div class="col-md-6 row" style="padding: 1%;">
+								<div style="margin: 1%;">성인 2명</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
-       </div>
+	
+	       </div>
        </div>
 
 	    </div>	

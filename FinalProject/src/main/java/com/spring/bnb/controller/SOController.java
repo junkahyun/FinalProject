@@ -71,4 +71,10 @@ public class SOController {
 		return "mypage/myReservationMAP.notiles";
 	}
 	
+	@RequestMapping(value = "/ddd.air", method = RequestMethod.GET)
+	public String ddd(HttpServletRequest req, HttpServletResponse res) {
+
+		return "hostAd/ddd.hosttiles";
+	}
+	
 }
