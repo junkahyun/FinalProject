@@ -67,7 +67,34 @@ div{border:  0px solid gray;
 
 .fa-angle-left:focus{text-decoration: underline;
 }
+
+.photodiv{
+	style=width: 75%; margin-left: 22%;
+}
+
+.imgList>img{
+	display: block;
+}
 </style>
+
+<script>
+
+	$(document).ready(function(){
+		var drag_x1 = false;
+		 mousedown: function(event) {
+		      drag_x1 = event.offsetX;
+	    },
+	    mouseup: function(event) {
+	      if(event.offsetX - drag_x1 > 100) {
+	      	$("#logs").append( $("<li>오른쪽으로 드래그</li>") );
+	      }
+	      if(event.offsetX - drag_x1 < -100) {
+	      	$("#logs").append( $("<li>왼쪽으로 드래그</li>") );
+	      }
+	    }
+	});
+
+</script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">수정으로 돌아가기</a>
@@ -87,13 +114,16 @@ div{border:  0px solid gray;
 	<button type="button" class="btn"><span class="editbtn">캡션 추가하기</span></button>
 </div>
 	
-<div class="col-md-12" style="width: 75%; margin-left: 22%;">
+<div class="col-md-12 photodiv">
 	<hr align="left">
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
-	<img alt="" src="<%=request.getContextPath()%>/resources/images/crop-square_icon-icons.com_56094.png">
 </div>
-	
+<div class="col-md-12 photodiv">
+	<div class="col-md-2 imgList"><img alt="" src="<%=request.getContextPath()%>/resources/images/sampleroom1.jpg"></div>
+	<div class="col-md-2 imgList"><img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg"></div>
+	<div class="col-md-2 imgList"><img alt="" src="<%=request.getContextPath()%>/resources/images/crop-square_icon-icons.com_56094.png"></div>
+</div>
 	
 	
 
