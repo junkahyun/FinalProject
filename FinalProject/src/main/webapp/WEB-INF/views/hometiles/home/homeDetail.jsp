@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="/maps/documentation/javascript/cgc/demos.css">
 <%-- 참조 : https://www.airbnb.co.kr/rooms/7331795?guests=1&adults=1&s=6yWJyZHp --%>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 <script>
 	$(document).ready(function(){
 		var obj = $("#followHY").offset();
@@ -161,8 +162,8 @@ div{
 	font-weight:bold;
 	color:#148487;
 	border-radius:17px;
-	width:34px;
-	height:34px;
+	width:28px;
+	height:28px;
 }
 .dropsubrow{
 	margin: 2% 0;
@@ -365,23 +366,50 @@ div{
 					<a class="aTagBtnHY">이 지역 자세히 알아보기</a>
 				</div>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;"></div>
-				<script>
-			      function initMap() {
-			        var myLatLng = {lat: -25.363, lng: 131.044};
-			        var map = new google.maps.Map(document.getElementById('map'), {
-			          center: myLatLng,
-			          zoom: 4
-			        });
-			
-			        var marker = new google.maps.Marker({
-			          map: map,
-			          position: myLatLng,
-			          title: 'Hello World!'
-			        });
-			      }
-			
-			    </script>
-			    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlVD1-NAOFaAxcEbj82AwExEZKyEXFPzM&callback=initMap" async defer></script>
+				<script> 
+				   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				       mapOption = {
+				           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
+				           level: 3 // 지도의 확대 레벨
+				       };  
+				   
+				   // 지도를 생성합니다    
+				   var map = new daum.maps.Map(mapContainer, mapOption); 
+				   
+				   // 주소-좌표 변환 객체를 생성합니다
+				   var geocoder = new daum.maps.services.Geocoder();
+				   
+				   // 주소로 좌표를 검색합니다
+				   geocoder.addressSearch('제주', function(result, status) {
+				   
+				       // 정상적으로 검색이 완료됐으면 
+				        if (status === daum.maps.services.Status.OK) {
+				   
+				           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+				   
+				           // 결과값으로 받은 위치를 마커로 표시합니다
+				           var marker = new daum.maps.Marker({
+				               map: map,
+				               position: coords
+				           });
+				   
+				          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
+				           var infowindow = new daum.maps.InfoWindow({
+				               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
+				           });
+				           infowindow.open(map, marker); */
+				   
+				           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+				           map.setCenter(coords);
+				           var test = map.getCenter(coords);
+				           var frm = document.map;
+				           
+				           console.log(test.ib);
+				           console.log(test.jb);
+				       } 
+				   });  
+				   
+				</script>
 			</div>
 			<div class="infoDiv">
 				<div class="infoSubjectHYBig">환불정책</div>
