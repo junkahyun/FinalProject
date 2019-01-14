@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 hr{width: 70%; 
 }
@@ -69,9 +70,12 @@ div{border:  0px solid gray;
 }
 
 .photodiv{
-	style=width: 75%; margin-left: 22%;
+	width: 75%; 
+	margin-left: 22%;
 }
-
+.imgList{
+	margin-left: 22%;
+}
 .imgList>img{
 	display: block;
 }
@@ -80,20 +84,14 @@ div{border:  0px solid gray;
 <script>
 
 	$(document).ready(function(){
-		var drag_x1 = false;
-		 mousedown: function(event) {
-		      drag_x1 = event.offsetX;
-	    },
-	    mouseup: function(event) {
-	      if(event.offsetX - drag_x1 > 100) {
-	      	$("#logs").append( $("<li>오른쪽으로 드래그</li>") );
-	      }
-	      if(event.offsetX - drag_x1 < -100) {
-	      	$("#logs").append( $("<li>왼쪽으로 드래그</li>") );
-	      }
-	    }
+		$(".imgList").sortable({
+			items: $(".target")
+		});
 	});
-
+	
+	function imgfileUplode(){
+		
+	}
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
@@ -111,7 +109,7 @@ div{border:  0px solid gray;
  	<span style="font-weight: bold;">커버사진</span>
  	<a><span style="margin-left: 60%;">변경</span></a>
  	<br>
-	<button type="button" class="btn"><span class="editbtn">캡션 추가하기</span></button>
+	<button type="button" class="btn" onclick="imgfileUplode()"><span class="editbtn">캡션 추가하기</span></button>
 </div>
 	
 <div class="col-md-12 photodiv">
@@ -119,10 +117,10 @@ div{border:  0px solid gray;
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
 </div>
-<div class="col-md-12 photodiv">
-	<div class="col-md-2 imgList"><img alt="" src="<%=request.getContextPath()%>/resources/images/sampleroom1.jpg"></div>
-	<div class="col-md-2 imgList"><img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg"></div>
-	<div class="col-md-2 imgList"><img alt="" src="<%=request.getContextPath()%>/resources/images/crop-square_icon-icons.com_56094.png"></div>
+<div class="row  imgList">
+	<img class="col-md-2 target" alt="" src="<%=request.getContextPath()%>/resources/images/sampleroom1.jpg">
+	<img class="col-md-2 target" alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">
+	<img class="col-md-2 target" alt="" src="<%=request.getContextPath()%>/resources/images/crop-square_icon-icons.com_56094.png">
 </div>
 	
 	
