@@ -198,7 +198,7 @@ div{
 					<div class="col-md-10">
 						<div style="font-size:0.8em;">주택의 개인실</div>
 						<div id="detailSubject">Sometimesjeju 201호!안전도어락! 통유리오션뷰!제주공항7.8km!</div>
-						<div style="line-height:80%;margin-top:1%;">Jeju-si</div>
+						<div style="line-height:80%;margin-top:1%;">Jeju-si${room.roomcode }</div>
 					</div>
 					<%-- 호스트 프로필 --%>
 					<div class="col-md-2">

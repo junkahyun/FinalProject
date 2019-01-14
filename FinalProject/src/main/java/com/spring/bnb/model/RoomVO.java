@@ -2,7 +2,16 @@ package com.spring.bnb.model;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.spring.bnb.service.InterHYService;
+
+@Controller
 public class RoomVO {
+	@Autowired
+	private InterHYService service; 
+	
 	private String roomcode;
 	private String fk_userid; 
 	private String fk_buildType;
@@ -39,43 +48,43 @@ public class RoomVO {
 	private List<String> roomimgList;
 	private List<String> optionList;
 	private List<ReviewVO> reviewList;
-	
+
 	public RoomVO() {}
-	public RoomVO(String roomcode, String fk_userid, String fk_buildType, String fk_roomoption_idx,
-			String fk_roomType_idx, String roomName, String roomMainImg, String roomTel, String roomInfo,
-			String roomPost, String roomSigungu, String roomSido, String roomBname, String roomPrice, String peakper,
-			String cleanPay, String basic_person, String max_person, String person_addpay, String roomcount,
-			String bathCount, String checkInTime, String checkOutTime, String latitude, String longitude,
-			String viewcount, String roomstatus, String room_warnCount) {
-		super();
-		this.roomcode = roomcode;
-		this.fk_userid = fk_userid;
-		this.fk_buildType = fk_buildType;
-		this.fk_roomoption_idx = fk_roomoption_idx;
-		this.fk_roomType_idx = fk_roomType_idx;
-		this.roomName = roomName;
-		this.roomMainImg = roomMainImg;
-		this.roomTel = roomTel;
-		this.roomInfo = roomInfo;
-		this.roomPost = roomPost;
-		this.roomSigungu = roomSigungu;
-		this.roomSido = roomSido;
-		this.roomBname = roomBname;
-		this.roomPrice = roomPrice;
-		this.peakper = peakper;
-		this.cleanPay = cleanPay;
-		this.basic_person = basic_person;
-		this.max_person = max_person;
-		this.person_addpay = person_addpay;
-		this.roomcount = roomcount;
-		this.bathCount = bathCount;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.viewcount = viewcount;
-		this.roomstatus = roomstatus;
-		this.room_warnCount = room_warnCount;
+	public RoomVO(String roomcode) {
+		/*this.roomcode = roomcode;
+		RoomVO roomvo = service.getRoomByCode(roomcode);
+		this.fk_userid = roomvo.getFk_userid();
+		this.fk_buildType = roomvo.getFk_buildType();
+		this.fk_roomoption_idx = roomvo.getFk_roomoption_idx();
+		this.fk_roomType_idx = roomvo.getFk_roomType_idx();
+		this.roomName = roomvo.getRoomName();
+		this.roomMainImg = roomvo.getRoomMainImg();
+		this.roomTel = roomvo.getRoomTel();
+		this.roomInfo = roomvo.getRoomInfo();
+		this.roomPost = roomvo.getRoomPost();
+		this.roomSigungu = roomvo.getRoomSigungu();
+		this.roomSido = roomvo.getRoomSido();
+		this.roomBname = roomvo.getRoomBname();
+		this.roomPrice = roomvo.getRoomPrice();
+		this.peakper = roomvo.getPeakper();
+		this.cleanPay = roomvo.getCleanPay();
+		this.basic_person = roomvo.getBasic_person();
+		this.max_person = roomvo.getMax_person();
+		this.person_addpay = roomvo.getPerson_addpay();
+		this.roomcount = roomvo.getRoomcount();
+		this.bathCount = roomvo.getBathCount();
+		this.checkInTime = roomvo.getCheckInTime();
+		this.checkOutTime = roomvo.getCheckOutTime();
+		this.latitude = roomvo.getLatitude();
+		this.longitude = roomvo.getLongitude();
+		this.viewcount = roomvo.getViewcount();
+		this.roomstatus = roomvo.getRoomstatus();
+		this.room_warnCount = roomvo.getRoom_warnCount();*/
+		getRoomByCode(roomcode);
+	}
+	public RoomVO getRoomByCode(String roomcode) {
+		RoomVO roomvo = service.getRoomByCode(roomcode);
+		return roomvo;
 	}
 	public String getRoomcode() {
 		return roomcode;
