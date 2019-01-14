@@ -96,8 +96,19 @@ div{border: /* 1px solid gray;  */
 		  evt.currentTarget.className += " active";
 	}
 	
+	// 사진 수정
 	function goPhotoEdit(){
 		location.href="<%=request.getContextPath()%>/hrPhotoEdit.air";
+	}
+	
+	// 제목 수정
+	function goTitleEdit(){
+		location.href="<%=request.getContextPath()%>/hrTitleEdit.air";
+	}
+	
+	// 침실 수정
+	function goBedroomEdit(){
+		location.href="<%=request.getContextPath()%>/bedroomEdit.air";
 	}
 	
 	
@@ -170,7 +181,7 @@ div{border: /* 1px solid gray;  */
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn" onclick="goTitleEdit();"><span class="editbtn">수정</span></button>
 		    </div>
 	    </div>
 	    <hr align="left" > 
@@ -196,7 +207,7 @@ div{border: /* 1px solid gray;  */
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn" onclick="goBedroomEdit()"><span class="editbtn">수정</span></button>
 		    </div>
 	    </div>   
 	    <hr align="left" > 

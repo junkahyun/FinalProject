@@ -156,7 +156,7 @@ div {
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
-	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit" href="<%=request.getContextPath()%>/hostRoomEdit.air">수정으로 돌아가기</a>
+	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit"  href="<%=request.getContextPath()%>/hostRoomEdit.air">수정으로 돌아가기</a>
 	<h3 align="left" style="font-weight: bold;">사진</h3>
 	<p>게스트에게 숙소의 실제 모습을 보여주는 사진을 추가하세요.</p>
 	<hr align="left">
@@ -169,13 +169,6 @@ div {
  <div class="col-md-3">
  	<span style="font-weight: bold;">커버사진</span>
  	<a><span style="margin-left: 60%;">변경</span></a>
- 
-	<div class="filebox"> 
-		<label for="ex_file">캡션추가하기</label>
-		<input type="file" id="ex_file" accept=".gif, .jpg, .png"> 
-	</div>
-
-
 </div>
 	
 <div class="col-md-12 photodiv">
@@ -183,16 +176,19 @@ div {
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
 	
-	<div class="filebox"> 
+	<div class="row  imgList">
+	
+	</div>
+	
+	<div class="filebox">  
 		<label for="ex_file">사진 추가하기</label> 
-		<input multiple="multiple" type="file"  id="ex_file" accept="image/*" />	
+		<input type="file" id="ex_file" accept="image/*" multiple/>	
 	</div>
 	
 </div>
 
 
-<div class="row  imgList">
-</div>
+
 	
 	
 

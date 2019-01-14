@@ -73,6 +73,13 @@ div{border:  0px solid gray;
 
 .fa-angle-left:focus{text-decoration: underline;
 }
+
+.gohostroomEdit{
+	font-size: 13pt; 
+	color: #008489; 
+	cursor: pointer; 
+	font-weight: bold;
+}
 </style>
 
 <script>
@@ -81,7 +88,7 @@ div{border:  0px solid gray;
 
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; margin-bottom: 5%;">
-	<i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold;">수정으로 돌아가기</a>
+	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit" href="<%=request.getContextPath()%>/hostRoomEdit.air">수정으로 돌아가기</a>
 	<h3 align="left" style="font-weight: bold;">제목과 설명</h3>
 	<p>게스트가 회원님의 숙소에 대해 쉽게 파악할 수 있도록 제목과 설명을 추가하세요.</p>
 	<h4>한국어</h4>

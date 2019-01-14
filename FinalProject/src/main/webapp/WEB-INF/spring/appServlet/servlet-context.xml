@@ -121,4 +121,6 @@
 		왜냐하면 DispatcherServlet은 파일처리를 사용할 경우 이름(아이디)이 "multipartResolver"인 빈을 사용하도록 설정되어 있기 때문에 
 		"multipartResolver" 가 아닌 다른 이름(아이디)으로 지정할경우 MultipartResolver로 사용되지 않는다.
     -->
+
+
 </beans:beans>
