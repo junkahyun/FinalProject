@@ -2,6 +2,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -80,11 +82,9 @@
 	            <div class="col-md-9" style="margin-top: 50px; border: 0px solid red;">
 	                <div class="selecthead">우선 범위를 좁혀볼까요?</div>    
 	                <select id="roomselect1" class="select" name="room_type" style="width: 100%; padding: 9px;">  
-	                   <option value="0" disabled="disabled">하나를 선택해주세요.</option>
-	                   <option value="1">아파트</option>
-	                   <option value="2">주택</option>
-	                   <option value="3">별채</option>
-	                   <option value="4">부티크 호텔</option>
+	                   <c:forEach items="${buildType}" var="buildTypeList">
+	                   		<option value="${buildTypeList}">${buildTypeList}</option>
+	                   </c:forEach>
 	                </select>
 	
 	            </div>

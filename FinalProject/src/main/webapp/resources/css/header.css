@@ -87,3 +87,10 @@ html{
     margin-left: 5%;
     margin-top: 5%;
     }
+
+.calc{border: 1px solid lightgray;
+	  height: 46px;
+	  border-radius: 10px;
+	  margin-left: 5%;
+	  
+	   }

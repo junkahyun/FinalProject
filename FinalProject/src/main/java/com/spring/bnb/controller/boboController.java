@@ -1,5 +1,7 @@
 package com.spring.bnb.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class boboController {
 	
 	@RequestMapping(value="/roomstart.air", method={RequestMethod.GET})
 	public String roomstart(HttpServletRequest req) {
+		
+		List<String> roomtype = service.selectroomtype();
+		req.setAttribute("roomtype", roomtype);
 
 		return "become-host/roomstart.hosttiles_nofooter";
 	}
@@ -34,15 +39,8 @@ public class boboController {
 	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
 	public String roomtype(HttpServletRequest req) {
 		
-		String room_type = req.getParameter("room_type");
-		String person_capacity = req.getParameter("person_capacity");
-		
-		if(room_type != null && person_capacity != null) {
-			//insert작업
-		}
-		
-	//	System.out.println(room_type);
-	//	System.out.println(person_capacity);
+		List<String> buildType = service.selectbuildType();
+		req.setAttribute("buildType", buildType);
 		
 		return "become-host/roomtype.hosttiles_nofooter";
 	}

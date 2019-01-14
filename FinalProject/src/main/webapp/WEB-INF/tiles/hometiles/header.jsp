@@ -98,13 +98,13 @@
           
           <br/>
           <div style=" margin-top: 2%;" >
-          <a type="text" style="border: 0px solid; margin-left: 5%; margin-top: 2%; color: #008489; font-weight: bold; cursor: pointer;">비밀 번호가 생각나지 않으세요?</a>
+          <a type="text" style="border: 0px solid; margin-left: 5%; margin-top: 2%; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
           </div>        
           <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%;">로그인</button>
 
        
        <div class="modal-footer" style="margin-top: 2%;">
-          <div class="join" style=" text-align: center; onClick="" >에어비엔비 계정이 없으세요? <a style="color: #008489; font-weight: bold; cursor: pointer;">회원가입</a></div>  
+          <div class="join" style=" text-align: center; onClick="" >에어비엔비 계정이 없으세요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></div>  
         </div>
        
        
@@ -147,44 +147,37 @@
        	 <span  style="border: 0px solid;  margin-left: 5%; margin-top: 2%; " >공개되지 않습니다.</span> 	
          <br/>
          
-         <div class="dropdown row" style="width:100%;padding:0;margin:0;" >
-			<div class="col-md-5">
-				<select style="width:100%; text-align: left; margin-left: 15%; overflow:scroll;">
-			      <option >월</option>
-			      <c:forEach var="month" begin="1" end="12">
-			      <option value="${month}">${month}</option>
-			      </c:forEach> 
-	   		    </select>
-    	</div>		
+  <div class="dropdown row" style="width:100%;padding:0;margin:0;" >
+			
+	<div class="col-md-3 calc">
+	    <select style="width:100%; text-align: left; margin-left: 5%; overflow:scroll; border:none; font-size: 13pt; margin-top:9%;">
+	      <option >월</option>
+	      <c:forEach var="month" begin="1" end="12">
+	      <option value="${month}">${month}</option>
+	      </c:forEach> 
+  		</select>
+    
+    </div>		
 				    
-    <div class="col-md-3">
-   		<select  style="width:100%; text-align: left; margin-left: 15%; overflow:scroll;">
+    <div class="col-md-3 calc" style="margin-left: 7%;">
+   		<select  style="width:100%; text-align: left; margin-left: 5%; overflow:scroll; border:none; font-size: 13pt; margin-top:9%;">
 		    <option>일</option>
 		    <c:forEach var="day" begin="1" end="31" >
 		    <option value="${day}">${day}</option>
 			</c:forEach>
    	  	</select>
-    
-    
-    
-    
-    
+
     </div>
     
-    <div class="col-md-3">
-     		<select  style="width:100%; text-align: left; margin-left: 15%; overflow:scroll;">
+    <div class="col-md-3 calc"  style="margin-left: 7%;">
+     		<c:set var="year" value="2019"></c:set>
+     		<select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
 		    <option>년</option>
-		    <c:forEach var="year" begin="1899" end="2019" step="1">
-		     <c:set var="j" value="${2019-year+1}" scope="page"></c:set>
-    			<c:out value="${j}"/>
-		    	<option value="${year}">${year}</option>
+		    <c:forEach var="i" begin="1900" end="${year}" step="1" >
+    			<option value="${year - i + 1900}">${year - i + 1900}</option>
 			</c:forEach>
    	  	</select>
-    
-    
-    
-    
-    
+ 
     </div>
     
   </div>
@@ -193,7 +186,7 @@
 
        
        <div class="modal-footer" style="margin-top: 2%;">
-          <div class="join" style="font-size: 13pt;  text-align: center; onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;">로그인</a></div> 
+          <div class="join" style="font-size: 13pt;  text-align: center; onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
         </div>
        
        
@@ -202,3 +195,41 @@
       
       </div>
   </div>
+ </div> 
+ 
+  <%-- ****** 비밀번호찾기 Modal ****** --%>
+  <div class="modal fade" id="pwdfind" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content" style="width: 568px; height: 372px;">
+       
+          <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 5%; background-color: white;  margin-top: 2%; margin-bottom: 5%; border: 0px;"><img src="<%=request.getContextPath() %>/resources/ymimg/cancel.png" alt="X"></button>
+		  <br/>
+			<span style="font-size: 15pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">비밀번호 재설정</span>
+          <br/>
+          	<span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
+          	<br/>
+          	<span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
+          	<br/>
+          	<br/>
+          	
+          	<span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
+          <br/>
+          
+          <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid rightgray;  width: 504px; height: 46px; border-radius: 10px;" />
+          
+          
+          <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
+        
+       
+       
+       
+      </div>
+      
+      </div>
+  </div>
+ 
+ 
+ 
+ 
