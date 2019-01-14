@@ -134,12 +134,9 @@
         </div>
             <div class="optionbox">
             	<span class="optionname" style="margin-right: 7%;">건물 유형</span>
-            	<%-- <c:forEach items="" var=""></c:forEach>--%>
-            	<input type="checkbox" class="" />&nbsp;전원주택
-            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;게스트하우스
-            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;아파트
-            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;리조트
-            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;호텔
+            	<c:forEach items="${buildList}" var="buildName">
+            		<input type="checkbox" class="buildType" style="margin-left: 5%;"/>&nbsp;${buildName}
+            	</c:forEach>            	
             </div>          
         </div>
         
