@@ -234,7 +234,7 @@ div{
 					<div class="col-md-6">무선인터넷</div>
 					<div class="col-md-6">아침식사</div>
 				</div>
-				<a class="aTagBtnHY">편의시설 (갯수) 모두 보기</a>
+				<a class="aTagBtnHY">편의시설 ${room.optionList.size() } 모두 보기</a>
 			</div>
 			<%-- 침대/침구 --%>
 			<c:if test="${room.bedroomList.size() > 0 }">
@@ -357,7 +357,9 @@ div{
 			<div class="infoDiv">
 				<%-- 지역정보 --%>
 				<div class="infoSubjectHYBig">지역정보</div>
+				<div style="margin-top:2%;">${room.roomSido} ${room.roomSigungu} ${room.roomBname} ${room.roomAddr }</div>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
+				
 				<script> 
 				   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				       mapOption = {
@@ -418,7 +420,7 @@ div{
 					<div style="height:60px; border-bottom: 1px solid lightgray;">
 						<div style="height:50px;font-size: 24px;font-weight:bold; padding-bottom: 10%;">
 							<div>￦<fmt:formatNumber value="${room.roomPrice }" pattern="#,###"/><span style="font-size:12px;">/박</span></div>
-							<div style="font-size:10px;"><span style="color:#148487;">★★★★★</span>100</div>
+							<div style="font-size:10px;"><span style="color:#148487;">★★★★★</span>${room.likeCount }</div>
 						</div>
 						<div style="height:240px;padding-top:5%;">
 							<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>

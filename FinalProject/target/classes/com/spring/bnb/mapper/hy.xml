@@ -9,7 +9,7 @@
 		select*
 		from room R join roomtype T on R.fk_roomType_idx = T.roomType_idx
 		            join buildType_detail B on R.fk_buildType_detail_idx = B.buildType_detail_idx
-		where roomcode=10
+		where roomcode=#{roomcode}
 	</select>
 	
 	<!-- RoomVO에 호스트정보 입력하기 -->
@@ -49,7 +49,12 @@
 	
 	<!-- 옵션정보 RoomVO에 입력하기 -->
 	<select id="getOptionList" parameterType="String" resultType="String">
-		select*from options where roomcode=#{roomcode}
+		select*from roomoption R join options O on R.fk_option_idx=O.option_idx where R.fk_roomcode=10
+	</select>
+	
+	<!-- RoomVO에  likeCount 입력하기 -->
+	<select id="getRoomLikeCount" parameterType="String" resultType="Integer">
+		select count(*) from likeroom where fk_roomcode=#{roomcode}
 	</select>
 	
 </mapper>

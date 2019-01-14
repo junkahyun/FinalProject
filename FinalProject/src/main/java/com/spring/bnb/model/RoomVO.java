@@ -16,7 +16,8 @@ public class RoomVO {
 	private String roomPost;
 	private String roomSigungu; 
 	private String roomSido;
-	private String roomBname; 
+	private String roomBname;
+	private String roomAddr;
 	private String roomPrice;
 	private String peakper;
 	private String cleanPay; 
@@ -123,6 +124,15 @@ public class RoomVO {
 	public void setRoomBname(String roomBname) {
 		this.roomBname = roomBname;
 	}
+	
+	public String getRoomAddr() {
+		return roomAddr;
+	}
+
+	public void setRoomAddr(String roomAddr) {
+		this.roomAddr = roomAddr;
+	}
+
 	public String getRoomPrice() {
 		return roomPrice;
 	}

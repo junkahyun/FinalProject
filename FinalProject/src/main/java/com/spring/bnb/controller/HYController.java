@@ -22,8 +22,9 @@ public class HYController {
 	
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
-		//String roomcode = req.getParameter("roomcode");
-		RoomVO roomvo = service.getRoomByCode("10");
+		String roomcode = req.getParameter("roomcode");
+		roomcode = "10";
+		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
 	}

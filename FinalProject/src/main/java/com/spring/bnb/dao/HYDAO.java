@@ -39,6 +39,8 @@ public class HYDAO implements InterHYDAO {
 		List<String> optionList = sqlsession.selectList("hy.getOptionList", roomcode);
 		roomvo.setOptionList(optionList);
 		// 관심 수 가져오기
+		int likeCount = sqlsession.selectOne("hy.getRoomLikeCount", roomcode);
+		roomvo.setLikeCount(likeCount);
 		
 		return roomvo;
 	}
