@@ -18,9 +18,9 @@ public class YMController {
 	private AES256 aes;
 
 	
-	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/login.air", method = {RequestMethod.GET})
 	public String login() {
 		
-		return "home/homeDetail.hometiles";
+		return "login";
 	}
 }
