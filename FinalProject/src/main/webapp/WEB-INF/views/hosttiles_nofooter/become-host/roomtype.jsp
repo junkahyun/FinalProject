@@ -79,13 +79,13 @@
 	 		 dataType:"JSON",
 	 		 data:form_data,
 	 		 success:function(json) {
-		 		 /* console.log(json);
+		 		  console.log(json);
 		 		 var result = "";
 		 		 
 		 		 $.each(json, function(entryIndex, entry){
-		 			result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL+"</option>";
+		 			result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL_NAME+"</option>";
 		 		 });
-		 		 $("#buildType_detail").html(result);  */
+		 		 $("#buildType_detail").html(result);  
 	 		  
 	 		 },
 	 		 error: function(request, status, error){

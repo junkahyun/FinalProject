@@ -6,8 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,13 +50,36 @@ public class boboController {
 	}
 	
 	@RequestMapping(value="/roomtypeJSON.air", method={RequestMethod.GET})
-	@ResponseBody
-	public List<HashMap<String,Object>> roomtypeJSON(HttpServletRequest req) {
+	public String roomtypeJSON(HttpServletRequest req) {
 		
 		String buildType = req.getParameter("buildType");
 		System.out.println(buildType);
 		
-		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
+		JSONArray jsonArr = new JSONArray();
+		
+		if(buildType != null && !buildType.trim().isEmpty()) {
+			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);
+			
+			if(buildTypeList != null && buildTypeList.size() > 0) {
+				for(HashMap<String,String> map : buildTypeList) {
+					JSONObject jsonObj = new JSONObject();
+					
+					jsonObj.put("BUILDTYPE_DETAIL_IDX", map.get("BUILDTYPE_DETAIL_IDX")); // 키값, xml에서 읽어온 키값
+					jsonObj.put("BUILDTYPE_DETAIL_NAME", map.get("BUILDTYPE_DETAIL_NAME"));
+					
+					jsonArr.put(jsonObj);
+		
+				}// end of for
+			}// end of if
+			
+		}
+		
+		String str_jsonArr = jsonArr.toString();
+		req.setAttribute("str_jsonArr", str_jsonArr);
+		
+		return "roomtypeJSON";
+		
+		/*List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
 		
 		if(buildType != null && !buildType.trim().isEmpty()) {
 			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);
@@ -78,7 +102,7 @@ public class boboController {
 			}// end of if
 		}
 		
-		return mapList;
+		return mapList;*/
 	}
 	
 	
