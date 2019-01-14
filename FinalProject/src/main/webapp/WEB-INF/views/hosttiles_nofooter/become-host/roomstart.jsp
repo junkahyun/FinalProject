@@ -28,8 +28,8 @@
 			<div class="row" style="margin-top: 3%; padding-left: 15px;">
 				<div class="col-md-4" style="padding-left: 0;">
 					<select name="room_type" style="width: 100%; padding: 13px; border-radius: 2px;"> 
-						<c:forEach items="${roomtype}" var="roomtype">
-							<option value="${roomtype}">${roomtype}</option> 
+						<c:forEach items="${roomtype}" var="map">
+							<option value="${map.ROOMTYPE_IDX}">${map.ROOMTYPE_NAME}</option> 
 						</c:forEach> 
 					</select>
 				</div> 
