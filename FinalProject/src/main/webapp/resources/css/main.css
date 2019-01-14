@@ -55,7 +55,7 @@ section#slider div.item > img {
 }
 div.navigation{
 	position: absolute;
-	top: 6%; 
+	top: 3%; 
 	z-index: 9999; 
 }
 div.navigation ul#util_menu{
@@ -76,8 +76,10 @@ div.choose_A{
 	color:#00f;
 }
 div.choose_A > div{
-	height:60px;
-}
+	height:60px;  
+	line-height:4em;
+	font-weight:bold;
+} 
 div.choose_A .domestic,
 div.choose_A .oversea{
 	background-color:#2c3e50; 
@@ -91,6 +93,7 @@ div.choose_A .check_out{
 div.choose_A .search{
 	background-color: #FF5A5F;
 	color:#fff;
+	text-align:center;
 }
  
 section#recommend_lodging,
@@ -120,6 +123,11 @@ ul#rooms_show_ul > li > div.rooms_intro{
 #section_title{
 	font-weight: bold;
 }
+.after_underline{
+	display:inline;
+	padding-bottom:10px;
+	border-bottom : solid 1px #FF5A5F;
+}
 .img_user_fd{
 	width: 50px;
     height: 50px;
@@ -148,7 +156,9 @@ ul#rooms_show_ul > li > div.rooms_intro{
 .city_big{
 	width:780px !important;
 }
-
+section#company_A {
+	margin-top:40px;
+}
 section#company_A div.info_company{
 	margin-top:40px;
 	border: solid 1px #ccc;
