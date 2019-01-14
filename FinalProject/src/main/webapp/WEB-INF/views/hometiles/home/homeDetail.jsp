@@ -319,8 +319,8 @@ div{
 			<div class="infoDiv" style="padding-bottom:0;">
 				<div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
 					<div class="col-md-8 infoSubjectHYBig">후기 ...개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
-					<div class="col-md-4"><input type="text" class="form-control input-data" style="width:100%;">
-						<img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;right: 25px;">
+					<div class="col-md-4"><input type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
+						<img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
 					</div>
 				</div>
 				<%-- 별점 평균 --%>
@@ -425,7 +425,7 @@ div{
 							    				<button type="button" class="dropUpDown">-</button><span style="margin: 0 13%;text-align:center;">1</span><button type="button" class="dropUpDown">+</button>
 							    			</div>
 							    		</div>
-								    	<div style="font-weight:500; font-size:0.9em;color:gray;text-align:center;border-top: 1px solid #f0f0f0; padding-top:5%;margin-top:10%;">최대 3명. 유아는 숙박인원에 포함되지 않습니다.</div>
+								    	<div style="font-weight:500; font-size:0.9em;color:gray;text-align:center;border-top: 1px solid #f0f0f0; padding-top:3%;margin-top:10%;">최대 3명. 유아는 숙박인원에 포함되지 않습니다.</div>
 								    </div>
 								</div>
 								<script>
