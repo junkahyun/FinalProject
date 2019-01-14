@@ -246,4 +246,42 @@ public class RoomVO {
 		this.room_warnCount = room_warnCount;
 	}
 	
+	// 추가
+	public String getHomeType() {
+		return homeType;
+	}
+	public void setHomeType(String homeType) {
+		this.homeType = homeType;
+	}
+	public String getBuildType() {
+		return buildType;
+	}
+	public void setBuildType(String buildType) {
+		this.buildType = buildType;
+	}
+	public String getBuildType_detail() {
+		return buildType_detail;
+	}
+	public void setBuildType_detail(String buildType_detail) {
+		this.buildType_detail = buildType_detail;
+	}
+	public List<String> getRoomimgList() {
+		return roomimgList;
+	}
+	public void setRoomimgList(List<String> roomimgList) {
+		this.roomimgList = roomimgList;
+	}
+	public List<String> getOptionList() {
+		return optionList;
+	}
+	public void setOptionList(List<String> optionList) {
+		this.optionList = optionList;
+	}
+	public List<ReviewVO> getReviewList() {
+		return reviewList;
+	}
+	public void setReviewList(List<ReviewVO> reviewList) {
+		this.reviewList = reviewList;
+	}
+	
 }

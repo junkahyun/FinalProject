@@ -40,7 +40,7 @@
     
 <div style="padding: 3%; width: 60%; margin:0 auto;">  
 	
-	<div style="padding-bottom: 2%; padding-left: 2%; padding-right: 2%; text-align: center;"><h1>신고 글쓰기</h1></div>
+	<div style="padding-bottom: 2%; padding-left: 2%; padding-right: 2%; text-align: center; font-weight: bold;"><h2>신고 글쓰기</h2></div>
 	
 	<div class="input-group mb-3" style="padding: 2%;">
 	  <div class="input-group-prepend" style="padding: 1%;">
@@ -69,8 +69,8 @@
 	</div>
 	
 	<div style="display:inline; text-align: center;">
-		<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite">확인</button></div>
-		<div style="float:left; width:50%;"><button type="button" class="btn" >취소</button></div>
+		<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
+		<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;">취소</button></div>
 	</div>
 
 </div>
