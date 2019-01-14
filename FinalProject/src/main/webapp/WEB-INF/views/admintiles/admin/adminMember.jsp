@@ -7,23 +7,19 @@
 
 <div class="col-md-10">
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-<<<<<<< HEAD
 		<div class="">
-			<h1 class="home_title">회원관리</h1>
-=======
-		<div class="give_after_underline">
-			<h2 class="home_title">회원관리</h2>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+			<h1 class="home_title">회원관리</h1>	
 		</div>
 	</div>
+</div>
 	
 	<div class="container">	
 		<div class="row">
 			<div class="col-md-12" style="border: 0px solid gray;">
 			<table class="table">
-					<col width="10%;"/>
-					<col width="15%;"/>
-					<col width="15%;"/>
+					<col width="10%"/>
+					<col width="15%"/>
+					<col width="15%"/>
 					<col width="10%"/>
 					<col width="10%"/>
 					<col width="10%"/>
