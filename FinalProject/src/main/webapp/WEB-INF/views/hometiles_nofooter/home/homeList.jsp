@@ -19,6 +19,8 @@
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/homeList.css">
+
+
 <script type="text/javascript">
  
  $(document).ready(function(){
@@ -61,7 +63,7 @@
     var shell_edit_url = "/gg2hqba3/1/light/";
        
 	// 달력
-	/* $(function() { 
+	$(function() { 
     	$( ".datepicker" ).datepicker({     		
     	minDate : 0,
     	prevText: '이전 달',
@@ -76,32 +78,8 @@
       	showOtherMonths: true,
       	showButtonPanel: true
     	});
-    }); */
-    $(function() {
-    	  var dates = $( "#from, #to " ).datepicker({
-    	  prevText: '이전 달',
-    	  nextText: '다음 달',
-    	  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-    	  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-    	  dayNames: ['일','월','화','수','목','금','토'],
-    	  dayNamesShort: ['일','월','화','수','목','금','토'],
-    	  dayNamesMin: ['일','월','화','수','목','금','토'],
-    	  dateFormat: 'yy-mm-dd',
-    	  numberOfMonths: 2,
-    	  showMonthAfterYear: true,
-    	  yearSuffix: '년',
-    	maxDate:'+30d',
-    	  onSelect: function( selectedDate ) {
-    	    var option = this.id == "from" ? "minDate" : "maxDate",
-    	      instance = $( this ).data( "datepicker" ),
-    	      date = $.datepicker.parseDate(
-    	        instance.settings.dateFormat ||
-    	        $.datepicker._defaults.dateFormat,
-    	        selectedDate, instance.settings );
-    	    dates.not( this ).datepicker( "option", option, date );
-    	  }
-    	  });
-    	});
+    }); 
+   
 	// 가격대 슬라이드바
 	$(function () {
         'use strict';
@@ -132,7 +110,7 @@
         <div>
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역</span>
-            	<select id=city style="border: 0px solid; margin-left: 90px;">
+            	<select id=city style="border: 0px solid; margin-left: 10%;">
             		<option value="서울">서울</option>
             		<option value="대전">대전</option>
             		<option value="대구">대구</option>
@@ -143,60 +121,59 @@
            
            	<div class="optionbox">
             	<span class="optionname">날짜</span>
-            	<!-- <input type="text" class="datepicker" placeholder="체크인 날짜" style="margin-left: 90px; width: 100px;">&nbsp;~&nbsp;
-            	<input type="text" class="datepicker" placeholder="체크아웃 날짜" style="width: 100px;"> -->
-            	<input type="text" id="from"> ~ <input type="text" id="to"></p>
+            	<input type="text" id="checkin" class="datepicker" placeholder="체크인 날짜" style="margin-left: 10%; width: 14%;">&nbsp;~&nbsp;
+            	<input type="text" id="checkout" class="datepicker" placeholder="체크아웃 날짜" style="width: 14%;">            	
             </div>  
             
             <div class="optionbox">
             	<span class="optionname">임대유형</span>
-            	<span class="optioninput" id="lental" style="margin-left: 60px; padding-right: 40px; cursor: pointer;">완전한 렌탈</span>
-            	<span class="optioninput" id="single" style="padding-right: 60px; cursor: pointer;">별도의 싱글룸</span>
+            	<span class="optioninput" id="lental" style="margin-left: 7%; padding-right: 10%; cursor: pointer;">완전한 렌탈</span>
+            	<span class="optioninput" id="single" style="padding-right: 10%; cursor: pointer;">별도의 싱글룸</span>
             	<span class="optioninput" id="share" style="cursor: pointer;">쉐어 룸</span>
             </div>
         </div>
             <div class="optionbox">
-            	<span class="optionname" style="margin-right: 60px;">건물 유형</span>
+            	<span class="optionname" style="margin-right: 7%;">건물 유형</span>
             	<%-- <c:forEach items="" var=""></c:forEach>--%>
             	<input type="checkbox" class="" />&nbsp;전원주택
-            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;게스트하우스
-            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;아파트
-            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;리조트
-            	<input type="checkbox" class="" style="margin-left: 40px;"/>&nbsp;호텔
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;게스트하우스
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;아파트
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;리조트
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;호텔
             </div>          
         </div>
         
         <div id="optionRight" class="col-md-7">
         	<div class="optionbox">
-        		<span class="optionname" style="margin-right: 50px;">가격 (만 원)</span>
+        		<span class="optionname" style="margin-right: 5%;">가격 (만 원)</span>
         		<input type="hidden" id="slider3" class="slider" />
         	</div>
             
             <div class="optionbox">
-            	<span class="optionname" style="margin-right: 60px;">고객 편의</span>
+            	<span class="optionname" style="margin-right: 6%;">고객 편의</span>
             	<%-- <c:forEach items="" var=""></c:forEach>--%>
             	<input type="checkbox" class="" />&nbsp;조식제공
-            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;주차공간
-            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;헬스시설
-            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;수영장 
-            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;와이파이
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;주차공간
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;헬스시설
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;수영장 
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;와이파이
             </div>
             <div class="optionbox">
-            	<span class="optionname" style="margin-right: 30px;">숙소 이용규칙</span>
+            	<span class="optionname" style="margin-right: 3.4%;">숙소 이용규칙</span>
             	<input type="checkbox" class="" />&nbsp;흡연가능
-            	<input type="checkbox" class="" style="margin-left: 80px;"/>&nbsp;반려동물 입실가능&nbsp;
-            	<input type="checkbox" class="" style="margin-left: 20px;"/>&nbsp;이벤트 및 행사가능
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;반려동물 입실가능&nbsp;
+            	<input type="checkbox" class="" style="margin-left: 5%;"/>&nbsp;이벤트 및 행사가능
             </div>
             <div class="optionbox">
-            	<span class="optionname" style="margin-right: 60px;">인원 (명)</span>
-            	<span style="margin-right: 50px;">성인&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" value="0" /></span>
-            	<span style="margin-right: 50px;">어린이(2~12세)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" value="0"/></span>
-            	<span style="margin-right: 50px;">유아(2세 미만)&nbsp;<input class="person" name="pqty" style="width: 30px; height: 18px;" value="0"/></span>
+            	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>
+            	<span style="margin-right: 2%;">성인&nbsp;<input class="person" name="pqty" style="width: 5%; height: 18px;" value="0" /></span>
+            	<span style="margin-right: 2%;">어린이(2~12세)&nbsp;<input class="person" name="pqty" style="width: 5%; height: 18px;" value="0"/></span>
+            	<span style="margin-right: 2%;">유아(2세 미만)&nbsp;<input class="person" name="pqty" style="width: 5%; height: 18px;" value="0"/></span>
             </div>
         </div>
     </div>
     
-    <div class="row" style="width: 100vw; margin-left: 1px;">        
+    <div class="row" style="width: 100%; margin-left: 0.1%;">        
         <div class="col-md-4 " style="height:100vh; margin-top: 18px; padding: 0; border: solid;">
             <div style="height: 100%; margin: 0; padding: 0;" id="map" class="optionbox map"></div>
 
