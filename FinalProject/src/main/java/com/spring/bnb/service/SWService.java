@@ -19,5 +19,29 @@ public class SWService implements InterSWService {
 		List<String> buildList = dao.getBuildList();
 		
 		return buildList;
+	}
+
+	@Override
+	public List<String> getOptionList() {
+
+		List<String> optionList = dao.getOptionList();
+		
+		return optionList;
+	}
+
+	@Override
+	public List<String> getRoomType() {
+
+		List<String> roomType = dao.getRoomType();
+		
+		return roomType;
+	}
+
+	@Override
+	public List<String> getRoomRule() {
+
+		List<String> roomRule = dao.getRoomRule();
+		
+		return roomRule;
 	} 
 }

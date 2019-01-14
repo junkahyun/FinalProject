@@ -790,8 +790,9 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-spinner {
 	position: relative;
-	display: inline-block;
+	/* display:initial; */
 	overflow: hidden;
+	height: 3%;
 	padding: 0;
 	vertical-align: middle;
 }

@@ -28,9 +28,19 @@ public class SWController {
 		}
 		req.setAttribute("testList", testList);*/
 		
+		// 건물유형
 		List<String> buildList = service.getBuildList();
-		System.out.println(buildList.get(0));
+		// 옵션
+		List<String> optionList = service.getOptionList();
+		// 숙소유형
+		List<String> roomType = service.getRoomType();
+		// 숙소 이용규칙
+		List<String> roomRule = service.getRoomRule();
+		
 		req.setAttribute("buildList", buildList);
+		req.setAttribute("optionList", optionList);
+		req.setAttribute("roomType", roomType);
+		req.setAttribute("roomRule", roomRule);
 		
 		return "home/homeList.hometiles_nofooter";
 	}

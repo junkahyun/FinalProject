@@ -21,4 +21,28 @@ public class SWDAO implements InterSWDAO {
 		return buildList;
 	}
 
+	@Override
+	public List<String> getOptionList() {
+
+		List<String> optionList = sqlsession.selectList("sw.getOptionList");
+		
+		return optionList;
+	}
+
+	@Override
+	public List<String> getRoomType() {
+
+		List<String> roomType = sqlsession.selectList("sw.getRoomType");
+		
+		return roomType;
+	}
+
+	@Override
+	public List<String> getRoomRule() {
+		
+		List<String> roomRule = sqlsession.selectList("sw.getRoomRule");
+		
+		return roomRule;
+	}
+
 }

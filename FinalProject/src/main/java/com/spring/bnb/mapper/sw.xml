@@ -4,10 +4,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="sw">
-
+	
+	<!-- 건물유형 -->
 	<select id="getBuildList" resultType="String">
 		select buildtype
 		from buildtype	
+	</select>
+	
+	<!-- 옵션종류 -->
+	<select id="getOptionList" resultType="String">
+		select optionname, optionicon
+		from options
+	</select>
+	
+	<!-- 숙소유형 -->
+	<select id="getRoomType" resultType="String">
+		select roomtype_name
+		from roomtype	
+	</select>
+	
+	<!-- 숙소 이용규칙 -->
+	<select id="getRoomRule" resultType="String">
+		select rule_name
+		from roomrule
 	</select>
 
 </mapper>
