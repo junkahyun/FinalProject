@@ -77,4 +77,11 @@ public class SOController {
 		return "hostAd/ddd.hosttiles";
 	}
 	
+	@RequestMapping(value = "/dddd.air", method = RequestMethod.GET)
+	public String dddd(HttpServletRequest req, HttpServletResponse res) {
+
+		return "mypage/dddd.hometiles";
+	}
+	
+	
 }
