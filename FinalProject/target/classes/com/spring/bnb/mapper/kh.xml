@@ -4,4 +4,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="kh">
+
+
+	<resultMap type="HashMap" id="ruleMap">
+		<result column="rule_name" property="rule_name" javaType="String" />
+		<result column="rule_status" property="rule_status" javaType="String" />	
+		<result column="rule_idx" property="rule_idx" javaType="String" />	
+	</resultMap>
+
+	<select id="getRoomRule" resultMap="ruleMap">
+		select rule_name,rule_status,rule_idx
+		from roomrule
+	</select>
+	
+	
+
 </mapper>

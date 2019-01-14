@@ -1,5 +1,8 @@
 package com.spring.bnb.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +79,12 @@ public class KHController {
 	// ***** 호스트 등록된 숙소 수정하기(편의시설 및 이용규칙 수정) ***** //
 	@RequestMapping(value="/changeConvenienceAndRule.air", method= {RequestMethod.GET})
 	public String changeConvenienceAndRule (HttpServletRequest req) {
+		
+		// ** 이용규칙 가져오는 메소드 ** //
+		List<HashMap<String,String>> roomRule = service.getRoomRule();
+		
+		req.setAttribute("roomRule", roomRule);
+		
 		return "hostRoomEdit/changeConvenienceAndRule.hosttiles_nofooter";
 	}
 }

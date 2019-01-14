@@ -77,28 +77,31 @@ select:focus {
 			<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
 			<span style="font-size: 13pt; color: black;">필수품목</span>
 		</div>
-		
+	</div>
+	
+	<div class="col-md-6" style="width:25%;">
 		<div style="font-size: 0.7rem; margin-bottom: 5%;">
 			<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
 			<span style="font-size: 13pt; color: black;">필수품목</span>
 		</div>
 	</div>
 	
-	<div class="col-md-6" style="width:30%; margin-bottom: 10%;">
-		<div style="font-size: 0.7rem; margin-bottom: 5%;">
-			<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
-			<span style="font-size: 13pt; color: black;">필수품목</span>
-		</div>
-		
-		<div style="font-size: 0.7rem; margin-bottom: 5%;">
-			<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
-			<span style="font-size: 13pt; color: black;">필수품목</span>
-		</div>
-	</div>
 	<hr style="width: 50%;" align="left">
 	<!-- 이용규칙 -->
 	<h3 >어떤 이용규칙이 있나요?</h3>
-	
+	<c:forEach  var="rule" items="${roomRule}">
+		<span style="font-size: 13pt; margin-right: 10%;">${rule.rule_name}</span>
+			<c:if test="${rule.rule_status == 0 }">
+				<input type="checkbox" checked="checked"/>아니오
+				<input type="checkbox" />예
+			</c:if>
+			
+			<c:if test="${rule.rule_status == 1}">
+				<input type="checkbox" />아니오
+				<input type="checkbox" checked="checked"/>예
+			</c:if>
+		<br><br>
+	</c:forEach>
 	<hr style="width: 50%;" align="left">
 	<button class="btn successbtn" onClick="changeCheckInOut();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn cancelbtn" onclick="javascript:history.back();">취소</button>
 </div>

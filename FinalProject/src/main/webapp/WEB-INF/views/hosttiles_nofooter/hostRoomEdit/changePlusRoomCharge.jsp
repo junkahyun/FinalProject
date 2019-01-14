@@ -76,7 +76,8 @@ input[type="number"]::-webkit-inner-spin-button{
 
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%; height: 1000px; ">
-   <i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; ">뒤로</a>
+   <i class="fas fa-angle-left"></i>&nbsp;
+   <a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; " >뒤로</a>
 
 	<h3 >추가 요금</h3>
 	
