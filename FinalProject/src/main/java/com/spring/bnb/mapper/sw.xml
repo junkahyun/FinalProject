@@ -5,9 +5,9 @@
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="sw">
 	
-	<!-- 건물유형 -->
-	<select id="getBuildList" resultType="String">
-		select buildtype
+	<!-- 건물유형(대) -->
+	<select id="getBuildList" resultType="HashMap">
+		select buildtype, buildtype_idx
 		from buildtype	
 	</select>
 	
@@ -28,5 +28,12 @@
 		select rule_name
 		from roomrule
 	</select>
+	
+	<!-- 건물유형(소)
+	<select id="getBuildDetailList" resultType="String">
+		select buildtype_detail_name
+		from buildtype_detail
+		where fk_buildtype_idx = #{BUILDTYPE_IDX}
+	</select> -->
 
 </mapper>

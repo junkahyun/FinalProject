@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -14,9 +15,9 @@ public class SWDAO implements InterSWDAO {
 	private SqlSessionTemplate sqlsession; // SqlSessionTemplate --> root-context.xml  #15.
 
 	@Override
-	public List<String> getBuildList() {
+	public List<HashMap<String, String>> getBuildList() {
 		
-		List<String> buildList = sqlsession.selectList("sw.getBuildList");
+		List<HashMap<String, String>> buildList = sqlsession.selectList("sw.getBuildList");
 		
 		return buildList;
 	}
@@ -44,5 +45,7 @@ public class SWDAO implements InterSWDAO {
 		
 		return roomRule;
 	}
+
+	
 
 }

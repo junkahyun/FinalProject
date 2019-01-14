@@ -51,7 +51,19 @@
          }
       }); // end of $("#spinnerPqty").spinner();---------------
 	
-      
+      $.ajax({
+		url : "<%=request.getContextPath()%>"/homeName.action",
+		data : form_data,
+		type : "GET".
+		dataType : "JSON",
+		success : function(json){
+		 
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+    	 
+	});
  });
  
     var height;
@@ -86,13 +98,13 @@
         var init = function () {  
             var slider3 = new rSlider({
                 target: '#slider3',
-                values: {min: 0, max: 160},
+                values: {min: 0, max: 200},
                 step: 10,
                 range: true,
                 set: [0, 40],
                 scale: true,
                 labels: true,
-                width: "1850",
+                width: "1700",
 				tooltip:true,
                 onChange: function (vals) {                    
                 }
@@ -144,7 +156,9 @@
         	<div class="optionbox">
         		<span class="optionname">건물 유형</span>
             	<c:forEach items="${buildList}" var="buildName">
-            		<input type="checkbox" class="buildType" style="margin-left: 5%;"/>&nbsp;${buildName}
+            		<input type="checkbox" class="buildType" style="margin-left: 5%;"/>&nbsp;${buildName.}
+            		<input type="text" name="idx" value=""/>
+            		
             	</c:forEach>                	
         		
         	</div>

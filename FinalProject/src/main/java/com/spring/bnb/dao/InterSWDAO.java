@@ -1,10 +1,11 @@
 package com.spring.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface InterSWDAO {
 
-	List<String> getBuildList();  // 건물유형
+	List<HashMap<String, String>> getBuildList();  // 건물유형(대)
 
 	List<String> getOptionList();  // 옵션종류
 
@@ -12,4 +13,5 @@ public interface InterSWDAO {
 
 	List<String> getRoomRule();  // 숙소 이용규칙
 
+	
 }
