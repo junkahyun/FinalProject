@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+    pageEncoding="UTF-8"%>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% 
+   String ctxPath = request.getContextPath(); 
+   //  /startspring 임.
+%>
 
+<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -50,6 +52,7 @@
 <script type="text/javascript">
 
    $(document).ready(function(){
+	   
       $("#guestroom").hide(); 
 
       $("#roomselect2").click(function() {
@@ -61,6 +64,43 @@
             $("#guestroom").show();
          }
       });
+      
+      $("#buildType").change(function(){
+    	 var buildType = $("#buildType").val();
+    	 //alert(buildType); 
+    	 
+    	 var form_data = {"buildType":buildType};
+ 
+    	 console.log(form_data);
+ 		 
+ 		 $.ajax({
+	 		 url:"roomtypeJSON.air",
+	 		 type:"GET",
+	 		 dataType:"JSON",
+	 		 data:form_data,
+	 		 success:function(json) {
+		 		 /* console.log(json);
+		 		 var result = "";
+		 		 
+		 		 $.each(json, function(entryIndex, entry){
+		 			result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL+"</option>";
+		 		 });
+		 		 $("#buildType_detail").html(result);  */
+	 		  
+	 		 },
+	 		 error: function(request, status, error){
+	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 		 }
+	 	});// end of $.ajax({ --- 	
+	 		
+
+ 			 
+      });
+      
+       
+
+    		
+
 
    });
 
@@ -81,20 +121,17 @@
 	         <div class="row" style="padding: 0; border: 0px solid green;" >
 	            <div class="col-md-9" style="margin-top: 50px; border: 0px solid red;">
 	                <div class="selecthead">우선 범위를 좁혀볼까요?</div>    
-	                <select id="roomselect1" class="select" name="room_type" style="width: 100%; padding: 9px;">  
-	                   <c:forEach items="${buildType}" var="buildTypeList">
-	                   		<option value="${buildTypeList}">${buildTypeList}</option>
+	                <select id="buildType" class="select" name="buildType" style="width: 100%; padding: 9px;">  
+	                   <c:forEach items="${buildType}" var="map">
+	                   		<option value="${map.BUILDTYPE_IDX}">${map.BUILDTYPE}</option>
 	                   </c:forEach>
 	                </select>
 	
 	            </div>
 	            <div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 	                <div class="selecthead">건물 유형을 선택하세요</div>    
-	                <select id="roomselect2" class="select" name="room_type" style="width: 100%; padding: 9px;">  
-	                   <option value="0">건물 유형 선택</option>
-	                   <option value="1">단독주택</option>
-	                   <option value="2">주택</option>
-	                   <option value="3">별채</option>
+	                <select id="buildType_detail" class="select" name="buildType_detail" style="width: 100%; padding: 9px;">  
+	                  
 	                </select>
 	            </div>
 	
