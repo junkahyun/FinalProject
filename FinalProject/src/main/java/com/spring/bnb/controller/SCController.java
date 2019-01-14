@@ -45,9 +45,9 @@ public class SCController {
 	}
 	
 	// 호스트 숙소 제목 수정
-	@RequestMapping(value = "/roomtitleEdit.air", method = {RequestMethod.GET})
-	public String roomtitleEdit() {
-		return "hostRoomEdit/roomtitleEdit.hosttiles_nofooter";
+	@RequestMapping(value = "/hrTitleEdit.air", method = {RequestMethod.GET})
+	public String hrTitleEdit() {
+		return "hostRoomEdit/hrTitleEdit.hosttiles_nofooter";
 	}
 	
 	// 호스트 숙소 침실 수정
@@ -62,5 +62,10 @@ public class SCController {
 		return "host/hostroomPage.hosttiles";
 	}
 	
+	// 숙소 평점, 수입, 성취도  페이지
+	@RequestMapping(value="/hostroomMark.air", method={RequestMethod.GET})
+	public String hostroomMark() {
+		return "host/hostroomMark.hosttiles";
+	}
 }
 

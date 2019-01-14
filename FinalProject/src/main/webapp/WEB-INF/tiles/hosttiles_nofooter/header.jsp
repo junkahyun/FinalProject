@@ -1,10 +1,14 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<style>
-</style>
-=======
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+<script type="text/javascript">
+
+	function hostroomList(){
+		location.href="<%=request.getContextPath()%>/hostroomList.air";
+	}
+	
+	function hostroomMark(){
+		location.href="<%=request.getContextPath()%>/hostroomMark.air";
+	}
+</script>
 <div id="header">
 	<div class="row height_maxPer">
 		<div id="headerlogo" >
@@ -14,21 +18,9 @@
 			<div class="headermenu" onClick="">홈</div>
 			<div class="headermenu" onClick="">메시지</div>
 			<div class="headermenu" onClick="">예약</div>
-			<div class="headermenu" onClick="">숙소</div>
-			<div class="headermenu" onClick="">성취도</div>
+			<div class="headermenu" onClick="hostroomList()">숙소</div>
+			<div class="headermenu" onClick="hostroomMark()">성취도</div>
 		</div>
-<<<<<<< HEAD
-		
-		<div class="headermenuButton" onClick="" style="float:right; padding:1% 3%;">
-
-			<button class="btn" style="background-color:  #008489;">
-				<span style="color: white; font-weight: bold;">숙소등록하기</span>
-			</button>
-		</div> 
-	</div>
-</div>
-
-=======
 		<div class="row" style="padding-right:2.5%;">
 			<div class="headermenu" onClick="" style="padding:0;float:right;padding-top:1%;">
 	        	<div style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
@@ -43,4 +35,3 @@
 		</div>
 	</div>
 </div>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

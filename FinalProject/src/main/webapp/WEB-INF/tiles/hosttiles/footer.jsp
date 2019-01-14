@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<div class="container footer" style="margin-top: 10%; margin-right: 18%; width: 63%;" >
-=======
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <div style="width:100%;border-top:1px solid lightgray;margin-top:2%;">
 <div class="container footer" style="margin-top:2%;margin-right: 18%; width: 63%;" >
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	<div class=" col-md-12 footer_menues" >	
 		<div class="col-md-3">
 			<span style="font-weight: bold; color: black;">에어비앤비</span><br><br>

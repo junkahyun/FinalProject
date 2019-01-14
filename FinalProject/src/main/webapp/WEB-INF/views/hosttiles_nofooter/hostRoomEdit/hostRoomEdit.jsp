@@ -96,6 +96,11 @@ div{border: /* 1px solid gray;  */
 		  evt.currentTarget.className += " active";
 	}
 	
+	function goPhotoEdit(){
+		location.href="<%=request.getContextPath()%>/hrPhotoEdit.air";
+	}
+	
+	
 </script>
 
 
@@ -149,7 +154,7 @@ div{border: /* 1px solid gray;  */
 		</div>
 		
 		<div class="col-md-2" style="margin-top: 3%; ">
-	  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+	  		<button type="button" class="btn" onclick="goPhotoEdit();"><span class="editbtn">수정</span></button>
 	    </div>
 	    </div>
 		<hr align="left" > 

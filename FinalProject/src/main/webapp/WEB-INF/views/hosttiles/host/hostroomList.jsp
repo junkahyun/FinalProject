@@ -4,7 +4,9 @@
 <style type="text/css">
 
 </style>
-
+<script type="text/javascript">
+	
+</script>
 
    <div class="container">
        <div class="panel panel-default">
@@ -29,7 +31,7 @@
                	원하시는 대금 수령 방법을 알려주세요. <a>대금 수령 방법을 설정하세요.</a></div>
           </div>
           
-          <div class="col-md-12">
+         <div class="col-md-12">
          <h2>운영 중</h2>
             <div class="panel panel-default">
                 <div class="panel-heading" style="background-color: white;">                   
@@ -47,7 +49,7 @@
                    </div>
                 </div>
                 <div class="panel-body">
-                   <a>수정하기</a>
+                   <a href="<%= request.getContextPath()%>/hostRoomEdit.air">수정하기</a>
                    <a>미리보기</a>
                    <a>달력</a>
                 </div>
@@ -76,7 +78,7 @@
                    	현재 휴식모드 입니다. 숙소를 '운영 재개'로 설정하시면 검색 결과에 다시 표시됩니다.</span>
                 </div>
                 <div class="panel-footer" style="background-color: white;">
-                   <a>수정하기</a>
+                   <a href="<%= request.getContextPath()%>/hostRoomEdit.air">수정하기</a>
                    <a>미리보기</a>
                    <a>달력</a>
                 </div>
