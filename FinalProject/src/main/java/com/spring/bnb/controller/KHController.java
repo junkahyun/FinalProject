@@ -72,4 +72,10 @@ public class KHController {
 	public String changeHostingPeople (HttpServletRequest req) {
 		return "hostRoomEdit/changeHostingPeople.hosttiles_nofooter";
 	}
+	
+	// ***** 호스트 등록된 숙소 수정하기(편의시설 및 이용규칙 수정) ***** //
+	@RequestMapping(value="/changeConvenienceAndRule.air", method= {RequestMethod.GET})
+	public String changeConvenienceAndRule (HttpServletRequest req) {
+		return "hostRoomEdit/changeConvenienceAndRule.hosttiles_nofooter";
+	}
 }

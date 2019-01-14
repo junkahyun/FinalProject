@@ -13,11 +13,10 @@
 			<div class="headermenu" onClick="">숙소</div>
 			<div class="headermenu" onClick="">성취도</div>
 		</div>
-		<div class="headermenuButton" onClick="" >
-
+		<div class="headermenuButton" onClick="" style="float:right; padding:1% 3%;">
 			<button class="btn" style="background-color:  #008489;">
 				<span style="color: white; font-weight: bold;">숙소등록하기</span>
 			</button>
-		</div> 
+		</div>
 	</div>
 </div>
