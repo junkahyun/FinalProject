@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,13 +44,33 @@ public class SHController {
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 		
-		List<MemberVO> member = new ArrayList<MemberVO>();
+		List<MemberVO> memberList = new ArrayList<MemberVO>();
 		
-		member = service.getMemberList();
+		memberList = service.getMemberList();
+		
+		req.setAttribute("memberList", memberList);
+		
+		String searchWord = req.getParameter("searchWord");
+		String searchType = req.getParameter("searchType");
+		
+		if(searchType == null) {
+			searchType = "name";
+		}
+		
+		if(!"name".equals(searchType) &&
+		   !"userid".equals(searchType) &&
+		   !"email".equals(searchType) ) {
+			searchType = "name";
+		}
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("searchType", searchType);
 		
 		
+		// List<MemberVO> searchMember = service.getSearchMember(paraMap);
 		
-		
+		// req.setAttribute("searchMember", searchMember);
 	
 		return "admin/adminMember.admintiles";
 	}

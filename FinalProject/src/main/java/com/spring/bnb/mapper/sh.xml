@@ -5,4 +5,19 @@
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="sh">
 	
+	<select id="getMemberList" resultType="com.spring.bnb.model.MemberVO">
+		select userid, username, pwd, email, phone, post, addr, detailddr, gender
+		    , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
+		from member
+		order by regdate desc
+	</select>
+	
+	<select id="getSearchMember" parameterType="HashMap" resultType="com.spring.bnb.model.MemberVO">
+		select userid, username, pwd, email, phone, post, addr, detailddr, gender
+		    , to_char(birthday,'yyyymmdd'), introduction, memberstatus, profileimg, warncount, regdate
+		from member
+		where 1=1
+		and #{searchType} like '%'|| #{searchWord} ||'%'
+		order by regdate desc
+	</select>
 </mapper>
