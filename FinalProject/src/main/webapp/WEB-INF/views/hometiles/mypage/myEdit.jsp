@@ -71,34 +71,38 @@ function showPhone(){
 			  </div>
 			  <div class="panel-body">
 			    <input type="hidden" name="password" id="user_email_password" value="">
-		
-			          <div class="row row-condensed space-4">
+			      <div class="row row-condensed space-4">
 			        <label class="text-right col-sm-3" for="user_last_name">
-			          이름(예: 홍) 
+			          	이름(예: 홍) 
 			        </label>
 			        <div class="col-sm-9">
-			          
-			      <input id="user_last_name" name="user[last_name]" size="30" type="text" value="Choi">
-			
-			          <div class="text-muted space-top-1">예약 요청 시 호스트는 회원님의 이름을 모두 확인할 수 있습니다.</div>
+			          <input id="user_last_name" name="user[last_name]" size="30" type="text" value="Choi">
+				      <div class="text-muted space-top-1">예약 요청 시 호스트는 회원님의 이름을 모두 확인할 수 있습니다.</div>
 			        </div>
 			      </div>
-			
-			      <div class="row row-condensed space-4"><label class="text-right col-sm-3" for="user_sex">
-			          성별 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
-			        </label>
-			        <div class="col-sm-9">
-			          
-			      <div class="select">
-			        <select id="user_sex" name="user[sex]">
-			        	<option value="" selected="selected">성별</option>
-						<option value="Male">남자</option>
-						<option value="Female">여자</option>
-						<option value="Other">기타</option>
-					</select>
-			      </div>	
-			       <div class="text-muted space-top-1">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>
+			      <!--  내이미지 파일 시작-->
+			      <div>
+			       <input type="file" name="profileimg"/>
 			        </div>
+			       <div>
+			        <img src="<%= request.getContextPath()%>/ ">
+			      </div>
+			      <!--  내이미지 파일 시작-->
+			      <div class="row row-condensed space-4">
+			      	<label class="text-right col-sm-3" for="user_sex">
+				               성별 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
+				    </label>
+				    <div class="col-sm-9">      
+					      <div class="select">
+					        <select id="user_sex" name="user[sex]">
+					        	<option value="" selected="selected">성별</option>
+								<option value="Male">남자</option>
+								<option value="Female">여자</option>
+								<option value="Other">기타</option>
+							</select>
+					      </div>	
+					      <div class="text-muted space-top-1">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>
+				     </div>
 			      </div>
 			<!--  생년월일 -->
 			       <div class="row row-condensed space-4">

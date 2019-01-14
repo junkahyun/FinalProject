@@ -1,5 +1,8 @@
 package com.spring.bnb.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,4 +16,12 @@ public class SODAO implements InterSODAO {
 	@Autowired
 	private SqlSessionTemplate sqlsession;
 
+	// 나의 쿠폰 리스트 가져오기
+	@Override
+	public List<HashMap<String, String>> getMyCoupon(String loginuser) {
+		
+		List<HashMap<String, String>> getMyCoupon = sqlsession.selectList("cso.getMyCoupon",loginuser);
+		return getMyCoupon;
+	}
+	
 }

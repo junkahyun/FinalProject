@@ -1,16 +1,20 @@
 package com.spring.bnb.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.bnb.service.InterHYService;
 import com.spring.bnb.service.InterSOService;
 import com.spring.common.AES256;
+import com.spring.common.FileManager;
 
 @Controller
 public class SOController {
@@ -20,13 +24,22 @@ public class SOController {
 	@Autowired
 	private AES256 aes;
 	
+	@Autowired
+	private FileManager fileManager;
+	
 	@RequestMapping(value = "/myCoupon.air", method = RequestMethod.GET)
-	public String myCoupon() {
+	public String myCoupon(HttpServletRequest req) {
+
+		List<HashMap<String,String>> myCoupon = new ArrayList<HashMap<String,String>>();
+		myCoupon = service.getMyCoupon("leess");
+		
 		
 		return "mypage/myCoupon.hometiles";
 	}
 	@RequestMapping(value = "/myEdit.air", method = RequestMethod.GET)
-	public String myEdit() {
+	public String myEdit(HttpServletRequest req,HttpServletResponse res) {
+		
+		
 		return "mypage/myEdit.hometiles";
 	}
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
