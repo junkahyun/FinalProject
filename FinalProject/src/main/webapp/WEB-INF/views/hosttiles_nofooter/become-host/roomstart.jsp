@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -25,10 +27,10 @@
 			<h3 style="margin: 0%;">등록하시려는 숙소 유형은<br/> 무엇인가요?</h3>
 			<div class="row" style="margin-top: 3%; padding-left: 15px;">
 				<div class="col-md-4" style="padding-left: 0;">
-					<select name="room_type" style="width: 100%; padding: 13px; border-radius: 2px;">  
-						<option value="entire_home">집 전체</option> 
-						<option value="private_room">개인실</option>
-						<option value="shared_room">다인실</option>
+					<select name="room_type" style="width: 100%; padding: 13px; border-radius: 2px;"> 
+						<c:forEach items="${roomtype}" var="roomtype">
+							<option value="${roomtype}">${roomtype}</option> 
+						</c:forEach> 
 					</select>
 				</div> 
 				<div class="col-md-4" style="padding-left: 0;">     

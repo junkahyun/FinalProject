@@ -24,6 +24,7 @@
 		    background-size: cover;
 		    height: 606px;
 		}
+
 		.bg_up{
 			background: url('<%= ctxPath %>/resources/images/main/bg_repeat.png') repeat-x;
 			position: absolute;
@@ -102,7 +103,7 @@
 	<section id="recommend_lodging">
 		<div class="container">
 			<div id="section_title" align="center">
-				<h3>추천 숙소</h3>
+				<h3 class="after_underline">추천 숙소</h3>
 			</div>		
 			<div class="row not-rowStyle">
 				<ul id="rooms_show_ul">
@@ -176,7 +177,7 @@
 	<section id="company_A">
 		<div class="container">
 			<div id="section_title" align="center">
-				<h3>에어비앤비와 함께하는 여행</h3>
+				<h3 class="">에어비앤비와 함께하는 여행</h3>
 			</div>		
 			<div class="col-md-12 info_company">
 				<div class="col-md-4 info_1">
