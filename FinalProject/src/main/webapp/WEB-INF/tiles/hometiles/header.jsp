@@ -42,6 +42,8 @@
             <div class="headermenu" onClick="">호스트가 되어보세요</div>
             </c:if>
             <c:if test="${loginser.myroom!=null }"> --%>
+            <div class="headermenu" style="cursor: pointer;" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</div>
+            <div class="headermenu" style="cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</div>
             <div class="headermenu" onClick="">숙소추가</div>
             <div class="headermenu" onClick="">호스트</div>
             <%-- </c:if> --%>
@@ -147,64 +149,21 @@
          
          <div class="dropdown row" style="width:100%;padding:0;margin:0;" >
 			<div class="col-md-5">
-			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%; height: 46px; text-align: left; margin-left: 10%; margin-top: 2%;">월
-		    <span class="caret"></span></button>
-			   <ul class="dropdown-menu" style="width:100%; height: 346px; text-align: left; margin-left: 15%; ">
-			      <li><a href="#">월</a></li>
-			      <li><a href="#">1월</a></li>
-			      <li><a href="#">2월</a></li>
-			      <li><a href="#">3월</a></li>
-			      <li><a href="#">4월</a></li>
-			      <li><a href="#">5월</a></li>
-			      <li><a href="#">6월</a></li>
-			      <li><a href="#">7월</a></li>
-			      <li><a href="#">8월</a></li>
-			      <li><a href="#">9월</a></li>
-			      <li><a href="#">10월</a></li>
-			      <li><a href="#">11월</a></li>
-			      <li><a href="#">12월</a></li>
-	
-	   		   </ul>
+				<select style="width:100%; text-align: left; margin-left: 15%; overflow:scroll;">
+			      <option >월</option>
+			      <c:forEach var="month" begin="1" end="12">
+			      <option value="${month}">${month}</option>
+			      </c:forEach> 
+	   		    </select>
     	</div>		
 				    
-    	<div class="col-md-3">
-     		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%; height: 46px; text-align: left; margin-left: 15%; margin-top: 2%;">일
-		    <span class="caret"></span></button>
-			  <ul class="dropdown-menu" style="width:100%;height: 346px; text-align: left; margin-left: 15%; overflow:scroll;">
-			      <li><a href="#">일</a></li>
-			      <li><a href="#">1</a></li>
-			      <li><a href="#">2</a></li>
-			      <li><a href="#">3</a></li>
-			      <li><a href="#">4</a></li>
-			      <li><a href="#">5</a></li>
-			      <li><a href="#">6</a></li>
-			      <li><a href="#">7</a></li>
-			      <li><a href="#">8</a></li>
-			      <li><a href="#">9</a></li>
-			      <li><a href="#">10</a></li>
-			      <li><a href="#">11</a></li>
-			      <li><a href="#">12</a></li>
-			      <li><a href="#">13</a></li>
-			      <li><a href="#">14</a></li>
-			      <li><a href="#">15</a></li>
-			      <li><a href="#">16</a></li>
-			      <li><a href="#">17</a></li>
-			      <li><a href="#">18</a></li>
-			      <li><a href="#">19</a></li>
-			      <li><a href="#">20</a></li>
-			      <li><a href="#">21</a></li>
-			      <li><a href="#">22</a></li>
-			      <li><a href="#">23</a></li>
-			      <li><a href="#">24</a></li>
-			      <li><a href="#">25</a></li>
-			      <li><a href="#">26</a></li>
-			      <li><a href="#">27</a></li>
-			      <li><a href="#">28</a></li>
-			      <li><a href="#">29</a></li>
-			      <li><a href="#">30</a></li>
-			      <li><a href="#">31</a></li>
-
-	    	  </ul>
+    <div class="col-md-3">
+   		<select  style="width:100%; text-align: left; margin-left: 15%; overflow:scroll;">
+		    <option>일</option>
+		    <c:forEach var="day" begin="1" end="31" >
+		    <option value="${day}">${day}</option>
+			</c:forEach>
+   	  	</select>
     
     
     
@@ -213,14 +172,14 @@
     </div>
     
     <div class="col-md-3">
-     		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width:100%; height: 46px; text-align: left; margin-left: 15%; margin-top: 2%;">년
-		    <span class="caret"></span></button>
-			  <ul class="dropdown-menu" style="width:100%;height: 346px; text-align: left; margin-left: 15%; overflow:scroll;">
-			      <li><a href="#">년</a></li>
-			      <li><a href="#">2019</a></li>
-			      
-
-	    	  </ul>
+     		<select  style="width:100%; text-align: left; margin-left: 15%; overflow:scroll;">
+		    <option>년</option>
+		    <c:forEach var="year" begin="1899" end="2019" step="1">
+		     <c:set var="j" value="${2019-year+1}" scope="page"></c:set>
+    			<c:out value="${j}"/>
+		    	<option value="${year}">${year}</option>
+			</c:forEach>
+   	  	</select>
     
     
     
