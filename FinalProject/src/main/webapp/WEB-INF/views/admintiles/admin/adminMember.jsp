@@ -4,6 +4,12 @@
 <%
 	String cxtPath = request.getContextPath();
 %> 
+<style type="text/css">
+	table.memberList thead tr th,
+	table.memberList tbody tr td{
+		vertical-align: middle;
+	}
+</style>
 <div class="col-md-10">
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
 		<div class="give_after_underline">
@@ -14,7 +20,7 @@
 	<div class="container">	
 		<div class="row">
 			<div class="col-md-12" style="border: 0px solid gray;">
-			<table class="table">
+			<table class="memberList table table-hover">
 					<col width="10%;"/>
 					<col width="15%;"/>
 					<col width="15%;"/>
