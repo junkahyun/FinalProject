@@ -45,9 +45,9 @@
 
 	}
 	
-	function detail(userid) {
+	function memberDetail(userid) {
 		
-		var userid = $
+		location.href="memberDetail.air?userid="+userid;
 		
 	}
 	
@@ -91,34 +91,36 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					  	<c:if test="${searchMember == null}">
-						  	<c:forEach var="membervo" items="${memberList}">
-							    <tr>
-							      <td><a data-toggle="modal" data-target="#myModal" onclick='detail("${membervo.userid}")'>${membervo.username}</a></td>
-							      <td>${membervo.userid}</td>
-							      <td>${membervo.birthday}</td>
-							      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
-							      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
-							      <td>${membervo.phone}</td>
-							      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
-							      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
-							    </tr>
-						    </c:forEach>
-					    </c:if>
-					    <c:if test="${searchMember != null}">
-						  	<c:forEach var="membervo" items="${searchMember}">
-							    <tr>
-							      <td><a data-toggle="modal" data-target="#myModal" onclick='detail("${membervo.userid}")'>${membervo.username}</a></td>
-							      <td>${membervo.userid}</td>
-							      <td>${membervo.birthday}</td>
-							      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
-							      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
-							      <td>${membervo.phone}</td>
-							      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
-							      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
-							    </tr>
-						    </c:forEach>
-					    </c:if>
+					  	<form name="detailFrm">
+						  	<c:if test="${searchMember == null}">
+							  	<c:forEach var="membervo" items="${memberList}">
+								    <tr>
+								      <td><a data-toggle="modal" data-target="#myModal" onClick='memberDetail("${membervo.userid}")'>${membervo.username}</a></td>
+								      <td>${membervo.userid}</td>
+								      <td>${membervo.birthday}</td>
+								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
+								      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
+								      <td>${membervo.phone}</td>
+								      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+								      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
+								    </tr>
+							    </c:forEach>
+						    </c:if>
+						    <c:if test="${searchMember != null}">
+							  	<c:forEach var="membervo" items="${searchMember}">
+								    <tr>
+								      <td><a data-toggle="modal" data-target="#myModal" onClick='memberDetail("${membervo.userid}")'>${membervo.username}</a></td>
+								      <td>${membervo.userid}</td>
+								      <td>${membervo.birthday}</td>
+								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
+								      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
+								      <td>${membervo.phone}</td>
+								      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+								      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
+								    </tr>
+							    </c:forEach>
+						    </c:if>
+					    </form>
 					  </tbody>
 				</table>			
 			</div>
@@ -193,15 +195,13 @@
 									          </tr>
 									          <tr>
 									            <td>보유쿠폰</td>
+									            
 									            <td>없음</td>
+									            
 									          </tr>
 									          <tr>
-									            <td>예약현황</td>
+									            <td>예약코드</td>
 									            <td>없음</td>
-									          </tr>
-									          <tr>
-									            <td>리뷰관리</td>
-									            <td><span>작성한 리뷰 확인하기</span></td>
 									          </tr>
 								          </c:forEach>
 					    				</c:if>

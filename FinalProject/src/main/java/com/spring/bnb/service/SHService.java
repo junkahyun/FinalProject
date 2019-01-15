@@ -32,5 +32,14 @@ public class SHService implements InterSHService {
 		
 		return searchMember;
 	}
+
+	// 회원 상세페이지
+	@Override
+	public HashMap<String, String> getMemberDetail(String userid) {
+		
+		HashMap<String, String> member = dao.getMemberDetail(userid);
+		
+		return member;
+	}
 	
 }

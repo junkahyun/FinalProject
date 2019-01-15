@@ -59,12 +59,12 @@
 	</div>
   
 	<div style="padding: 2%;">
-		<label class="input-group-text" for="inputGroupSelect01">제목</label>
+		<label class="input-group-text" for="inputGroupSelect02">제목</label>
 		<input type="text" class="form-control" placeholder="제목을 써주세요">
 	</div>
 	
 	<div style="padding-left: 2%; padding-right: 2%; padding-bottom: 2%;">
-		<label class="input-group-text" for="inputGroupSelect01">내용</label>
+		<label class="input-group-text" for="inputGroupSelect03">내용</label>
 		<textarea name="content" id="content" rows="10" cols="100" style="width:100%; height:412px;"></textarea>
 	</div>
 	

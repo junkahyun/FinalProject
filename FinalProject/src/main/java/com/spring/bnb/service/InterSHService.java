@@ -13,4 +13,7 @@ public interface InterSHService {
 	// 검색해서 회원목록 보여주기
 	List<MemberVO> getSearchMember(HashMap<String, String> paraMap);
 	
+	// 회원 상세페이지
+	HashMap<String, String> getMemberDetail(String userid);
+	
 }

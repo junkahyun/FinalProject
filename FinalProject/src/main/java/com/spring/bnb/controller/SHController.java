@@ -76,6 +76,17 @@ public class SHController {
 		
 		return "admin/adminMember.admintiles";
 	}
+	
+	// 관리자 회원상세 페이지
+	@RequestMapping(value="/memberDetail.air", method= {RequestMethod.GET})
+	public String memberDetail(HttpServletRequest req) {
+		
+		String userid = req.getParameter("userid");
+		
+		HashMap<String, String> member = service.getMemberDetail(userid);
+		
+		return "admin/adminMember.admintiles";
+	}
 	 
 	// 관리자 신고관리 페이지
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})

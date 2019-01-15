@@ -32,4 +32,13 @@ public class SHDAO implements InterSHDAO {
 		
 		return searchMember;
 	}
+
+	// 회원 상세페이지
+	@Override
+	public HashMap<String, String> getMemberDetail(String userid) {
+		
+		HashMap<String, String> member = sqlsession.selectOne("sh.getMemberDetail", userid);
+		
+		return member;
+	}
 }

@@ -6,18 +6,40 @@
 <mapper namespace="sh">
 	
 	<select id="getMemberList" resultType="com.spring.bnb.model.MemberVO">
-		select userid, username, pwd, email, phone, post, addr, detailddr, gender
+		select userid, username, pwd, email, phone, post, addr, detailaddr, gender
 		    , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
 		from member
 		order by regdate desc
 	</select>
 	
 	<select id="getSearchMember" parameterType="HashMap" resultType="com.spring.bnb.model.MemberVO">
-		select userid, username, pwd, email, phone, post, addr, detailddr, gender
-		    , to_char(birthday,'yyyy-mm-dd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
+		select userid, username, pwd, email, phone, post, addr, detailaddr, gender
+		    , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
 		from member
 		where 1=1
 		and ${searchType} like '%'|| #{searchWord} ||'%'
 		order by regdate desc
 	</select>
+	
+	<resultMap type="HashMap" id="memberMap">
+		<result javaType="String" column="username" property="username"/>
+		<result javaType="String" column="userid" property="userid"/>
+		<result javaType="String" column="birthday" property="birthday"/>
+		<result javaType="String" column="gender" property="gender"/>
+		<result javaType="String" column="email" property="email"/>
+		<result javaType="String" column="phone" property="phone"/>
+		<result javaType="String" column="addr" property="addr"/>
+		<result javaType="String" column="detailddr" property="detailaddr"/>
+		<result javaType="String" column="addr" property="addr"/>
+		<result javaType="String" column="reservationcode" property="reservationcode"/>
+	</resultMap>
+	
+	<select id="getMemberDetail" parameterType="hashMap" resultType="com.spring.bnb.model.MemberVO">
+		select userid, username, pwd, email, phone, post, addr, detailaddr, gender
+		    , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
+		from member
+		where userid = ${userid}
+	</select>
+	
+	
 </mapper>
