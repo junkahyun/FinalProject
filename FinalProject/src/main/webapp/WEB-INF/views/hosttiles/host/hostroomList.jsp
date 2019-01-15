@@ -3,11 +3,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/hostheader.css">
-<style type="text/css">
-	
-</style>
-<script type="text/javascript">
 
+<style type="text/css">
+
+.img-thumbnail{
+	border: none;
+	
+}
+
+.panel-heading{
+	background-color: white;
+}
+
+.panel-heading:hover{
+	background-color: gray;
+	cursor: pointer;
+}
+</style>
+
+<script type="text/javascript">
+	
 </script>
 
    <div class="container">
@@ -43,27 +58,26 @@
 						<h2>운영 중지</h2>
 					</c:if>
 					<div class="panel panel-default">
-						<div class="panel-heading" style="background-color: white;">
+						<div class="panel-heading">
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-8">
 									<span style="font-size: 15pt;">${room.roomName }</span> <br /> <br /> <br />
 									<br /> <span style="font-size: 9pt;">최종업데이트 날짜:</span>
 								</div>
-
-								<div class="col-md-8">
-									${room.roomMainImg }
+								<div class="col-md-4 ">
+									<img class="img-thumbnail" alt="" src="${room.roomMainImg }">
 								</div>
 							</div>
 						</div>
 						<c:if test="${room.roomstatus == 0 }">
 							<div class="panel-body">
-								<img alt=""
-									src="<%=request.getContextPath()%>/resources/images/time_icon-icons.com_65742.png">
+								<img alt=""src="<%=request.getContextPath()%>/resources/images/time_icon-icons.com_65742.png">
 								<span><span style="font-weight: bold;">숙소 재설정</span><br />
 									현재 휴식모드 입니다. 숙소를 '운영 재개'로 설정하시면 검색 결과에 다시 표시됩니다.</span>
 							</div>
 						</c:if>
 						<div class="panel-footer" style="background-color: white;">
+							<input type="hidden" value="${room.roomcode }" />
 							<a href="<%=request.getContextPath()%>/hostRoomEdit.air">수정하기</a>
 							<a>미리보기</a> <a>달력</a>
 						</div>
