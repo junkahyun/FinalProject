@@ -83,7 +83,9 @@ public class SHController {
 		
 		String userid = req.getParameter("userid");
 		
-		HashMap<String, String> member = service.getMemberDetail(userid);
+		HashMap<String, String> membervo = service.getMemberDetail(userid);
+		List<HashMap<String, String>> reservation = service.getReservation(userid);
+		List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);
 		
 		return "admin/adminMember.admintiles";
 	}

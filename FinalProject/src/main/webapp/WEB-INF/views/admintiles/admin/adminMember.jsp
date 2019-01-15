@@ -158,7 +158,7 @@
 							
 							<div class="panel-body" style="padding-bottom: 3%; padding-top: 3%;">
 							    <div class="row">
-									<div class="col-lg-3 " align="center"><img alt="프로필 사진" src="resources/images/친구와함께.JPG" class="img-circle img-responsive"></div>			
+									<div class="col-lg-3 " align="center"><img alt="프로필 사진" src="resources/images/${membervo.profileimg}" class="img-circle img-responsive"></div>			
 								    
 							    <div class=" col-md-9 col-lg-9 "> 
 							      <table class="table table-user-information">
@@ -181,7 +181,7 @@
 									            <td>성별</td>
 									            <td>${membervo.gender}</td>
 									          </tr>
-									            <tr>
+									           <tr>
 									            <td>이메일</td>
 									            <td>${membervo.email}</td>
 									          </tr>
@@ -192,6 +192,14 @@
 									          <tr>
 									            <td>주소</td>
 									            <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+									          </tr>
+									          <tr>
+									            <td>가입일</td>
+									            <td>${membervo.regdate}</td>
+									          </tr>
+									          <tr>
+									            <td>경고횟수</td>
+									            <td>${membervo.warncount}</td>
 									          </tr>
 									          <tr>
 									            <td>보유쿠폰</td>
@@ -201,51 +209,9 @@
 									          </tr>
 									          <tr>
 									            <td>예약코드</td>
+									            
 									            <td>없음</td>
-									          </tr>
-								          </c:forEach>
-					    				</c:if>
-					    				<c:if test="${searchMember != null}">
-						  					<c:forEach var="membervo" items="${searchMember}">
-									          <tr>
-									            <td>성명</td>
-									            <td>${membervo.username}</td>
-									          </tr>
-									          <tr>
-									            <td>생년월일</td>
-									            <td>${membervo.birthday}</td>
-									          </tr>
-									          <tr>
-									            <td>아이디</td>
-									            <td>${membervo.userid}</td>
-									          </tr>
-							                  <tr>
-									            <td>성별</td>
-									            <td>${membervo.gender}</td>
-									          </tr>
-									            <tr>
-									            <td>이메일</td>
-									            <td>${membervo.email}</td>
-									          </tr>
-									          <tr>
-									            <td>핸드폰번호</td>
-									            <td>${membervo.phone}</td>
-									          </tr>
-									          <tr>
-									            <td>주소</td>
-									            <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
-									          </tr>
-									          <tr>
-									            <td>보유쿠폰</td>
-									            <td>없음</td>
-									          </tr>
-									          <tr>
-									            <td>예약현황</td>
-									            <td>없음</td>
-									          </tr>
-									          <tr>
-									            <td>리뷰관리</td>
-									            <td><span>작성한 리뷰 확인하기</span></td>
+									            
 									          </tr>
 								          </c:forEach>
 					    				</c:if>
