@@ -65,11 +65,13 @@ public class SCController {
 		roomList = service.getRoomList(userid);
 		RoomVO roomvo = (RoomVO)service.getRoom(roomcode);
 		
-		List<String> roomimgList = new ArrayList<String>();
-		roomimgList = service.getRoomImg(roomcode);
-		
-		List<String> optionList = new ArrayList<String>();
-		optionList = service.getOption(roomcode);
+		/*
+		 * List<String> roomimgList = new ArrayList<String>(); roomimgList =
+		 * service.getRoomImg(roomcode);
+		 * 
+		 * List<String> optionList = new ArrayList<String>(); optionList =
+		 * service.getOption(roomcode);
+		 */
 		
 		List<HashMap<String, String>> bedroomList = new ArrayList<HashMap<String,String>>();
 		
