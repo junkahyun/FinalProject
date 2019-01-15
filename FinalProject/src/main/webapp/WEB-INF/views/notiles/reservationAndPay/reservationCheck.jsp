@@ -142,10 +142,10 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 240%; "/></div>
-				<div class="col-md-11">
-				      숙소 예약이 곧 마감될 수 있습니다. Bangkok, 태국의 여행 트렌드를 
-				      분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 55px;"/></div>
+				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+				      숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 
+				   1박 이상의 예약이 곧 마감될 수 있습니다.
 			    </div>
 			</div>
 		</div>
@@ -209,7 +209,10 @@ h3{font-size: 14pt;
 				<div class="col-md-8">
 					<span style="font-weight: bold; font-size: 12pt;">[On sale!!!] Clean&Nearby attractions</span>
 				     <br><br>Eunpyeong-gu의 집 전체<br>
-				     <c:forEach begin="1" end="5" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach> 후기150개
+				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
+				     <i class="fas fa-star-half-alt fa-sm" style="color: #008489;"></i>
+				         후기150개
+					  
 				</div> 
 				<div class="col-md-4"><img src="<%=ctxPath %>/resources/img/숙소사진.JPG" /></div>
 			</div>
@@ -240,8 +243,17 @@ h3{font-size: 14pt;
 				<!-- 각종 수수료  -->
 			<div>
 				<div class="col-md-9">
-				서비스 수수료 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
-				         data-content="수수료는 에어비앤비 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다."></i>
+				청소비 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
+				         data-content="호스트가 청구하는 일회성 숙소 청소 비용입니다."></i>
+				</div>
+				<div class="col-md-3" style="margin-bottom: 3%;">
+				 ₩90,000
+				</div>
+			</div>
+			<div>
+				<div class="col-md-9">
+				성수기 추가 금액 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
+				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
 				 ₩90,000

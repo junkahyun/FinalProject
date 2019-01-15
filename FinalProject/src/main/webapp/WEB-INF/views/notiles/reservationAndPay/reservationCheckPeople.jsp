@@ -247,8 +247,8 @@ h3{font-size: 14pt;
 				</li>
 				<li style="margin-left: 5%; margin-top: 8%;" >
 					<div class="col-md-6">
-				 		<span class="spellpeople" style="margin-right: 40%; ">어린이</span><br>
-				 		<span style="font-size: 11pt;">2세~19세</span>
+				 		<span class="spellpeople" style="margin-right: 40%; ">유아</span><br>
+				 		<span style="font-size: 11pt;">2세~10세</span>
 				 	</div>   
 				 	
 				 	
@@ -330,8 +330,17 @@ h3{font-size: 14pt;
 				<!-- 각종 수수료  -->
 			<div>
 				<div class="col-md-9">
-				서비스 수수료 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
-				         data-content="수수료는 에어비앤비 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다."></i>
+				청소비 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
+				         data-content="호스트가 청구하는 일회성 숙소 청소 비용입니다."></i>
+				</div>
+				<div class="col-md-3" style="margin-bottom: 3%;">
+				 ₩90,000
+				</div>
+			</div>
+			<div>
+				<div class="col-md-9">
+				성수기 추가 금액 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
+				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
 				 ₩90,000
