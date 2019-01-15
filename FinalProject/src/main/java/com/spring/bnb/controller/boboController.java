@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.boboService;
+import com.spring.common.MyUtil;
 
 
 @Controller
@@ -35,17 +36,27 @@ public class boboController {
 		
 		return "become-host/room-stap1.hosttiles_nofooter";
 	}
-	
-	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
-	public String roomtype(HttpServletRequest req) {
-				
-		List<HashMap<String, String>> buildType = service.selectbuildType();// 건물유형 가져오기
-		req.setAttribute("buildType", buildType);
-		
-		List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
-		req.setAttribute("roomtype", roomtype);
 
-		return "become-host/roomtype.hosttiles_nofooter";
+/*	@RequestMapping(value="/getcurrenturl.air", method={RequestMethod.GET})
+	public String getcurrenturl(HttpServletRequest req) {
+		String currenturl = MyUtil.getCurrentURL(req);
+		JSONObject jobj = new JSONObject();
+		jobj.put("currenturl", currenturl);
+		String str_jsonArr = jobj.toString();
+		req.setAttribute("str_jsonArr",str_jsonArr);
+		return "JSON";
+	}*/
+	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
+	public String roomtype(HttpServletRequest req) {				
+		
+			List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
+			req.setAttribute("buildType", buildTypeList);
+			
+			List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
+			req.setAttribute("roomtype", roomtype);
+			
+			return "become-host/roomtype.hosttiles_nofooter";
+
 	}
 	
 	@RequestMapping(value="/roomtypeJSON.air", method={RequestMethod.GET})
@@ -53,9 +64,7 @@ public class boboController {
 	public String roomtypeJSON(HttpServletRequest req) {
 		
 		String buildType = req.getParameter("buildType");
-		//System.out.println(buildType);
-		
-		/*===========================================================================================*/
+
 		JSONArray jsonArr = new JSONArray();
 		
 		if(buildType != null && !buildType.trim().isEmpty()) {
@@ -79,7 +88,6 @@ public class boboController {
 		req.setAttribute("str_jsonArr", str_jsonArr);
 		
 		return "JSON";
-		/*=======================================================================================*/
 		
 		/*===================== jackson ======================================================= 
 		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
@@ -111,9 +119,15 @@ public class boboController {
 		
 	@RequestMapping(value="/bedroom.air", method={RequestMethod.GET})
 	public String bedroom(HttpServletRequest req) {
-
+		
+		String buildType = req.getParameter("buildType");
 		String buildType_detail = req.getParameter("buildType_detail");
 		String room_type = req.getParameter("room_type");
+		
+
+		String gobackURL = req.getParameter("gobackURL");
+		req.setAttribute("gobackURL", gobackURL);
+		System.out.println(gobackURL);
 		
 		RoomVO roomvo = new RoomVO();
 		roomvo.setFk_buildType_detail_idx(buildType_detail);

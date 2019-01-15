@@ -1,3 +1,4 @@
+<%@page import="com.spring.common.MyUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -64,8 +65,7 @@
     	 // 건물유형선택 셀랙박스 선택가능하게
     	 $("#buildType_detail").attr("disabled", false);
 
-    	  var buildType = $("#buildType").val();
-    	 
+    	  var buildType = $("#buildType").val();   	 
     	  var form_data = {"buildType":buildType};
  		 
  		  $.ajax({
@@ -90,6 +90,11 @@
 	 	 });// end of $.ajax({ --- 	
  			 
       });// $("#buildType").change(function()
+    		  
+    		  
+      $("#testbtn").click(function(){
+    	  $("#gobackURL").val("<%=MyUtil.getCurrentURL(request) %>");
+      });
 
    });// $(document).ready(function()
 		   
@@ -102,6 +107,7 @@
    
    function next(){
 		var frm = document.roomtype;
+		frm.gobackURL.value = gobackURL;
 		frm.action = "bedroom.air";
 		frm.method = "GET";
 		frm.submit();
@@ -206,7 +212,7 @@
 		         </div>
 		         <div class="col-md-6" style="border: 0px solid red;"></div>
 		         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-		            <button type="button" onclick="next();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
+		            <button type="button" onclick="next();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
 		         </div>
 	        </div> 
 	       </div>
@@ -218,4 +224,5 @@
 	
 	   </div>
 	</div>
+	
 </form>
