@@ -15,9 +15,9 @@ public class SWService implements InterSWService {
 	private InterSWDAO dao;
 
 	@Override
-	public List<HashMap<String, String>> getBuildList() {
+	public List<String> getBuildList() {
 		
-		List<HashMap<String, String>> buildList = dao.getBuildList();
+		List<String> buildList = dao.getBuildList();
 		
 		return buildList;
 	}
@@ -44,6 +44,14 @@ public class SWService implements InterSWService {
 		List<String> roomRule = dao.getRoomRule();
 		
 		return roomRule;
+	}
+
+	@Override
+	public List<String> getBuildDetailList(String buildName1) {
+		
+		List<String> buildDetailList = dao.getBuildDetailList(buildName1);
+		
+		return buildDetailList;
 	}
 
 	

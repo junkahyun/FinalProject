@@ -49,21 +49,35 @@
                return false;
             }
          }
-      }); // end of $("#spinnerPqty").spinner();---------------
-	
-      $.ajax({
-		url : "<%=request.getContextPath()%>"/homeName.action",
-		data : form_data,
-		type : "GET".
-		dataType : "JSON",
-		success : function(json){
-		 
-		},
-		error: function(request, status, error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
+      }); // end of $("#spinnerPqty").spinner();---------------  
+      
+      $("#buildName1").change(function(){
+    	  
+    	  var form_data = {buildName1 : $("#buildName1").val()};
+    	  var html = "";   	  
     	 
-	});
+    	  $.ajax({
+    		 url : "<%=request.getContextPath()%>/homeName.air",
+    		 type : "GET",
+    		 data : form_data,
+    		 dataType : "JSON",
+    		 success : function(json){
+    			// alert("성공좀하자 ");
+    			html += "<option value=''>:::선택하세요:::</option>";
+    			$("#buildName2").append(html);
+    			$.each(json, function(entryIndex, entry){
+					html += "<option>"+entry.buildDetailName+"</option>";
+				});// end of $.each()-------------
+				
+    			 $("#buildName2").empty().append(html); 
+    		 },
+             error: function(request, status, error){
+                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+             }
+    	  });
+    	  
+      });
+      
  });
  
     var height;
@@ -117,11 +131,11 @@
 <body>
 	<form>
 	<div id="optionSection" class="row menu">
-        <div id="optionLeft" class="col-md-4">
+        <div id="optionLeft" class="col-md-5">
         
             <div id="locationField" class="optionbox">
-            	<span class="optionname">지역</span>
-            	<select id=city style="border-right: 1px solid gray; margin-left: 10%; margin-right: 15%;">
+            	<span class="optionname">지역 선택</span>
+            	<select id=city style="border-right: 1px solid gray; margin-left: 10%; margin-right: 10%; width: 15%; height: 80%;">
             		<option value="서울">서울</option>
             		<option value="대전">대전</option>
             		<option value="대구">대구</option>
@@ -130,8 +144,8 @@
             	<!-- <input id="city" placeholder="지역을 입력하세요." type="text" value="부산" style="border: 0px solid; margin-left: 110px;">   -->  
             	
             	<span class="optionname">날짜</span>
-            	<input type="text" id="checkin" class="datepicker" placeholder="체크인 날짜" style="margin-left: 10%; width: 18%;">&nbsp;~&nbsp;
-            	<input type="text" id="checkout" class="datepicker" placeholder="체크아웃 날짜" style="width: 18%;">   
+            	<input type="text" id="checkin" class="datepicker" placeholder="체크인 날짜" style="margin-left: 5%; width: 18%; height: 80%;">&nbsp;~&nbsp;
+            	<input type="text" id="checkout" class="datepicker" placeholder="체크아웃 날짜" style="width: 18%; height: 80%;">   
             	       	
             </div>
            
@@ -152,15 +166,19 @@
            
         </div>
         
-        <div id="optionRight" class="col-md-8">
+        <div id="optionRight" class="col-md-7">
         	<div class="optionbox">
         		<span class="optionname">건물 유형</span>
-            	<c:forEach items="${buildList}" var="buildName">
-            		<input type="checkbox" class="buildType" style="margin-left: 5%;"/>&nbsp;${buildName.}
-            		<input type="text" name="idx" value=""/>
-            		
-            	</c:forEach>                	
-        		
+        		<select id=buildName1 name="buildName1" style="border-right: 1px solid gray; margin-left: 5%; height: 80%;">
+            		<option value="">:::선택하세요:::</option>
+            		<c:forEach items="${buildList}" var="buildName">	            	
+	            		<option value="${buildName}">${buildName}</option>            		           		
+            		</c:forEach>                	
+        		</select>
+        		<select id="buildName2" name="buildName2" style="border-right: 1px solid gray; margin-left: 5%; margin-right: 15%; height: 80%;">
+        			<option value=''>:::선택하세요:::</option>
+        				
+        		</select>
         	</div>
             
             <div class="optionbox">            	
@@ -172,10 +190,12 @@
             	<span class="optioninput" id="single" style="padding-right: 10%; cursor: pointer;">별도의 싱글룸</span>
             	<span class="optioninput" id="share" style="cursor: pointer;">쉐어 룸</span> -->                      	
             </div>
-            <div class="optionbox">
-            	<span class="optionname" style="margin-right: 3%;">고객 편의</span>
-            	<c:forEach items="${optionList}" var="option">
-            		<input type="checkbox" class="option" style="margin-left: 2%;"/>&nbsp;${option}
+            <div class="optionbox" id="service">
+            	<span class="optionname">고객 편의</span>
+            	<c:forEach items="${optionList}" var="option" varStatus="status">
+  					
+            		<input type="checkbox" class="option" style="margin-left: 5%;"/>&nbsp;${option}
+            		<c:if test="${status.index == 5 }"><br/><span style="margin-left: 6.3%;"></span></c:if>
             	</c:forEach>
             	
             </div> 

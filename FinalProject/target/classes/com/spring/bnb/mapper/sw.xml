@@ -6,8 +6,8 @@
 <mapper namespace="sw">
 	
 	<!-- 건물유형(대) -->
-	<select id="getBuildList" resultType="HashMap">
-		select buildtype, buildtype_idx
+	<select id="getBuildList" resultType="String">
+		select buildtype
 		from buildtype	
 	</select>
 	
@@ -29,11 +29,12 @@
 		from roomrule
 	</select>
 	
-	<!-- 건물유형(소)
-	<select id="getBuildDetailList" resultType="String">
+	<!-- 건물유형(소)-->
+	<select id="getBuildDetailList" parameterType="String" resultType="String">
 		select buildtype_detail_name
-		from buildtype_detail
-		where fk_buildtype_idx = #{BUILDTYPE_IDX}
-	</select> -->
+		from buildtype A JOIN buildtype_detail B
+		on A.buildtype_idx = B.fk_buildtype_idx
+		where A.buildtype = #{buildName1}
+	</select> 
 
 </mapper>

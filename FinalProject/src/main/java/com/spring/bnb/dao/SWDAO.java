@@ -15,9 +15,9 @@ public class SWDAO implements InterSWDAO {
 	private SqlSessionTemplate sqlsession; // SqlSessionTemplate --> root-context.xml  #15.
 
 	@Override
-	public List<HashMap<String, String>> getBuildList() {
+	public List<String> getBuildList() {
 		
-		List<HashMap<String, String>> buildList = sqlsession.selectList("sw.getBuildList");
+		List<String> buildList = sqlsession.selectList("sw.getBuildList");
 		
 		return buildList;
 	}
@@ -44,6 +44,14 @@ public class SWDAO implements InterSWDAO {
 		List<String> roomRule = sqlsession.selectList("sw.getRoomRule");
 		
 		return roomRule;
+	}
+
+	@Override
+	public List<String> getBuildDetailList(String buildName1) {
+		
+		List<String> buildDetailList = sqlsession.selectList("sw.getBuildDetailList", buildName1);
+		
+		return buildDetailList;
 	}
 
 	
