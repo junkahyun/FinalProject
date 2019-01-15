@@ -20,6 +20,7 @@ public class HYDAO implements InterHYDAO {
 
 	@Override
 	public RoomVO getRoomByCode(String roomcode) {		
+		
 		// 숙소정보 가져오기
 		RoomVO roomvo = sqlsession.selectOne("hy.getRoomByCode", roomcode);
 		// 호스트정보가져오기
