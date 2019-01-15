@@ -3,6 +3,7 @@ package com.spring.bnb.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Update;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,5 +32,13 @@ public class SODAO implements InterSODAO {
 		MemberVO myInfo = sqlsession.selectOne("cso.getMyInfo", loginuser);
 		return myInfo;
 	}
+	// 나의 정보수정 하기
+	@Override
+	public int memberUpdate(MemberVO member) {
+		int n = sqlsession.update("cso.memberUpdate",member);
+		return n;
+	}
+
+
 	
 }

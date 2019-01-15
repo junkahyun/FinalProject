@@ -26,5 +26,11 @@ public class SOService implements InterSOService{
 		MemberVO myInfo = dao.getMyInfo(loginuser);
 		return myInfo;
 	}
+	// 나의 정보 수정
+	@Override
+	public int memberUpdate(MemberVO member) {
+		int n = dao.memberUpdate(member);
+		return n;
+	}
 
 }

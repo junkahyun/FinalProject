@@ -89,12 +89,56 @@ public class SOController {
 			req.setAttribute("birthdayDD", birthdayDD);
 			req.setAttribute("str_gender", str_gender);
 			req.setAttribute("myInfo", myInfo);
+			System.out.println(birthday);
 			return "mypage/myEdit.hometiles";
 		}
 		
 
 		
 	}
+	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
+	public String myEditEnd(HttpServletRequest req,HttpServletResponse res) {
+		String method = req.getMethod();
+		
+		if(!"POST".equals(method)) {
+/*			String msg="비정상적인 경로입니다.";
+			String loc="javascript:history.back();";
+			
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
+			return "msg";*/
+		}else {
+			
+			String profileimg = req.getParameter("profileimg");
+			String email = req.getParameter("email");
+			String phone = req.getParameter("phone");
+			String month = req.getParameter("month");
+			String day = req.getParameter("day");
+			String year = req.getParameter("year");			
+			String introduction = req.getParameter("introduction");
+			String birthday = year+"-"+month+"-"+day;
+			
+			MemberVO member = new MemberVO();
+			
+			member.setProfileimg(profileimg);
+			member.setEmail(email);
+			member.setPhone(phone);
+			member.setBirthday(birthday);
+			member.setIntroduction(introduction);
+		
+			int n = service.memberUpdate(member);
+			
+			if(n==1) {
+				
+			}else {
+				
+			}
+		}
+		
+		
+		return"mypage/myEdit.hometiles";
+	}
+	
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
 	public String myReservation() {
 		return "mypage/myReservation.hometiles";

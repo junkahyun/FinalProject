@@ -13,6 +13,7 @@
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
           <style data-aphrodite="data-aphrodite">._1k01n3v1{color:#008489 !important;font:inherit !important;font-family:Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;text-decoration:none !important;-webkit-appearance:none !important;-moz-appearance:none !important;appearance:none !important;background:transparent !important;border:0px !important;cursor:pointer !important;margin:0px !important;padding:0px !important;-webkit-user-select:auto !important;-moz-user-select:auto !important;-ms-user-select:auto !important;user-select:auto !important;text-align:left !important;}._1k01n3v1:hover{text-decoration:underline !important;color:#008489 !important;}._1k01n3v1:focus{text-decoration:underline !important;}@supports(--custom: properties){._1k01n3v1{color:var(--color-text-link, #008489) !important;font-family:var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;}._1k01n3v1:hover{color:var(--color-text-link-hover, #008489) !important;}._1k01n3v1:active{color:var(--color-text-link-active, #006C70) !important;}}._1k01n3v1:active{color:#006C70 !important;outline:0px !important;}</style>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <style type="text/css">
 ._1k01n3v1 {
     color: var(--color-text-link, #008489) !important;
@@ -22,6 +23,34 @@
 	margin-top: 5%;
 	margin-bottom: 5%; 
 }
+.filebox input[type="file"] {
+ /* 파일 필드 숨기기 */ position: absolute; 
+ 				  width: 1px; 
+ 				  height: 1px; 
+ 				  padding: 0; 
+ 				  overflow: hidden; 
+ 				  clip:rect(0,0,0,0); 
+ 				  border: 0;
+ }
+ filebox .upload-thumb-wrap {
+  /* 추가될 이미지를 감싸는 요소 */
+   display: inline-block;
+    width: 54px; 
+    padding: 2px; 
+    vertical-align: middle; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background-color: #fff; 
+ }
+ .filebox .upload-display img {
+  /* 추가될 이미지 */ 
+  display: block;
+   max-width: 100%;
+   width: 100% \9;
+height: auto; }
+
+출처: http://webdir.tistory.com/435 [WEBDIR]
+
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
@@ -38,9 +67,30 @@ $(document).ready(function(){
 	$("#month option[value="+selectMonthValue+"]").attr("selected","selected");
 	$("#year option[value="+selectYearValue+"]").attr("selected","selected");
 	$("#day option[value="+selectDayValue+"]").attr("selected","selected");
+	
+	$("#profileimg").on("change",handleImgFileSelect);
 
 });
-
+function handleImgFileSelect(e){
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	
+	filesArr.forEach(function(f){
+		if(!f.type.match("image.*")){
+			alert("확장자는 이미지 파일만 가능합니다!");
+			return;
+		}
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$("#img").attr("src",e.target.result);
+		}
+		reader.readAsDataURL(f);
+	});
+	
+	
+}
  /* function appendMonth(){
 	var selectValue = ${birthdayMM};
 	var optionVal = document.getElementById("month"); 
@@ -61,7 +111,13 @@ $(document).ready(function(){
 function showPhone(){
 	$("#showInputPhone").show();
 }
-
+function editInfo(){
+	
+	var frm = document.editFrm;
+	frm.method="POST";
+	frm.action="myEditEnd.air";
+	frm.submit();
+}
 </script>
 
 
@@ -89,7 +145,7 @@ function showPhone(){
 <!--  사이드바끝 -->  
     <div class="col-md-6">
      <div id="dashboard-content">
-		<form>
+		<form name="editFrm">
 			<h1 class="screen-reader-only">프로필 수정</h1>
 			<div class="panel space-4">
 			  <div class="panel-header">
@@ -97,40 +153,43 @@ function showPhone(){
 			  </div>
 			  <div class="panel-body">
 				<div class="col-md-12" style="padding:0;">
-			    	<div class="col-md-2" style="margin:0;">
+			    	<div class="col-md-2" style="margin:0; align-items: center;">
 			    		<input type="hidden" name="password" id="user_email_password" value="">
-			      		<img src="<%= ctxPath %>/resources/images/${myInfo.profileimg}" style="border-radius: 200px%; border: 1px solid lightgray; background-color: lightgray;">
-				 		<input type="file" name="profileimg"/>
+			      		<img src="<%= ctxPath %>/resources/images/${myInfo.profileimg}" id="img" style="border-radius:100%; border: 1px solid lightgray; background-color: lightgray;" width="80%"/>
+				 		<div class="filebox preview-image" id="filebox">
+<%-- 				 			 <input class="upload-name" name="attach" value="${myInfo.profileimg}" disabled="disabled"> 
+				 			 <label for="profileimg">프로필변경</label>
+				 			 <input type="file" id="profileimg" name="attach" class="upload-hidden" accept="image/*"
+ --%>				 		 <input type="file" id="profileimg" name="profileimg" accept="image/*"/>
+ 							 <label for="profileimg">프로필변경</label>
+				 		</div>
+
 				    </div>
 				    <div class="col-md-10 row row-condensed" style="padding:0;">
 				        <div class="col-md-1">
 				        	 <label for="username">이름</label>
 				        </div>
 				        <div class="col-md-11" style="padding-left:2%; padding-right: 0">				        
-				          <input id="username" name="username" style="width:100%" type="text" value="${myInfo.username}">
+				          <input id="username" name="username" style="width:100%;border: none;" type="text" value="${myInfo.username}" readOnly>
 					      <div class="text-muted space-top-1">예약 요청 시 호스트는 회원님의 이름을 모두 확인할 수 있습니다.</div>
 				        </div>
 				     </div>
 			      </div>
 			      <!--  내이미지 파일 시작-->
-			     
-			       <div>
-			        <img src="<%= request.getContextPath()%>/ ">
-			      </div>
 			      <!--  내이미지 파일 시작-->
 			      <div class="row row-condensed space-4">
 			      	<label class="text-right col-sm-3" for="user_sex">
 				               성별 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 				    </label>
 				    <div class="col-sm-9">      
-					      <div class="select">					     
-					        <select id="user_sex" name="user[sex]">
+					      <div>					     
+<%-- 					        <select id="gender" name="gender">
 					        	<option  value=""  <c:if test="${str_gender eq '' }">selected="selected"</c:if> >성별</option>
 								<option value="Male" <c:if test="${str_gender eq 'Male' }">selected="selected"</c:if> >남자</option>
 								<option value="Female" <c:if test="${str_gender eq 'Female' }">selected="selected"</c:if> >여자</option>
 								<option value="Other" <c:if test="${str_gender eq 'Other' }">selected="selected"</c:if> >기타</option>
-							</select>
-						 
+							</select> --%>
+						 <input type="text" value="${str_gender}" width="30%" style="border: none;" readOnly/>
 					      </div>	
 					      <div class="text-muted space-top-1">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>
 				     </div>
@@ -181,7 +240,7 @@ function showPhone(){
 			       	   이메일 주소 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 			        </label>
 			        <div class="col-sm-9">
-			        	<input id="user_email" name="user[email]" size="30" type="text" value="${myInfo.email}">
+			        	<input id="email" name="email" size="30" type="text" value="${myInfo.email}">
 			            <div class="text-muted space-top-1">이메일 주소는 다른 에어비앤비 회원에게 공개되지 않습니다.</div>
 			        </div>
 			      </div>
@@ -192,7 +251,7 @@ function showPhone(){
 			        </label>
 			         <div class="col-sm-9"> 
 			    	<c:if test="${myInfo.phone ne null}">
-			    		<input id="user_email" name="user[email]" size="30" type="text" value="${myInfo.phone}">
+			    		<input id="phone" name="phone" size="30" type="text" value="${myInfo.phone}">
 			    		<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 변경하기</button></div>
 				       	<!--  전화번호 입력 버튼 선택 시  -->
 				     	 <!--  번호 입력 네모 박스 -->
@@ -209,7 +268,9 @@ function showPhone(){
 					   	</div> 
 			    	</c:if>
 			        <c:if test="${myInfo.phone eq null}">
-				        <div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 입력</button></div>
+				        <div style="margin-top:8px">
+				        	<button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 입력</button>
+				        </div>
 				       	<!--  전화번호 입력 버튼 선택 시  -->
 				     	 <!--  번호 입력 네모 박스 -->
 				      	 <div class="col-sm-9" id="showInputPhone">
@@ -224,16 +285,41 @@ function showPhone(){
 						  <!--  번호 입력 네모 박스 끝 -->
 			        	<!--  전화번호 입력 버튼 선택 시  -->
 		        	</c:if>
-		         
-			        </div>
-			      </div>
-			
+
+			         <div class="row row-condensed space-4"">
+		               <div class="col-sm-3">
+		                  <label for="postnum">우편번호</label>
+		                  <input type="text" id="postnum" name="postnum" size="6" maxlength="3" class="form-control requiredinfo" placeholder="PostNum">
+		               	  <span class="error error_post">우편번호 형식이 아닙니다.</span>
+		               </div>
+		               <div class="col-md-2" style="margin-top: 8.5%">
+		                  <button type="button" class="btn" id="zipcodeSearch" style="width: 80px; height: 20px; padding: 0%;"><span style="font-size: 2pt;">우편번호찾기</span></button>
+		               </div>
+		               <div class="col-md-4" style="margin-top:8.5%">
+		                     <span class="error" style="color: blue; font-size: 12px;">우편번호 형식에 맞게 입력하세요.</span>
+		               </div>
+	           		 </div>
+		            <div class="row row-condensed space-4">
+		               <div class="col-sm-9">
+		                  <input type="text" id="addr2" name="addr2" class="address form-control requiredinfo" placeholder="Enter Your Address">
+		               </div>
+		               <div style="margin-top:4%">
+		                     <span class="error" style="color: blue; font-size: 12px;">주소를 입력하세요.</span>
+		               </div>
+		            </div>
+		            <div class="row row-condensed space-4">
+		               <div class="col-sm-9">
+		                  <label for="address">주소</label>
+		                  <input type="text" id="addr1" name="addr1" class="form-control requiredinfo" placeholder="Enter Your Address">
+		               </div>
+		            </div>
+			        </div>			
 			          <div class="row row-condensed space-4">
-			        <label class="text-right col-sm-3" for="user_profile_info_about">
+			        <label class="text-right col-sm-9" for="user_profile_info_about">
 			       		   자기소개 
 			        </label>
 			        <div class="col-sm-9">			          
-			      		<textarea cols="40" id="user_profile_info_about" name="user_profile_info[about]" rows="5" >${myInfo.introduction}</textarea>
+			      		<textarea cols="40" id="user_profile_info_about" id="introduction"name="introduction" rows="5" >${myInfo.introduction}</textarea>
 			
 			          <div class="text-muted space-top-1">에어비앤비는 사람들 간의 관계를 기반으로 만들어졌습니다. 회원님이 어떤 사람인지 알려주세요. <br><br> 어떤 것들을 좋아하는지 알려주세요. 가장 좋아하는 여행지, 책, 영화, TV 프로그램, 음악, 음식 등 뭐든지 좋습니다.<br><br> 회원님은 어떤 스타일의 게스트 또는 호스트인가요? <br><br> 인생의 좌우명은 무엇인가요?</div>
 			        </div>

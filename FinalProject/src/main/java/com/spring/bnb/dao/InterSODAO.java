@@ -12,5 +12,8 @@ public interface InterSODAO {
 
 	//나의 정보 가져오기
 	MemberVO getMyInfo(String loginuser);
+	
+	//나의 정보 수정하기
+	int memberUpdate(MemberVO member);
 
 }

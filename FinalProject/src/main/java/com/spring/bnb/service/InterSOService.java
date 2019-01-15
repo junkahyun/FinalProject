@@ -13,5 +13,8 @@ public interface InterSOService {
 
 	//나의 개인정보 가져오기
 	MemberVO getMyInfo(String loginuser);
+	
+	//나의 정보 수정
+	int memberUpdate(MemberVO member);
 
 }

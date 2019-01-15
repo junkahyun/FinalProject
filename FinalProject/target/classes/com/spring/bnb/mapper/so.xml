@@ -22,8 +22,8 @@
 </select>
 <select id="getMyInfo" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
 
-	select userid,username,pwd,email,phone,post,addr,detailddr
-        ,gender,birthday,introduction,memberstatus,profileimg,warncount,regdate
+	select userid,username,pwd,email,phone,post,addr,detailaddr
+        ,gender,to_char(birthday,'yyyy-mm-dd') AS birthday,introduction,memberstatus,profileimg,warncount,regdate
 	from member
 	where memberstatus =1 and userid = #{loginuser}
 </select>
