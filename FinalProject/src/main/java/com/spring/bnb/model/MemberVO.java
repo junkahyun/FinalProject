@@ -9,11 +9,11 @@ public class MemberVO {
 	private String phone;
 	private int post;
 	private String addr;
-	private String Detailddr; 
+	private String detailaddr; 
 	private int gender;
 	private String birthday; 
 	private String introduction; 
-	private int MemberStatus;
+	private int memberStatus;
 	private int warnCount;
 	private String regDate;
 	
@@ -22,7 +22,7 @@ public class MemberVO {
 	
 	public MemberVO() {}
 	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
-			String addr, String detailddr, int gender, String birthday, String introduction, int memberStatus,
+			String addr, String detailaddr, int gender, String birthday, String introduction, int memberStatus,
 			int warnCount, String regDate) {
 		super();
 		this.userid = userid;
@@ -33,11 +33,11 @@ public class MemberVO {
 		this.phone = phone;
 		this.post = post;
 		this.addr = addr;
-		Detailddr = detailddr;
+		this.detailaddr = detailaddr;
 		this.gender = gender;
 		this.birthday = birthday;
 		this.introduction = introduction;
-		MemberStatus = memberStatus;
+		this.memberStatus = memberStatus;
 		this.warnCount = warnCount;
 		this.regDate = regDate;
 	}
@@ -90,11 +90,11 @@ public class MemberVO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	public String getDetailddr() {
-		return Detailddr;
+	public String getDetailaddr() {
+		return detailaddr;
 	}
-	public void setDetailddr(String detailddr) {
-		Detailddr = detailddr;
+	public void setDetailaddr(String detailaddr) {
+		this.detailaddr = detailaddr;
 	}
 	public int getGender() {
 		return gender;
@@ -115,10 +115,10 @@ public class MemberVO {
 		this.introduction = introduction;
 	}
 	public int getMemberStatus() {
-		return MemberStatus;
+		return memberStatus;
 	}
 	public void setMemberStatus(int memberStatus) {
-		MemberStatus = memberStatus;
+		this.memberStatus = memberStatus;
 	}
 	public int getWarnCount() {
 		return warnCount;
