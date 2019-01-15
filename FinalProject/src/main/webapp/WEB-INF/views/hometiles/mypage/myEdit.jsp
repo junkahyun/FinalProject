@@ -28,10 +28,26 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	$("#showInputPhone").hide();
+/* 	$("#showInputPhone").hide(); */
+
 	
+	appendMonth();
+
 });
 
+function appendMonth(){
+	var selectValue = ${birthdayMM};
+	var optionVal = document.getElementById("month"); 
+	var optionIndex = 0;
+
+	for(var i=1;i<=12;i++){
+	optionVal.add(new Option(i+"월",i),optionIndex++);
+
+	}
+	optionVal.attr("4");
+	optionVal.val("4");
+	
+} 
 function showPhone(){
 	$("#showInputPhone").show();
 }
@@ -73,10 +89,11 @@ function showPhone(){
 			    <input type="hidden" name="password" id="user_email_password" value="">
 			      <div class="row row-condensed space-4">
 			        <label class="text-right col-sm-3" for="user_last_name">
-			          	이름(예: 홍) 
+			          	이름(예: 홍길동) 
 			        </label>
 			        <div class="col-sm-9">
-			          <input id="user_last_name" name="user[last_name]" size="30" type="text" value="Choi">
+			        <img src="FinalProject/webapp/resources/images/${myInfo.profileimg}" style="border-radius: 100%">
+			          <input id="user_last_name" name="user[last_name]" size="30" type="text" value="${myInfo.username}">
 				      <div class="text-muted space-top-1">예약 요청 시 호스트는 회원님의 이름을 모두 확인할 수 있습니다.</div>
 			        </div>
 			      </div>
@@ -93,13 +110,14 @@ function showPhone(){
 				               성별 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 				    </label>
 				    <div class="col-sm-9">      
-					      <div class="select">
+					      <div class="select">					     
 					        <select id="user_sex" name="user[sex]">
-					        	<option value="" selected="selected">성별</option>
-								<option value="Male">남자</option>
-								<option value="Female">여자</option>
-								<option value="Other">기타</option>
+					        	<option  value=""  <c:if test="${str_gender eq '' }">selected="selected"</c:if> >성별</option>
+								<option value="Male" <c:if test="${str_gender eq 'Male' }">selected="selected"</c:if> >남자</option>
+								<option value="Female" <c:if test="${str_gender eq 'Female' }">selected="selected"</c:if> >여자</option>
+								<option value="Other" <c:if test="${str_gender eq 'Other' }">selected="selected"</c:if> >기타</option>
 							</select>
+						 
 					      </div>	
 					      <div class="text-muted space-top-1">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>
 				     </div>
@@ -113,26 +131,12 @@ function showPhone(){
 			        <fieldset>
 			          <legend class="screen-reader-only">생년월일</legend>
 			          <div class="select">
-			            <select aria-label="월" id="user_birthdate_2i" name="user[birthdate(2i)]">
-							<option value="">월</option>
-							<option value="1">1월</option>
-							<option value="2">2월</option>
-							<option value="3">3월</option>
-							<option selected="selected" value="4">4월</option>
-							<option value="5">5월</option>
-							<option value="6">6월</option>
-							<option value="7">7월</option>
-							<option value="8">8월</option>
-							<option value="9">9월</option>
-							<option value="10">10월</option>
-							<option value="11">11월</option>
-							<option value="12">12월</option>
-							</select>					
+			            <select aria-label="월" id="month" name="month"></select>					
 			          </div>
 			          <div class="select">
-			            <select aria-label="일" id="user_birthdate_3i" name="user[birthdate(3i)]">
-						<option value="">일</option>
-						<option value="1">1</option>
+			            <select aria-label="일" id="day" name="day">
+						 <option value="">일</option>
+						<!--<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
@@ -162,7 +166,7 @@ function showPhone(){
 						<option value="28">28</option>
 						<option value="29">29</option>
 						<option value="30">30</option>
-						<option value="31">31</option>
+						<option value="31">31</option> -->
 						</select>	
 			          </div>
 			          <div class="select">
@@ -281,7 +285,7 @@ function showPhone(){
 			       	   이메일 주소 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 			        </label>
 			        <div class="col-sm-9">
-			        	<input id="user_email" name="user[email]" size="30" type="text" value="">
+			        	<input id="user_email" name="user[email]" size="30" type="text" value="${myInfo.email}">
 			            <div class="text-muted space-top-1">이메일 주소는 다른 에어비앤비 회원에게 공개되지 않습니다.</div>
 			        </div>
 			      </div>
@@ -290,37 +294,57 @@ function showPhone(){
 			        <label class="text-right col-sm-3" for="user_phone_numbers">
 			          전화번호
 			        </label>
-			        <div class="col-sm-9">
-			        <div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 입력</button></div>
-			       	<!--  전화번호 입력 버튼 선택 시  -->
-			      <!--  번호 입력 네모 박스 -->
-			       <div class="col-sm-9" id="showInputPhone">
-		                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055"><div dir="ltr" data-reactroot=""><div style="margin-top:9px"><div><strong>입력된 전화번호가 없습니다.</strong><div style="margin-top:4px"><div class="text-muted">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div></div>
-			                <div style="margin-top:8px"><div class="phone-number-verify-widget "><div class="_16lavrk"><div class="phone-number-input-widget"><strong>전화번호 추가하기</strong><div style="margin-bottom: 16px;">이 전화번호로 알림을 보내드립니다.</div><div class=""></div><div class="pniw-number-container clearfix"><input type="tel" id="phone_number" style="width: 70%" ></div>
-				                <div style="margin-top: 16px;"><button type="button" class="btn btn-primary" style="margin: 2%">문자로 인증하기</button><button type="button" class="btn btn-primary">전화로 인증</button></div>
-								</div></div></div>
+			         <div class="col-sm-9"> 
+			    	<c:if test="${myInfo.phone ne null}">
+			    		<input id="user_email" name="user[email]" size="30" type="text" value="${myInfo.phone}">
+			    		<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 변경하기</button></div>
+				       	<!--  전화번호 입력 버튼 선택 시  -->
+				     	 <!--  번호 입력 네모 박스 -->
+				      	 <div class="col-sm-9" id="showInputPhone">
+			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055">
+			                	<div dir="ltr" data-reactroot=""><div style="margin-top:9px">
+			                			<div class="text-muted" style="margin-top:4px">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div>			                			
+				                	<div style="margin-top:8px"><div class="phone-number-verify-widget "><div class="_16lavrk"><div class="phone-number-input-widget"><strong>전화번호 추가하기</strong><div style="margin-bottom: 16px;">이 전화번호로 알림을 보내드립니다.</div><div class=""></div><div class="pniw-number-container clearfix"><input type="tel" id="phone_number" style="width: 70%" ></div>
+					                <div style="margin-top: 16px;"><button type="button" class="btn btn-primary" style="margin: 2%">문자로 인증하기</button><button type="button" class="btn btn-primary">전화로 인증</button></div>
+									</div></div></div>
+				                </div>
+				                </div></div></div>
 			                </div>
-			                </div></div></div>
-		                </div>
-				   </div> 
-				  <!--  번호 입력 네모 박스 끝 -->
-		        <!--  전화번호 입력 버튼 선택 시  -->
+					   	</div> 
+			    	</c:if>
+			        <c:if test="${myInfo.phone eq null}">
+				        <div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 입력</button></div>
+				       	<!--  전화번호 입력 버튼 선택 시  -->
+				     	 <!--  번호 입력 네모 박스 -->
+				      	 <div class="col-sm-9" id="showInputPhone">
+			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055"><div dir="ltr" data-reactroot=""><div style="margin-top:9px"><div><strong>입력된 전화번호가 없습니다.</strong><div style="margin-top:4px"><div class="text-muted">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div></div>
+				                <div style="margin-top:8px"><div class="phone-number-verify-widget "><div class="_16lavrk"><div class="phone-number-input-widget"><strong>전화번호 추가하기</strong><div style="margin-bottom: 16px;">이 전화번호로 알림을 보내드립니다.</div><div class=""></div><div class="pniw-number-container clearfix"><input type="tel" id="phone_number" style="width: 70%" ></div>
+					                <div style="margin-top: 16px;"><button type="button" class="btn btn-primary" style="margin: 2%">문자로 인증하기</button><button type="button" class="btn btn-primary">전화로 인증</button></div>
+									</div></div></div>
+				                </div>
+				                </div></div></div>
+			                </div>
+					   	</div> 
+						  <!--  번호 입력 네모 박스 끝 -->
+			        	<!--  전화번호 입력 버튼 선택 시  -->
+		        	</c:if>
+		         
 			        </div>
 			      </div>
 			
 			          <div class="row row-condensed space-4">
 			        <label class="text-right col-sm-3" for="user_profile_info_about">
-			          자기소개 
+			       		   자기소개 
 			        </label>
 			        <div class="col-sm-9">			          
-			      		<textarea cols="40" id="user_profile_info_about" name="user_profile_info[about]" rows="5"></textarea>
+			      		<textarea cols="40" id="user_profile_info_about" name="user_profile_info[about]" rows="5" >${myInfo.introduction}</textarea>
 			
 			          <div class="text-muted space-top-1">에어비앤비는 사람들 간의 관계를 기반으로 만들어졌습니다. 회원님이 어떤 사람인지 알려주세요. <br><br> 어떤 것들을 좋아하는지 알려주세요. 가장 좋아하는 여행지, 책, 영화, TV 프로그램, 음악, 음식 등 뭐든지 좋습니다.<br><br> 회원님은 어떤 스타일의 게스트 또는 호스트인가요? <br><br> 인생의 좌우명은 무엇인가요?</div>
 			        </div>
 			      </div>
 			  </div>
 			</div>
-			<button type="submit" class="btn btn-primary btn-large">
+			<button type="submit" class="btn btn-primary btn-large" onClick="editInfo();">
 			  저장하기
 			</button>
 			</form>

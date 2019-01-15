@@ -115,81 +115,91 @@ td{
 	  <div class="tab-content margin_top">
 	    
 <!--  보유쿠폰 목록 -->	
-	    <div id="home" class="tab-pane fade in active" style="padding:1%;">
-
-	    <table>
-			<colgroup>
-				<col width="30%">
-				<col width="20%">
-				<col width="20%">
-				<col width="30%">
-			</colgroup>
-			<thead>
-				<tr>
-					<th class="first couponTop" scope="col">
-						<input type="checkbox" style="float: left;"/>
-						<span style="font-size: 9pt; float:left;">전체선택</span>
-						쿠폰
-					</th>
-					<th class="couponTop" scope="col">할인대상</th>
-					<th class="couponTop" scope="col">유효기간</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<tr class="first">
-						<td class="first">
-							<div class="ticket_cup">
-								<input type="checkbox" style="float: left;" /><span>할인쿠폰이름</span>
-							</div>
-						</td>
-						<td>할인대상보기</td>
-						<td>
-							2019-01-09 ~ 2019-01-14
-						</td>
+	    <div id="home" class="tab-pane fade in active " style="padding:1%;">
+		<div align="center">
+		    <table>
+				<colgroup>
+					<col width="150pt">
+					<col width="150pt">
+					<col width="100pt">
+					<col width="200pt">
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="first couponTop" scope="col">쿠폰</th>
+						<th class="couponTop" scope="col">쿠폰코드</th>
+						<th class="couponTop" scope="col">할인금액</th>
+						<th class="couponTop" scope="col">유효기간</th>
 					</tr>
-			</tbody>
-		</table>	    
+				</thead>
+	
+				<tbody>
+	
+					<c:forEach items="${myCoupon}" var="coupon">
+						<c:if test="${coupon.usedate == null and coupon.cpexpire>date}">
+							<tr class="first">
+								<td class="first">
+									<div class="ticket_cup">
+										<p>${coupon.cpname}</p>
+									</div>
+								</td>
+								<td>  
+									<div class="myt_ico_wrap alignL"><p>${coupon.cpcode}</p></div> 
+								</td>
+								<td><div style="width: 50px;"><p>${coupon.dcmoney}</p></div></td>
+								<td>
+									<p>${coupon.cpexpire}</p>
+								</td>
+							</tr>					
+							</c:if>
+						</c:forEach>
+				</tbody>
+			</table>	
+		</div>    
       </div> 
 	<!--  보유쿠폰 목록 -->	
 	<!-- 사용한 쿠폰 리스트 -->
 	    <div id="menu1" class="tab-pane tab-panel"  style="padding:1%; border: 0px solid yellow;">
-	     <table>
-			<colgroup>
-				<col width="178px">
-				<col width="">
-				<col width="118px">
-				<col width="168px">
-			</colgroup>
-			<thead>
-				<tr>
-					<th class="first couponTop" scope="col">쿠폰종류</th>
-					<th class="couponTop" scope="col">쿠폰정보</th>
-					<th class="couponTop" scope="col">할인대상</th>
-					<th class="couponTop" scope="col">사용기간</th>
-				</tr>
-			</thead>
-
-			<tbody>
-					<tr class="first">
-							<td class="first">
-								<div class="ticket_cup">
-									<p>할인쿠폰이름</p>
-								</div>
-							</td>
-							<td>  
-								<div class="myt_ico_wrap alignL"><span class="myt_ico myt_ico7">앱전용</span></div> 
-								<p class="fnt_1 alignL">[모바일앱전용]20%할인</p>
-								<p class="fnt_12 alignL">[3227631486] 15,000원 이상 구매 <span class="bLine">|</span> 최대 5,000원 할인</p>
-							</td>
-							<td><p href="#" class="fnt_4"><a href="javascript:onApplyObjCupnNo('3227631486','2445528191');">할인대상보기</a></p></td>
-							<td>
-								<p>2019-01-09 ~ 2019-01-14</p>
-							</td>
-						</tr>					
-						
-			</tbody>
-		</table>
+		    <div align="center">
+		     <table>
+				<colgroup>
+					<col width="150pt">
+					<col width="150pt">
+					<col width="100pt">
+					<col width="200pt">
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="first couponTop" scope="col">쿠폰명</th>
+						<th class="couponTop" scope="col">쿠폰번호</th>
+						<th class="couponTop" scope="col">할인 금액</th>
+						<th class="couponTop" scope="col">사용한날짜</th>
+					</tr>
+				</thead>
+	
+				<tbody>
+					<c:forEach items="${myCoupon}" var="coupon">
+						<c:if test="${coupon.usedate != null}">
+							<tr class="first">
+								<td class="first">
+									<div class="ticket_cup">
+										<p>${coupon.cpname}</p>
+									</div>
+								</td>
+								<td>  
+									<div class="myt_ico_wrap alignL"><p>${coupon.cpcode}</p></div> 
+								</td>
+								<td><div style="width: 50px;"><p>${coupon.dcmoney}</p></div></td>
+								<td>
+									<p>${coupon.usedate}</p>
+								</td>
+							</tr>					
+							</c:if>
+						</c:forEach>
+				
+				</tbody>
+			</table>
+		</div>
 				
 	    </div>	
 	<!-- 사용한 쿠폰 리스트 -->

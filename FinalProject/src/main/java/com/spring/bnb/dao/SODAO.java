@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.bnb.model.MemberVO;
+
 //===== #32. DAO 선언  =====
 @Repository
 //DB Exception Translation
@@ -22,6 +24,12 @@ public class SODAO implements InterSODAO {
 		
 		List<HashMap<String, String>> getMyCoupon = sqlsession.selectList("cso.getMyCoupon",loginuser);
 		return getMyCoupon;
+	}
+
+	@Override
+	public MemberVO getMyInfo(String loginuser) {
+		MemberVO myInfo = sqlsession.selectOne("cso.getMyInfo", loginuser);
+		return myInfo;
 	}
 	
 }

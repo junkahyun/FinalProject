@@ -4,12 +4,27 @@
 
 <mapper namespace="cso">
 <resultMap type="HashMap" id="getMyCouponList">
-	<result property="" />
+	<!-- <result property="mycp_idx" column="mycp_idx" javaType="String" /> -->
+	<result property="cpcode" column="fk_cpcode" javaType="String" />
+	<result property="userid" column="fk_userid" javaType="String" />
+	<result property="dcmoney" column="dcmoney" javaType="String" />
+	<result property="cpexpire" column="cpexpire" javaType="String" />
+	<result property="cpname" column="cpname" javaType="String" />
+	<result property="usedate" column="usedate" javaType="String" />
 </resultMap>
 
-<select id="getMyCoupon" parameterMap="getMyCouponList" resultType="String">
-	select mycp_idx,fk_cpcode,fk_userid,usedate
-	from myCoupon
-	where fk_userid=#{loginuser};
+<select id="getMyCoupon" parameterType="String" resultMap="getMyCouponList">
+		select mycp_idx,fk_cpcode,cpname,cpexpire,dcmoney,fk_userid,usedate
+		from myCoupon A join coupon B
+		on A.fk_cpcode = B.cpcode
+		where fk_userid=#{loginuser}
+		order by mycp_idx
 </select>
-</mapper>
+<select id="getMyInfo" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
+
+	select userid,username,pwd,email,phone,post,addr,detailddr
+        ,gender,birthday,introduction,memberstatus,profileimg,warncount,regdate
+	from member
+	where memberstatus =1 and userid = #{loginuser}
+</select>
+</mapper>	
