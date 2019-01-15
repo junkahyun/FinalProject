@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
 
@@ -91,26 +89,6 @@
 	   $("#peopleupdown").text(plus);
    }
    
-   //침대수 감소 버튼
-   function bedminus() {
-	   var start = $("#bedupdown").text();
-	   var minus = parseInt(start);
-	   minus--;
-	   if(minus<1){
-		   alert("침대수는 1개 이상이여야 합니다.");
-		   minus = 1;
-	   }
-	   $("#bedupdown").text(minus);
-   }  
-   
-   //침대수 증가 버튼
-   function bedplus() {
-	   var start = $("#bedupdown").text();
-	   var plus = parseInt(start);
-	   plus++;
-	   $("#bedupdown").text(plus);
-   }
-   
    //더블침대 감소 버튼
    function doubleminus() {
 	   var start = $("#doubleupdown").text();
@@ -196,9 +174,6 @@
 </script> 
 
 
-
-<!-- header -->
-
 <div>
    <div class="row" style="border: 0px solid green;">
  
@@ -213,7 +188,7 @@
 
       <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
          <div class="title">숙소에 얼마나 많은 인원이 숙박할 수 있나요?</div>
-         <div class="row" style="padding: 0; border: 0px solid green;" >
+         <div class="row" style="padding: 0; margin-bottom: 100px; border: 0px solid green;" >
          	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
          		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">최대 숙박 인원</div>
          		<div class="col-md-2" style="border: 0px solid green;">
@@ -235,19 +210,7 @@
                    <option value="4">침실 4개</option>
                 </select>
                 </div>  
-            </div>
-
-            <div class="col-md-10" style="margin-top: 25px; margin-bottom: 25px; border: 0px solid red;">
-                <div class="selecthead">게스트가 사용할 수 있는 침대는 몇 개인가요?</div>     
-                <div class="col-md-5" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">침대</div>
-         		<div class="col-md-2" style="padding-left: 25px; border: 0px solid green;">
-         		 	<button type="button" onclick="bedminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-         		</div>
-         		<div class="col-md-1" id="bedupdown" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 1 </div>
-         		<div class="col-md-2" style="border: 0px solid green;">
-         		 	<button type="button" onclick="bedplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-         		</div>
-            </div>                			            
+            </div>              			            
          </div>
          
          <h3> 침대 유형 </h3>
@@ -323,7 +286,5 @@
       
    </div>
 </div>
-
-<!-- footer -->
 
 
