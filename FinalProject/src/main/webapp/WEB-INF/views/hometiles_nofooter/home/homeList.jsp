@@ -24,8 +24,10 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-  flag = false;
-	 $(".optioninput").click(function(){
+	 
+	 // 옵션 클릭시 스타일 주기
+	 flag = false;
+	 $(".option").click(function(){
 		 if(!flag){
 			 var $target = $(event.target);
 			 $target.addClass("subjectstyle");	
@@ -38,6 +40,27 @@
 		 }
 	 });
 	 
+	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
+	 $("#city").change(function(){
+		 
+		 var form_data = {city : $("#city").val()};
+		 
+		 $.ajax({
+			url : "<%=request.getContextPath()%>/city.air",
+	   		type : "GET",
+			data : form_data,
+			dataType : "JSON",
+			success : function(json){ 
+			
+			},
+            error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		 });
+		 
+	 });  // end of 
+	 
+	 // 인원 수 스피너
 	 $(".person").spinner({
          spin : function(event, ui) {
             if (ui.value > 100) {
@@ -51,6 +74,7 @@
          }
       }); // end of $("#spinnerPqty").spinner();---------------  
       
+      // 건물유형 대/소분류 Ajax 처리
       $("#buildName1").change(function(){
     	  
     	  var form_data = {buildName1 : $("#buildName1").val()};
@@ -77,6 +101,8 @@
     	  });
     	  
       });
+      
+      
       
  });
  
@@ -136,7 +162,7 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id=city style="border-right: 1px solid gray; margin-left: 10%; margin-right: 10%; width: 15%; height: 80%;">
+            	<select id=city style="border-right: 1px solid gray; margin-left: 6%; margin-right: 10%; width: 15%; height: 80%;">
             		<option value="서울">서울</option>
             		<option value="대전">대전</option>
             		<option value="대구">대구</option>
@@ -144,22 +170,22 @@
             	</select>            
             	
             	<span class="optionname">날짜</span>
-            	<input type="text" id="checkin" class="datepicker" placeholder="체크인 날짜" style="margin-left: 5%; width: 18%; height: 80%;">&nbsp;~&nbsp;
-            	<input type="text" id="checkout" class="datepicker" placeholder="체크아웃 날짜" style="width: 18%; height: 80%;">   
+            	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 18%; height: 80%;">&nbsp;~&nbsp;
+            	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 18%; height: 80%;">   
             	       	
             </div>
            
            	<div class="optionbox">
-            	<span class="optionname" style="margin-right: 5.5%;">인원 (명)</span>
-            	<span style="margin-right: 2%;">성인&nbsp;<input class="person" name="pqty"  value="0" height="48"/></span>
-            	<span style="margin-right: 2%;">어린이(2~12세)&nbsp;<input class="person" name="pqty" value="0"/></span>
-            	<span style="margin-right: 2%;">유아(2세 미만)&nbsp;<input class="person" name="pqty"  value="0"/></span>       	
+            	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>
+            	<span style="margin-right: 6%;">성인&nbsp;<input class="person" name="pqty"  value="0" height="48"/></span>
+            	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input class="person" name="pqty" value="0"/></span>
+            	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty"  value="0"/></span>       	
             </div>  
             
             <div class="optionbox">
             	<span class="optionname">이용 규칙</span>
             	<c:forEach items="${roomRule}" var="rule">
-            		<input type="checkbox" class="rule" style="margin-left: 5%;"/>&nbsp;${rule}
+            		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;
             	</c:forEach>
             </div>        
            
@@ -184,14 +210,14 @@
             <div class="optionbox">            	
             	<span class="optionname">임대 유형</span>
             	<c:forEach items="${roomType}" var="room">
-            		<input type="checkbox" class="buildType" style="margin-left: 5%;"/>&nbsp;${room}
+            		<span class="buildType option" style="margin-left: 5%; cursor: pointer;">${room}</span>&nbsp;
             	</c:forEach>              	                  	
             </div>
             
             <div class="optionbox" id="service">
             	<span class="optionname">고객 편의</span>
             	<c:forEach items="${optionList}" var="option" varStatus="status">  					
-            		<input type="checkbox" class="option" style="margin-left: 5%;"/>&nbsp;${option}
+            		<span type="checkbox" class="option" style="margin-left: 5%; cursor: pointer;">${option}</span>&nbsp;
             		<c:if test="${status.index == 5 }"><br/><span style="margin-left: 6.3%;"></span></c:if>
             	</c:forEach>            	
             </div> 

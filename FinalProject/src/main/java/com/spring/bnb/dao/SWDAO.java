@@ -1,11 +1,12 @@
 package com.spring.bnb.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.spring.bnb.model.RoomVO;
 
 
 @Repository
@@ -52,6 +53,14 @@ public class SWDAO implements InterSWDAO {
 		List<String> buildDetailList = sqlsession.selectList("sw.getBuildDetailList", buildName1);
 		
 		return buildDetailList;
+	}
+
+	@Override
+	public List<RoomVO> getRoomList() {
+
+		List<RoomVO> roomList = sqlsession.selectList("sw.getRoomList");
+		
+		return roomList;
 	}
 
 	

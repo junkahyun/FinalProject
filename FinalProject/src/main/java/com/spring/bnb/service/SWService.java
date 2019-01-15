@@ -1,12 +1,12 @@
 package com.spring.bnb.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSWDAO;
+import com.spring.bnb.model.RoomVO;
 
 @Service
 public class SWService implements InterSWService {
@@ -52,6 +52,14 @@ public class SWService implements InterSWService {
 		List<String> buildDetailList = dao.getBuildDetailList(buildName1);
 		
 		return buildDetailList;
+	}
+
+	@Override
+	public List<RoomVO> getRoomList() {
+
+		List<RoomVO> roomList = dao.getRoomList();
+		
+		return roomList;
 	}
 
 	
