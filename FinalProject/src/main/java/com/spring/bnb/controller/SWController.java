@@ -73,8 +73,7 @@ public class SWController {
 		
 		return mapList;
 	}
-*/
-	
+*/	
 	
 	@RequestMapping(value = "/homeName.air", method = {RequestMethod.GET})
 	public String buildDetailName(HttpServletRequest req, HttpServletResponse res) {

@@ -131,6 +131,7 @@
 <body>
 	<form>
 	<div id="optionSection" class="row menu">
+	
         <div id="optionLeft" class="col-md-5">
         
             <div id="locationField" class="optionbox">
@@ -140,8 +141,7 @@
             		<option value="대전">대전</option>
             		<option value="대구">대구</option>
             		<option value="부산">부산</option>            		
-            	</select>
-            	<!-- <input id="city" placeholder="지역을 입력하세요." type="text" value="부산" style="border: 0px solid; margin-left: 110px;">   -->  
+            	</select>            
             	
             	<span class="optionname">날짜</span>
             	<input type="text" id="checkin" class="datepicker" placeholder="체크인 날짜" style="margin-left: 5%; width: 18%; height: 80%;">&nbsp;~&nbsp;
@@ -161,12 +161,12 @@
             	<c:forEach items="${roomRule}" var="rule">
             		<input type="checkbox" class="rule" style="margin-left: 5%;"/>&nbsp;${rule}
             	</c:forEach>
-            </div>
-        
+            </div>        
            
         </div>
         
         <div id="optionRight" class="col-md-7">
+        
         	<div class="optionbox">
         		<span class="optionname">건물 유형</span>
         		<select id=buildName1 name="buildName1" style="border-right: 1px solid gray; margin-left: 5%; height: 80%;">
@@ -185,26 +185,26 @@
             	<span class="optionname">임대 유형</span>
             	<c:forEach items="${roomType}" var="room">
             		<input type="checkbox" class="buildType" style="margin-left: 5%;"/>&nbsp;${room}
-            	</c:forEach>   
-            	<!-- <span class="optioninput" id="lental" style="margin-left: 7%; padding-right: 10%; cursor: pointer;">완전한 렌탈</span>
-            	<span class="optioninput" id="single" style="padding-right: 10%; cursor: pointer;">별도의 싱글룸</span>
-            	<span class="optioninput" id="share" style="cursor: pointer;">쉐어 룸</span> -->                      	
+            	</c:forEach>              	                  	
             </div>
+            
             <div class="optionbox" id="service">
             	<span class="optionname">고객 편의</span>
-            	<c:forEach items="${optionList}" var="option" varStatus="status">
-  					
+            	<c:forEach items="${optionList}" var="option" varStatus="status">  					
             		<input type="checkbox" class="option" style="margin-left: 5%;"/>&nbsp;${option}
             		<c:if test="${status.index == 5 }"><br/><span style="margin-left: 6.3%;"></span></c:if>
-            	</c:forEach>
-            	
+            	</c:forEach>            	
             </div> 
-        </div>        
+                        
+        </div>
+                
          <div class="col-md-12 optionbox last_optionbox" >
            	<span class="optionname" style="margin-right: 3%;">가격 (만 원)</span>
        		<input type="hidden" id="slider3" class="slider" />
    		 </div>
+   		 
     </div> 
+    
     <div class="row" style="width: 100%; margin-left: 0.1%;">        
         <div class="col-md-4 " style="height:100vh; margin-top: 18px; padding: 0; border: solid;">
             <div style="height: 100%; margin: 0; padding: 0;" id="map" class="optionbox map"></div>
