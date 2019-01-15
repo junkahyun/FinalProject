@@ -80,7 +80,7 @@
 						</c:if>
 						<div class="panel-footer" style="background-color: white;">
 							<input name="roomcode" class="roomcode" type="hidden" value="${room.roomcode }" />
-							<a href="<%=request.getContextPath()%>/hostRoomEdit.air">수정하기</a>
+							<a href="<%=request.getContextPath()%>/hostRoomEdit.air?roomcode"+"${room.roomcode }">수정하기</a>
 							<a>미리보기</a> <a>달력</a>
 						</div>
 					</div>
