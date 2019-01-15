@@ -21,4 +21,25 @@ public class KHService implements InterKHService {
 		return roomRule;
 	}
 	
+	// *** 숙소 정보 가져오는 메소드 *** //
+	@Override
+	public HashMap<String, Object> getRoomInfo() {
+		HashMap<String, Object> roomList = dao.getRoomInfo();
+		return roomList;
+	}
+	
+	// *** 숙소 옵션 가져오는 메소드 *** //
+	@Override
+	public List<HashMap<String, String>> getRoomOptions() {
+		List<HashMap<String, String>> roomOptions = dao.getRoomOptions();
+		return roomOptions;
+	}
+	
+	// *** 호스트 프로필 사진 가져오기 *** //
+	@Override
+	public String gethostImage() {
+		String hostimage = dao.gethostImage();
+		return hostimage;
+	}
+	
 }

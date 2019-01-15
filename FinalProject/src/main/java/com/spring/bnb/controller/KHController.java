@@ -22,6 +22,20 @@ public class KHController {
 	@RequestMapping(value="/reservationCheck.air", method= {RequestMethod.GET})
 	public String reservationCheck (HttpServletRequest req) {
 		
+		// where절에 숙소 코드,호스트아이디넣고  
+		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
+		
+		// *** 숙소 정보 가져오는 메소드 *** //
+		HashMap<String,Object> roomList = service.getRoomInfo();
+		
+		// *** 숙소 옵션 가져오는 메소드 *** //
+		List<HashMap<String,String>> roomoption = service.getRoomOptions();
+		
+		
+		req.setAttribute("roomoption", roomoption);
+		req.setAttribute("roomList", roomList);
+		
+		
 		return "reservationAndPay/reservationCheck.notiles";
 	}
 	
@@ -29,6 +43,16 @@ public class KHController {
 	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.GET})
 	public String reservationCheckPeople (HttpServletRequest req) {
 		
+		// where절에 숙소 코드 넣어서 가져오기
+		// *** 숙소 정보 가져오는 메소드 *** //
+		HashMap<String,Object> roomList = service.getRoomInfo();
+		
+		// *** 호스트 프로필 사진 가져오기 *** //
+		String hostimg = service.gethostImage();
+		
+		
+		req.setAttribute("roomList", roomList);
+		req.setAttribute("hostimg", hostimg);
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
 	
