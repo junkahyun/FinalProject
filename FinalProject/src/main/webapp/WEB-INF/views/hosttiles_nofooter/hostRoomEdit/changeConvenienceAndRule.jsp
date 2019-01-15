@@ -32,6 +32,11 @@ input[type="number"]::-webkit-inner-spin-button{
     margin: 0;
 
 }
+
+input[type="checkbox"]{cursor: pointer;
+}
+.checkYesorNo{cursor: pointer; font-size: 12pt;
+}
 .click{border: 1px solid #008489; }
 
 select:focus {
@@ -71,34 +76,47 @@ select:focus {
 	<h3 >어떤 편의시설을 제공하시나요?</h3>
 	<!-- 체크인과 체크아웃 -->
 	<hr style="width: 50%;" align="left">
-	
-	<div class="col-md-6" style="width:25%;">
-		<div style="font-size: 0.7rem; margin-bottom: 5%;">
-			<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
-			<span style="font-size: 13pt; color: black;">필수품목</span>
+	<div>
+		<div class="col-md-6" style="width:25%;">
+			<div style="font-size: 0.7rem; margin-bottom: 5%;">
+				<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
+				<span style="font-size: 13pt; color: black;">필수품목</span>
+			</div>
+		</div>
+		
+		<div class="col-md-6" style="width:25%;">
+			<div style="font-size: 0.7rem; margin-bottom: 5%;">
+				<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
+				<span style="font-size: 13pt; color: black;">필수품목</span>
+			</div>
+			
 		</div>
 	</div>
 	
-	<div class="col-md-6" style="width:25%;">
-		<div style="font-size: 0.7rem; margin-bottom: 5%;">
-			<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
-			<span style="font-size: 13pt; color: black;">필수품목</span>
-		</div>
-	</div>
+	<!-- <hr style="width: 50%;" align="left"> -->
 	
-	<hr style="width: 50%;" align="left">
 	<!-- 이용규칙 -->
 	<h3 >어떤 이용규칙이 있나요?</h3>
-	<c:forEach  var="rule" items="${roomRule}">
-		<span style="font-size: 13pt; margin-right: 10%;">${rule.rule_name}</span>
+	<c:forEach  var="rule" items="${roomRule}" varStatus="status">
+		<span style="font-size: 13pt; margin-right: 15%;">${rule.rule_name}</span>
 			<c:if test="${rule.rule_status == 0 }">
-				<input type="checkbox" checked="checked"/>아니오
-				<input type="checkbox" />예
+				<label for="No${status.count}">
+					<input type="checkbox" checked="checked" id="No${status.count}"/><span class="checkYesorNo">아니오</span>
+				</label>
+				
+				<label for="yes${status.count}">
+					<input type="checkbox" id="yes${status.count}"/><span class="checkYesorNo">예</span>
+				</label>
 			</c:if>
 			
 			<c:if test="${rule.rule_status == 1}">
-				<input type="checkbox" />아니오
-				<input type="checkbox" checked="checked"/>예
+				<label for="No${status.count}">
+					<input type="checkbox" id="No${status.count}"/><span class="checkYesorNo">아니오</span>
+				</label>
+				
+				<label for="yes${status.count}">
+					<input type="checkbox" checked="checked" id="yes${status.count}"/><span class="checkYesorNo">예</span>
+				</label>
 			</c:if>
 		<br><br>
 	</c:forEach>

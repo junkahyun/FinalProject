@@ -39,7 +39,14 @@ public class KHController {
 		return "reservationAndPay/reservationCheckAndPay.notiles";
 	}
 	
-	// ***** 예약 확인 및 결제하기 (예약) ***** //
+	// ***** 예약 확인 및 결제하기 (결제 창 띄우기) ***** //
+	@RequestMapping(value="/paymentGateway.air", method= {RequestMethod.GET})
+	public String paymentGateway(HttpServletRequest req) {
+		
+		return "paymentGateway";
+	}
+	
+	// ***** 예약 확인 및 결제하기 (결제성공) ***** //
 	@RequestMapping(value="/reservationFinalConfirm.air", method= {RequestMethod.GET})
 	public String reservationFinalConfirm (HttpServletRequest req) {
 		
