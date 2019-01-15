@@ -23,6 +23,8 @@
 			}
 		});
 		
+		detail(userid);
+		
 	});
 	
 	function goSearch() {
@@ -41,6 +43,12 @@
     		frm.submit();
     	}
 
+	}
+	
+	function detail(userid) {
+		
+		var userid = $
+		
 	}
 	
 	
@@ -86,7 +94,7 @@
 					  	<c:if test="${searchMember == null}">
 						  	<c:forEach var="membervo" items="${memberList}">
 							    <tr>
-							      <td><a data-toggle="modal" data-target="#myModal">${membervo.username}</a></td>
+							      <td><a data-toggle="modal" data-target="#myModal" onclick='detail("${membervo.userid}")'>${membervo.username}</a></td>
 							      <td>${membervo.userid}</td>
 							      <td>${membervo.birthday}</td>
 							      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
@@ -100,7 +108,7 @@
 					    <c:if test="${searchMember != null}">
 						  	<c:forEach var="membervo" items="${searchMember}">
 							    <tr>
-							      <td><a data-toggle="modal" data-target="#myModal">${membervo.username}</a></td>
+							      <td><a data-toggle="modal" data-target="#myModal" onclick='detail("${membervo.userid}")'>${membervo.username}</a></td>
 							      <td>${membervo.userid}</td>
 							      <td>${membervo.birthday}</td>
 							      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
@@ -153,46 +161,94 @@
 							    <div class=" col-md-9 col-lg-9 "> 
 							      <table class="table table-user-information">
 							        <tbody>
-							          <tr>
-							            <td>성명</td>
-							            <td>이순신</td>
-							          </tr>
-							          <tr>
-							            <td>생년월일</td>
-							            <td>2013/06/23</td>
-							          </tr>
-							          <tr>
-							            <td>아이디</td>
-							            <td>leess</td>
-							          </tr>
-					                  <tr>
-							            <td>성별</td>
-							            <td>여자</td>
-							          </tr>
-							            <tr>
-							            <td>이메일</td>
-							            <td>leess@naver.com</td>
-							          </tr>
-							          <tr>
-							            <td>전화번호</td>
-							            <td>01055551111</td>
-							          </tr>
-							          <tr>
-							            <td>주소</td>
-							            <td>경기도 구리시 푸르지오 1114-1004</td>
-							          </tr>
-							          <tr>
-							            <td>보유쿠폰</td>
-							            <td>없음</td>
-							          </tr>
-							          <tr>
-							            <td>예약현황</td>
-							            <td>없음</td>
-							          </tr>
-							          <tr>
-							            <td>리뷰관리</td>
-							            <td><span>작성한 리뷰 확인하기</span></td>
-							          </tr>
+							        	<c:if test="${searchMember == null}">
+						  					<c:forEach var="membervo" items="${memberList}">
+									          <tr>
+									            <td>성명</td>
+									            <td>${membervo.username}</td>
+									          </tr>
+									          <tr>
+									            <td>생년월일</td>
+									            <td>${membervo.birthday}</td>
+									          </tr>
+									          <tr>
+									            <td>아이디</td>
+									            <td>${membervo.userid}</td>
+									          </tr>
+							                  <tr>
+									            <td>성별</td>
+									            <td>${membervo.gender}</td>
+									          </tr>
+									            <tr>
+									            <td>이메일</td>
+									            <td>${membervo.email}</td>
+									          </tr>
+									          <tr>
+									            <td>핸드폰번호</td>
+									            <td>${membervo.phone}</td>
+									          </tr>
+									          <tr>
+									            <td>주소</td>
+									            <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+									          </tr>
+									          <tr>
+									            <td>보유쿠폰</td>
+									            <td>없음</td>
+									          </tr>
+									          <tr>
+									            <td>예약현황</td>
+									            <td>없음</td>
+									          </tr>
+									          <tr>
+									            <td>리뷰관리</td>
+									            <td><span>작성한 리뷰 확인하기</span></td>
+									          </tr>
+								          </c:forEach>
+					    				</c:if>
+					    				<c:if test="${searchMember != null}">
+						  					<c:forEach var="membervo" items="${searchMember}">
+									          <tr>
+									            <td>성명</td>
+									            <td>${membervo.username}</td>
+									          </tr>
+									          <tr>
+									            <td>생년월일</td>
+									            <td>${membervo.birthday}</td>
+									          </tr>
+									          <tr>
+									            <td>아이디</td>
+									            <td>${membervo.userid}</td>
+									          </tr>
+							                  <tr>
+									            <td>성별</td>
+									            <td>${membervo.gender}</td>
+									          </tr>
+									            <tr>
+									            <td>이메일</td>
+									            <td>${membervo.email}</td>
+									          </tr>
+									          <tr>
+									            <td>핸드폰번호</td>
+									            <td>${membervo.phone}</td>
+									          </tr>
+									          <tr>
+									            <td>주소</td>
+									            <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+									          </tr>
+									          <tr>
+									            <td>보유쿠폰</td>
+									            <td>없음</td>
+									          </tr>
+									          <tr>
+									            <td>예약현황</td>
+									            <td>없음</td>
+									          </tr>
+									          <tr>
+									            <td>리뷰관리</td>
+									            <td><span>작성한 리뷰 확인하기</span></td>
+									          </tr>
+								          </c:forEach>
+					    				</c:if>
 							        </tbody>
 							      </table>
 							      
@@ -200,7 +256,7 @@
 							  </div>
 							</div>
 							<div class="" style="text-align: center; background-color: white; padding-bottom: 10px;">
-					        	<button type="button" class="btn btn-outline-success" onclick="javascript:history.back();">종료</button>
+					        	<button type="button" class="btn btn-secondary" data-dismiss="modal">종료</button>
 					    	</div>
 						</div>
 				    </div>

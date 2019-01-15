@@ -71,9 +71,7 @@ public class SHController {
 		paraMap.put("searchType", searchType);
 		
 		List<MemberVO> searchMember = service.getSearchMember(paraMap);
-		
-		System.out.println(searchType);
-		System.out.println(searchWord);
+
 		req.setAttribute("searchMember", searchMember);
 		
 		return "admin/adminMember.admintiles";
