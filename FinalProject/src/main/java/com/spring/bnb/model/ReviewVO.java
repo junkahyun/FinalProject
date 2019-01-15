@@ -14,6 +14,8 @@ public class ReviewVO {
 	private String review_writedate;
 	private String hostAnswer;
 	
+	private MemberVO user;
+	
 	public ReviewVO() {}
 	public ReviewVO(int review_idx, String fk_roomcode, String fk_userid, int correct, int communicate, int clean,
 			int position, int checkin, int value, String review_content, String review_writedate, String hostAnswer) {
@@ -29,7 +31,7 @@ public class ReviewVO {
 		this.value = value;
 		this.review_content = review_content;
 		this.review_writedate = review_writedate;
-		this.hostAnswer = hostAnswer;
+		//this.hostAnswer = hostAnswer;
 	}
 	public int getReview_idx() {
 		return review_idx;
@@ -102,6 +104,12 @@ public class ReviewVO {
 	}
 	public void setHostAnswer(String hostAnswer) {
 		this.hostAnswer = hostAnswer;
+	}
+	public MemberVO getUser() {
+		return user;
+	}
+	public void setUser(MemberVO user) {
+		this.user = user;
 	}
 	
 }

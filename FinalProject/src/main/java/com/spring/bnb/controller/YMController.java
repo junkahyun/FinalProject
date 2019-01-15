@@ -38,18 +38,6 @@ public class YMController {
 		String birth = year +"-" + month +"-"+ day;
 		
 		membervo.setBirthday(birth);
-		System.out.println(membervo.getAddr());
-		System.out.println(membervo.getBirthday());
-		System.out.println(membervo.getEmail());
-		System.out.println(membervo.getGender());
-		System.out.println(membervo.getIntroduction());
-		System.out.println(membervo.getPhone());
-		System.out.println(membervo.getPost());
-		System.out.println(membervo.getDetailaddr());
-		System.out.println(membervo.getProfileimg());
-		System.out.println(membervo.getPwd());
-		System.out.println(membervo.getUserid());
-		System.out.println(membervo.getUsername());
 		
 		service.memberJoin(membervo);
 		
