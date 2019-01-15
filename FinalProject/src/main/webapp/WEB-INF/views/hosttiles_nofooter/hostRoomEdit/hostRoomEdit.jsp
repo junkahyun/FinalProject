@@ -78,14 +78,27 @@ div{border: /* 1px solid gray;  */
 }
 .bedAndPeople{font-size: 12pt; margin-bottom: 3%;
 }
-
+.changeColor{border: 1px solid #fc642d;
+}
+.emailSend{outline: none;
+}
+.error_emailSend{color: #fc642d; font-weight: bold;
+}
 </style>
 
 <script>
 
 	$(document).ready(function(){
+		$(".error_emailSend").hide();
+		
 		// Get the element with id="defaultOpen" and click on it
 		document.getElementById("defaultOpen").click();
+		
+		$(".emailSend").click(function(){
+			
+			$(this).addClass("changeColor");
+			
+		});
 		
 	});
 
@@ -394,15 +407,47 @@ div{border: /* 1px solid gray;  */
 			<div class="col-md-6">
 				<h4>친구와 함께 호스팅 하기</h4>
 				<span style="font-size: 12pt;">신뢰할수 있는 지인을 공동호스트로 초대하여 도움을 받으세요.</span><br><br>
-				<button type="button" style="background-color: #008489; padding: 3%;" class="btn">
-				<span style="color: white; font-weight: bold;">친구초대하기</span>
+				<button type="button" class="btn invitemodal" data-toggle="modal" data-target="#myModal" style="background-color: #008489; padding: 3%;">
+					<span style="color: white; font-weight: bold;">친구초대하기</span>
 				</button>
 			</div>
+			
+		
 			<div class="col-md-6"><img src="<%=request.getContextPath() %>/resources/images/친구와함께.JPG" /></div>
 		</div>
 	</div>
 	
 </div>
+<!-- 친구초대하기 modal -->
+<div class="container" >
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog" style="margin-top: 20%;">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+         	<span style="font-size: 18pt; font-weight: bold;">친구 초대하기</span>
+        </div>
+        <div class="modal-body" >
+          <strong style="font-size: 12pt; ">이메일 주소</strong><br>
+          <input class="emailSend" type="email" style="width: 100%; height:48px; margin-top: 3%;"/><br>
+          <span class="error_emailSend">정확한 이메일 주소를 입력해주세요.</span><br>
+          <label for="emailCheckbox">
+	          <input type="checkbox" id="emailCheckbox"/>&nbsp;&nbsp;
+	          <span style="font-size: 12pt;"><strong style="color: #008489;">공동 호스트 서비스</strong>약관에 동의합니다.</span>
+          </label><br>
+          <p style="font-size: 10pt;">공동 호스트를 추가하시면 공동 호스트는 회원님을 대신해서 호스트 역할을 합니다. 하지만 회원님 숙소의 호스팅을 위해 공동 호스트가 하는 행위에 대한 책임은 회원님께 있습니다.
+          </p><br>
+          <button type="button" class="btn invitebtn" style="background-color: #008489; padding: 2%; width: 10%;"><span style="color: white; font-weight: bold;">초대</span></button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- 친구초대하기 modal -->
 
 </body>
 </html>
