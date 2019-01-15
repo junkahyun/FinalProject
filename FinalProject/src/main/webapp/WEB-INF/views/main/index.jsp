@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%-- ======= #22. tiles 를 사용하는 레이아웃1 페이지 만들기  ======= --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"  %>  
     
 <%
@@ -17,6 +18,8 @@
 	<!-- Link CSS -->
 	<link rel="stylesheet" href="<%=ctxPath %>/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/main.css">
+	<!-- link shortcut icon -->
+	<link rel="shortcut icon" href="<%=ctxPath%>/resources/images/main/shortcut.ico"> 
 	<style type="text/css">
 		section#best_reviewes{
 			margin-top:40px;
@@ -33,6 +36,9 @@
 		    height: 200px;
 		    top: 0;
 		    z-index: 9;
+		}
+		div.choose_A div.domestic i.icon-accessibility{
+			background: url(<%= ctxPath %>/resources/images/main/nation_flag_icon.png) no-repeat top left;
 		}
 	</style>
 	<!-- Link JS -->  
@@ -88,7 +94,10 @@
 	                  </a>
 	               </div> 
 	               <div class="choose_A">
-			         	<div class="col-md-2 domestic">국내</div>
+			         	<div class="col-md-2 domestic">
+			         		<img id="nation_flag" alt=" " src="<%=ctxPath%>/resources/images/main/nation_flag_icon.png" width="26%"/>
+			         		<span class="choose_nation">국내</span>
+			         	</div>
 			         	<div class="col-md-2 oversea">도시</div>
 			         	<div class="col-md-3 check_in">체크인</div>
 			         	<div class="col-md-3 check_out">체크아웃</div>
@@ -107,6 +116,7 @@
 			</div>		
 			<div class="row not-rowStyle">
 				<ul id="rooms_show_ul">
+				 
 				<!-- 데이터 불러올 시 이 형식에 맞게 append 시킬것-->
 				<li>     
 					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326" /> 
