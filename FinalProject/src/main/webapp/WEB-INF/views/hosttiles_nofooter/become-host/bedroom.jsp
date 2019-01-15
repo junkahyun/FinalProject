@@ -271,11 +271,11 @@
        	
        	<div class="col-md-3" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-top: 20px; padding-left: 0; padding-right: 0;" >
 	         <div class="col-md-3" style="border: 0px solid red; padding: 0;">
-	            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+	            <button type="button" onclick="back();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
 	         </div>
 	         <div class="col-md-6" style="border: 0px solid red;"></div>
 	         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-	            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
+	            <button type="button" onclick="next();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
 	         </div>
         </div>      
       </div>

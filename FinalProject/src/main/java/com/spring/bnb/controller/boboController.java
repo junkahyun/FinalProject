@@ -111,13 +111,12 @@ public class boboController {
 		
 	@RequestMapping(value="/bedroom.air", method={RequestMethod.GET})
 	public String bedroom(HttpServletRequest req) {
-		String buildType = req.getParameter("buildType");
+
 		String buildType_detail = req.getParameter("buildType_detail");
 		String room_type = req.getParameter("room_type");
 		
 		RoomVO roomvo = new RoomVO();
-		roomvo.setFk_buildType(buildType);
-		//roomvo.setFk_buildType_detail(buildType_detail);
+		roomvo.setFk_buildType_detail_idx(buildType_detail);
 		roomvo.setFk_roomType_idx(room_type);
 			
 		return "become-host/bedroom.hosttiles_nofooter";
