@@ -1,16 +1,19 @@
 package com.spring.bnb.controller;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSCService;
 import com.spring.common.AES256;
@@ -29,15 +32,15 @@ public class SCController {
 	@RequestMapping(value = "/hostroomList.air", method = {RequestMethod.GET})
 	public String hostroomList(HttpServletRequest req) {
 		List<RoomVO> roomList = null;
+		
 		/*
 		 * HttpSession session = req.getSession(); MemberVO loginuser =
-		 * (MemberVO)session.getAttribute("loginuser");
+		 * (MemberVO)session.getAttribute("loginuser"); String userid = null;
+		 * if(loginuser != null) { userid = loginuser.getUserid(); }
 		 */
 		String userid = null;
 		userid ="leess";
-		/*
-		 * if(loginuser !=null) { userid = loginuser.getUserid(); }
-		 */
+
 		roomList = service.getRoomList(userid);
 		req.setAttribute("roomList", roomList);
 		
@@ -47,9 +50,31 @@ public class SCController {
 	// 호스트 등록된 숙소 수정하기 
 	@RequestMapping(value="/hostRoomEdit.air", method= {RequestMethod.GET})
 	public String hostRoomEdit (HttpServletRequest req) {
-		
+		List<RoomVO> roomList = null;
 		String roomcode = req.getParameter("roomcode");
 		System.out.println(roomcode);
+		
+		/*
+		 * HttpSession session = req.getSession(); MemberVO loginuser =
+		 * (MemberVO)session.getAttribute("loginuser"); String userid = null;
+		 * if(loginuser != null) { userid = loginuser.getUserid(); }
+		 */
+		String userid = null;
+		userid ="leess";
+		
+		roomList = service.getRoomList(userid);
+		RoomVO roomvo = (RoomVO)service.getRoom(roomcode);
+		
+		List<String> roomimgList = new ArrayList<String>();
+		roomimgList = service.getRoomImg(roomcode);
+		
+		List<String> optionList = new ArrayList<String>();
+		optionList = service.getOption(roomcode);
+		
+		List<HashMap<String, String>> bedroomList = new ArrayList<HashMap<String,String>>();
+		
+		req.setAttribute("roomList", roomList);
+		req.setAttribute("roomvo", roomvo);
 		
 		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
 	}

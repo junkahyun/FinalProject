@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 hr{width: 85%; 
 }
@@ -130,7 +130,7 @@ div{border: /* 1px solid gray;  */
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
 	
-	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">숙소이름
+	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">${roomvo.roomName }
 	<button type="button" class="btn" style="margin-left: 50%;"><span class="editbtn">달력보기</span></button>
 	<button type="button" class="btn" style="background-color: #008489;">
 	<span style="color: white; font-weight: bold;">숙소미리보기</span>
@@ -148,14 +148,21 @@ div{border: /* 1px solid gray;  */
 		      <input type="text" id="search" style="border: 0px; margin-left: 2%; font-size: 12pt;" value="숙소 검색"/>
 	      </li>
 	      <li style="border-bottom: 1px solid gray; padding: 2%;">
-		      <a href="#">
-		      <span style="font-weight: bold; font-size: 12pt; ">모든숙소</span> <img src="<%=request.getContextPath() %>/resources/img/숙소.JPG" style="width: 20%; margin-left:65%;"/></a>
-		     
+		      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">모든숙소</span></a>
+
 	      </li><!-- 숙소 리스트로 -->
-	      <li style=" padding: 2%;">
-		      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">숙소이름</span><br>
-		      <span style="font-size: 11pt;">개인실, 운영중지</span><img src="<%=request.getContextPath() %>/resources/img/숙소.JPG" style="width: 20%; margin-left:55%; margin-bottom: 5%;"/></a>
-	      </li>
+	      <c:forEach var="room" items="${roomList }">
+		      <li style=" padding: 2%;">
+			      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
+			      <c:if test="${room.roomstatus == 1 }">
+			      	<span style="font-size: 11pt;">운영중</span>
+			      </c:if>
+			      <c:if test="${room.roomstatus == 0 }">
+			      	<span style="font-size: 11pt;">운영중지</span>
+			      </c:if>
+			      <img src="${room.roomMainImg }" style="width: 20%; margin-left:55%; margin-bottom: 5%;"/></a>
+		      </li>
+	      </c:forEach>
 	    </ul>
 	</div>
 	<!-- 드롭다운 -->
@@ -174,11 +181,11 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 		<div class="col-md-9" align="left" id="detail" class="tabcontent">
 			<h4 style="font-weight: bold; margin-bottom: 5%; margin-top: 5%;">사진</h4>
-			<img src="<%=request.getContextPath() %>/resources/img/숙소.JPG" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
+			<img src="${roomvo.roomMainImg }" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
 		</div>
 		
 		<div class="col-md-2" style="margin-top: 3%; ">
-	  		<button type="button" class="btn" onclick="goPhotoEdit();"><span class="editbtn">수정</span></button>
+	  		<button type="button" class="btn" onclick="goPhotoEdit('${roomvo.roomcode}');"><span class="editbtn">수정</span></button>
 	    </div>
 	    </div>
 		<hr align="left" > 
@@ -186,8 +193,8 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >제목 및 설명</h4>
-				<span style="font-weight: bold; font-size: 11pt;">숙소이름</span><br><br>
-				<span style=" font-size: 13pt; ">숙소설명</span><br><br>
+				<span style="font-weight: bold; font-size: 11pt;">${roomvo.roomName }</span><br><br>
+				<span style=" font-size: 13pt; ">${roomvo.roomInfo }</span><br><br>
 				<a href="#">숙소 이름 변경</a><br><br>
 				<a href="#">숙소 상세설명</a><br><br>
 				<a href="#">기타 메모 추가</a><br><br>

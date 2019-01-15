@@ -20,5 +20,11 @@ public class SCService implements InterSCService {
 		List<RoomVO> roomList = dao.getRoomList(userid);
 		return roomList;
 	}
+	// 룸정보 가져오기
+	@Override
+	public RoomVO getRoom(String roomcode) {
+		RoomVO roomvo = dao.getRoom(roomcode);
+		return roomvo;
+	}
 
 }

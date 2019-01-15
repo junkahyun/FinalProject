@@ -22,9 +22,10 @@
 </style>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		
-	});
+
+	function goRoomEdit(roomcode){
+		location.href="hostRoomEdit.air?roomcode="+roomcode;
+	}
 </script>
 
    <div class="container">
@@ -79,8 +80,7 @@
 							</div>
 						</c:if>
 						<div class="panel-footer" style="background-color: white;">
-							<input name="roomcode" class="roomcode" type="hidden" value="${room.roomcode }" />
-							<a href="<%=request.getContextPath()%>/hostRoomEdit.air?roomcode"+"${room.roomcode }">수정하기</a>
+							<a onclick="goRoomEdit('${room.roomcode}');">수정하기</a>
 							<a>미리보기</a> <a>달력</a>
 						</div>
 					</div>
@@ -90,4 +90,3 @@
          
       </div>
    </div>
-   

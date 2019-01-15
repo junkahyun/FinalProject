@@ -21,4 +21,11 @@ public class SCDAO implements InterSCDAO {
 		List<RoomVO> roomList = sqlsession.selectList("sc.getRoomList", userid);
 		return roomList;
 	}
+	
+	// 룸정보 가져오기
+	@Override
+	public RoomVO getRoom(String roomcode) {
+		RoomVO roomvo = sqlsession.selectOne("sc.getRoom",roomcode);
+		return roomvo;
+	}
 }
