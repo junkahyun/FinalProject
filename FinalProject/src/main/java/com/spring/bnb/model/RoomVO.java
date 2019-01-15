@@ -6,7 +6,7 @@ import java.util.List;
 public class RoomVO {
 	private String roomcode;
 	private String fk_userid; 
-	private String fk_buildType;
+	private String fk_buildType_detail_idx;
 	private String fk_roomoption_idx;
 	private String fk_roomType_idx;
 	private String roomName;
@@ -58,12 +58,15 @@ public class RoomVO {
 	public void setFk_userid(String fk_userid) {
 		this.fk_userid = fk_userid;
 	}
-	public String getFk_buildType() {
-		return fk_buildType;
+	
+	public String getFk_buildType_detail_idx() {
+		return fk_buildType_detail_idx;
 	}
-	public void setFk_buildType(String fk_buildType) {
-		this.fk_buildType = fk_buildType;
+
+	public void setFk_buildType_detail_idx(String fk_buildType_detail_idx) {
+		this.fk_buildType_detail_idx = fk_buildType_detail_idx;
 	}
+
 	public String getFk_roomoption_idx() {
 		return fk_roomoption_idx;
 	}
