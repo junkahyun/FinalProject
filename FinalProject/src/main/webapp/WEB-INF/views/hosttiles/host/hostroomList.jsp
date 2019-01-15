@@ -39,7 +39,7 @@
 						<h2>운영 중</h2>
 					</c:if>
 
-					<c:if test="${room.roomstatus = 0 }">
+					<c:if test="${room.roomstatus == 0 }">
 						<h2>운영 중지</h2>
 					</c:if>
 					<div class="panel panel-default">
@@ -71,10 +71,6 @@
 				</div>
 			</c:forEach>
 		</c:if>
-		<div class="col-md-12">
-         <h2>운영 중지</h2>
-            
-         </div>
          
       </div>
    </div>
