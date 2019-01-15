@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -13,6 +14,7 @@ public class boboDAO implements InterBODAO{
 	private SqlSessionTemplate sqlsession;
 
 	// 숙소유형 가져오기
+	@Override
 	public List<String> selectroomtype() {
 		
 		List<String> roomtype = sqlsession.selectList("bobo.selectroomtype");
@@ -21,9 +23,16 @@ public class boboDAO implements InterBODAO{
 
 	// 건물유형 가져오기
 	@Override
-	public List<String> selectbuildType() {
-		List<String> buildType = sqlsession.selectList("bobo.selectbuildType");
+	public List<HashMap<String, String>> selectbuildType() {
+		List<HashMap<String, String>> buildType = sqlsession.selectList("bobo.selectbuildType");
 		return buildType;
+	}
+
+	// 건물세부유형 가져오기
+	@Override
+	public List<HashMap<String, String>> selectbuildTypedetail(String buildType) {
+		List<HashMap<String, String>> buildTypedetail = sqlsession.selectList("bobo.selectbuildTypedetail", buildType);
+		return buildTypedetail;
 	}
 
 }

@@ -11,7 +11,7 @@
 .dropdown-menu{
 	width:300px;
 	position: absolute;
-  	right: 0;
+  	right: 0 !important;
 }
 </style>
 <div>   
@@ -45,17 +45,17 @@
             <%-- </c:if> --%>
             <div class="headermenu dropdown" onClick="">
             	<div class="dropdown-toggle" data-toggle="dropdown">저장목록</div>
-            	<ul class="dropdown-menu">
+            	<ul class="dropdown-menu dropdown-menu-right">
 			      <li class="hoverBottomHY" style="font-weight:bold;padding-bottom:2%;">목록<span style="float:right;">목록보기</span></li>
 			      <li class="hoverBottomHY">
-			      	<div class="row" style="padding-bottom:2%;">
-			      	<div class="col-md-8" style="padding-right:2%;">
-			      		<div style="color:#148781">saveTitle</div>
-			      		<div style="color:lightgray">saveOption</div>
-			      	</div>
-			      	<div class="col-md-4">
-			      		<img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp" style="width:100px; height:90px;">
-			      	</div>
+			      	<div class="row noSpace" style="padding-bottom:2%;">
+				      	<div class="col-md-8">
+				      		<div style="color:#148781">saveTitle</div>
+				      		<div style="color:lightgray">saveOption</div>
+				      	</div>
+				      	<div class="col-md-4 noSpace">
+				      		<img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp" style="width:100%; height:80px;padding:0;margin:0;">
+				      	</div>
 			      	</div>
 			      </li>
 			    </ul>
