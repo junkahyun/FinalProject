@@ -32,7 +32,7 @@
 		where R.fk_userid = #{fk_userid}
 	</select>
 	
-	<resultMap type="HashMap" id="bedroom">
+	<resultMap type="HashMap" id="bedroomMap">
 		<result property="BED_IDX" column="BED_IDX" javaType="String" />
 		<result property="BEDTYPE" column="BEDTYPE" javaType="String" />
 		<result property="BEDCOUNT" column="BEDCOUNT" javaType="String" />
@@ -40,21 +40,31 @@
 	</resultMap>
 	
 	<!-- 침실/침대 roomVO에 입력하기 -->
-	<select id="getBedroomList" parameterType="String" resultMap="bedroom">
+	<select id="getBedroomList" parameterType="String" resultMap="bedroomMap">
 		select * from room R join bedroom BR on R.roomcode = BR.fk_roomcode 
         join bed B on BR.bedroom_idx=B.fk_bedroom_idx
         join bedobj O on O.bedobj_idx = B.fk_bedobj_idx
         where R.roomcode = #{roomcode}
 	</select>
 	
+	<resultMap type="HashMap" id="optionMap">
+		<result property="OPTIONNAME" column="OPTIONNAME" javaType="String" />
+		<result property="OPTIONICON" column="OPTIONICON" javaType="String" />
+	</resultMap>
 	<!-- 옵션정보 RoomVO에 입력하기 -->
-	<select id="getOptionList" parameterType="String" resultType="String">
-		select*from roomoption R join options O on R.fk_option_idx=O.option_idx where R.fk_roomcode=10
+	<select id="getOptionList" parameterType="String" resultMap="optionMap">
+		select * from roomoption R join options O on R.fk_option_idx=O.option_idx 
+		where R.fk_roomcode = #{roomcode}
 	</select>
 	
 	<!-- RoomVO에  likeCount 입력하기 -->
 	<select id="getRoomLikeCount" parameterType="String" resultType="Integer">
 		select count(*) from likeroom where fk_roomcode=#{roomcode}
+	</select>
+	
+	<!-- RoomVO에  roomImgList 입력하기 -->
+	<select id="getRoomImgList" parameterType="String" resultType="String">
+		select img from roomImg where fk_roomcode=#{roomcode}
 	</select>
 	
 </mapper>
