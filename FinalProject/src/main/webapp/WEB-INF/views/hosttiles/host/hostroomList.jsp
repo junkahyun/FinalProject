@@ -8,11 +8,11 @@
 
 .img-thumbnail{
 	border: none;
-	
+	padding: 0;
 }
 
 .panel-heading{
-	background-color: white;
+	background-color: #fff
 }
 
 .panel-heading:hover{
@@ -22,7 +22,9 @@
 </style>
 
 <script type="text/javascript">
-	
+	$(document).ready(function(){
+		
+	});
 </script>
 
    <div class="container">
@@ -65,19 +67,19 @@
 									<br /> <span style="font-size: 9pt;">최종업데이트 날짜:</span>
 								</div>
 								<div class="col-md-4 ">
-									<img class="img-thumbnail" alt="" src="${room.roomMainImg }">
+									<img class="img-thumbnail" alt="" src="${room.roomMainImg }" >
 								</div>
 							</div>
 						</div>
 						<c:if test="${room.roomstatus == 0 }">
 							<div class="panel-body">
-								<img alt=""src="<%=request.getContextPath()%>/resources/images/time_icon-icons.com_65742.png">
+								<img alt=""src="<%=request.getContextPath()%>/resources/images/back (1).png">
 								<span><span style="font-weight: bold;">숙소 재설정</span><br />
 									현재 휴식모드 입니다. 숙소를 '운영 재개'로 설정하시면 검색 결과에 다시 표시됩니다.</span>
 							</div>
 						</c:if>
 						<div class="panel-footer" style="background-color: white;">
-							<input type="hidden" value="${room.roomcode }" />
+							<input name="roomcode" class="roomcode" type="hidden" value="${room.roomcode }" />
 							<a href="<%=request.getContextPath()%>/hostRoomEdit.air">수정하기</a>
 							<a>미리보기</a> <a>달력</a>
 						</div>

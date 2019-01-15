@@ -49,7 +49,7 @@ public class SCController {
 	public String hostRoomEdit (HttpServletRequest req) {
 		
 		String roomcode = req.getParameter("roomcode");
-		
+		System.out.println(roomcode);
 		
 		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
 	}
