@@ -1,5 +1,6 @@
 package com.spring.bnb.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class RoomVO {
@@ -15,14 +16,15 @@ public class RoomVO {
 	private String roomPost;
 	private String roomSigungu; 
 	private String roomSido;
-	private String roomBname; 
+	private String roomBname;
+	private String roomAddr;
 	private String roomPrice;
 	private String peakper;
 	private String cleanPay; 
 	private String basic_person;
 	private String max_person;
 	private String person_addpay;
-	private String roomcount; 
+	private String roomCount; 
 	private String bathCount;
 	private String checkInTime; 
 	private String checkOutTime; 
@@ -33,50 +35,17 @@ public class RoomVO {
 	private String room_warnCount;
 	
 	//add(getter,setter 아직 안넣음)
-	private String homeType;
+	private String roomType_name;
 	private String buildType;
-	private String buildType_detail;
+	private String buildType_detail_name;
+	private int likeCount;
 	private List<String> roomimgList;
 	private List<String> optionList;
 	private List<ReviewVO> reviewList;
-	
+	private MemberVO host;
+	private List<HashMap<String,String>> bedroomList;
 	public RoomVO() {}
-	public RoomVO(String roomcode, String fk_userid, String fk_buildType, String fk_roomoption_idx,
-			String fk_roomType_idx, String roomName, String roomMainImg, String roomTel, String roomInfo,
-			String roomPost, String roomSigungu, String roomSido, String roomBname, String roomPrice, String peakper,
-			String cleanPay, String basic_person, String max_person, String person_addpay, String roomcount,
-			String bathCount, String checkInTime, String checkOutTime, String latitude, String longitude,
-			String viewcount, String roomstatus, String room_warnCount) {
-		super();
-		this.roomcode = roomcode;
-		this.fk_userid = fk_userid;
-		this.fk_buildType = fk_buildType;
-		this.fk_roomoption_idx = fk_roomoption_idx;
-		this.fk_roomType_idx = fk_roomType_idx;
-		this.roomName = roomName;
-		this.roomMainImg = roomMainImg;
-		this.roomTel = roomTel;
-		this.roomInfo = roomInfo;
-		this.roomPost = roomPost;
-		this.roomSigungu = roomSigungu;
-		this.roomSido = roomSido;
-		this.roomBname = roomBname;
-		this.roomPrice = roomPrice;
-		this.peakper = peakper;
-		this.cleanPay = cleanPay;
-		this.basic_person = basic_person;
-		this.max_person = max_person;
-		this.person_addpay = person_addpay;
-		this.roomcount = roomcount;
-		this.bathCount = bathCount;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.viewcount = viewcount;
-		this.roomstatus = roomstatus;
-		this.room_warnCount = room_warnCount;
-	}
+	
 	public String getRoomcode() {
 		return roomcode;
 	}
@@ -155,6 +124,15 @@ public class RoomVO {
 	public void setRoomBname(String roomBname) {
 		this.roomBname = roomBname;
 	}
+	
+	public String getRoomAddr() {
+		return roomAddr;
+	}
+
+	public void setRoomAddr(String roomAddr) {
+		this.roomAddr = roomAddr;
+	}
+
 	public String getRoomPrice() {
 		return roomPrice;
 	}
@@ -191,11 +169,11 @@ public class RoomVO {
 	public void setPerson_addpay(String person_addpay) {
 		this.person_addpay = person_addpay;
 	}
-	public String getRoomcount() {
-		return roomcount;
+	public String getRoomCount() {
+		return roomCount;
 	}
-	public void setRoomcount(String roomcount) {
-		this.roomcount = roomcount;
+	public void setRoomCount(String roomCount) {
+		this.roomCount = roomCount;
 	}
 	public String getBathCount() {
 		return bathCount;
@@ -247,11 +225,11 @@ public class RoomVO {
 	}
 	
 	// 추가
-	public String getHomeType() {
-		return homeType;
+	public String getRoomType_name() {
+		return roomType_name;
 	}
-	public void setHomeType(String homeType) {
-		this.homeType = homeType;
+	public void setRoomType_name(String roomType_name) {
+		this.roomType_name = roomType_name;
 	}
 	public String getBuildType() {
 		return buildType;
@@ -259,12 +237,20 @@ public class RoomVO {
 	public void setBuildType(String buildType) {
 		this.buildType = buildType;
 	}
-	public String getBuildType_detail() {
-		return buildType_detail;
+	public String getBuildType_detail_name() {
+		return buildType_detail_name;
 	}
-	public void setBuildType_detail(String buildType_detail) {
-		this.buildType_detail = buildType_detail;
+	public void setBuildType_detail_name(String buildType_detail_name) {
+		this.buildType_detail_name = buildType_detail_name;
 	}
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
 	public List<String> getRoomimgList() {
 		return roomimgList;
 	}
@@ -282,6 +268,22 @@ public class RoomVO {
 	}
 	public void setReviewList(List<ReviewVO> reviewList) {
 		this.reviewList = reviewList;
+	}
+
+	public MemberVO getHost() {
+		return host;
+	}
+
+	public void setHost(MemberVO host) {
+		this.host = host;
+	}
+
+	public List<HashMap<String, String>> getBedroomList() {
+		return bedroomList;
+	}
+
+	public void setBedroomList(List<HashMap<String, String>> bedroomList) {
+		this.bedroomList = bedroomList;
 	}
 	
 }
