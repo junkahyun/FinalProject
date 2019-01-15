@@ -54,27 +54,31 @@ public class SHController {
 		String searchType = req.getParameter("searchType");
 		
 		if(searchType == null) {
-			searchType = "name";
+			searchType = "username";
+		}
+		if(searchWord== null) {
+			searchWord = "";
 		}
 		
-		if(!"name".equals(searchType) &&
+		if(!"username".equals(searchType) &&
 		   !"userid".equals(searchType) &&
-		   !"email".equals(searchType) ) {
-			searchType = "name";
+		   !"addr".equals(searchType) ) {
+			searchType = "username";
 		}
 		
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("searchType", searchType);
 		
+		List<MemberVO> searchMember = service.getSearchMember(paraMap);
 		
-		// List<MemberVO> searchMember = service.getSearchMember(paraMap);
+		System.out.println(searchType);
+		System.out.println(searchWord);
+		req.setAttribute("searchMember", searchMember);
 		
-		// req.setAttribute("searchMember", searchMember);
-	
 		return "admin/adminMember.admintiles";
 	}
-	
+	 
 	// 관리자 신고관리 페이지
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {

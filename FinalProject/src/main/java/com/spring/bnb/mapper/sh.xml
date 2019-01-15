@@ -14,10 +14,10 @@
 	
 	<select id="getSearchMember" parameterType="HashMap" resultType="com.spring.bnb.model.MemberVO">
 		select userid, username, pwd, email, phone, post, addr, detailddr, gender
-		    , to_char(birthday,'yyyymmdd'), introduction, memberstatus, profileimg, warncount, regdate
+		    , to_char(birthday,'yyyy-mm-dd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
 		from member
 		where 1=1
-		and #{searchType} like '%'|| #{searchWord} ||'%'
+		and ${searchType} like '%'|| #{searchWord} ||'%'
 		order by regdate desc
 	</select>
 </mapper>

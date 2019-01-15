@@ -28,9 +28,9 @@
 	function goSearch() {
 		
 		var searchWord = $("#searchWord").val().trim();
-    	
+		
     	if(searchWord == "") {
-    		alert("검색어를 입력하세요^0^");
+    		alert("검색어를 입력해주세요");
     		return;
     	}
     	else {
@@ -40,7 +40,7 @@
     		frm.action = "adminMember.air";
     		frm.submit();
     	}
-		
+
 	}
 	
 	
@@ -83,18 +83,34 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					  	<c:forEach var="membervo" items="${memberList}">
-						    <tr>
-						      <td><a data-toggle="modal" data-target="#myModal">${membervo.username}</a></td>
-						      <td>${membervo.userid}</td>
-						      <td>${membervo.birthday}</td>
-						      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
-						      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
-						      <td>${membervo.phone}</td>
-						      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
-						      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
-						    </tr>
-					    </c:forEach>
+					  	<c:if test="${searchMember == null}">
+						  	<c:forEach var="membervo" items="${memberList}">
+							    <tr>
+							      <td><a data-toggle="modal" data-target="#myModal">${membervo.username}</a></td>
+							      <td>${membervo.userid}</td>
+							      <td>${membervo.birthday}</td>
+							      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
+							      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
+							      <td>${membervo.phone}</td>
+							      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+							      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
+							    </tr>
+						    </c:forEach>
+					    </c:if>
+					    <c:if test="${searchMember != null}">
+						  	<c:forEach var="membervo" items="${searchMember}">
+							    <tr>
+							      <td><a data-toggle="modal" data-target="#myModal">${membervo.username}</a></td>
+							      <td>${membervo.userid}</td>
+							      <td>${membervo.birthday}</td>
+							      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
+							      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
+							      <td>${membervo.phone}</td>
+							      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+							      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
+							    </tr>
+						    </c:forEach>
+					    </c:if>
 					  </tbody>
 				</table>			
 			</div>
@@ -104,7 +120,7 @@
 	<form name="memberFrm">
 		<div id="searchbar" style="text-align: center;">
 			<select id="searchType" name="searchType">
-				<option value="name">이름</option>
+				<option value="username">이름</option>
 				<option value="userid">아이디</option>
 				<option value="addr">주소</option>
 			</select>
