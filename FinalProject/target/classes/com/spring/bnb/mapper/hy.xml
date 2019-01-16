@@ -4,4 +4,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="hy">
+	<!-- roomcode를 통해 숙소정보 가져오기 -->
+	<select id="getRoomByCode" parameterType="String" resultType="com.spring.bnb.model.RoomVO">	
+		select*
+		from room R join roomtype T on R.fk_roomType_idx = T.roomType_idx
+		            join buildType_detail B on R.fk_buildType_detail_idx = B.buildType_detail_idx
+		where roomcode=#{roomcode}
+	</select>
+	
+	<!-- RoomVO에 호스트정보 입력하기 -->
+	<select id="getHost" parameterType="String" resultType="com.spring.bnb.model.MemberVO">	
+		select*
+		from member
+		where userid=#{fk_userid}
+	</select>
+	
+	<!-- RoomVO에 ReviewList입력하기 -->
+	<select id="getReviewListDAO" parameterType="String" resultType="com.spring.bnb.model.ReviewVO">	
+		select review_idx,fk_roomcode,fk_userid,correct,communicate,clean,position,checkin,value,review_content,review_writedate
+		from review
+		where fk_roomcode = #{_parameter}
+	</select>
+	
+	<!-- roomVO의 reviewList(reviewVO)에 user 입력하기 -->
+	<select id="getReviewer" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
+		select*from member M join review R on M.userid = R.fk_userid
+		where R.fk_userid = #{fk_userid}
+	</select>
+	
+	<resultMap type="HashMap" id="bedroom">
+		<result property="BED_IDX" column="BED_IDX" javaType="String" />
+		<result property="BEDTYPE" column="BEDTYPE" javaType="String" />
+		<result property="BEDCOUNT" column="BEDCOUNT" javaType="String" />
+		<result property="FK_BEDROOM_IDX" column="FK_BEDROOM_IDX" javaType="String" />
+	</resultMap>
+	
+	<!-- 침실/침대 roomVO에 입력하기 -->
+	<select id="getBedroomList" parameterType="String" resultMap="bedroom">
+		select * from room R join bedroom BR on R.roomcode = BR.fk_roomcode 
+        join bed B on BR.bedroom_idx=B.fk_bedroom_idx
+        join bedobj O on O.bedobj_idx = B.fk_bedobj_idx
+        where R.roomcode = #{roomcode}
+	</select>
+	
+	<!-- 옵션정보 RoomVO에 입력하기 -->
+	<select id="getOptionList" parameterType="String" resultType="String">
+		select*from roomoption R join options O on R.fk_option_idx=O.option_idx where R.fk_roomcode=10
+	</select>
+	
+	<!-- RoomVO에  likeCount 입력하기 -->
+	<select id="getRoomLikeCount" parameterType="String" resultType="Integer">
+		select count(*) from likeroom where fk_roomcode=#{roomcode}
+	</select>
+	
 </mapper>

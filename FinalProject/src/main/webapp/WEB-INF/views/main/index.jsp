@@ -37,9 +37,6 @@
 		    top: 0;
 		    z-index: 9;
 		}
-		div.choose_A div.domestic i.icon-accessibility{
-			background: url(<%= ctxPath %>/resources/images/main/nation_flag_icon.png) no-repeat top left;
-		}
 	</style>
 	<!-- Link JS -->  
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
@@ -98,10 +95,21 @@
 			         		<img id="nation_flag" alt=" " src="<%=ctxPath%>/resources/images/main/nation_flag_icon.png" width="26%"/>
 			         		<span class="choose_nation">국내</span>
 			         	</div>
-			         	<div class="col-md-2 oversea">도시</div>
-			         	<div class="col-md-3 check_in">체크인</div>
-			         	<div class="col-md-3 check_out">체크아웃</div>
-			         	<div class="col-md-2 search">검색</div>
+			         	<div class="col-md-2 search_column_l check_in">
+				            <span class="icon_place" id="suggest_icon"></span>
+				            <input class="ipt_search_l r_border" type="text" id="searchcity" name="searchcity"  autocomplete="off" value="도시" size="5" readonly> 
+						</div> 
+			         	<div class="col-md-3 check_in search_column_r">
+	            			<span class="icon_date" id="calendar_btn_s"></span>
+	                        <input class="ipt_search_r" type="text" id="startenddate" name="startenddate" value="체크인" size="10" readonly>	                      	
+				        </div>
+			         	<div class="col-md-3 check_out search_column_r">
+	            			<span class="icon_date" id="calendar_btn_s"></span>
+	                        <input class="ipt_search_r" type="text" id="startenddate" name="startenddate" value="체크아웃" size="10" readonly>	                      	
+				        </div>
+			         	<div class="col-md-2 search">
+			         		검색
+			         	</div>
 	         		</div>
 	            </div> 
 	         </div> 

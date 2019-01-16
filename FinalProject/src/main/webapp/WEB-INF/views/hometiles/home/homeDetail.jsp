@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="/maps/documentation/javascript/cgc/demos.css">
 <%-- 참조 : https://www.airbnb.co.kr/rooms/7331795?guests=1&adults=1&s=6yWJyZHp --%>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
@@ -175,7 +177,7 @@ div{
 			<div class="row noSpace">
 				<%-- 메인 이미지 --%>
 				<div class="col-md-10" style="height:550px;padding:0;">
-					<img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp"  style="width:100%;height:100%;"/>
+					<img src="${room.roomMainImg}"  style="width:100%;height:100%;"/>
 				</div>
 				<%-- 서브 이미지 --%>
 				<div class="col-md-2 noSpace" style="height:550px;overflow:hidden;">
@@ -196,46 +198,28 @@ div{
 				<div class="row noSpace">
 					<%-- 숙소제목 --%>
 					<div class="col-md-10">
-						<div style="font-size:0.8em;">주택의 개인실</div>
-						<div id="detailSubject">Sometimesjeju 201호!안전도어락! 통유리오션뷰!제주공항7.8km!</div>
-						<div style="line-height:80%;margin-top:1%;">Jeju-si</div>
+						<div style="font-size:0.8em;">${room.buildType_detail_name}의 ${room.roomType_name }</div>
+						<div id="detailSubject">${room.roomName }</div>
+						<div style="line-height:80%;margin-top:1%;">${room.roomSigungu }</div>
 					</div>
 					<%-- 호스트 프로필 --%>
 					<div class="col-md-2">
-						<div style="border: 1px solid none; height:80px; width:80px; border-radius:40px; overflow:hidden;margin-top: 10%;"><img src="https://a0.muscache.com/im/pictures/user/65bfe49b-4c00-43fd-bc37-cbf35a74a970.jpg?aki_policy=profile_x_medium" style="width:80px;height:80px;"/></div>
-						<div style="font-weight:bold;margin-left:12%;font-size:14pt; margin-top: 15%;">hostId</div>
+						<div style="border: 1px solid none; height:64px; width:64px; border-radius:40px; background-color:lightgray; overflow:hidden;margin-top: 10%;margin-left:5%;padding-top:3%;"><img src="<%=request.getContextPath() %>/resources/images/${room.host.profileimg}" style="width:64px;height:64px;"/></div>
+						<div style="font-weight:bold;margin-left:12%;font-size:14pt; margin-top: 15%;">${room.host.userid }</div>
 					</div>
 				</div>
 			</div>
 			<%-- 침실/침대 --%>
 			<div class="infoDiv" style="font-weight:bold;">
 				<img src="<%=request.getContextPath()%>/resources/images/homeDetail/multiple-users-silhouette.png" />
-				<span style="margin-right:5%;margin-left:1%;">인원 명</span>
-				<span style="margin-right:5%;">침실갯수</span>
-				<span style="margin-right:5%;">침대갯수</span>
-				<span style="margin-right:5%;">단독사용욕실갯수</span>
+				<span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명</span>
+				<span style="margin-right:5%;">침실갯수 ${room.roomCount }개</span>
+				<span style="margin-right:5%;">침대갯수 ${room.bedroomList.size() }</span>
+				<span style="margin-right:5%;">단독사용욕실갯수 ${room.bathCount }</span>
 			</div>
 			<%-- 호스트 소개 및 숙소 소개 --%>
 			<div class="infoDiv">
-				안녕하세요? 
-				이사벨입니다. 
-				저희 집 소개를 해드릴게요..
-				1. 거리
-				제주공항에서 서쪽으로 7.8km 
-				2. 형태
-				단독주택(농어촌 민박업 신고 영업중)
-				3. 침구류
-				전부 육지에서 물류로 운반함. 건물 다음으로 비쌈.
-				4. 특징
-				가. 절대조망권 - 바다가 액자로 들어온 듯함.
-				나. 매시간 아니 매 분 아니 매초마다 바다의 모습이 달라짐
-				다. 유명 핫플레이스는 아니지 정말 편안한 힐링을 제공
-				5. 조식(2018.7월부터 다시 시작합니다-> 유료)
-				한정식(집밥) - 8,000원
-				6. 기타
-				섬타임즈제주는 우리나라 대부분의 포털 사이트에서 홈페이지 검색도 가능합니다
-				
-				<br/><br/>
+				${room.roomInfo }<br/><br/>
 				<a class="aTagBtnHY">이 공간 자세히 알아보기</a>
 			</div>
 			<div class="infoDiv">
@@ -250,19 +234,23 @@ div{
 					<div class="col-md-6">무선인터넷</div>
 					<div class="col-md-6">아침식사</div>
 				</div>
-				<a class="aTagBtnHY">편의시설 (갯수) 모두 보기</a>
+				<a class="aTagBtnHY">편의시설 ${room.optionList.size() } 모두 보기</a>
 			</div>
 			<%-- 침대/침구 --%>
+			<c:if test="${room.bedroomList.size() > 0 }">
 			<div class="infoDiv">
 				<div class="infoSubjectHY">침대/침구</div>
 				<div class="row noSpace" style="margin-top:3%;">
+					<c:forEach items="${room.bedroomList }" var="bed" varStatus="status">
 					<div class="col-md-1" style="border:1px solid lightgray;height:150px;width:180px;border-radius:3px;">
 						<div style="padding: 20% 37%;"><img src="<%=request.getContextPath()%>/resources/images/homeDetail/bed.png"></div>
-						<div style="font-weight:bold;font-size: 12pt;">1번 침실</div>
-						<div style="font-size:12pt;">퀸사이즈 침대 1개</div>
+						<div style="font-weight:bold;font-size: 12pt;">${status.index+1 }번 침실</div>
+						<div style="font-size:12pt;">${bed.BEDTYPE }사이즈 침대 ${bed.BEDCOUNT }</div>
 					</div>
+					</c:forEach>
 				</div>
 			</div>
+			</c:if>
 			<%-- 예약 달력 --%>
 			<div class="infoDiv">
 				<div class="infoSubjectHY" style="font-weight:bold;">예약 가능 여부</div>
@@ -319,53 +307,59 @@ div{
 			<%-- 후기 --%>
 			<div class="infoDiv" style="padding-bottom:0;">
 				<div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
-					<div class="col-md-8 infoSubjectHYBig">후기 ...개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
+					<div class="col-md-8 infoSubjectHYBig">후기 ${room.reviewList.size()}개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
 					<div class="col-md-4"><input type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
 						<img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
 					</div>
 				</div>
 				<%-- 별점 평균 --%>
-				<div class="row noSpace" style="width:100%;">
-					<div class="col-md-2">정확성</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-					<div class="col-md-2">위치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-				</div>
-				<div class="row noSpace" style="width:100%;">
-					<div class="col-md-2">의사소통</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-					<div class="col-md-2">체크인</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-				</div>
-				<div class="row noSpace" style="width:100%;">
-					<div class="col-md-2">청결도</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-					<div class="col-md-2">가치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+				<div style="margin-bottom:5%;">
+					<div class="row noSpace" style="width:100%;">
+						<div class="col-md-2">정확성</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+						<div class="col-md-2">위치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+					</div>
+					<div class="row noSpace" style="width:100%;">
+						<div class="col-md-2">의사소통</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+						<div class="col-md-2">체크인</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+					</div>
+					<div class="row noSpace" style="width:100%;">
+						<div class="col-md-2">청결도</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+						<div class="col-md-2">가치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
+					</div>
 				</div>
 				<%-- 후기들 --%>
 				<div class="noSpace">
-					<div class="row noSpace homeDetailComment" style="margin-top:3%;">
+					<c:if test="${room.reviewList.size() > 0 }">
+					<c:forEach items="${room.reviewList }" var="review">
+					<div class="row noSpace homeDetailComment">
 						<div class="col-md-1">
 							<div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"><img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;"></div>
 						</div>
-						<div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">ID</div><div>2019.01.09</div></div>
+						<div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
 						<div class="col-md-1">icon</div>
-						<div class="col-md-12" style="margin-top:2%;">차가 없어서 이동하기 불편할수있었는데 숙소 나오면 버정도 바로있고 편의점도 있고 무엇보다 침대에서 큰 창으로 바다를 볼 수 있는게 넘 좋았습니다!!! 겨울이라 바람이 심하게 불어도 마냥 좋을곳이에용 ㅠㅠ 숙소도 너무 깔끔해서 조심조심 이용했답니당~ 정말 완벽한곳이였어요!굳굳 집에 있는시간은 짧았지만 너무 잘 지내고 와서 다음에 오고싶네요!ㅎㅎ</div>
+						<div class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
 					</div>
+					</c:forEach>
+					</c:if>
+					<c:if test="${room.reviewList.size() < 1 }">
+					<div class="row noSpace homeDetailComment" style="margin-left: 5%;text-align:center; margin-bottom:5%;font-weight:bold;">아직 등록된 Review가 없습니다.</div>
+					</c:if>
 					<%-- 후기 페이지바 --%>
+					<c:if test="${room.reviewList.size() > 0 }">
 					<div class="row" style="margin:3%;color:white;">
 						<div class="currpageCircle">1</div>
 						<div class="pageBarCircle">2</div>
 						<div class="pageBarCircle">3</div>
 					</div>
+					</c:if>
 				</div>
 			</div>
 			<div class="infoDiv">
 				<%-- 지역정보 --%>
 				<div class="infoSubjectHYBig">지역정보</div>
-				<div class="row noSpace" style="margin-top:3%;">
-					이사벨님의 숙소는 Jeju-si, 제주도, 한국에 있습니다.
-					여기는 제주의 전통적인 모습이 그대로 남아있는 조그만 어촌 마을입니다. 시끄럽지 않고 조용히 자신을 돌아볼 수 있는 곳이기에 남들보다 빠르지 않게 느림의 미학을 느낄 수 있는 곳이랍니다.
-					10분 거리에 이호테우해변이 있습니다.
-					<br/><br/>
-					<a class="aTagBtnHY">이 지역 자세히 알아보기</a>
-				</div>
-				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;"></div>
+				<div style="margin-top:2%;">${room.roomSido} ${room.roomSigungu} ${room.roomBname} ${room.roomAddr }</div>
+				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
+				
 				<script> 
 				   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				       mapOption = {
@@ -380,7 +374,7 @@ div{
 				   var geocoder = new daum.maps.services.Geocoder();
 				   
 				   // 주소로 좌표를 검색합니다
-				   geocoder.addressSearch('제주', function(result, status) {
+				   geocoder.addressSearch('${room.roomSido} ${room.roomSigungu} ${room.roomBname}', function(result, status) {
 				   
 				       // 정상적으로 검색이 완료됐으면 
 				        if (status === daum.maps.services.Status.OK) {
@@ -401,11 +395,6 @@ div{
 				   
 				           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 				           map.setCenter(coords);
-				           var test = map.getCenter(coords);
-				           var frm = document.map;
-				           
-				           console.log(test.ib);
-				           console.log(test.jb);
 				       } 
 				   });  
 				   
@@ -430,8 +419,8 @@ div{
 				<div style="height:380px;width: 400px;border:1px solid lightgray; padding: 5%;">
 					<div style="height:60px; border-bottom: 1px solid lightgray;">
 						<div style="height:50px;font-size: 24px;font-weight:bold; padding-bottom: 10%;">
-							<div>￦60,000<span style="font-size:12px;">/박</span></div>
-							<div style="font-size:10px;"><span style="color:#148487;">★★★★★</span>100</div>
+							<div>￦<fmt:formatNumber value="${room.roomPrice }" pattern="#,###"/><span style="font-size:12px;">/박</span></div>
+							<div style="font-size:10px;"><span style="color:#148487;">★★★★★</span>${room.likeCount }</div>
 						</div>
 						<div style="height:240px;padding-top:5%;">
 							<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>

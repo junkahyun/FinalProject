@@ -50,6 +50,12 @@ div.row.not-rowStyle{
     color: #FFF!important;
 }
 /* Main Page */ 
+input{
+	cursor: pointer;
+}
+input:focus {
+  outline: none;
+}
 section#slider div.item > img {
 	width:100%; 
 }
@@ -83,14 +89,14 @@ div.choose_A > div{
 div.choose_A .domestic{
 	border-right:solid 1px #fff;
 } 
-div.choose_A .domestic img#nation_flag{
+div.choose_A > div > img{
 	vertical-align:middle;
 }
 div.choose_A .domestic .choose_nation{
 	margin-left:2%;
 }
 div.choose_A .domestic,
-div.choose_A .oversea{
+div.choose_A .city{
 	background-color:#2c3e50; 
 	color:#fff;
 }
@@ -99,15 +105,27 @@ div.choose_A .check_out{
 	background-color: #fff;
 	color:#333;
 }
+div.choose_A input{
+	border:none;
+}
 div.choose_A .search{
 	background-color: #FF5A5F;
 	color:#fff;
 	text-align:center;
+} 
+.icon_place, .icon_date{
+    background: url(//jci.xiaozhustatic1.com/e19011001/images/icon_index.png) no-repeat;
+    z-index:999;
 }
-div.choose_A div.domestic i.icon-accessibility{
-	background-position : 0 0;
-	width:38px;
-	height:38px;
+.icon_place, .icon_date {
+    background-position: 20px -217px;
+    width: 55px;
+    height: 60px;
+    display: inline-block;
+    float: left;
+}
+.icon_date {
+    background-position: 20px -264px;
 }
 section#recommend_lodging,
 section#recommend_travel{
