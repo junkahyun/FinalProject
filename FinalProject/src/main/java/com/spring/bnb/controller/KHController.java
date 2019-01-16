@@ -1,5 +1,7 @@
 package com.spring.bnb.controller;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +27,13 @@ public class KHController {
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
 		
+		String person = "2";//예약 인원(테스트용)
+		Calendar current = Calendar.getInstance();
+		
+		int year = current.get(Calendar.YEAR);
+		int month = current.get(Calendar.MONTH)+1;
+		int day = current.get(Calendar.DATE);
+		
 		// *** 숙소 정보 가져오는 메소드 *** //
 		HashMap<String,Object> roomList = service.getRoomInfo();
 		
@@ -34,7 +43,10 @@ public class KHController {
 		
 		req.setAttribute("roomoption", roomoption);
 		req.setAttribute("roomList", roomList);
-		
+		req.setAttribute("person", person);
+		req.setAttribute("year", year);
+		req.setAttribute("month", month);
+		req.setAttribute("day", day);
 		
 		return "reservationAndPay/reservationCheck.notiles";
 	}

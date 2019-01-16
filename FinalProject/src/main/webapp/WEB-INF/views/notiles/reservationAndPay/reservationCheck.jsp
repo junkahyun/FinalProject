@@ -119,6 +119,11 @@ h3{font-size: 14pt;
 			
 		});
 		
+		var stayday = $("#stayday").text();
+		var onedayPrice = $("#onedayPrice").text();
+		console.log(stayday);
+		console.log(onedayPrice);
+		
 	});//end of $(document).ready------------
 
 
@@ -145,6 +150,10 @@ h3{font-size: 14pt;
 		
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
+				<%-- <c:if test="${roomList.}">
+				
+				
+				</c:if> --%>
 				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 55px;"/></div>
 				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 				      숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 
@@ -154,18 +163,18 @@ h3{font-size: 14pt;
 		</div>
 		<br>
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >방콕 3박</h3>
+		<h3 >${roomList.roomsigungu} ${(day+7)-day}박</h3>
 		<br>
 		<div class="col-md-5 rev" >
-			<div class="col-md-3 date" align="center">월<br>일</div>
+			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
 			<div class="chekdate">체크인:요일 <br>
-			${roomList.checkintime}시 이후</div>
+			<%-- ${roomList.checkintime}시 이후 --%></div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
-			<div class="col-md-3 date"  align="center">월<br>일</div>
+			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
 			<div class="chekdate">체크아웃:요일 <br>
-			 ${roomList.checkouttime}시 
+			 <%-- ${roomList.checkouttime}시  --%>
 			</div>
 		</div>
 		<hr>
@@ -221,11 +230,11 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 1명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${person}명</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				2019년 1월 1일 <i class="fas fa-arrow-right"></i>년 월 일
+				${year}년 ${month}월 ${day}일 <i class="fas fa-arrow-right"></i>${year}년 ${month}월 ${day+7}일
 				</span>
 			</div>
 			</div>
@@ -237,10 +246,10 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span id="onedayPrice">
 				 <fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
-				 </span> x <span id="stayday"></span>박
+				 </span> x <span id="stayday">${(day+7)-day}</span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩90,000
+				 ₩<fmt:formatNumber value="${(roomList.roomprice)*((day+7)-day)}" pattern="#,###"/>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->

@@ -239,7 +239,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="1" min="1" max="16">
+						<input type="text" class="form-control text-center" value="1" min="1" max="${roomList.max_person}" name="guestcount">
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -256,7 +256,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="1" min="1" max="16">
+						<input type="text" class="form-control text-center" value="1" min="1" max="${roomList.max_person}" name="babycount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
