@@ -1,6 +1,8 @@
 package com.spring.bnb.controller;
  
 import java.util.*;
+
+import javax.mail.PasswordAuthentication;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.service.InterSOService;
 import com.spring.common.AES256;
 import com.spring.common.FileManager;
+import com.spring.common.GoogleMail;
 import com.spring.common.MyUtil;
 
 @Controller
@@ -34,15 +37,14 @@ public class SOController {
 		String loginuser = "leess"; 
 		//
 		String date = MyUtil.getNowTime();
-		
-		System.out.println(date);
+	
 		List<HashMap<String,String>> myCoupon = service.getMyCoupon(loginuser);
 
 		req.setAttribute("myCoupon", myCoupon);
 		req.setAttribute("date", date);
 		return "mypage/myCoupon.hometiles";
 	}
-	@RequestMapping(value = "/myEdit.air", method = RequestMethod.GET)
+	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
 	public String myEdit(HttpServletRequest req,HttpServletResponse res) {
 		
 		
@@ -89,12 +91,113 @@ public class SOController {
 			req.setAttribute("birthdayDD", birthdayDD);
 			req.setAttribute("str_gender", str_gender);
 			req.setAttribute("myInfo", myInfo);
-			System.out.println(birthday);
+			
 			return "mypage/myEdit.hometiles";
 		}
 		
 
 		
+	}
+	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)
+	public String verifyCertification(HttpServletRequest req,HttpServletResponse res) {
+		
+	//String userid = req.getParameter("userid");
+	String userid = "leess";
+	String userCertificationCode = req.getParameter("userCertificationCode");
+	System.out.println("verifyCerrificationAction userid : " +userid);
+	//유저가 입력한 값과 세션에 입력한 값을 비교해본다
+	HttpSession session =  req.getSession();
+	String certificationCode = (String)session.getAttribute("certificationCode");
+	String msg ="";
+	String loc ="";
+	
+	
+	System.out.println(userCertificationCode +"//////" + certificationCode);
+	
+	if(certificationCode.equalsIgnoreCase(userCertificationCode)) {
+		session.setAttribute("userid", userid);
+		/*req.setAttribute("userid", userid);*/
+		System.out.println("인증 성공 ! : "+userid);
+		//사용자가 입력한 값과 인증코드가 동일하다면
+		msg = "인증에 성공하였습니다";
+		loc = req.getContextPath()+"/myEidt.air";
+		//인증에 성공하였을 경우 데이테베이스에 저장해 주어야 하는데 데이터 베이스에 넘길때 pwd 뿐만 아니라 userid도 넘겨야한다.
+		//pwdConfirm.do 에 넘어갈때 POST 방식으로 넘어가며 userid 값이 필요하다.
+		
+	}else {
+		msg = "발급된 인증코드를 입력하세요";
+		
+		loc = req.getContextPath()+"/myEidt.air";
+		//인증코드를 잘못 받았다면 다시 처음부터 해라 =>pwdFind.do
+	}
+	session.setAttribute("userid", userid);
+
+	req.setAttribute("msg",msg);
+	req.setAttribute("loc",loc);
+	
+	session.removeAttribute("certificationCode");
+	//sesseion 의 저장된어진 인증코드를 삭제한다
+	return "msg";
+
+}
+	@RequestMapping(value = "/sendCode.air", method = RequestMethod.GET)
+	public void sendCode(HttpServletRequest req,HttpServletResponse res) {
+		
+		String method = req.getMethod();
+		// GET or POST
+		//처음에는 겟방식으로 보여짐
+		String userid ="leess";
+		String email = req.getParameter("changeEmail");
+		System.out.println(userid);
+		System.out.println(email);
+		System.out.println(method);
+		if("POST".equalsIgnoreCase(method)) {
+
+		//회원 으로 존재하는 경우
+		GoogleMail gmail = new GoogleMail();
+		//인증키를 랜덤하게 생성하도록 한다.
+		Random rnd = new Random();
+		
+		String certificationCode="";
+		// certificationCode = "ewrfs0003483"
+		
+		char randchar=' ';
+		
+		for(int i=0;i<5;i++) {
+			// min 부터 max 사이의 값으로 랜덤한 정수를 얻으려면
+			// int rndnum = rnd.nextInt(max-min +1)+min
+			// 영문 소문자 'a'부터 'z'까지 중 랜덤하게 1개를 만든다.
+			
+			
+			randchar = (char)(rnd.nextInt('z'-'a'+1)+'a');
+			//(char)97;
+			certificationCode +=randchar;					
+		}				
+		int randint=0;
+		for(int i=0;i<7;i++) {
+			randint = rnd.nextInt(9-0+1)+0;
+			certificationCode +=randint;
+		}
+					
+		//랜덤하게 생성한 인증코드를 비밀번호 찾기를 하고자하는 사용자의 email 로 전송시킨다 
+			try {			
+					gmail.sendmail(email, certificationCode);
+					//req.setAttribute("certificationCode", certificationCode);
+					HttpSession session =  req.getSession();
+					//자바에서 발급한 인증코드를 세션에 저장
+					session.setAttribute("certificationCode", certificationCode);
+			} catch (Exception e) {
+					e.printStackTrace();
+					
+					req.setAttribute("sendFailmsg", "메일발송이 실패했습니다");
+			}
+
+			req.setAttribute("userid", userid);
+			req.setAttribute("email", email);
+
+	
+		}
+		req.setAttribute("method",method);
 	}
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
 	public String myEditEnd(HttpServletRequest req,HttpServletResponse res) {
@@ -138,7 +241,7 @@ public class SOController {
 		
 		return"mypage/myEdit.hometiles";
 	}
-	
+
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
 	public String myReservation() {
 		return "mypage/myReservation.hometiles";

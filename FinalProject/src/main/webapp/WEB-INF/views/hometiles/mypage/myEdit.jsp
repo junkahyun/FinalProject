@@ -56,7 +56,7 @@ height: auto; }
 
 $(document).ready(function(){
  	$("#showInputPhone").hide(); 
-
+ 	$(".error").hide();	
 	
 	//appendMonth();
 	var selectMonthValue = ${birthdayMM};
@@ -67,7 +67,11 @@ $(document).ready(function(){
 	$("#day option[value="+selectDayValue+"]").attr("selected","selected");
 	
 	$("#profileimg").on("change",handleImgFileSelect);
-
+	$(".emailChange").hide();
+	$("#emailChangeInput").click(function() {
+		$(".emailChange").toggle();
+	});
+	
 	<%-- 우편번호 --%>		
 	$("#zipcodeSearch").click(function(){	
 		
@@ -102,6 +106,7 @@ function handleImgFileSelect(e){
 	});
 	
 	
+	
 }
  /* function appendMonth(){
 	var selectValue = ${birthdayMM};
@@ -122,6 +127,7 @@ function handleImgFileSelect(e){
 }   */
 function showPhone(){
 	$("#showInputPhone").show();
+	
 }
 function editInfo(){
 	
@@ -129,6 +135,60 @@ function editInfo(){
 	frm.method="POST";
 	frm.action="myEditEnd.air";
 	frm.submit();
+}
+function emailCodeCheck() {
+	var value = $("#changeEmail").val();
+	
+	if(value == null || value ==""){
+		alert("이메일을 입력하세요!");
+		return;
+	}else{		
+		
+		var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 		
+		var bool = regExp_EMAIL.test(value); 
+		
+ 		if(!bool) {// 이메일 형식에 맞지 않을 때.
+ 
+ 			$("#emailCheckCode").parent().parent().find(".error").show();
+ 			$("#changeEmail").val("");
+ 			$("#changeEmail").focus();	 		
+			return;
+ 		}
+		else {
+			$("#emailCheckCode").parent().parent().find(".error").hide();
+			alert("11");
+			var frm=document.sendCode;
+			frm.changeEmail.value = $("#changeEmail").val();
+			alert(frm.changeEmail.value);
+			frm.action="<%= ctxPath %>/sendCode.air";
+			var html ="";
+			html = "<div style='border:1px solid lightgray; margin:5%; padding-right:10%'><input type='text' id='input_confirmCode'/></div>"+
+				   "<div><button class='btn' id='codeCheckBtn' type='button' onClick='codeCheckFun();'>인증코드 확인하기</button><div>";
+					
+			$("#addCode").html(html);
+			frm.submit(); 
+			 
+			
+		} 
+		 
+		
+	
+	}
+/* 	$.ajax({
+		url:"emailCodeSend.air",
+		
+	}); */
+}
+function codeCheckFun() {
+	//인증코드 확인 화면에서의 인증코드 확인 버튼
+	var frm  = document.verifyCertificationFrm;
+ 	frm.userid.value = $("#useridConfirm").val();  
+ 	frm.userCertificationCode.value = $("#input_confirmCode").val();
+	frm.action = "<%= ctxPath %>/verifyCertification.air"
+	frm.method = "POST";
+	frm.submit();
+	
+	
 }
 </script>
 
@@ -212,7 +272,7 @@ function editInfo(){
 					생년월일 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 		        </label>
 	        <div class="col-sm-9">	          
-	        <fieldset>
+	       <%--  <fieldset>
 	          <legend class="screen-reader-only">생년월일</legend>
 	          <div class="select">
 	            <select aria-label="월" id="month" name="month">
@@ -240,9 +300,11 @@ function editInfo(){
 						</c:forEach>					
 					</select>	
 	          </div>
-	        </fieldset>	
+	        </fieldset>	 --%>
+	        	<input type="text" id="birthday" name="birthday" style="width:100%;border: none;" value="${birthdayYY}년 ${birthdayMM}월  ${birthdayDD}일" readOnly/>
 	          <div class="text-muted space-top-1">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>
 	        </div>
+	        
 	      </div>
 			<!--  생년월일 끝-->
 			<!--  이메일 주소 DIV 시작 -->
@@ -252,11 +314,44 @@ function editInfo(){
 		        </label>
 		        <div class="col-sm-9">
 		        	<input id="email" name="email" size="30" type="text" value="${myInfo.email}">
-		        	<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false">이메일</button></div>
+		        	<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" id="emailChangeInput">이메일 변경하기</button></div>
 		            <div class="text-muted space-top-1">이메일 주소는 다른 에어비앤비 회원에게 공개되지 않습니다.</div>
 		        </div>
-		        
-		     </div>
+		    </div>
+		    <!--  이메일 주소 인증받기 시작! -->
+		          	<div class="row row-condensed space-4 emailChange">
+		          		<div class="col-sm-3"></div>
+		          		 <div class="col-sm-9" id="showInputEmail">
+			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055">
+			                	<div dir="ltr" data-reactroot="">
+				                	<div style="margin-top:9px">
+				                		<div class="text-muted" style="margin-top:4px">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div>			                			
+					                	<div style="margin-top:8px">
+					                		<div class="phone-number-verify-widget ">
+					                			<div class="_16lavrk">
+					                				<div>
+					                					<strong>이메일 변경하기</strong>
+					                					<div style="margin-bottom: 16px;">이 메일주소로 인증코드를 보내드립니다.</div> 
+						                					<div class="pniw-number-container">  
+						                						<input type="text" id="changeEmail" style="width: 70%" >
+						                						<span class="error" style="color: blue; font-size: 12px;">이메일 형식에 맞게 입력하세요.</span>
+						                					</div>
+							                				<div style="margin-top: 16px;">
+							                					<button type="button" class="btn btn-primary" id="emailCheckCode" style="margin: 2%;" onClick="emailCodeCheck();">인증코드 보내기</button>
+							                				</div> 
+						                				<form name="verifyCertificationFrm">
+						                					<div id="addCode"></div>
+														</form>
+													</div>
+												</div>
+											</div>
+					               		 </div>
+					                </div>
+				                </div>
+				            </div>
+				         </div>
+				     </div>  
+				 <!--  이메일 주소 인증받기 끝! --> 
 			<!--  이메일 주소 DIV 끝 -->
 			<!--  전화번호 DIV 시작 -->
 		     <div class="row row-condensed space-4">
@@ -335,9 +430,9 @@ function editInfo(){
 	               <div class="text-right col-sm-3">
 	                  <label for="postnum">우편번호</label>
 	               </div>
-	               <div class="col-sm-7">  
+	               <div class="col-sm-2">  
 	                  <input type="text" id="postnum" name="postnum" maxlength="3" class="form-control requiredinfo" value="${myInfo.post}" placeholder="PostNum">
-	               	  <!-- <span class="error error_post">우편번호 형식이 아닙니다.</span> -->
+	               	  <span class="error error_post">우편번호 형식이 아닙니다.</span> 
 					  <button type="button" class="btn" id="zipcodeSearch" style="width: 80px; height: 20px; padding: 0%;"><span style="font-size: 2pt;">우편번호찾기</span></button>
 	               </div>
 	          	 </div>
@@ -354,7 +449,7 @@ function editInfo(){
 	            <div class="row row-condensed space-4">
 	               <div class="text-right col-sm-3"></div>
 	               <div class="col-sm-9" style="padding: 0;">
-	                  <input type="text" id="addr2" name="addr2"  class="address form-control requiredinfo" value="${myInfo.detailaddr}"placeholder="Enter Your Address">
+	                  <input type="text" id="addr2" name="addr2"  class="address form-control requiredinfo" value="${myInfo.detailAddr}"placeholder="Enter Your Address">
 	               </div>
 	            </div>	
 	            <!-- 상세주소 DIV 끝 -->	
@@ -369,11 +464,18 @@ function editInfo(){
 		      <!--  자기소개 DIV 끝 -->
 		  </div>
 		</div>
-		<button type="submit" class="btn btn-primary btn-large" onClick="editInfo();">저장하기</button>		
+		<div class="row row-condensed space-4">
+	       <div class="text-right col-sm-8"> </div>
+	       <div class="text-right col-sm-3"><button type="submit" class="btn btn-primary btn-large" onClick="editInfo();">저장하기</button></div>
+	      
+	    </div>
+				
 		<!-- 밑으로 건들지 않기 -->
 		</div>
 	 </form>
    </div><!-- 3번 div -->
  </div> <!-- 2번 div -->
 </div> <!-- 1번 div -->
-
+<form name="sendCode">
+	<input type="hidden" name="changeEmail" />
+</form> 
