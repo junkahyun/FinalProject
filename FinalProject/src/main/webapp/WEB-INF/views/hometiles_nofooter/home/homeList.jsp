@@ -50,18 +50,19 @@
 	 });	  */
 	 
 	 var result = "";
-	 $(".option").click(function(){
+	 $(".option").click(function(){		 
+		 var $target = $(event.target);	
 		 
-		 var $target = $(event.target);
 		 if(!$target.hasClass("subjectstyle")){
+			
 			 $target.addClass("subjectstyle");	
 			 result += $target.text() + ",";
 			 $("#data").val(result);
 		 }
 		 else{			
-			 $target.removeClass("subjectstyle");	
-			 
-			 $("#data").val("");
+			 $target.removeClass("subjectstyle");			
+			 result -= $target.text();
+			 $("#data").val(result);			 
 		 }
 	 });
 	 
@@ -212,9 +213,9 @@
             <div class="optionbox">
             	<span class="optionname">이용 규칙</span>
             	<c:forEach items="${roomRule}" var="rule">
-            		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;
-            		<input type="text" id="data" />
+            		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
+            	<input type="text" id="data" />
             	
             </div>        
            
