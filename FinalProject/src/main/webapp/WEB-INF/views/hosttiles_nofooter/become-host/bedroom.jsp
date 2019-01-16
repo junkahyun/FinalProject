@@ -73,10 +73,7 @@
 	}
    
   function back(){
-		var frm = document.bedroom;
-		frm.action = "roomtype.air";
-		frm.method = "GET";
-		frm.submit();
+		location.href="${currentURL}";
 	}
    
    
