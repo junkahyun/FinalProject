@@ -27,12 +27,19 @@ public class SCDAO implements InterSCDAO {
 	@Override
 	public RoomVO getRoomInfo(String roomcode) {
 		RoomVO roomvo = sqlsession.selectOne("sc.getRoom",roomcode);
-		
+
+		String fk_buildType_detail_idx= roomvo.getFk_buildType_detail_idx();
+		if(fk_buildType_detail_idx != null) {
+			List<HashMap<String,String>> buildtypeList = sqlsession.selectOne("sc.getBuildType",fk_buildType_detail_idx);
+			/*
+			 * String buildtype = buildtypeList.get(0).get("buildType");
+			 * roomvo.setBuildType(buildtype); String buildtype_detail_name =
+			 * buildtypeList.get(1).get("buildType_detail_name");
+			 * roomvo.setBuildType_detail_name(buildtype_detail_name);
+			 */
+		}
 		List<String> roomimgList = sqlsession.selectList("sc.getRoomImgList", roomcode);// 숙소 사진 리스트
 		roomvo.setRoomimgList(roomimgList);
-		
-		List<HashMap<String,String>> bedroomList = sqlsession.selectList("sc.getRoomBedList", roomcode);// 침실 리스트
-		roomvo.setBedroomList(bedroomList);
 		
 		List<HashMap<String,String>> optionList = sqlsession.selectList("sc.getRoomOptionList", roomcode); // 숙소 옵션 리스트
 		roomvo.setOptionList(optionList);

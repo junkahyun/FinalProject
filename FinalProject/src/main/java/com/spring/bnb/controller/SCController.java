@@ -73,8 +73,6 @@ public class SCController {
 		 * service.getOption(roomcode);
 		 */
 		
-		List<HashMap<String, String>> bedroomList = new ArrayList<HashMap<String,String>>();
-		
 		req.setAttribute("roomList", roomList);
 		req.setAttribute("roomvo", roomvo);
 		
@@ -83,7 +81,10 @@ public class SCController {
 	
 	// 호스트 숙소사진 수정
 	@RequestMapping(value = "/hrPhotoEdit.air", method = {RequestMethod.GET})
-	public String hrPhotoEdit() {
+	public String hrPhotoEdit(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcdoe");
+		RoomVO roomvo = (RoomVO)service.getRoomInfo(roomcode);
+		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	

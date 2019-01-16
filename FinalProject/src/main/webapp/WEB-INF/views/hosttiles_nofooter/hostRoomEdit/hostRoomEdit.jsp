@@ -110,8 +110,8 @@ div{border: /* 1px solid gray;  */
 	}
 	
 	// 사진 수정
-	function goPhotoEdit(){
-		location.href="<%=request.getContextPath()%>/hrPhotoEdit.air";
+	function goPhotoEdit(roomcode){
+		location.href="hrPhotoEdit.air?="+roomcode;
 	}
 	
 	// 제목 수정
@@ -129,14 +129,15 @@ div{border: /* 1px solid gray;  */
 
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
-	
-	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">${roomvo.roomName }
+	<div class="col-md-8">
+	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">${roomvo.roomName }</h2>
+	</div>
 	<button type="button" class="btn" style="margin-left: 50%;"><span class="editbtn">달력보기</span></button>
 	<button type="button" class="btn" style="background-color: #008489;">
 	<span style="color: white; font-weight: bold;">숙소미리보기</span>
 	</button>
 	
-	</h2>
+	
 	
 	<!-- 드롭다운 -->
 	<div class="dropdown" align="left" style="margin-top: 2%;">
@@ -210,12 +211,12 @@ div{border: /* 1px solid gray;  */
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >침실과 숙박인원</h4>
 				<div class="bedAndPeople" >
-					<span style="margin-right: 45%;">숙박가능인원: <span class="number">5</span></span>
-					<span>침대 수: <span class="number">5</span></span>
+					<span style="margin-right: 45%;">최대숙박가능인원: <span class="number">5</span></span>
+					<span>침대 수: <span class="number">${roomvo.max_person }</span></span>
 				</div>
 				<div class="bedAndPeople">
-					<span style="margin-right: 55%;">욕실: <span class="number">1</span></span>
-					<span>건물유형: <span class="number">게스트스위트</span></span>
+					<span style="margin-right: 55%;">욕실: <span class="number">${roomvo.bathCount }</span></span>
+					<span>건물유형: <span class="number">${roomvo.buildType }</span></span>
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
@@ -241,7 +242,7 @@ div{border: /* 1px solid gray;  */
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 55%;">욕실: <span class="number">1</span></span>
-					<span>건물유형: <span class="number">게스트스위트</span></span>
+					<span>건물유형: <span class="number">${roomvo.buildType }</span></span>
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
@@ -466,6 +467,4 @@ div{border: /* 1px solid gray;  */
 </div>
 <!-- 친구초대하기 modal -->
 
-</body>
-</html>
 

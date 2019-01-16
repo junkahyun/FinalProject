@@ -149,6 +149,8 @@ div {
 		});
 		
 		
+		
+		
 	});
 	
 	
@@ -156,14 +158,14 @@ div {
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
-	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit"  href="<%=request.getContextPath()%>/hostRoomEdit.air">수정으로 돌아가기</a>
+	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit"  href="javascript:history.back();">수정으로 돌아가기</a>
 	<h3 align="left" style="font-weight: bold;">사진</h3>
 	<p>게스트에게 숙소의 실제 모습을 보여주는 사진을 추가하세요.</p>
 	<hr align="left">
 </div>
 
 <div class="col-md-4" style="margin-left: 22%;" align="center">
-	<img alt="" src="<%=request.getContextPath()%>/resources/images/sampleRoom.jpg">
+	<img alt="" src="${roomvo.roomMainImg }">
 </div>
 
  <div class="col-md-3">
