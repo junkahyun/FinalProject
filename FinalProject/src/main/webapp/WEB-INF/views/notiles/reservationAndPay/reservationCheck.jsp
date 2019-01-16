@@ -14,6 +14,7 @@
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
  <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 
 
 <style type="text/css">
@@ -27,13 +28,12 @@ h3{font-size: 14pt;
 
 #plusRole{-webkit-font-smoothing: antialiased;
 }
-
 .chekdate{padding: 5%; 
           margin-left: 30%;
 } 
 .rev{font-size: 12pt;
     }
-    
+  
 .btn{background-color: #008489;
     
      font-size: 14pt; 
@@ -88,6 +88,10 @@ h3{font-size: 14pt;
 .memberinfo{font-size: 12pt;
 }
 
+.sticky {
+  position: fixed;
+  top: 0;
+}
 </style>
 
 <script type="text/javascript">
@@ -132,12 +136,15 @@ h3{font-size: 14pt;
 	}
 
 </script>
+
 </head>
 <body>
 
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
-    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" /></div>
+    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
 </div>
@@ -154,7 +161,7 @@ h3{font-size: 14pt;
 				
 				
 				</c:if> --%>
-				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 55px;"/></div>
+				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 				      숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 
 				   1박 이상의 예약이 곧 마감될 수 있습니다.
@@ -212,11 +219,11 @@ h3{font-size: 14pt;
 	</div>
 	<!-- ==================== 숙소 ========================== -->
 	<!-- 숙소 정보 패널 -->
-	<div class="col-md-5" style="padding-top: 4.7%;">
-		<div class="panel panel-default">
+	<div class="col-md-5" style="padding-top: 4.7%; ">
+		<div class="panel panel-default " id="scrollpannel" >
 			<!-- 숙소 정보 패널 1 -->
 			<div class="panel-body hostpanel">
-				<div class="col-md-8">
+				<div class="col-md-8" style="margin-bottom: 5%;">
 					<span style="font-weight: bold; font-size: 12pt;">${roomList.roomname}</span>
 				     <br><br>${roomList.fk_userid}의 ${roomList.roomtype_name}<br>
 				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
@@ -225,6 +232,50 @@ h3{font-size: 14pt;
 					  
 				</div> 
 				<div class="col-md-4"><img src="${roomList.roommainimg}" style="width: 100%;"/></div>
+				<div class="infoDiv" >
+				<%-- 지역정보 --%>
+				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
+				
+				<script> 
+				   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				       mapOption = {
+				           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
+				           level: 3 // 지도의 확대 레벨
+				       };  
+				   
+				   // 지도를 생성합니다    
+				   var map = new daum.maps.Map(mapContainer, mapOption); 
+				   
+				   // 주소-좌표 변환 객체를 생성합니다
+				   var geocoder = new daum.maps.services.Geocoder();
+				   
+				   // 주소로 좌표를 검색합니다
+				   geocoder.addressSearch('${roomList.roomsido} ${roomList.roomsigungu} ${roomList.roombname}', function(result, status) {
+				   
+				       // 정상적으로 검색이 완료됐으면 
+				        if (status === daum.maps.services.Status.OK) {
+				   
+				           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+				   
+				           // 결과값으로 받은 위치를 마커로 표시합니다
+				           var marker = new daum.maps.Marker({
+				               map: map,
+				               position: coords
+				           });
+				   
+				          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
+				           var infowindow = new daum.maps.InfoWindow({
+				               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
+				           });
+				           infowindow.open(map, marker); */
+				   
+				           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+				           map.setCenter(coords);
+				       } 
+				   });  
+				   
+				</script>
+			</div>
 			</div>
 			<!-- 숙소 정보 패널 2 -->
 			<div class="panel-body memberinfo">

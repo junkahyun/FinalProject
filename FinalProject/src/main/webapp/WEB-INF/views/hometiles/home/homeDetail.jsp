@@ -11,7 +11,7 @@
 		var objEnd = $("#followEndHY").offset();
 		$(window).scroll(function(event){
 			if($( document ).scrollTop() > obj.top){
-				$("#followHY").addClass("followDiv");
+				$("#").addClass("followDiv");
 			}
 			/* else if($( document ).scrollTop() - $("#followHY").height() > objEnd.top){
 				alert();
