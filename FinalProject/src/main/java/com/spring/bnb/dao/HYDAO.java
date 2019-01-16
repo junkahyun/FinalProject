@@ -52,7 +52,25 @@ public class HYDAO implements InterHYDAO {
 	@Override
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
+		if(loginuser!=null) {
+			RoomVO myroom = sqlsession.selectOne("hy.checkHostUser",member);
+			if(myroom != null) {
+				loginuser.setMyroom(myroom);
+			}
+		}
 		return loginuser;
+	}
+
+	@Override
+	public int insertLikeRoom(HashMap<String, Object> paraMap) {
+		int n = sqlsession.insert("hy.insertLikeRoom", paraMap);
+		return n;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getMyLikeRoomList(String userid) {
+		List<HashMap<String, Object>> resultMap = sqlsession.selectList("hy.getMyLikeRoomList",userid);
+		return resultMap;
 	}
 
 }

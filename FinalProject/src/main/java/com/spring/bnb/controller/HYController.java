@@ -1,13 +1,18 @@
 package com.spring.bnb.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
@@ -63,13 +68,48 @@ public class HYController {
 	}
 	
 	// 로그아웃 세션에 저장된  loginuser 삭제하기
-	@RequestMapping(value = "/logout.air", method = RequestMethod.GET)
-	public String logout(HttpServletRequest req ,MemberVO member) {
+	@RequestMapping(value = "/logout.air", method = RequestMethod.POST)
+	public String logout(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		session.removeAttribute("loginuser");
-		req.setAttribute("msg","로그아웃 되었습니다.");
-		req.setAttribute("reload","reload");
-		return "redirect:msg";
+		JSONObject jobj = new JSONObject();
+		jobj.put("msg", "로그아웃 되었습니다.");
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+
+	// 숙소 관심테이블에 저장하기
+	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.POST)
+	public String likeRoom(HttpServletRequest req ,MemberVO member) {
+		String userid = req.getParameter("userid");
+		String roomcode = req.getParameter("roomcode");
+		String saveTitle = req.getParameter("saveTitle");
+		System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
+		HashMap<String,Object> paraMap = new HashMap<String,Object>();
+		paraMap.put("USERID", userid);
+		paraMap.put("ROOMCODE", roomcode);
+		paraMap.put("SAVETITLE", saveTitle);
+		int n = service.insertLikeRoom(paraMap);
+		JSONObject jobj = new JSONObject();
+		jobj.put("n", n);
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	// 로그인 유저의 관심 숙소 리스트 불러오기
+	@RequestMapping(value = "/myLikeRoomList.air", method = RequestMethod.GET)
+	public String myLikeRoomList(HttpServletRequest req ,MemberVO member) {
+		String userid = req.getParameter("userid");
+		List<HashMap<String,Object>> resultMap = service.getMyLikeRoomList(userid);
+		JSONArray jsonArr = new JSONArray();
+		for(HashMap<String,Object> result :resultMap) {
+			jsonArr.put(result);
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 }
 

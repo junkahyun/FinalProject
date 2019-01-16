@@ -8,13 +8,25 @@
 .hoverBottomHY:hover{
 	border-bottom: 1px solid black;
 }
-.dropdown-menu{
+.profileDrop{
+	margin:0;
+	width: 100%;
+	padding: 5% 3%;
+}
+.profileDrop:hover{
+	background-color: rgba(210,210,210,0.8);
+}
+.resize1>.dropdown-menu{
 	width:300px;
 	position: absolute;
   	right: 0 !important;
 }
 .test>div{
 	border: 1px solid red;
+}
+.resize2>.dropdown-menu{
+	width: 80px;
+	padding:0;
 }
 </style>
 <script>
@@ -34,9 +46,16 @@
 			url: "login.air",
 			type: "POST",
 			data: form_data,
-			dataType:"data",
-			success:function(data){
-				alert(data.logincheck);
+			dataType:"json",
+			success:function(json){
+				var logincheck = json.logincheck;
+				if(logincheck=="true"){
+					alert("로그인 되었습니다.");
+					location.reload();
+				}
+				else{
+					alert("아이디와 비밀번호를 확인해주세요.");
+				}
 			},
 			error: function(request, status, error){
 	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -44,7 +63,48 @@
 		});
 	}
 	function goLogout(){
-		location.href="logout.air";
+		$.ajax({
+			url: "logout.air",
+			type: "POST",
+			dataType:"json",
+			success:function(json){
+				alert(json.msg);
+				location.reload();
+			},
+			error: function(request, status, error){
+	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 		}
+		});
+	}
+	function goRegistHost(){
+		location.href="roomstep1.air";
+	}
+	function goMypage(){
+		location.href="myEdit.air";
+	}
+	function myLikeRoomList(){
+		var form_data = {"userid":"${loginuser.userid}"};
+		$.ajax({
+			url:"myLikeRoomList.air",
+			type:"GET",
+			data:form_data,
+			dataType:"JSON",
+			success:function(json){
+				if(json.length<1){
+					alert("저장 된 숙소가 없습니다.");
+					return;
+				}
+				var html = "";
+				$.each(json, function(entryIndex,entry){
+					html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
+				      	+ "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
+				});
+				$("#myLikeRoomList").html(html);
+			},
+			error:function(){
+				
+			}
+		});
 	}
 </script>
 <div>   
@@ -61,7 +121,6 @@
          </div>
          <c:if test="${loginuser==null }">
          <div class="headermenus">
-            <div class="headermenu" onClick="">호스트가 되어보세요</div>
             <div class="headermenu" onClick="">도움말</div>
             <div class="headermenu" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</div>
             <div class="headermenu" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</div>
@@ -69,36 +128,34 @@
          </c:if>
          <c:if test="${loginuser!=null }">
          <div class="headermenus">
-            <c:if test="${loginser.myroom==null }">
-            <div class="headermenu" onClick="">호스트가 되어보세요</div>
+            <c:if test="${loginuser.myroom==null }">
+            <div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
             </c:if>
-            <c:if test="${loginser.myroom!=null }"> --%>
+            <c:if test="${loginuser.myroom!=null }">
             <div class="headermenu" onClick="">숙소추가</div>
             <div class="headermenu" onClick="">호스트</div>
             </c:if>
-            <div class="headermenu dropdown" onClick="">
+            <div class="headermenu dropdown resize1" onClick="myLikeRoomList();">
             	<div class="dropdown-toggle" data-toggle="dropdown">저장목록</div>
             	<ul class="dropdown-menu dropdown-menu-right">
 			      <li class="hoverBottomHY" style="font-weight:bold;padding-bottom:2%;">목록<span style="float:right;">목록보기</span></li>
-			      <li class="hoverBottomHY">
-			      	<div class="row noSpace" style="padding-bottom:2%;">
-				      	<div class="col-md-8">
-				      		<div style="color:#148781">saveTitle</div>
-				      		<div style="color:lightgray">saveOption</div>
-				      	</div>
-				      	<div class="col-md-4 noSpace">
-				      		<img src="<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp" style="width:100%; height:80px;padding:0;margin:0;">
-				      	</div>
+			      <li style="margin:2%;">
+			      	<div id="myLikeRoomList" class="noSpace" style="padding-bottom:2%;">
 			      	</div>
 			      </li>
 			    </ul>
             </div>
             <div class="headermenu" onClick="">메세지</div>
-            <div class="headermenu" onClick="goLogout();">도움말</div>
-            <div class="headermenu" onClick="" style="padding:0; padding-top:5.5%;">
-            	<div style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
+            <div class="headermenu" onClick="">도움말</div>
+            <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
+            	<div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
             		<img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
             	</div>
+            	<ul class="dropdown-menu dropdown-menu-right" style="padding:0;text-align:right;text-weight:500;">
+			      <li style="padding:0; width:50px; margin:0 auto;margin-top:5%;padding-bottom:2%; font-size:12pt;">${loginuser.userid }</li>
+			      <li class="profileDrop" style="border-top:1px solid lightgray;" onClick="goLogout();">로그아웃</li>
+			      <li class="profileDrop" onClick="goMypage();">마이페이지</li>
+			    </ul>
             </div>
          </div>
          </c:if>
@@ -109,7 +166,7 @@
 
 <%-- ****** 로그인 Modal ****** --%>
 <div class="modal fade" id="login" role="dialog">
-	<div class="modal-dialog" style="margin-top: 10%;">
+	<div class="modal-dialog" style="margin-top: 20%;">
 	    <form id="loginFrm" name="loginFrm">
 	    <!-- Modal content-->
 	    <div class="modal-content" style="width: 100%; height: 400px; margin-top:5%;">
