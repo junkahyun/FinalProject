@@ -7,6 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.RoomVO;
+
 @Repository
 public class KHDAO implements InterKHDAO {
 
@@ -39,6 +42,23 @@ public class KHDAO implements InterKHDAO {
 	public String gethostImage() {
 		String hostimage = sqlsession.selectOne("kh.gethostImage");
 		return hostimage;
+	}
+	
+	// *** 숙소 리뷰 가져오는 메소드 *** //
+	@Override
+	public int getReviewCount() {
+		int reviewcount = sqlsession.selectOne("kh.getReviewCount");
+		return reviewcount;
+	}
+	
+    //======================================================================
+	@Override
+	public RoomVO getOneRoomInfo(HashMap<String,String> map) {
+		RoomVO oneRoom = sqlsession.selectOne("kh.getOneRoomInfo",map);// 숙소 정보 가져오기
+		MemberVO host = sqlsession.selectOne("kh.getOneHost",oneRoom.getFk_userid());// 호스트 정보 가져오기
+		oneRoom.setHost(host);
+		
+		return oneRoom;
 	}
 	
 	

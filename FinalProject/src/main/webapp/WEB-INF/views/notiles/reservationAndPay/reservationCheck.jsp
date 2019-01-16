@@ -123,16 +123,25 @@ h3{font-size: 14pt;
 			
 		});
 		
-		var stayday = $("#stayday").text();
-		var onedayPrice = $("#onedayPrice").text();
-		console.log(stayday);
-		console.log(onedayPrice);
+		// 총금액 구하기
+		var stayday = $("#Price").text();cleanpay
+		var cleanpay = $("#cleanpay").text();
+		var peakpay = $("#peakpay").text();
 		
+		var stay = stayday.split(",");
+		var clean = cleanpay.split(",");
+		var peak = peakpay.split(",");
+		
+		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
+		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
 	});//end of $(document).ready------------
 
 
 	function gonextCheck(){
-		location.href="<%=ctxPath%>/reservationCheckPeople.air";
+		var frm = document.revCheckFrm;
+		frm.method="POST";
+		frm.action="<%=ctxPath%>/reservationCheckPeople.air"
+		frm.submit();
 	}
 
 </script>
@@ -154,10 +163,9 @@ h3{font-size: 14pt;
 		<h2 >숙소이용규칙 확인하기</h2>
 		<br>
 		
-		
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<%-- <c:if test="${roomList.}">
+				<%-- <c:if test="${reviewCount > 10 || }">
 				
 				
 				</c:if> --%>
@@ -174,14 +182,19 @@ h3{font-size: 14pt;
 		<br>
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
-			<div class="chekdate">체크인:요일 <br>
-			<%-- ${roomList.checkintime}시 이후 --%></div>
+			<div class="chekdate">체크인:수요일 <br>
+			${roomList.checkintime}:00시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
 			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
-			<div class="chekdate">체크아웃:요일 <br>
-			 <%-- ${roomList.checkouttime}시  --%>
+			<div class="chekdate">체크아웃:수요일 <br>
+				<c:if test="${roomList.checkouttime != '00'}">
+					${roomList.checkouttime}:00시 까지
+				</c:if>
+				<c:if test="${roomList.checkouttime == '00'}">
+				 	24:00시 까지 
+				</c:if>
 			</div>
 		</div>
 		<hr>
@@ -219,6 +232,7 @@ h3{font-size: 14pt;
 	</div>
 	<!-- ==================== 숙소 ========================== -->
 	<!-- 숙소 정보 패널 -->
+	
 	<div class="col-md-5" style="padding-top: 4.7%; ">
 		<div class="panel panel-default " id="scrollpannel" >
 			<!-- 숙소 정보 패널 1 -->
@@ -228,7 +242,7 @@ h3{font-size: 14pt;
 				     <br><br>${roomList.fk_userid}의 ${roomList.roomtype_name}<br>
 				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
 				     <i class="fas fa-star-half-alt fa-sm" style="color: #008489;"></i>
-				         후기 개
+				         후기${reviewCount}개
 					  
 				</div> 
 				<div class="col-md-4"><img src="${roomList.roommainimg}" style="width: 100%;"/></div>
@@ -295,12 +309,12 @@ h3{font-size: 14pt;
 			<!-- 숙박요금 -->
 			<div>
 				<div class="col-md-9" >
-				 ₩<span id="onedayPrice">
+				 ₩<span >
 				 <fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
 				 </span> x <span id="stayday">${(day+7)-day}</span>박
 				</div>
-				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<fmt:formatNumber value="${(roomList.roomprice)*((day+7)-day)}" pattern="#,###"/>
+				<div class="col-md-3" style="margin-bottom: 3%;" >
+				 ₩<span id="Price"><fmt:formatNumber value="${(roomList.roomprice)*((day+7)-day)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -319,7 +333,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(roomList.roomprice/100)*(roomList.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
@@ -330,13 +344,25 @@ h3{font-size: 14pt;
 				 총 합계 (KRW)
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 <span style="font-weight: bold;">₩</span>
+				 ₩<span style="font-weight: bold;" id="roomtotalPrice">
+				 
+				 </span>
+				</div>
 			</div>
 		</div>
 	</div>
-	</div>
 </div>
-
+<form name="revCheckFrm">
+<input type="hidden" value="${roomList.roomcode}" name="fk_roomcode"/>
+<input type="hidden" value="${person}" name="guestcount"/>
+<input type="hidden" value="${loginuser}" name="fk_userid"/>
+<input type="hidden" value="${roomList.fk_userid}" name="host_userid"/>
+<input type="hidden" value="${year}" name="year"/>
+<input type="hidden" value="${month}" name="checkmonth1"/>
+<input type="hidden" value="${month}" name="checkmonth2"/>
+<input type="hidden" value="${day}" name="checkday1"/>
+<input type="hidden" value="${(day+7)}" name="checkday2"/>
+</form>
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>

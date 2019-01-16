@@ -193,6 +193,17 @@ h3{font-size: 14pt;
 		    });
 		});
 		
+		// 총금액 구하기
+		var stayday = $("#Price").text();cleanpay
+		var cleanpay = $("#cleanpay").text();
+		var peakpay = $("#peakpay").text();
+		
+		var stay = stayday.split(",");
+		var clean = cleanpay.split(",");
+		var peak = peakpay.split(",");
+		
+		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
+		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
 	});//end of $(document).ready------------
 
 	
@@ -230,7 +241,7 @@ h3{font-size: 14pt;
 		 <div class="dropdown" style="margin-bottom: 10%;">
 			 <div  class="panel panel-default people" >
 				<div class="panel-body" id="people"  data-toggle="dropdown">
-					<div class="col-md-10">게스트 명</div>
+					<div class="col-md-10">게스트${guestcount}명</div>
 					<div class="col-md-2"> <i class="fas fa-chevron-down fa-lg"></i></div>
 				</div>
 				<ul class="dropdown-menu col-md-12" style="width: 45%; ">
@@ -242,7 +253,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="1" min="1" max="${roomList.max_person}" name="guestcount">
+						<input type="text" class="form-control text-center" value="${guestcount}" min="1" max="${roomList.max_person}" name="guestcount">
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -275,7 +286,7 @@ h3{font-size: 14pt;
 		
 		<!-- 호스트에게 메시지 보내기  -->
 		<h3 style="display: block;">호스트에게 인사하기</h3>
-		<h5 style="margin-bottom: 3%; font-size: 12pt;">(호스트이름)님에게 간단히 자신을 소개하고 여행 목적에 대해 알려주세요.</h5>
+		<h5 style="margin-bottom: 3%; font-size: 12pt;">${roomList.fk_userid}님에게 간단히 자신을 소개하고 여행 목적에 대해 알려주세요.</h5>
 		
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
@@ -284,7 +295,7 @@ h3{font-size: 14pt;
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
-		<textarea id="host_error_message" name="message" rows="4" required="required" placeholder="(호스트이름)님, 안녕하세요! 숙소에서 보낼 멋진 ()박이 기다려집니다!"></textarea>
+		<textarea id="host_error_message" name="message" rows="4" required="required" placeholder="${roomList.fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
 		</div>
 		<div id="host_error_message2" >호스트에게 전할 메시지를 입력하세요!</div><br><br><br><br>
 		
@@ -304,7 +315,7 @@ h3{font-size: 14pt;
 				     <br><br>${roomList.fk_userid}의 ${roomList.roomtype_name}<br>
 				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
 				     <i class="fas fa-star-half-alt fa-sm" style="color: #008489;"></i>
-				         후기 개
+				         후기 ${reviewCount}개
 					  
 				</div> 
 				<div class="col-md-4"><img src="${roomList.roommainimg}" style="width: 100%;"/></div>
@@ -358,11 +369,11 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 1명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${guestcount}명</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				년 월 일 <i class="fas fa-arrow-right"></i>년 월 일
+				${year}년 ${checkmonth1}월 ${checkday1}일 <i class="fas fa-arrow-right"></i>${year}년 ${checkmonth2}월 ${checkday2}일
 				</span>
 			</div>
 			</div>
@@ -372,12 +383,12 @@ h3{font-size: 14pt;
 			<!-- 숙박요금 -->
 			<div>
 				<div class="col-md-9" >
-				 <span id="onedayPrice">
-				 ₩<fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
-				 </span> x 박
+				 ₩<span >
+				 <fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
+				 </span> x <span id="stayday">${(day+7)-day}</span>박
 				</div>
-				<div class="col-md-3" style="margin-bottom: 3%;">
-				 <span id="totalDayPrice">₩</span>
+				<div class="col-md-3" style="margin-bottom: 3%;" >
+				 ₩<span id="Price"><fmt:formatNumber value="${(roomList.roomprice)*((day+7)-day)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -387,7 +398,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 일회성 숙소 청소 비용입니다."></i>
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<fmt:formatNumber value="${roomList.cleanpay}" pattern="#,###"/>
+				 ₩<span id="cleanpay"><fmt:formatNumber value="${roomList.cleanpay}" pattern="#,###"/></span>
 				</div>
 			</div>
 			<div>
@@ -396,24 +407,29 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(roomList.roomprice/100)*(roomList.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
 			<!-- 숙소 정보 패널 3 -->
 			<div class="panel-body price">
 			<hr>
-				<div class="col-md-9" >
+				<div class="col-md-9">
 				 총 합계 (KRW)
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 <span style="font-weight: bold;">₩</span>
+				 ₩<span style="font-weight: bold;" id="roomtotalPrice">
+				 </span>
+				</div>
 			</div>
 		</div>
 	</div>
-	</div>
 	<!-- 숙소 정보 패널 -->
 </div>
+
+<form name="revCheckPeople">
+<input type="text" value="" name="" />
+</form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>

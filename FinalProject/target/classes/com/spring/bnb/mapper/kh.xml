@@ -43,14 +43,14 @@
 		<result property="bathcount"  column="bathcount"  javaType="String" />
 		<result property="checkintime"  column="checkintime"  javaType="String" />
 		<result property="checkouttime"  column="checkouttime"  javaType="String" />
-		<result property="roomaddr"  column="roomaddr"  javaType="String" />
+		<result property="roomcode"  column="roomcode"  javaType="String" />
 	</resultMap>
 	
 	<select id="getRoomInfo" resultMap="roomMap">
 		select roomname,roommainimg,basic_person,person_addpay,viewcount,roomaddr,roomcode,fk_userid
 		      ,roomtype_name,buildtype_detail_name,roomtel,roompost,roomsigungu,roomsido,
-		      roombname,roomprice,peakper,cleanpay,basic_person,max_person,roomcount,bathcount
-		      checkintime,checkouttime,fk_userid,roomaddr
+		      roombname,roomprice,peakper,cleanpay,basic_person,max_person,roomcount,bathcount,
+		      to_char(checkintime,'hh24')as checkintime,to_char(checkouttime,'hh24')as checkouttime,fk_userid,roomaddr
 		from room A 
 		join roomtype B
 		on A.fk_roomtype_idx = B.roomtype_idx
@@ -81,6 +81,13 @@
 		on A.userid = B.fk_userid
 		where userid = 'leess'
 		and roomcode = 10
+	</select>
+	
+	
+	<select id="getReviewCount" resultType="int">
+		select count(*)
+		from review
+		where fk_roomcode=10
 	</select>
 
 </mapper>
