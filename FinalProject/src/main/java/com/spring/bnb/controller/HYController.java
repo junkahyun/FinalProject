@@ -25,6 +25,7 @@ public class HYController {
 	/*@Autowired
 	private AES256 aes;*/
 	
+	// 숙소 상세페이지
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
@@ -32,45 +33,43 @@ public class HYController {
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
-
 	}
 	
-	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
-	public String apiTest() {
-		return "apiTest.notiles";
-
-	}
+	// 호스트 메인페이지
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
 	public String hostMain() {
 		return "host/hostMain.hosttiles";
-
 	}
+	
+	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
+		JSONObject jobj = new JSONObject();
+		String logincheck = "";
 		if(loginuser==null) {
-			req.setAttribute("msg", "아이디와 비밀번호를 확인하세요");
-			req.setAttribute("loc", "javascript:history.back();");
-			return "msg";
+			logincheck = "false";
 		}
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
-			JSONObject jobj = new JSONObject();
-			jobj.put("logincheck", "true");
-			String str_json = jobj.toString();
-			req.setAttribute("str_json", str_json);
+			logincheck = "true";
 			HttpSession session = req.getSession();
 			session.setAttribute("loginuser", loginuser);
 		}
+		jobj.put("logincheck", logincheck);
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
 		return "JSON";
 	}
+	
+	// 로그아웃 세션에 저장된  loginuser 삭제하기
 	@RequestMapping(value = "/logout.air", method = RequestMethod.GET)
 	public String logout(HttpServletRequest req ,MemberVO member) {
 		HttpSession session = req.getSession();
 		session.removeAttribute("loginuser");
 		req.setAttribute("msg","로그아웃 되었습니다.");
-		req.setAttribute("loc","homeDetail.air");
-		return "msg";
+		req.setAttribute("reload","reload");
+		return "redirect:msg";
 	}
 }
 
