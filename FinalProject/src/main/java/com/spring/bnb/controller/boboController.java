@@ -75,7 +75,7 @@ public class boboController {
 		String buildType_detail = req.getParameter("buildType_detail");
 		if(buildType_detail == null) buildType_detail="0";
 		
-		//req.setAttribute(name, o);
+		req.setAttribute("buildType_detail", buildType_detail);
 		
 		String buildType = req.getParameter("buildType");
 

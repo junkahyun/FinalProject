@@ -54,6 +54,7 @@
    $(document).ready(function(){
 
 	  $("#buildType").val("${buildType}");
+	  $("#buildType_detail").val("${buildType_detail}");  
 	  
       $("#guestroom").hide(); 
 
