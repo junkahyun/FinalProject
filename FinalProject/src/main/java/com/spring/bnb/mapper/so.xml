@@ -27,4 +27,6 @@
 	from member
 	where memberstatus =1 and userid = #{loginuser}
 </select>
+
+
 </mapper>	
