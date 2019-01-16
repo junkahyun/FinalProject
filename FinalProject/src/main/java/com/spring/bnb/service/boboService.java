@@ -17,7 +17,6 @@ public class boboService implements InterBOService{
 	// 숙소유형 가져오기
 	@Override
 	public List<String> selectroomtype() {
-
 		List<String> roomtype = dao.selectroomtype();
 		return roomtype;
 	}
