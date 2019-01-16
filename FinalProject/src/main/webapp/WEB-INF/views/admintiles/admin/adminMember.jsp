@@ -87,7 +87,7 @@
 						  	<c:if test="${searchMember == null}">
 							  	<c:forEach var="membervo" items="${memberList}">
 								    <tr>
-								      <td><a href="<%=cxtPath %>/bnb/memberDetail.air?userid="+${membervo.userid}>${membervo.username}</a></td>
+								      <td><a href="<%=cxtPath %>/memberDetail.air?userid=${membervo.userid}">${membervo.username}</a></td>
 								      <td>${membervo.userid}</td>
 								      <td>${membervo.birthday}</td>
 								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
@@ -101,7 +101,7 @@
 						    <c:if test="${searchMember != null}">
 							  	<c:forEach var="membervo" items="${searchMember}">
 								    <tr>
-								      <td><a href="<%=cxtPath %>/bnb/memberDetail.air?userid="+${membervo.userid}>${membervo.username}</a></td>
+								      <td><a href="<%=cxtPath %>/memberDetail.air?userid=${membervo.userid}">${membervo.username}</a></td>
 								      <td>${membervo.userid}</td>
 								      <td>${membervo.birthday}</td>
 								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>

@@ -88,7 +88,6 @@ public class SHController {
 		System.out.println("userid : "+userid);
 		
 		if(userid != null) {
-		
 			MemberVO membervo = service.getMemberDetail(userid);
 			System.out.println("membervo : "+membervo);
 		
@@ -101,6 +100,7 @@ public class SHController {
 			req.setAttribute("membervo", membervo);
 			req.setAttribute("reservation", reservation);
 			req.setAttribute("mycoupon", mycoupon);
+			
 		}
 
 		return "admin/memberDetail.admintiles";
