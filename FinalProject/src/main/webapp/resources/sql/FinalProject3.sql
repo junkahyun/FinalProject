@@ -309,6 +309,18 @@ from buildtype A JOIN buildtype_detail B
 on A.buildtype_idx = B.fk_buildtype_idx
 where A.buildtype = '아파트';
 
-select *
-from buildtype_detail
-order by 2 asc;
+select roomname, roommainimg, roomprice, roomtel, roomsigungu
+     , basic_person, max_person, person_addpay, viewcount
+from room
+where roomsigungu like '%'||'제주'||'%' 
+
+
+update room set checkouttime = '19/01/20'
+commit;
+select to_char(checkintime, 'yyyy-mm-dd hh24:ss:mi') from room
+
+select *from room
+
+select *from bedobj
+
+select * from reservation

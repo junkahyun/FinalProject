@@ -26,16 +26,16 @@ public class SWController {
 	
 	@RequestMapping(value = "/list.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
-		List<Integer> testList = new ArrayList<Integer>();
+		/*List<Integer> testList = new ArrayList<Integer>();
 		for(int i=0; i<9; i++) {
 			testList.add(i);
 			
-		}
+		}*/
 		req.getParameter("city");
 		req.getParameter("checkin");
 		req.getParameter("checkout");
 		
-		req.setAttribute("testList", testList);
+		/*req.setAttribute("testList", testList);*/
 		
 		// 건물유형(대)
 		List<String> buildList = service.getBuildList();		
@@ -52,7 +52,7 @@ public class SWController {
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
 		req.setAttribute("roomRule", roomRule);
-		
+		req.setAttribute("roomList", roomList);
 		
 		return "home/homeList.hometiles_nofooter";
 	}

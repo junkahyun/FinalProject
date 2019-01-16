@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -26,17 +27,41 @@
  $(document).ready(function(){
 	 
 	 // 옵션 클릭시 스타일 주기
-	 flag = false;
+	/*  flag = false;
+	 var result = "";
 	 $(".option").click(function(){
 		 if(!flag){
 			 var $target = $(event.target);
 			 $target.addClass("subjectstyle");	
-			 flag = true;
+			 flag = true; 
+			 if($target.hasClass("subjectstyle")){ 
+				 result += $target.text();
+				 $("#data").val($target.text());
+			 }
 		 }
 		 else{
 			 var $target = $(event.target);
 			 $target.removeClass("subjectstyle");	
 			 flag = false;
+			 if(!$target.hasClass("subjectstyle")){
+				 $("#data").val("");
+			 }
+		 }
+	 });	  */
+	 
+	 var result = "";
+	 $(".option").click(function(){
+		 
+		 var $target = $(event.target);
+		 if(!$target.hasClass("subjectstyle")){
+			 $target.addClass("subjectstyle");	
+			 result += $target.text() + ",";
+			 $("#data").val(result);
+		 }
+		 else{			
+			 $target.removeClass("subjectstyle");	
+			 
+			 $("#data").val("");
 		 }
 	 });
 	 
@@ -138,10 +163,10 @@
         var init = function () {  
             var slider3 = new rSlider({
                 target: '#slider3',
-                values: {min: 0, max: 200},
+                values: {min: 10, max: 200},
                 step: 10,
                 range: true,
-                set: [0, 40],
+                set: [10, 40],
                 scale: true,
                 labels: true,
                 width: "1700",
@@ -162,17 +187,19 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id=city style="border-right: 1px solid gray; margin-left: 6%; margin-right: 10%; width: 15%; height: 80%;">
-            		<option value="서울">서울</option>
-            		<option value="대전">대전</option>
-            		<option value="대구">대구</option>
-            		<option value="부산">부산</option>            		
+            	<select id=city style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;">
+            		<c:forEach items="${roomList }" var="RList">
+            		<option value="${RList.roomSigungu }">${RList.roomSigungu }</option>
+            		</c:forEach>            		         		
             	</select>            
             	
             	<span class="optionname">날짜</span>
-            	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 18%; height: 80%;">&nbsp;~&nbsp;
-            	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 18%; height: 80%;">   
-            	       	
+            	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;">~
+            	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;">   
+            	<c:forEach items="${roomList }" var="RList">
+            		<input type="hidden" id="lat" class="lat" value="${RList.latitude }" />
+            		<input type="hidden" id="lng" class="lng" value="${RList.longitude }" />
+            	</c:forEach>       	
             </div>
            
            	<div class="optionbox">
@@ -186,7 +213,9 @@
             	<span class="optionname">이용 규칙</span>
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;
+            		<input type="text" id="data" />
             	</c:forEach>
+            	
             </div>        
            
         </div>
@@ -217,7 +246,7 @@
             <div class="optionbox" id="service">
             	<span class="optionname">고객 편의</span>
             	<c:forEach items="${optionList}" var="option" varStatus="status">  					
-            		<span type="checkbox" class="option" style="margin-left: 5%; cursor: pointer;">${option}</span>&nbsp;
+            		<span class="option" style="margin-left: 5%; cursor: pointer;">${option}</span>&nbsp;
             		<c:if test="${status.index == 5 }"><br/><span style="margin-left: 6.3%;"></span></c:if>
             	</c:forEach>            	
             </div> 
@@ -245,7 +274,7 @@
 		   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	       mapOption = {
 	           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
-	           level: 3 // 지도의 확대 레벨
+	           level: 5 // 지도의 확대 레벨
 	       };  
 		   
 		   // 지도를 생성합니다    
@@ -262,16 +291,22 @@
 		        if (status === daum.maps.services.Status.OK) {
 		   
 		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-		   
+		           
+		           // 마커가 표시될 위치입니다 
+		           var markerPosition  = new daum.maps.LatLng(document.getElementById('lat').value, document.getElementById('lng').value); 
+
+		           
+		           /* document.getElementById('lat').value, document.getElementById('lng').value */
+		           
 		           // 결과값으로 받은 위치를 마커로 표시합니다
 		           var marker = new daum.maps.Marker({
 		               map: map,
-		               position: coords
+		               position: markerPosition
 		           });
 		   
-		          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
+		         /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
 		           var infowindow = new daum.maps.InfoWindow({
-		               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
+		               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+document.getElementById("city").value+'</div>'
 		           });
 		           infowindow.open(map, marker); */
 		   
@@ -287,23 +322,23 @@
         
         <div class="col-md-8" style="height:100vh; padding: 1%;">
             <div class="row">
-            <c:forEach items="${testList}" var="test">
-                <div class="col-md-4" style="margin-bottom: 2%;">
+            <c:forEach items="${roomList}" var="RList">
+                <div class="col-md-4" style="margin-bottom: 2%;">               
                     <div style="margin-bottom: 3%;">
-                        <img src="https://a0.muscache.com/im/pictures/68d2bca8-bf81-489a-9ba7-b6a24f91557d.jpg?aki_policy=large" style="border-radius: 5px; width: 100%;" />
+                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%;" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em; font-weight: bold;">개인실 · 침대 2개</span>
                     </div>
                     <div>
-                        <span style="font-weight:bold; font-size:1.2em;">Sometimesjeju 201호!안전도어락! 통유리오션뷰!제주공항7.8km!</span>
+                        <span style="font-weight:bold; font-size:1.2em;">${RList.roomName }</span>
                     </div>
                     <div>
-                        <span>₩65,000/박</span>
+                        <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
-                    </div>
+                    </div>                
                 </div>
             </c:forEach>
             </div>

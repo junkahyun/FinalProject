@@ -38,7 +38,11 @@
 	</select> 
 	
 	<select id="getRoomList" resultType="com.spring.bnb.model.RoomVO">
-		
+		select roomname, roommainimg, roomprice, roomtel, roomsigungu
+		     , basic_person, max_person, person_addpay, viewcount
+		     , latitude, longitude
+		from room
+		<!-- where roomsigungu like '%'||#{roomsigungu}||'%' -->
 	</select>
 
 </mapper>
