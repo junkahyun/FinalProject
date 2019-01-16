@@ -140,8 +140,8 @@ public class SOController {
 	return "msg";
 
 }
-	@RequestMapping(value = "/sendCode.air", method = RequestMethod.GET)
-	public void sendCode(HttpServletRequest req,HttpServletResponse res) {
+	@RequestMapping(value = "/sendCode.air", method = RequestMethod.POST)
+	public String sendCode(HttpServletRequest req,HttpServletResponse res) {
 		
 		String method = req.getMethod();
 		// GET or POST
@@ -198,6 +198,7 @@ public class SOController {
 	
 		}
 		req.setAttribute("method",method);
+		return "/mypage/myEdit.hometiles";
 	}
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
 	public String myEditEnd(HttpServletRequest req,HttpServletResponse res) {

@@ -24,6 +24,34 @@
 	function reviewSearch(){
 		
 	}
+	function likeRoom(){
+		var saveTitle = $("#saveTitle").val();
+		var roomcode = $("#roomcode").val();
+		if(${loginuser == null}){
+			alert("로그인이 필요합니다.");
+			location.reload();
+			return;
+		}
+		if(saveTitle==""){
+			alert("저장 될 이름을 입력해주세요");
+			return;
+		}
+		var form_data = {"roomcode":roomcode,"userid":"${loginuser.userid}","saveTitle":saveTitle};
+		$.ajax({
+			url:"likeRoom.air",
+			type:"POST",
+			data:form_data,
+			dataType:"JSON",
+			success:function(json){
+				var n = json.n;
+				if(n=="1") alert("등록이 완료되었습니다.");
+				location.reload();
+			},
+			error:function(){
+				
+			}
+		});
+	}
 </script>
 <style>
 div{
@@ -174,6 +202,7 @@ div{
 	margin: 2% 0;
 }
 </style>
+<input type="hidden" name="roomcode" id="roomcode" value="10"/>
 <div style="width: 1240px;margin: 0 auto;">
 	<div class="row noSpace">
 		<div class="col-md-12 noSpace">
@@ -191,7 +220,7 @@ div{
 				</div>
 				<%-- 공유 및 저장버튼 --%>
 				<div class="DetailButtonsHY"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/upload.png" style="width:20px;height:20px;"/><span style="margin-left: 15%">공유</span></div>
-				<div class="DetailButtonsHY" style="right: 30%;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/heart.png" style="width: 20px; height: 20px;"/><span style="margin-left: 15%">관심</span></div>
+				<div class="DetailButtonsHY" data-toggle = "modal" data-target="#likeRoom" data-dismiss = "modal" style="right: 30%;"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/heart.png" style="width: 20px; height: 20px;"/><span style="margin-left: 15%">관심</span></div>
 			</div>
 		</div>
 	</div>
@@ -497,6 +526,17 @@ div{
                     </div>
         		</div>
     		</div>
+		</div>
+	</div>
+</div>
+
+<%-- 관심숙소 등록 modal --%>
+<div class="modal fade" id="likeRoom" role="dialog" >
+	<div class="modal-dialog">
+		<div class="modal-content" style="padding:2%;">
+			<div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>
+			<div><input id="saveTitle" class="input-data form-control" name="saveTitle" type="text" /></div>  
+			<button type="button" onClick="likeRoom();" style="width:100%;background-color: #fd5a61;border:none; color:white;margin-top:3%;height:40px;font-weight:bold;border-radius:5px;">관심 숙소 등록하기</button>
 		</div>
 	</div>
 </div>

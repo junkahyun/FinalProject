@@ -155,19 +155,38 @@ function emailCodeCheck() {
 			return;
  		}
 		else {
-			$("#emailCheckCode").parent().parent().find(".error").hide();
-			alert("11");
-			var frm=document.sendCode;
+			$("#emailCheckCode").parent().parent().find(".error").hide();			
+	<%-- 		var frm=document.sendCode;
 			frm.changeEmail.value = $("#changeEmail").val();
-			alert(frm.changeEmail.value);
+			
 			frm.action="<%= ctxPath %>/sendCode.air";
+			
 			var html ="";
 			html = "<div style='border:1px solid lightgray; margin:5%; padding-right:10%'><input type='text' id='input_confirmCode'/></div>"+
 				   "<div><button class='btn' id='codeCheckBtn' type='button' onClick='codeCheckFun();'>인증코드 확인하기</button><div>";
 					
 			$("#addCode").html(html);
-			frm.submit(); 
-			 
+			frm.submit();  --%>
+			/*	var changeEmail = $("#changeEmail").val();
+			
+			var form_data={"changeEmail":"changeEmail"};
+			
+ 			$.ajax({
+				url:"sendCode.air",
+				type:"POST",
+				data:form_data,
+			    dataType:"JSON",
+			    success:function(json){
+					var html ="";
+					html = "<div style='border:1px solid lightgray; margin:5%; padding-right:10%'><input type='text' id='input_confirmCode'/></div>"+
+						   "<div><button class='btn' id='codeCheckBtn' type='button' onClick='codeCheckFun();'>인증코드 확인하기</button><div>";
+							
+					$("#addCode").html(html);
+			    },error:function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			    	
+			    }
+			}); */ 
 			
 		} 
 		 
