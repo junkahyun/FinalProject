@@ -10,7 +10,7 @@
 	</select>
 	
 	<select id="getRoom" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
-		select roomcode, roomName, roomMainImg, roomstatus, roomInfo
+		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person
 		from room
 		where roomcode = #{roomcode}
 	</select>
