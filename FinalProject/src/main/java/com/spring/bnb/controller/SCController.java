@@ -63,7 +63,7 @@ public class SCController {
 		userid ="leess";
 		
 		roomList = service.getRoomList(userid);
-		RoomVO roomvo = (RoomVO)service.getRoom(roomcode);
+		RoomVO roomvo = (RoomVO)service.getRoomInfo(roomcode);
 		
 		/*
 		 * List<String> roomimgList = new ArrayList<String>(); roomimgList =

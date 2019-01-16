@@ -14,4 +14,16 @@
 		from room
 		where roomcode = #{roomcode}
 	</select>
+	
+	<resultMap type="HashMap" id="roomImgList">
+		<result property="roomImgList" column="IMG" javaType="String"/>
+	</resultMap>
+	
+	<select id="getRoomImgList" parameterType="String" resultMap="roomImgList">
+		select img
+		from roomimg
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	
 </mapper>
