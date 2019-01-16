@@ -4,4 +4,82 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="kh">
+
+
+	<resultMap type="HashMap" id="ruleMap">
+		<result column="rule_name" property="rule_name" javaType="String" />
+		<result column="rule_status" property="rule_status" javaType="String" />	
+		<result column="rule_idx" property="rule_idx" javaType="String" />	
+	</resultMap>
+
+	<select id="getRoomRule" resultMap="ruleMap">
+		select rule_name,rule_status,rule_idx
+		from roomrule
+	</select>
+	
+	
+	<resultMap type="HashMap" id="roomMap">
+		<result property="roomname"  column="roomname"  javaType="String" />
+		<result property="roommainimg"  column="roommainimg"  javaType="String" />
+		<result property="basic_person"  column="basic_person"  javaType="String" />
+		<result property="person_addpay"  column="person_addpay"  javaType="String" />
+		<result property="viewcount"  column="viewcount"  javaType="String" />
+		<result property="roomaddr"  column="roomaddr"  javaType="String" />
+		<result property="fk_userid"  column="fk_userid"  javaType="String" />
+		<result property="roomtype_name"  column="roomtype_name"  javaType="String" />
+		<result property="buildtype_detail_name"  column="buildtype_detail_name"  javaType="String" />
+		<result property="roomtel"  column="roomtel"  javaType="String" />
+		<result property="roompost"  column="roompost"  javaType="String" />
+		<result property="roomtel"  column="roomtel"  javaType="String" />
+		<result property="roomsigungu"  column="roomsigungu"  javaType="String" />
+		<result property="roomsido"  column="roomsido"  javaType="String" />
+		<result property="roombname"  column="roombname"  javaType="String" />
+		<result property="roomprice"  column="roomprice"  javaType="int" />
+		<result property="peakper"  column="peakper"  javaType="int" />
+		<result property="cleanpay"  column="cleanpay"  javaType="String" />
+		<result property="basic_person"  column="basic_person"  javaType="String" />
+		<result property="max_person"  column="max_person"  javaType="String" />
+		<result property="roomcount"  column="roomcount"  javaType="String" />
+		<result property="bathcount"  column="bathcount"  javaType="String" />
+		<result property="checkintime"  column="checkintime"  javaType="String" />
+		<result property="checkouttime"  column="checkouttime"  javaType="String" />
+	</resultMap>
+	
+	<select id="getRoomInfo" resultMap="roomMap">
+		select roomname,roommainimg,basic_person,person_addpay,viewcount,roomaddr,roomcode,fk_userid
+		      ,roomtype_name,buildtype_detail_name,roomtel,roompost,roomsigungu,roomsido,
+		      roombname,roomprice,peakper,cleanpay,basic_person,max_person,roomcount,bathcount
+		      checkintime,checkouttime,fk_userid
+		from room A 
+		join roomtype B
+		on A.fk_roomtype_idx = B.roomtype_idx
+		join BUILDTYPE_DETAIL C
+		on A.FK_BUILDTYPE_DETAIL_IDX = C.BUILDTYPE_DETAIL_IDX
+		where roomcode = 10
+		and fk_userid = 'leess'
+	</select>
+	
+	
+	<resultMap type="HashMap" id="roomOptions">
+		<result column="optionname" property="optionname" javaType="String" />
+		<result column="optionicon" property="optionicon" javaType="String" />
+	</resultMap>
+	
+	<select id="getRoomOptions" resultMap="roomOptions">
+		select optionname,optionicon
+		from roomoption B 
+		join options A
+		on B.fk_option_idx = A.option_idx
+		where fk_roomcode = 10
+	</select>
+	
+	<select id="gethostImage" resultType="String">
+		select profileimg
+		from member A 
+		join room B
+		on A.userid = B.fk_userid
+		where userid = 'leess'
+		and roomcode = 10
+	</select>
+
 </mapper>

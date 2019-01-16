@@ -40,8 +40,9 @@ public class RoomVO {
 	private String buildType_detail_name;
 	private int likeCount;
 	private List<String> roomimgList;
-	private List<String> optionList;
+	private List<HashMap<String,String>> optionList;
 	private List<ReviewVO> reviewList;
+	private List<ReservationVO> reservationList;
 	private MemberVO host;
 	private List<HashMap<String,String>> bedroomList;
 	public RoomVO() {}
@@ -260,10 +261,10 @@ public class RoomVO {
 	public void setRoomimgList(List<String> roomimgList) {
 		this.roomimgList = roomimgList;
 	}
-	public List<String> getOptionList() {
+	public List<HashMap<String,String>> getOptionList() {
 		return optionList;
 	}
-	public void setOptionList(List<String> optionList) {
+	public void setOptionList(List<HashMap<String,String>> optionList) {
 		this.optionList = optionList;
 	}
 	public List<ReviewVO> getReviewList() {
@@ -287,6 +288,14 @@ public class RoomVO {
 
 	public void setBedroomList(List<HashMap<String, String>> bedroomList) {
 		this.bedroomList = bedroomList;
+	}
+
+	public List<ReservationVO> getReservationList() {
+		return reservationList;
+	}
+
+	public void setReservationList(List<ReservationVO> reservationList) {
+		this.reservationList = reservationList;
 	}
 	
 }

@@ -44,11 +44,7 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 	$(document).ready(function(){
 		$("#btnsubmit").click(function(){
 			
-			var frm = document.reservationFinalConfirm;
-			frm.submit="GET";//post로 바꿔야함
-			frm.action = "<%=ctxPath%>/main.air"; 
-			//메인 페이지로 이동
-			frm.submit();
+			location.href = "<%=ctxPath%>/main.air"; 
 		});//
 		
 	});//end of $(document).ready------------
@@ -66,7 +62,6 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
   </div>
 </div>
 
-<form name="reservationFinalConfirm">
 <div class="container-fluid" style="margin-top: 3%; width: 55%;">
 	<div class="col-md-12" style="margin-top: 3%; margin-bottom: 3%;">
 		<h2 >예약이 완료되었습니다!</h2>
@@ -165,7 +160,6 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 		<button type="button" class="btn btn-danger" id="btnsubmit"><span style="color: white; ">확인</span></button> 
 	</div>	
 </div>
-</form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
