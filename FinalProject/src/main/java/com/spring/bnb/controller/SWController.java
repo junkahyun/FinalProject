@@ -99,8 +99,8 @@ public class SWController {
 			jsonArr.put(jsonObj);
 		}
 		
-		String str_jsonArr = jsonArr.toString();
-		req.setAttribute("str_jsonArr", str_jsonArr);
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
 		
 		/*System.out.println(str_jsonArr);
 		System.out.println(buildDetailName);
