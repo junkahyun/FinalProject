@@ -49,4 +49,10 @@ public class HYDAO implements InterHYDAO {
 		return roomvo;
 	}
 
+	@Override
+	public MemberVO logincheck(MemberVO member) {
+		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
+		return loginuser;
+	}
+
 }

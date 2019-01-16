@@ -67,4 +67,9 @@
 		select img from roomImg where fk_roomcode=#{roomcode}
 	</select>
 	
+	<!-- 로그인 정보 확인하기 -->
+	<select id="logincheck" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.MemberVO">
+		select * from member where userid=#{userid} and pwd=#{pwd}
+	</select>
+	
 </mapper>

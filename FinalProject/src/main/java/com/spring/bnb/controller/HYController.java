@@ -1,12 +1,15 @@
 package com.spring.bnb.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterHYService;
 
@@ -31,6 +34,22 @@ public class HYController {
 	public String hostMain() {
 		return "host/hostMain.hosttiles";
 	}
-
+	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
+	public String login(HttpServletRequest req ,MemberVO member) {
+		System.out.println(member.getUserid()+member.getPwd());
+		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
+		JSONObject jobj = new JSONObject();
+		if(loginuser==null) {
+			req.setAttribute("msg", "아이디와 비밀번호를 확인하세요");
+			req.setAttribute("loc", "javascript:history.back();");
+			return "msg";
+		}
+		else {
+			// 로그인 성공시 세션에 해당 유저정보저장
+			HttpSession session = req.getSession();
+			session.setAttribute("loginuser", loginuser);
+		}
+		return "JSON";
+	}
 }
 
