@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.boboService;
+import com.spring.common.MyUtil;
 
 
 @Controller
@@ -22,43 +25,50 @@ public class boboController {
 	
 	@Autowired
 	private boboService service;
-
-/*	
-    @RequestMapping(value="/newroom.air", method={RequestMethod.GET})
-	public String newroom() {
-		
-		return "become-host/newroom.hosttiles_nofooter";
-	}
-*/
 	
-	@RequestMapping(value="/roomstart.air", method={RequestMethod.GET})
-	public String roomstart(HttpServletRequest req) {
+	@RequestMapping(value="/roomstap1.air", method={RequestMethod.GET})
+	public String roomstap1(HttpServletRequest req) {
 		
-		List<String> roomtype = service.selectroomtype();
-		req.setAttribute("roomtype", roomtype);
-
-		return "become-host/roomstart.hosttiles_nofooter";
+		HttpSession session = req.getSession();
+		
+		RoomVO roomvo = new RoomVO();
+		session.setAttribute("roomvo", roomvo);
+		
+		return "become-host/room-stap1.hosttiles_nofooter";
 	}
-	
+
+/*	@RequestMapping(value="/getcurrenturl.air", method={RequestMethod.GET})
+	public String getcurrenturl(HttpServletRequest req) {
+		String currenturl = MyUtil.getCurrentURL(req);
+		JSONObject jobj = new JSONObject();
+		jobj.put("currenturl", currenturl);
+		String str_jsonArr = jobj.toString();
+		req.setAttribute("str_jsonArr",str_jsonArr);
+		return "JSON";
+	}*/
 	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
-	public String roomtype(HttpServletRequest req) {
+	public String roomtype(HttpServletRequest req) {				
 		
-		List<HashMap<String, String>> buildType = service.selectbuildType();
-		req.setAttribute("buildType", buildType);
+			List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
+			req.setAttribute("buildType", buildTypeList);
+			
+			List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
+			req.setAttribute("roomtype", roomtype);
+			
+			return "become-host/roomtype.hosttiles_nofooter";
 
-		return "become-host/roomtype.hosttiles_nofooter";
 	}
 	
 	@RequestMapping(value="/roomtypeJSON.air", method={RequestMethod.GET})
+	/*@ResponseBody*/
 	public String roomtypeJSON(HttpServletRequest req) {
 		
 		String buildType = req.getParameter("buildType");
-		System.out.println(buildType);
-		
+
 		JSONArray jsonArr = new JSONArray();
 		
 		if(buildType != null && !buildType.trim().isEmpty()) {
-			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);
+			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);// 건물세부유형 가져오기
 			
 			if(buildTypeList != null && buildTypeList.size() > 0) {
 				for(HashMap<String,String> map : buildTypeList) {
@@ -77,9 +87,10 @@ public class boboController {
 		String str_jsonArr = jsonArr.toString();
 		req.setAttribute("str_jsonArr", str_jsonArr);
 		
-		return "roomtypeJSON";
+		return "JSON";
 		
-		/*List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
+		/*===================== jackson ======================================================= 
+		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
 		
 		if(buildType != null && !buildType.trim().isEmpty()) {
 			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);
@@ -102,14 +113,26 @@ public class boboController {
 			}// end of if
 		}
 		
-		return mapList;*/
+		return mapList;
+		============================================================================================*/
 	}
-	
-	
+		
 	@RequestMapping(value="/bedroom.air", method={RequestMethod.GET})
 	public String bedroom(HttpServletRequest req) {
 		
+		String buildType = req.getParameter("buildType");
+		String buildType_detail = req.getParameter("buildType_detail");
+		String room_type = req.getParameter("room_type");
 		
+
+		String gobackURL = req.getParameter("gobackURL");
+		req.setAttribute("gobackURL", gobackURL);
+		System.out.println(gobackURL);
+		
+		RoomVO roomvo = new RoomVO();
+		roomvo.setFk_buildType_detail_idx(buildType_detail);
+		roomvo.setFk_roomType_idx(room_type);
+			
 		return "become-host/bedroom.hosttiles_nofooter";
 	}
 	
