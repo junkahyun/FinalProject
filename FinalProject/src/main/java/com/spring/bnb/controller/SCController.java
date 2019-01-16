@@ -82,7 +82,8 @@ public class SCController {
 	// 호스트 숙소사진 수정
 	@RequestMapping(value = "/hrPhotoEdit.air", method = {RequestMethod.GET})
 	public String hrPhotoEdit(HttpServletRequest req) {
-		String roomcode = req.getParameter("roomcdoe");
+		
+		String roomcode = req.getParameter("roomcode");
 		RoomVO roomvo = (RoomVO)service.getRoomInfo(roomcode);
 		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";

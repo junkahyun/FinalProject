@@ -9,7 +9,7 @@
 		where userid= #{userid}
 	</select>
 	
-	<select id="getRoom" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
+	<select id="getRoomInfo" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person, fk_roomType_idx, fk_buildType_detail_idx
 		from room
 		where roomcode = #{roomcode}
