@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterHYService;
-import com.spring.common.AES256;
 
 @Controller
 public class HYController {
@@ -20,8 +19,8 @@ public class HYController {
 	@Autowired
 	private InterHYService service; 
 
-	@Autowired
-	private AES256 aes;
+	/*@Autowired
+	private AES256 aes;*/
 	
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
