@@ -47,7 +47,7 @@ div.row.not-rowStyle{
 	margin: 0;
 }
 .white {
-    color: #FFF!important;
+    color: #FFF !important;
 }
 /* Main Page */ 
 input{
@@ -81,19 +81,27 @@ div.choose_A{
     margin-left: -470px;
 	color:#00f;
 }
+div.choose_A > div:nth-child(1){
+	height:60px;  
+	line-height:4em;
+	font-weight:bold;
+}
 div.choose_A > div{
 	height:60px;  
 	line-height:4em;
 	font-weight:bold;
+	padding:0;
+	margin:0;
 }
 div.choose_A .domestic{
 	border-right:solid 1px #fff;
 } 
 div.choose_A > div > img{
 	vertical-align:middle;
+	margin-left:20%;
 }
 div.choose_A .domestic .choose_nation{
-	margin-left:2%;
+	margin-left:3%;
 }
 div.choose_A .domestic,
 div.choose_A .city{
@@ -300,6 +308,30 @@ section#best_reviewes .index_T {
 }
 div#commentdiary > div:nth-child(1){
 	border-right: solid 1px #999;
+}
+/* Modal */
+.modal{
+	overflow:hidden;
+	z-index:9999;
+}
+div.modal div#sido{
+	margin:2%;
+} 
+div.modal button.myclose{
+	width:100%;
+}
+div.modal button > span{
+	float:right;
+}
+div.modal select{
+	width:50%;
+	float:left;
+	margin-top:10%;
+}
+div.modal button.finish_sido{
+	width:50%;
+	display:block;
+	margin:30% auto;
 }
 
 /* footer */

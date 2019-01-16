@@ -52,7 +52,10 @@
 <script type="text/javascript">
 
    $(document).ready(function(){
-	   
+
+	  $("#buildType").val("${buildType}");
+	  $("#buildType_detail").val("${buildType_detail}");  
+	  
       $("#guestroom").hide(); 
 
       $("#buildType_detail").change(function() {
@@ -74,11 +77,11 @@
 	 		 dataType:"JSON",
 	 		 data:form_data,
 	 		 success:function(json) {
-		 		 var result = "<option selected value='0' disabled>건물 유형 선택</option>";
+		 		 var result = "<option value='0' disabled>건물 유형 선택</option>";
 		 		 
 		 		 $.each(json, function(entryIndex, entry){
 		 			
-		 			 result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL_NAME+"</option>";
+		 			 result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL_IDX+entry.BUILDTYPE_DETAIL_NAME+"</option>";
 		 		 });
 		 		 
 		 		 $("#buildType_detail").html(result);  
@@ -107,7 +110,6 @@
    
    function next(){
 		var frm = document.roomtype;
-		frm.gobackURL.value = gobackURL;
 		frm.action = "bedroom.air";
 		frm.method = "GET";
 		frm.submit();
@@ -131,8 +133,8 @@
 	            <div class="col-md-9" style="margin-top: 50px; border: 0px solid red;">
 	                <div class="selecthead">우선 범위를 좁혀볼까요?</div>    
 	                <select id="buildType" class="select" name="buildType" style="width: 100%; padding: 9px;">  
-	                	<option selected value="0" disabled>하나를 선택해주세요.</option>
-	                    <c:forEach items="${buildType}" var="map">
+	                	<option value="0" disabled>하나를 선택해주세요.</option>
+	                    <c:forEach items="${buildTypeList}" var="map">
 	                   		<option value="${map.BUILDTYPE_IDX}">${map.BUILDTYPE}</option>
 	                    </c:forEach>
 	                </select>
@@ -141,7 +143,7 @@
 	            <div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 	                <div class="selecthead">건물 유형을 선택하세요</div>    
 	                <select id="buildType_detail" class="select" name="buildType_detail" style="width: 100%; padding: 9px;" disabled>  
-	                  	<option selected value="0">건물 유형 선택</option>
+	                  	<option value="0">건물 유형 선택</option>
 	                </select>
 	            </div>
 	
@@ -153,7 +155,6 @@
 							<option value="${map.ROOMTYPE_IDX}">${map.ROOMTYPE_NAME}</option> 
 						</c:forEach>
 	                   </select>
-	
 	               </div> 
 	               <div class="col-md-9" style="margin-top: 30px; border: 0px solid red;">
 	                  <div class="row" style="border: 0px solid blue; padding-left: 15px;">
@@ -224,5 +225,7 @@
 	
 	   </div>
 	</div>
+	
+	<input type="text" name="currentURL" value="${currentURL}">
 	
 </form>
