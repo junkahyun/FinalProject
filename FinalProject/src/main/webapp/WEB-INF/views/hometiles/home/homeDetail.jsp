@@ -21,6 +21,9 @@
 			}
 		});	
 	});
+	function reviewSearch(){
+		
+	}
 </script>
 <style>
 div{
@@ -213,8 +216,8 @@ div{
 			<div class="infoDiv" style="font-weight:bold;">
 				<img src="<%=request.getContextPath()%>/resources/images/homeDetail/multiple-users-silhouette.png" />
 				<span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명</span>
-				<span style="margin-right:5%;">침실갯수 ${room.roomCount }개</span>
-				<span style="margin-right:5%;">침대갯수 ${room.bedroomList.size() }</span>
+				<span style="margin-right:5%;">침실갯수 ${room.bedroomList.size() }개</span>
+				<span style="margin-right:5%;">침대갯수 ${room.bedroomList.size() }개</span>
 				<span style="margin-right:5%;">단독사용욕실갯수 ${room.bathCount }</span>
 			</div>
 			<%-- 호스트 소개 및 숙소 소개 --%>
@@ -229,10 +232,9 @@ div{
 			<div class="infoDiv">
 				<div class="infoSubjectHY">편의시설</div>
 				<div class="row" style="margin:3%;">
-					<div class="col-md-6">건물 내 무료주차</div>
-					<div class="col-md-6">주방</div>
-					<div class="col-md-6">무선인터넷</div>
-					<div class="col-md-6">아침식사</div>
+				<c:forEach items="${room.optionList }" var="option">
+					<div class="col-md-6" style="margin: 1% 0;"><img src="<%=request.getContextPath() %>/resources/images/optionicon/${option.OPTIONICON}" style="width:20px;height:20px; margin-right:3%;"/>${option.OPTIONNAME}</div>
+				</c:forEach>
 				</div>
 				<a class="aTagBtnHY">편의시설 ${room.optionList.size() } 모두 보기</a>
 			</div>

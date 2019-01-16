@@ -9,7 +9,11 @@ public class MemberVO {
 	private String phone;
 	private int post;
 	private String addr;
+<<<<<<< HEAD
 	private String detailaddr; 
+=======
+	private String detailAddr; 
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	private int gender;
 	private String birthday; 
 	private String introduction; 
@@ -22,8 +26,13 @@ public class MemberVO {
 	
 	public MemberVO() {}
 	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
+<<<<<<< HEAD
 			String addr, String detailaddr, int gender, String birthday, String introduction, int memberStatus,
 			int warnCount, String regDate) {
+=======
+			String addr, String detailddr, int gender, String birthday, String introduction, int memberStatus,
+			int warnCount, String regDate, String detailAddr) {
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		super();
 		this.userid = userid;
 		this.profileimg = profileimg;
@@ -33,7 +42,11 @@ public class MemberVO {
 		this.phone = phone;
 		this.post = post;
 		this.addr = addr;
+<<<<<<< HEAD
 		this.detailaddr = detailaddr;
+=======
+		this.detailAddr = detailAddr;
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		this.gender = gender;
 		this.birthday = birthday;
 		this.introduction = introduction;
@@ -90,11 +103,28 @@ public class MemberVO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
+<<<<<<< HEAD
 	public String getDetailaddr() {
 		return detailaddr;
+=======
+	
+	public String getDetailAddr() {
+		return detailAddr;
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	}
+<<<<<<< HEAD
 	public void setDetailaddr(String detailaddr) {
 		this.detailaddr = detailaddr;
+=======
+	public void setDetailAddr(String detailAddr) {
+		this.detailAddr = detailAddr;
+	}
+	public RoomVO getMyroom() {
+		return myroom;
+	}
+	public void setMyroom(RoomVO myroom) {
+		this.myroom = myroom;
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	}
 	public int getGender() {
 		return gender;

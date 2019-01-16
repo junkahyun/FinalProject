@@ -252,8 +252,10 @@ function editInfo(){
 		        </label>
 		        <div class="col-sm-9">
 		        	<input id="email" name="email" size="30" type="text" value="${myInfo.email}">
+		        	<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false">이메일</button></div>
 		            <div class="text-muted space-top-1">이메일 주소는 다른 에어비앤비 회원에게 공개되지 않습니다.</div>
 		        </div>
+		        
 		     </div>
 			<!--  이메일 주소 DIV 끝 -->
 			<!--  전화번호 DIV 시작 -->
