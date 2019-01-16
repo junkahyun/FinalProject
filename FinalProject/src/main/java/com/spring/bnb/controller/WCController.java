@@ -24,4 +24,12 @@ public class WCController {
 	public String admin_index() {
 		return "admin/index.admintiles";
 	}
+	@RequestMapping(value = "/lodgingManage.air", method = RequestMethod.GET)
+	public String lodgingManage() {
+		return "admin/lodging_manage.admintiles";
+	}
+	@RequestMapping(value = "/lodgingRegistManage.air", method = RequestMethod.GET)
+	public String lodgingRegistManage() {
+		return "admin/lodging_regist_manage.admintiles";
+	}
 } 

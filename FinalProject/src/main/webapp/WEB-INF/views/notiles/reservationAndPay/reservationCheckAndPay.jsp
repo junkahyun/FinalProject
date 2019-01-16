@@ -38,10 +38,12 @@ h3{font-size: 14pt;
 	$(document).ready(function(){
 		$("#btnsubmit").click(function(){
 			
-			var frm = document.reservationFinalConfirm;
+			<%-- var frm = document.reservationFinalConfirm;
 			frm.method="get";//post로 바꿔야함
-			frm.action = "<%=ctxPath%>/reservationFinalConfirm.air";
-			frm.submit();
+			frm.action = "<%=ctxPath%>/paymentGateway.air";
+			frm.submit(); --%>
+			var url ="<%=ctxPath%>/paymentGateway.air";
+			window.open(url,"예약결제", "width=880, height=630, top=200, left=500");
 		});//
 		
 	});//end of $(document).ready------------

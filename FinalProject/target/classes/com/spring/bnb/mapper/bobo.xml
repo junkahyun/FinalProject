@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
-<!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
+<!-- ===== 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="bobo">
+
+	<!-- 숙소유형 가져오기 -->
+	<resultMap type="HashMap" id="roomType">
+		  <result property="ROOMTYPE_NAME" column="roomType_name" javaType="String" />
+		  <result property="ROOMTYPE_IDX" column="roomType_idx" javaType="int" />
+	</resultMap>
+
+	<select id="selectroomtype" resultMap="roomType">
+		select roomType_name, roomType_idx
+		from roomType
+		order by roomType_idx
+	</select>
+	
+	<!-- 건물유형 가져오기 -->
+	<resultMap type="HashMap" id="bulidmap">
+		  <result property="BUILDTYPE" column="buildType" javaType="String" />
+		  <result property="BUILDTYPE_IDX" column="buildType_idx" javaType="int" />
+	</resultMap>
+	
+	<select id="selectbuildType" resultMap="bulidmap">
+		select buildType, buildType_idx
+		from buildType
+		order by buildType_idx
+	</select>
+	
+	<!-- 건물세부유형 가져오기 -->
+ 	<resultMap type="HashMap" id="buildType_detail">
+		  <result property="BUILDTYPE_DETAIL_IDX" column="buildType_detail_idx" javaType="String" />
+		  <result property="FK_BUILDTYPE_IDX" column="fk_buildType_idx" javaType="String" />
+		  <result property="BUILDTYPE_DETAIL_NAME" column="buildType_detail_name" javaType="String" /> 
+	</resultMap>
+	
+ 	<select id="selectbuildTypedetail" parameterType="String" resultMap="buildType_detail">
+		select buildType_detail_idx, buildType_detail_name
+		from buildType_detail
+		where fk_buildType_idx = #{buildType}
+		order by buildType_detail_idx
+	</select>  
+	
+	
+	
 </mapper>
