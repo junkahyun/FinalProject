@@ -62,13 +62,14 @@
 		vertical-align: middle;
 	}
 </style> 
-<div class="col-md-10">
-	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-		<div class="">
-			<h1 class="home_title">회원관리</h1>	
+
+	<div class="col-md-10">
+		<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
+			<div class="">
+				<h1 class="home_title">회원관리</h1>	
+			</div>
 		</div>
 	</div>
-</div>
 	
 	<div class="container">	
 		<div class="row">
@@ -146,88 +147,4 @@
 		[이전]    1    2    3    4    5		6		7		8		9    [다음]
 	</div>
 	
-	
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" role="dialog">
-	    <div style="padding: 3%;">
-			<div class="container">
-				<div class="row">
-				    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-			
-						<div class="panel panel-info">
-							<div class="panel-heading">
-							  <h3 class="panel-title">상세 정보</h3>
-							</div>
-							
-							<div class="panel-body" style="padding-bottom: 3%; padding-top: 3%;">
-							    <div class="row">
-									<div class="col-lg-3 " align="center"><img alt="프로필 사진" src="resources/images/친구와함께.JPG" class="img-circle img-responsive"></div>			
-								    
-									    <div class=" col-md-9 col-lg-9 "> 
-									      <table class="table table-user-information">
-									        <tbody>
-								  					<c:forEach var="membervo" items="${memberList}">
-											          <tr>
-											            <td>성명</td>
-											            <td>${membervo.username}</td>
-											          </tr>
-											          <tr>
-											            <td>생년월일</td>
-											            <td>${membervo.birthday}</td>
-											          </tr>
-											          <tr>
-											            <td>아이디</td>
-											            <td>${membervo.userid}</td>
-											          </tr>
-									                  <tr>
-											            <td>성별</td>
-											            <td>${membervo.gender}</td>
-											          </tr>
-											           <tr>
-											            <td>이메일</td>
-											            <td>${membervo.email}</td>
-											          </tr>
-											          <tr>
-											            <td>핸드폰번호</td>
-											            <td>${membervo.phone}</td>
-											          </tr>
-											          <tr>
-											            <td>주소</td>
-											            <td>${membervo.addr}&nbsp;${membervo.detailAddr}</td>
-											          </tr>
-											          <tr>
-											            <td>가입일</td>
-											            <td>${membervo.regDate}</td>
-											          </tr>
-											          <tr>
-											            <td>경고횟수</td>
-											            <td>${membervo.warnCount}</td>
-											          </tr>
-											          <tr>
-											            <td>보유쿠폰</td>
-											            
-											            <td>없음</td>
-											            
-											          </tr>
-											          <tr>
-											            <td>예약코드</td>
-											            
-											            <td>없음</td>
-											            
-											          </tr>
-										          </c:forEach>
-									        </tbody>
-									      </table>
-							    		</div>
-							  </div>
-							</div>
-							<div class="" style="text-align: center; background-color: white; padding-bottom: 10px;">
-					        	<button type="button" class="btn btn-secondary" data-dismiss="modal">종료</button>
-					    	</div>
-						</div>
-				    </div>
-				</div>
-			</div>
-		</div>
-	</div> 
 
