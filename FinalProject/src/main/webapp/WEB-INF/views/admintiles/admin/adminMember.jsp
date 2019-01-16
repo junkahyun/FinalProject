@@ -23,7 +23,10 @@
 			}
 		});
 		
-		detail(userid);
+		
+		memberDetail(userid);
+		alert("membervo"+${membervo});
+		console.log("membervo"+${memberList});
 		
 	});
 	
@@ -47,7 +50,7 @@
 	
 	function memberDetail(userid) {
 		
-		location.href="memberDetail.air?userid="+userid;
+		location.href="adminMember.air?userid="+userid;
 		
 	}
 	
@@ -101,7 +104,7 @@
 								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
 								      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
 								      <td>${membervo.phone}</td>
-								      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+								      <td>${membervo.addr}&nbsp;${membervo.detailAddr}</td>
 								      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
 								    </tr>
 							    </c:forEach>
@@ -115,7 +118,7 @@
 								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
 								      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
 								      <td>${membervo.phone}</td>
-								      <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
+								      <td>${membervo.addr}&nbsp;${membervo.detailAddr}</td>
 								      <td><button type="button" class="btn btn-danger" >삭제</button></td> 
 								    </tr>
 							    </c:forEach>
@@ -135,7 +138,7 @@
 				<option value="addr">주소</option>
 			</select>
 	        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style="" />
-	        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px" onClick="goSearch();" /></span>
+	        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch();"/></span>
 	    </div>
 	</form>
 	
@@ -158,67 +161,64 @@
 							
 							<div class="panel-body" style="padding-bottom: 3%; padding-top: 3%;">
 							    <div class="row">
-									<div class="col-lg-3 " align="center"><img alt="프로필 사진" src="resources/images/${membervo.profileimg}" class="img-circle img-responsive"></div>			
+									<div class="col-lg-3 " align="center"><img alt="프로필 사진" src="resources/images/친구와함께.JPG" class="img-circle img-responsive"></div>			
 								    
-							    <div class=" col-md-9 col-lg-9 "> 
-							      <table class="table table-user-information">
-							        <tbody>
-							        	<c:if test="${searchMember == null}">
-						  					<c:forEach var="membervo" items="${memberList}">
-									          <tr>
-									            <td>성명</td>
-									            <td>${membervo.username}</td>
-									          </tr>
-									          <tr>
-									            <td>생년월일</td>
-									            <td>${membervo.birthday}</td>
-									          </tr>
-									          <tr>
-									            <td>아이디</td>
-									            <td>${membervo.userid}</td>
-									          </tr>
-							                  <tr>
-									            <td>성별</td>
-									            <td>${membervo.gender}</td>
-									          </tr>
-									           <tr>
-									            <td>이메일</td>
-									            <td>${membervo.email}</td>
-									          </tr>
-									          <tr>
-									            <td>핸드폰번호</td>
-									            <td>${membervo.phone}</td>
-									          </tr>
-									          <tr>
-									            <td>주소</td>
-									            <td>${membervo.addr}&nbsp;${membervo.detailddr}</td>
-									          </tr>
-									          <tr>
-									            <td>가입일</td>
-									            <td>${membervo.regdate}</td>
-									          </tr>
-									          <tr>
-									            <td>경고횟수</td>
-									            <td>${membervo.warncount}</td>
-									          </tr>
-									          <tr>
-									            <td>보유쿠폰</td>
-									            
-									            <td>없음</td>
-									            
-									          </tr>
-									          <tr>
-									            <td>예약코드</td>
-									            
-									            <td>없음</td>
-									            
-									          </tr>
-								          </c:forEach>
-					    				</c:if>
-							        </tbody>
-							      </table>
-							      
-							    </div>
+									    <div class=" col-md-9 col-lg-9 "> 
+									      <table class="table table-user-information">
+									        <tbody>
+								  					<c:forEach var="membervo" items="${memberList}">
+											          <tr>
+											            <td>성명</td>
+											            <td>${membervo.username}</td>
+											          </tr>
+											          <tr>
+											            <td>생년월일</td>
+											            <td>${membervo.birthday}</td>
+											          </tr>
+											          <tr>
+											            <td>아이디</td>
+											            <td>${membervo.userid}</td>
+											          </tr>
+									                  <tr>
+											            <td>성별</td>
+											            <td>${membervo.gender}</td>
+											          </tr>
+											           <tr>
+											            <td>이메일</td>
+											            <td>${membervo.email}</td>
+											          </tr>
+											          <tr>
+											            <td>핸드폰번호</td>
+											            <td>${membervo.phone}</td>
+											          </tr>
+											          <tr>
+											            <td>주소</td>
+											            <td>${membervo.addr}&nbsp;${membervo.detailAddr}</td>
+											          </tr>
+											          <tr>
+											            <td>가입일</td>
+											            <td>${membervo.regDate}</td>
+											          </tr>
+											          <tr>
+											            <td>경고횟수</td>
+											            <td>${membervo.warnCount}</td>
+											          </tr>
+											          <tr>
+											            <td>보유쿠폰</td>
+											            
+											            <td>없음</td>
+											            
+											          </tr>
+											          <tr>
+											            <td>예약코드</td>
+											            
+											            <td>없음</td>
+											            
+											          </tr>
+										          </c:forEach>
+									        </tbody>
+									      </table>
+							    		</div>
 							  </div>
 							</div>
 							<div class="" style="text-align: center; background-color: white; padding-bottom: 10px;">

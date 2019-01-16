@@ -33,13 +33,31 @@ public class SHService implements InterSHService {
 		return searchMember;
 	}
 
-	// 회원 상세페이지
+	// 회원 상세페이지(MemberVO)
 	@Override
-	public HashMap<String, String> getMemberDetail(String userid) {
+	public MemberVO getMemberDetail(String userid) {
 		
-		HashMap<String, String> member = dao.getMemberDetail(userid);
+		MemberVO member = dao.getMemberDetail(userid);
 		
 		return member;
+	}
+
+	// 회원 상세페이지(예약코드)
+	@Override
+	public List<HashMap<String, String>> getReservation(String userid) {
+		
+		List<HashMap<String, String>> reservation = dao.getReservation(userid);
+		
+		return reservation;
+	}
+
+	// 회원 상세페이지(보유쿠폰)
+	@Override
+	public List<HashMap<String, String>> getMycoupon(String userid) {
+		
+		List<HashMap<String, String>> mycoupon = dao.getMycoupon(userid);
+		
+		return mycoupon;
 	}
 	
 }

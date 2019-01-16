@@ -9,7 +9,7 @@ public class MemberVO {
 	private String phone;
 	private int post;
 	private String addr;
-	private String Detailddr; 
+	private String detailAddr; 
 	private int gender;
 	private String birthday; 
 	private String introduction; 
@@ -22,7 +22,7 @@ public class MemberVO {
 	
 	public MemberVO() {}
 	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
-			String addr, String detailddr, int gender, String birthday, String introduction, int memberStatus,
+			String addr, String detailAddr, int gender, String birthday, String introduction, int memberStatus,
 			int warnCount, String regDate) {
 		super();
 		this.userid = userid;
@@ -33,11 +33,11 @@ public class MemberVO {
 		this.phone = phone;
 		this.post = post;
 		this.addr = addr;
-		Detailddr = detailddr;
+		this.detailAddr = detailAddr;
 		this.gender = gender;
 		this.birthday = birthday;
 		this.introduction = introduction;
-		MemberStatus = memberStatus;
+		this.MemberStatus = memberStatus;
 		this.warnCount = warnCount;
 		this.regDate = regDate;
 	}
@@ -90,11 +90,18 @@ public class MemberVO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	public String getDetailddr() {
-		return Detailddr;
+	
+	public String getDetailAddr() {
+		return detailAddr;
 	}
-	public void setDetailddr(String detailddr) {
-		Detailddr = detailddr;
+	public void setDetailAddr(String detailAddr) {
+		this.detailAddr = detailAddr;
+	}
+	public RoomVO getMyroom() {
+		return myroom;
+	}
+	public void setMyroom(RoomVO myroom) {
+		this.myroom = myroom;
 	}
 	public int getGender() {
 		return gender;

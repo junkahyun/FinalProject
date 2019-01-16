@@ -33,12 +33,30 @@ public class SHDAO implements InterSHDAO {
 		return searchMember;
 	}
 
-	// 회원 상세페이지
+	// 회원 상세페이지(MemberVO)
 	@Override
-	public HashMap<String, String> getMemberDetail(String userid) {
+	public MemberVO getMemberDetail(String userid) {
 		
-		HashMap<String, String> member = sqlsession.selectOne("sh.getMemberDetail", userid);
+		MemberVO member = sqlsession.selectOne("sh.getMemberDetail", userid);
 		
 		return member;
+	}
+	
+	// 회원 상세페이지(예약코드)
+	@Override
+	public List<HashMap<String, String>> getReservation(String userid) {
+		
+		List<HashMap<String, String>> reservation = sqlsession.selectList("sh.getReservation", userid);
+		
+		return reservation;
+	}
+
+	// 회원 상세페이지(보유쿠폰)
+	@Override
+	public List<HashMap<String, String>> getMycoupon(String userid) {
+		
+		List<HashMap<String, String>> mycoupon = sqlsession.selectList("sh.getMycoupon", userid);
+		
+		return mycoupon;
 	}
 }
