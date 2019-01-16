@@ -29,18 +29,22 @@
 		frm.method="POST";
 		frm.action="login.air";
 		frm.submit(); */
+		form_data = $("#loginFrm").serialize();
 		$.ajax({
-			url:"login.air",
-			type:"POST",
-			data:,
+			url: "login.air",
+			type: "POST",
+			data: form_data,
 			dataType:"data",
 			success:function(data){
-				
+				alert(data.logincheck);
 			},
 			error:function(){
 				
 			}
 		});
+	}
+	function goLogout(){
+		location.href="logout.air";
 	}
 </script>
 <div>   
@@ -90,7 +94,7 @@
 			    </ul>
             </div>
             <div class="headermenu" onClick="">메세지</div>
-            <div class="headermenu" onClick="">도움말</div>
+            <div class="headermenu" onClick="goLogout();">도움말</div>
             <div class="headermenu" onClick="" style="padding:0; padding-top:5.5%;">
             	<div style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
             		<img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
@@ -106,7 +110,7 @@
 <%-- ****** 로그인 Modal ****** --%>
 <div class="modal fade" id="login" role="dialog">
 	<div class="modal-dialog" style="margin-top: 10%;">
-	    <form name="loginFrm">
+	    <form id="loginFrm" name="loginFrm">
 	    <!-- Modal content-->
 	    <div class="modal-content" style="width: 100%; height: 400px; margin-top:5%;">
 	    	<div>
@@ -132,7 +136,6 @@
 	    </form>
 	</div>
 </div>   
-  
 <%-- ****** 회원가입 Modal ****** --%>
 <div class="modal fade" id="join" role="dialog">
     <div class="modal-dialog">
@@ -180,7 +183,7 @@
 				</form>
 				<button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
 				<div class="modal-footer" style="margin-top: 2%;">
-					<div class="join" style="font-size: 13pt;  text-align: center; onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
+					<div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
 				</div>
       		</div>
      		</div>
@@ -200,4 +203,17 @@
           	<div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
       	</div>
     </div>
+    <div class="col-md-3 calc"  style="margin-left: 7%;">
+		<c:set var="year" value="2019"></c:set>
+        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
+	        <option>년</option>
+	        <c:forEach var="i" begin="1900" end="${year}" step="1" >
+	        <option value="${year - i + 1900}">${year - i + 1900}</option>
+         	</c:forEach>
+        </select>
+    </div>
+    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
+    <div class="modal-footer" style="margin-top: 2%;">
+    	<div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
+    </div>    
 </div>

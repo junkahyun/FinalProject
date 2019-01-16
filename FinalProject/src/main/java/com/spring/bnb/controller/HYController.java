@@ -16,6 +16,9 @@ import com.spring.bnb.service.InterHYService;
 @Controller
 public class HYController {
 
+	//===== #35. ������ü �����ϱ�(DI:Dependency Injection)  =====
+
+
 	@Autowired
 	private InterHYService service; 
 
@@ -29,16 +32,22 @@ public class HYController {
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
+
+	}
+	
+	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
+	public String apiTest() {
+		return "apiTest.notiles";
+
 	}
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
 	public String hostMain() {
 		return "host/hostMain.hosttiles";
+
 	}
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
-		System.out.println(member.getUserid()+member.getPwd());
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
-		JSONObject jobj = new JSONObject();
 		if(loginuser==null) {
 			req.setAttribute("msg", "아이디와 비밀번호를 확인하세요");
 			req.setAttribute("loc", "javascript:history.back();");
@@ -46,10 +55,22 @@ public class HYController {
 		}
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
+			JSONObject jobj = new JSONObject();
+			jobj.put("logincheck", "true");
+			String str_json = jobj.toString();
+			req.setAttribute("str_json", str_json);
 			HttpSession session = req.getSession();
 			session.setAttribute("loginuser", loginuser);
 		}
 		return "JSON";
+	}
+	@RequestMapping(value = "/logout.air", method = RequestMethod.GET)
+	public String logout(HttpServletRequest req ,MemberVO member) {
+		HttpSession session = req.getSession();
+		session.removeAttribute("loginuser");
+		req.setAttribute("msg","로그아웃 되었습니다.");
+		req.setAttribute("loc","homeDetail.air");
+		return "msg";
 	}
 }
 

@@ -2,9 +2,7 @@
     pageEncoding="UTF-8"%>
 <script>
 $(document).ready(function(){
-	if(${msg !=null}){
-		alert("${msg}");
-	}
+	if(${msg !=null}) alert("${msg}");
 	location.href="${loc}";
 });
 </script>
