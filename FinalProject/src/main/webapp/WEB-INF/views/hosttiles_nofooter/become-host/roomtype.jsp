@@ -53,8 +53,8 @@
 
    $(document).ready(function(){
 
-	  $("#buildType").val("${buildType}");
-	  $("#buildType_detail").val("${buildType_detail}");  
+	  $("#buildType").val("${buildType}"); // 옵션값 hold
+	  $("#buildType_detail").val("${buildType_detail}"); // 옵션값 hold
 	  
       $("#guestroom").hide(); 
 
@@ -62,30 +62,31 @@
     	  $("#guestroom").show();
       });
       
-      // 건물타입 셀랙박스 
-      $("#buildType").change(function(){
-    	  
+      // 건물타입 (첫번째)셀랙박스 
+      $("#buildType").change(function(){ 
+
     	 // 건물유형선택 셀랙박스 선택가능하게
     	 $("#buildType_detail").attr("disabled", false);
 
     	  var buildType = $("#buildType").val();   	 
     	  var form_data = {"buildType":buildType};
- 		 
+    	  
  		  $.ajax({
 	 		 url:"roomtypeJSON.air",
 	 		 type:"GET",
 	 		 dataType:"JSON",
 	 		 data:form_data,
 	 		 success:function(json) {
-		 		 var result = "<option value='0' disabled>건물 유형 선택</option>";
-		 		 
-		 		 $.each(json, function(entryIndex, entry){
-		 			
-		 			 result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL_IDX+entry.BUILDTYPE_DETAIL_NAME+"</option>";
-		 		 });
-		 		 
-		 		 $("#buildType_detail").html(result);  
-	 		  
+	 			 
+	 		 var result = "<option value='0' disabled>건물 유형 선택</option>";
+	 		 
+	 		 $.each(json, function(entryIndex, entry){
+	 			
+	 			 result += "<option value="+entry.BUILDTYPE_DETAIL_IDX+">"+entry.BUILDTYPE_DETAIL_IDX+entry.BUILDTYPE_DETAIL_NAME+"</option>";
+	 		 });
+	 		 
+	 		 $("#buildType_detail").html(result); 
+
 	 		 },
 	 		 error: function(request, status, error){
 	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -93,11 +94,12 @@
 	 	 });// end of $.ajax({ --- 	
  			 
       });// $("#buildType").change(function()
-    		  
-    		  
-      $("#testbtn").click(function(){
-    	  $("#gobackURL").val("<%=MyUtil.getCurrentURL(request) %>");
-      });
+      
+     /*  $("#buildType_detail").change(function(){
+    	  alert($("#buildType_detail").val());
+
+      });	 */	  
+      
 
    });// $(document).ready(function()
 		   
@@ -144,7 +146,7 @@
 	                <div class="selecthead">건물 유형을 선택하세요</div>    
 	                <select id="buildType_detail" class="select" name="buildType_detail" style="width: 100%; padding: 9px;" disabled>  
 	                  	<option value="0">건물 유형 선택</option>
-	                </select>
+	                </select> 
 	            </div>
 	
 	            <div id="guestroom" >

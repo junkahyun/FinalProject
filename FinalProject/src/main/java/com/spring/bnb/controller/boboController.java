@@ -29,38 +29,54 @@ public class boboController {
 	@RequestMapping(value="/roomstap1.air", method={RequestMethod.GET})
 	public String roomstap1(HttpServletRequest req) {
 		
-		HttpSession session = req.getSession();
-		
+		// 세션에 입력값을 넣어서 한번에 insert하려고 RoomVO를 세션값에 저장
+		HttpSession session = req.getSession();		
 		RoomVO roomvo = new RoomVO();
 		session.setAttribute("roomvo", roomvo);
 		
 		return "become-host/room-stap1.hosttiles_nofooter";
 	}
+	
+	@RequestMapping(value="/roomstap1page.air", method={RequestMethod.GET})
+	public String roomstap1page(HttpServletRequest req) {
+		
+		// 옵션 hold를 위한 작업
+		String buildType = req.getParameter("buildType");
+		if(buildType == null) buildType="0";
+		req.setAttribute("buildType", buildType);
+		String buildType_detail = req.getParameter("buildType_detail");	
+		if(buildType_detail == null) buildType_detail="0";
+		req.setAttribute("buildType_detail", buildType_detail);
+		
 
-/*	@RequestMapping(value="/getcurrenturl.air", method={RequestMethod.GET})
-	public String getcurrenturl(HttpServletRequest req) {
-		String currenturl = MyUtil.getCurrentURL(req);
-		JSONObject jobj = new JSONObject();
-		jobj.put("currenturl", currenturl);
-		String str_jsonArr = jobj.toString();
-		req.setAttribute("str_jsonArr",str_jsonArr);
-		return "JSON";
-	}*/
+		List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
+		req.setAttribute("buildTypeList", buildTypeList);		
+
+		List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
+		req.setAttribute("roomtype", roomtype);
+		
+		return "become-host/room-stap1-page.hosttiles_nofooter";
+	}
+
 	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
 	public String roomtype(HttpServletRequest req) {	
 			
-			////////////////////////////////////////////////////
+			// 뒤로가기를 위한 작업
 			String currentURL = req.getRequestURL().toString();
-			System.out.println(currentURL);
 			req.setAttribute("currentURL", currentURL);
-			////////////////////////////////////////////////////
 
+
+			// 옵션 hold를 위한 작업
 			String buildType = req.getParameter("buildType");
 			if(buildType == null) buildType="0";
+			req.setAttribute("buildType", buildType);
+			String buildType_detail = req.getParameter("buildType_detail");	
+			if(buildType_detail == null) buildType_detail="0";
+			req.setAttribute("buildType_detail", buildType_detail);
+			
 
 			List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
-			req.setAttribute("buildTypeList", buildTypeList);
-			req.setAttribute("buildType", buildType);
+			req.setAttribute("buildTypeList", buildTypeList);		
 
 			List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
 			req.setAttribute("roomtype", roomtype);
@@ -72,10 +88,9 @@ public class boboController {
 	@RequestMapping(value="/roomtypeJSON.air", method={RequestMethod.GET})
 	public String roomtypeJSON(HttpServletRequest req) {
 		
-		String buildType_detail = req.getParameter("buildType_detail");
+		/*String buildType_detail = req.getParameter("buildType_detail");	
 		if(buildType_detail == null) buildType_detail="0";
-		
-		req.setAttribute("buildType_detail", buildType_detail);
+		req.setAttribute("buildType_detail_json", buildType_detail);*/
 		
 		String buildType = req.getParameter("buildType");
 
@@ -107,23 +122,20 @@ public class boboController {
 	@RequestMapping(value="/bedroom.air", method={RequestMethod.GET})
 	public String bedroom(HttpServletRequest req) {
 		
-		///////////////////////////////////////////////////
+		//뒤로가기를 위한 작업
 		String currentURL = req.getParameter("currentURL");
-		System.out.println(currentURL);
-		
+		//System.out.println(currentURL);		
 		String queryString = req.getQueryString();
-		System.out.println(queryString);
-		
+		//System.out.println(queryString);		
 		currentURL += "?" + queryString;
-		System.out.println(currentURL);
-		
+		//System.out.println(currentURL);		
 		req.setAttribute("currentURL", currentURL);
-		///////////////////////////////////////////////////
 		
-		String buildType = req.getParameter("buildType");
+		
 		String buildType_detail = req.getParameter("buildType_detail");
 		String room_type = req.getParameter("room_type");
 		
+		// RoomVO에 입력값 저장(나중에 한번에 insert하려고)
 		RoomVO roomvo = new RoomVO();
 		roomvo.setFk_buildType_detail_idx(buildType_detail);
 		roomvo.setFk_roomType_idx(room_type);

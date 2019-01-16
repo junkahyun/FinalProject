@@ -24,7 +24,7 @@
 
 	function start(){
 		var frm = document.roomstart;
-		frm.action = "roomtype.air";
+		frm.action = "roomstap1page.air";
 		frm.method = "GET";
 		frm.submit();
 	}
