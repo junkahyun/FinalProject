@@ -87,19 +87,21 @@ public class SHController {
 		String userid = req.getParameter("userid");
 		System.out.println("userid : "+userid);
 		
-		MemberVO membervo = service.getMemberDetail(userid);
-		System.out.println("membervo : "+membervo);
-	
-		List<HashMap<String, String>> reservation = service.getReservation(userid);
-		System.out.println("reservation : "+reservation);
+		if(userid != null) {
 		
-		List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);
-		System.out.println("mycoupon : "+mycoupon);
+			MemberVO membervo = service.getMemberDetail(userid);
+			System.out.println("membervo : "+membervo);
 		
-		req.setAttribute("membervo", membervo);
-		req.setAttribute("reservation", reservation);
-		req.setAttribute("mycoupon", mycoupon);
-		
+			List<HashMap<String, String>> reservation = service.getReservation(userid);
+			System.out.println("reservation : "+reservation);
+			
+			List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);
+			System.out.println("mycoupon : "+mycoupon);
+			
+			req.setAttribute("membervo", membervo);
+			req.setAttribute("reservation", reservation);
+			req.setAttribute("mycoupon", mycoupon);
+		}
 
 		return "admin/memberDetail.admintiles";
 	}
