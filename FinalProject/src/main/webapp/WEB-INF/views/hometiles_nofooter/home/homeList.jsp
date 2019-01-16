@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%
+	String ctxPath = request.getContextPath();
+%>
+
 <link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -53,16 +57,14 @@
 	 $(".option").click(function(){		 
 		 var $target = $(event.target);	
 		 
-		 if(!$target.hasClass("subjectstyle")){
-			
+		 if(!$target.hasClass("subjectstyle")){			
 			 $target.addClass("subjectstyle");	
 			 result += $target.text() + ",";
 			 $("#data").val(result);
 		 }
 		 else{			
 			 $target.removeClass("subjectstyle");			
-			 result -= $target.text();
-			 $("#data").val(result);			 
+			 			
 		 }
 	 });
 	 
@@ -126,9 +128,7 @@
              }
     	  });
     	  
-      });
-      
-      
+      });     
       
  });
  
@@ -178,10 +178,19 @@
         };
         window.onload = init;
     });
-   
+	
+	function goHomeDetail() {
+		
+		var frm = document.homeListFrm;
+		
+		frm.method = "GET";
+		frm.action = "<%=ctxPath%>/homeDetail.air";
+		frm.submit();
+	}
+    
 </script>
 <body>
-	<form>
+	<form name=homeListFrm>
 	<div id="optionSection" class="row menu">
 	
         <div id="optionLeft" class="col-md-5">
@@ -325,8 +334,8 @@
             <div class="row">
             <c:forEach items="${roomList}" var="RList">
                 <div class="col-md-4" style="margin-bottom: 2%;">               
-                    <div style="margin-bottom: 3%;">
-                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%;" />
+                    <div id="homeImg" style="margin-bottom: 3%;">
+                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; cursor: pointer;" onClick="goHomeDetail()" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em; font-weight: bold;">개인실 · 침대 2개</span>
@@ -344,6 +353,7 @@
             </c:forEach>
             </div>
         </div>
+      
     </div>
     </form>	
 </body>

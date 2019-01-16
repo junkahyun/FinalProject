@@ -109,6 +109,11 @@ public class SWController {
 		return "JSON";
 	}
 	
-	
+	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
+	public String reservation(HttpServletRequest req) {
+		
+		
+		return "hostPage/reservationList.hosttiles_nofooter";
+	}
 	
 }
