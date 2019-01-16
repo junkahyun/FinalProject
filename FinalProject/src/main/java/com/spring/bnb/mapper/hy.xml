@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <!-- ===== #28. mapper 기본 설정 ===== -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="hy">
+
 	<!-- roomcode를 통해 숙소정보 가져오기 -->
 	<select id="getRoomByCode" parameterType="String" resultType="com.spring.bnb.model.RoomVO">	
 		select*
@@ -68,3 +70,4 @@
 	</select>
 	
 </mapper>
+

@@ -16,6 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	<!-- Link CSS -->
+	<link rel="stylesheet" href="<%=ctxPath %>/resources/js/jquery-ui-1.12.1/jquery-ui.min.css">
 	<link rel="stylesheet" href="<%=ctxPath %>/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/main.css">
 	<!-- link shortcut icon -->
@@ -39,11 +40,28 @@
 		}
 	</style>
 	<!-- Link JS -->  
+	
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/bootstrap.min.js"></script>	
 	<script type="text/javascript">
 		$(document).ready(function(){
-
+			$("#startdate").datepicker({
+				dateFormat: "yy-mm-dd", 
+				minDate: 0, 
+				changeMonth : true,
+				changeYear : true,
+				monthNamesShort : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+				dayNamesMin :['일','월','화','수','목','금','토']
+			});
+			$("#enddate").datepicker({
+				dateFormat: "yy-mm-dd", 
+				minDate: 0, 
+				changeMonth : true,
+				changeYear : true,
+				monthNamesShort : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+				dayNamesMin :['일','월','화','수','목','금','토']
+			});
 
 		});
 
@@ -101,11 +119,11 @@
 						</div> 
 			         	<div class="col-md-3 check_in search_column_r">
 	            			<span class="icon_date" id="calendar_btn_s"></span>
-	                        <input class="ipt_search_r" type="text" id="startenddate" name="startenddate" value="체크인" size="10" readonly>	                      	
+	                        <input class="ipt_search_r" type="text" id="startdate" name="startenddate" value="체크인" size="10" readonly>	                      	
 				        </div>
 			         	<div class="col-md-3 check_out search_column_r">
 	            			<span class="icon_date" id="calendar_btn_s"></span>
-	                        <input class="ipt_search_r" type="text" id="startenddate" name="startenddate" value="체크아웃" size="10" readonly>	                      	
+	                        <input class="ipt_search_r" type="text" id="enddate" name="startenddate" value="체크아웃" size="10" readonly>	                      	
 				        </div>
 			         	<div class="col-md-2 search">
 			         		검색

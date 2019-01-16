@@ -13,6 +13,9 @@ import com.spring.bnb.service.InterHYService;
 @Controller
 public class HYController {
 
+	//===== #35. 의존객체 주입하기(DI:Dependency Injection)  =====
+
+
 	@Autowired
 	private InterHYService service; 
 
@@ -26,10 +29,18 @@ public class HYController {
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
+
+	}
+	
+	@RequestMapping(value = "/apiTest.air", method = RequestMethod.GET)
+	public String apiTest() {
+		return "apiTest.notiles";
+
 	}
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
 	public String hostMain() {
 		return "host/hostMain.hosttiles";
+
 	}
 
 }
