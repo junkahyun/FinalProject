@@ -100,7 +100,33 @@ select ROOMCODE, FK_USERID, FK_ROOMTYPE_IDX, ROOMNAME, ROOMMAINIMG, ROOMTEL, ROO
        ROOMSTATUS, ROOM_WARNCOUNT, FK_BUILDTYPE_DETAIL_IDX, ROOMINFO            
 from room
 order by roomcode desc;
+
+
+select *
+from room;
+
+select *
+from reservation;
+
+-- 메인페이지에서 추천 숙소 보여줄 7개 설정
+ select ROOMCODE, SCORE, ROOMMAINIMG, ROOMNAME, 
+from(
+    select distinct(roomcode) AS ROOMCODE, avg((correct+communicate+clean+position+checkin+value)) AS SCORE, roomMainImg, roomname, C.profileImg as profileImg, roomprice, rownum as RNO
+    from room A JOIN review B
+    on A.roomcode = B.fk_roomcode
+    join member C
+    on B.fk_userid = C.userid 
+    group by roomcode, (roomcode), roomcode, roomcode, roomcode, 
+    roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
+    rownum;
+)V
+
+
+
+
+
 desc room;
+
 
 
 

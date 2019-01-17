@@ -61,17 +61,20 @@ section#slider div.item > img {
 }
 div.navigation{
 	position: absolute;
-	top: 3%; 
+	top: 3%;  
 	z-index: 9999; 
 }
 div.navigation ul#util_menu{
 	float:right;
 }
 div.navigation ul#util_menu > li{ 
-	float:left;
-	color:#fff;
+	float:left; 
 	margin-top:20px;
 	margin-right: 20px;	
+}
+div.navigation ul#util_menu > li > a{
+	text-decoration: none;
+	color:#fff;
 }
 div.choose_A{
 	position: absolute;
@@ -120,6 +123,7 @@ div.choose_A .search{
 	background-color: #FF5A5F;
 	color:#fff;
 	text-align:center;
+	cursor : pointer;
 } 
 .icon_place, .icon_date{
     background: url(//jci.xiaozhustatic1.com/e19011001/images/icon_index.png) no-repeat;
