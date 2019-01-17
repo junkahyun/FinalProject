@@ -73,10 +73,7 @@ public class SHController {
 		List<MemberVO> searchMember = service.getSearchMember(paraMap);
 
 		req.setAttribute("searchMember", searchMember);
-		System.out.println("memberList : "+memberList);
-		System.out.println("searchMember : "+searchMember);
 		
-
 		return "admin/adminMember.admintiles";
 	}
 	
@@ -85,25 +82,32 @@ public class SHController {
 	public String memberDetail(HttpServletRequest req) {
 		
 		String userid = req.getParameter("userid");
-		System.out.println("userid : "+userid);
+		// System.out.println("userid : "+userid);
 		
 		if(userid != null) {
 			MemberVO membervo = service.getMemberDetail(userid);
-			System.out.println("membervo : "+membervo);
+			// System.out.println("membervo : "+membervo);
+			// System.out.println(membervo.getProfileimg());
 		
 			List<HashMap<String, String>> reservation = service.getReservation(userid);
-			System.out.println("reservation : "+reservation);
+			
+			// System.out.println("reservation : "+reservation);
 			
 			List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);
-			System.out.println("mycoupon : "+mycoupon);
+			// System.out.println("mycoupon : "+mycoupon);
 			
 			req.setAttribute("membervo", membervo);
 			req.setAttribute("reservation", reservation);
 			req.setAttribute("mycoupon", mycoupon);
 			
+			return "admin/memberDetail.admintiles";
+			
 		}
-
-		return "admin/memberDetail.admintiles";
+		
+		else {
+			return "admin/adminMember.admintiles";
+		}
+	
 	}
 	 
 	// 관리자 신고관리 페이지
