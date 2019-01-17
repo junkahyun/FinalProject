@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.boboService;
+import com.spring.common.MyUtil;
 
 
 @Controller
@@ -22,43 +25,64 @@ public class boboController {
 	
 	@Autowired
 	private boboService service;
-
-/*	
-    @RequestMapping(value="/newroom.air", method={RequestMethod.GET})
-	public String newroom() {
-		
-		return "become-host/newroom.hosttiles_nofooter";
-	}
-*/
 	
-	@RequestMapping(value="/roomstart.air", method={RequestMethod.GET})
-	public String roomstart(HttpServletRequest req) {
+	@RequestMapping(value="/roomstap1.air", method={RequestMethod.GET})
+	public String roomstap1(HttpServletRequest req) {
 		
-		List<String> roomtype = service.selectroomtype();
-		req.setAttribute("roomtype", roomtype);
-
-		return "become-host/roomstart.hosttiles_nofooter";
+		HttpSession session = req.getSession();
+		
+		RoomVO roomvo = new RoomVO();
+		session.setAttribute("roomvo", roomvo);
+		
+		return "become-host/room-stap1.hosttiles_nofooter";
 	}
-	
+
+/*	@RequestMapping(value="/getcurrenturl.air", method={RequestMethod.GET})
+	public String getcurrenturl(HttpServletRequest req) {
+		String currenturl = MyUtil.getCurrentURL(req);
+		JSONObject jobj = new JSONObject();
+		jobj.put("currenturl", currenturl);
+		String str_jsonArr = jobj.toString();
+		req.setAttribute("str_jsonArr",str_jsonArr);
+		return "JSON";
+	}*/
 	@RequestMapping(value="/roomtype.air", method={RequestMethod.GET})
-	public String roomtype(HttpServletRequest req) {
-		
-		List<HashMap<String, String>> buildType = service.selectbuildType();
-		req.setAttribute("buildType", buildType);
+	public String roomtype(HttpServletRequest req) {	
+			
+			////////////////////////////////////////////////////
+			String currentURL = req.getRequestURL().toString();
+			System.out.println(currentURL);
+			req.setAttribute("currentURL", currentURL);
+			////////////////////////////////////////////////////
 
-		return "become-host/roomtype.hosttiles_nofooter";
+			String buildType = req.getParameter("buildType");
+			if(buildType == null) buildType="0";
+
+			List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
+			req.setAttribute("buildTypeList", buildTypeList);
+			req.setAttribute("buildType", buildType);
+
+			List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
+			req.setAttribute("roomtype", roomtype);
+			
+			return "become-host/roomtype.hosttiles_nofooter";
+
 	}
 	
 	@RequestMapping(value="/roomtypeJSON.air", method={RequestMethod.GET})
 	public String roomtypeJSON(HttpServletRequest req) {
 		
-		String buildType = req.getParameter("buildType");
-		System.out.println(buildType);
+		String buildType_detail = req.getParameter("buildType_detail");
+		if(buildType_detail == null) buildType_detail="0";
 		
+		req.setAttribute("buildType_detail", buildType_detail);
+		
+		String buildType = req.getParameter("buildType");
+
 		JSONArray jsonArr = new JSONArray();
 		
 		if(buildType != null && !buildType.trim().isEmpty()) {
-			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);
+			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);// 건물세부유형 가져오기
 			
 			if(buildTypeList != null && buildTypeList.size() > 0) {
 				for(HashMap<String,String> map : buildTypeList) {
@@ -74,42 +98,36 @@ public class boboController {
 			
 		}
 		
-		String str_jsonArr = jsonArr.toString();
-		req.setAttribute("str_jsonArr", str_jsonArr);
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
 		
-		return "roomtypeJSON";
-		
-		/*List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
-		
-		if(buildType != null && !buildType.trim().isEmpty()) {
-			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);
-			
-			System.out.println(buildTypeList);
-			
-			if(buildTypeList != null && buildTypeList.size() > 0) {
-				for(HashMap<String,String> buildTypeMap : buildTypeList) {
-	
-					HashMap<String,Object> map = new HashMap<String, Object>();
-					
-					map.put("BUILDTYPE_DETAIL_IDX", buildTypeMap.get("BUILDTYPE_DETAIL_IDX"));
-					map.put("BUILDTYPE_DETAIL_NAME", buildTypeMap.get("BUILDTYPE_DETAIL_NAME"));
-					
-					mapList.add(map);
-		
-				}// end of for
-				
-				System.out.println(mapList);
-			}// end of if
-		}
-		
-		return mapList;*/
+		return "JSON";		
 	}
-	
-	
+		
 	@RequestMapping(value="/bedroom.air", method={RequestMethod.GET})
 	public String bedroom(HttpServletRequest req) {
 		
+		///////////////////////////////////////////////////
+		String currentURL = req.getParameter("currentURL");
+		System.out.println(currentURL);
 		
+		String queryString = req.getQueryString();
+		System.out.println(queryString);
+		
+		currentURL += "?" + queryString;
+		System.out.println(currentURL);
+		
+		req.setAttribute("currentURL", currentURL);
+		///////////////////////////////////////////////////
+		
+		String buildType = req.getParameter("buildType");
+		String buildType_detail = req.getParameter("buildType_detail");
+		String room_type = req.getParameter("room_type");
+		
+		RoomVO roomvo = new RoomVO();
+		roomvo.setFk_buildType_detail_idx(buildType_detail);
+		roomvo.setFk_roomType_idx(room_type);
+			
 		return "become-host/bedroom.hosttiles_nofooter";
 	}
 	
