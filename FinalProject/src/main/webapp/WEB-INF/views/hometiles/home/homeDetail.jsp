@@ -13,9 +13,6 @@
 			if($( document ).scrollTop() > obj.top){
 				$("#").addClass("followDiv");
 			}
-			/* else if($( document ).scrollTop() - $("#followHY").height() > objEnd.top){
-				alert();
-			} */
 			else{
 				$("#followHY").removeClass("followDiv");
 			}
