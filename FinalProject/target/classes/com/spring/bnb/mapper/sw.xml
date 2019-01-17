@@ -44,5 +44,11 @@
 		from room
 		<!-- where roomsigungu like '%'||#{roomsigungu}||'%' -->
 	</select>
+	
+	<select id="getReservationList" resultType="com.spring.bnb.model.ReservationVO" parameterType="String"> 
+		select rsv_name, to_char(rsv_checkindate, 'yyyy-mm-dd') AS rsv_checkindate, to_char(rsv_checkoutdate, 'yyyy-mm-dd') AS rsv_checkoutdate, rsv_phone, guestcount, babycount, rsv_email
+		from reservation     
+		where fk_userid = #{userid}
+	</select>
 
 </mapper>

@@ -1,6 +1,5 @@
 package com.spring.bnb.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSWService;
 
@@ -37,15 +37,15 @@ public class SWController {
 		
 		/*req.setAttribute("testList", testList);*/
 		
-		// �ǹ�����(��)
+		// 숙소유형(대)
 		List<String> buildList = service.getBuildList();		
-		// �ɼ�
+		// 옵션종류
 		List<String> optionList = service.getOptionList();
-		// ��������
+		// 방종류
 		List<String> roomType = service.getRoomType();
-		// ���� �̿��Ģ
+		// 이용규칙
 		List<String> roomRule = service.getRoomRule();
-		// ���� ����Ʈ �ҷ�����
+		// 숙소유형(소)
 		List<RoomVO> roomList = service.getRoomList();
 	
 		req.setAttribute("buildList", buildList);
@@ -88,7 +88,7 @@ public class SWController {
 		
 		JSONArray jsonArr = new JSONArray();  
 		
-		List<String> buildDetailName = service.getBuildDetailList(buildName1);;
+		List<String> buildDetailName = service.getBuildDetailList(buildName1);
 		
 		for(String test : buildDetailName) {
 			
@@ -112,9 +112,14 @@ public class SWController {
 	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
 	public String reservation(HttpServletRequest req) {
 		
-		/*String userid = req.getParameter("userid");
+		String userid = "leess";
 		
-		List<HashMap<String, String>> reservationList = service.getReservationList(userid);*/
+		List<ReservationVO> reservationList = service.getReservationList(userid);
+		
+		req.setAttribute("userid", userid);
+		req.setAttribute("reservationList", reservationList);
+		
+		System.out.println(userid);
 		
 		return "hostPage/reservationList.hosttiles_nofooter";
 	}

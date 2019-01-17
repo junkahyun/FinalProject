@@ -96,10 +96,11 @@
 <body>
 
   <div id='calendar'>
-  	<c:forEach items="" var="">
-	  	<input type="text" id="client" />
-	  	<input type="text" id="checkindate" />
-	  	<input type="text" id="checkoutdate" />
+  	<c:forEach items="${reservationList}" var="rsv">
+	  	<input type="text" id="client" value="${rsv.rsv_name}"/>
+	  	<input type="text" id="checkindate" value="${rsv.rsv_checkInDate}" />
+	  	<input type="text" id="checkoutdate" value="${rsv.rsv_checkOutDate}" />
+	  	<input type="text" id="phone" value="${rsv.rsv_phone}" />
   	</c:forEach>  	
   </div>
 

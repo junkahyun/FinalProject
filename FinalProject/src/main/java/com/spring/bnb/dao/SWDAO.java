@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 
 
@@ -61,6 +62,14 @@ public class SWDAO implements InterSWDAO {
 		List<RoomVO> roomList = sqlsession.selectList("sw.getRoomList");
 		
 		return roomList;
+	}
+
+	@Override
+	public List<ReservationVO> getReservationList(String userid) {
+
+		List<ReservationVO> reservationList = sqlsession.selectList("sw.getReservationList", userid);
+		
+		return reservationList;
 	}
 
 	
