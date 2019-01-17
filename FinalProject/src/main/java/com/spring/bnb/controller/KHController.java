@@ -43,9 +43,9 @@ public class KHController {
 		roomcode = "10";
 		host_userid = "leess";
 		
-		HashMap<String,String> map = new HashMap<String,String>();
+		/*HashMap<String,String> map = new HashMap<String,String>();
 		map.put("roomcode", roomcode);
-		map.put("host_userid", host_userid);
+		map.put("host_userid", host_userid);*/
 		
 		//RoomVO oneRoom = service.getOneRoomInfo(map);
 		
@@ -55,9 +55,6 @@ public class KHController {
 		
 		// *** 숙소 옵션 가져오는 메소드 *** //
 		List<HashMap<String,String>> roomoption = service.getRoomOptions();//호스트아이디,숙소코드 파라미터로 넘기기
-		
-		RoomVO roomvo = new RoomVO();
-		roomvo.setOptionList(roomoption);
 		
 		// *** 숙소 리뷰 가져오는 메소드 *** //
 		int reviewCount = service.getReviewCount();
