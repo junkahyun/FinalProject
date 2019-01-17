@@ -32,5 +32,12 @@ public class SOService implements InterSOService{
 		int n = dao.memberUpdate(member);
 		return n;
 	}
+	
+	//나의 예약 내역 가져오기
+	@Override
+	public MemberVO getMemberReservation(String loginuser) {
+		MemberVO memberReservation = dao.getMemberReservation(loginuser);
+		return memberReservation;
+	}
 
 }

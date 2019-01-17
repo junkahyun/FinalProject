@@ -35,7 +35,6 @@ public class loginCheck {
 	         
 	      HttpServletResponse response = (HttpServletResponse)joinPoint.getArgs()[1];
 	      
-	      session.setAttribute("loginuser", "leess");
 	      
 	      try {
 	         if(session.getAttribute("loginuser") == null) {

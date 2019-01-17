@@ -3,14 +3,20 @@ package com.spring.bnb.controller;
 import java.util.*;
 
 import javax.mail.PasswordAuthentication;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.service.InterSOService;
@@ -36,6 +42,10 @@ public class SOController {
 		//임시 유저아이디
 		String loginuser = "leess"; 
 		//
+		
+		HttpSession session = req.getSession();
+
+
 		String date = MyUtil.getNowTime();
 	
 		List<HashMap<String,String>> myCoupon = service.getMyCoupon(loginuser);
@@ -44,10 +54,9 @@ public class SOController {
 		req.setAttribute("date", date);
 		return "mypage/myCoupon.hometiles";
 	}
+
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
-	public String myEdit(HttpServletRequest req,HttpServletResponse res) {
-		
-		
+	public String myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		
 		//로그인 유저 만들기
 		String loginuser = "leess";
 		////////////////////////
@@ -93,10 +102,7 @@ public class SOController {
 			req.setAttribute("myInfo", myInfo);
 			
 			return "mypage/myEdit.hometiles";
-		}
-		
-
-		
+		}	
 	}
 	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)
 	public String verifyCertification(HttpServletRequest req,HttpServletResponse res) {
@@ -137,7 +143,13 @@ public class SOController {
 	
 	session.removeAttribute("certificationCode");
 	//sesseion 의 저장된어진 인증코드를 삭제한다
-	return "msg";
+	JSONObject jobj = new JSONObject();
+	
+	jobj.put("ok", "ok");
+	String str_json = jobj.toString();
+	req.setAttribute("str_json", str_json);
+	
+	return "JSON";
 
 }
 	@RequestMapping(value = "/sendCode.air", method = RequestMethod.POST)
@@ -151,7 +163,7 @@ public class SOController {
 		System.out.println(userid);
 		System.out.println(email);
 		System.out.println(method);
-		if("POST".equalsIgnoreCase(method)) {
+		//if("POST".equalsIgnoreCase(method)) {
 
 		//회원 으로 존재하는 경우
 		GoogleMail gmail = new GoogleMail();
@@ -195,33 +207,39 @@ public class SOController {
 			req.setAttribute("userid", userid);
 			req.setAttribute("email", email);
 
-	
-		}
+	//}
+			JSONObject jobj = new JSONObject();
+			jobj.put("ok", "ok");
+			String str_json = jobj.toString();
+			req.setAttribute("str_json", str_json);
 		req.setAttribute("method",method);
-		return "/mypage/myEdit.hometiles";
+		return "JSON";
+
 	}
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
-	public String myEditEnd(HttpServletRequest req,HttpServletResponse res) {
+	public String myEditEnd(MemberVO membervo, MultipartHttpServletRequest req, MultipartRequest mtreq) {
 		String method = req.getMethod();
 		
-		if(!"POST".equals(method)) {
-/*			String msg="비정상적인 경로입니다.";
+	/*	if(!"POST".equals(method)) {
+			String msg="비정상적인 경로입니다.";
 			String loc="javascript:history.back();";
 			
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);
-			return "msg";*/
+			return "msg";
 		}else {
-			
-			String profileimg = req.getParameter("profileimg");
+			HttpSession session = req.getSession();
+			ServletContext sclCtx = session.getServletContext();
+			String imagesDir = sclCtx.getRealPath("/images");
+			System.out.println("첨부되어지는 이미지 파일이 올라가는 절대 경로 : "+imagesDir);
+				
+			String profileimg = mtreq.getFileNames("profileimg");
 			String email = req.getParameter("email");
 			String phone = req.getParameter("phone");
-			String month = req.getParameter("month");
-			String day = req.getParameter("day");
-			String year = req.getParameter("year");			
 			String introduction = req.getParameter("introduction");
-			String birthday = year+"-"+month+"-"+day;
-			
+			String post = req.getParameter("post");
+			String addr = req.getParameter("addr");
+			String addrDetail = req.getParameter("addrDetail");
 			MemberVO member = new MemberVO();
 			
 			member.setProfileimg(profileimg);
@@ -231,22 +249,36 @@ public class SOController {
 			member.setIntroduction(introduction);
 		
 			int n = service.memberUpdate(member);
-			
-			if(n==1) {
-				
-			}else {
-				
-			}
+
 		}
 		
-		
-		return"mypage/myEdit.hometiles";
+		*/
+		return"mypage/myEdit.hometiles"; 
 	}
 
+
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
-	public String myReservation() {
+	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
+		
+		HttpSession session = req.getSession();
+		String loginuser = (String)session.getAttribute("loginuser");
+		
+		req.setAttribute("loginuser", loginuser);
 		return "mypage/myReservation.hometiles";
 	}
+
+	@RequestMapping(value = "/myReservationInfo.air", method = RequestMethod.POST)
+	public String myReservationInfo(HttpServletRequest req, HttpServletResponse res) {
+		String loginuser = req.getParameter("loginuser");
+		MemberVO member = new MemberVO();
+		
+		//회원 예약 내용 가져오기
+		member = service.getMemberReservation(loginuser);
+		
+		req.setAttribute("loginuser", loginuser);
+		return "mypage/myReservation.hometiles";
+	}
+	
 	@RequestMapping(value = "/myReservationCancelDetail.air", method = RequestMethod.GET)
 	public String myReservationCancelDetail() {
 		return "mypage/myReservationCancelDetail.hometiles";

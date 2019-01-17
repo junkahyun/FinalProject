@@ -28,5 +28,10 @@
 	where memberstatus =1 and userid = #{loginuser}
 </select>
 
+<select id="getMemberReservation" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
+	
+
+</select>
+
 
 </mapper>	

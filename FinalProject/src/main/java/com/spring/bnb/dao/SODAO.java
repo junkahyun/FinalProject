@@ -32,11 +32,19 @@ public class SODAO implements InterSODAO {
 		MemberVO myInfo = sqlsession.selectOne("cso.getMyInfo", loginuser);
 		return myInfo;
 	}
+	
 	// 나의 정보수정 하기
 	@Override
 	public int memberUpdate(MemberVO member) {
 		int n = sqlsession.update("cso.memberUpdate",member);
 		return n;
+	}
+	
+	//나의 예약 내역 가져오기
+	@Override
+	public MemberVO getMemberReservation(String loginuser) {
+		MemberVO memberReservation = sqlsession.selectOne("cso.getMemberReservation",loginuser);
+		return memberReservation;
 	}
 
 

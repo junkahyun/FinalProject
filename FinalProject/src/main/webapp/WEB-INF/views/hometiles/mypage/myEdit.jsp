@@ -5,7 +5,6 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%= ctxPath %>/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -50,12 +49,17 @@
 height: auto; }
 
 </style>
-<script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
+<script type="text/javascript" src="<%= ctxPath %>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script> 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
- 	$("#showInputPhone").hide(); 
+ 	$("#showInputPhone").hide();
+ 	$("#addCode").hide();
+ 	$("#emailHide").hide();
+ 	
+ 	
+ 	
  	$(".error").hide();	
 	
 	//appendMonth();
@@ -129,8 +133,7 @@ function showPhone(){
 	$("#showInputPhone").show();
 	
 }
-function editInfo(){
-	
+function editInfo(){	
 	var frm = document.editFrm;
 	frm.method="POST";
 	frm.action="myEditEnd.air";
@@ -156,20 +159,9 @@ function emailCodeCheck() {
  		}
 		else {
 			$("#emailCheckCode").parent().parent().find(".error").hide();			
-	<%-- 		var frm=document.sendCode;
-			frm.changeEmail.value = $("#changeEmail").val();
+			var changeEmail = $("#changeEmail").val();
 			
-			frm.action="<%= ctxPath %>/sendCode.air";
-			
-			var html ="";
-			html = "<div style='border:1px solid lightgray; margin:5%; padding-right:10%'><input type='text' id='input_confirmCode'/></div>"+
-				   "<div><button class='btn' id='codeCheckBtn' type='button' onClick='codeCheckFun();'>인증코드 확인하기</button><div>";
-					
-			$("#addCode").html(html);
-			frm.submit();  --%>
-			/*	var changeEmail = $("#changeEmail").val();
-			
-			var form_data={"changeEmail":"changeEmail"};
+			var form_data={"changeEmail":changeEmail};
 			
  			$.ajax({
 				url:"sendCode.air",
@@ -177,36 +169,33 @@ function emailCodeCheck() {
 				data:form_data,
 			    dataType:"JSON",
 			    success:function(json){
-					var html ="";
-					html = "<div style='border:1px solid lightgray; margin:5%; padding-right:10%'><input type='text' id='input_confirmCode'/></div>"+
-						   "<div><button class='btn' id='codeCheckBtn' type='button' onClick='codeCheckFun();'>인증코드 확인하기</button><div>";
-							
-					$("#addCode").html(html);
+						$("#addCode").show();
 			    },error:function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			    	
 			    }
-			}); */ 
-			
+			}); 	
 		} 
-		 
-		
-	
 	}
-/* 	$.ajax({
-		url:"emailCodeSend.air",
-		
-	}); */
 }
 function codeCheckFun() {
 	//인증코드 확인 화면에서의 인증코드 확인 버튼
-	var frm  = document.verifyCertificationFrm;
- 	frm.userid.value = $("#useridConfirm").val();  
- 	frm.userCertificationCode.value = $("#input_confirmCode").val();
-	frm.action = "<%= ctxPath %>/verifyCertification.air"
-	frm.method = "POST";
-	frm.submit();
-	
+		var form_data = {"userCertificationCode":$("#input_confirmCode").val()};
+		$.ajax({
+			url:"verifyCertification.air",
+			data:form_data,
+		    dataType:"JSON",
+		    success:function(json){
+		    	$("#addCode").hide();		    	
+		    	$("#addComment").html("<input style='border : none;' value='인증되었습니다!' readOnly/>");
+		    	$("#emailCheckCode").hide();
+					
+		    },error:function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		    	
+		    }
+			
+		});
 	
 }
 </script>
@@ -236,7 +225,7 @@ function codeCheckFun() {
 <!--  사이드바끝 -->  
     <div class="col-md-6">
      <div id="dashboard-content">
-	  <form name="editFrm">
+	  <form name="editFrm" enctype="Multipart/form-data">
 	   <div class="panel space-4">
 	   <!--  상단 DIV 건들지 말기! -->
 		 <div class="panel-header">
@@ -291,39 +280,9 @@ function codeCheckFun() {
 					생년월일 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 		        </label>
 	        <div class="col-sm-9">	          
-	       <%--  <fieldset>
-	          <legend class="screen-reader-only">생년월일</legend>
-	          <div class="select">
-	            <select aria-label="월" id="month" name="month">
-	            	<option value="">월</option>
-            		<c:forEach varStatus="status" begin="1" end="12">
-	            			<option value="${status.count}">${status.count}월</option>
-	            	</c:forEach>
-	            </select>					
-	          </div>
-	          <div class="select">
-	            <select aria-label="일" id="day" name="day">
-				 <option value="">일</option>
-				 <c:forEach varStatus="status" begin="1" end="31">
-				 	<option value="${status.count}">${status.count}일</option>
-				 </c:forEach>
-				
-				</select>	
-	          </div>
-	          <div class="select">
-	            <select aria-label="년" id="year" name="year">
-					<option value="">년</option>
-					<c:forEach var="i" begin="1" end="2019" step="1">
-						<c:set var="j" value="${2019-i+1}"></c:set>
-							<option value="${j}">${j}년</option>		
-						</c:forEach>					
-					</select>	
-	          </div>
-	        </fieldset>	 --%>
-	        	<input type="text" id="birthday" name="birthday" style="width:100%;border: none;" value="${birthdayYY}년 ${birthdayMM}월  ${birthdayDD}일" readOnly/>
+	          	<input type="text" id="birthday" name="birthday" style="width:100%;border: none;" value="${birthdayYY}년 ${birthdayMM}월  ${birthdayDD}일" readOnly/>
 	          <div class="text-muted space-top-1">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>
-	        </div>
-	        
+	        </div>	        
 	      </div>
 			<!--  생년월일 끝-->
 			<!--  이메일 주소 DIV 시작 -->
@@ -338,7 +297,7 @@ function codeCheckFun() {
 		        </div>
 		    </div>
 		    <!--  이메일 주소 인증받기 시작! -->
-		          	<div class="row row-condensed space-4 emailChange">
+		          	<div class="row row-condensed space-4 emailChange" id="emailHide">
 		          		<div class="col-sm-3"></div>
 		          		 <div class="col-sm-9" id="showInputEmail">
 			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055">
@@ -351,6 +310,7 @@ function codeCheckFun() {
 					                				<div>
 					                					<strong>이메일 변경하기</strong>
 					                					<div style="margin-bottom: 16px;">이 메일주소로 인증코드를 보내드립니다.</div> 
+						                					
 						                					<div class="pniw-number-container">  
 						                						<input type="text" id="changeEmail" style="width: 70%" >
 						                						<span class="error" style="color: blue; font-size: 12px;">이메일 형식에 맞게 입력하세요.</span>
@@ -358,9 +318,13 @@ function codeCheckFun() {
 							                				<div style="margin-top: 16px;">
 							                					<button type="button" class="btn btn-primary" id="emailCheckCode" style="margin: 2%;" onClick="emailCodeCheck();">인증코드 보내기</button>
 							                				</div> 
-						                				<form name="verifyCertificationFrm">
-						                					<div id="addCode"></div>
-														</form>
+						                				
+						                					<div id="addCode">
+						                						<div style="margin:5%; padding-right:10%"><input type="text" name="input_confirmCode" id="input_confirmCode"/></div>
+						   										<div><button class="btn" id="codeCheckBtn" type="button" onClick="codeCheckFun();">인증코드 확인하기</button></div>
+						                					</div>
+						                					</div>
+						                					<div id="addComment"></div>														
 													</div>
 												</div>
 											</div>
@@ -495,6 +459,7 @@ function codeCheckFun() {
    </div><!-- 3번 div -->
  </div> <!-- 2번 div -->
 </div> <!-- 1번 div -->
+<form name="verifyCertificationFrm"><input type="hidden" name="userCertificationCode" /></form>
 <form name="sendCode">
 	<input type="hidden" name="changeEmail" />
 </form> 
