@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <script>
+
 	function goLogin(){
 		form_data = $("#loginFrm").serialize();
 		$.ajax({
@@ -86,6 +89,7 @@
           reader.readAsDataURL(input.files[0]);
         }
     }
+
 </script>
 <div>   
    <div id="header">
@@ -115,6 +119,7 @@
             <div class="headermenu" onClick="goRegistHost();">숙소추가</div>
             <div class="headermenu" onClick="goHostMain();">호스트</div>
             </c:if>
+
             <div class="headermenu dropdown resize1" onClick="myLikeRoomList();">
             	<div class="dropdown-toggle" data-toggle="dropdown">저장목록</div>
             	<ul class="dropdown-menu dropdown-menu-right">
@@ -124,9 +129,11 @@
 			      	</div>
 			      </li>
 			    </ul>
+
             </div>
             <div class="headermenu" onClick="">메세지</div>
             <div class="headermenu" onClick="">도움말</div>
+
             <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
             	<div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
             		<img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
@@ -136,6 +143,7 @@
 			      <li class="profileDrop" style="border-top:1px solid lightgray;" onClick="goLogout();">로그아웃</li>
 			      <li class="profileDrop" onClick="goMypage();">마이페이지</li>
 			    </ul>
+
             </div>
          </div>
          </c:if>
@@ -176,6 +184,7 @@
 <%-- ****** 회원가입 Modal ****** --%>
 <div class="modal fade" id="join" role="dialog">
     <div class="modal-dialog">
+
     	<form name="joinFrm" enctype="multipart/form-data">
         <!-- Modal content-->
         	<div class="modal-content" style="width: 100%;padding:0;">
@@ -239,6 +248,7 @@
 	</div>
 </div> 
 
+
 <%-- ****** 비밀번호찾기 Modal ****** --%>
 <div class="modal fade" id="pwdfind" role="dialog">
 	<div class="modal-dialog">
@@ -254,6 +264,7 @@
       	</div>
     </div>
     <div class="col-md-3 calc"  style="margin-left: 7%;">
+
 		<c:set var="year" value="2019"></c:set>
         <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
 	        <option>년</option>
@@ -261,9 +272,16 @@
 	        <option value="${year - i + 1900}">${year - i + 1900}</option>
          	</c:forEach>
         </select>
+<<<<<<< HEAD
     </div>
+=======
+
+    </div>
+
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
     <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
     <div class="modal-footer" style="margin-top: 2%;">
     	<div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
     </div>    
 </div>
+
