@@ -285,8 +285,7 @@ public class MyUtil {
 		
 		return currentURL;
 	}// end of static String getCurrentURL()-----------------------------------
-	
-	
+
 		
 }
 
