@@ -30,43 +30,35 @@
  
  $(document).ready(function(){
 	 
-	 // 옵션 클릭시 스타일 주기
-	/*  flag = false;
-	 var result = "";
-	 $(".option").click(function(){
-		 if(!flag){
-			 var $target = $(event.target);
-			 $target.addClass("subjectstyle");	
-			 flag = true; 
-			 if($target.hasClass("subjectstyle")){ 
-				 result += $target.text();
-				 $("#data").val($target.text());
-			 }
-		 }
-		 else{
-			 var $target = $(event.target);
-			 $target.removeClass("subjectstyle");	
-			 flag = false;
-			 if(!$target.hasClass("subjectstyle")){
-				 $("#data").val("");
-			 }
-		 }
-	 });	  */
-	 
-	 var result = "";
+	 // 옵션 클릭시 스타일 주기	
 	 $(".option").click(function(){		 
 		 var $target = $(event.target);	
-		 
+		 		 
 		 if(!$target.hasClass("subjectstyle")){			
-			 $target.addClass("subjectstyle");	
-			 result += $target.text() + ",";
-			 $("#data").val(result);
+			 $target.addClass("subjectstyle");				
 		 }
 		 else{			
-			 $target.removeClass("subjectstyle");			
-			 			
-		 }
-	 });
+			 $target.removeClass("subjectstyle");
+		 }		 
+
+		 var result = "";
+		 $(".subjectstyle").each(function(event){
+			 var has = $(this).hasClass("subjectstyle");
+			 if(has){
+				 result += $(this).text() + ",";
+			 }			
+		 });
+		/* alert(result);
+		$("#data").val(result); */
+		var jbString = result;
+		var jbSplit = jbString.split(',');
+				
+		for(var i in jbSplit){
+			if(jbSplit[i] != ""){				
+			//	alert(jbSplit[i]);					
+			}				
+		}		
+	 });	
 	 
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#city").change(function(){
@@ -172,7 +164,17 @@
                 labels: true,
                 width: "1700",
 				tooltip:true,
-                onChange: function (vals) {                    
+                onChange: function (vals) {          
+                //	alert(vals);
+                	var jbString = vals
+            		var jbSplit = jbString.split(',');
+            				
+            		for(var i in jbSplit){
+            			if(jbSplit[i] != ""){				
+            			//	alert(jbSplit[i]);
+            				
+            			}				
+            		}		
                 }
             });
         };
@@ -206,7 +208,8 @@
             	<span class="optionname">날짜</span>
             	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;">~
             	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;">   
-            	<c:forEach items="${roomList }" var="RList">
+            	<c:forEach items="${roomList }" var="RList" varStatus="status">
+            		<input type="hidden" id="cnt" value="${status.index}" />
             		<input type="hidden" id="lat" class="lat" value="${RList.latitude }" />
             		<input type="hidden" id="lng" class="lng" value="${RList.longitude }" />
             	</c:forEach>       	
@@ -224,7 +227,7 @@
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
-            	<input type="text" id="data" />
+            	<input type="hidden" id="data"/>
             	
             </div>        
            
@@ -233,7 +236,7 @@
         <div id="optionRight" class="col-md-7">
         
         	<div class="optionbox">
-        		<span class="optionname">건물 유형</span>
+        		<span class="optionname" style="margin-right: 4%;">건물 유형</span>
         		<select id=buildName1 name="buildName1" style="border-right: 1px solid gray; margin-left: 5%; height: 80%;">
             		<option value="">:::선택하세요:::</option>
             		<c:forEach items="${buildList}" var="buildName">	            	
@@ -247,18 +250,20 @@
         	</div>
             
             <div class="optionbox">            	
-            	<span class="optionname">임대 유형</span>
+            	<span class="optionname" style="margin-right: 9%;">임대 유형</span>
             	<c:forEach items="${roomType}" var="room">
-            		<span class="buildType option" style="margin-left: 5%; cursor: pointer;">${room}</span>&nbsp;
+            		<span class="buildType option" style="margin-right: 11.5%; cursor: pointer;">${room}</span>&nbsp;
             	</c:forEach>              	                  	
             </div>
             
             <div class="optionbox" id="service">
-            	<span class="optionname">고객 편의</span>
-            	<c:forEach items="${optionList}" var="option" varStatus="status">  					
-            		<span class="option" style="margin-left: 5%; cursor: pointer;">${option}</span>&nbsp;
-            		<c:if test="${status.index == 5 }"><br/><span style="margin-left: 6.3%;"></span></c:if>
-            	</c:forEach>            	
+            	<div class="row" style="padding:0;width:100%;">
+	            	<div class="optionname col-md-2">고객 편의</div>
+            		<c:forEach items="${optionList}" var="option" varStatus="status">  			
+            		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
+            		<div class="option col-md-2" style="margin:0;padding:0; cursor: pointer;">${option}</div>
+            		</c:forEach>  
+            	</div>          	
             </div> 
                         
         </div>
@@ -303,8 +308,10 @@
 		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
 		           
 		           // 마커가 표시될 위치입니다 
-		           var markerPosition  = new daum.maps.LatLng(document.getElementById('lat').value, document.getElementById('lng').value); 
-
+		           var markerPosition = "";
+		           for(var i=0; i<1; i++ ){
+		           		markerPosition  = new daum.maps.LatLng(document.getElementById('lat').value, document.getElementById('lng').value); 
+		           }
 		           
 		           /* document.getElementById('lat').value, document.getElementById('lng').value */
 		           

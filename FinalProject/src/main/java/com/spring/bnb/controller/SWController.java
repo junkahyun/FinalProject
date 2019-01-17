@@ -1,6 +1,6 @@
 package com.spring.bnb.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,15 +37,15 @@ public class SWController {
 		
 		/*req.setAttribute("testList", testList);*/
 		
-		// °Ç¹°À¯Çü(´ë)
+		// ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)
 		List<String> buildList = service.getBuildList();		
-		// ¿É¼Ç
+		// ï¿½É¼ï¿½
 		List<String> optionList = service.getOptionList();
-		// ¼÷¼ÒÀ¯Çü
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<String> roomType = service.getRoomType();
-		// ¼÷¼Ò ÀÌ¿ë±ÔÄ¢
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ä¢
 		List<String> roomRule = service.getRoomRule();
-		// ¼÷¼Ò ¸®½ºÆ® ºÒ·¯¿À±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<RoomVO> roomList = service.getRoomList();
 	
 		req.setAttribute("buildList", buildList);
@@ -112,6 +112,9 @@ public class SWController {
 	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
 	public String reservation(HttpServletRequest req) {
 		
+		/*String userid = req.getParameter("userid");
+		
+		List<HashMap<String, String>> reservationList = service.getReservationList(userid);*/
 		
 		return "hostPage/reservationList.hosttiles_nofooter";
 	}

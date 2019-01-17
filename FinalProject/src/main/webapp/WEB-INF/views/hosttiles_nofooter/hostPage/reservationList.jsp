@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link rel='stylesheet' href='<%=request.getContextPath() %>/resources/css/fullcalendar.min.css' />
 <script src='<%=request.getContextPath() %>/resources/js/jquery.min.js'></script>
@@ -94,6 +95,12 @@
 
 <body>
 
-  <div id='calendar'></div>
+  <div id='calendar'>
+  	<c:forEach items="" var="">
+	  	<input type="text" id="client" />
+	  	<input type="text" id="checkindate" />
+	  	<input type="text" id="checkoutdate" />
+  	</c:forEach>  	
+  </div>
 
 </body>
