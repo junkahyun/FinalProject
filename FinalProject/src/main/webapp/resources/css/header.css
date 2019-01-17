@@ -70,3 +70,75 @@ html{
 	padding: 12px 18px;
 	float:left;
 }
+<<<<<<< HEAD
+.round-button{ 
+    width: 60px; 
+    height: 60px; 
+    text-decoration: none; 
+    display: inline-block; 
+    outline: none; 
+    cursor: pointer; 
+    border-style: ridge; 
+    color: black; 
+    background-color: white; 
+    border-radius: 100%; 
+    overflow: none; 
+    text-align: center; 
+    font-size: 14pt;
+    margin-left: 5%;
+    margin-top: 5%;
+    }
+
+.calc{border: 1px solid lightgray;
+	  height: 46px;
+	  border-radius: 10px;
+	  margin-left: 5%;
+	  
+	   }
+=======
+.hoverBottomHY{
+	border-bottom: 1px solid lightgray;
+	margin:2%;
+}
+.hoverBottomHY:hover{
+	border-bottom: 1px solid black;
+}
+.profileDrop{
+	margin:0;
+	width: 100%;
+	padding: 5% 3%;
+}
+.profileDrop:hover{
+	background-color: rgba(210,210,210,0.8);
+}
+.resize1>.dropdown-menu{
+	width:300px;
+	position: absolute;
+  	right: 0 !important;
+}
+.test>div{
+	border: 1px solid red;
+}
+.resize2>.dropdown-menu{
+	width: 80px;
+	padding:0;
+}
+.registInput{
+	font-size: 12pt; 
+	margin-top: 2%; 
+	border: 1px solid rightgray;  
+	margin-left:5%;
+	width: 90%; 
+	height: 40px; 
+	border-radius: 10px;
+	padding:0;
+}
+.registBirthInput{
+	border:solid;
+	overflow:scroll;
+	margin-left: 5%;
+	border: 1px solid lightgray;
+	width:100%;
+	height:40px;
+}
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
