@@ -165,34 +165,43 @@ h3{font-size: 14pt;
 		
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<%-- <c:if test="${reviewCount > 10 || }">
-				
-				
-				</c:if> --%>
-				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
-				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-				      숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 
-				   1박 이상의 예약이 곧 마감될 수 있습니다.
-			    </div>
+				<c:if test="${oneRoom.roomPrice < avgPrice }">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-oneRoom.roomPrice}" pattern="#,###" />저렴합니다.
+				    </div>
+				</c:if>
+				<c:if test="${oneRoom.viewcount > 10}">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/흔치않은기회.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
+				    </div>
+				</c:if>
+				<%-- <c:if test="${oneRoom.viewcount > 10}">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+				    </div> 
+			    </c:if> --%>
 			</div>
 		</div>
 		<br>
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >${roomList.roomsigungu} ${(day+7)-day}박</h3>
+		<h3 >${oneRoom.roomSigungu} ${(day+7)-day}박</h3>
 		<br>
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
 			<div class="chekdate">체크인:수요일 <br>
-			${roomList.checkintime}:00시 이후</div>
+			${oneRoom.checkInTime}:00시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
 			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
 			<div class="chekdate">체크아웃:수요일 <br>
-				<c:if test="${roomList.checkouttime != '00'}">
-					${roomList.checkouttime}:00시 까지
+				<c:if test="${oneRoom.checkOutTime != '00'}">
+					${oneRoom.checkOutTime}:00시 까지
 				</c:if>
-				<c:if test="${roomList.checkouttime == '00'}">
+				<c:if test="${oneRoom.checkOutTime == '00'}">
 				 	24:00시 까지 
 				</c:if>
 			</div>
@@ -208,9 +217,9 @@ h3{font-size: 14pt;
 		<br><br>
 		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>
 		<!-- 주의할사항 이미지 -->
-		<c:forEach var="roomoption" items="${roomoption}">
-			<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${roomoption.optionicon}" /></i>
-			<span style="margin-left: 2%; font-size: 12pt;">${roomoption.optionname} 있음.</span><br>
+		<c:forEach var="oneRoom" items="${oneRoom.optionList}">
+			<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${oneRoom.OPTIONICON}" /></i>
+			<span style="margin-left: 2%; font-size: 12pt;">${oneRoom.OPTIONNAME} 있음.</span><br>
 			<br>
 		</c:forEach>
 		
@@ -238,14 +247,14 @@ h3{font-size: 14pt;
 			<!-- 숙소 정보 패널 1 -->
 			<div class="panel-body hostpanel">
 				<div class="col-md-8" style="margin-bottom: 5%;">
-					<span style="font-weight: bold; font-size: 12pt;">${roomList.roomname}</span>
-				     <br><br>${roomList.fk_userid}의 ${roomList.roomtype_name}<br>
+					<span style="font-weight: bold; font-size: 12pt;">${oneRoom.roomName}</span>
+				     <br><br>${oneRoom.fk_userid}의 ${oneRoom.buildType_detail_name}<br>
 				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
 				     <i class="fas fa-star-half-alt fa-sm" style="color: #008489;"></i>
-				         후기${reviewCount}개
+				        후기${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${roomList.roommainimg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
@@ -264,7 +273,7 @@ h3{font-size: 14pt;
 				   var geocoder = new daum.maps.services.Geocoder();
 				   
 				   // 주소로 좌표를 검색합니다
-				   geocoder.addressSearch('${roomList.roomsido} ${roomList.roomsigungu} ${roomList.roombname}', function(result, status) {
+				   geocoder.addressSearch('${oneRoom.roomSido} ${oneRoom.roomSigungu} ${oneRoom.roomBname}', function(result, status) {
 				   
 				       // 정상적으로 검색이 완료됐으면 
 				        if (status === daum.maps.services.Status.OK) {
@@ -310,11 +319,11 @@ h3{font-size: 14pt;
 			<div>
 				<div class="col-md-9" >
 				 ₩<span >
-				 <fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
+				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
 				 </span> x <span id="stayday">${(day+7)-day}</span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${(roomList.roomprice)*((day+7)-day)}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*((day+7)-day)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -324,7 +333,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 일회성 숙소 청소 비용입니다."></i>
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<span id="cleanpay"><fmt:formatNumber value="${roomList.cleanpay}" pattern="#,###"/></span>
+				 ₩<span id="cleanpay"><fmt:formatNumber value="${oneRoom.cleanPay}" pattern="#,###"/></span>
 				</div>
 			</div>
 			<div>
@@ -333,7 +342,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${(roomList.roomprice/100)*(roomList.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
@@ -353,15 +362,15 @@ h3{font-size: 14pt;
 	</div>
 </div>
 <form name="revCheckFrm">
-<input type="hidden" value="${roomList.roomcode}" name="fk_roomcode"/>
-<input type="hidden" value="${person}" name="guestcount"/>
-<input type="hidden" value="${loginuser}" name="fk_userid"/>
-<input type="hidden" value="${roomList.fk_userid}" name="host_userid"/>
-<input type="hidden" value="${year}" name="year"/>
-<input type="hidden" value="${month}" name="checkmonth1"/>
-<input type="hidden" value="${month}" name="checkmonth2"/>
-<input type="hidden" value="${day}" name="checkday1"/>
-<input type="hidden" value="${(day+7)}" name="checkday2"/>
+<input type="text" value="${oneRoom.roomcode}" name="roomcode"/>
+<input type="text" value="${oneRoom.fk_userid}" name="host_userid"/>
+<input type="text" value="${person}" name="guestcount"/>
+<input type="text" value="${my_userid}" name="my_userid"/>
+<input type="text" value="${year}" name="year"/>
+<input type="text" value="${month}" name="checkmonth1"/>
+<input type="text" value="${month}" name="checkmonth2"/>
+<input type="text" value="${day}" name="checkday1"/>
+<input type="text" value="${(day+7)}" name="checkday2"/>
 </form>
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>

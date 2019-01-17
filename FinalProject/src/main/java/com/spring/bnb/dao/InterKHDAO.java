@@ -10,17 +10,12 @@ public interface InterKHDAO {
 	// ** 이용규칙 가져오는 메소드 ** //
 	List<HashMap<String,String>> getRoomRule();
 	
-	// *** 숙소 정보 가져오는 메소드 *** //
-	HashMap<String, Object> getRoomInfo();
-	
-	// *** 숙소 옵션 가져오는 메소드 *** //
-	List<HashMap<String, String>> getRoomOptions();
-	
-	// *** 호스트 프로필 사진 가져오기 *** //
-	String gethostImage();
-	
-	// *** 숙소 리뷰 가져오는 메소드 *** //
-	int getReviewCount();
-	
+	// *** 숙소 정보 뽑아오는 메소드 *** //
 	RoomVO getOneRoomInfo(HashMap<String,String> map);
+	
+	// *** 리뷰 갯수 가져오기 *** //
+	int getReviewCount(HashMap<String,String> map);
+	
+	// *** 평균 요금 구하는 메소드 *** //
+	int getAvgPrice(); 
 }

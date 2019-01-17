@@ -1,6 +1,7 @@
 package com.spring.bnb.controller;
 
 import java.util.Calendar;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterKHService;
 
+
 @Controller
 public class KHController {
 	
@@ -22,63 +24,58 @@ public class KHController {
 	private InterKHService service;
 
 	// ***** 숙소이용규칙 확인하기 (예약)<aop처리해야댐> ***** //
+	
 	@RequestMapping(value="/reservationCheck.air", method= {RequestMethod.GET})
 	public String requireLogin_reservationCheck (HttpServletRequest req) {
 		
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
 		HttpSession session = req.getSession();
-		String loginuser = "kongkd2"; //임시 확인용
-		session.setAttribute("loginuser", loginuser);
+		String my_userid = "kongkd2"; //임시 확인용
+		session.setAttribute("my_userid", my_userid);
 		//===================================================
-		String person = "2";//예약 인원(테스트용)
+		String person = "1";//예약 인원(테스트용)
 		Calendar current = Calendar.getInstance();
 		
 		int year = current.get(Calendar.YEAR);
 		int month = current.get(Calendar.MONTH)+1;
 		int day = current.get(Calendar.DATE);
 		
-		String roomcode = req.getParameter("roomcode");
-		String host_userid = req.getParameter("host_userid");
-		roomcode = "10";
-		host_userid = "leess";
+		String roomcode = "10";
+		String host_userid = "leess";
 		
-		/*HashMap<String,String> map = new HashMap<String,String>();
+		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("roomcode", roomcode);
-		map.put("host_userid", host_userid);*/
+		map.put("host_userid", host_userid);
 		
-		//RoomVO oneRoom = service.getOneRoomInfo(map);
+		// *** 숙소 정보 뽑아오는 메소드 *** //
+		RoomVO oneRoom = service.getOneRoomInfo(map);
 		
+		// *** 리뷰 갯수 가져오기 *** //
+		int reviewCount = service.getReviewCount(map);
 		
-		// *** 숙소 정보 가져오는 메소드 *** //
-		HashMap<String,Object> roomList = service.getRoomInfo();//호스트아이디,숙소코드 파라미터로 넘기기
+		// *** 평균 요금 구하는 메소드 *** //
+		int avgPrice = service.getAvgPrice();
 		
-		// *** 숙소 옵션 가져오는 메소드 *** //
-		List<HashMap<String,String>> roomoption = service.getRoomOptions();//호스트아이디,숙소코드 파라미터로 넘기기
-		
-		// *** 숙소 리뷰 가져오는 메소드 *** //
-		int reviewCount = service.getReviewCount();
-		
-		req.setAttribute("roomoption", roomoption);
-		req.setAttribute("roomList", roomList);
 		req.setAttribute("person", person);
 		req.setAttribute("year", year);
 		req.setAttribute("month", month);
 		req.setAttribute("day", day);
 		req.setAttribute("reviewCount", reviewCount);
+		req.setAttribute("oneRoom", oneRoom);
+		req.setAttribute("avgPrice", avgPrice);
 		
 		return "reservationAndPay/reservationCheck.notiles";
 	}
 	
 	// ***** 일행 확인하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.POST})
-	public String reservationCheckPeople (HttpServletRequest req) {
+	public String reservationCheckPeople (HttpServletRequest req,HttpSession session) {
 		
 		// where절에 숙소 코드 넣어서 가져오기
 		/*-------------getparameter---------------*/
-		String fk_roomcode = req.getParameter("fk_roomcode");
+		String roomcode = req.getParameter("roomcode");
 		String guestcount = req.getParameter("guestcount");
-		String fk_userid = req.getParameter("fk_userid");
 		String host_userid = req.getParameter("host_userid");
 		String year = req.getParameter("year");
 		String checkmonth1 = req.getParameter("checkmonth1");
@@ -87,24 +84,31 @@ public class KHController {
 		String checkday2 = req.getParameter("checkday2");
 		/*-------------end---------------*/
 		
-		// *** 숙소 정보 가져오는 메소드 *** //
-		HashMap<String,Object> roomList = service.getRoomInfo();//호스트아이디, 룸코드 파라미터로 넘기기
-		// *** 호스트 프로필 사진 가져오기 *** //
-		String hostimg = service.gethostImage();//호스트아이디 파라미터로 넘기기
-		// *** 숙소 리뷰 가져오는 메소드 *** //
-		int reviewCount = service.getReviewCount();
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("roomcode", roomcode);
+		map.put("host_userid", host_userid);
 		
-		req.setAttribute("roomList", roomList);//전체 숙소 뽑아내기
-		req.setAttribute("hostimg", hostimg);//호스트 프로필 이미지 뽑아내기
+		// *** 숙소 정보 뽑아오는 메소드 *** //
+		RoomVO oneRoom = service.getOneRoomInfo(map);
+		
+		// *** 리뷰 갯수 가져오기 *** //
+		int reviewCount = service.getReviewCount(map);
+		
+		// *** 평균 요금 구하는 메소드 *** //
+		int avgPrice = service.getAvgPrice();
+		
 		/*-------------------------------------------*/
+		session.getAttribute("my_userid");
+		
 		req.setAttribute("guestcount", guestcount);//예약 인원
-		req.setAttribute("fk_userid", fk_userid);//예약자 아이디
 		req.setAttribute("year", year);//체크인,체크아웃 년도
 		req.setAttribute("checkmonth1", checkmonth1);//체크인 월
 		req.setAttribute("checkmonth2", checkmonth2);//체크아웃 월
 		req.setAttribute("checkday1", checkday1);//체크인 일
 		req.setAttribute("checkday2", checkday2);//체크아웃 일
-		req.setAttribute("reviewCount", reviewCount);
+		req.setAttribute("oneRoom", oneRoom);//숙소 정보
+		req.setAttribute("reviewCount", reviewCount);//리뷰
+		req.setAttribute("avgPrice", avgPrice);//평균 요금
 		
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}

@@ -193,6 +193,8 @@ h3{font-size: 14pt;
 		    });
 		});
 		
+		
+		
 		// 총금액 구하기
 		var stayday = $("#Price").text();cleanpay
 		var cleanpay = $("#cleanpay").text();
@@ -208,6 +210,37 @@ h3{font-size: 14pt;
 
 	
 </script>
+
+<script>//게스트 인원 수량 변경
+
+	$(document).ready(function(){
+		
+		
+		$("#close").click(function(){
+			var babym = $("#babycount").val();
+			var adultm = $("#guestcount").val();
+			$(".totaladCount").text(" "+adultm);
+			$(".pannelCount").text(adultm+"명");
+			
+			if(babym == "0"){
+				$(".totalbbCount").empty();
+			}
+			else{
+				$(".totalbbCount").text(", 유아 "+babym+"명");
+				$(".pannelCount").text(adultm+"명, 유아 "+babym+"명");
+			}
+			
+			console.log(adultm);
+			console.log(babym);
+			
+		});
+		
+		
+	});
+
+
+</script>
+
 </head>
 <body>
 
@@ -226,53 +259,66 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
-				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-				      숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 
-				   1박 이상의 예약이 곧 마감될 수 있습니다.
-			    </div>
+				<c:if test="${oneRoom.roomPrice < avgPrice}">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-oneRoom.roomPrice}" pattern="#,###" />저렴합니다.
+				    </div>
+				</c:if>
+				<c:if test="${oneRoom.viewcount > 10}">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/흔치않은기회.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
+				    </div>
+				</c:if>
+				<%-- <c:if test="${oneRoom.viewcount > 10}">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+				    </div> 
+			    </c:if> --%>
 			</div>
 		</div>
 		<br>
 		<form name="checkHostAndMemberFrm">
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >인원</h3>
+		<h3 >인원&nbsp;&nbsp;<span style="font-size: 11pt;">(${oneRoom.fk_userid}님이 수용하는 최대인원은 ${oneRoom.max_person}명 입니다.)</span></h3>
 		<!-- 인원수 늘리기 -->
 		 <div class="dropdown" style="margin-bottom: 10%;">
 			 <div  class="panel panel-default people" >
 				<div class="panel-body" id="people"  data-toggle="dropdown">
-					<div class="col-md-10">게스트${guestcount}명</div>
+					<div class="col-md-10" >게스트<span class="pannelCount">${guestcount}명</span></div>
 					<div class="col-md-2"> <i class="fas fa-chevron-down fa-lg"></i></div>
 				</div>
 				<ul class="dropdown-menu col-md-12" style="width: 45%; ">
 			    <li style="margin-left: 5%; margin-top: 5%;">
 			    	<div class="col-md-6">
-				 		<span class="spellpeople" style="margin-right: 40%; ">성인</span>
+				 		<span class="adultName" style="margin-right: 40%; ">성인</span>
 				 	</div>   
 					<div class="input-group number-spinner col-md-6" style="width: 40%;">
 						<span class="input-group-btn data-dwn">
-							<button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+							<button class="btn btn-default btn-info adultm" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="${guestcount}" min="1" max="${roomList.max_person}" name="guestcount">
+						<input type="text" class="form-control text-center" value="${guestcount}" min="1" max="${oneRoom.max_person}" name="guestcount" id="guestcount"/>
 						<span class="input-group-btn data-up">
-							<button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+							<button class="btn btn-default btn-info adultp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
 					</div>
 				</li>
 				<li style="margin-left: 5%; margin-top: 8%;" >
 					<div class="col-md-6">
-				 		<span class="spellpeople" style="margin-right: 40%; ">유아</span><br>
+				 		<span class="babyName" style="margin-right: 40%; ">유아</span><br>
 				 		<span style="font-size: 11pt;">2세~10세</span>
 				 	</div>   
 				 	
 				 	
 					<div class="input-group number-spinner col-md-6" style="width: 40%;">
 						<span class="input-group-btn data-dwn">
-							<button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+							<button class="btn btn-default btn-info babym" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="1" min="1" max="${roomList.max_person}" name="babycount"/>
+						<input type="text" class="form-control text-center" value="0" min="0" max="${oneRoom.max_person}" name="babycount" id="babycount"/>
 						<span class="input-group-btn data-up">
-							<button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+							<button class="btn btn-default btn-info babyp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
 					</div>
 					
@@ -283,19 +329,19 @@ h3{font-size: 14pt;
 		    	</ul>
 			</div>
 		 </div>
-		
+		<span class="fa-li" style="color: #008489;"><i class="fas fa-spinner fa-pulse fa-3x"></i></span>
 		<!-- 호스트에게 메시지 보내기  -->
 		<h3 style="display: block;">호스트에게 인사하기</h3>
-		<h5 style="margin-bottom: 3%; font-size: 12pt;">${roomList.fk_userid}님에게 간단히 자신을 소개하고 여행 목적에 대해 알려주세요.</h5>
+		<h5 style="margin-bottom: 3%; font-size: 12pt;">${oneRoom.fk_userid}님에게 간단히 자신을 소개하고 여행 목적에 대해 알려주세요.</h5>
 		
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
 		<div class="col-md-3" style="margin-bottom: 5%;">
-		<img src="<%=ctxPath %>/resources/images/${hostimg}" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
+		<img src="<%=ctxPath %>/resources/images/${oneRoom.host.profileimg}" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
-		<textarea id="host_error_message" name="message" rows="4" required="required" placeholder="${roomList.fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
+		<textarea id="host_error_message" name="message" rows="4" required="required" placeholder="${oneRoom.fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
 		</div>
 		<div id="host_error_message2" >호스트에게 전할 메시지를 입력하세요!</div><br><br><br><br>
 		
@@ -306,19 +352,19 @@ h3{font-size: 14pt;
 	
 	<!-- ============================================= 숙소 ============================================= -->
 	<!-- 숙소 정보 패널 -->
-	<div class="col-md-5" style="padding-top: 4.7%;">
-		<div class="panel panel-default">
+	<div class="col-md-5" style="padding-top: 4.7%; ">
+		<div class="panel panel-default changepannel">
 			<!-- 숙소 정보 패널 1 -->
 			<div class="panel-body hostpanel">
 				<div class="col-md-8" style="margin-bottom: 5%;">
-					<span style="font-weight: bold; font-size: 12pt;">${roomList.roomname}</span>
-				     <br><br>${roomList.fk_userid}의 ${roomList.roomtype_name}<br>
+					<span style="font-weight: bold; font-size: 12pt;">${oneRoom.roomName}</span>
+				     <br><br>${oneRoom.fk_userid}의 ${oneRoom.buildType_detail_name}<br>
 				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
 				     <i class="fas fa-star-half-alt fa-sm" style="color: #008489;"></i>
 				         후기 ${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${roomList.roommainimg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
@@ -337,7 +383,7 @@ h3{font-size: 14pt;
 				   var geocoder = new daum.maps.services.Geocoder();
 				   
 				   // 주소로 좌표를 검색합니다
-				   geocoder.addressSearch('${roomList.roomsido} ${roomList.roomsigungu} ${roomList.roombname}', function(result, status) {
+				   geocoder.addressSearch('${oneRoom.roomSido} ${oneRoom.roomSigungu} ${oneRoom.roomBname}', function(result, status) {
 				   
 				       // 정상적으로 검색이 완료됐으면 
 				        if (status === daum.maps.services.Status.OK) {
@@ -369,7 +415,8 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${guestcount}명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;" >게스트</span><span class="totaladCount"> ${guestcount}</span>명
+				<span class="totalbbCount"></span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
@@ -384,11 +431,11 @@ h3{font-size: 14pt;
 			<div>
 				<div class="col-md-9" >
 				 ₩<span >
-				 <fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
+				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
 				 </span> x <span id="stayday">${(day+7)-day}</span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${(roomList.roomprice)*((day+7)-day)}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*((day+7)-day)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -398,7 +445,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 일회성 숙소 청소 비용입니다."></i>
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<span id="cleanpay"><fmt:formatNumber value="${roomList.cleanpay}" pattern="#,###"/></span>
+				 ₩<span id="cleanpay"><fmt:formatNumber value="${oneRoom.cleanPay}" pattern="#,###"/></span>
 				</div>
 			</div>
 			<div>
@@ -406,8 +453,18 @@ h3{font-size: 14pt;
 				성수기 추가 금액 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
+				<div class="col-md-3" style="margin-bottom: 3%;">
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
+				</div>
+			</div>
+			
+			<div>
+				<div class="col-md-9">
+				추가 인원 금액 <i class="far fa-question-circle" id="feeinfo" data-toggle="popover" data-placement="bottom" 
+				         data-content="최대 인원 추가시 발생하는 비용입니다."></i>
+				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${(roomList.roomprice/100)*(roomList.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="person_addpay"><fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
@@ -428,7 +485,7 @@ h3{font-size: 14pt;
 </div>
 
 <form name="revCheckPeople">
-<input type="text" value="" name="" />
+<input type="text" value="${my_userid}" name="my_userid" />
 </form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
