@@ -14,17 +14,13 @@
 		from room
 		where roomcode = #{roomcode}
 	</select>
-	
-	<resultMap type="HashMap" id="buildType">
-		<result property="buildType" column="buildtype" javaType="String"/>
-		<result property="buildType_detail_name" column="buildtype_detail_name" javaType="String"/>
-	</resultMap>
-	
-	<select id="getBuildType" parameterType="String" resultMap="buildType" >
-		select buildtype, buildtype_detail_name
+
+	<select id="getBuildType_detail" parameterType="String" resultMap="com.spring.bnb.model.RoomVO" >
+		select buildType_detail_name
 		from buildtype b join buildtype_detail bd on b.buildtype_idx = bd.fk_buildtype_idx
-		where fk_buildtype_idx = #{fk_buildType_detail_idx}
+		where buildtype_detail_idx = #{fk_buildType_detail_idx}
 	</select>
+	
 	
 	<resultMap type="HashMap" id="roomImgList">
 		<result property="roomImgList" column="img" javaType="String"/>

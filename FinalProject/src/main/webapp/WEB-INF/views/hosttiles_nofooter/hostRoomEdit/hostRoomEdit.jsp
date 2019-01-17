@@ -111,7 +111,8 @@ div{border: /* 1px solid gray;  */
 	
 	// 사진 수정
 	function goPhotoEdit(roomcode){
-		location.href="hrPhotoEdit.air?="+roomcode;
+
+		location.href="hrPhotoEdit.air?roomcode="+roomcode;
 	}
 	
 	// 제목 수정
@@ -126,7 +127,6 @@ div{border: /* 1px solid gray;  */
 	
 	
 </script>
-
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
 	<div class="col-md-8">
@@ -292,6 +292,7 @@ div{border: /* 1px solid gray;  */
 		    </div>
 	    </div>
 	</div>
+
 	<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
 	
 	

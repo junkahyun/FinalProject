@@ -139,6 +139,16 @@ div {
 	cursor: pointer; 
 	font-weight: bold;
 }
+
+.img-largeThumbnail{
+	display: inline-block;
+	height: auto;
+	max-width: 100%;
+	line-height: 1.428571429;
+	background-color: #fff;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out
+}
 </style>
 
 <script>
@@ -165,7 +175,7 @@ div {
 </div>
 
 <div class="col-md-4" style="margin-left: 22%;" align="center">
-	<img alt="" src="${roomvo.roomMainImg }">
+	<img class="img-largeThumbnail" alt="" src="${roomvo.roomMainImg }">
 </div>
 
  <div class="col-md-3">

@@ -84,6 +84,7 @@ public class SCController {
 	public String hrPhotoEdit(HttpServletRequest req) {
 		
 		String roomcode = req.getParameter("roomcode");
+		System.out.println(roomcode);
 		RoomVO roomvo = (RoomVO)service.getRoomInfo(roomcode);
 		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
