@@ -7,7 +7,7 @@
 
 	<insert id="memberJoin">
 		insert into member(USERID,USERNAME,PWD,EMAIL,PHONE,POST,ADDR,DETAILADDR,GENDER,BIRTHDAY,INTRODUCTION,MEMBERSTATUS,PROFILEIMG,WARNCOUNT,REGDATE)
-		values(#{userid},#{username},#{pwd},#{email},#{phone},#{post},#{addr},#{detailaddr},#{gender},#{birthday},#{introduction},default,default,default,default)
+		values(#{userid},#{username},#{pwd},#{email},#{phone},#{post},#{addr},#{detailAddr},#{gender},#{birthday},#{introduction},default,default,default,default)
 	</insert>
 	
 </mapper>

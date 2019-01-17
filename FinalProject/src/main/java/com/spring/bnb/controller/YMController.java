@@ -1,6 +1,6 @@
 package com.spring.bnb.controller;
 
-import java.util.HashMap;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,7 +25,7 @@ public class YMController {
 	private AES256 aes;
 
 	
-	@RequestMapping(value="/join.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/join.air", method= {RequestMethod.POST})
 	public String join(HttpServletRequest req, MemberVO membervo) {
 		
 
@@ -36,6 +36,9 @@ public class YMController {
 			month = "0"+month;
 		}
 		String birth = year +"-" + month +"-"+ day;
+		
+		
+		
 		
 		membervo.setBirthday(birth);
 		
