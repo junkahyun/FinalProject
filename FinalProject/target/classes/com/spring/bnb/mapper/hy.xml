@@ -6,6 +6,18 @@
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="hy">
 
+	<!-- 로그인 정보 확인하기 -->
+	<select id="logincheck" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.MemberVO">
+		select * from member 
+		where userid=#{userid} and pwd=#{pwd}
+	</select>
+	
+	<!-- 로그인 한 유저가 등록 한 숙소가 있을경우 MemberVO의 myroom에 해당 RoomVO 저장 -->
+	<select id="checkHostUser" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.RoomVO">
+		select * from member M join room R on M.userid = R.fk_userid
+		where R.fk_userid = #{userid}
+	</select>
+	
 	<!-- roomcode를 통해 숙소정보 가져오기 -->
 	<select id="getRoomByCode" parameterType="String" resultType="com.spring.bnb.model.RoomVO">	
 		select*
@@ -66,18 +78,6 @@
 	<!-- RoomVO에  roomImgList 입력하기 -->
 	<select id="getRoomImgList" parameterType="String" resultType="String">
 		select img from roomImg where fk_roomcode=#{roomcode}
-	</select>
-	
-	<!-- 로그인 정보 확인하기 -->
-	<select id="logincheck" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.MemberVO">
-		select * from member 
-		where userid=#{userid} and pwd=#{pwd}
-	</select>
-	
-	<!-- 로그인 한 유저가 등록 한 숙소가 있을경우 MemberVO의 myroom에 해당 RoomVO 저장 -->
-	<select id="checkHostUser" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.RoomVO">
-		select * from member M join room R on M.userid = R.fk_userid
-		where R.fk_userid = #{userid} 
 	</select>
 	
 	<!-- 관심숙소 등록하기 -->
