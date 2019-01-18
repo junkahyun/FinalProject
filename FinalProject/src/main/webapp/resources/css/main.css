@@ -47,25 +47,40 @@ div.row.not-rowStyle{
 	margin: 0;
 }
 .white {
-    color: #FFF!important;
+    color: #FFF !important;
 }
 /* Main Page */ 
+input{
+	cursor: pointer;
+}
+input:focus {
+  outline: none;
+}
 section#slider div.item > img {
 	width:100%; 
 }
 div.navigation{
 	position: absolute;
-	top: 3%; 
+	top: 3%;  
 	z-index: 9999; 
 }
 div.navigation ul#util_menu{
+	width:inherit;
 	float:right;
+	margin-right:6%;
+}
+.no_margin-right{
+	width:auto !important;
+	margin-right:0 !important;
 }
 div.navigation ul#util_menu > li{ 
-	float:left;
-	color:#fff;
+	float:left; 
 	margin-top:20px;
 	margin-right: 20px;	
+}
+div.navigation ul#util_menu > li > a{
+	text-decoration: none;
+	color:#fff;
 }
 div.choose_A{
 	position: absolute;
@@ -75,13 +90,30 @@ div.choose_A{
     margin-left: -470px;
 	color:#00f;
 }
+div.choose_A > div:nth-child(1){
+	height:60px;  
+	line-height:4em;
+	font-weight:bold;
+}
 div.choose_A > div{
 	height:60px;  
 	line-height:4em;
 	font-weight:bold;
+	padding:0;
+	margin:0;
+}
+div.choose_A .domestic{
+	border-right:solid 1px #fff;
 } 
+div.choose_A > div > img{
+	vertical-align:middle;
+	margin-left:20%;
+}
+div.choose_A .domestic .choose_nation{
+	margin-left:3%;
+}
 div.choose_A .domestic,
-div.choose_A .oversea{
+div.choose_A .city{
 	background-color:#2c3e50; 
 	color:#fff;
 }
@@ -90,12 +122,29 @@ div.choose_A .check_out{
 	background-color: #fff;
 	color:#333;
 }
+div.choose_A input{
+	border:none;
+}
 div.choose_A .search{
 	background-color: #FF5A5F;
 	color:#fff;
 	text-align:center;
+	cursor : pointer;
+} 
+.icon_place, .icon_date{
+    background: url(//jci.xiaozhustatic1.com/e19011001/images/icon_index.png) no-repeat;
+    z-index:999;
 }
- 
+.icon_place, .icon_date {
+    background-position: 20px -217px;
+    width: 55px;
+    height: 60px;
+    display: inline-block;
+    float: left;
+}
+.icon_date {
+    background-position: 20px -264px;
+}
 section#recommend_lodging,
 section#recommend_travel{
 	margin-top:40px;
@@ -270,6 +319,30 @@ section#best_reviewes .index_T {
 div#commentdiary > div:nth-child(1){
 	border-right: solid 1px #999;
 }
+/* Modal */
+.modal{
+	overflow:hidden;
+	z-index:9999;
+}
+div.modal div#sido{
+	margin:2%;
+} 
+div.modal button.myclose{
+	width:100%;
+}
+div.modal button > span{
+	float:right;
+}
+div.modal select{
+	width:50%;
+	float:left;
+	margin-top:10%;
+}
+div.modal button.finish_sido{
+	width:50%;
+	display:block;
+	margin:30% auto;
+}
 
 /* footer */
 footer{
@@ -316,3 +389,72 @@ footer div.container div.footer_menues:after{
     display: table-cell !important;
     vertical-align: middle !important;
 }
+
+
+.test{
+	border: 1px solid;
+}
+.headermenus{
+	float:right;
+	height:80px;
+	margin-right: 1%;
+}
+.headermenu{
+	float:left;
+	height: 80px;
+	font-weight: bold;
+	padding: 29px 8px;
+	font-size: 14px;
+	margin: 0 8px;
+}
+.headermenu:hover{
+	border-bottom: 3px solid #fff;
+	cursor: pointer;
+}
+.height_maxPer{height:100%;}
+
+
+.hoverBottomHY{
+	border-bottom: 1px solid #fff;
+	margin:2%;
+}
+.hoverBottomHY:hover{
+	border-bottom: 1px solid black;
+}
+.profileDrop{
+	margin:0;
+	width: 100%;
+	padding: 5% 3%; 
+} 
+.profileDrop:hover{
+	background-color: rgba(210,210,210,0.8);
+}
+.resize1>.dropdown-menu{
+	width:300px;
+	position: absolute;
+  	right: 0 !important;
+}
+.test>div{
+	border: 1px solid red;
+}
+.resize2>.dropdown-menu{
+	width: 80px;
+	padding:0;
+}
+.registInput{
+	font-size: 12pt; 
+	margin-top: 2%; 
+	border: 1px solid lightgray;  
+	margin-left:5%;
+	width: 90%; 
+	height: 40px; 
+	border-radius: 10px;
+}
+.registBirthInput{
+	border:solid;
+	overflow:scroll;
+	margin-left: 5%;
+	border: 1px solid #fff;
+	width:100%;
+	height:40px;
+} 

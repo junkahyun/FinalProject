@@ -40,6 +40,7 @@
 	</div> 
 
       <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 1px solid red;">
+      <div class="row">
          <div class="title">어떤 편의시설을 제공하시나요?</div>
          <div class="row" style="padding: 0; border: 1px solid green;" >
             <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 1px solid blue;">
@@ -82,6 +83,7 @@
 	         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
 	            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
 	         </div>
+        </div>
         </div> 
 
       </div>
