@@ -21,11 +21,14 @@ public class WCController {
 	@Autowired
 	private AES256 aes;
 	 
-	@RequestMapping(value = "/main.air", method = RequestMethod.GET)
-	public String index_2(HttpServletRequest req) {
+	@RequestMapping(value = "/index.air", method = RequestMethod.GET)
+	public String index(HttpServletRequest req) {
 		// 메인페이지 요청 시 모든 숙소 리스트 가져오기
-		List<RoomVO> roomList = service.getAllRoomList();
-		req.setAttribute("roomList", roomList); 
+		List<RoomVO> roomList = service.getRecommandRoomList();
+		
+		List<ReviewVO> reviewList = service.getBestReviewList();
+		
+		req.setAttribute("roomList", roomList);  
 		return "main/index";   
 	}  
 	@RequestMapping(value = "/admin.air", method = RequestMethod.GET)

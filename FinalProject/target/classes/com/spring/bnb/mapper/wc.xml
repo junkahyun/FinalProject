@@ -3,10 +3,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="wc">
-	<select id="getAllRoomList" resultType="com.spring.bnb.model.RoomVO">
-		select ROOMCODE, FK_USERID, FK_ROOMTYPE_IDX, ROOMNAME, ROOMMAINIMG, ROOMTEL, ROOMPOST, ROOMSIGUNGU, ROOMSIDO, ROOMBNAME, ROOMPRICE, PEAKPER,
-	       	   CLEANPAY, BASIC_PERSON, MAX_PERSON, PERSON_ADDPAY, ROOMCOUNT, BATHCOUNT, CHECKINTIME, CHECKOUTTIME, LATITUDE, LONGITUDE, VIEWCOUNT,
-	           ROOMSTATUS, ROOM_WARNCOUNT, FK_BUILDTYPE_DETAIL_IDX, ROOMINFO            
-		from room
+
+	<resultMap type="HashMap" id="recommand_room">
+		<result property="ROOMCODE" column="ROOMCODE" javaType="STRING"/>
+		<result property="ROOMNAME" column="ROOMNAME" javaType="STRING"/>
+		<result property="ROOMMAINIMG" column="ROOMMAINIMG" javaType="STRING"/>
+		<result property="ROOMPRICE" column="ROOMPRICE" javaType="STRING"/>
+		<result property="PROFILEIMG" column="PROFILEIMG" javaType="STRING"/>
+	</resultMap>
+	<select id="getAllRoomList" resultMap="recommand_room">
+		select ROOMCODE, PROFILEIMG, ROOMMAINIMG, ROOMNAME, PROFILEIMG, ROOMPRICE, RNO 
+		from(
+		    select distinct(roomcode) AS ROOMCODE, avg((correct+communicate+clean+position+checkin+value)) AS SCORE, roomMainImg, roomname, C.profileImg as profileImg, roomprice, rownum as RNO
+		    from room A JOIN review B
+		    on A.roomcode = B.fk_roomcode
+		    join member C
+		    on B.fk_userid = C.userid 
+		    group by roomcode, (roomcode), roomcode, roomcode, roomcode, 
+		    roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
+		    rownum
+		)V
+		where RNO between 1 and 7
 	</select>
+	
+	<resultMap type="HashMap" id="reviewList">
+		<result property="FK_USERID" column="FK_USERID" 		  	  javaType="String" />
+		<result property="REVIEW_CONTENT" column="REVIEW_CONTENT" 	  javaType="String" />
+		<result property="REVIEW_WRITEDATE" column="REVIEW_WRITEDATE" javaType="String" />
+		<result property="PROFILEIMG" column="PROFILEIMG" 			  javaType="String" />
+	</resultMap>
+	<select id="getBestReviewList" resultMap="reviewList">
+		select A.FK_USERID, REVIEW_CONTENT, REVIEW_WRITEDATE, PROFILEIMG
+		from review A JOIN room B
+		on A.fk_roomcode = B.roomcode
+		JOIN member C
+		on B.fk_userid = C.userid
+	</select>
+	
 </mapper>

@@ -3,6 +3,7 @@
 <%-- ======= #22. tiles 를 사용하는 레이아웃1 페이지 만들기  ======= --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"  %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <%
 	String ctxPath = request.getContextPath();
@@ -120,71 +121,31 @@
 				<h3 class="after_underline">추천 숙소</h3>
 			</div>		
 			<div class="row not-rowStyle">
-				<ul id="rooms_show_ul">
-				 
-				<!-- 데이터 불러올 시 이 형식에 맞게 append 시킬것-->
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326" /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>                                 
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326"/> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326"  /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="770" height="326" /> 
-   				 	<div class="rooms_intro city_big">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-	        			<br/>
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <br/>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326"  /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326" /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>                                 
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="770" height="326"/> 
-   				 	<div class="rooms_intro city_big">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-	        			<br/>
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <br/>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				
-				<!-- //여기까지-->   
+				<ul id="rooms_show_ul"> 
+					<c:forEach items="${roomList}" var="rvo" varStatus="status">
+						<c:if test="${status.index == 4 || status.index == 7 }">
+							<li>     
+								<img class="img_room" src="${rvo.roomMainImg }" width="770" height="326" /> 
+			   				 	<div class="rooms_intro city_big">
+				        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg}" />
+				        			<br/>
+							        <span class="room_name">${rvo.roomName }</span>
+							        <br/>
+							        <span class="index_price"><em class="bigFont">￦</em>&nbsp;<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></span>
+					    		</div> 
+							</li>   
+						</c:if>
+						<li>     
+							<img class="img_room" src="${rvo.roomMainImg}" width="380" height="326" /> 
+		   				 	<div class="rooms_intro">
+			        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg }" />
+						        <span class="room_name">${rvo.roomName }</span>
+						        <span class="index_price"><em class="bigFont">￦</em>&nbsp;<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></span>
+						        
+				    		</div> 
+						</li>      
+						
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -222,128 +183,117 @@
 		<div class="container">
 			<div class="index_commnet">
        			<div class="index_T">
-	            	<h1 class="white">世间所有的相遇都是久别重逢</h1>
-	            	<span class="white">房客和房东都在彼此感动着</span>
+	            	<h1 class="white">베스트 후기</h1>
+	            	<span class="white">우리들의 만남</span>
         		</div>
+        		
         		<div id="commentdiary">
-    			<div class="comment_column">
-				<div class="cmt_con">
-  					<span class="comment_user">房客点评</span>
-   		   			<div style="display: none;">
-    				<span>
-    					<img src="https://image.xiaozhustatic2.com/22/51,0,77,15206,132,132,0b8c541f.jpg">
-    				</span>
-		            <span>YOYOac</span>
-		            <span>2018.12</span>
-		            <span class="comment_W">
-		            	<a href="http://dali.xiaozhu.com/fangzi/49636167903.html#comment" target="_blank">是我喜欢的感觉，院子里的草坪、老木板做的路径、老窗花做的茶台、满院的竹子，就连多肉都能养的很有意境。卫生自不用多说了，房间的花儿都是鲜花，清雅舒适。没事在院子里晒晒太阳喝喝茶，无比惬意。老板还给我升级了房间，房间里视野很好，还可以看海景。茶室里有很多精致的小物件，我忍不住喜欢买了几款，价格还不贵。这里的一切都是那么和谐、自然，要不是假期太短，真想好好感受这里的慢生活，以后还会再来。</a>
-		            </span>
-        		</div>
-                <div style="display: none;">
-            		<span>
-            			<img src="https://image.xiaozhustatic1.com/22/6,0,31,4546,320,321,809b8333.jpg">
-            		</span>
-		            <span>Pennyluo</span>
-		            <span>2018.12</span>
-		            <span class="comment_W">
-		            	<a href="http://lijiang.xiaozhu.com/fangzi/32327628201.html#comment" target="_blank">性价比超高的客栈，阳光、大落地窗、吊椅等等，屋里屋外都是木质结构，很有味道。海哥和玉姐都是很亲和幽默的人，可以打麻将、煮茶喝酒，还可以和其他住客一起在院子里吃饭，很舒服。关键是老板娘厨艺很赞呢，比外面好多饭馆做的都好吃！至于海哥的茶艺嘛，还有待提升，哈哈哈哈！老板老板娘都是当地人，如果你要去哪里玩，不懂的都可以问他们，他们很热情很善良，会告诉你性价比最高的攻略。总之，住了一周，很开心，谢谢招待！
-		            	</a>
-		            </span>
-		        	</div>
-                <div style="display: block;">
-            <span><img src="https://thirdwx.qlogo.cn/mmopen/vi_32/kDiaoDicA19FPDOFGh9YNLgt0iaUibYxb1c4nc8IZkTtKJmialy5micsVxBZT3CvAicz9V5rOlmibur8qrjAFH1IExOlsw/132"></span>
-            <span>好命的马马</span>
-            <span>2018.12</span>
-            <span class="comment_W"><a href="http://cq.xiaozhu.com/fangzi/39896868603.html#comment" target="_blank">很幸运，生日跟闺蜜们一起聚聚，比照片更温馨，细节布置很到位。厅很大，容纳二十人左右都没有问题，餐具酒杯开瓶器一应俱全。老板很周到，因为生日还特意送了四种口味的果酒。店里有各种饮料和酒水，小吃，价格跟便利店一个价，前台还有八张公交卡供客人免费使用，这一点对外地的客人来说真的很贴心。打碎了一个红酒杯，本来要给老板赔偿的，但是老板说又不是故意的，不用赔，非常耿直的老板了，祝愿生意兴隆！</a></span>
-        </div>
-                <div style="display: none;">
-            <span><img src="https://tfs.alipayobjects.com/images/partner/T1blNeXhxXXXXXXXXX"></span>
-            <span>CLomg</span>
-            <span>2018.12</span>
-            <span class="comment_W"><a href="http://km.xiaozhu.com/fangzi/33668836503.html#comment" target="_blank">第一次来昆明，为了方便就选了离女朋友学校近的民宿。一下飞机就感觉喜欢上了这座城市，蓝天，白云，阳光，微风，从冬天跨越到了春天。房东很耐心细致的说了入住的事宜，房间也很满意，特别喜欢投影仪。异地恋最心酸的可能就是跨越千里，刚刚见面又得分离。每一次分别都是为了下一次更好的相聚，希望所有异地恋的情侣都可以好好坚持下去，早点结束异地，好好的在一起。谢谢这间温暖的小屋，谢谢在冬天也依然温暖的昆明，下次再见。</a></span>
-        </div>
-        <div style="display: none;">
-            <span>
-            	<img src="https://image.xiaozhustatic3.com/22/17,0,3,2334,329,329,f2ca8d0b.jpg">
-            </span>
-            <span>阿紫azier</span>
-            <span>2018.12</span>
-            <span class="comment_W">
-            	<a href="http://zhangjiajie.xiaozhu.com/fangzi/25340701203.html#comment" target="_blank">原先的房间出了点bug，老板为我们更换了房间，还特地把我们想要的麻将桌搬过来了。到了张家界后老板亲自来接机，一路上跟我们讲风土人情，还根据我们的需求为我们量身定做了行程！管家安排了导游每天来接我们，还带我们去吃本地特色的三下锅。在看魅力湘西时碰到了民宿老板，还特地买了糖给我们吃，很暖心。最后还为我们安排了休息室，送我们到机场。虽然整个行程中张家界的天气不美好，但是山遇城的服务带来了很多温暖。
-            	</a>
-            </span>
-        </div>
-        <ul class="cmt_ul">
-            <li class="cmt_current"></li>
-            <li class=""></li>
-            <li class=""></li>
-            <li class=""></li>
-            <li class=""></li>
-        </ul>
-    </div> 
-    <em class="middle_line"></em>              
-	</div>
-	<div class="comment_column">
-    <div class="cmt_con cmt_R">
-        <span class="comment_user">房东日记</span>
-        <div>
-	        <span><img src="https://image.xiaozhustatic1.com/22/14,0,18,23531,260,260,042cc067.jpg"></span>
-	        <span>YQYJ_HOTEL</span>
-	        <span>2018.10.05</span>
-	        <span class="comment_W"><a href="http://www.xiaozhu.com/fangdong/32513670501/diary/42816166500.html#" target="_blank">有位很有礼貌的房客提出了一个小小的要求，因为和女朋友一起来，问能不能给布置下房间。国庆来临之际，我计划着为周先生布置房间，因为没有亲手为客人布置过，有点迷茫。但是一心想给他们一个惊喜，整体以紫色的气球花瓣为装饰，一对相亲相爱的布娃娃代表男女主人，一对美丽的白天鹅代表着纯洁的爱情，阳台围满的粉色气球，代表甜甜蜜蜜。接到房客的时候，女主角推开门大大的一个惊喜！满意！同时我的心也乐开了花。
-			</a></span>
-        </div>
-        <div style="display:none;">					
-            <span>
-            	<img src="https://image.xiaozhustatic2.com/22/51,0,34,21989,364,363,f8eeb5e6.jpg">
-            </span>
-            <span>木兮君</span>
-            <span>2018.10.23</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/8192262615/diary/43831272500.html#" target="_blank">房子和孩子对我而言都是一样重要的存在。对颜色的搭配、细节的把控、品质的追求，以及装修的整体效果，我都很苛刻。做民宿这2年有了很多的改变，每一次真诚的反馈，对我而言都是一份收获，这代表着我付出的努力得到了认可，得到了肯定。每一次的好评，都是客人在入住过后的真实体验，她们觉得它是旅途中的心灵驿站，于我又何尝不是呢，每一次的离开，都像告别老朋友一样……
-			</a></span>
-        </div>
-        <div style="display:none;">
-            <span>
-            	<img src="https://image.xiaozhustatic1.com/22/5,0,92,1440,448,448,d5b36d39.jpg">
-            </span>
-            <span>上品佳房</span>
-            <span>2018.12.19</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/707380938/diary/91724259300.html#" target="_blank">初遇小猪，应该是在某篇推广的文章中看到它，从而发现了新的旅行住宿形式。有出租船屋的，有出租沙发的，还有整套出租的，感觉开拓了新的眼界。今年年初，我自己盘下几间房来做民宿。准备的过程虽然很苦，但也快乐着，终于，一切都布置好了。对于我来说，一间民宿，就是一个小世界，它不仅仅是一个房间，也是我的一种希望，希望租客朋友们在这里一起拉进与这座城市的距离，一起分享故事，享受宁静，热情，亲切与关怀。
-            	</a>
-            </span>
-        </div>
-        <div style="display:none;">
-            <span>
-            	<img src="https://image.xiaozhustatic3.com/22/11,0,7,6971,280,281,4352127e.jpg">
-            </span>
-            <span>茉莉与花</span>
-            <span>2018.11.11</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/19274383601/diary/45818605100.html#" target="_blank">生活一片兵荒马乱，总有疲惫不堪的日子。好在我们不会将自己淹死在生活的洪流之中，总会试图寻找一些方法来让那颗疲惫的心得到片刻的治愈。有的人会选择来一场旅行，从忙碌的生活中抽离出来，去一个陌生的城市，去看那些未知的风景，尽情的撒欢释放压力。而茉莉家，希望是你旅途中的一个选择。我们希望你在这漠然的空间里，慢下来，做你最真实的自己，卸下防备，卸下伪装，不焦虑不怯懦，尽情的享受生活。
-            	</a>
-            </span>
-        </div>
-        <div style="display:none;">
-            <span>
-            	<img src="https://image.xiaozhustatic2.com/22/14,0,99,8951,260,260,9eaf4a8b.jpg">
-            </span>
-            <span>那家_那海</span>
-            <span>2018.11.28</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/28121909501/diary/71285030800.html#" target="_blank">民宿不是一门生意，而是一种情怀。做民宿是我做得最用心，最开心的一件事情了。上天没有辜负我的一片心意，目前我遇到的都是很和善很友爱的客人，他们用自己的方式感动着我。山西的客人，千里迢迢背来一袋小米和一箱子山西脆饼；东北的客人，在遭遇雪天航班不能及时起飞的情况下，没有半点情绪和怨言，还拍雪景给我看，给我带了东北大米、玉米糁和糙米。承蒙大家的关爱，让我更有动力前进，遇到困难也只是会心一笑，然后继续努力。</a>
-            </span>
-        </div>
-        <ul class="cmt_ul">
-            <li class="cmt_current"></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </div>    
+	    			<div class="comment_column">
+						<div class="cmt_con">
+		  					<span class="comment_user">房客点评</span>
+		   		   			<div style="display: none;">
+		    				<span>
+		    					<img src="https://image.xiaozhustatic2.com/22/51,0,77,15206,132,132,0b8c541f.jpg">
+		    				</span>
+				            <span>YOYOac</span>
+				            <span>2018.12</span>
+				            <span class="comment_W">
+				            	<a href="http://dali.xiaozhu.com/fangzi/49636167903.html#comment" target="_blank">是我喜欢的感觉，院子里的草坪、老木板做的路径、老窗花做的茶台、满院的竹子，就连多肉都能养的很有意境。卫生自不用多说了，房间的花儿都是鲜花，清雅舒适。没事在院子里晒晒太阳喝喝茶，无比惬意。老板还给我升级了房间，房间里视野很好，还可以看海景。茶室里有很多精致的小物件，我忍不住喜欢买了几款，价格还不贵。这里的一切都是那么和谐、自然，要不是假期太短，真想好好感受这里的慢生活，以后还会再来。</a>
+				            </span>
+		        		</div>
+		                <div style="display: none;">
+		            		<span>
+		            			<img src="https://image.xiaozhustatic1.com/22/6,0,31,4546,320,321,809b8333.jpg">
+		            		</span>
+				            <span>Pennyluo</span>
+				            <span>2018.12</span>
+				            <span class="comment_W">
+				            	<a href="http://lijiang.xiaozhu.com/fangzi/32327628201.html#comment" target="_blank">性价比超高的客栈，阳光、大落地窗、吊椅等等，屋里屋外都是木质结构，很有味道。海哥和玉姐都是很亲和幽默的人，可以打麻将、煮茶喝酒，还可以和其他住客一起在院子里吃饭，很舒服。关键是老板娘厨艺很赞呢，比外面好多饭馆做的都好吃！至于海哥的茶艺嘛，还有待提升，哈哈哈哈！老板老板娘都是当地人，如果你要去哪里玩，不懂的都可以问他们，他们很热情很善良，会告诉你性价比最高的攻略。总之，住了一周，很开心，谢谢招待！
+				            	</a>
+				            </span>
+			        	</div>
+		                <div style="display: block;">
+				            <span><img src="https://thirdwx.qlogo.cn/mmopen/vi_32/kDiaoDicA19FPDOFGh9YNLgt0iaUibYxb1c4nc8IZkTtKJmialy5micsVxBZT3CvAicz9V5rOlmibur8qrjAFH1IExOlsw/132"></span>
+				            <span>好命的马马</span>
+				            <span>2018.12</span>
+				            <span class="comment_W"><a href="http://cq.xiaozhu.com/fangzi/39896868603.html#comment" target="_blank">很幸运，生日跟闺蜜们一起聚聚，比照片更温馨，细节布置很到位。厅很大，容纳二十人左右都没有问题，餐具酒杯开瓶器一应俱全。老板很周到，因为生日还特意送了四种口味的果酒。店里有各种饮料和酒水，小吃，价格跟便利店一个价，前台还有八张公交卡供客人免费使用，这一点对外地的客人来说真的很贴心。打碎了一个红酒杯，本来要给老板赔偿的，但是老板说又不是故意的，不用赔，非常耿直的老板了，祝愿生意兴隆！</a></span>
+				        </div>
+		                <div style="display: none;">
+				            <span><img src="https://tfs.alipayobjects.com/images/partner/T1blNeXhxXXXXXXXXX"></span>
+				            <span>CLomg</span>
+				            <span>2018.12</span>
+				            <span class="comment_W"><a href="http://km.xiaozhu.com/fangzi/33668836503.html#comment" target="_blank">第一次来昆明，为了方便就选了离女朋友学校近的民宿。一下飞机就感觉喜欢上了这座城市，蓝天，白云，阳光，微风，从冬天跨越到了春天。房东很耐心细致的说了入住的事宜，房间也很满意，特别喜欢投影仪。异地恋最心酸的可能就是跨越千里，刚刚见面又得分离。每一次分别都是为了下一次更好的相聚，希望所有异地恋的情侣都可以好好坚持下去，早点结束异地，好好的在一起。谢谢这间温暖的小屋，谢谢在冬天也依然温暖的昆明，下次再见。</a></span>
+				        </div>
+		        		<div style="display: none;">
+				            <span>
+				            	<img src="https://image.xiaozhustatic3.com/22/17,0,3,2334,329,329,f2ca8d0b.jpg">
+				            </span>
+				            <span>阿紫azier</span>
+				            <span>2018.12</span>
+				            <span class="comment_W">
+				            	<a href="http://zhangjiajie.xiaozhu.com/fangzi/25340701203.html#comment" target="_blank">原先的房间出了点bug，老板为我们更换了房间，还特地把我们想要的麻将桌搬过来了。到了张家界后老板亲自来接机，一路上跟我们讲风土人情，还根据我们的需求为我们量身定做了行程！管家安排了导游每天来接我们，还带我们去吃本地特色的三下锅。在看魅力湘西时碰到了民宿老板，还特地买了糖给我们吃，很暖心。最后还为我们安排了休息室，送我们到机场。虽然整个行程中张家界的天气不美好，但是山遇城的服务带来了很多温暖。
+				            	</a>
+				            </span>
+				        </div> 
+	  		  		</div> 
+	    
+	    <em class="middle_line"></em>              
 		</div>
+		
+		<div class="comment_column">
+	    <div class="cmt_con cmt_R">
+	        <span class="comment_user">房东日记</span>
+	        <div>
+		        <span><img src="https://image.xiaozhustatic1.com/22/14,0,18,23531,260,260,042cc067.jpg"></span>
+		        <span>YQYJ_HOTEL</span>
+		        <span>2018.10.05</span>
+		        <span class="comment_W"><a href="http://www.xiaozhu.com/fangdong/32513670501/diary/42816166500.html#" target="_blank">有位很有礼貌的房客提出了一个小小的要求，因为和女朋友一起来，问能不能给布置下房间。国庆来临之际，我计划着为周先生布置房间，因为没有亲手为客人布置过，有点迷茫。但是一心想给他们一个惊喜，整体以紫色的气球花瓣为装饰，一对相亲相爱的布娃娃代表男女主人，一对美丽的白天鹅代表着纯洁的爱情，阳台围满的粉色气球，代表甜甜蜜蜜。接到房客的时候，女主角推开门大大的一个惊喜！满意！同时我的心也乐开了花。
+				</a></span>
+	        </div>
+	        <div style="display:none;">					
+	            <span>
+	            	<img src="https://image.xiaozhustatic2.com/22/51,0,34,21989,364,363,f8eeb5e6.jpg">
+	            </span>
+	            <span>木兮君</span>
+	            <span>2018.10.23</span>
+	            <span class="comment_W">
+	            	<a href="http://www.xiaozhu.com/fangdong/8192262615/diary/43831272500.html#" target="_blank">房子和孩子对我而言都是一样重要的存在。对颜色的搭配、细节的把控、品质的追求，以及装修的整体效果，我都很苛刻。做民宿这2年有了很多的改变，每一次真诚的反馈，对我而言都是一份收获，这代表着我付出的努力得到了认可，得到了肯定。每一次的好评，都是客人在入住过后的真实体验，她们觉得它是旅途中的心灵驿站，于我又何尝不是呢，每一次的离开，都像告别老朋友一样……
+				</a></span>
+	        </div>
+	        <div style="display:none;">
+	            <span>
+	            	<img src="https://image.xiaozhustatic1.com/22/5,0,92,1440,448,448,d5b36d39.jpg">
+	            </span>
+	            <span>上品佳房</span>
+	            <span>2018.12.19</span>
+	            <span class="comment_W">
+	            	<a href="http://www.xiaozhu.com/fangdong/707380938/diary/91724259300.html#" target="_blank">初遇小猪，应该是在某篇推广的文章中看到它，从而发现了新的旅行住宿形式。有出租船屋的，有出租沙发的，还有整套出租的，感觉开拓了新的眼界。今年年初，我自己盘下几间房来做民宿。准备的过程虽然很苦，但也快乐着，终于，一切都布置好了。对于我来说，一间民宿，就是一个小世界，它不仅仅是一个房间，也是我的一种希望，希望租客朋友们在这里一起拉进与这座城市的距离，一起分享故事，享受宁静，热情，亲切与关怀。
+	            	</a>
+	            </span>
+	        </div>
+	        <div style="display:none;">
+	            <span>
+	            	<img src="https://image.xiaozhustatic3.com/22/11,0,7,6971,280,281,4352127e.jpg">
+	            </span>
+	            <span>茉莉与花</span>
+	            <span>2018.11.11</span>
+	            <span class="comment_W">
+	            	<a href="http://www.xiaozhu.com/fangdong/19274383601/diary/45818605100.html#" target="_blank">生活一片兵荒马乱，总有疲惫不堪的日子。好在我们不会将自己淹死在生活的洪流之中，总会试图寻找一些方法来让那颗疲惫的心得到片刻的治愈。有的人会选择来一场旅行，从忙碌的生活中抽离出来，去一个陌生的城市，去看那些未知的风景，尽情的撒欢释放压力。而茉莉家，希望是你旅途中的一个选择。我们希望你在这漠然的空间里，慢下来，做你最真实的自己，卸下防备，卸下伪装，不焦虑不怯懦，尽情的享受生活。
+	            	</a>
+	            </span>
+	        </div>
+	        <div style="display:none;">
+	            <span>
+	            	<img src="https://image.xiaozhustatic2.com/22/14,0,99,8951,260,260,9eaf4a8b.jpg">
+	            </span>
+	            <span>那家_那海</span>
+	            <span>2018.11.28</span>
+	            <span class="comment_W">
+	            	<a href="http://www.xiaozhu.com/fangdong/28121909501/diary/71285030800.html#" target="_blank">民宿不是一门生意，而是一种情怀。做民宿是我做得最用心，最开心的一件事情了。上天没有辜负我的一片心意，目前我遇到的都是很和善很友爱的客人，他们用自己的方式感动着我。山西的客人，千里迢迢背来一袋小米和一箱子山西脆饼；东北的客人，在遭遇雪天航班不能及时起飞的情况下，没有半点情绪和怨言，还拍雪景给我看，给我带了东北大米、玉米糁和糙米。承蒙大家的关爱，让我更有动力前进，遇到困难也只是会心一笑，然后继续努力。</a>
+	            </span>
+	        </div> 
+	    </div>    
+			</div>
 		</div>
     </div>
 

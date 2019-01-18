@@ -109,7 +109,7 @@ select *
 from reservation;
 
 -- 메인페이지에서 추천 숙소 보여줄 7개 설정
- select ROOMCODE, SCORE, ROOMMAINIMG, ROOMNAME, 
+select ROOMCODE, SCORE, ROOMMAINIMG, ROOMNAME, PROFILEIMG, ROOMPRICE, RNO 
 from(
     select distinct(roomcode) AS ROOMCODE, avg((correct+communicate+clean+position+checkin+value)) AS SCORE, roomMainImg, roomname, C.profileImg as profileImg, roomprice, rownum as RNO
     from room A JOIN review B
@@ -118,17 +118,62 @@ from(
     on B.fk_userid = C.userid 
     group by roomcode, (roomcode), roomcode, roomcode, roomcode, 
     roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
-    rownum;
+    rownum
 )V
+where RNO between 1 and 7;
+
+select *
+from review;
+
+select *
+from room A join member B
+on A.fk_userid = B.userid;
+
+select ROWNUM, ROOMCODE, ROOMNAME, ROOMMAINIMG, ROOMPRICE, PROFILEIMG
+	from(
+		select ROOMCODE, FK_USERID, FK_ROOMTYPE_IDX, ROOMNAME, ROOMMAINIMG, ROOMTEL, ROOMPOST, ROOMSIGUNGU, ROOMSIDO, ROOMBNAME, ROOMPRICE, PEAKPER,
+	       	   CLEANPAY, BASIC_PERSON, MAX_PERSON, PERSON_ADDPAY, ROOMCOUNT, BATHCOUNT, CHECKINTIME, CHECKOUTTIME, LATITUDE, LONGITUDE, VIEWCOUNT,
+	           ROOMSTATUS, ROOM_WARNCOUNT, FK_BUILDTYPE_DETAIL_IDX, ROOMINFO, ROWNUM, PROFILEIMG         
+		from room A JOIN member B
+		on A.fk_userid = B.userid
+	)V
+	where ROWNUM between 1 and 7
 
 
-
-
+insert into room(ROOMCODE, FK_USERID, fk_buildType_detail_idx, FK_ROOMTYPE_IDX, ROOMNAME, ROOMMAINIMG, ROOMTEL, ROOMINFO, ROOMPOST, 
+                 ROOMSIGUNGU, ROOMSIDO, ROOMDETAILADDR, ROOMBNAME, ROOMPRICE, PEAKPER, CLEANPAY, BASIC_PERSON, MAX_PERSON, PERSON_ADDPAY, 
+                 ROOMCOUNT, BATHCOUNT, CHECKINTIME,
+                 CHECKOUTTIME, LATITUDE, LONGITUDE, VIEWCOUNT, ROOMSTATUS, ROOM_WARNCOUNT) 
+values(ROOMCODE_seq.nextval,
+       'leess', 3, 3, '작고 밝은 공간 昭小 (소소)',
+       'https://a0.muscache.com/im/pictures/046b64d7-b014-43a4-8e0e-af8b1de82bad.jpg?aki_policy=xx_large',
+       123456789,
+       '작고 밝은 공간이라는 뜻의 昭小(소소) 입니다. 광주로 여행 오신 분들 뿐만 아니라 일상을 벗어나 혼자만의 시간을 갖고 싶으신 분들이 조용히 책도 보고 생각을 정리하며 편히 쉬었다 갈수 있는 공간이 되었으면 합니다. ', 48303,
+       '광주', '광주광역시','광주광역시 서구', '농성2동', 300000,20,50000,4,6,20000,4,2,to_date('2019/01/20 13:00:00','yyyy/mm/dd hh24:mi:ss'),to_date('2019/01/30 13:00:00','yyyy/mm/dd hh24:mi:ss'),35.153572, 126.883984,default,default,default);
+commit;
 
 desc room;
 
 
+select *
+from reservation;
 
+
+desc review;
+
+select *
+from review;
+select *
+from room;
+
+select * from user_sequences;
+
+insert into review(REVIEW_IDX, FK_ROOMCODE, FK_USERID, CORRECT, COMMUNICATE, CLEAN, POSITION, CHECKIN, VALUE, REVIEW_CONTENT, REVIEW_WRITEDATE)
+values(REVIEW_IDX_SEQ.nextval, '23', 'leess', 1, 1, 2, 1,2, 1, '최악.....', to_date('2019-01-14', 'yyyy-mm-dd'));
+
+commit;
+select REVIEW_IDX_SEQ.nextval
+from dual;
 
 
 
