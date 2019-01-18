@@ -39,7 +39,21 @@
 		from buildType_detail
 		where fk_buildType_idx = #{buildType}
 		order by buildType_detail_idx
-	</select>  
+	</select>
+	
+	<!-- 옵션유형 가져오기 -->
+ 	<resultMap type="HashMap" id="options">
+		  <result property="OPTION_IDX" column="option_idx" javaType="String" />
+		  <result property="OPTIONNAME" column="optionName" javaType="String" />
+	</resultMap>
+	
+ 	<select id="selectoptions" parameterType="String" resultMap="buildType_detail">
+		select option_idx, optionName
+		from options
+		order by option_idx
+	</select>
+
+ 
 	
 	
 	

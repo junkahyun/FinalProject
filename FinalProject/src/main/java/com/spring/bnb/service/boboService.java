@@ -35,4 +35,11 @@ public class boboService implements InterBOService{
 		return buildTypedetail;
 	}
 
+	// 옵션가져오기
+	@Override
+	public List<String> selectoptions() {
+		List<String> options = dao.selectoptions();
+		return options;
+	}
+
 }
