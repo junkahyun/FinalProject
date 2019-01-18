@@ -209,21 +209,18 @@ div{border: /* 1px solid gray;  */
 	    <div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >침실과 숙박인원</h4>
-				<div class="bedAndPeople" >
-					<div class="col-md-5" style="margin: 0;">최대숙박가능인원: <span class="number">${roomvo.max_person }</span></div>
-					<div class="col-md-5">기본 인원: <span class="number">${roomvo.basic_person }</span></div>
+				<div class="row bedAndPeople" >
+					<div class="col-md-6" style="margin: 0;">최대숙박가능인원: <span class="number">${roomvo.max_person }</span></div>
+					<div class="col-md-6">기본 인원: <span class="number">${roomvo.basic_person }</span></div>
 				</div>
-				<div class="bedAndPeople">
-					<span style="margin-right: 55%;">욕실: <span class="number">${roomvo.bathCount }</span></span>
-					<span>건물유형: <span class="number">${roomvo.buildType_detail_name }</span></span>
+				<div class="row bedAndPeople">
+					<div class="col-md-6">욕실: <span class="number">${roomvo.bathCount }</span></div>
+					<div class="col-md-6">건물유형: <span class="number">${roomvo.buildType_detail_name }</span></div>
 				</div>
-				<div class="bedAndPeople">
-					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
-					<span>숙소유형: <span class="number">개인실</span></span>	
+				<div class="row bedAndPeople">
+					<div class="col-md-6">침실갯수: <span class="number">8</span></div>
+					<div class="col-md-6">숙소유형: <span class="number">개인실</span></div>	
 				</div >
-				<div class="bedAndPeople">
-					<span style="margin-right: 45%;">침실: <span class="number">8</span></span>
-				</div>
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">

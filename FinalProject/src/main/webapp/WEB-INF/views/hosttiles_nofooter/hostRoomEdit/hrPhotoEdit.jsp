@@ -153,9 +153,8 @@ div {
 <script>
 
 	$(document).ready(function(){
-		$(".imgList").sortable({
+		$("#sortable").sortable({
 			items: $(".target")
-
 		});
 		
 		$("#imgfile").on("change",ImgsFilesSelect);
@@ -187,10 +186,6 @@ div {
 			
 	}
   	
-	$( function() {
-	    $( "#sortable" ).sortable();
-	    $( "#sortable" ).disableSelection();
-	} );
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
