@@ -440,9 +440,13 @@
 	        <option value="${year - i + 1900}">${year - i + 1900}</option>
          	</c:forEach>
         </select>
+<<<<<<< HEAD
+    </div>
+=======
 
     </div>
 
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
     <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
     <div class="modal-footer" style="margin-top: 2%;">
     	<div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
