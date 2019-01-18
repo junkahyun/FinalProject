@@ -2,12 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
-
 	$(document).ready(function(){
 		$("#searchAddrBtn").click(function() {
 		    new daum.Postcode({
 		         oncomplete: function(data) {
-		        	// alert(JSON.stringify(data));
 		        	 $("#addr").val(data.address);
 		             $("#post").val(data.zonecode);
 		         }
@@ -144,6 +142,13 @@
 	          $(":input").attr("disabled", false).removeClass("bgcol");
 	       }
 	    });
+	    $("#imgInput").change(function(){
+		    readURL(this);
+		    $("#blah").hide();
+		});
+	    $("#fileInputBtn").click(function(){
+	    	$("#imgInput").click();
+	    });
 	 }); // end of $(document).ready()-------------------
 	
 	 function join(event) {
@@ -223,22 +228,20 @@
 	 		}
 		});
 	}
-    $(function() {
-        $("#imgInp").on('change', function(){
-            readURL(this);
-        });
-    });
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            }
-
-          reader.readAsDataURL(input.files[0]);
-        }
-    }
+	function readURL(input) {
+		 
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	 
+	        reader.onload = function (e) {
+	            $('#profilePreview').attr('src', e.target.result);
+	        }
+	 
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	 
+	
 
 </script>
 <div>   
@@ -342,9 +345,12 @@
             	<span  style="text-align:center; margin-left:21%; font-weight: bold; color: #008489;" >페이스북</span><span  style="text-align:center; font-weight: bold; " >&nbsp;또는</span>&nbsp;<span  style="text-align:center;  font-weight: bold; color: #008489;" >구글</span><span  style="text-align:center; font-weight: bold; " >로 회원 가입하세요.</span>
           		<div style="padding:0;margin:0;">
 	                <div style="border-bottom: 1px solid lightgray; margin-top: 1%;padding:0;"></div>
-			        <div class="filebox"  style="border: 1px solid lightgray;margin:2% auto;width:100px;height:100px;border-radius:100%;">
-			        	<div id="blah" style="margin-top: 35%; width:90px; height:50px;text-align:center;margin-left:5%;">이미지를 등록해 주세요</div>
-			        	<input id="imgInp" type="file" style="margin-left:10%;">
+			        <div style="border: 1px solid lightgray;overflow:hidden; margin:2% auto;width:100px;margin-bottom:3%; height:100px;border-radius:100%;">
+			        	<img id="profilePreview" style="width:100%;"/>
+			        </div>
+			        <div style="position:absolute; top:16%;left:30%;">
+			         	<input type="file" id="imgInput" style="display:none;position:absolute;height:30px;z-index:2;width:150px;margin-left:28%;">
+				        <button id="fileInputBtn" type="button" style="width:150px; height:30px;background-color:lightgray;border:none;font-weight:bold;color:white;border-radius:3px;margin-left:30%;">프로필 이미지 선택</button>
 			        </div>
 			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:1.5%;">ID</label>
 			        <input name="userid" id="userid" placeholder="아이디" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
@@ -440,74 +446,7 @@
 	        <option value="${year - i + 1900}">${year - i + 1900}</option>
          	</c:forEach>
         </select>
-
     </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-  </div>
+</div>
          
-          <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
 
-       
-       <div class="modal-footer" style="margin-top: 2%;">
-          <div class="join" style="font-size: 13pt;  text-align: center; onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
-        </div>
-       
-       
-       
-      </div>
-      
-      </div>
-      </form>
-  </div>
- </div> 
- 
-  <%-- ****** 비밀번호찾기 Modal ****** --%>
-  <div class="modal fade" id="pwdfind" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content" style="width: 568px; height: 372px;">
-       
-          <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 5%; background-color: white;  margin-top: 2%; margin-bottom: 5%; border: 0px;"><img src="<%=request.getContextPath() %>/resources/ymimg/cancel.png" alt="X"></button>
-        <br/>
-         <span style="font-size: 15pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">비밀번호 재설정</span>
-          <br/>
-             <span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
-             <br/>
-             <span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
-             <br/>
-             <br/>
-             
-             <span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
-          <br/>
-          
-          <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid rightgray;  width: 504px; height: 46px; border-radius: 10px;" />
-          
-          
-          <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
-        
-       
-       
-       
-      </div>
-      
-      </div>
-  </div>
-
-=======
-=======
-
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
-    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
-    <div class="modal-footer" style="margin-top: 2%;">
-    	<div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
-    </div>    
-<<<<<<< HEAD
-</div>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
-=======
-</div>
-
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

@@ -128,6 +128,7 @@ public class SHController {
 		
 		reportMap = service.getReport();
 		
+		req.setAttribute("reportMap", reportMap);
 		
 		
 		return "admin/adminVan.admintiles";

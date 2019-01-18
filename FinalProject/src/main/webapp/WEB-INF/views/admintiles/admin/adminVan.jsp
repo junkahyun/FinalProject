@@ -4,7 +4,18 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String cxtPath = request.getContextPath();
+%> 
 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+	});
+	
+</script>
 
 <div class="col-md-10">
 
@@ -31,48 +42,13 @@
 						</tr>
 			    	</thead>
 					<tbody>
-					    <tr>
-						    <td>1</td>
-						    <td>leess</td>
-						    <td>양평 쓰레기</td>
-						    <td style="text-align: center;">2018.05.15</td>
-						    <td style="text-align: center;">처리</td>
-					    </tr>
-				        <tr>
-					      	<td>2</td>
-					        <td>hongkd</td>
-					        <td>양양 쓰레기</td>
-					        <td style="text-align: center;">2018.05.15</td>
-						    <td style="text-align: center;">처리</td>
-				        </tr>
-				        <tr>
-					      	<td>3</td>
-					        <td>July</td>
-					        <td>이런곳 첨봅니다</td>
-					        <td style="text-align: center;">2018.05.15</td>
-						    <td style="text-align: center;">처리</td>
-					    </tr>
-					    <tr>
-						    <td>4</td>
-						    <td>leess</td>
-						    <td>양평 쓰레기</td>
-						    <td style="text-align: center;">2018.05.15</td>
-						    <td style="text-align: center;">미처리</td>
-					    </tr>
-				        <tr>
-					      	<td>5</td>
-					        <td>hongkd</td>
-					        <td>양양 쓰레기</td>
-					        <td style="text-align: center;">2018.05.15</td>
-						    <td style="text-align: center;">미처리</td>
-				        </tr>
-				        <tr>
-					      	<td>6</td>
-					        <td>July</td>
-					        <td>이런곳 첨봅니다</td>
-					        <td style="text-align: center;">2018.05.15</td>
-						    <td style="text-align: center;">처리</td>
-					    </tr>
+						<%-- <c:forEach var="map" items="${reportMap}"> --%>
+							<td>${reportMap. }</td>
+					        <td>아이디</td>
+					        <td>제목</td>
+					        <td style="text-align: center;">날짜</td>
+					        <td style="text-align: center;">처리상태</td>
+						<%-- </c:forEach> --%>
 				    </tbody>
 				</table>			
 			</div>
