@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <!-- ===== #28. mapper 기본 설정 ===== -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="hy">
+
 	<!-- roomcode를 통해 숙소정보 가져오기 -->
 	<select id="getRoomByCode" parameterType="String" resultType="com.spring.bnb.model.RoomVO">	
 		select*
@@ -67,4 +69,34 @@
 		select img from roomImg where fk_roomcode=#{roomcode}
 	</select>
 	
+	<!-- 로그인 정보 확인하기 -->
+	<select id="logincheck" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.MemberVO">
+		select * from member 
+		where userid=#{userid} and pwd=#{pwd}
+	</select>
+	
+	<!-- 로그인 한 유저가 등록 한 숙소가 있을경우 MemberVO의 myroom에 해당 RoomVO 저장 -->
+	<select id="checkHostUser" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.RoomVO">
+		select * from member M join room R on M.userid = R.fk_userid
+		where R.fk_userid = #{userid} 
+	</select>
+	
+	<!-- 관심숙소 등록하기 -->
+	<insert id="insertLikeRoom" parameterType="HashMap">
+		insert into likeroom(LIKE_IDX,FK_ROOMCODE,FK_USERID,SAVETITLE)
+		values(LIKE_IDX_SEQ.nextval,#{ROOMCODE},#{USERID},#{SAVETITLE})
+	</insert>
+	
+	<resultMap type="HashMap" id="LikeRoom">
+		<result property="roomcode" column="ROOMCODE" javaType="int"/>
+		<result property="saveTitle" column="SAVETITLE" javaType="String"/>
+		<result property="roomMainImg" column="ROOMMAINIMG" javaType="String"/>
+	</resultMap>
+	<!-- 로그인 한 유저의 관심 숙소 불러오기 -->
+	<select id="getMyLikeRoomList" parameterType="String" resultMap="LikeRoom">
+		select*from likeroom L join Room R on L.fk_roomcode=R.roomcode
+		where L.fk_userid=#{userid}
+	</select>
+	
 </mapper>
+
