@@ -248,7 +248,8 @@ public class boboController {
 	}
 	
 	@RequestMapping(value="/roomstep3.air", method={RequestMethod.GET})
-	public String roomstep3() {
+	public String roomstep3(HttpServletRequest req) {
+		
 		
 		return "become-host/room-step3.hosttiles_nofooter";
 	}
@@ -283,11 +284,11 @@ public class boboController {
          
         while (itr.hasNext()) { //받은 파일들을 모두 돌린다.
              
-            /* 기존 주석처리
-            MultipartFile mpf = multipartRequest.getFile(itr.next());
-            String originFileName = mpf.getOriginalFilename();
+             //기존 주석처리
+            /*MultipartFile mpff = multipartRequest.getFile(itr.next());
+            String originFileName = mpff.getOriginalFilename();
             System.out.println("FILE_INFO: "+originFileName); //받은 파일 리스트 출력'
-            */
+*/           
              
             MultipartFile mpf = multipartRequest.getFile(itr.next());
       

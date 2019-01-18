@@ -114,11 +114,12 @@
 <script type="text/javascript">
             $(document).ready(function(){
             	
-            	$('.dragAndDropDiv')
+            	var objDragAndDrop = $(".dragAndDropDiv");
+            	
+            	objDragAndDrop
             	  .on("dragover", dragOver)
             	  .on("dragenter", dragEnter) // dragenter 드래그 요소가 드롭영역에 들어갈때 발생하는 이벤트
-            	  .on("dragleave", dragOver)
-            	  .on("drop", uploadFiles); // drop 드롭 할때 발생하는 이벤트 
+            	  .on("drop", drop); // drop 드롭 할때 발생하는 이벤트 
             	 
             	function dragOver(e){
             	  e.stopPropagation();
@@ -137,15 +138,15 @@
 	        	        $(e.target).css({
 	        	        	"border": "2px dashed #92AAB0"
 	        	        });
-	        	    }
+	        	    } 
               	}
             	 
-            	function uploadFiles(e){
+            	function drop(e){
             	  e.stopPropagation();
             	  e.preventDefault();
             	}            	
             	
-                function uploadFiles(e) {
+                function drop(e) {
             	    e.stopPropagation();
             	    e.preventDefault();
             	    dragOver(e); //1
@@ -177,57 +178,28 @@
             	    }
             	    
             	    handleFileUpload(files,objDragAndDrop);
-
             	    
             	}
 
 
-            	
-            	
-            	
-            	
             	////////////////////////
-            	
-            	
-                var objDragAndDrop = $(".dragAndDropDiv");
-                
-
-                
-                // dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트
-                $(document).on("dragover",".dragAndDropDiv",function(e){
-                    e.stopPropagation();
-                    e.preventDefault();
-                });
-                
-                // drop 드롭 할때 발생하는 이벤트 
-/*                 $(document).on("drop",".dragAndDropDiv",function(e){
-                     
-                    $(this).css('border', '2px dashed #0B85A1');
-                    e.preventDefault();
-                    var files = e.originalEvent.dataTransfer.files;
-                 
-                    handleFileUpload(files,objDragAndDrop);
-                    
-                }); */
-                
-             	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때 css때문에 함)
-                $(document).on('dragover', function (e){
+     
+             	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때)
+                 $(document).on('dragover', function (e){
 	                e.stopPropagation();
 	                e.preventDefault();
 	                objDragAndDrop.css('border', '2px dashed #92AAB0');
 				                
                 });
-                
-
-                                                
-                // drop 드롭 할때 발생하는 이벤트
-                $(document).on('drop', function (e){
+                            
+                // drop 드롭영역 밖에서 드롭할 때 발생하는 이벤트
+                  $(document).on('drop', function (e){
                     e.stopPropagation();
                     e.preventDefault();	
-                    //alert("드롭함2");
+                    //alert("드롭함");
                     
-                });
-                 
+                }); 
+                  
                 function handleFileUpload(files,obj)
                 {
                    for (var i = 0; i < files.length; i++) 
@@ -328,36 +300,35 @@
                 }
       
             });
+            
+            function next() {
+            	var frm = document.image; 
+        		frm.action="roomstep3.air";
+        		frm.method="GET";
+        		frm.submit();
+			}
 
 </script>
 
+<form name="image">
 <div>
-   <div class="row" style="border: 1px solid green;">
+   <div class="row" style="border: 0px solid green;">
 
-   <div class="container col-md-12" style="border: px solid red;">
+   <div class="container col-md-12" style="border: 0px solid red;">
 	  <div class="progress" style="height: 13px;"> 
 	    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
 	    </div>
 	  </div>
 	</div> 
 
-      <div class="col-md-6" style="margin-left: 27%; margin-top: 3%; border: 1px solid red;">
+      <div class="col-md-6" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
          <div class="title">게스트에게 숙소의 모습을 보여 주세요</div>
         
-        <div class="row" style="border: 1px solid red;">
+        <div class="row" style="border: 0px solid red; margin-top: 20px;">
         	<div class="col-md-12" style="margin-bottom: 20px;">
-        		 <div id="fileUpload" class="dragAndDropDiv">메인이미지</br>Drag & Drop Files Here
+        		 <div id="fileUpload" class="dragAndDropDiv">이미지 로드</br>Drag & Drop Files Here
         		 </div>
         	</div>
-        	<div class="col-md-4" style="border: 1px solid red;">
-        		<img style="width: 150px; border: 1px solid black; border-radius: 5px; " src="<%=request.getContextPath() %>/resources/boimg/roomenrollment.PNG" />
-        	</div>
-        	<div class="col-md-4" style="border: 1px solid red;">
-        		<img style="width: 150px; border: 1px solid black; border-radius: 5px; " src="<%=request.getContextPath() %>/resources/boimg/roomenrollment.PNG" />
-        	</div>
-        	<div class="col-md-4" style="border: 1px solid red;">
-        		<img style="width: 150px; border: 1px solid black; border-radius: 5px; " src="<%=request.getContextPath() %>/resources/boimg/roomenrollment.PNG" />
-        	</div>    	
         </div>
         
          <div class="col-md-6" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-top: 20px; padding-left: 0; padding-right: 0;" >
@@ -366,7 +337,7 @@
 	         </div>
 	         <div class="col-md-6" style="border: 0px solid red;"></div>
 	         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-	            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
+	            <button type="button" onclick="next();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
 	         </div>
         </div> 
 
@@ -374,3 +345,4 @@
 
    </div>
 </div>
+</form>
