@@ -30,8 +30,7 @@
 	
 	<!-- roomVO의 reviewList(reviewVO)에 user 입력하기 -->
 	<select id="getReviewer" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
-		select*from member M join review R on M.userid = R.fk_userid
-		where R.fk_userid = #{fk_userid}
+		select*from member where userid = #{fk_userid}
 	</select>
 	
 	<resultMap type="HashMap" id="bedroomMap">

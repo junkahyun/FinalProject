@@ -1,7 +1,6 @@
 package com.spring.bnb.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*; 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSWService;
 
@@ -37,15 +37,15 @@ public class SWController {
 		
 		/*req.setAttribute("testList", testList);*/
 		
-		// °Ç¹°À¯Çü(´ë)
+		// ìˆ™ì†Œìœ í˜•(ëŒ€)
 		List<String> buildList = service.getBuildList();		
-		// ¿É¼Ç
+		// ì˜µì…˜ì¢…ë¥˜
 		List<String> optionList = service.getOptionList();
-		// ¼÷¼ÒÀ¯Çü
+		// ë°©ì¢…ë¥˜
 		List<String> roomType = service.getRoomType();
-		// ¼÷¼Ò ÀÌ¿ë±ÔÄ¢
+		// ì´ìš©ê·œì¹™
 		List<String> roomRule = service.getRoomRule();
-		// ¼÷¼Ò ¸®½ºÆ® ºÒ·¯¿À±â
+		// ìˆ™ì†Œìœ í˜•(ì†Œ)
 		List<RoomVO> roomList = service.getRoomList();
 	
 		req.setAttribute("buildList", buildList);
@@ -88,7 +88,7 @@ public class SWController {
 		
 		JSONArray jsonArr = new JSONArray();  
 		
-		List<String> buildDetailName = service.getBuildDetailList(buildName1);;
+		List<String> buildDetailName = service.getBuildDetailList(buildName1);
 		
 		for(String test : buildDetailName) {
 			
@@ -99,8 +99,8 @@ public class SWController {
 			jsonArr.put(jsonObj);
 		}
 		
-		String str_jsonArr = jsonArr.toString();
-		req.setAttribute("str_jsonArr", str_jsonArr);
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
 		
 		/*System.out.println(str_jsonArr);
 		System.out.println(buildDetailName);
@@ -109,6 +109,18 @@ public class SWController {
 		return "JSON";
 	}
 	
-	
+	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
+	public String reservation(HttpServletRequest req) {
+		
+		String userid = "leess";
+		
+		List<ReservationVO> reservationList = service.getReservationList(userid); 
+		
+		req.setAttribute("userid", userid);
+		req.setAttribute("reservationList", reservationList); 
+		req.setAttribute("listSize", reservationList.size());
+		
+		return "hostPage/reservationList.hosttiles_nofooter";
+	}
 	
 }

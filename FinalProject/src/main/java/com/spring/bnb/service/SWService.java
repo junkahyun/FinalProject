@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSWDAO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 
 @Service
@@ -60,6 +61,14 @@ public class SWService implements InterSWService {
 		List<RoomVO> roomList = dao.getRoomList();
 		
 		return roomList;
+	}
+
+	@Override
+	public List<ReservationVO> getReservationList(String userid) {
+
+		List<ReservationVO> reservationList = dao.getReservationList(userid);
+		
+		return reservationList;
 	}
 
 	

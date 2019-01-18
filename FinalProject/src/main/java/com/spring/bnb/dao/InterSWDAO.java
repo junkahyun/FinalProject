@@ -2,21 +2,24 @@ package com.spring.bnb.dao;
 
 import java.util.List;
 
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 
 public interface InterSWDAO {
 
-	List<String> getBuildList();  // °Ç¹°À¯Çü(´ë)
+	List<String> getBuildList();  // ìˆ™ì†Œìœ í˜•(ëŒ€)
 
-	List<String> getOptionList();  // ¿É¼ÇÁ¾·ù
+	List<String> getOptionList();  // ì˜µì…˜ì¢…ë¥˜
 
-	List<String> getRoomType();  // ¼÷¼ÒÀ¯Çü
+	List<String> getRoomType();  // ê±´ë¬¼ìœ í˜•
 
-	List<String> getRoomRule();  // ¼÷¼Ò ÀÌ¿ë±ÔÄ¢
+	List<String> getRoomRule();  // ì´ìš©ê·œì¹™
 
-	List<String> getBuildDetailList(String buildName1);  // °Ç¹°À¯Çü(¼Ò)
+	List<String> getBuildDetailList(String buildName1);  // ìˆ™ì†Œìœ í˜•(ì†Œ)
 
-	List<RoomVO> getRoomList();  // ¼÷¼Ò ¸®½ºÆ® ºÒ·¯¿À±â
+	List<RoomVO> getRoomList();  // ìˆ™ì†Œ ë¦¬ìŠ¤íŠ¸ë³´ê¸°
+
+	List<ReservationVO> getReservationList(String userid);  // ì˜ˆì•½ì í˜„í™© ë³´ê¸°
 
 	
 }
