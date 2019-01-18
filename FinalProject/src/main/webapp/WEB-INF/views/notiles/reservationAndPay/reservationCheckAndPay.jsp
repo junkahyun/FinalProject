@@ -73,7 +73,7 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-4" >
 			<span class="myinfomation" >이름</span><br><br>
-			<input class="reservationInfo" type="text" value="이름" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${my_userid}" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-4" >
@@ -91,40 +91,37 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray;">
 		<div class="col-md-3"  align="center">
 			<span class="myinfomation">숙소이미지</span><br><br>
-			<img src="<%=ctxPath %>/resources/img/숙소사진.JPG" style="width: 80%;"/>
+			<img src="${oneRoom.roomMainImg}" style="width: 80%;"/>
 		</div>
 		
 		<div class="col-md-3" >
 			<span class="myinfomation">여행지</span><br>
-			<input class="reservationInfo" type="text" value="타이페이"/><br><br>
+			<input class="reservationInfo" type="text" value="${oneRoom.roomSigungu}"/><br><br>
 			
 			<span class="myinfomation">숙박시설 호스트</span><br>
-			<input class="reservationInfo" type="text" value="5박" /><br><br>
+			<input class="reservationInfo" type="text" value="${oneRoom.fk_userid}님" /><br><br>
 			
 			<span class="myinfomation">숙소주소</span><br>
-			<input class="reservationInfo" type="text" value="숙소주소" /><br><br>
+			<input class="reservationInfo" type="text" value="${oneRoom.roomSido}&nbsp;${oneRoom.roomBname}" /><br><br>
 		</div>
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="5박" /><br><br>
+			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" /><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="2019년 10월 15일 12:00시" /><br><br>
+			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일 " /><br><br>
 			
-			<span class="myinfomation">여행지</span><br>
-			<input class="reservationInfo" type="text" value="타이베이" /><br><br>
+			<span class="myinfomation">총인원</span><br>
+			<input class="reservationInfo" type="text" value="${guestcount}명" /><br><br>
 		</div>
 		
 		<div class="col-md-3" >
 			<span class="myinfomation">숙소종류</span><br>
-			<input class="reservationInfo" type="text" value="아파트전체"/><br><br>
+			<input class="reservationInfo" type="text" value="${oneRoom.roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="2019년 10월 25일 18:00시" /><br><br>
-			
-			<span class="myinfomation">총인원</span><br>
-			<input class="reservationInfo" type="text" value="5명" /><br><br>
+			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일 " /><br><br>
 		</div>
 	</div>
 	
@@ -132,7 +129,7 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray;">
 		<div align="right" style="font-size: 14pt;">
 			<span style="margin-right: 20%;">총합계(KWR)(수수료포함)</span>
-			<span>₩101,610</span>
+			<span>₩${totalprice}</span>
 		</div>
 	</div>
 	<div class="col-md-12">

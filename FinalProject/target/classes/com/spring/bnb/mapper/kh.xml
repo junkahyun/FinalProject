@@ -20,10 +20,11 @@
 	<select id="getOneRoomInfo" resultType="com.spring.bnb.model.RoomVO" parameterType="HashMap">
 		select *
 		from room A 
+		join roomtype B
+		on A.fk_roomtype_idx = B.roomtype_idx
 		join BUILDTYPE_DETAIL C
 		on A.FK_BUILDTYPE_DETAIL_IDX = C.BUILDTYPE_DETAIL_IDX
 		where roomcode = #{roomcode}
-		and fk_userid = #{host_userid}
 	</select>
 	
 	

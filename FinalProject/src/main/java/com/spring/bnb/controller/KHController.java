@@ -135,7 +135,34 @@ public class KHController {
 		String totalprice = req.getParameter("totalprice");
 		String message = req.getParameter("message");
 		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("roomcode", roomcode);
+		
+		// *** 숙소 정보 뽑아오는 메소드 *** //
+		RoomVO oneRoom = service.getOneRoomInfo(map);
+		
+		req.setAttribute("my_userid", my_userid);
+		req.setAttribute("babycount", babycount);
+		req.setAttribute("guestcount", guestcount);
+		req.setAttribute("year", year);
+		req.setAttribute("checkmonth1", checkmonth1);
+		req.setAttribute("checkmonth2", checkmonth2);
+		req.setAttribute("checkday1", checkday1);
+		req.setAttribute("checkday2", checkday2);
+		req.setAttribute("totalprice", totalprice);
+		req.setAttribute("message", message);
+		req.setAttribute("oneRoom", oneRoom);
+		
 		return "reservationAndPay/reservationCheckAndPay.notiles";
+	}
+	
+	
+	
+	// ***** 예약 확인 및 결제하기 (결제 창 띄우기) ***** //
+	@RequestMapping(value="/paymentGateway.air", method= {RequestMethod.GET})
+	public String paymentGateway(HttpServletRequest req) {
+		
+		return "paymentGateway";
 	}
 	
 	// 예약 코드 만드는 메소드 
@@ -153,12 +180,7 @@ public class KHController {
 	}
 	*/
 	
-	// ***** 예약 확인 및 결제하기 (결제 창 띄우기) ***** //
-	@RequestMapping(value="/paymentGateway.air", method= {RequestMethod.GET})
-	public String paymentGateway(HttpServletRequest req) {
-		
-		return "paymentGateway";
-	}
+	
 	
 	// ***** 예약 확인 및 결제하기 (결제성공) ***** //
 	@RequestMapping(value="/reservationFinalConfirm.air", method= {RequestMethod.GET})
