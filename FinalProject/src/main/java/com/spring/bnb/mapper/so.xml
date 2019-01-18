@@ -63,15 +63,17 @@
 	<result column="checiOutDay" property="checiOutDay" javaType="String"/>
 	<result column="roominfo" property="roominfo" javaType="String"/>
 	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
-
+	<result column="roomtype_name" property="roomtype_name" javaType="String"/>
 </resultMap>
 <select id="getMemberReservationList" parameterType="String" resultMap="resList">
-	
+
+
 select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode AS roomcode,guestcount
 		   ,babycount,rsv_name,rsv_phone,rsv_name,rsv_email,		   
            to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
-           substr(rsv_checkindate,7,10) AS checkInDD,
-           substr(rsv_checkindate,0,5) AS checkInMMYY,
+           substr(rsv_checkindate,7,2) AS checkInDD,
+           substr(rsv_checkoutdate,0,2) AS checkInYY,
+           substr(rsv_checkoutdate,4,2) AS checkInMM,
            decode(to_char(rsv_checkindate,'d'),'1','일'
             ,'2','월'
             ,'3','화'
@@ -81,8 +83,9 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
             ,'7','토'
             ) AS checkInDay,
 	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
-           substr(rsv_checkoutdate,7,10) AS checkOutDD,
-           substr(rsv_checkoutdate,0,8) AS checkOutMMYY,
+           substr(rsv_checkoutdate,7,2) AS checkOutDD,
+           substr(rsv_checkoutdate,0,2) AS checkOutYY,
+           substr(rsv_checkoutdate,4,2) AS checkOutMM,
            decode(to_char(rsv_checkoutdate,'d'),'1','일'
             ,'2','월'
             ,'3','화'
@@ -101,7 +104,7 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
           on B.fk_roomcode = C.roomcode
           join roomtype D
           on C.fk_roomtype_idx = D.roomtype_idx
-	where A.userid = #{loginuser}
+    where A.userid = #{loginuser}
 
 </select> 
 

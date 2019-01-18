@@ -97,16 +97,16 @@
 	  <c:if test="${cancledate == null}" >
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
-	        		<img src="<%= request.getContextPath() %>/resources/image/changHotel.jpg" width="100%" height="90%"/>
+	        		<img src="<%= request.getContextPath() %>/resources/image/${reservationInfo.roommainimg}" width="100%" height="90%"/>
 	        	</div>
 	     	 
 	     	 	<div  class="col-md-8" class="row">
 		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일:${reservationInfo.paydate}</div>
 		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
-					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
-					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list">
+					      <div><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
+					      <div><ul class="list-layout reviews-list">
 					       	<li class="reviews-list-item">${reservationInfo.roomsido}${reservationInfo.roomsigungu}${reservationInfo.roombname}${reservationInfo.roomdetailaddr} &nbsp;</li>	  
-							  <li>${reservationInfo.rsvcode}&nbsp;</li>
+							  <li>예약번호 : ${reservationInfo.rsvcode}&nbsp;</li>
 							  <li>${reservationInfo.roomtype_name}&nbsp;</li>
 					        </ul>
 					       </div>
@@ -117,10 +117,10 @@
 								<div style="font-size: 8pt; text-align: left;">체크인</div>
 								<div style="text-align: left; font-size: 20pt">${reservationInfo.checkInDD}</div>
 							</div>
-							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 1; border-right : 1px dashed gray">
+							<div class="col-md-6" style="padding: 0;border-right : 1px dashed gray">
 								<ul class="list-layout reviews-list">
 							       	<li class="reviews-list-item"><br/></li>	  
-									  <li>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월${reservationInfo.checkInDay}</li>
+									<li><p>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월</p>${reservationInfo.checkInDay}</li>
 							    </ul>
 						    </div>   
 						  </div>
