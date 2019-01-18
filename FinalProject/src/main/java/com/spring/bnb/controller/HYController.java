@@ -84,7 +84,7 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
-		System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
+		//System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);

@@ -1,6 +1,6 @@
 package com.spring.bnb.controller;
 
-import java.util.List;
+import java.util.*; 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,12 +114,11 @@ public class SWController {
 		
 		String userid = "leess";
 		
-		List<ReservationVO> reservationList = service.getReservationList(userid);
+		List<ReservationVO> reservationList = service.getReservationList(userid); 
 		
 		req.setAttribute("userid", userid);
-		req.setAttribute("reservationList", reservationList);
-		
-		System.out.println(userid);
+		req.setAttribute("reservationList", reservationList); 
+		req.setAttribute("listSize", reservationList.size());
 		
 		return "hostPage/reservationList.hosttiles_nofooter";
 	}

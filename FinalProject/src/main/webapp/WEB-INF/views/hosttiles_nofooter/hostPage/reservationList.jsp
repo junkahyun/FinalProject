@@ -10,6 +10,8 @@
 
   $(document).ready(function() {
 
+	
+	  
     $('#calendar').fullCalendar({
       header: {
         left: 'prev,next today',
@@ -21,56 +23,35 @@
       businessHours: true, // display business hours
       editable: true,
       events: [
-        {
-          title: 'Business Lunch',
-          start: '2019-01-03T13:00:00',
-          constraint: 'businessHours'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-01-13T11:00:00',
-          constraint: 'availableForMeeting', // defined below
-          color: '#257e4a'
-        },
-        {
-          title: 'Conference',
-          start: '2019-01-18',
-          end: '2019-01-20'
-        },
-        {
-          title: 'Party',
-          start: '2019-01-29T20:00:00'
-        },
-
-        // areas where "Meeting" must be dropped
-        {
-          id: 'availableForMeeting',
-          start: '2019-01-11T10:00:00',
-          end: '2019-01-11T16:00:00',
-          rendering: 'background'
-        },
-        {
-          id: 'availableForMeeting',
-          start: '2019-01-13T10:00:00',
-          end: '2019-01-13T16:00:00',
-          rendering: 'background'
-        },
-
-        // red areas where no events can be dropped
-        {
-          start: '2019-01-24',
-          end: '2019-01-28',
-          overlap: false,
-          rendering: 'background',
-          color: '#ff9f89'
-        },
-        {
-          start: '2019-01-06',
-          end: '2019-01-08',
-          overlap: false,
-          rendering: 'background',
-          color: '#ff9f89'
-        }
+    	  <c:forEach items="${reservationList}" var="rsv" varStatus="status">
+    	  	{
+              title: '${rsv.rsv_name}',
+              start: '${rsv.rsv_checkInDate}',
+              end : '${rsv.rsv_checkOutDate}'
+            }, 
+            {
+	           start: '${rsv.rsv_checkInDate}',
+	           end:'${rsv.rsv_checkOutDate}',
+	           overlap: false,
+               rendering: 'background',
+               color: '#ff9f89'
+            },
+            <c:if test="${status.last} == ${listSize}">
+          	  {
+                title: '${rsv.rsv_name}',
+                start: '${rsv.rsv_checkInDate}',
+                end : '${rsv.rsv_checkOutDate}'
+              }, 
+              {
+              	start: '${rsv.rsv_checkInDate}',
+              	end:'${rsv.rsv_checkOutDate}',
+              	overlap: false,
+                  rendering: 'background',
+                  color: '#ff9f89'
+              }
+            </c:if>
+    	  </c:forEach>
+    	   
       ]
     });
 
@@ -97,10 +78,11 @@
 
   <div id='calendar'>
   	<c:forEach items="${reservationList}" var="rsv">
-	  	<input type="text" id="client" value="${rsv.rsv_name}"/>
-	  	<input type="text" id="checkindate" value="${rsv.rsv_checkInDate}" />
-	  	<input type="text" id="checkoutdate" value="${rsv.rsv_checkOutDate}" />
-	  	<input type="text" id="phone" value="${rsv.rsv_phone}" />
+	  	<input type="text" id="client" class="cl" value="${rsv.rsv_name}"/>
+	  	<input type="text" id="checkindate" class="checkindate" value="${rsv.rsv_checkInDate}" />
+	  	<input type="text" id="checkoutdate" class="checkoutdate" value="${rsv.rsv_checkOutDate}" />
+	  	<input type="text" id="phone" class="phone" value="${rsv.rsv_phone}" /><br/>
+	   
   	</c:forEach>  	
   </div>
 

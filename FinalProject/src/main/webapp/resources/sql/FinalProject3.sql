@@ -332,24 +332,25 @@ select * from user_sequences
 
 insert into reservation(rsvcode, fk_roomcode, fk_userid, guestcount, babycount, rsv_name, rsv_phone, rsv_email, rsv_checkindate,
 rsv_checkoutdate, rsv_msg, paydate, totalprice, dcprice, rsv_cancledate)
-values(rsvcode_seq.nextval, '10', 'leess', 5, 1, '이순신', '01012345678', 'leess@gamil.com', '2019-01-20', '2019-01-25', 
+values(rsvcode_seq.nextval, '10', 'leess', 5, 1, '한석규', '01012345678', 'leess@gamil.com', '2019-01-20', '2019-01-25', 
 '방 깨끗하게 청소 부탁드려요~', '2019-01-19', 300000, 30000, null);
 
 insert into reservation(rsvcode, fk_roomcode, fk_userid, guestcount, babycount, rsv_name, rsv_phone, rsv_email, rsv_checkindate,
 rsv_checkoutdate, rsv_msg, paydate, totalprice, dcprice, rsv_cancledate)
-values(rsvcode_seq.nextval, '10', 'hognkd', 3, 0, '홍길동', '01035678985', 'hongkd@naver.com', '2019-02-01', '2019-02-05', 
-'넓은 방으로 주세요~', '2019-01-31', 250000, 25000, null);
+values(rsvcode_seq.nextval, '12', 'hongkd', 3, 0, '강감찬', '01078845124', 'kkc@gamil.com', '2019-02-05', '2019-02-15', 
+'넓은 방으로 주세요~', '2019-01-31', 600000, 50000, null);
 
 insert into reservation(rsvcode, fk_roomcode, fk_userid, guestcount, babycount, rsv_name, rsv_phone, rsv_email, rsv_checkindate,
 rsv_checkoutdate, rsv_msg, paydate, totalprice, dcprice, rsv_cancledate)
-values(rsvcode_seq.nextval, '10', 'leess', 5, 1, '이순신', '01012345678', 'leess@gamil.com', '2019-01-20', '2019-01-25', 
-'방 깨끗하게 청소 부탁드려요~', '2019-01-19', 300000, 30000, null);
+values(rsvcode_seq.nextval, '10', 'leess', 5, 1, '이대호', '01035478956', 'leedh@gamil.com', '2019-01-18', '2019-01-19', 
+'아침 맛있게 주세요', '2019-01-10', 150000, 10000, null);
+
 
 alter table reservation modify(rsv_phone varchar2(200));
 
 commit;
 
-select * from roomtype
+select * from room
 
 insert into room(ROOMCODE,FK_USERID,fk_buildType_detail_idx,FK_ROOMTYPE_IDX,ROOMNAME,ROOMMAINIMG,ROOMTEL,ROOMINFO,ROOMPOST,ROOMSIGUNGU,ROOMSIDO,ROOMBNAME,ROOMPRICE,PEAKPER,CLEANPAY,BASIC_PERSON,MAX_PERSON,PERSON_ADDPAY,ROOMCOUNT,BATHCOUNT,CHECKINTIME,CHECKOUTTIME,LATITUDE,LONGITUDE,VIEWCOUNT,ROOMSTATUS,ROOM_WARNCOUNT) 
 values(ROOMCODE_seq.nextval,'hongkd',10,3,'바다가 한 눈에 보이는 럭셔리 호텔!!','https://image.goodchoice.kr/resize_490x348/adimg_new/10775/0/5835449794615.jpg',0519984565,
@@ -360,4 +361,56 @@ values(ROOMCODE_seq.nextval,'hongkd',10,3,'바다가 한 눈에 보이는 럭셔
 3.TV에도 나온 최고급 서비스
 ',48303,'부산시','경상남도 부산광역시','광안동',300000,20,50000,4,6,20000,4,2,to_date('2019/01/20 13:00:00','yyyy/mm/dd hh24:mi:ss'),to_date('2019/01/30 13:00:00','yyyy/mm/dd hh24:mi:ss'),35.1531696,129.11866599999996,default,default,default);
 
-select * from room
+select * from options
+commit;
+
+delete options where option_idx = 5
+rollback;
+drop sequence option_idx_seq;
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '무선인터넷', 'wifi.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '옷장/서랍장', 'closet.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, 'TV', 'television.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '난방', 'heater.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '에어컨', 'air-conditioner.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '조식,커피,차', 'breakfast.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '연기감지기', 'somke-detector.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '구급상자', 'first-aid-kit.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '세탁기', 'washing-machine.png')
+
+insert into options(option_idx, optionname, optionicon)
+values(option_idx_seq.nextval, '주차공간', 'parking.png')
+
+select roomname, roommainimg, roomprice, roomtel, roomsigungu
+		     , basic_person, max_person, person_addpay, viewcount
+		     , latitude, longitude
+		from room
+        
+select *
+from reservation     
+where fk_userid = 'leess'
+
+update reservation set rsv_name = '한석규'
+where fk_userid = 'leess'
+        
+commit;
+
+delete reservation 
+where rsvcode = 13
