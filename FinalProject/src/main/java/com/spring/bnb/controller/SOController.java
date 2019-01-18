@@ -265,15 +265,7 @@ public class SOController {
 		
 		List<HashMap<String,String>> memberResList = service.getMemberReservationList(luser);
 		//회원 예약 내용 가져오기
-		System.out.println(memberResList.get(0).get("rsv_cancledate"));
-		System.out.println(memberResList.get(0).get("rsv_checkindate"));
-		System.out.println(today);
-		String date = memberResList.get(0).get("rsv_checkindate");
-		String sub_day = date.substring(8, 10);
-		String sub_month = date.substring(0, 8);
-		System.out.println(sub_month);
 		
-		req.setAttribute(name, o);
 		req.setAttribute("memberResList", memberResList);
 		req.setAttribute("today", today);
 		req.setAttribute("luser", luser);

@@ -53,21 +53,54 @@
 	<result column="longitude" property="longitude" javaType="String"/>
 	<result column="roominfo" property="roominfo" javaType="String"/>
 	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
+	<result column="checkInDD" property="checkInDD" javaType="String"/>
+	<result column="checkInYY" property="checkInYY" javaType="String"/>
+	<result column="checkInMM" property="checkInMM" javaType="String"/>
+	<result column="checkInDay" property="checkInDay" javaType="String"/>
+	<result column="checkOutDD" property="checkOutDD" javaType="String"/>
+	<result column="checkOutMM" property="checkOutMM" javaType="String"/>
+	<result column="checkOutYY" property="checkOutYY" javaType="String"/>
+	<result column="checiOutDay" property="checiOutDay" javaType="String"/>
+	<result column="roominfo" property="roominfo" javaType="String"/>
+	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
 
 </resultMap>
 <select id="getMemberReservationList" parameterType="String" resultMap="resList">
-		
-	select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode AS roomcode,guestcount
-		   ,babycount,rsv_name,rsv_phone,rsv_name,rsv_email,
-		   to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
-	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,rsv_msg,
+	
+select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode AS roomcode,guestcount
+		   ,babycount,rsv_name,rsv_phone,rsv_name,rsv_email,		   
+           to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
+           substr(rsv_checkindate,7,10) AS checkInDD,
+           substr(rsv_checkindate,0,5) AS checkInMMYY,
+           decode(to_char(rsv_checkindate,'d'),'1','일'
+            ,'2','월'
+            ,'3','화'
+            ,'4','수'
+            ,'5','목'
+            ,'6','금'
+            ,'7','토'
+            ) AS checkInDay,
+	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
+           substr(rsv_checkoutdate,7,10) AS checkOutDD,
+           substr(rsv_checkoutdate,0,8) AS checkOutMMYY,
+           decode(to_char(rsv_checkoutdate,'d'),'1','일'
+            ,'2','월'
+            ,'3','화'
+            ,'4','수'
+            ,'5','목'
+            ,'6','금'
+            ,'7','토'
+            ) AS checiOutDay,
 	       to_char(paydate,'yyyy-mm-dd') as paydate,totalprice,dcprice,rsv_cancledate,fk_roomtype_idx,roomname
 	       ,roommainimg,roomtel,roompost,roomsigungu,roomsido,roombname,cleanpay,basic_person,
-	       roomcount,bathcount,latitude,longitude,fk_buildtype_detail_idx,roominfo,roomdetailaddr
+	       rsv_msg,roomcount,bathcount,latitude,longitude,fk_buildtype_detail_idx,roomdetailaddr
+           ,roomtype_name
 	from member A join reservation B
 	      on A.userid = B.fk_userid
 	      join room C
-	on B.fk_roomcode = C.roomcode
+          on B.fk_roomcode = C.roomcode
+          join roomtype D
+          on C.fk_roomtype_idx = D.roomtype_idx
 	where A.userid = #{loginuser}
 
 </select> 

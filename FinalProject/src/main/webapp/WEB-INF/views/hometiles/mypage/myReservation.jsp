@@ -106,21 +106,21 @@
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list">
 					       	<li class="reviews-list-item">${reservationInfo.roomsido}${reservationInfo.roomsigungu}${reservationInfo.roombname}${reservationInfo.roomdetailaddr} &nbsp;</li>	  
-							  <li>예약번호&nbsp;</li>
-							  <li>룸타입&nbsp;</li>
+							  <li>${reservationInfo.rsvcode}&nbsp;</li>
+							  <li>${reservationInfo.roomtype_name}&nbsp;</li>
 					        </ul>
 					       </div>
 					  </div> 
 					  <div  class="col-md-4" style="border: 0px solid red; margin-bottom: 20%; padding: 0;">
 						  <div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
 							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
-								<div style="font-size: 8pt; text-align: left; border: 0px solid blue">체크인</div>
-								<div style="border: 0px solid blue; text-align: left; font-size: 20pt">12</div>
+								<div style="font-size: 8pt; text-align: left;">체크인</div>
+								<div style="text-align: left; font-size: 20pt">${reservationInfo.checkInDD}</div>
 							</div>
 							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 1; border-right : 1px dashed gray">
 								<ul class="list-layout reviews-list">
 							       	<li class="reviews-list-item"><br/></li>	  
-									  <li>18년 6월 화</li>
+									  <li>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월${reservationInfo.checkInDay}</li>
 							    </ul>
 						    </div>   
 						  </div>
@@ -128,12 +128,12 @@
 							 
 								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
 									<div style="font-size: 8pt; padding-left:1px; border: 0px solid blue">체크아웃</div>
-									<div style="border: 0px solid blue; padding-left:3px; font-size: 20pt">15</div>
+									<div style="border: 0px solid blue; padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
 								</div>
 								<div class="col-md-6" style= "padding: 0; margin: 0;">
 										<ul class="list-layout reviews-list">
 									       	<li class="reviews-list-item"><br/></li>	  
-											  <li>18년 6월 화</li>
+											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월${reservationInfo.checiOutDay}</li>
 									    </ul>
 							    </div> 
 							
