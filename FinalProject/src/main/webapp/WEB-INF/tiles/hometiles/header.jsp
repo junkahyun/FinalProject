@@ -3,6 +3,11 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	$(document).ready(function(){
+		$("#loginpwd").keyDown(function(event){
+			if(event.target==13){
+				goLogin();
+			}
+		})
 		$("#searchAddrBtn").click(function() {
 		    new daum.Postcode({
 		         oncomplete: function(data) {
@@ -265,10 +270,10 @@
          </c:if>
          <c:if test="${loginuser!=null }">
          <div class="headermenus">
-            <c:if test="${loginuser.myroom==null }">
+            <c:if test="${loginuser.myroomList==null }">
             <div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
             </c:if>
-            <c:if test="${loginuser.myroom!=null }">
+            <c:if test="${loginuser.myroomList!=null }">
             <div class="headermenu" onClick="goRegistHost();">숙소추가</div>
             <div class="headermenu" onClick="goHostMain();">호스트</div>
             </c:if>
@@ -317,7 +322,7 @@
 		        </div>
 		        <div style="padding:0;margin:0;width:90%;margin: 5%;">
 			        <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid rightgray; height: 46px; border-radius: 10px;" />
-			        <input placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid rightgray; height: 46px; border-radius: 10px;" /> 
+			        <input id="loginpwd" placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid rightgray; height: 46px; border-radius: 10px;" /> 
 		        	<input id="a" type="checkbox" style="cursor: pointer;vertical-align: middle;"  />
 		        	<label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">비밀번호 저장</label>
 		        	<div style="margin-top: 3%;">
