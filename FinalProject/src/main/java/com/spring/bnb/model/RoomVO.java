@@ -18,6 +18,7 @@ public class RoomVO {
 	private String roomSido;
 	private String roomBname;
 	private String roomAddr;
+	private String roomdetailAddr;
 	private String roomPrice;
 	private String peakper;
 	private String cleanPay; 

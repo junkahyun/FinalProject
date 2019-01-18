@@ -24,7 +24,7 @@
 
 	function start(){
 		var frm = document.roomstart;
-		frm.action = "roomstap1page.air";
+		frm.action = "roomstep1page.air";
 		frm.method = "GET";
 		frm.submit();
 	}
