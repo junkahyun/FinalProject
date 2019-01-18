@@ -1,5 +1,6 @@
 package com.spring.bnb.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
@@ -34,9 +36,25 @@ public class HYController {
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
 		roomcode = "10";
+		
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
+	}
+	@RequestMapping(value = "/JSONtest.air", method = RequestMethod.GET)
+	@ResponseBody
+	public List<HashMap<String,Object>> JSONtest(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		roomcode = "10";
+		List<HashMap<String,Object>> hashList = new ArrayList<HashMap<String,Object>>();
+		HashMap<String,Object> hash = new HashMap<String,Object>();
+		hash.put("roomcode", roomcode);
+		hash.put("test", "test");
+		hashList.add(hash);
+		hash.put("roomcode", roomcode);
+		System.out.println(hash);
+		
+		return hashList;
 	}
 	
 	// 호스트 메인페이지

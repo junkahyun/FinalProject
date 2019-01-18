@@ -17,6 +17,17 @@
 				$("#followHY").removeClass("followDiv");
 			}
 		});	
+		$.ajax({
+			url:"JSONtest.air",
+			type:"GET",
+			data:"JSON",
+			success:function(json){
+				alter(JSON.stringify(json));
+			},
+			error: function(){
+				
+			}
+		})
 	});
 	function reviewSearch(){
 		
@@ -48,6 +59,7 @@
 				
 			}
 		});
+		
 	}
 </script>
 <style>
@@ -385,7 +397,7 @@ div{
 			<div class="infoDiv">
 				<%-- 지역정보 --%>
 				<div class="infoSubjectHYBig">지역정보</div>
-				<div style="margin-top:2%;">${room.roomSido} ${room.roomSigungu} ${room.roomBname} ${room.roomAddr }</div>
+				<div style="margin-top:2%;">${room.roomSido} ${room.roomSigungu} ${room.roomBname} ${room.roomDetailAddr}</div>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
 				
 				<script> 
@@ -402,7 +414,7 @@ div{
 				   var geocoder = new daum.maps.services.Geocoder();
 				   
 				   // 주소로 좌표를 검색합니다
-				   geocoder.addressSearch('${room.roomSido} ${room.roomSigungu} ${room.roomBname}', function(result, status) {
+				   geocoder.addressSearch('${room.roomSido} ${room.roomSigungu} ${room.roomBname} ', function(result, status) {
 				   
 				       // 정상적으로 검색이 완료됐으면 
 				        if (status === daum.maps.services.Status.OK) {
