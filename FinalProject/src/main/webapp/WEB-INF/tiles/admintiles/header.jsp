@@ -46,7 +46,7 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<%= request.getContextPath() %>/main.air">Visit Site</a></li>
+				<li><a href="<%= request.getContextPath() %>/index.air">Visit Site</a></li>
 				<li><a href="#">로그아웃</a></li> 
 			</ul> 
 			</div><!-- /.navbar-collapse -->

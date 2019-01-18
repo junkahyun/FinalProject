@@ -44,7 +44,7 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 	$(document).ready(function(){
 		$("#btnsubmit").click(function(){
 			
-			location.href = "<%=ctxPath%>/main.air"; 
+			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		
 	});//end of $(document).ready------------
