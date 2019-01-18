@@ -152,6 +152,8 @@ div {
 
 	$(document).ready(function(){
 		$("#imgfile").on("change",ImgsFilesSelect);
+		
+		$("")
 	});
 	
 	var Imgfiles =[];
@@ -172,14 +174,17 @@ div {
 			
 			reader.onload = function(e){
 				var imgs = "<div class='col-md-2 target'><img class='img-thumbnail' src='"+e.target.result+"'/></div>";
-				$("#sortable").append(imgs);
+				$("#imgList").append(imgs);
+				index++;
 			}
 			
 			reader.readAsDataURL(f);
 		});
-			
+		
 	}
   	
+	
+	
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
@@ -197,12 +202,12 @@ div {
  	<span style="font-weight: bold;">커버사진</span>
  	<a><span style="margin-left: 60%;">변경</span></a>
 </div>
+<form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
 
 <div class="col-md-12 photodiv">
 	<hr align="left">
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
-	<form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
-	<div id="sortable" class="row"></div>
+		<div id="imgList" class="row"></div>
 	
 		<div  class="filebox">  
 			<label for="imgfile">사진 추가하기</label> 
@@ -215,12 +220,11 @@ div {
 			</div>
 			
 			<div class="col-md-1">
-				<input class="btn" type="button" value="취소하기" style="color: #008489;"/>
+				<input id="delete" class="btn" type="button" value="취소하기" style="color: #008489;" onclick=""/>
 			</div>
 		</div>
-	</form>
 </div>
-
+</form>
 
 
 	

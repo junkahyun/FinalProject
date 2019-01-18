@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%-- ======= #22. tiles 를 사용하는 레이아웃1 페이지 만들기  ======= --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"  %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <%
 	String ctxPath = request.getContextPath();
@@ -14,9 +16,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-	<!-- Link CSS -->
+	<!-- Link CSS --> 
+	<link rel="stylesheet" href="<%=ctxPath %>/resources/js/jquery-ui-1.12.1/jquery-ui.min.css">
 	<link rel="stylesheet" href="<%=ctxPath %>/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/main.css">
+	<!-- link shortcut icon -->
+	<link rel="shortcut icon" href="<%=ctxPath%>/resources/images/main/shortcut.ico"> 
 	<style type="text/css">
 		section#best_reviewes{
 			margin-top:40px;
@@ -34,29 +39,65 @@
 		    top: 0;
 		    z-index: 9;
 		}
-	</style>
-	<!-- Link JS -->  
+		.headermenu{
+			color:#fff;
+		} 
+	</style> 
+	<!-- Link JS -->   
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/bootstrap.min.js"></script>	
-	<script type="text/javascript">
-		$(document).ready(function(){
-
-
-		});
-
-	</script>
+	<script type="text/javascript" src="<%=ctxPath %>/resources/js/main.js"></script>
 </head>
 <body>
 	<header>
 		<div class="navigation">
 			<div class="col-md-6">
-				<img src="<%=ctxPath %>/resources/images/main/logo.png" style="width:20%;">
+				<img src="<%=ctxPath %>/resources/images/main/logo.png" style="width:20%; cursor:pointer;" onClick="location.href='<%=ctxPath%>/index.air';" />
 			</div>
 			<div class="col-md-6">
-				<ul id="util_menu">
-					<li>도움말</li>
-					<li>회원가입</li>
-					<li>로그인</li>
+			<c:if test="${loginuser==null }">
+				<ul id="util_menu" class="no_margin-right"> 
+					<li><a href="#">도움말</a></li>
+					<li><a href="#" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></li>
+					<li><a href="#" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></li>
+				 </c:if>	 
+		         <c:if test="${loginuser!=null }">
+		         <ul id="util_menu" > 
+		         <div class="headermenus">
+		            <c:if test="${loginuser.myroomList==null }">
+		           		<div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
+		            </c:if>
+		            <c:if test="${loginuser.myroomList!=null }">
+			            <div class="headermenu" onClick="goRegistHost();">숙소추가</div>
+			            <div class="headermenu" onClick="goHostMain();">호스트</div>
+		            </c:if>
+		
+		            <div class="headermenu dropdown resize1" onClick="myLikeRoomList();">
+		               <div class="dropdown-toggle" data-toggle="dropdown">저장목록</div>
+		               <ul class="dropdown-menu dropdown-menu-right">
+			               <li class="hoverBottomHY" style="font-weight:bold;padding-bottom:2%;">목록<span style="float:right;">목록보기</span></li>
+			               <li style="margin:2%;">
+			                  <div id="myLikeRoomList" class="noSpace" style="padding-bottom:2%;">
+			                  </div>
+			               </li>
+			             </ul> 
+		            </div>
+		            <div class="headermenu" onClick="">메세지</div>
+		            <div class="headermenu" onClick="">도움말</div>
+		
+		            <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
+		               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid #999; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
+		                  <img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
+		               </div>
+		               <ul class="dropdown-menu dropdown-menu-right" style="left:auto; right:0 !important;color:#999;padding:0;text-align:right;text-weight:500;">
+		               <li style="padding:0; width:50px; margin:0 auto;margin-top:5%;padding-bottom:2%; font-size:12pt;">${loginuser.userid }</li>
+		               <li class="profileDrop" style="border-top:1px solid #999;" onClick="goLogout();">로그아웃</li>
+		               <li class="profileDrop" onClick="goMypage();">마이페이지</li>
+		             </ul> 
+		            </div>
+		         </div>
+		         </c:if>
 				</ul>
 			</div>	
 		</div>
@@ -88,11 +129,25 @@
 	                  </a>
 	               </div> 
 	               <div class="choose_A">
-			         	<div class="col-md-2 domestic">국내</div>
-			         	<div class="col-md-2 oversea">도시</div>
-			         	<div class="col-md-3 check_in">체크인</div>
-			         	<div class="col-md-3 check_out">체크아웃</div>
-			         	<div class="col-md-2 search">검색</div>
+			         	<div class="col-md-2 domestic">
+			         		<img id="nation_flag" alt=" " src="<%=ctxPath%>/resources/images/main/nation_flag_icon.png" width="20%"/>
+			         		<span class="choose_nation">국내</span>
+			         	</div>
+			         	<div id="selectCity" class="col-md-2 search_column_l check_in" data-toggle = "modal" data-target="#sido" data-dismiss = "modal">
+				            <span class="icon_place" id="suggest_icon"></span> 
+				            <input class="ipt_search_l r_border" type="text" id="searchcity" name="sido" value="도시" size="10" readonly> 
+						</div> 
+			         	<div class="col-md-3 check_in search_column_r">
+	            			<span class="icon_date" id="calendar_btn_s"></span>
+	                        <input class="ipt_search_r" type="text" id="startdate" name="checkin" value="체크인" size="10" readonly>	                      	
+				        </div>
+			         	<div class="col-md-3 check_out search_column_r">
+	            			<span class="icon_date" id="calendar_btn_s"></span>
+	                        <input class="ipt_search_r" type="text" id="enddate" name="checkout" value="체크아웃" size="10" readonly>	                      	
+				        </div>
+			         	<div id="goSearch" class="col-md-2 search">
+			         		검색
+			         	</div>
 	         		</div>
 	            </div> 
 	         </div> 
@@ -106,70 +161,31 @@
 				<h3 class="after_underline">추천 숙소</h3>
 			</div>		
 			<div class="row not-rowStyle">
-				<ul id="rooms_show_ul">
-				<!-- 데이터 불러올 시 이 형식에 맞게 append 시킬것-->
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326" /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>                                 
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326"/> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326"  /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="770" height="326" /> 
-   				 	<div class="rooms_intro city_big">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-	        			<br/>
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <br/>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326"  /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="380" height="326" /> 
-   				 	<div class="rooms_intro">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>                                 
-				<li>     
-					<img class="img_room" src="https://image.xiaozhustatic1.com/00,400,326,2/10,0,68,18115,1800,1200,e6ea498c.jpg" width="770" height="326"/> 
-   				 	<div class="rooms_intro city_big">
-	        			<img class="img_user_fd" src="https://image.xiaozhustatic1.com/22/10,0,43,6234,375,376,50965e20.jpg" />
-	        			<br/>
-				        <span class="room_name">武汉民宿_安居的家 - 武汉</span>
-				        <br/>
-				        <span class="index_price"><em class="bigFont">&#165;</em>258</span>
-		    		</div> 
-				</li>        
-				
-				<!-- //여기까지-->   
+				<ul id="rooms_show_ul"> 
+					<c:forEach items="${roomList}" var="rvo" varStatus="status">
+						<c:if test="${status.index == 4 || status.index == 7 }">
+							<li>     
+								<img class="img_room" src="${rvo.roomMainImg }" width="770" height="326" /> 
+			   				 	<div class="rooms_intro city_big">
+				        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg}" />
+				        			<br/>
+							        <span class="room_name">${rvo.roomName }</span>
+							        <br/>
+							        <span class="index_price"><em class="bigFont">￦</em>&nbsp;<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></span>
+					    		</div> 
+							</li>   
+						</c:if>
+						<li>     
+							<img class="img_room" src="${rvo.roomMainImg}" width="380" height="326" /> 
+		   				 	<div class="rooms_intro">
+			        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg }" />
+						        <span class="room_name">${rvo.roomName }</span>
+						        <span class="index_price"><em class="bigFont">￦</em>&nbsp;<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></span>
+						        
+				    		</div> 
+						</li>      
+						
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -207,135 +223,55 @@
 		<div class="container">
 			<div class="index_commnet">
        			<div class="index_T">
-	            	<h1 class="white">世间所有的相遇都是久别重逢</h1>
-	            	<span class="white">房客和房东都在彼此感动着</span>
+	            	<h1 class="white">베스트 후기</h1>
+	            	<span class="white">우리들의 만남</span>
         		</div>
+        		
         		<div id="commentdiary">
-    			<div class="comment_column">
-				<div class="cmt_con">
-  					<span class="comment_user">房客点评</span>
-   		   			<div style="display: none;">
-    				<span>
-    					<img src="https://image.xiaozhustatic2.com/22/51,0,77,15206,132,132,0b8c541f.jpg">
-    				</span>
-		            <span>YOYOac</span>
-		            <span>2018.12</span>
-		            <span class="comment_W">
-		            	<a href="http://dali.xiaozhu.com/fangzi/49636167903.html#comment" target="_blank">是我喜欢的感觉，院子里的草坪、老木板做的路径、老窗花做的茶台、满院的竹子，就连多肉都能养的很有意境。卫生自不用多说了，房间的花儿都是鲜花，清雅舒适。没事在院子里晒晒太阳喝喝茶，无比惬意。老板还给我升级了房间，房间里视野很好，还可以看海景。茶室里有很多精致的小物件，我忍不住喜欢买了几款，价格还不贵。这里的一切都是那么和谐、自然，要不是假期太短，真想好好感受这里的慢生活，以后还会再来。</a>
-		            </span>
-        		</div>
-                <div style="display: none;">
-            		<span>
-            			<img src="https://image.xiaozhustatic1.com/22/6,0,31,4546,320,321,809b8333.jpg">
-            		</span>
-		            <span>Pennyluo</span>
-		            <span>2018.12</span>
-		            <span class="comment_W">
-		            	<a href="http://lijiang.xiaozhu.com/fangzi/32327628201.html#comment" target="_blank">性价比超高的客栈，阳光、大落地窗、吊椅等等，屋里屋外都是木质结构，很有味道。海哥和玉姐都是很亲和幽默的人，可以打麻将、煮茶喝酒，还可以和其他住客一起在院子里吃饭，很舒服。关键是老板娘厨艺很赞呢，比外面好多饭馆做的都好吃！至于海哥的茶艺嘛，还有待提升，哈哈哈哈！老板老板娘都是当地人，如果你要去哪里玩，不懂的都可以问他们，他们很热情很善良，会告诉你性价比最高的攻略。总之，住了一周，很开心，谢谢招待！
-		            	</a>
-		            </span>
-		        	</div>
-                <div style="display: block;">
-            <span><img src="https://thirdwx.qlogo.cn/mmopen/vi_32/kDiaoDicA19FPDOFGh9YNLgt0iaUibYxb1c4nc8IZkTtKJmialy5micsVxBZT3CvAicz9V5rOlmibur8qrjAFH1IExOlsw/132"></span>
-            <span>好命的马马</span>
-            <span>2018.12</span>
-            <span class="comment_W"><a href="http://cq.xiaozhu.com/fangzi/39896868603.html#comment" target="_blank">很幸运，生日跟闺蜜们一起聚聚，比照片更温馨，细节布置很到位。厅很大，容纳二十人左右都没有问题，餐具酒杯开瓶器一应俱全。老板很周到，因为生日还特意送了四种口味的果酒。店里有各种饮料和酒水，小吃，价格跟便利店一个价，前台还有八张公交卡供客人免费使用，这一点对外地的客人来说真的很贴心。打碎了一个红酒杯，本来要给老板赔偿的，但是老板说又不是故意的，不用赔，非常耿直的老板了，祝愿生意兴隆！</a></span>
-        </div>
-                <div style="display: none;">
-            <span><img src="https://tfs.alipayobjects.com/images/partner/T1blNeXhxXXXXXXXXX"></span>
-            <span>CLomg</span>
-            <span>2018.12</span>
-            <span class="comment_W"><a href="http://km.xiaozhu.com/fangzi/33668836503.html#comment" target="_blank">第一次来昆明，为了方便就选了离女朋友学校近的民宿。一下飞机就感觉喜欢上了这座城市，蓝天，白云，阳光，微风，从冬天跨越到了春天。房东很耐心细致的说了入住的事宜，房间也很满意，特别喜欢投影仪。异地恋最心酸的可能就是跨越千里，刚刚见面又得分离。每一次分别都是为了下一次更好的相聚，希望所有异地恋的情侣都可以好好坚持下去，早点结束异地，好好的在一起。谢谢这间温暖的小屋，谢谢在冬天也依然温暖的昆明，下次再见。</a></span>
-        </div>
-        <div style="display: none;">
-            <span>
-            	<img src="https://image.xiaozhustatic3.com/22/17,0,3,2334,329,329,f2ca8d0b.jpg">
-            </span>
-            <span>阿紫azier</span>
-            <span>2018.12</span>
-            <span class="comment_W">
-            	<a href="http://zhangjiajie.xiaozhu.com/fangzi/25340701203.html#comment" target="_blank">原先的房间出了点bug，老板为我们更换了房间，还特地把我们想要的麻将桌搬过来了。到了张家界后老板亲自来接机，一路上跟我们讲风土人情，还根据我们的需求为我们量身定做了行程！管家安排了导游每天来接我们，还带我们去吃本地特色的三下锅。在看魅力湘西时碰到了民宿老板，还特地买了糖给我们吃，很暖心。最后还为我们安排了休息室，送我们到机场。虽然整个行程中张家界的天气不美好，但是山遇城的服务带来了很多温暖。
-            	</a>
-            </span>
-        </div>
-        <ul class="cmt_ul">
-            <li class="cmt_current"></li>
-            <li class=""></li>
-            <li class=""></li>
-            <li class=""></li>
-            <li class=""></li>
-        </ul>
-    </div> 
-    <em class="middle_line"></em>              
-	</div>
-	<div class="comment_column">
-    <div class="cmt_con cmt_R">
-        <span class="comment_user">房东日记</span>
-        <div>
-	        <span><img src="https://image.xiaozhustatic1.com/22/14,0,18,23531,260,260,042cc067.jpg"></span>
-	        <span>YQYJ_HOTEL</span>
-	        <span>2018.10.05</span>
-	        <span class="comment_W"><a href="http://www.xiaozhu.com/fangdong/32513670501/diary/42816166500.html#" target="_blank">有位很有礼貌的房客提出了一个小小的要求，因为和女朋友一起来，问能不能给布置下房间。国庆来临之际，我计划着为周先生布置房间，因为没有亲手为客人布置过，有点迷茫。但是一心想给他们一个惊喜，整体以紫色的气球花瓣为装饰，一对相亲相爱的布娃娃代表男女主人，一对美丽的白天鹅代表着纯洁的爱情，阳台围满的粉色气球，代表甜甜蜜蜜。接到房客的时候，女主角推开门大大的一个惊喜！满意！同时我的心也乐开了花。
-			</a></span>
-        </div>
-        <div style="display:none;">					
-            <span>
-            	<img src="https://image.xiaozhustatic2.com/22/51,0,34,21989,364,363,f8eeb5e6.jpg">
-            </span>
-            <span>木兮君</span>
-            <span>2018.10.23</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/8192262615/diary/43831272500.html#" target="_blank">房子和孩子对我而言都是一样重要的存在。对颜色的搭配、细节的把控、品质的追求，以及装修的整体效果，我都很苛刻。做民宿这2年有了很多的改变，每一次真诚的反馈，对我而言都是一份收获，这代表着我付出的努力得到了认可，得到了肯定。每一次的好评，都是客人在入住过后的真实体验，她们觉得它是旅途中的心灵驿站，于我又何尝不是呢，每一次的离开，都像告别老朋友一样……
-			</a></span>
-        </div>
-        <div style="display:none;">
-            <span>
-            	<img src="https://image.xiaozhustatic1.com/22/5,0,92,1440,448,448,d5b36d39.jpg">
-            </span>
-            <span>上品佳房</span>
-            <span>2018.12.19</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/707380938/diary/91724259300.html#" target="_blank">初遇小猪，应该是在某篇推广的文章中看到它，从而发现了新的旅行住宿形式。有出租船屋的，有出租沙发的，还有整套出租的，感觉开拓了新的眼界。今年年初，我自己盘下几间房来做民宿。准备的过程虽然很苦，但也快乐着，终于，一切都布置好了。对于我来说，一间民宿，就是一个小世界，它不仅仅是一个房间，也是我的一种希望，希望租客朋友们在这里一起拉进与这座城市的距离，一起分享故事，享受宁静，热情，亲切与关怀。
-            	</a>
-            </span>
-        </div>
-        <div style="display:none;">
-            <span>
-            	<img src="https://image.xiaozhustatic3.com/22/11,0,7,6971,280,281,4352127e.jpg">
-            </span>
-            <span>茉莉与花</span>
-            <span>2018.11.11</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/19274383601/diary/45818605100.html#" target="_blank">生活一片兵荒马乱，总有疲惫不堪的日子。好在我们不会将自己淹死在生活的洪流之中，总会试图寻找一些方法来让那颗疲惫的心得到片刻的治愈。有的人会选择来一场旅行，从忙碌的生活中抽离出来，去一个陌生的城市，去看那些未知的风景，尽情的撒欢释放压力。而茉莉家，希望是你旅途中的一个选择。我们希望你在这漠然的空间里，慢下来，做你最真实的自己，卸下防备，卸下伪装，不焦虑不怯懦，尽情的享受生活。
-            	</a>
-            </span>
-        </div>
-        <div style="display:none;">
-            <span>
-            	<img src="https://image.xiaozhustatic2.com/22/14,0,99,8951,260,260,9eaf4a8b.jpg">
-            </span>
-            <span>那家_那海</span>
-            <span>2018.11.28</span>
-            <span class="comment_W">
-            	<a href="http://www.xiaozhu.com/fangdong/28121909501/diary/71285030800.html#" target="_blank">民宿不是一门生意，而是一种情怀。做民宿是我做得最用心，最开心的一件事情了。上天没有辜负我的一片心意，目前我遇到的都是很和善很友爱的客人，他们用自己的方式感动着我。山西的客人，千里迢迢背来一袋小米和一箱子山西脆饼；东北的客人，在遭遇雪天航班不能及时起飞的情况下，没有半点情绪和怨言，还拍雪景给我看，给我带了东北大米、玉米糁和糙米。承蒙大家的关爱，让我更有动力前进，遇到困难也只是会心一笑，然后继续努力。</a>
-            </span>
-        </div>
-        <ul class="cmt_ul">
-            <li class="cmt_current"></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </div>    
-		</div>
-		</div>
-    </div>
-
-		</div>
-
+	    			<div class="comment_column">
+						<div class="cmt_con">
+		  					<span class="comment_user">${reviewLeft.fk_userid}</span>
+			                <div>
+					            <span><img src="<%=ctxPath%>/resources/images/${reviewLeft.user.profileimg}"></span>
+					            <span>${reviewLeft.room.roomName }</span>
+					            <span>${reviewLeft.review_writedate}</span>
+					            <span class="comment_W"><a href="#" >${reviewLeft.review_content}</a></span>
+					        </div>
+		                
+	  		  			</div>  
+					    <em class="middle_line"></em>              
+						</div> 
+						<div class="comment_column">
+						    <div class="cmt_con cmt_R">
+						        <span class="comment_user">${reviewRight.fk_userid}</span>
+						        <div>
+							        <span><img src="<%=ctxPath%>/resources/images/${reviewRight.user.profileimg}"></span>
+							        <span>${reviewRight.room.roomName }</span>
+							        <span>${reviewRight.review_writedate}</span>
+							        <span class="comment_W"><a href="#">${reviewRight.review_content}</a></span>
+						        </div> 
+						    </div>    
+						</div>
+					</div>
+	    		</div> 
+			</div> 
 	</section>
-
+	<%-- 시/도 선택 모달 --%>
+	<div class="modal fade" id="sido" role="dialog">
+	    <div class="modal-dialog">	    
+	      <!-- Modal content-->
+	      <div class="modal-content" style="width: 568px; height: 372px;"> 
+	        <button type="button" class="myclose" data-dismiss="modal" style="background-color: white;  margin-top: 2%; border: 0px; float:right;"><span style="font-size:24px">X</span></button>
+	        <div id="sido">
+	        	<h4>시/군/구 선택하기</h4>
+	        	<select class="form-control" name="sido1" id="sido1"></select>
+				<select class="form-control" name="gugun1" id="gugun1"></select> 
+	        </div>
+	        <button type="button" class="btn btn-primary finish_sido"  data-dismiss="modal" >확인</button>
+	      </div> 
+	     </div>
+  	 </div> 
+  	 <%-- footer --%>
 	<footer>
 		<div class="container">
 			<div class=" col-md-12 footer_menues">	
@@ -355,7 +291,7 @@
 						<li>비즈니스 프로그램</li>
 						<li>가이드북</li>
 						<li>Airbnbmag</li>
-						<li>에어비앤비 이벤트NEW!</li>
+						<li>에어비앤비 이벤트<span style="margin-left:3%;color: #008489; font-weight: bold;">NEW!</span></li>
 						<li>한국의 변경된 환불 정책</li>
 					</ul>
 					<ul class="col-md-3">
@@ -365,8 +301,8 @@
 						<li>호스팅 기준</li>
 						<li>책임감 있는 호스트 되기</li>
 						<li>커뮤니티 센터</li>
-						<li>트립 호스팅NEW!</li>
-						<li>Open Homes 프로그램NEW!</li>
+						<li>트립 호스팅<span style="margin-left:3%; color: #008489; font-weight: bold;">NEW!</span></li>
+						<li>Open Homes 프로그램<span style="margin-left:3%; color: #008489; font-weight: bold;">NEW!</span></li>
 					</ul>
 					<ul class="col-md-3">
 						<li>이용약관</li>
@@ -389,5 +325,155 @@
 			</div>
 		</div> 
 	</footer> 
+	<%-- Modal --%>
+	
+<%-- ****** 로그인 Modal ****** --%>
+<div class="modal fade" id="login" role="dialog">
+   <div class="modal-dialog" style="margin-top: 10%;">
+       <form id="loginFrm" name="loginFrm">
+       <!-- Modal content-->
+       <div class="modal-content" style="width: 100%; height: 400px; margin-top:5%;">
+          <div>
+              <div style="margin-top: 3%;">
+                   <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 3%; background-color: white; border: 0px;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+              </div>
+              <div style="padding:0;margin:0;width:90%;margin: 5%;">
+                 <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid #999; height: 46px; border-radius: 10px;" />
+                 <input placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid #999; height: 46px; border-radius: 10px;" /> 
+                 <input id="a" type="checkbox" style="cursor: pointer;vertical-align: middle;"  />
+                 <label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">비밀번호 저장</label>
+                 <div style="margin-top: 3%;">
+                    <a type="text" style="border: 0px solid; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
+                 </div>
+                <button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid #999; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
+              </div>
+          </div>
+         <div class="modal-footer" style="margin-top: 2%;">
+             <div class="join" style=" text-align: center;" onClick="" >에어비엔비 계정이 없으세요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></div>  
+          </div> 
+      </div>
+       <!-- Modal content End -->
+       </form>
+   </div>
+</div>   
+<%-- ****** 회원가입 Modal ****** --%>
+<div class="modal fade" id="join" role="dialog">
+    <div class="modal-dialog">
+
+       <form name="joinFrm" enctype="multipart/form-data">
+        <!-- Modal content-->
+  			<div class="modal-content" style="width: 100%;padding:0;">
+	       		<button type="button" class="myclose" data-dismiss="modal" style="margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+            	<span  style="text-align:center; margin-left:21%; font-weight: bold; color: #008489;" >페이스북</span><span  style="text-align:center; font-weight: bold; " >&nbsp;또는</span>&nbsp;<span  style="text-align:center;  font-weight: bold; color: #008489;" >구글</span><span  style="text-align:center; font-weight: bold; " >로 회원 가입하세요.</span>
+          		<div style="padding:0;margin:0;">
+	                <div style="border-bottom: 1px solid #999; margin-top: 1%;padding:0;"></div>
+			        <div class="filebox"  style="border: 1px solid #999;margin:2% auto;width:100px;height:100px;border-radius:100%;">
+			        	<div id="blah" style="margin-top: 35%; width:90px; height:50px;text-align:center;margin-left:5%;">이미지를 등록해 주세요</div>
+			        	<input id="imgInp" type="file" style="margin-left:10%;">
+			        </div>
+			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:1.5%;">ID</label>
+			        <input name="userid" id="userid" placeholder="아이디" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">NAME</label>
+			        <input name="username" id="username" placeholder="이름" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        <div class="row" style="padding:0;margin-left: 2.5%;margin-top:1%;">
+				        <div class="col-md-6" style="padding:0;">
+				        	<label style="position:fixed;z-index:1; left:7%;font-weight:bold;margin-top:2.5%;">PW</label>
+				        	<input name="pwd" id="pwd" placeholder="비밀번호" class="col-md-6 input-data form-control registInput" type="text" style="width: 100%;padding-left: 30%;"/>
+				        </div>
+				        <div class="col-md-5" style="padding:0;margin-left: 2%;">
+				        	<input name="pwd" id="pwd" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="text" style="width: 92%;"/>
+			        	</div>
+			        </div>
+			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">EMAIL</label>
+			        <input name="email" id="email" placeholder="이메일" class="input-data form-control registInput" type="email" style="padding-left: 15%;"/>
+			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">PHONE</label>
+			        <input name="phone" id="phone" placeholder='"-"없이 입력해주세요' class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        <div class="row" style="padding:0;margin-top:1%;">
+				        <div class="col-md-6" style="padding:0;margin-left:4.5%;">
+				        	<label style="position:fixed; left:7%;font-weight:bold;margin-top:2.5%;z-index:1;">POST</label>
+			        		<input name="post" id="post" placeholder="우편번호" class="input-data form-control registInput" type="text"  style="width:100%;padding-left: 28%;"/>
+				        </div>
+				        <div class="col-md-5" style="margin-left:3%;margin-top:1%;">
+				        	<button id="searchAddrBtn" type="button" style="height:40px;width:88%;border:none;background-color: #999;color:white;font-weight:bold;border-radius:5px;">주소찾기</button>
+				        </div>
+			        </div>
+			        <input name="addr" id="addr" placeholder="주소" class="input-data form-control registInput" type="text" />
+			        <input name="detailaddr" id="addrDetail" placeholder="상세주소" class="input-data form-control registInput" type="text"/>
+			        <textarea name="introduction" id="introduction" placeholder="자기소개" class="input-data form-control registInput" style="height: 90px;"></textarea>
+ 					<div style="margin-top:2%;">
+	 					<input type="radio" id="male" name="gender" value="1" style="margin-left: 5%;" checked/><label for="male" style="margin-left: 2%;">남자</label>
+		       			<input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
+	  				</div>
+	  				<div class="row noSpace" style="width:100%;padding:0;margin-top:2%;font-size: 12pt;margin-left:5%;" >
+		         		<div class="col-md-4">
+		           			<c:set var="year" value="2019"></c:set>
+		           			<select name="year" class="birth registBirthInput">
+		          				<option value="-1">년</option>
+		          				<c:forEach var="i" begin="1900" end="${year}" step="1" >
+		             			<option value="${year - i + 1900}" style="width:100px;">${year - i + 1900}</option>
+		         				</c:forEach>
+		           			</select>
+		    			</div>
+		         		<div class="col-md-3">
+		       				<select name="month" class="birth registBirthInput">
+						        <option value="-1">월</option>
+						        <c:forEach var="month" begin="1" end="12">
+						        <option value="${month}">${month}</option>
+						        </c:forEach> 
+		        			</select>
+						</div>          
+		    			<div class="col-md-3">
+			         		<select name="day" class="birth registBirthInput">
+			          			<option value="-1">일</option>
+						        <c:forEach var="day" begin="1" end="31" >
+						        <option value="${day}">${day}</option>
+						        </c:forEach>
+			           		</select>
+						</div>
+					</div>
+		         	<button type="button" class="login" onClick="join();"style="width: 90%;height: 40px; border: 1px solid #999; border: none; font-weight:bold;background-color: #fd5a61; color: white; border-radius: 10px;margin-left: 5%; margin-top: 2%;padding:0;">가입하기</button>
+			        <div class="modal-footer" style="margin-top: 2%;">
+		            	<div class="join" style="font-size: 12pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
+		        	</div>
+      			</div>
+			</div>
+    	</form>
+	</div>
+ 
+</div> 
+
+
+<%-- ****** 비밀번호찾기 Modal ****** --%>
+<div class="modal fade" id="pwdfind" role="dialog">
+   <div class="modal-dialog">
+       <!-- Modal content-->
+       <div class="modal-content" style="width: 568px; height: 372px;">   
+          <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 5%; background-color: white;  margin-top: 2%; margin-bottom: 5%; border: 0px;"><img src="<%=request.getContextPath() %>/resources/ymimg/cancel.png" alt="X"></button>
+           <span style="font-size: 15pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">비밀번호 재설정</span>
+            <span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
+            <span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
+            <span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
+             <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid #999;  width: 504px; height: 46px; border-radius: 10px;" />
+             <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
+         </div>
+    </div>
+    <div class="col-md-3 calc"  style="margin-left: 7%;">
+
+      <c:set var="year" value="2019"></c:set>
+        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
+           <option>년</option>
+           <c:forEach var="i" begin="1900" end="${year}" step="1" >
+           <option value="${year - i + 1900}">${year - i + 1900}</option>
+            </c:forEach>
+        </select>
+
+    </div>
+
+    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid #999; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
+    <div class="modal-footer" style="margin-top: 2%;">
+       <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
+    </div>    
+</div>
+	
 </body>
 </html>

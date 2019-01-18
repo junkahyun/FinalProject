@@ -244,7 +244,7 @@
 <div>   
    <div id="header">
       <div class="row height_maxPer">
-         <div id="headerlogo" style="cursor:pointer;" onClick="javascript:location.href='main.air'">
+         <div id="headerlogo" style="cursor:pointer;" onClick="javascript:location.href='index.air'">
             <img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="width:28px; height:31px;"/>
          </div>
          <div id="searchbarDiv">

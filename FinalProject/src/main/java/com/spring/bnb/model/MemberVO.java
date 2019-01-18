@@ -3,6 +3,7 @@ package com.spring.bnb.model;
 import java.util.List;
 
 public class MemberVO {
+
 	private String userid; 
 	private String profileimg ;
 	private String username;
@@ -146,3 +147,4 @@ public class MemberVO {
 	
 	
 }
+
