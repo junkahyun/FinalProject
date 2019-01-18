@@ -55,9 +55,47 @@
 			</div>
 			<div class="col-md-6">
 				<ul id="util_menu">
+				<c:if test="${loginuser==null }">
 					<li><a href="#">도움말</a></li>
-					<li><a href="#">회원가입</a></li>
-					<li><a href="login.air">로그인</a></li>
+					<li><a href="#" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></li>
+					<li><a href="#" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></li>
+				 </c:if>	 
+		         <c:if test="${loginuser!=null }">
+		         <div class="headermenus">
+		            <c:if test="${loginuser.myroom==null }">
+		           		<div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
+		            </c:if>
+		            <c:if test="${loginuser.myroom!=null }">
+			            <div class="headermenu" onClick="goRegistHost();">숙소추가</div>
+			            <div class="headermenu" onClick="goHostMain();">호스트</div>
+		            </c:if>
+		
+		            <div class="headermenu dropdown resize1" onClick="myLikeRoomList();">
+		               <div class="dropdown-toggle" data-toggle="dropdown">저장목록</div>
+		               <ul class="dropdown-menu dropdown-menu-right">
+		               <li class="hoverBottomHY" style="font-weight:bold;padding-bottom:2%;">목록<span style="float:right;">목록보기</span></li>
+		               <li style="margin:2%;">
+		                  <div id="myLikeRoomList" class="noSpace" style="padding-bottom:2%;">
+		                  </div>
+		               </li>
+		             </ul>
+		
+		            </div>
+		            <div class="headermenu" onClick="">메세지</div>
+		            <div class="headermenu" onClick="">도움말</div>
+		
+		            <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
+		               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
+		                  <img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
+		               </div>
+		               <ul class="dropdown-menu dropdown-menu-right" style="padding:0;text-align:right;text-weight:500;">
+		               <li style="padding:0; width:50px; margin:0 auto;margin-top:5%;padding-bottom:2%; font-size:12pt;">${loginuser.userid }</li>
+		               <li class="profileDrop" style="border-top:1px solid lightgray;" onClick="goLogout();">로그아웃</li>
+		               <li class="profileDrop" onClick="goMypage();">마이페이지</li>
+		             </ul> 
+		            </div>
+		         </div>
+		         </c:if>
 				</ul>
 			</div>	
 		</div>

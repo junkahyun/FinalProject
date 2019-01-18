@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>  
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< HEAD
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
-<script> 
-=======
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+<script> 
 	$(document).ready(function(){
 		$("#searchAddrBtn").click(function() {
 		    new daum.Postcode({
@@ -231,27 +226,7 @@
 			error: function(request, status, error){
 	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	 		}
-		});
-<<<<<<< HEAD
-	} 
-    $(function() {
-        $("#imgInp").on('change', function(){
-            readURL(this);
-        });
-    });
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            }
-
-          reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-=======
+		}); 
 	}
 	function readURL(input) {
 		 
@@ -264,11 +239,7 @@
 	 
 	        reader.readAsDataURL(input.files[0]);
 	    }
-	}
-	 
-	
-
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+	} 
 </script>
 <div>   
    <div id="header">
@@ -467,24 +438,13 @@
     <div class="col-md-3 calc"  style="margin-left: 7%;">
 
       <c:set var="year" value="2019"></c:set>
-        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
-<<<<<<< HEAD
-           <option>년</option>
-           <c:forEach var="i" begin="1900" end="${year}" step="1" >
-           <option value="${year - i + 1900}">${year - i + 1900}</option>
-            </c:forEach>
-        </select>
-
-    </div>
-
-=======
+        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;"> 
 	        <option>년</option>
 	        <c:forEach var="i" begin="1900" end="${year}" step="1" >
-	        <option value="${year - i + 1900}">${year - i + 1900}</option>
+	        	<option value="${year - i + 1900}">${year - i + 1900}</option>
          	</c:forEach>
         </select>
-    </div>
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+    </div> 
     <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
     <div class="modal-footer" style="margin-top: 2%;">
        <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
