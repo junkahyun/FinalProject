@@ -181,14 +181,24 @@ from dual;
  from review A JOIN room B
  on A.fk_roomcode = B.roomcode;
  
-select RNO, FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG, rownum as RNO
+select FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG
 from 
 (select A.FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG
 from review A JOIN room B
 on A.fk_roomcode = B.roomcode
 JOIN member C
-on B.fk_userid = C.userid
-order by viewcount desc
+on B.fk_userid = C.userid 
+order by to_date(REVIEW_WRITEDATE,'yyyy-mm-dd hh24:mi:ss') desc
 )V
-where RNO between 1 and 2;
+where rownum between 1 and 2;
 
+select *
+from review A join room B
+on A.fk_roomcode = B.roomcode;
+
+update review set review_content = '1. 화장실이 조금 좁아요 (+수건걸이가 샤워기에 조금 더 떨어져 있으면 좋겠어요.) 2. 주방이 분리되어 있어서 음식하는냄새가 안들어와서 좋아요. 3. 침대가 넓어서 두명도 다 사용할수 있어요! 4. 보일러가 올라오는게 조금 늦어요♥ 5. 큰거울이 있어서 너무 편했어요. 6. 곳곳에 게스트분들을 위해서 준비해놓게 너무 기분 좋았어요! +7. 버스터미널이랑 가까우니깐 광주여행 오신분들은 꼭 이용하셨으면 좋겠어요^^'
+where fk_roomcode = 23;
+commit;
+
+select *
+from member;
