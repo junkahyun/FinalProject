@@ -29,15 +29,21 @@
 	<resultMap type="HashMap" id="reviewList">
 		<result property="FK_USERID" column="FK_USERID" 		  	  javaType="String" />
 		<result property="REVIEW_CONTENT" column="REVIEW_CONTENT" 	  javaType="String" />
+		<result property="ROOMNAME" column="ROOMNAME" 	  			  javaType="String" />
 		<result property="REVIEW_WRITEDATE" column="REVIEW_WRITEDATE" javaType="String" />
 		<result property="PROFILEIMG" column="PROFILEIMG" 			  javaType="String" />
 	</resultMap>
 	<select id="getBestReviewList" resultMap="reviewList">
-		select A.FK_USERID, REVIEW_CONTENT, REVIEW_WRITEDATE, PROFILEIMG
+		select FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG
+		from 
+		(select A.FK_USERID, REVIEW_CONTENT, ROOMNAME, to_char(REVIEW_WRITEDATE, 'yyyy-mm-dd') as REVIEW_WRITEDATE, PROFILEIMG
 		from review A JOIN room B
 		on A.fk_roomcode = B.roomcode
 		JOIN member C
 		on B.fk_userid = C.userid
+		order by to_date(REVIEW_WRITEDATE,'yyyy-mm-dd hh24:mi:ss') desc
+		)V
+		where rownum between 1 and 2
 	</select>
 	
 </mapper>

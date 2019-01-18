@@ -49,13 +49,30 @@ public class WCDAO implements InterWCDAO {
 	public List<ReviewVO> getBestReviewList() {
 		List<ReviewVO> rList = new ArrayList<ReviewVO>();
 		
-		List<HashMap<String, String>> reviewList =sqlsession.selectList("wc.getBestReviewList");
+		List<HashMap<String, String>> reviewList = sqlsession.selectList("wc.getBestReviewList");
 		
 		for(HashMap<String,String> review : reviewList) {
 			 String fk_userid  = review.get("FK_USERID");
 			 String review_content = review.get("REVIEW_CONTENT");
 			 String review_writedate = review.get("REVIEW_WRITEDATE");
 			 String profileimg = review.get("PROFILEIMG"); 
+			 String roomname = review.get("ROOMNAME");
+			 
+			 ReviewVO rvo = new ReviewVO();
+			 RoomVO roomvo = new RoomVO();
+			 MemberVO mvo = new MemberVO();
+			 
+			 roomvo.setRoomName(roomname);
+			 mvo.setProfileimg(profileimg);
+			 
+			 rvo.setFk_userid(fk_userid);
+			 rvo.setReview_content(review_content);
+			 rvo.setReview_writedate(review_writedate);
+			 rvo.setUser(mvo);
+			 rvo.setRoom(roomvo);
+			 
+			 rList.add(rvo);
+			 
 		}
 		
 		return rList;

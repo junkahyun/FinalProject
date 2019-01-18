@@ -177,5 +177,18 @@ from dual;
 
 
 
-
+ select FK_USERID, REVIEW_CONTENT, REVIEW_WRITEDATE
+ from review A JOIN room B
+ on A.fk_roomcode = B.roomcode;
+ 
+select RNO, FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG, rownum as RNO
+from 
+(select A.FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG
+from review A JOIN room B
+on A.fk_roomcode = B.roomcode
+JOIN member C
+on B.fk_userid = C.userid
+order by viewcount desc
+)V
+where RNO between 1 and 2;
 

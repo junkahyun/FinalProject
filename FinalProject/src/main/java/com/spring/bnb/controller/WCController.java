@@ -28,7 +28,9 @@ public class WCController {
 		
 		List<ReviewVO> reviewList = service.getBestReviewList();
 		
-		req.setAttribute("roomList", roomList);  
+		req.setAttribute("roomList", roomList);
+		req.setAttribute("reviewLeft", reviewList.get(0));
+		req.setAttribute("reviewRight", reviewList.get(1));
 		return "main/index";   
 	}  
 	@RequestMapping(value = "/admin.air", method = RequestMethod.GET)
