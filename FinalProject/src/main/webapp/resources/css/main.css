@@ -65,7 +65,13 @@ div.navigation{
 	z-index: 9999; 
 }
 div.navigation ul#util_menu{
+	width:inherit;
 	float:right;
+	margin-right:6%;
+}
+.no_margin-right{
+	width:auto !important;
+	margin-right:0 !important;
 }
 div.navigation ul#util_menu > li{ 
 	float:left; 
@@ -402,14 +408,14 @@ footer div.container div.footer_menues:after{
 	margin: 0 8px;
 }
 .headermenu:hover{
-	border-bottom: 3px solid gray;
+	border-bottom: 3px solid #fff;
 	cursor: pointer;
 }
 .height_maxPer{height:100%;}
 
 
 .hoverBottomHY{
-	border-bottom: 1px solid lightgray;
+	border-bottom: 1px solid #fff;
 	margin:2%;
 }
 .hoverBottomHY:hover{
@@ -418,8 +424,8 @@ footer div.container div.footer_menues:after{
 .profileDrop{
 	margin:0;
 	width: 100%;
-	padding: 5% 3%;
-}
+	padding: 5% 3%; 
+} 
 .profileDrop:hover{
 	background-color: rgba(210,210,210,0.8);
 }
@@ -438,7 +444,7 @@ footer div.container div.footer_menues:after{
 .registInput{
 	font-size: 12pt; 
 	margin-top: 2%; 
-	border: 1px solid rightgray;  
+	border: 1px solid lightgray;  
 	margin-left:5%;
 	width: 90%; 
 	height: 40px; 
@@ -448,8 +454,7 @@ footer div.container div.footer_menues:after{
 	border:solid;
 	overflow:scroll;
 	margin-left: 5%;
-	border: 1px solid lightgray;
+	border: 1px solid #fff;
 	width:100%;
 	height:40px;
-}
-
+} 

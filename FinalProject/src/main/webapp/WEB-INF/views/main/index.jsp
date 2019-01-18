@@ -39,8 +39,10 @@
 		    top: 0;
 		    z-index: 9;
 		}
-	</style>
-	
+		.headermenu{
+			color:#fff;
+		} 
+	</style> 
 	<!-- Link JS -->   
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
@@ -51,21 +53,22 @@
 	<header>
 		<div class="navigation">
 			<div class="col-md-6">
-				<img src="<%=ctxPath %>/resources/images/main/logo.png" style="width:20%;">
+				<img src="<%=ctxPath %>/resources/images/main/logo.png" style="width:20%; cursor:pointer;" onClick="location.href='<%=ctxPath%>/index.air';" />
 			</div>
 			<div class="col-md-6">
-				<ul id="util_menu">
-				<c:if test="${loginuser==null }">
+			<c:if test="${loginuser==null }">
+				<ul id="util_menu" class="no_margin-right"> 
 					<li><a href="#">도움말</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></li>
 				 </c:if>	 
 		         <c:if test="${loginuser!=null }">
+		         <ul id="util_menu" > 
 		         <div class="headermenus">
-		            <c:if test="${loginuser.myroom==null }">
+		            <c:if test="${loginuser.myroomList==null }">
 		           		<div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
 		            </c:if>
-		            <c:if test="${loginuser.myroom!=null }">
+		            <c:if test="${loginuser.myroomList!=null }">
 			            <div class="headermenu" onClick="goRegistHost();">숙소추가</div>
 			            <div class="headermenu" onClick="goHostMain();">호스트</div>
 		            </c:if>
@@ -73,24 +76,23 @@
 		            <div class="headermenu dropdown resize1" onClick="myLikeRoomList();">
 		               <div class="dropdown-toggle" data-toggle="dropdown">저장목록</div>
 		               <ul class="dropdown-menu dropdown-menu-right">
-		               <li class="hoverBottomHY" style="font-weight:bold;padding-bottom:2%;">목록<span style="float:right;">목록보기</span></li>
-		               <li style="margin:2%;">
-		                  <div id="myLikeRoomList" class="noSpace" style="padding-bottom:2%;">
-		                  </div>
-		               </li>
-		             </ul>
-		
+			               <li class="hoverBottomHY" style="font-weight:bold;padding-bottom:2%;">목록<span style="float:right;">목록보기</span></li>
+			               <li style="margin:2%;">
+			                  <div id="myLikeRoomList" class="noSpace" style="padding-bottom:2%;">
+			                  </div>
+			               </li>
+			             </ul> 
 		            </div>
 		            <div class="headermenu" onClick="">메세지</div>
 		            <div class="headermenu" onClick="">도움말</div>
 		
 		            <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
-		               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
+		               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid #999; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
 		                  <img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
 		               </div>
-		               <ul class="dropdown-menu dropdown-menu-right" style="padding:0;text-align:right;text-weight:500;">
+		               <ul class="dropdown-menu dropdown-menu-right" style="left:auto; right:0 !important;color:#999;padding:0;text-align:right;text-weight:500;">
 		               <li style="padding:0; width:50px; margin:0 auto;margin-top:5%;padding-bottom:2%; font-size:12pt;">${loginuser.userid }</li>
-		               <li class="profileDrop" style="border-top:1px solid lightgray;" onClick="goLogout();">로그아웃</li>
+		               <li class="profileDrop" style="border-top:1px solid #999;" onClick="goLogout();">로그아웃</li>
 		               <li class="profileDrop" onClick="goMypage();">마이페이지</li>
 		             </ul> 
 		            </div>
@@ -336,14 +338,14 @@
                    <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 3%; background-color: white; border: 0px;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
               </div>
               <div style="padding:0;margin:0;width:90%;margin: 5%;">
-                 <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid rightgray; height: 46px; border-radius: 10px;" />
-                 <input placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid rightgray; height: 46px; border-radius: 10px;" /> 
+                 <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid #999; height: 46px; border-radius: 10px;" />
+                 <input placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid #999; height: 46px; border-radius: 10px;" /> 
                  <input id="a" type="checkbox" style="cursor: pointer;vertical-align: middle;"  />
                  <label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">비밀번호 저장</label>
                  <div style="margin-top: 3%;">
                     <a type="text" style="border: 0px solid; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
                  </div>
-                <button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
+                <button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid #999; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
               </div>
           </div>
          <div class="modal-footer" style="margin-top: 2%;">
@@ -364,8 +366,8 @@
 	       		<button type="button" class="myclose" data-dismiss="modal" style="margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
             	<span  style="text-align:center; margin-left:21%; font-weight: bold; color: #008489;" >페이스북</span><span  style="text-align:center; font-weight: bold; " >&nbsp;또는</span>&nbsp;<span  style="text-align:center;  font-weight: bold; color: #008489;" >구글</span><span  style="text-align:center; font-weight: bold; " >로 회원 가입하세요.</span>
           		<div style="padding:0;margin:0;">
-	                <div style="border-bottom: 1px solid lightgray; margin-top: 1%;padding:0;"></div>
-			        <div class="filebox"  style="border: 1px solid lightgray;margin:2% auto;width:100px;height:100px;border-radius:100%;">
+	                <div style="border-bottom: 1px solid #999; margin-top: 1%;padding:0;"></div>
+			        <div class="filebox"  style="border: 1px solid #999;margin:2% auto;width:100px;height:100px;border-radius:100%;">
 			        	<div id="blah" style="margin-top: 35%; width:90px; height:50px;text-align:center;margin-left:5%;">이미지를 등록해 주세요</div>
 			        	<input id="imgInp" type="file" style="margin-left:10%;">
 			        </div>
@@ -392,7 +394,7 @@
 			        		<input name="post" id="post" placeholder="우편번호" class="input-data form-control registInput" type="text"  style="width:100%;padding-left: 28%;"/>
 				        </div>
 				        <div class="col-md-5" style="margin-left:3%;margin-top:1%;">
-				        	<button id="searchAddrBtn" type="button" style="height:40px;width:88%;border:none;background-color: lightgray;color:white;font-weight:bold;border-radius:5px;">주소찾기</button>
+				        	<button id="searchAddrBtn" type="button" style="height:40px;width:88%;border:none;background-color: #999;color:white;font-weight:bold;border-radius:5px;">주소찾기</button>
 				        </div>
 			        </div>
 			        <input name="addr" id="addr" placeholder="주소" class="input-data form-control registInput" type="text" />
@@ -429,7 +431,7 @@
 			           		</select>
 						</div>
 					</div>
-		         	<button type="button" class="login" onClick="join();"style="width: 90%;height: 40px; border: 1px solid rightgray; border: none; font-weight:bold;background-color: #fd5a61; color: white; border-radius: 10px;margin-left: 5%; margin-top: 2%;padding:0;">가입하기</button>
+		         	<button type="button" class="login" onClick="join();"style="width: 90%;height: 40px; border: 1px solid #999; border: none; font-weight:bold;background-color: #fd5a61; color: white; border-radius: 10px;margin-left: 5%; margin-top: 2%;padding:0;">가입하기</button>
 			        <div class="modal-footer" style="margin-top: 2%;">
 		            	<div class="join" style="font-size: 12pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
 		        	</div>
@@ -451,7 +453,7 @@
             <span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
             <span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
             <span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
-             <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid rightgray;  width: 504px; height: 46px; border-radius: 10px;" />
+             <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid #999;  width: 504px; height: 46px; border-radius: 10px;" />
              <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
          </div>
     </div>
@@ -467,7 +469,7 @@
 
     </div>
 
-    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
+    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid #999; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
     <div class="modal-footer" style="margin-top: 2%;">
        <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
     </div>    
