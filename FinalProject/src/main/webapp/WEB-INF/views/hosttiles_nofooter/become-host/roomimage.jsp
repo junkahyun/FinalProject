@@ -106,11 +106,95 @@
              cursor:pointer;
              vertical-align:top
          }
+         
+         .content{
+    outline: 2px dashed #92b0b3 ;
+    outline-offset:-10px;  
+    text-align: center;
+    transition: all .15s ease-in-out;
+    width: 300px;
+    height: 300px;
+    background-color: gray;
+}
 
 </style>
 
 <script type="text/javascript">
             $(document).ready(function(){
+            	
+            	$('.content')
+            	  .on("dragover", dragOver)
+            	  .on("dragleave", dragOver)
+            	  .on("drop", uploadFiles);
+            	 
+            	function dragOver(e){
+            	  e.stopPropagation();
+            	  e.preventDefault();
+            	}
+            	 
+            	function uploadFiles(e){
+            	  e.stopPropagation();
+            	  e.preventDefault();
+            	}
+
+            	function dragOver(e) {
+            	    e.stopPropagation();
+            	    e.preventDefault();
+            	    if (e.type == "dragover") {
+            	        $(e.target).css({
+            	            "background-color": "black",
+            	            "outline-offset": "-20px"
+            	        });
+            	    } else {
+            	        $(e.target).css({
+            	            "background-color": "gray",
+            	            "outline-offset": "-10px"
+            	        });
+            	    }
+            	}
+            	
+                function uploadFiles(e) {
+            	    e.stopPropagation();
+            	    e.preventDefault();
+            	    dragOver(e); //1
+            	 
+            	    e.dataTransfer = e.originalEvent.dataTransfer; //2
+            	    var files = e.target.files || e.dataTransfer.files;
+            	 
+            	    if (files.length > 1) {
+            	        alert('하나만 올려라.');
+            	        return;
+            	    }
+            	    
+            	    if (files[0].type.match(/image.*/)) {
+            	        
+            	    }else{
+            	        alert('이미지가 아닙니다.');
+            	        return;
+            	    }
+            	    
+            	    if (files[0].type.match(/image.*/)) {
+            	        $(e.target).css({
+            	            "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+            	            "outline": "none",
+            	            "background-size": "100% 100%"
+            	        });
+            	    }else{
+            	      alert('이미지가 아닙니다.');
+            	      return;
+            	    }
+
+            	    
+            	}
+
+
+            	
+            	
+            	
+            	
+            	////////////////////////
+            	
+            	
                 var objDragAndDrop = $(".dragAndDropDiv");
                 
                 // dragenter 드래그 요소가 드롭영역에 들어갈때 발생하는 이벤트
@@ -134,6 +218,17 @@
                     var files = e.originalEvent.dataTransfer.files;
                  
                     handleFileUpload(files,objDragAndDrop);
+                    /* if (files[0].type.match("image.*")) {
+                    	alert(window.URL.createObjectURL(files[0]))
+                        $("#img").css({
+                            "background-image": "src(" + window.URL.createObjectURL(files[0]) + ")",
+                            "outline": "none",
+                            "background-size": "100% 100%"
+                        });
+                    } */
+
+                    handleImgFileSelect();
+                    
                 });
                 
              	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때 css때문에 함)
@@ -141,6 +236,7 @@
 	                e.stopPropagation();
 	                e.preventDefault();
 	                objDragAndDrop.css('border', '2px dashed #92AAB0');
+				                
                 });
                 
                 // 드래그 요소가 드롭 영역에 들거갔을때 발생하는 이벤트
@@ -152,7 +248,9 @@
                 // drop 드롭 할때 발생하는 이벤트
                 $(document).on('drop', function (e){
                     e.stopPropagation();
-                    e.preventDefault();
+                    e.preventDefault();	
+                    //alert("드롭함2");
+                    
                 });
                  
                 function handleFileUpload(files,obj)
@@ -253,47 +351,14 @@
                   
                     status.setAbort(jqXHR);
                 }
-                 
-                $("#input_img").on("change", handleImgFileSelect);
+      
             });
-            
-               function handleImgFileSelect(e){
-            	var files = e.target.files;
-            	var filesArr = Array.prototype.slice.call(files);
-            	
-            	filesArr.forEach(function(f){
-            		if(!f.type.match("image.*")){
-            			alert("확장자는 이미지 확장자만 가능");
-            			return;
-            		}
-            	
-	            	sel_file = f;
-	            	
-	            	var reader = new FileReader();
-	            	reader.onload = function(e){
-	            		$("#ddd").attr("src",e.target.result);
-	            	}
-	            	reader.readAsDataURL(f);
-            	});
-            	
-            }  
-              
-              /* function readURL(input) { 
-            	  if (input.files && input.files[0]) { 
-            		  var reader = new FileReader(); 
-            		  reader.onload = function (e) { 
-            			  $('#ddd').attr('src', e.target.result); 
-            		  } 
-            	      reader.readAsDataURL(input.files[0]); 
-                  } 
-              }
- */
-             
-            
-        </script>
+
+</script>
 
 <div>
    <div class="row" style="border: 1px solid green;">
+   <div class="content"></div>
 
    <div class="container col-md-12" style="border: px solid red;">
 	  <div class="progress" style="height: 13px;"> 
@@ -308,8 +373,6 @@
         <div class="row" style="border: 1px solid red;">
         	<div class="col-md-12" style="margin-bottom: 20px;">
         		 <div id="fileUpload" class="dragAndDropDiv">메인이미지</br>Drag & Drop Files Here
-        		 <IMG id="ddd" src="" style="width: 100%; overflow: hidden;"/>
-        		    <input type="file" id="input_img"/>
         		 </div>
         	</div>
         	<div class="col-md-4" style="border: 1px solid red;">
