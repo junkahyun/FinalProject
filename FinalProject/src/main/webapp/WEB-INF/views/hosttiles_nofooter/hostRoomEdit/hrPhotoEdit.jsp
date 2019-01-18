@@ -97,8 +97,6 @@ div {
 	margin-left: 22%;
 }
 
-
-
 .img-thumbnail{
 	border: none;
 	padding: 0;
@@ -153,10 +151,6 @@ div {
 <script>
 
 	$(document).ready(function(){
-		$("#sortable").sortable({
-			items: $(".target")
-		});
-		
 		$("#imgfile").on("change",ImgsFilesSelect);
 	});
 	
@@ -203,20 +197,26 @@ div {
  	<span style="font-weight: bold;">커버사진</span>
  	<a><span style="margin-left: 60%;">변경</span></a>
 </div>
-	
+
 <div class="col-md-12 photodiv">
 	<hr align="left">
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
-	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
-	
-	<div id="sortable" class="row">
-	
-	</div>
-	
 	<form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
+	<div id="sortable" class="row"></div>
+	
 		<div  class="filebox">  
 			<label for="imgfile">사진 추가하기</label> 
 			<input type="file" id="imgfile" name="attach" accept="image/*" multiple/>	
+		</div>
+		<hr align="left">
+		<div class="row" style="margin-top: 2%; margin-bottom: 2%;">
+			<div class="col-md-1">
+				<input class="btn" type="button" value="저장하기" style="background-color: #008489; color: #f0f0f0;"/>
+			</div>
+			
+			<div class="col-md-1">
+				<input class="btn" type="button" value="취소하기" style="color: #008489;"/>
+			</div>
 		</div>
 	</form>
 </div>
