@@ -47,32 +47,8 @@
 
 <script type="text/javascript">
 
-   $(document).ready(function(){
-	   
-	   $("#bedoqty").hide(); // 처음에 침대종류 숨기기
-	   
-	   // 침대 추가하기 버튼 클릭시 
-	   var flag = false;
-	   $("#bedAdd").click(function() {
-		   if(flag == false){
-			   var bed = $("#bedAdd").text("완료");   
-			   $("#bedoqty").show();
-			   flag = true;
-		   }
-		   else{
-			  bed = $("#bedAdd").text("침대 추가하기");
-			  $("#bedoqty").hide();
-			  flag = false;
-		   }
-	   });
-	   
-	   
-	   
-   });// end of ready---
    
-  
-   
-   //최대숙박인원 감소 버튼
+   //욕실 감소 버튼
    function bathroomsminus() {
 	   var start = $("#bathroomsupdown").text();
 	   var minus = parseInt(start);
@@ -84,7 +60,7 @@
 	   $("#bathroomsupdown").text(minus);
    }  
    
-   //최대숙박인원 증가 버튼
+   //욕실 증가 버튼
    function bathroomsplus() {
 	   var start = $("#bathroomsupdown").text();
 	   var plus = parseInt(start);
@@ -110,29 +86,33 @@
 	</div>
   
       <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
-         <div class="title">욕실 수</div>
-         <div class="row" style="padding: 0; border: 0px solid green;" >
-         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
-         		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">욕실</div>
-         		<div class="col-md-2" style="border: 0px solid green;">
-         		 	<button type="button" onclick="bathroomsminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-         		</div>
-         		<div class="col-md-1" id="bathroomsupdown" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 1 </div>
-         		<div class="col-md-2" style="border: 0px solid green;">
-         		 	<button type="button" onclick="bathroomsplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-         		</div>
-         	</div>                    			            
-         </div>
-
-       	<div class="col-md-3" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-top: 20px; padding-left: 0; padding-right: 0;" >
-	         <div class="col-md-3" style="border: 0px solid red; padding: 0;">
-	            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+      
+         <div class="row">
+	         <div class="title">욕실 수</div>
+	         <div class="row" style="padding: 0; border: 0px solid green;" >
+	         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
+	         		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">욕실</div>
+	         		<div class="col-md-2" style="border: 0px solid green;">
+	         		 	<button type="button" onclick="bathroomsminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+	         		</div>
+	         		<div class="col-md-1" id="bathroomsupdown" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 1 </div>
+	         		<div class="col-md-2" style="border: 0px solid green;">
+	         		 	<button type="button" onclick="bathroomsplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+	         		</div>
+	         	</div>                    			            
 	         </div>
-	         <div class="col-md-6" style="border: 0px solid red;"></div>
-	         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-	            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
-	         </div>
-        </div>      
+	
+	       	<div class="col-md-3" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-top: 20px; padding-left: 0; padding-right: 0;" >
+		         <div class="col-md-3" style="border: 0px solid red; padding: 0;">
+		            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+		         </div>
+		         <div class="col-md-6" style="border: 0px solid red;"></div>
+		         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
+		            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
+		         </div>
+	        </div>
+        </div>
+              
       </div>
  
       <div class="col-md-4" style="border: 0px solid blue;">
