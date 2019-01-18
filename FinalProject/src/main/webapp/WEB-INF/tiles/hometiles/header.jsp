@@ -3,11 +3,11 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	$(document).ready(function(){
-		$("#loginpwd").keyDown(function(event){
-			if(event.target==13){
+		$("#loginpwd").keydown(function(event){
+			if(event.keyCode==13){
 				goLogin();
 			}
-		})
+		});
 		$("#searchAddrBtn").click(function() {
 		    new daum.Postcode({
 		         oncomplete: function(data) {
@@ -149,7 +149,6 @@
 	    });
 	    $("#imgInput").change(function(){
 		    readURL(this);
-		    $("#blah").hide();
 		});
 	    $("#fileInputBtn").click(function(){
 	    	$("#imgInput").click();
@@ -234,20 +233,14 @@
 		});
 	}
 	function readURL(input) {
-		 
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
-	 
 	        reader.onload = function (e) {
 	            $('#profilePreview').attr('src', e.target.result);
 	        }
-	 
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
-	 
-	
-
 </script>
 <div>   
    <div id="header">
@@ -291,7 +284,6 @@
             </div>
             <div class="headermenu" onClick="">메세지</div>
             <div class="headermenu" onClick="">도움말</div>
-
             <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
             	<div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
             		<img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
@@ -308,8 +300,6 @@
       </div>
    </div>
 </div>
-
-
 <%-- ****** 로그인 Modal ****** --%>
 <div class="modal fade" id="login" role="dialog">
 	<div class="modal-dialog" style="margin-top: 10%;">
@@ -342,7 +332,6 @@
 <%-- ****** 회원가입 Modal ****** --%>
 <div class="modal fade" id="join" role="dialog">
     <div class="modal-dialog">
-
     	<form name="joinFrm" enctype="multipart/form-data">
         <!-- Modal content-->
         	<div class="modal-content" style="width: 100%;padding:0;">
@@ -364,10 +353,10 @@
 			        <div class="row" style="padding:0;margin-left: 2.5%;margin-top:1%;">
 				        <div class="col-md-6" style="padding:0;">
 				        	<label style="position:fixed;z-index:1; left:7%;font-weight:bold;margin-top:2.5%;">PW</label>
-				        	<input name="pwd" id="pwd" placeholder="비밀번호" class="col-md-6 input-data form-control registInput" type="text" style="width: 100%;padding-left: 30%;"/>
+				        	<input name="pwd" id="pwd" placeholder="비밀번호" class="col-md-6 input-data form-control registInput" type="password" style="width: 100%;padding-left: 30%;"/>
 				        </div>
 				        <div class="col-md-5" style="padding:0;margin-left: 2%;">
-				        	<input name="pwd" id="pwd" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="text" style="width: 92%;"/>
+				        	<input name="pwd" id="pwdcheck" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="password" style="width: 92%;"/>
 			        	</div>
 			        </div>
 			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">EMAIL</label>
@@ -426,8 +415,6 @@
     	</form>
 	</div>
 </div> 
-
-
 <%-- ****** 비밀번호찾기 Modal ****** --%>
 <div class="modal fade" id="pwdfind" role="dialog">
 	<div class="modal-dialog">
@@ -457,4 +444,3 @@
     	<div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
     </div>    
 </div>
-
