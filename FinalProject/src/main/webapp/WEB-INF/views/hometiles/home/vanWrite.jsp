@@ -31,23 +31,33 @@
 	        
 	        //폼 submit
 	        var writeFrm = document.writeFrm;
-			writeFrm.action = "<%= request.getContextPath() %>/addEnd.action";
+			writeFrm.action = "<%= request.getContextPath() %>/addEnd.air";
 			writeFrm.method = "POST";
 			writeFrm.submit();
 	    });
+
 	});  
+	
+	/* function goReportInsert {
+    	
+    	var frm = document.writeFrm;
+    	frm.action = "vanWriteEnd.air";  
+		frm.method = "GET";
+		frm.submit();
+    } */
 </script>    
     
 <div style="padding: 3%; width: 60%; margin:0 auto;">  
-	
+
+	<form name="writeFrm">
 	<div style="padding-bottom: 2%; padding-left: 2%; padding-right: 2%; text-align: center; font-weight: bold;"><h2>신고 글쓰기</h2></div>
 	
 	<div class="input-group mb-3" style="padding: 2%;">
 	  <div class="input-group-prepend" style="padding: 1%;">
 	    <label class="input-group-text" for="inputGroupSelect01">선택하기</label>
 	  </div>
-	  <select class="custom-select" id="inputGroupSelect01" style="width: 200px; height: 30px; padding-left: 10px; font-size: 18px; color: #352c31; border: 1px solid #352c31; border-radius: 3px;">
-	    <option selected>선택하기</option>
+	  <select class="custom-select" id="select" name="select" style="width: 200px; height: 30px; padding-left: 10px; font-size: 18px; color: #352c31; border: 1px solid #352c31; border-radius: 3px;">
+	    <option selected value="0">선택하기</option>
 	    <option value="1">투숙객신고</option>
 	    <option value="2">호스트신고</option>
 	  </select>
@@ -55,22 +65,23 @@
 	
 	<div style="padding: 2%;">
 		<label class="input-group-text" for="inputGroupSelect01">예약코드</label>
-		<input type="text" class="form-control" placeholder="예약코드를 써주세요">
+		<input type="text" class="form-control" placeholder="예약코드를 써주세요" id="input1">
 	</div>
   
 	<div style="padding: 2%;">
 		<label class="input-group-text" for="inputGroupSelect02">제목</label>
-		<input type="text" class="form-control" placeholder="제목을 써주세요">
+		<input type="text" class="form-control" placeholder="제목을 써주세요" id="input2">
 	</div>
 	
 	<div style="padding-left: 2%; padding-right: 2%; padding-bottom: 2%;">
 		<label class="input-group-text" for="inputGroupSelect03">내용</label>
-		<textarea name="content" id="content" rows="10" cols="100" style="width:100%; height:412px;"></textarea>
+		<textarea name="content" rows="10" cols="100" style="width:100%; height:412px;" id="input3"></textarea>
 	</div>
 	
 	<div style="display:inline; text-align: center;">
-		<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
+		<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;" onClick="goReportInsert();">확인</button></div>
 		<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onclick="javascript:history.back();">취소</button></div>
 	</div>
-
+	</form>
+	
 </div>

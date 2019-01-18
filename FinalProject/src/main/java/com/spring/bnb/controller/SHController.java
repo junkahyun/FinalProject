@@ -3,6 +3,8 @@ package com.spring.bnb.controller;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +42,7 @@ public class SHController {
 	@Autowired
 	private LargeThumbnailManager largeThumbnailManager;
 	
-	// 관리자 회원관리 페이지
+	// 관리자 회원관리 페이지(페이징처리 전)
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 		
@@ -77,6 +79,14 @@ public class SHController {
 		return "admin/adminMember.admintiles";
 	}
 	
+	/*@RequestMapping(value="/adminMemberJson.air", method= {RequestMethod.GET})
+	public String adminMemberJson(HttpServletRequest req) {
+		
+		
+		
+		return "";
+	}*/
+	
 	// 관리자 회원상세 페이지
 	@RequestMapping(value="/memberDetail.air", method= {RequestMethod.GET})
 	public String memberDetail(HttpServletRequest req) {
@@ -99,9 +109,7 @@ public class SHController {
 			req.setAttribute("membervo", membervo);
 			req.setAttribute("reservation", reservation);
 			req.setAttribute("mycoupon", mycoupon);
-			
-			
-			
+
 			return "admin/memberDetail.admintiles";
 			
 		}
@@ -119,12 +127,23 @@ public class SHController {
 		return "admin/adminVan.admintiles";
 	}
 	
-	// 신고 글쓰기 페이지
+	// 신고 글쓰기 페이지 요청
 	@RequestMapping(value="/vanWrite.air", method= {RequestMethod.GET})
 	public String vanWrite(HttpServletRequest req) {
 		
+		
 		return "home/vanWrite.hometiles";
 	}
+	
+	/*// 신고 글쓰기 페이지 요청
+	@RequestMapping(value="/vanWriteEnd.air", method= {RequestMethod.GET})
+	public String vanWriteEnd(HttpServletRequest req) {
+		
+		String select = req.getParameter("select");
+		System.out.println(select);
+		
+		return "home/vanWrite.hometiles";
+	}*/
 	
 	// ==== #스마트에디터1. 단일사진 파일업로드 ====
 	@RequestMapping(value="/image/phothUpload.action", method= {RequestMethod.GET})
