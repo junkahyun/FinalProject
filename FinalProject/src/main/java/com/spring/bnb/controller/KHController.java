@@ -1,5 +1,7 @@
 package com.spring.bnb.controller;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import java.util.HashMap;
@@ -8,11 +10,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tools.ant.types.resources.comparators.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterKHService;
 
@@ -26,7 +31,7 @@ public class KHController {
 	// ***** 숙소이용규칙 확인하기 (예약)<aop처리해야댐> ***** //
 	
 	@RequestMapping(value="/reservationCheck.air", method= {RequestMethod.GET})
-	public String requireLogin_reservationCheck (HttpServletRequest req) {
+	public String reservationCheck (HttpServletRequest req) {
 		
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
@@ -82,6 +87,7 @@ public class KHController {
 		String checkmonth2 = req.getParameter("checkmonth2");
 		String checkday1 = req.getParameter("checkday1");
 		String checkday2 = req.getParameter("checkday2");
+		String my_userid = req.getParameter("my_userid");
 		/*-------------end---------------*/
 		
 		HashMap<String,String> map = new HashMap<String,String>();
@@ -98,7 +104,6 @@ public class KHController {
 		int avgPrice = service.getAvgPrice();
 		
 		/*-------------------------------------------*/
-		session.getAttribute("my_userid");
 		
 		req.setAttribute("guestcount", guestcount);//예약 인원
 		req.setAttribute("year", year);//체크인,체크아웃 년도
@@ -109,16 +114,44 @@ public class KHController {
 		req.setAttribute("oneRoom", oneRoom);//숙소 정보
 		req.setAttribute("reviewCount", reviewCount);//리뷰
 		req.setAttribute("avgPrice", avgPrice);//평균 요금
+		session.setAttribute("my_userid", my_userid);//평균 요금
 		
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
 	
 	// ***** 예약 확인 및 결제하기 (예약) ***** //
-	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.POST})
 	public String reservationCheckAndPay (HttpServletRequest req) {
+		
+		String my_userid = req.getParameter("my_userid");
+		String roomcode = req.getParameter("roomcode");
+		String babycount = req.getParameter("babycount");
+		String guestcount = req.getParameter("guestcount");
+		String year = req.getParameter("year");
+		String checkmonth1 = req.getParameter("checkmonth1");
+		String checkmonth2 = req.getParameter("checkmonth2");
+		String checkday1 = req.getParameter("checkday1");
+		String checkday2 = req.getParameter("checkday2");
+		String totalprice = req.getParameter("totalprice");
+		String message = req.getParameter("message");
 		
 		return "reservationAndPay/reservationCheckAndPay.notiles";
 	}
+	
+	// 예약 코드 만드는 메소드 
+	// 예약코드는 o+날짜+시퀀스
+	/*private String getReservCode() {
+		
+		Date now = new Date();
+		SimpleDateFormat smdate = new SimpleDateFormat("yyyyMMdd");
+		String today = smdate.format(now); // 현재 날짜 구해옴
+		
+		// *** 예약 시퀀스 채번해오기 *** //
+		//int seq = service.getReservCode();
+		
+		return "O"+seq+today;
+	}
+	*/
 	
 	// ***** 예약 확인 및 결제하기 (결제 창 띄우기) ***** //
 	@RequestMapping(value="/paymentGateway.air", method= {RequestMethod.GET})

@@ -128,6 +128,50 @@ h3{font-size: 14pt;
 
 </style>
 
+<script>//게스트 인원 수량 변경
+
+	$(document).ready(function(){
+		
+		$("#close").click(function(){ //인원변경 클릭시 가격, 인원수 변경하기
+			var babym = $("#babycount").val();
+			var adultm = $("#guestcount").val();
+			$(".totaladCount").text(" "+adultm);
+			$(".pannelCount").text(adultm+"명");
+			
+			if(babym == "0"){
+				$(".totalbbCount").empty();
+			}
+			else{
+				$(".totalbbCount").text(", 유아 "+babym+"명");
+				$(".pannelCount").text(adultm+"명, 유아 "+babym+"명");
+			}
+			
+			$("#finalPeople").val(parseInt(babym)+parseInt(adultm));
+			
+			var finalpeople = $("#finalPeople").val();//최종 인원수
+			var maxperson = ${oneRoom.max_person};//최대 인원수
+			var roomtotalPrice = $("#roomtotalPrice").text();//최대인원수 추가 안한 기본 가격
+			
+			var room = roomtotalPrice.split(",");
+			var rom2 = room.join("");
+			
+			var room3 = parseInt(rom2);//최대인원추가시 연산을 위해 기본가격을 int타입으로 바꿈
+			
+			if(parseInt(maxperson) < parseInt(finalpeople)){
+				var plus = (parseInt(finalpeople)-parseInt(maxperson))*${oneRoom.person_addpay};
+				$("#pluspeople").val(plus);
+				$("#roomtotalPrice").empty().text(Number(room3+plus).toLocaleString());
+			}
+			else{
+				
+			}
+		});
+		
+	});
+
+
+</script>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -145,19 +189,25 @@ h3{font-size: 14pt;
 		
 		$("#btnsubmit").click(function(){
 			
-			var frm = document.checkHostAndMemberFrm;
+			var frm = document.revCheckPeople;
 			
-			if(frm.message.value.length == 0 ){
+			if($("#host_error_message").val() == "" ){
 				$("#host_error_message2").show();
 				$("#host_error_message").addClass("messageError");
 				
-				frm.message.focus();
+				$("#host_error_message").focus();
 			}
 			else{
-				frm.method="GET";//post로 바꿔야함
+				
+				frm.babycount.value = $("#babycount").val();
+				frm.guestcount.value = $("#guestcount").val();
+				frm.totalprice.value = $("#roomtotalPrice").text();
+				frm.message.value = $("#host_error_message").val();
+				
+				frm.method="POST";
 				frm.action = "<%=ctxPath%>/reservationCheckAndPay.air";
 				frm.submit();
-			}
+			 } 
 		});
 		
 		$("[data-toggle='popover']").popover();
@@ -205,41 +255,16 @@ h3{font-size: 14pt;
 		var peak = peakpay.split(",");
 		
 		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
+		
+		
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
+		
 	});//end of $(document).ready------------
 
 	
 </script>
 
-<script>//게스트 인원 수량 변경
 
-	$(document).ready(function(){
-		
-		
-		$("#close").click(function(){
-			var babym = $("#babycount").val();
-			var adultm = $("#guestcount").val();
-			$(".totaladCount").text(" "+adultm);
-			$(".pannelCount").text(adultm+"명");
-			
-			if(babym == "0"){
-				$(".totalbbCount").empty();
-			}
-			else{
-				$(".totalbbCount").text(", 유아 "+babym+"명");
-				$(".pannelCount").text(adultm+"명, 유아 "+babym+"명");
-			}
-			
-			console.log(adultm);
-			console.log(babym);
-			
-		});
-		
-		
-	});
-
-
-</script>
 
 </head>
 <body>
@@ -280,10 +305,9 @@ h3{font-size: 14pt;
 			</div>
 		</div>
 		<br>
-		<form name="checkHostAndMemberFrm">
 		<!-- 숙박지역, 숙박일수  -->
 		<h3 >인원&nbsp;&nbsp;<span style="font-size: 11pt;">(${oneRoom.fk_userid}님이 수용하는 최대인원은 ${oneRoom.max_person}명 입니다.)</span></h3>
-		<!-- 인원수 늘리기 -->
+		<!-- 인원수 늘리기 --><input type="text" id="finalPeople"/>
 		 <div class="dropdown" style="margin-bottom: 10%;">
 			 <div  class="panel panel-default people" >
 				<div class="panel-body" id="people"  data-toggle="dropdown">
@@ -299,7 +323,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info adultm" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="${guestcount}" min="1" max="${oneRoom.max_person}" name="guestcount" id="guestcount"/>
+						<input type="text" class="form-control text-center" value="${guestcount}" min="1" max="${oneRoom.max_person}"  id="guestcount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info adultp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -316,7 +340,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info babym" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="0" min="0" max="${oneRoom.max_person}" name="babycount" id="babycount"/>
+						<input type="text" class="form-control text-center" value="0" min="0" max="${oneRoom.max_person}"  id="babycount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info babyp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -329,7 +353,6 @@ h3{font-size: 14pt;
 		    	</ul>
 			</div>
 		 </div>
-		<span class="fa-li" style="color: #008489;"><i class="fas fa-spinner fa-pulse fa-3x"></i></span>
 		<!-- 호스트에게 메시지 보내기  -->
 		<h3 style="display: block;">호스트에게 인사하기</h3>
 		<h5 style="margin-bottom: 3%; font-size: 12pt;">${oneRoom.fk_userid}님에게 간단히 자신을 소개하고 여행 목적에 대해 알려주세요.</h5>
@@ -341,13 +364,12 @@ h3{font-size: 14pt;
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
-		<textarea id="host_error_message" name="message" rows="4" required="required" placeholder="${oneRoom.fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
+		<textarea id="host_error_message"  rows="4" required="required" placeholder="${oneRoom.fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
 		</div>
 		<div id="host_error_message2" >호스트에게 전할 메시지를 입력하세요!</div><br><br><br><br>
 		
 		<!-- 동의및 계속 하기  -->
 		<button type="button" class="btn" id="btnsubmit"><span style="color: white;">계속하기</span></button>
-		</form>
 	</div>
 	
 	<!-- ============================================= 숙소 ============================================= -->
@@ -474,6 +496,7 @@ h3{font-size: 14pt;
 				<div class="col-md-9">
 				 총 합계 (KRW)
 				</div>
+				<input type="text" id="pluspeople"/>
 				<div class="col-md-3" style="margin-bottom: 3%;">
 				 ₩<span style="font-weight: bold;" id="roomtotalPrice">
 				 </span>
@@ -485,7 +508,17 @@ h3{font-size: 14pt;
 </div>
 
 <form name="revCheckPeople">
-<input type="text" value="${my_userid}" name="my_userid" />
+	<input type="text" value="${my_userid}" name="my_userid" />
+	<input type="text" value="${oneRoom.roomcode}" name="roomcode" />
+	<input type="text" value="" name="babycount" />
+	<input type="text" value="" name="guestcount" />
+	<input type="text" value="${year}" name="year" />
+	<input type="text" value="${checkmonth1}" name="checkmonth1" />
+	<input type="text" value="${checkmonth2}" name="checkmonth2" />
+	<input type="text" value="${checkday1}" name="checkday1" />
+	<input type="text" value="${checkday2}" name="checkday2" />
+	<input type="text" value="" name="totalprice" />
+	<input type="text" value="" name="message" />
 </form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
@@ -56,6 +57,9 @@ public class KHDAO implements InterKHDAO {
 		int avg = sqlsession.selectOne("kh.getAvgPrice");
 		return avg;
 	}
+	
+	
+	
 	
 	
 }

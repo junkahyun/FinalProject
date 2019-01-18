@@ -3,6 +3,7 @@ package com.spring.bnb.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 
 public interface InterKHService {
@@ -18,5 +19,7 @@ public interface InterKHService {
 	
 	// *** 평균 요금 구하는 메소드 *** //
 	int getAvgPrice();
+	
+	
 	
 }

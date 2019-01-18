@@ -162,7 +162,7 @@ h3{font-size: 14pt;
 	<div class="col-md-7" style="margin-top: 3%;">
 		<h2 >숙소이용규칙 확인하기</h2>
 		<br>
-		
+		${my_userid}
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
 				<c:if test="${oneRoom.roomPrice < avgPrice }">

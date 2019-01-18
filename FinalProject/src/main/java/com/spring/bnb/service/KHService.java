@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterKHDAO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 
 @Service
@@ -42,5 +43,6 @@ public class KHService implements InterKHService {
 		int avg = dao.getAvgPrice(); 
 		return avg;
 	}
+
 	
 }
