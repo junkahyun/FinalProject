@@ -15,10 +15,10 @@
 		where roomcode = #{roomcode}
 	</select>
 
-	<select id="getBuildType_detail" parameterType="String" resultMap="com.spring.bnb.model.RoomVO" >
+	<select id="getBuildType_detail" parameterType="String" resultType="String" >
 		select buildType_detail_name
 		from buildtype b join buildtype_detail bd on b.buildtype_idx = bd.fk_buildtype_idx
-		where buildtype_detail_idx = #{fk_buildType_detail_idx}
+		where buildtype_detail_idx = #{buildType_detail_idx}
 	</select>
 	
 	

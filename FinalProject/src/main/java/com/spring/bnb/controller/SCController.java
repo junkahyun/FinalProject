@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
@@ -42,6 +43,7 @@ public class SCController {
 		userid ="leess";
 
 		roomList = service.getRoomList(userid);
+		System.out.println(userid);
 		req.setAttribute("roomList", roomList);
 		
 		return "host/hostroomList.hosttiles";
@@ -52,7 +54,7 @@ public class SCController {
 	public String hostRoomEdit (HttpServletRequest req) {
 		List<RoomVO> roomList = null;
 		String roomcode = req.getParameter("roomcode");
-		System.out.println(roomcode);
+		System.out.println("roomcode : "+roomcode);
 		
 		/*
 		 * HttpSession session = req.getSession(); MemberVO loginuser =
@@ -81,10 +83,10 @@ public class SCController {
 	
 	// 호스트 숙소사진 수정
 	@RequestMapping(value = "/hrPhotoEdit.air", method = {RequestMethod.GET})
-	public String hrPhotoEdit(HttpServletRequest req) {
+	public String hrPhotoEdit(MultipartHttpServletRequest mtreq, HttpServletRequest req) {
 		
 		String roomcode = req.getParameter("roomcode");
-		System.out.println(roomcode);
+		System.out.println("roomcode : "+roomcode);
 		RoomVO roomvo = (RoomVO)service.getRoomInfo(roomcode);
 		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
@@ -95,6 +97,7 @@ public class SCController {
 	public String hrDetailPhotoEdit() {
 		return "hostRoomEdit/hrDetailPhotoEdit.hosttiles_nofooter";
 	}
+	
 	
 	// 호스트 숙소 제목 수정
 	@RequestMapping(value = "/hrTitleEdit.air", method = {RequestMethod.GET})

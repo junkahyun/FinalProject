@@ -157,14 +157,8 @@ div {
 		$(".imgList").sortable({
 			items: $(".target")
 		});
-		
-		
-		
-		
 	});
-	
-	
-	
+
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
@@ -192,11 +186,12 @@ div {
 	
 	</div>
 	
-	<div class="filebox">  
-		<label for="ex_file">사진 추가하기</label> 
-		<input type="file" id="ex_file" accept="image/*" multiple/>	
-	</div>
-	
+	<form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
+		<div  class="filebox">  
+			<label for="imgfile">사진 추가하기</label> 
+			<input type="file" id="imgfile" name="attach" accept="image/*" multiple/>	
+		</div>
+	</form>
 </div>
 
 

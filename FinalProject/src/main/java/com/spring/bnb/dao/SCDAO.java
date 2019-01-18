@@ -29,10 +29,11 @@ public class SCDAO implements InterSCDAO {
 		RoomVO roomvo = sqlsession.selectOne("sc.getRoomInfo",roomcode);
 
 		String buildType_detail_idx = roomvo.getFk_buildType_detail_idx();
-		System.out.println(buildType_detail_idx);
+		System.out.println("buildType_detail_idx : "+buildType_detail_idx);
 		
-		sqlsession.selectOne("sc.getBuildType_detail",buildType_detail_idx);
-	
+		String buildType_detail_name = sqlsession.selectOne("sc.getBuildType_detail",buildType_detail_idx); 
+		roomvo.setBuildType_detail_name(buildType_detail_name);
+
 		List<String> roomimgList = sqlsession.selectList("sc.getRoomImgList", roomcode);// 숙소 사진 리스트
 		roomvo.setRoomimgList(roomimgList);
 		

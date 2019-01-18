@@ -19,9 +19,47 @@
 	background-color: gray;
 	cursor: pointer;
 }
+.a-btn:hover{
+	cursor: pointer;
+}
+.category{
+	font-weight: bold;
+}
+.tab:hover{
+	cursor: pointer;
+	font-weight: bold;
+}
 </style>
 
 <script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		$(".container1").show();
+		$("#reservation").removeClass("category");
+		$("#roomPage").removeClass("category");
+		
+		$("#roomList").click(function(){
+			$("#roomList").addClass("category");
+			$("#reservation").removeClass("category");
+			$("#roomPage").removeClass("category");
+			
+			$(".container1").show();
+			$(".container2").hide();
+			$(".container3").hide();
+		});
+		
+		$("#reservation").click(function(){
+			$("#roomList").removeClass("category");
+			$("#reservation").addClass("category");
+			
+			$(".container1").hide();
+			$(".container2").show();
+			$(".container3").hide();
+		});
+		
+		
+	});
 
 	function goRoomEdit(roomcode){
 		location.href="hostRoomEdit.air?roomcode="+roomcode;
@@ -39,12 +77,12 @@
    </div>
    <div class="row">
       <div class="col-md-1" style="margin-left: 20%;">
-         <div>숙소 목록</div>
-         <div>예약 필수조건</div>
-         <div>숙소 페이지</div>
+         <div id="roomList" class="tab category">숙소 목록</div><br>
+         <div id="reservation" class="tab category">예약 필수조건</div><br>
+         <div id="roomPage" class="tab category">숙소 페이지</div><br>
       </div>
       
-      <div class="col-md-6 container" style="padding-left: 10%;">
+      <div class="col-md-6 container1" style="padding-left: 10%;">
           <div class="panel panel-default">
                <div class="panel-body">
                <img alt="" src="<%=request.getContextPath()%>/resources/images/light.png">
@@ -62,7 +100,7 @@
 					</c:if>
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="row">
+							<div class="row" onclick="goRoomEdit('${room.roomcode}')">
 								<div class="col-md-8">
 									<span style="font-size: 15pt;">${room.roomName }</span> <br /> <br /> <br />
 									<br /> <span style="font-size: 9pt;">최종업데이트 날짜:</span>
@@ -80,13 +118,17 @@
 							</div>
 						</c:if>
 						<div class="panel-footer" style="background-color: white;">
-							<a onclick="goRoomEdit('${room.roomcode}');">수정하기</a>
-							<a>미리보기</a> <a>달력</a>
+							<a class="a-btn" onclick="goRoomEdit('${room.roomcode}');">수정하기</a>&nbsp;&nbsp;
+							<a class="a-btn">미리보기</a> &nbsp;&nbsp;
+							<a class="a-btn">달력</a>
 						</div>
 					</div>
 				</div>
 			</c:forEach>
 		</c:if>
-         
+      </div>
+      
+      <div class="col-md-6 container2" style="padding-left: 10%;">
+      	
       </div>
    </div>

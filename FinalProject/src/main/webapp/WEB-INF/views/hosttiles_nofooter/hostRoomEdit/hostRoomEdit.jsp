@@ -111,7 +111,6 @@ div{border: /* 1px solid gray;  */
 	
 	// 사진 수정
 	function goPhotoEdit(roomcode){
-
 		location.href="hrPhotoEdit.air?roomcode="+roomcode;
 	}
 	
@@ -194,7 +193,7 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >제목 및 설명</h4>
-				<span style="font-weight: bold; font-size: 11pt;">${roomvo.roomName }</span><br><br>
+				<span style="font-weight: bold; font-size: 	11pt;">${roomvo.roomName }</span><br><br>
 				<span style=" font-size: 13pt; ">${roomvo.roomInfo }</span><br><br>
 				<a href="#">숙소 이름 변경</a><br><br>
 				<a href="#">숙소 상세설명</a><br><br>
@@ -211,16 +210,16 @@ div{border: /* 1px solid gray;  */
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >침실과 숙박인원</h4>
 				<div class="bedAndPeople" >
-					<span style="margin-right: 45%;">최대숙박가능인원: <span class="number">5</span></span>
-					<span>침대 수: <span class="number">${roomvo.max_person }</span></span>
+					<div class="col-md-5" style="margin: 0;">최대숙박가능인원: <span class="number">${roomvo.max_person }</span></div>
+					<div class="col-md-5">기본 인원: <span class="number">${roomvo.basic_person }</span></div>
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 55%;">욕실: <span class="number">${roomvo.bathCount }</span></span>
-					<span>건물유형: <span class="number">${roomvo.buildType }</span></span>
+					<span>건물유형: <span class="number">${roomvo.buildType_detail_name }</span></span>
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
-					<span>숙소유형: <span class="number">개인실</span></span>
+					<span>숙소유형: <span class="number">개인실</span></span>	
 				</div >
 				<div class="bedAndPeople">
 					<span style="margin-right: 45%;">침실: <span class="number">8</span></span>
