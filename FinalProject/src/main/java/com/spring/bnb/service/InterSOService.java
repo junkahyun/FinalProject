@@ -18,6 +18,6 @@ public interface InterSOService {
 	int memberUpdate(MemberVO member);
 	
 	//나의 예약 내역 가져오기
-	MemberVO getMemberReservation(String loginuser);
+	List<HashMap<String,String>> getMemberReservationList(String loginuser);
 
 }

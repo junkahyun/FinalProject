@@ -42,8 +42,8 @@ public class SODAO implements InterSODAO {
 	
 	//나의 예약 내역 가져오기
 	@Override
-	public MemberVO getMemberReservation(String loginuser) {
-		MemberVO memberReservation = sqlsession.selectOne("cso.getMemberReservation",loginuser);
+	public List<HashMap<String,String>> getMemberReservationList(String loginuser) {
+		List<HashMap<String,String>> memberReservation = sqlsession.selectList("cso.getMemberReservationList",loginuser);
 		return memberReservation;
 	}
 

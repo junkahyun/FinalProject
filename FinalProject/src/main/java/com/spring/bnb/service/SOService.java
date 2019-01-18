@@ -35,9 +35,9 @@ public class SOService implements InterSOService{
 	
 	//나의 예약 내역 가져오기
 	@Override
-	public MemberVO getMemberReservation(String loginuser) {
-		MemberVO memberReservation = dao.getMemberReservation(loginuser);
-		return memberReservation;
+	public List<HashMap<String,String>> getMemberReservationList(String loginuser) {
+		List<HashMap<String,String>> memberResList = dao.getMemberReservationList(loginuser);
+		return memberResList;
 	}
 
 }

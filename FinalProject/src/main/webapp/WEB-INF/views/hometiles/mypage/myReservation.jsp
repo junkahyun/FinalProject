@@ -1,3 +1,4 @@
+<%@ taglib prefix="frm" uri="http://java.sun.com/jsp/jstl/fmt"  %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 
     pageEncoding="UTF-8"%>
@@ -37,7 +38,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		
 	});
 </script>
 
@@ -48,16 +48,16 @@
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="<%= ctxPath %>/myCoupon" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
@@ -81,6 +81,7 @@
 	  <div class="tab-content">
 	    
 	    <!--  투숙 예정 예약  -->
+	    
 	    <div id="home" class="tab-pane fade in active" style="padding:1%; border: 0px solid yellow;">
 
 	      <div class="panel-header" style="margin-top: 3%; border: 1px solid #dbdfdf">
@@ -88,19 +89,23 @@
 	      </div>
 	      <div class="panel-body" style="border: 1px solid #dbdfdf;">
 	      
-	      <!--  for 문 시작 -->
-	      <c:forEach var="fori" begin="1" end="3">
+	      <!--  for 문 시작 --> 
+	  <c:forEach var="reservationInfo" items="${memberResList}">
+      <frm:parseDate value="${reservationInfo.rsv_cancledate}" pattern="yyyy-MM-dd" var="cancledate" />
+	  <frm:parseDate value="${reservationInfo.rsv_checkindate}" pattern="yyyy-MM-dd" var="checkindate" />
+	  <frm:parseDate value="${reservationInfo.rsv_checkoutdate}" pattern="yyyy-MM-dd" var="checkoutdate" />
+	  <c:if test="${cancledate == null}" >
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
 	        		<img src="<%= request.getContextPath() %>/resources/image/changHotel.jpg" width="100%" height="90%"/>
 	        	</div>
 	     	 
 	     	 	<div  class="col-md-8" class="row">
-		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일 </div>
+		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일:${reservationInfo.paydate}</div>
 		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
-					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>후아 창 헤리티지 호텔 (Hua Chang Heritage Hotel)</h4></li></ul></div>
+					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list">
-					       	<li class="reviews-list-item">숙소위치 &nbsp;</li>	  
+					       	<li class="reviews-list-item">${reservationInfo.roomsido}${reservationInfo.roomsigungu}${reservationInfo.roombname}${reservationInfo.roomdetailaddr} &nbsp;</li>	  
 							  <li>예약번호&nbsp;</li>
 							  <li>룸타입&nbsp;</li>
 					        </ul>
@@ -137,8 +142,10 @@
 					  </div>
 					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
 		      </div> 	           	   	       
-	        </div> 	 
+	        </div> 	
+	       </c:if> 
 	    </c:forEach>
+	
 	            <!--  for 문 끝 --> 		         
          </div>
        </div>

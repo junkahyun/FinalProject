@@ -208,16 +208,16 @@ function codeCheckFun() {
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="true" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="<%= ctxPath %>/myCoupon" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	

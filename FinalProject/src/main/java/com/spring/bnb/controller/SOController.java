@@ -258,24 +258,26 @@ public class SOController {
 
 
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
-	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
-		
-		HttpSession session = req.getSession();
-		String loginuser = (String)session.getAttribute("loginuser");
-		
-		req.setAttribute("loginuser", loginuser);
-		return "mypage/myReservation.hometiles";
-	}
+	public String myReservation(HttpServletRequest req, HttpServletResponse res) {
 
-	@RequestMapping(value = "/myReservationInfo.air", method = RequestMethod.POST)
-	public String myReservationInfo(HttpServletRequest req, HttpServletResponse res) {
-		String loginuser = req.getParameter("loginuser");
-		MemberVO member = new MemberVO();
+		String luser ="leess";
+		String today = MyUtil.getNowDay();
 		
+		List<HashMap<String,String>> memberResList = service.getMemberReservationList(luser);
 		//회원 예약 내용 가져오기
-		member = service.getMemberReservation(loginuser);
+		System.out.println(memberResList.get(0).get("rsv_cancledate"));
+		System.out.println(memberResList.get(0).get("rsv_checkindate"));
+		System.out.println(today);
+		String date = memberResList.get(0).get("rsv_checkindate");
+		String sub_day = date.substring(8, 10);
+		String sub_month = date.substring(0, 8);
+		System.out.println(sub_month);
 		
-		req.setAttribute("loginuser", loginuser);
+		req.setAttribute(name, o);
+		req.setAttribute("memberResList", memberResList);
+		req.setAttribute("today", today);
+		req.setAttribute("luser", luser);
+		
 		return "mypage/myReservation.hometiles";
 	}
 	
