@@ -107,14 +107,6 @@
              vertical-align:top
          }
          
-         .content{
-    outline: 2px dashed #92b0b3 ;
-    outline-offset:-10px;  
-    text-align: center;
-    transition: all .15s ease-in-out;
-    width: 300px;
-    height: 300px;
-    background-color: gray;
 }
 
 </style>
@@ -122,36 +114,36 @@
 <script type="text/javascript">
             $(document).ready(function(){
             	
-            	$('.content')
+            	$('.dragAndDropDiv')
             	  .on("dragover", dragOver)
+            	  .on("dragenter", dragEnter) // dragenter 드래그 요소가 드롭영역에 들어갈때 발생하는 이벤트
             	  .on("dragleave", dragOver)
-            	  .on("drop", uploadFiles);
+            	  .on("drop", uploadFiles); // drop 드롭 할때 발생하는 이벤트 
             	 
             	function dragOver(e){
             	  e.stopPropagation();
             	  e.preventDefault();
             	}
+            	
+            	// 드롭영역 안에 들어갔을때 css 적용
+            	function dragEnter(e){
+              	  e.stopPropagation();
+              	  e.preventDefault();
+	              	if (e.type == "dragenter") {
+	        	        $(e.target).css({
+	        	        	"border": "2px dashed #0B85A1"
+	        	        });
+	        	    } else {
+	        	        $(e.target).css({
+	        	        	"border": "2px dashed #92AAB0"
+	        	        });
+	        	    }
+              	}
             	 
             	function uploadFiles(e){
             	  e.stopPropagation();
             	  e.preventDefault();
-            	}
-
-            	function dragOver(e) {
-            	    e.stopPropagation();
-            	    e.preventDefault();
-            	    if (e.type == "dragover") {
-            	        $(e.target).css({
-            	            "background-color": "black",
-            	            "outline-offset": "-20px"
-            	        });
-            	    } else {
-            	        $(e.target).css({
-            	            "background-color": "gray",
-            	            "outline-offset": "-10px"
-            	        });
-            	    }
-            	}
+            	}            	
             	
                 function uploadFiles(e) {
             	    e.stopPropagation();
@@ -183,6 +175,8 @@
             	      alert('이미지가 아닙니다.');
             	      return;
             	    }
+            	    
+            	    handleFileUpload(files,objDragAndDrop);
 
             	    
             	}
@@ -197,12 +191,7 @@
             	
                 var objDragAndDrop = $(".dragAndDropDiv");
                 
-                // dragenter 드래그 요소가 드롭영역에 들어갈때 발생하는 이벤트
-                $(document).on("dragenter",".dragAndDropDiv",function(e){
-                    e.stopPropagation(); // 현재 이벤트가 상위로 전파되지 않도록 중단
-                    e.preventDefault();  // 현재 이벤트의 기본 동작 중단
-                    $(this).css('border', '2px dashed #0B85A1');
-                });
+
                 
                 // dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트
                 $(document).on("dragover",".dragAndDropDiv",function(e){
@@ -211,25 +200,15 @@
                 });
                 
                 // drop 드롭 할때 발생하는 이벤트 
-                $(document).on("drop",".dragAndDropDiv",function(e){
+/*                 $(document).on("drop",".dragAndDropDiv",function(e){
                      
                     $(this).css('border', '2px dashed #0B85A1');
                     e.preventDefault();
                     var files = e.originalEvent.dataTransfer.files;
                  
                     handleFileUpload(files,objDragAndDrop);
-                    /* if (files[0].type.match("image.*")) {
-                    	alert(window.URL.createObjectURL(files[0]))
-                        $("#img").css({
-                            "background-image": "src(" + window.URL.createObjectURL(files[0]) + ")",
-                            "outline": "none",
-                            "background-size": "100% 100%"
-                        });
-                    } */
-
-                    handleImgFileSelect();
                     
-                });
+                }); */
                 
              	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때 css때문에 함)
                 $(document).on('dragover', function (e){
@@ -239,11 +218,7 @@
 				                
                 });
                 
-                // 드래그 요소가 드롭 영역에 들거갔을때 발생하는 이벤트
-                $(document).on('dragenter', function (e){
-                    e.stopPropagation();
-                    e.preventDefault();
-                });
+
                                                 
                 // drop 드롭 할때 발생하는 이벤트
                 $(document).on('drop', function (e){
@@ -358,7 +333,6 @@
 
 <div>
    <div class="row" style="border: 1px solid green;">
-   <div class="content"></div>
 
    <div class="container col-md-12" style="border: px solid red;">
 	  <div class="progress" style="height: 13px;"> 
