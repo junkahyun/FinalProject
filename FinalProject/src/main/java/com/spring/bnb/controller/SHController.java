@@ -124,6 +124,12 @@ public class SHController {
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
 		
+		List<HashMap<String, String>> reportMap = new ArrayList<HashMap<String, String>>();
+		
+		reportMap = service.getReport();
+		
+		
+		
 		return "admin/adminVan.admintiles";
 	}
 	

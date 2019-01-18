@@ -22,4 +22,7 @@ public interface InterSHService {
 	// 회원 상세페이지(보유쿠폰)
 	List<HashMap<String, String>> getMycoupon(String userid);
 	
+	// 신고글 가져오기
+	List<HashMap<String, String>> getReport();
+	
 }

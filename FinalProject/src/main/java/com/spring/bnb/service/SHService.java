@@ -59,5 +59,14 @@ public class SHService implements InterSHService {
 		
 		return mycoupon;
 	}
+
+	// 신고글 가져오기
+	@Override
+	public List<HashMap<String, String>> getReport() {
+		
+		List<HashMap<String, String>> reportMap = dao.getReport();
+		
+		return reportMap;
+	}
 	
 }

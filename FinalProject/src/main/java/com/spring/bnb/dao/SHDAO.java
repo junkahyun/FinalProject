@@ -59,4 +59,13 @@ public class SHDAO implements InterSHDAO {
 		
 		return mycoupon;
 	}
+
+	// 신고글 가져오기
+	@Override
+	public List<HashMap<String, String>> getReport() {
+		
+		List<HashMap<String, String>> reportMap = sqlsession.selectList("sh.getReport");
+		
+		return reportMap;
+	}
 }
