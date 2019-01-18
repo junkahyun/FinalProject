@@ -7,7 +7,7 @@ public class ReservationVO {
 	private int guestCount; 
 	private int babyCount;
 	private String rsv_name;
-	private int rsv_phone;
+	private String rsv_phone;
 	private String rsv_email;
 	private String rsv_checkInDate;
 	private String rsv_checkOutDate;
@@ -19,7 +19,7 @@ public class ReservationVO {
 	
 	public ReservationVO() {}
 	public ReservationVO(String rsvcode, String fk_roomcode, String fk_userid, int guestCount, int babyCount,
-			String rsv_name, int rsv_phone, String rsv_email, String rsv_checkInDate, String rsv_checkOutDate,
+			String rsv_name, String rsv_phone, String rsv_email, String rsv_checkInDate, String rsv_checkOutDate,
 			String rsv_msg, String paydate, int totalprice, int dcprice, String rsv_cancledate) {
 		super();
 		this.rsvcode = rsvcode;
@@ -74,10 +74,10 @@ public class ReservationVO {
 	public void setRsv_name(String rsv_name) {
 		this.rsv_name = rsv_name;
 	}
-	public int getRsv_phone() {
+	public String getRsv_phone() {
 		return rsv_phone;
 	}
-	public void setRsv_phone(int rsv_phone) {
+	public void setRsv_phone(String rsv_phone) {
 		this.rsv_phone = rsv_phone;
 	}
 	public String getRsv_email() {
