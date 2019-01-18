@@ -93,12 +93,14 @@ public class SHController {
 			
 			// System.out.println("reservation : "+reservation);
 			
-			List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);
+			List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);			
 			// System.out.println("mycoupon : "+mycoupon);
 			
 			req.setAttribute("membervo", membervo);
 			req.setAttribute("reservation", reservation);
 			req.setAttribute("mycoupon", mycoupon);
+			
+			
 			
 			return "admin/memberDetail.admintiles";
 			

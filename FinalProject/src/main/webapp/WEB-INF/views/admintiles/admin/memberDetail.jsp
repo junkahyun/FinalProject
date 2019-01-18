@@ -13,6 +13,8 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+		
+		
 	});
 </script>
 
@@ -98,7 +100,7 @@
 	        <th>보유쿠폰</th>
 	        <td style="text-align: left;">
 	        	<c:forEach var="mycp" items="${mycoupon}" varStatus="sts">
-	        		${mycp.fk_cpcode}<c:if test="${sts.count != 1 }">,</c:if>
+	        		${mycp.fk_cpcode}<c:if test="${sts.last eq false}">,</c:if>
 	        	</c:forEach>
 	        </td>
 	      </tr>
@@ -113,8 +115,8 @@
 	      <tr>
 	        <th>예약번호</th>
 	        <td style="text-align: left;">
-	        	<c:forEach var="rsv" items="${reservation}">
-	        		${rsv.rsvcode }
+	        	<c:forEach var="rsv" items="${reservation}" varStatus="sts">
+	        		${rsv.rsvcode}<c:if test="${sts.last eq false}">,</c:if>
 	        	</c:forEach>
 	        </td>
 	      </tr>
@@ -128,7 +130,7 @@
 	  </table>
 	  
 	  <div style="text-align: center;">
-	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="javascript:history.back();">뒤로가기</button>
+	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="">뒤로가기</button>
 	  </div>
   </div>
 
