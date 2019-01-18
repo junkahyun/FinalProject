@@ -83,7 +83,7 @@ public class SCController {
 	
 	// 호스트 숙소사진 수정
 	@RequestMapping(value = "/hrPhotoEdit.air", method = {RequestMethod.GET})
-	public String hrPhotoEdit(MultipartHttpServletRequest mtreq, HttpServletRequest req) {
+	public String hrPhotoEdit(HttpServletRequest req) {
 		
 		String roomcode = req.getParameter("roomcode");
 		System.out.println("roomcode : "+roomcode);

@@ -97,12 +97,11 @@ div {
 	margin-left: 22%;
 }
 
-.imgList {
-	margin-left: 22%;
-}
 
-.imgList>img {
-	display: block;
+
+.img-thumbnail{
+	border: none;
+	padding: 0;
 }
 
 .filebox {
@@ -156,9 +155,42 @@ div {
 	$(document).ready(function(){
 		$(".imgList").sortable({
 			items: $(".target")
-		});
-	});
 
+		});
+		
+		$("#imgfile").on("change",ImgsFilesSelect);
+	});
+	
+	var Imgfiles =[];
+	
+	function ImgsFilesSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f){
+			if(!f.type.match("image.*")){
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+			
+			Imgfiles.push(f);
+			
+			var reader = new FileReader();
+			
+			reader.onload = function(e){
+				var imgs = "<div class='col-md-2 target'><img class='img-thumbnail' src='"+e.target.result+"'/></div>";
+				$("#sortable").append(imgs);
+			}
+			
+			reader.readAsDataURL(f);
+		});
+			
+	}
+  	
+	$( function() {
+	    $( "#sortable" ).sortable();
+	    $( "#sortable" ).disableSelection();
+	} );
 </script>
 
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
@@ -182,7 +214,7 @@ div {
 	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 	<p>사진을 끌어와 원하는 순서대로 정렬할 수 있습니다.</p>
 	
-	<div class="row  imgList">
+	<div id="sortable" class="row">
 	
 	</div>
 	
