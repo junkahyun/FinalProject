@@ -109,4 +109,45 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
 </select> 
 
 
+<select id="getMemberReservationDetail" parameterType="String" resultMap="resList">
+
+select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode AS roomcode,guestcount
+		   ,babycount,rsv_name,rsv_phone,rsv_name,rsv_email,		   
+           to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
+           substr(rsv_checkindate,7,2) AS checkInDD,
+           substr(rsv_checkoutdate,0,2) AS checkInYY,
+           substr(rsv_checkoutdate,4,2) AS checkInMM,
+           decode(to_char(rsv_checkindate,'d'),'1','일'
+            ,'2','월'
+            ,'3','화'
+            ,'4','수'
+            ,'5','목'
+            ,'6','금'
+            ,'7','토'
+            ) AS checkInDay,
+	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
+           substr(rsv_checkoutdate,7,2) AS checkOutDD,
+           substr(rsv_checkoutdate,0,2) AS checkOutYY,
+           substr(rsv_checkoutdate,4,2) AS checkOutMM,
+           decode(to_char(rsv_checkoutdate,'d'),'1','일'
+            ,'2','월'
+            ,'3','화'
+            ,'4','수'
+            ,'5','목'
+            ,'6','금'
+            ,'7','토'
+            ) AS checiOutDay,
+	       to_char(paydate,'yyyy-mm-dd') as paydate,totalprice,dcprice,rsv_cancledate,fk_roomtype_idx,roomname
+	       ,roommainimg,roomtel,roompost,roomsigungu,roomsido,roombname,cleanpay,basic_person,
+	       rsv_msg,roomcount,bathcount,latitude,longitude,fk_buildtype_detail_idx,roomdetailaddr
+           ,roomtype_name
+	from member A join reservation B
+	      on A.userid = B.fk_userid
+	      join room C
+          on B.fk_roomcode = C.roomcode
+          join roomtype D
+          on C.fk_roomtype_idx = D.roomtype_idx
+    where A.userid = #{luser} and rsvcode=#{rsvcode}
+</select> 
+
 </mapper>	

@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -261,11 +262,11 @@ public class SOController {
 	public String myReservation(HttpServletRequest req, HttpServletResponse res) {
 
 		String luser ="leess";
-		String today = MyUtil.getNowDay();
+		String today = MyUtil.getNowTime();
 		
 		List<HashMap<String,String>> memberResList = service.getMemberReservationList(luser);
 		//회원 예약 내용 가져오기
-		
+
 		req.setAttribute("memberResList", memberResList);
 		req.setAttribute("today", today);
 		req.setAttribute("luser", luser);
@@ -274,11 +275,26 @@ public class SOController {
 	}
 	
 	@RequestMapping(value = "/myReservationCancelDetail.air", method = RequestMethod.GET)
-	public String myReservationCancelDetail() {
+	public String myReservationCancelDetail(HttpServletRequest req, HttpServletResponse res) {
+	
 		return "mypage/myReservationCancelDetail.hometiles";
 	}
 	@RequestMapping(value = "/myReservationDetail.air", method = RequestMethod.GET)
-	public String myReservationDetail() {
+	public String myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
+		
+		String rsvcode = req.getParameter("rsvcode");
+		String luser ="leess";
+		System.out.println("rsvcode");
+		
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("rsvcode", rsvcode);
+		paraMap.put("luser",luser);
+		
+		
+		HashMap<String,String> resDetail = service.getMemberReservationDetail(paraMap);
+		System.out.println(resDetail.get(0));
+		req.setAttribute("resDetail", resDetail);
+		System.out.println("111");
 		return "mypage/myReservationDetail.hometiles";
 	}
 	

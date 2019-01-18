@@ -47,6 +47,13 @@ public class SODAO implements InterSODAO {
 		return memberReservation;
 	}
 
+	//나의 예약 상세 내역 가져오기
+	@Override
+	public HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap) {
+		 HashMap<String, String> resDetail = sqlsession.selectOne("cso.getMemberReservationDetail", paraMap);
+		return resDetail;
+	}
+
 
 	
 }

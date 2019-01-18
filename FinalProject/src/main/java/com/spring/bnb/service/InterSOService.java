@@ -20,4 +20,7 @@ public interface InterSOService {
 	//나의 예약 내역 가져오기
 	List<HashMap<String,String>> getMemberReservationList(String loginuser);
 
+	//나의 예약 상세 내역 가져오기
+	HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap);
+
 }
