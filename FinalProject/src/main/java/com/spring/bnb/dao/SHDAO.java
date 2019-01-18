@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReportVO;
 
 @Repository
 public class SHDAO implements InterSHDAO {
@@ -62,9 +63,9 @@ public class SHDAO implements InterSHDAO {
 
 	// 신고글 가져오기
 	@Override
-	public List<HashMap<String, String>> getReport() {
+	public List<ReportVO> getReport() {
 		
-		List<HashMap<String, String>> reportMap = sqlsession.selectList("sh.getReport");
+		List<ReportVO> reportMap = sqlsession.selectList("sh.getReport");
 		
 		return reportMap;
 	}

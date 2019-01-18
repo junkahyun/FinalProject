@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReportVO;
 
 public interface InterSHService {
 
@@ -23,6 +24,6 @@ public interface InterSHService {
 	List<HashMap<String, String>> getMycoupon(String userid);
 	
 	// 신고글 가져오기
-	List<HashMap<String, String>> getReport();
+	List<ReportVO> getReport();
 	
 }

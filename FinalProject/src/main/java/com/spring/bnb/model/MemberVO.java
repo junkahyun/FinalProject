@@ -1,5 +1,7 @@
 package com.spring.bnb.model;
 
+import java.util.List;
+
 public class MemberVO {
 	private String userid; 
 	private String profileimg ;
@@ -18,7 +20,7 @@ public class MemberVO {
 	private String regDate;
 	
 	//add
-	private RoomVO myroom;
+	private List<RoomVO> myroomList;
 	
 	public MemberVO() {}
 	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
@@ -91,22 +93,18 @@ public class MemberVO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-
-	
 	public String getDetailAddr() {
 		return detailAddr;
-
 	}
-
 	public void setDetailAddr(String detailAddr) {
 		this.detailAddr = detailAddr;
 	}
-	public RoomVO getMyroom() {
-		return myroom;
+	
+	public List<RoomVO> getMyroomList() {
+		return myroomList;
 	}
-	public void setMyroom(RoomVO myroom) {
-		this.myroom = myroom;
-
+	public void setMyroomList(List<RoomVO> myroomList) {
+		this.myroomList = myroomList;
 	}
 	public int getGender() {
 		return gender;

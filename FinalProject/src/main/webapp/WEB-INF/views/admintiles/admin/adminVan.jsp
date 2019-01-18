@@ -43,7 +43,7 @@
 			    	</thead>
 					<tbody>
 						<%-- <c:forEach var="map" items="${reportMap}"> --%>
-							<td>${reportMap. }</td>
+							<td></td>
 					        <td>아이디</td>
 					        <td>제목</td>
 					        <td style="text-align: center;">날짜</td>

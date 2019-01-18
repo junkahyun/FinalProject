@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSHDAO;
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReportVO;
 
 @Service
 public class SHService implements InterSHService {
@@ -62,11 +63,12 @@ public class SHService implements InterSHService {
 
 	// 신고글 가져오기
 	@Override
-	public List<HashMap<String, String>> getReport() {
+	public List<ReportVO> getReport() {
 		
-		List<HashMap<String, String>> reportMap = dao.getReport();
-		
+		List<ReportVO> reportMap = dao.getReport();
+		System.out.println(reportMap);
 		return reportMap;
+
 	}
 	
 }

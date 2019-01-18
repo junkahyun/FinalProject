@@ -61,7 +61,7 @@
 	</select>
 	
 	
-	<resultMap type="HashMap" id="reportMap">
+	<!-- <resultMap type="HashMap" id="reportMap">
 		<result javaType="String" column="report_idx" property="report_idx"/>
 		<result javaType="String" column="fk_userid" property="fk_userid"/>
 		<result javaType="String" column="reporttype" property="reporttype"/>
@@ -69,9 +69,9 @@
 		<result javaType="String" column="report_date" property="report_date"/>
 		<result javaType="String" column="report_status" property="report_status"/>
 		<result javaType="String" column="report_subject" property="report_subject"/>
-	</resultMap>
+	</resultMap> -->
 	
-	<select id="getReport" resultMap="reportMap">
+	<select id="getReport" resultType="com.spring.bnb.model.ReportVO">
 		select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject
 		from report
 		order by report_idx desc

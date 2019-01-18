@@ -3,8 +3,6 @@ package com.spring.bnb.controller;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.PhotoVO;
+import com.spring.bnb.model.ReportVO;
 import com.spring.bnb.service.InterSHService;
 import com.spring.common.AES256;
 import com.spring.common.FileManager;
@@ -124,9 +123,10 @@ public class SHController {
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
 		
-		List<HashMap<String, String>> reportMap = new ArrayList<HashMap<String, String>>();
+		List<ReportVO> reportMap = new ArrayList<ReportVO>();
 		
 		reportMap = service.getReport();
+		System.out.println(reportMap);
 		
 		req.setAttribute("reportMap", reportMap);
 		
