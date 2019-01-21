@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
 public interface InterHYService {
@@ -15,5 +16,7 @@ public interface InterHYService {
 	int insertLikeRoom(HashMap<String, Object> paraMap);
 
 	List<HashMap<String, Object>> getMyLikeRoomList(String userid);
+
+	List<ReviewVO> getSearchReview(HashMap<String, String> paraMap);
 
 }

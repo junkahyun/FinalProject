@@ -73,4 +73,10 @@ public class HYDAO implements InterHYDAO {
 		return resultMap;
 	}
 
+	@Override
+	public List<ReviewVO> getSearchReview(HashMap<String, String> paraMap) {
+		List<ReviewVO> reviewList = sqlsession.selectList("hy.getSearchReview", paraMap);
+		return reviewList;
+	}
+
 }
