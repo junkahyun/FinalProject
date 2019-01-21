@@ -26,7 +26,7 @@
 	<!-- 숙소 이용규칙 -->
 	<select id="getRoomRule" resultType="String">
 		select rule_name
-		from roomrule
+		from allrule
 	</select>
 	
 	<!-- 건물유형(소)-->
@@ -40,7 +40,7 @@
 	<select id="getRoomList" resultType="com.spring.bnb.model.RoomVO">
 		select roomname, roommainimg, roomprice, roomtel, roomsigungu
 		     , basic_person, max_person, person_addpay, viewcount
-		     , latitude, longitude
+		     , latitude, longitude, roomcode
 		from room
 		<!-- where roomsigungu like '%'||#{roomsigungu}||'%' -->
 	</select>
@@ -50,6 +50,21 @@
 		     , rsv_phone, guestcount, babycount, rsv_email, fk_userid, totalprice, dcprice, to_char(paydate, 'yyyy-mm-dd') AS paydate, rsv_msg
 		from reservation     
 		where fk_userid = #{userid}
+	</select>
+	
+	<select id="getOptionList" resultType="String" parameterType="String">
+		select roomname, roommainimg, roomprice, roomtel, roomsigungu
+			 , basic_person, max_person, person_addpay, viewcount
+		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name
+		from room A JOIN roomoption B
+		on A.roomcode = B.fk_roomcode
+		JOIN options C
+		on B.fk_option_idx = c.option_idx
+		JOIN roomrule D
+		on A.roomcode = D.fk_roomcode
+		JOIN allrule E
+		on D.fk_rule_idx = E.rule_idx
+		where optionname='난방' and E.rule_name='흡연가능' and F.roomtype_name = '집 전체'
 	</select>
 
 </mapper>

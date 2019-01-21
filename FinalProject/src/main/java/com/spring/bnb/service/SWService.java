@@ -71,5 +71,13 @@ public class SWService implements InterSWService {
 		return reservationList;
 	}
 
+	@Override
+	public List<String> getOptionList(String roomcode) {
+
+		List<String> optionList = dao.getOptionList(roomcode);
+		
+		return optionList;
+	}
+
 	
 }

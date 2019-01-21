@@ -24,5 +24,7 @@ public interface InterSWService {
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황보여주기
 
+	List<String> getOptionList(String roomcode);  // 옵션 정보 받아오기
+
 	
 }

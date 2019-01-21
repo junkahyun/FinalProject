@@ -72,6 +72,14 @@ public class SWDAO implements InterSWDAO {
 		return reservationList;
 	}
 
+	@Override
+	public List<String> getOptionList(String roomcode) {
+
+		List<String> optionList = sqlsession.selectList("sw.getOptionList", roomcode);
+			
+		return optionList;
+	}
+
 	
 
 }

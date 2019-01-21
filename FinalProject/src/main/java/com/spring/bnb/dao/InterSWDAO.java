@@ -21,5 +21,7 @@ public interface InterSWDAO {
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황 보기
 
+	List<String> getOptionList(String roomcode);  // 옵션 정보 받아오기
+
 	
 }

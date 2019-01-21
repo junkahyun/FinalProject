@@ -123,4 +123,36 @@ public class SWController {
 		return "hostPage/reservationList.hosttiles_nofooter";
 	}
 	
+	/*@RequestMapping(value = "/option.air", method = {RequestMethod.GET})
+	public String option(HttpServletRequest req, HttpServletResponse res) {
+		
+		String option = req.getParameter("option");
+		String roomcode = req.getParameter("roomcode");
+		
+		JSONArray jsonArr = new JSONArray();  
+		
+		List<String> optionList = service.getOptionList(optionname, rule_name, roomtype_name);
+		
+		for(String test : optionList) {
+			
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("optionList", test);
+			
+			jsonArr.put(jsonObj);
+		}
+		
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		req.setAttribute("optionname", optionname);
+		req.setAttribute("rule_name", rule_name);
+		req.setAttribute("roomtype_name", roomtype_name);
+		
+		System.out.println(str_json);
+		System.out.println(optionList);
+		System.out.println(jsonArr);
+		
+		return "JSON";
+	}*/
+	
 }

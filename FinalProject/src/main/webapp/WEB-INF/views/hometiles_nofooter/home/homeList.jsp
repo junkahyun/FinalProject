@@ -33,14 +33,27 @@
 	 // 옵션 클릭시 스타일 주기	
 	 $(".option").click(function(){		 
 		 var $target = $(event.target);	
+		 var form_data = {data : $("#data").val()};
 		 		 
 		 if(!$target.hasClass("subjectstyle")){			
-			 $target.addClass("subjectstyle");				
+			 $target.addClass("subjectstyle");
+			 $.ajax({
+					url : "<%=request.getContextPath()%>/option.air",
+			   		type : "GET",
+					data : form_data,
+					dataType : "JSON",
+					success : function(json){ 
+					
+					},
+		            error: function(request, status, error){
+		                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }
+				 });
 		 }
 		 else{			
 			 $target.removeClass("subjectstyle");
 		 }		 
-
+	
 		 var result = "";
 		 $(".subjectstyle").each(function(event){
 			 var has = $(this).hasClass("subjectstyle");
@@ -48,8 +61,8 @@
 				 result += $(this).text() + ",";
 			 }			
 		 });
-		/* alert(result);
-		$("#data").val(result); */
+		/* alert(result);*/
+		$("#data").val(result); 
 		var jbString = result;
 		var jbSplit = jbString.split(',');
 				
@@ -209,17 +222,17 @@
             	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;">~
             	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;">   
             	<c:forEach items="${roomList }" var="RList" varStatus="status">
-            		<input type="hidden" id="cnt" value="${status.index}" />
-            		<input type="hidden" id="lat" class="lat" value="${RList.latitude }" />
-            		<input type="hidden" id="lng" class="lng" value="${RList.longitude }" />
+            		<input type="hidden" id="cnt${status.index}" class="cnt" value="${status.index}" />
+            		<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
+            		<input type="hidden" id="lng${status.index}" class="lng" name="lat" value="${RList.longitude }" />
             	</c:forEach>       	
             </div>
            
            	<div class="optionbox">
             	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>
-            	<span style="margin-right: 6%;">성인&nbsp;<input class="person" name="pqty"  value="0" height="48"/></span>
+            	<span style="margin-right: 6%;">성인&nbsp;<input class="person" name="pqty" value="0" height="48"/></span>
             	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input class="person" name="pqty" value="0"/></span>
-            	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty"  value="0"/></span>       	
+            	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty" value="0"/></span>       	
             </div>  
             
             <div class="optionbox">
@@ -227,7 +240,7 @@
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
-            	<input type="hidden" id="data"/>
+            	<input type="text" id="data" name="option"/>
             	
             </div>        
            
@@ -261,7 +274,7 @@
 	            	<div class="optionname col-md-2">고객 편의</div>
             		<c:forEach items="${optionList}" var="option" varStatus="status">  			
             		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
-            		<div class="option col-md-2" style="margin:0;padding:0; cursor: pointer;">${option}</div>
+            		<div class="option col-md-2 easy" style="margin:0;padding:0; cursor: pointer;">${option}</div>
             		</c:forEach>  
             	</div>          	
             </div> 
@@ -285,6 +298,8 @@
 		   markOnMap();
 	   });
 
+	  
+	   
 	   function markOnMap(){
 		   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	       mapOption = {
@@ -306,20 +321,38 @@
 		        if (status === daum.maps.services.Status.OK) {
 		   
 		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-		           
+		           	           		           
 		           // 마커가 표시될 위치입니다 
 		           var markerPosition = "";
-		           for(var i=0; i<1; i++ ){
-		           		markerPosition  = new daum.maps.LatLng(document.getElementById('lat').value, document.getElementById('lng').value); 
+		           for(var i=0; i<9; i++ ){
+		        	    var latid = 'lat' +i;
+		        	    var lngid = 'lng' +i;
+		        	    
+		        	    var latitude = $('#'+latid).val();
+		        	    var longitude = $("#"+lngid).val();
+		        	    // alert(latitude);
+			        	//alert((document.getElementById(latid)).value);
+			        	//alert((document.getElementById(lngid)).value); 
+		        	   
+		           		markerPosition  = new daum.maps.LatLng(latitude, longitude);
+		           	   var marker = new daum.maps.Marker({
+			               map: map,
+			               position: markerPosition
+			           });
+		           	   
+		           	   var rnid = 'roomName' + i;
+		           	   var rn = $('#'+rnid).text();
+		           	   
+		           	   if(rn.length >= 30){
+		           		   rn = rn.substr(0,30)+'...';
+		           		  $("#"+rnid).html(rn);
+		           	   }		           	  
 		           }
 		           
 		           /* document.getElementById('lat').value, document.getElementById('lng').value */
 		           
 		           // 결과값으로 받은 위치를 마커로 표시합니다
-		           var marker = new daum.maps.Marker({
-		               map: map,
-		               position: markerPosition
-		           });
+		           
 		   
 		         /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
 		           var infowindow = new daum.maps.InfoWindow({
@@ -339,26 +372,28 @@
         
         <div class="col-md-8" style="height:100vh; padding: 1%;">
             <div class="row">
-            <c:forEach items="${roomList}" var="RList">
+            <c:forEach items="${roomList}" var="RList" varStatus="status">
                 <div class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
-                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; cursor: pointer;" onClick="goHomeDetail()" />
+                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em; font-weight: bold;">개인실 · 침대 2개</span>
                     </div>
                     <div>
-                        <span style="font-weight:bold; font-size:1.2em;">${RList.roomName }</span>
+                        <%-- <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/> --%>
+                        <span id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;">${RList.roomName }</span>
                     </div>
                     <div>
                         <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
+                        <input type="hidden" name="roomcode" value="${RList.roomcode }" />
                     </div>                
                 </div>
             </c:forEach>
-            </div>
+            </div> 
         </div>
       
     </div>
