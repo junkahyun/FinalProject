@@ -109,7 +109,53 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
 </select> 
 
 
-<select id="getMemberReservationDetail" parameterType="String" resultMap="resList">
+<resultMap type="HashMap" id="resDetail">
+	<result column="username" property="username" javaType="String"/>
+	<result column="email" property="email" javaType="String"/>
+	<result column="phone" property="phone" javaType="String"/>
+	<result column="rsvcode" property="rsvcode" javaType="String"/>
+	<result column="roomcode" property="roomcode" javaType="String"/>
+	<result column="guestcount" property="guestcount" javaType="String"/>
+	<result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
+	<result column="rsv_checkoutdate" property="rsv_checkoutdate" javaType="String"/>
+	<result column="rsv_name" property="rsv_name" javaType="String"/>
+	<result column="paydate" property="paydate" javaType="String"/>
+	<result column="totalprice" property="totalprice" javaType="String"/>
+	<result column="dcprice" property="dcprice" javaType="String"/>
+	<result column="rsv_cancledate" property="rsv_cancledate" javaType="String"/>
+	<result column="fk_roomtype_idx" property="fk_roomtype_idx" javaType="String"/>
+	<result column="roomname" property="roomname" javaType="String"/>
+	<result column="roommainimg" property="roommainimg" javaType="String"/>
+	<result column="roompost" property="roompost" javaType="String"/>
+	<result column="roomsigungu" property="roomsigungu" javaType="String"/>
+	<result column="roomsido" property="roomsido" javaType="String"/>
+	<result column="roombname" property="roombname" javaType="String"/>
+	<result column="roomcount" property="roomcount" javaType="String"/>
+	<result column="latitude" property="latitude" javaType="String"/>
+	<result column="longitude" property="longitude" javaType="String"/>
+	<result column="roominfo" property="roominfo" javaType="String"/>
+	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
+	<result column="checkInDD" property="checkInDD" javaType="String"/>
+	<result column="checkInYY" property="checkInYY" javaType="String"/>
+	<result column="checkInMM" property="checkInMM" javaType="String"/>
+	<result column="checkInDay" property="checkInDay" javaType="String"/>
+	<result column="checkOutDD" property="checkOutDD" javaType="String"/>
+	<result column="checkOutMM" property="checkOutMM" javaType="String"/>
+	<result column="checkOutYY" property="checkOutYY" javaType="String"/>
+	<result column="checiOutDay" property="checiOutDay" javaType="String"/>
+	<result column="roominfo" property="roominfo" javaType="String"/>
+	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
+	<result column="roomtype_name" property="roomtype_name" javaType="String"/>
+	<result column="buildtype_detail_idx" property="buildtype_detail_idx" javaType="String"/>
+	<result column="buildtype_detail_name" property="buildtype_detail_name" javaType="String"/>
+	<result column="buildtype_idx" property="buildtype_idx" javaType="String"/>
+	<result column="buildtype" property="buildtype" javaType="String"/>
+	<result column="bedtype" property="bedtype" javaType="String"/>
+	<result column="bedcount" property="bedcount" javaType="String"/>
+	<result column="cleanpay" property="cleanpay" javaType="String"/>
+</resultMap>
+
+<select id="getMemberReservationDetail" parameterType="String" resultMap="resDetail">
 
 select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode AS roomcode,guestcount
 		   ,babycount,rsv_name,rsv_phone,rsv_name,rsv_email,		   
@@ -140,14 +186,66 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
 	       to_char(paydate,'yyyy-mm-dd') as paydate,totalprice,dcprice,rsv_cancledate,fk_roomtype_idx,roomname
 	       ,roommainimg,roomtel,roompost,roomsigungu,roomsido,roombname,cleanpay,basic_person,
 	       rsv_msg,roomcount,bathcount,latitude,longitude,fk_buildtype_detail_idx,roomdetailaddr
-           ,roomtype_name
+           ,roomtype_name,buildtype_detail_idx,buildtype_detail_name,buildtype_idx,buildtype
+           ,bedroom_idx,bed_idx,bedcount,bedtype
 	from member A join reservation B
 	      on A.userid = B.fk_userid
 	      join room C
           on B.fk_roomcode = C.roomcode
           join roomtype D
           on C.fk_roomtype_idx = D.roomtype_idx
+          join BUILDTYPE_DETAIL E
+          on C.fk_buildType_detail_idx = e.buildtype_detail_idx
+          join BUILDTYPE F
+          on F.BUILDTYPE_IDX = E.FK_BUILDTYPE_IDX 
+          join bedroom G
+          on G.fk_roomcode = C.roomcode
+          join bed H
+          on G.bedroom_idx = H.fk_bedroom_idx
+          join BEDOBJ I
+          on I.bedobj_idx = H.fk_bedobj_idx
     where A.userid = #{luser} and rsvcode=#{rsvcode}
 </select> 
+<resultMap type="HashMap" id="getMapHashMap">
+<result column="rsvcode" property="rsvcode" javaType="String"/>
+<result column="fk_roomcode" property="roomcode" javaType="String"/>
+<result column="latitude" property="latitude" javaType="String"/>
+<result column="longitude" property="longitude" javaType="String"/>
+<result column="roomname" property="roomname" javaType="String"/>
+<result column="roomsido" property="roomsido" javaType="String"/>
+<result column="roomsigungu" property="roomsigungu" javaType="String"/>
+<result column="roombname" property="roombname" javaType="String"/>
+
+</resultMap>
+<select id="getMap" parameterType="String" resultMap="getMapHashMap">
+	select A.rsvcode,A.fk_roomcode,A.fk_userid,latitude,longitude,roomname,roomsido,roomsigungu,roombname
+	from reservation A join room B
+	on A.fk_roomcode = B.roomcode
+	where A.rsvcode like #{rsvcode} and A.fk_userid like #{userid}
+</select>
+
+<resultMap type="HashMap" id="myReviewHashMap">
+	<result column="review_idx" property="review_idx" javaType="int"/>
+	<result column="roomcode" property="roomcode" javaType="String"/>
+	<result column="fk_userid" property="host_userid" javaType="int"/>
+	<result column="correct" property="correct" javaType="int"/>
+	<result column="communicate" property="communicate" javaType="int"/>
+	<result column="clean" property="clean" javaType="int"/>
+	<result column="position" property="position" javaType="int"/>
+	<result column="checkin" property="checkin" javaType="int"/>
+	<result column="value" property="value" javaType="int"/>
+	<result column="review_content" property="review_content" javaType="String"/>
+	<result column="hostanswer" property="hostanswer" javaType="String"/>
+	<result column="review_writedate" property="review_writedate" javaType="String"/>
+</resultMap>
+<select id="getMyReview" parameterType="String" resultMap="myReviewHashMap">
+
+		select A.review_idx,B.roomcode,B.fk_userid AS host_userid,correct,
+			communicate,clean,position,checkin,value
+			,review_content,hostanswer,A.review_writedate
+		from review A join room B
+		on B.roomcode = A.fk_roomcode
+		where A.fk_userid = #{userid}
+</select>
 
 </mapper>	

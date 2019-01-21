@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSODAO;
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReviewVO;
 
 @Service
 public class SOService implements InterSOService{
@@ -45,6 +46,19 @@ public class SOService implements InterSOService{
 	public HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap) {
 		HashMap<String, String>  resDetail = dao.getMemberReservationDetail(paraMap);
 		return resDetail ;
+	}
+	@Override
+	public HashMap<String, String> getMap(HashMap<String,String> paraMap) {
+		HashMap<String, String> rsvLocation = dao.getMap(paraMap);
+		return rsvLocation;
+	}
+	
+	// 내가 작성한 후기 
+	@Override
+	public List<HashMap<String,String>> getMyReview(String userid) {
+		List<HashMap<String,String>> myWriteReview  = dao.getMyReview(userid);
+		
+		return myWriteReview ;
 	}
 
 }

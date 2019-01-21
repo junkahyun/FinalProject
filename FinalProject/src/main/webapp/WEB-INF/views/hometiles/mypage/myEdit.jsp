@@ -204,7 +204,7 @@ function codeCheckFun() {
 <div class="row firstDIV">
 <!--  사이드바 -->
 	<div class="col-md-1" ></div>
-    <div class="col-md-3">
+    <div class="col-md-2">
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
@@ -217,13 +217,13 @@ function codeCheckFun() {
 			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="<%= ctxPath %>/myCoupon" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
-    <div class="col-md-6">
+    <div class="col-md-7">
      <div id="dashboard-content">
 	  <form name="editFrm" enctype="Multipart/form-data">
 	   <div class="panel space-4">

@@ -41,9 +41,9 @@
 	});
 </script>
 
-<div class="row firstDIV" style="border: 1px soild red;">
+<div class="row firstDIV">
 <!--  사이드바 -->
-<div class="col-md-1" style="border: 1px solid red"></div>
+<div class="col-md-1"></div>
     <div class="col-md-2" style="border: 0px solid red;">
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
@@ -57,7 +57,7 @@
 			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="<%= ctxPath %>/myCoupon" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
@@ -141,7 +141,7 @@
 						     
 						  </div>					   
 					  </div>
-					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="<%= ctxPath %>/myReservationDetail.air?userid=${luser}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
+					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${luser}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
 		      </div> 	           	   	       
 	        </div> 	
 	       </c:if> 
@@ -210,7 +210,9 @@
 						     
 						  </div>					   
 					  </div>
-					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
+					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right">
+					  	<a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${luser}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a>
+					  </div>  				  
 		      </div> 	           	   	       
 	        </div> 
 	        </c:if>
@@ -235,7 +237,7 @@
 	        	</div>
 	     	 
 	     	 	<div  class="col-md-8" class="row">
-		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약 취소일 </div>
+		     	  <div  style="padding: 0; margin-bottom: 3%;" align="right">예약 취소일 </div>
 		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>후아 창 헤리티지 호텔 (Hua Chang Heritage Hotel)</h4></li></ul></div>
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list">
@@ -274,7 +276,7 @@
 						     
 						  </div>					   
 					  </div>
-					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>  
+					 <!--  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="#" class="btn btn-primary btn-default">예약 상세 보기</a></div>   -->
 					  
 		      </div>  	       	   	       
 	        </div> 	 

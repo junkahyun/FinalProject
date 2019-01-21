@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.service.InterSOService;
 import com.spring.common.AES256;
 import com.spring.common.FileManager;
@@ -39,21 +40,31 @@ public class SOController {
 	
 	@RequestMapping(value = "/myCoupon.air", method = RequestMethod.GET)
 	public String myCoupon(HttpServletRequest req) {
-
-		//임시 유저아이디
-		String loginuser = "leess"; 
-		//
 		
 		HttpSession session = req.getSession();
+		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
+		System.out.println(mvoUser);
+		if(mvoUser == null) {
+		
+			String msg = "먼저 로그인 해주세요!";
+			String loc="/bnb/index.air;"; 
+			req.setAttribute("msg",msg);
+			req.setAttribute("loc", loc); 
+			
+			return "msg"; 
+		}else {		
+			String userid = mvoUser.getUserid();
+			System.out.println(userid);
+			
+			String date = MyUtil.getNowTime();
+		
+			List<HashMap<String,String>> myCoupon = service.getMyCoupon(userid);
 
-
-		String date = MyUtil.getNowTime();
-	
-		List<HashMap<String,String>> myCoupon = service.getMyCoupon(loginuser);
-
-		req.setAttribute("myCoupon", myCoupon);
-		req.setAttribute("date", date);
-		return "mypage/myCoupon.hometiles";
+			req.setAttribute("myCoupon", myCoupon);
+			req.setAttribute("date", date);
+			return "mypage/myCoupon.hometiles";			
+		}
+		
 	}
 
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
@@ -279,6 +290,8 @@ public class SOController {
 	
 		return "mypage/myReservationCancelDetail.hometiles";
 	}
+	
+	// 투숙 완료예약 상세보기
 	@RequestMapping(value = "/myReservationDetail.air", method = RequestMethod.GET)
 	public String myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
 		
@@ -292,23 +305,31 @@ public class SOController {
 		
 		
 		HashMap<String,String> resDetail = service.getMemberReservationDetail(paraMap);
-		System.out.println(resDetail.get(0));
 		req.setAttribute("resDetail", resDetail);
-		System.out.println("111");
 		return "mypage/myReservationDetail.hometiles";
 	}
-	
+	// 투숙 예정 예약 상세보기
 	@RequestMapping(value = "/myReservationScheduleDetail.air", method = RequestMethod.GET)
 	public String myReservationScheduleDetail() {
 		return "mypage/myReservationScheduleDetail.hometiles";
 	}
+	
+	// 나의 후기 보기
 	@RequestMapping(value = "/review.air", method = RequestMethod.GET)
-	public String review() {
+	public String requireLogin_review(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+		
+		//내가 쓴 후기 
+		List<HashMap<String,String>> myWriteReview = service.getMyReview(userid);
 		
 		return "mypage/review.hometiles";
 	}
 	@RequestMapping(value = "/couponReg.air", method = RequestMethod.POST)
 	public String couponReg(HttpServletRequest req, HttpServletResponse res) {
+		
+		
 		   String method = req.getMethod();
 		   System.out.println(method);
 		return "mypage/couponReg.notiles";
@@ -323,7 +344,20 @@ public class SOController {
 	
 	@RequestMapping(value = "/myReservationMAP.air", method = RequestMethod.GET)
 	public String myReservationMAP(HttpServletRequest req, HttpServletResponse res) {
-
+		HttpSession session = req.getSession();
+		MemberVO memberLogin= (MemberVO)session.getAttribute("loginuser");
+		
+		//String userid = memberLogin.getUserid();
+		String userid = "leess";
+		String rsvcode = req.getParameter("rsvcode");
+		
+		HashMap<String,String>  paraMap = new HashMap<String,String>();		
+		paraMap.put("rsvcode", rsvcode);
+		paraMap.put("userid", userid);
+		
+		HashMap<String,String> rsvLocation = service.getMap(paraMap);
+		//HashMap<String,String> rsvLocation = service.getMemberReservationDetail(paraMap);
+		req.setAttribute("rsvLocation", rsvLocation);
 		return "mypage/myReservationMAP.notiles";
 	}
 	

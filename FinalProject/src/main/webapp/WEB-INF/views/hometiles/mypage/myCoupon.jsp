@@ -78,26 +78,26 @@ td{
 <div class="row firstDIV" style="border: 0px soild red;">
 <!--  사이드바 -->
 	<div class="col-md-1" style="border: 0px solid red"></div>
-    <div class="col-md-3">
+    <div class="col-md-2">
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="#" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="#" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="#" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="#" aria-selected="true" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="true" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
-    <div class="col-md-6">
+    <div class="col-md-7">
      <div style="padding:2%; border: 1px solid #dbdfdf;" >
 		<h3>상품할인쿠폰</h3>
 		<p>고객님이 받으신 e-mail 이나 오프라인에서 지급받으신 쿠폰 번호를 입력하시면, 할인쿠폰을 지급해 드립니다.</p>
