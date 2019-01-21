@@ -8,4 +8,5 @@ $(document).ready(function(){
 	if(${reload != null }) location.reload();
 	else location.href = "${loc}"
 });
+
 </script>
