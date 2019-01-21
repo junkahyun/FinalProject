@@ -43,8 +43,8 @@ public class HYDAO implements InterHYDAO {
 		int likeCount = sqlsession.selectOne("hy.getRoomLikeCount", roomcode);
 		roomvo.setLikeCount(likeCount);
 		// 숙소 이미지 리스트 가져오기
-		List<String> roomimgList = sqlsession.selectList("hy.getRoomImgList", roomcode);
-		roomvo.setRoomimgList(roomimgList);
+		/*List<String> roomimgList = sqlsession.selectList("hy.getRoomImgList", roomcode);
+		roomvo.setRoomimgList(roomimgList);*/
 		
 		return roomvo;
 	}
@@ -53,9 +53,9 @@ public class HYDAO implements InterHYDAO {
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
 		if(loginuser!=null) {
-			RoomVO myroom = sqlsession.selectOne("hy.checkHostUser",member);
+			List<RoomVO> myroom = sqlsession.selectList("hy.checkHostUser",member);
 			if(myroom != null) {
-				loginuser.setMyroom(myroom);
+				loginuser.setMyroomList(myroom);
 			}
 		}
 		return loginuser;

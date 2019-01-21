@@ -20,9 +20,7 @@ import com.spring.bnb.service.InterHYService;
 @Controller
 public class HYController {
 
-	//===== #35. ������ü �����ϱ�(DI:Dependency Injection)  =====
-
-
+	//===== #35. 의존객체주입(DI:Dependency Injection)  =====
 	@Autowired
 	private InterHYService service; 
 
@@ -33,7 +31,7 @@ public class HYController {
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
-		roomcode = "10";
+		if(roomcode==null) roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
@@ -48,6 +46,8 @@ public class HYController {
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
+		System.out.println(member.getUserid());
+		System.out.println(member.getPwd());
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
@@ -84,7 +84,7 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
-		System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
+		//System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);

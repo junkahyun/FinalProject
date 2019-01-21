@@ -15,6 +15,7 @@ public class ReviewVO {
 	private String hostAnswer;
 	
 	private MemberVO user;
+	private RoomVO room;
 	
 	public ReviewVO() {}
 	public ReviewVO(int review_idx, String fk_roomcode, String fk_userid, int correct, int communicate, int clean,
@@ -111,5 +112,12 @@ public class ReviewVO {
 	public void setUser(MemberVO user) {
 		this.user = user;
 	}
+	public RoomVO getRoom() {
+		return room;
+	}
+	public void setRoom(RoomVO room) {
+		this.room = room;
+	}
+	
 	
 }

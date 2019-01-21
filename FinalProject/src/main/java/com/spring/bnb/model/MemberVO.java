@@ -1,6 +1,9 @@
 package com.spring.bnb.model;
 
+import java.util.List;
+
 public class MemberVO {
+
 	private String userid; 
 	private String profileimg ;
 	private String username;
@@ -13,17 +16,19 @@ public class MemberVO {
 	private int gender;
 	private String birthday; 
 	private String introduction; 
-	private int MemberStatus;
+	private int memberStatus;
 	private int warnCount;
 	private String regDate;
 	
 	//add
-	private RoomVO myroom;
+	private List<RoomVO> myroomList;
 	
 	public MemberVO() {}
 	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
-			String addr, String detailddr, int gender, String birthday, String introduction, int memberStatus,
-			int warnCount, String regDate, String detailAddr) {
+
+			String addr, String detailAddr, int gender, String birthday, String introduction, int memberStatus,
+			int warnCount, String regDate) {
+
 		super();
 		this.userid = userid;
 		this.profileimg = profileimg;
@@ -37,7 +42,7 @@ public class MemberVO {
 		this.gender = gender;
 		this.birthday = birthday;
 		this.introduction = introduction;
-		this.MemberStatus = memberStatus;
+		this.memberStatus = memberStatus;
 		this.warnCount = warnCount;
 		this.regDate = regDate;
 	}
@@ -90,18 +95,18 @@ public class MemberVO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	
 	public String getDetailAddr() {
 		return detailAddr;
 	}
 	public void setDetailAddr(String detailAddr) {
 		this.detailAddr = detailAddr;
 	}
-	public RoomVO getMyroom() {
-		return myroom;
+	
+	public List<RoomVO> getMyroomList() {
+		return myroomList;
 	}
-	public void setMyroom(RoomVO myroom) {
-		this.myroom = myroom;
+	public void setMyroomList(List<RoomVO> myroomList) {
+		this.myroomList = myroomList;
 	}
 	public int getGender() {
 		return gender;
@@ -122,10 +127,10 @@ public class MemberVO {
 		this.introduction = introduction;
 	}
 	public int getMemberStatus() {
-		return MemberStatus;
+		return memberStatus;
 	}
 	public void setMemberStatus(int memberStatus) {
-		MemberStatus = memberStatus;
+		this.memberStatus = memberStatus;
 	}
 	public int getWarnCount() {
 		return warnCount;
@@ -142,3 +147,4 @@ public class MemberVO {
 	
 	
 }
+
