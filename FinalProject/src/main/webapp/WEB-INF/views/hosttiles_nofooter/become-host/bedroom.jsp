@@ -61,7 +61,32 @@
 			  $("#bedoqty").hide();
 			  flag = false;
 		   }
-	   });	   
+	   });	  
+	   
+	   $("#bedroom").change(function(){
+		   
+		   var g = $("#addbed").html();
+		   
+		   var html = "";
+			
+		   var bedroom = $("#bedroom").val();
+			
+			if(bedroom == "1"){
+				$("#addarea").empty();
+			}
+			else{
+				for(var i=1; i<=bedroom; i++){
+					html += g;
+				
+				}
+				
+			}
+			
+			$("#addarea").html(html);
+				
+				
+		   
+	   });
 	   
    });// end of ready---
   
@@ -79,22 +104,22 @@
    
    //최대숙박인원 감소 버튼
    function peopleminus() {
-	   var start = $("#peopleupdown").text();
+	   var start = $("#peopleupdown").val();
 	   var minus = parseInt(start);
 	   minus--;
 	   if(minus<1){
 		   alert("인원수는 1명 이상이여야 합니다.");
 		   minus = 1;
 	   }
-	   $("#peopleupdown").text(minus);
+	   $("#peopleupdown").val(minus);
    }  
    
    //최대숙박인원 증가 버튼
    function peopleplus() {
-	   var start = $("#peopleupdown").text();
+	   var start = $("#peopleupdown").val();
 	   var plus = parseInt(start);
 	   plus++;
-	   $("#peopleupdown").text(plus);
+	   $("#peopleupdown").val(plus);
    }
    
    //더블침대 감소 버튼
@@ -181,9 +206,7 @@
    
 </script> 
 
-<? session_cache_limiter(''); ?>
 <form name="bedroom">
-	<div>
 	   <div class="row" style="border: 0px solid green;">
 	 
 	   <!-- 진행상태 바 -->
@@ -196,6 +219,8 @@
 	  
 	
 	      <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
+	      
+	         <div class="row">
 	         <div class="title">숙소에 얼마나 많은 인원이 숙박할 수 있나요?</div>
 	         <div class="row" style="padding: 0; margin-bottom: 100px; border: 0px solid green;" >
 	         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
@@ -203,7 +228,9 @@
 	         		<div class="col-md-2" style="border: 0px solid green;">
 	         		 	<button type="button" onclick="peopleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
 	         		</div>
-	         		<div class="col-md-1" id="peopleupdown" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 1 </div>
+	         		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+	         			<input id="peopleupdown" name="people" value="1" style="border: 0">   
+	         		</div>
 	         		<div class="col-md-2" style="border: 0px solid green;">
 	         		 	<button type="button" onclick="peopleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
 	         		</div>
@@ -212,29 +239,31 @@
 	            <div class="col-md-10" style="margin-top: 50px; border: 0px solid red;">
 	                <div class="selecthead">게스트가 사용할 수 있는 침실은 몇 개인가요?</div>  
 	                <div class="col-md-9" style="padding: 0">
-	                <select id="roomselect1" class="select" name="room_type" style="width: 100%; padding: 9px;">  
-	                   <option value="1">침실 1개</option>
-	                   <option value="2">침실 2개</option>
-	                   <option value="3">침실 3개</option>
-	                   <option value="4">침실 4개</option>
+	                <select id="bedroom" class="select" name="bedroom" style="width: 100%; padding: 9px;">  
+	                   <%for(int i=1; i<=50; i++){ %>
+	                   <option value="<%=i%>"><%="침실 "+i+"개"%></option>
+	                   <%} %>
 	                </select>
 	                </div>  
 	            </div>              			            
 	         </div>
 	         
 	         <h3> 침대 유형 </h3>
-	         <hr/>
-	         <div class="row" style="border: 0px solid black">
-		         <div class="col-md-7" style="border: 0px solid blue">
-		         	<div style="font-size: 19px;">1번 침실</div>
-		         	<div style="font-size: 19px; color: #767676;">침대 0개</div>
-		         </div>
-		         <div class="col-md-5" style="border: 0px solid red; height: 56px; padding-right: 0;"  >
-		         	<button type="button" id="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
-		         </div>
-	         </div>
 	         
-	         <div class="row" id="bedoqty" style="border: 0px solid red;">
+	         <div class="row" style="border: 0px solid black" id="addbed">
+	         <hr/>
+	         	<div class="col-md-12">
+			         <div class="col-md-6" style="border: 0px solid blue">
+			         	<div style="font-size: 19px;">1번 침실</div>
+			         	<div style="font-size: 19px; color: #767676;">침대 0개</div>
+			         </div>
+			         <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;"  >
+			         	<button type="button" id="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
+			         </div>
+		        </div>
+		      <hr/>
+	         
+	         <div class="col-md-12" id="bedoqty">
 		         <div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
 		       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
 		       		<div class="col-md-2" style="border: 0px solid green;">
@@ -277,6 +306,9 @@
 		       	</div>
 	       	</div>
 	       	<hr/>
+	       	</div>
+	       	<div class="row" id="addarea"></div>
+	       	
 	       	
 	       	<div class="col-md-3" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-top: 20px; padding-left: 0; padding-right: 0;" >
 		         <div class="col-md-3" style="border: 0px solid red; padding: 0;">
@@ -286,7 +318,9 @@
 		         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
 		            <button type="button" onclick="next();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
 		         </div>
-	        </div>      
+	        </div>
+	        
+	        </div>    
 	      </div>
 	 
 	      <div class="col-md-4" style="border: 0px solid blue;">
@@ -294,7 +328,6 @@
 	      </div>
 	      
 	   </div>
-	</div>
 	
 </form>
 

@@ -15,8 +15,7 @@ public class boboDAO implements InterBODAO{
 
 	// 숙소유형 가져오기
 	@Override
-	public List<String> selectroomtype() {
-		
+	public List<String> selectroomtype() {	
 		List<String> roomtype = sqlsession.selectList("bobo.selectroomtype");
 		return roomtype;
 	}
@@ -33,6 +32,13 @@ public class boboDAO implements InterBODAO{
 	public List<HashMap<String, String>> selectbuildTypedetail(String buildType) {
 		List<HashMap<String, String>> buildTypedetail = sqlsession.selectList("bobo.selectbuildTypedetail", buildType);
 		return buildTypedetail;
+	}
+
+	// 옵션 가져오기
+	@Override
+	public List<String> selectoptions() {
+		List<String> options = sqlsession.selectList("bobo.selectoptions");
+		return options;
 	}
 
 }
