@@ -11,9 +11,22 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		
-	});
+		$.ajax({
+			url: "adminVanJSON.air",
+			type: "GET",
+			dataType:"JSON",
+			success: function(){
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+		});
+		
+	}); */
 	
 </script>
 
@@ -42,13 +55,18 @@
 						</tr>
 			    	</thead>
 					<tbody>
-						<%-- <c:forEach var="map" items="${reportMap}"> --%>
-							<td></td>
-					        <td>아이디</td>
-					        <td>제목</td>
-					        <td style="text-align: center;">날짜</td>
-					        <td style="text-align: center;">처리상태</td>
-						<%-- </c:forEach> --%>
+						<c:forEach var="reportvo" items="${reportMap}">
+							<td>${reportvo.report_idx}</td>
+					        <td>${reportvo.fk_userid}</td>
+					        <td>${reportvo.report_content}</td>
+					        <td style="text-align: center;">${reportvo.report_date}</td>
+					        <c:if test="${reportvo.report_status == 1}">
+					        	<td style="text-align: center;">처리</td>
+					        </c:if>
+					         <c:if test="${reportvo.report_status == 0}">
+					        	<td style="text-align: center;">미처리</td>
+					        </c:if>
+				        </c:forEach>
 				    </tbody>
 				</table>			
 			</div>
@@ -56,5 +74,18 @@
 	</div>
 </div>
 
+<form name="memberFrm">
+	<div id="searchbar" style="text-align: center;">
+		<select id="searchType" name="searchType">
+			<option value="username">번호</option>
+			<option value="userid">아이디</option>
+		</select>
+        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style="" />
+        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch();"/></span>
+    </div>
+</form>
 
-    
+<div class="pageBar" style="text-align: center; margin: 2%;">
+	[이전]    1    2    3    4    5		6		7		8		9    [다음]
+</div>
+   

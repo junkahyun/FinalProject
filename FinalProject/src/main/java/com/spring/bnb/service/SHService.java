@@ -66,7 +66,7 @@ public class SHService implements InterSHService {
 	public List<ReportVO> getReport() {
 		
 		List<ReportVO> reportMap = dao.getReport();
-		System.out.println(reportMap);
+		// System.out.println(reportMap);
 		return reportMap;
 
 	}

@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.PhotoVO;
@@ -45,15 +48,20 @@ public class SHController {
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 		
+		return "admin/adminMember.admintiles";
+	}
+	
+	// 관리자 회원관리 페이지(ajax, 페이징처리 전)
+	@RequestMapping(value="/adminMemberJSON.air", method= {RequestMethod.GET})
+	public String adminMemberJSON(HttpServletRequest req) {
+		
 		List<MemberVO> memberList = new ArrayList<MemberVO>();
 		
 		memberList = service.getMemberList();
 		
-		req.setAttribute("memberList", memberList);
-		
 		String searchWord = req.getParameter("searchWord");
 		String searchType = req.getParameter("searchType");
-		
+
 		if(searchType == null) {
 			searchType = "username";
 		}
@@ -72,19 +80,53 @@ public class SHController {
 		paraMap.put("searchType", searchType);
 		
 		List<MemberVO> searchMember = service.getSearchMember(paraMap);
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		if(searchMember == null) {
+			
+			for(int i=0; i<memberList.size(); i++) {
+				
+				JSONObject jsonObj = new JSONObject();
+				
+				jsonObj.put("USERID", memberList.get(i).getUserid());
+				jsonObj.put("USERNAME", memberList.get(i).getUsername());
+				jsonObj.put("BIRTHDAY", memberList.get(i).getBirthday());
+				jsonObj.put("GENDER", memberList.get(i).getGender());
+				jsonObj.put("PHONE", memberList.get(i).getPhone());
+				jsonObj.put("ADDR", memberList.get(i).getAddr());
+				jsonObj.put("DETAILADDR", memberList.get(i).getDetailAddr());
+				
+				jsonArr.put(jsonObj);
+			}
+			
+			String str_jsonArr = jsonArr.toString();
+			req.setAttribute("str_jsonArr", str_jsonArr);
+		}
+		
+		else if(searchMember != null) {
+			
+			for(int i=0; i<searchMember.size(); i++) {
+				
+				JSONObject jsonObj = new JSONObject();
+				
+				jsonObj.put("USERID", searchMember.get(i).getUserid());
+				jsonObj.put("USERNAME", searchMember.get(i).getUsername());
+				jsonObj.put("BIRTHDAY", searchMember.get(i).getBirthday());
+				jsonObj.put("GENDER", searchMember.get(i).getGender());
+				jsonObj.put("PHONE", searchMember.get(i).getPhone());
+				jsonObj.put("ADDR", searchMember.get(i).getAddr());
+				jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
+				
+				jsonArr.put(jsonObj);
+			}
+			
+			String str_jsonArr = jsonArr.toString();
+			req.setAttribute("str_jsonArr", str_jsonArr);
+		}
 
-		req.setAttribute("searchMember", searchMember);
-		
-		return "admin/adminMember.admintiles";
+		return "admintiles/admin/adminMemberJSON";
 	}
-	
-	/*@RequestMapping(value="/adminMemberJson.air", method= {RequestMethod.GET})
-	public String adminMemberJson(HttpServletRequest req) {
-		
-		
-		
-		return "";
-	}*/
 	
 	// 관리자 회원상세 페이지
 	@RequestMapping(value="/memberDetail.air", method= {RequestMethod.GET})
@@ -126,7 +168,7 @@ public class SHController {
 		List<ReportVO> reportMap = new ArrayList<ReportVO>();
 		
 		reportMap = service.getReport();
-		System.out.println(reportMap);
+		// System.out.println(reportMap);
 		
 		req.setAttribute("reportMap", reportMap);
 		
@@ -137,6 +179,7 @@ public class SHController {
 	// 신고 글쓰기 페이지 요청
 	@RequestMapping(value="/vanWrite.air", method= {RequestMethod.GET})
 	public String vanWrite(HttpServletRequest req) {
+		
 		
 		
 		return "home/vanWrite.hometiles";

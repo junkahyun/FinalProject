@@ -14,12 +14,15 @@
 	
 	$(document).ready(function(){
 		
+		goSearch();
+		
 		// 검색어에 엔터를 입력한 경우
 		$("#searchWord").keydown(function(event){
 			if(event.keyCode == 13) {
 				// 엔터를 했을 경우
-				 goSearch();
-				//alert("엔터했군요");
+				
+				goSearch();
+				
 			}
 		});
 		
@@ -28,18 +31,47 @@
 	function goSearch() {
 		
 		var searchWord = $("#searchWord").val().trim();
+		var searchType = $("#searchType").val().trim();
+		var data_form = {"searchWord":searchWord, "searchType" : searchType};
 		
-    	if(searchWord == "") {
-    		alert("검색어를 입력해주세요");
-    		return;
-    	}
-    	else {
-    		
-    		var frm = document.memberFrm;
-    		frm.method = "GET";
-    		frm.action = "adminMember.air";
-    		frm.submit();
-    	}
+		$.ajax({
+			url:"<%=request.getContextPath()%>/adminMemberJSON.air",
+			type:"GET",
+			data:data_form,
+			dataType:"JSON",
+			success:function(json){ 
+				var html = "";
+				if(json.length > 0) {
+					$.each(json, function(entryIndex, entry){
+						var genderTD = "";
+						
+						if(entry.GENDER == "1"){
+							genderTD = "<td>남자</td>";
+						}else{
+							genderTD = "<td>여자</td>";
+						}
+						
+						 html += "<tr>"+
+								   "<td><a href='memberDetail.air?userid="+entry.USERID+"'>"+entry.USERNAME+"</a></td>"+
+								   "<td>"+entry.USERID+"</td>"+
+								   "<td>"+entry.BIRTHDAY+"</td>"+
+								   genderTD+
+								   "<td>"+entry.PHONE+"</td>"+
+								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
+								   " <td><button type='button' class='btn btn-danger' >삭제</button></td>"+
+								   "</tr>"; 
+						$("#result").html(html);
+					});
+				}
+				else {
+					$("#result").html("<tr><td colspan='8' style='color:red;'>검색된 데이터가 없습니다.</td></tr>");
+				} 
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
 
 	}	
 	
@@ -82,37 +114,8 @@
 					      <th>회원삭제</th>
 					    </tr>
 					  </thead>
-					  <tbody>
-					  	<form name="detailFrm">
-						  	<c:if test="${searchMember == null}">
-							  	<c:forEach var="membervo" items="${memberList}">
-								    <tr>
-								      <td><a href="<%=cxtPath %>/memberDetail.air?userid=${membervo.userid}">${membervo.username}</a></td>
-								      <td>${membervo.userid}</td>
-								      <td>${membervo.birthday}</td>
-								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
-								      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
-								      <td>${membervo.phone}</td>
-								      <td>${membervo.addr}&nbsp;${membervo.detailAddr}</td>
-								      <td><button type="button" class="btn btn-danger" >삭제</button></td>
-								    </tr>
-							    </c:forEach>
-						    </c:if>
-						    <c:if test="${searchMember != null}">
-							  	<c:forEach var="membervo" items="${searchMember}">
-								    <tr>
-								      <td><a href="<%=cxtPath %>/memberDetail.air?userid=${membervo.userid}">${membervo.username}</a></td>
-								      <td>${membervo.userid}</td>
-								      <td>${membervo.birthday}</td>
-								      <c:if test="${membervo.gender == 1}"><td>남자</td></c:if>
-								      <c:if test="${membervo.gender == 2}"><td>여자</td></c:if>
-								      <td>${membervo.phone}</td>
-								      <td>${membervo.addr}&nbsp;${membervo.detailAddr}</td>
-								      <td><button type="button" class="btn btn-danger" >삭제</button></td>
-								    </tr>
-							    </c:forEach>
-						    </c:if>
-					    </form>
+					  <tbody id="result">
+					  	
 					  </tbody>
 				</table>			
 			</div>
