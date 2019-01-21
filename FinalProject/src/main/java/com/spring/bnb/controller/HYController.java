@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterHYService;
 
@@ -35,6 +36,30 @@ public class HYController {
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
+	}
+	
+	// 숙소 상세페이지
+	@RequestMapping(value = "/reviewSearch.air", method = RequestMethod.GET)
+	public String reviewSearch(HttpServletRequest req) {
+		String reviewSearchWord = req.getParameter("reviewSearchWord");
+		String roomcode = req.getParameter("roomcode");
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("REVIEWSEARCHWORD", reviewSearchWord);
+		paraMap.put("ROOMCODE",roomcode);
+		List<ReviewVO> reviewList = service.getSearchReview(paraMap);
+		JSONArray jsonArr = new JSONArray();
+		for(ReviewVO review :reviewList) {
+			JSONObject jobj = new JSONObject();
+			jobj.put("review_idx",review.getReview_idx());
+			jobj.put("fk_roomcode",review.getFk_roomcode());
+			jobj.put("fk_userid",review.getFk_userid());
+			jobj.put("review_content",review.getReview_content());
+			jobj.put("review_wrtitedate",review.getReview_writedate());
+			jsonArr.put(jobj);
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 	
 	// 호스트 메인페이지

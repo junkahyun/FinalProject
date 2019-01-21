@@ -97,5 +97,8 @@
 		where L.fk_userid=#{userid}
 	</select>
 	
+	<select id="getSearchReview" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
+		select*from review where fk_roomcode=#{ROOMCODE} and review_content =#{REVIEWSEARCHWORD}
+	</select>
 </mapper>
 

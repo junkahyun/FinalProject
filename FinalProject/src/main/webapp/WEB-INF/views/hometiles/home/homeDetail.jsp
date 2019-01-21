@@ -6,32 +6,48 @@
 <%-- 참조 : https://www.airbnb.co.kr/rooms/7331795?guests=1&adults=1&s=6yWJyZHp --%>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 <script>
-   $(document).ready(function(){
-      var obj = $("#followHY").offset();
-      var objEnd = $("#followEndHY").offset();
-      $(window).scroll(function(event){
-         if($( document ).scrollTop() > obj.top){
+	$(document).ready(function(){
+    	var obj = $("#followHY").offset();
+    	var objEnd = $("#followEndHY").offset();
+       	$(window).scroll(function(event){
+        	if($( document ).scrollTop() > obj.top){
             $("#followHY").addClass("followDiv");
-         }
-         else{
-            $("#followHY").removeClass("followDiv");
-         }
-      });   
-      $.ajax({
-         url:"JSONtest.air",
-         type:"GET",
-         data:"JSON",
-         success:function(json){
-            alter(JSON.stringify(json));
-         },
-         error: function(){
-            
-         }
-      })
-   });
-   function reviewSearch(){
-      
-   }
+		}
+        else{
+        	$("#followHY").removeClass("followDiv");
+        }
+       	$("#reviewSearchWord").keydown(function(event){
+       		if(event.keyCode==13){
+       			alert();
+       			reviewSearch();
+       		}
+       	});
+	});   
+	
+  /*  	function reviewSearch(){
+	   	var reviewSearchWord = $("#reviewSearchWord").val();
+	   	var roomcode = $("#roomcode").val();
+	   	var form_data = {"reviewSearchWord":reviewSearchWord,"roomcode":roomcode};
+       	$.ajax({
+    	  	url:"reviewSearch.air",
+    	  	type:"POST",
+    	  	dataType:"JSON",
+    	  	success:function(json){
+    		  	var html = "";
+    		  	$.each(json,function(entryIndex,entry){
+    			 	html+="<div class='row noSpace homeDetailComment'>"
+                    	+"<div class='col-md-1'><div style='border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;'><img src='' style='width:50px;height:50px;'></div></div>"
+                 		+"<div class='col-md-10' style='padding-top:0.5%;'><div style='font-weight:bold;'>"+entry.fk_userid+"</div><div>"+entry.review_writedate+"</div></div>"
+                 		+"<div class='col-md-1'>icon</div>"
+                 		+"<div class='col-md-12' style='margin-top:2%;'>"+entry.review_content+"</div></div>";
+    		  	});
+    		  	$("#reviewArea").html(html);
+    	  	},
+    	  	error:function(){
+    		 
+    	  	}
+       	});
+   	} */
    function likeRoom(){
       var saveTitle = $("#saveTitle").val();
       var roomcode = $("#roomcode").val();
@@ -348,7 +364,7 @@ div{
          <div class="infoDiv" style="padding-bottom:0;">
             <div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
                <div class="col-md-8 infoSubjectHYBig">후기 ${room.reviewList.size()}개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
-               <div class="col-md-4"><input type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
+               <div class="col-md-4"><input id="reviewSearchWord" type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
                   <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
                </div>
             </div>
@@ -368,7 +384,7 @@ div{
                </div>
             </div>
             <%-- 후기들 --%>
-            <div class="noSpace">
+            <div id="reviewArea" class="noSpace">
                <c:if test="${room.reviewList.size() > 0 }">
                <c:forEach items="${room.reviewList }" var="review">
                <div class="row noSpace homeDetailComment">
