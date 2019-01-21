@@ -84,6 +84,8 @@
 		</div> 
 	
 	      <div class="col-md-4" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
+	      	
+	      	<div class="row">
 	         <div class="col-md-10 title">숙소의 위치를 알려주세요.</div>
 	         <div class="row" style="padding: 0; border: 0px solid green;" >
 	         
@@ -133,6 +135,7 @@
 		         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
 		            <button type="button" onclick="gomap();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
 		         </div>
+	        </div>
 	        </div> 
 	
 	      </div>

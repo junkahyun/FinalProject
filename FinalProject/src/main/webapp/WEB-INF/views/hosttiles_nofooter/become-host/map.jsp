@@ -57,32 +57,35 @@
 		</div> 
 	
 	      <div class="col-md-4" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
-	         <div class="title">핀이 놓인 위치가 정확한가요?</div>
-	         <div class="row" style="padding: 0; border: 0px solid green;" >
-	            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid red;">
-					숙소의 정확한 위치는 예약이 확정된 게스트만 볼 수 있습니다.
-	            </div>
-	            <div class="col-md-8" style="margin-top: 25px; margin-bottom: 10px;" >
-	            	${address }
-	            	<input type="text" id="ib" name="ib"/>
-	            	<input type="text" id="jb" name="jb"/>
-	            </div>
-	            <div class="col-md-12" style="border: 0px solid red; ">
-	            	<div id="map" style="width:100%;height:400px;"></div>
-	            </div>
-	  
-	         </div>
-			
-			<div class="col-md-8" style="z-index:10; padding: 0">
-	         <div class="col-md-4" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 0;" >
-		         <div class="col-md-3" style="border: 0px solid red; padding: 0;">
-		            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+	      
+	      	<div class="row">
+		         <div class="title">핀이 놓인 위치가 정확한가요?</div>
+		         <div class="row" style="padding: 0; border: 0px solid green;" >
+		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid red;">
+						숙소의 정확한 위치는 예약이 확정된 게스트만 볼 수 있습니다.
+		            </div>
+		            <div class="col-md-8" style="margin-top: 25px; margin-bottom: 10px;" >
+		            	${address }
+		            	<input type="text" id="ib" name="ib"/>
+		            	<input type="text" id="jb" name="jb"/>
+		            </div>
+		            <div class="col-md-12" style="border: 0px solid red; ">
+		            	<div id="map" style="width:100%;height:400px;"></div>
+		            </div>
+		  
 		         </div>
-		         <div class="col-md-6" style="border: 0px solid red;"></div>
-		         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-		            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
-		         </div>
-	        </div> 
+				
+				<div class="col-md-8" style="z-index:10; padding: 0">
+		         <div class="col-md-4" style="border-top: 1px solid #D8D8D8; background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 0;" >
+			         <div class="col-md-3" style="border: 0px solid red; padding: 0;">
+			            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+			         </div>
+			         <div class="col-md-6" style="border: 0px solid red;"></div>
+			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
+			            <button type="button" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>
+			         </div>
+		        </div> 
+		       </div>
 	       </div>
 	
 	      </div>

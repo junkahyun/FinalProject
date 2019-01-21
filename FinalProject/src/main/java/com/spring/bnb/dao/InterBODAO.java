@@ -13,4 +13,7 @@ public interface InterBODAO {
 	
 	//건물세부유형가져오기
 	List<HashMap<String, String>> selectbuildTypedetail(String buildType);
+	
+	//옵션가져오기
+	List<String> selectoptions();
 }

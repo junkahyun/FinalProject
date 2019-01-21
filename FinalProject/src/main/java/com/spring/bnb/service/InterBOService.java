@@ -13,5 +13,8 @@ public interface InterBOService {
 	
 	// 건물세부유형 가져오기
 	List<HashMap<String,String>> selectbuildTypedetail(String buildType);
+	
+	// 옵션 가져오기
+	List<String> selectoptions();
 
 }
