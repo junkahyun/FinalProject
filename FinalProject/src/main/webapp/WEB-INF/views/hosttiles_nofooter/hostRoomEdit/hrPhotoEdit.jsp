@@ -153,7 +153,6 @@ div {
 	$(document).ready(function(){
 		$("#imgfile").on("change",ImgsFilesSelect);
 		
-		$("")
 	});
 	
 	var Imgfiles =[];
