@@ -44,6 +44,22 @@
 		order by to_date(REVIEW_WRITEDATE,'yyyy-mm-dd hh24:mi:ss') desc
 		)V
 		where rownum between 1 and 2
+	</select> 
+	
+	<resultMap type="HashMap" id="allRoomList">
+		<result property="ROOMMAINIMG" column="ROOMMAINIMG" javaType="String" />
+		<result property="ROOMNAME"    column="ROOMNAME"    javaType="String" />
+		<result property="ROOMSIDO"    column="ROOMSIDO"    javaType="String" />
+		<result property="ROOMSIGUNGU" column="ROOMSIGUNGU" javaType="String" />
+		<result property="ROOMBNAME"   column="ROOMBNAME"   javaType="String" />
+		<result property="USERNAME"    column="USERNAME"    javaType="String" />
+		<result property="ROOMPRICE"   column="ROOMPRICE"   javaType="String" />
+	</resultMap>
+	<select id="getWCAllRoomList" resultMap="allRoomList">
+		select ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
+		from room A JOIN member B
+		on A.fk_userid = B.userid
+		where A.ROOMSTATUS = 1
 	</select>
 	
 </mapper>

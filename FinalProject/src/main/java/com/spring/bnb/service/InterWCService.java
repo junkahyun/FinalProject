@@ -11,4 +11,6 @@ public interface InterWCService {
 
 	List<ReviewVO> getBestReviewList();
 
+	List<RoomVO> getAllRoomList();
+
 }

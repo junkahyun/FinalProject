@@ -24,4 +24,10 @@ public class WCService implements InterWCService {
 	public List<ReviewVO> getBestReviewList() { 
 		return dao.getBestReviewList();
 	}
+
+	@Override
+	public List<RoomVO> getAllRoomList() {
+		
+		return dao.getAllRoomList();
+	}
 }

@@ -77,5 +77,39 @@ public class WCDAO implements InterWCDAO {
 		
 		return rList;
 	}
+
+	
+	@Override
+	public List<RoomVO> getAllRoomList() {
+		List<HashMap<String,String>> rList = sqlsession.selectList("wc.getWCAllRoomList");
+		
+		List<RoomVO> roomList = new ArrayList<RoomVO>();
+		
+		for(HashMap<String,String> map : rList) {
+			String roomMainImg = map.get("ROOMMAINIMG");
+			String roomName = map.get("ROOMNAME");
+			String roomSido = map.get("ROOMSIDO");
+			String roomSigungu = map.get("ROOMSIGUNGU");
+			String roomBname = map.get("ROOMBNAME");
+			String username = map.get("USERNAME");
+			String roomPrice = map.get("ROOMPRICE");
+			
+			RoomVO rvo = new RoomVO();
+			MemberVO mvo = new MemberVO();
+			mvo.setUsername(username);
+			
+			rvo.setRoomMainImg(roomMainImg);
+			rvo.setRoomName(roomName);
+			rvo.setRoomSido(roomSido);
+			rvo.setRoomSigungu(roomSigungu);
+			rvo.setRoomBname(roomBname);
+			rvo.setRoomPrice(roomPrice);
+			rvo.setHost(mvo);
+			
+			roomList.add(rvo);
+		}
+		 
+		return roomList;
+	}
 }
  

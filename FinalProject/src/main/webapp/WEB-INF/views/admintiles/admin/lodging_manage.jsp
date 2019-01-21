@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String cxtPath = request.getContextPath();
 %>   
@@ -98,43 +99,18 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <td>1</td>
-				      <td><a href="">Mark</a></td>
-				      <td>abc</td>
-				      <td>남</td>
-				      <td>01054881234</td>
-				      <td>경기도 구리시 토평동 푸르지오 1004-102</td>
-				      <td><button type="button" class="btn btn-danger">삭제</button></td>
-				    </tr> 
-				    <tr>
-				      <td>2</td>
-				      <td><a href="">Mark</a></td>
-				      <td>bbc</td>
-				      <td>남</td>
-				      <td>01054881234</td>
-				      <td>경기도 구리시 토평동 푸르지오 1004-102</td>
-				      <td><button type="button" class="btn btn-danger">삭제</button></td>
-				    </tr> 
-				    <tr>
-				      <td>3</td>
-				      <td><a href="">Mark</a></td>
-				      <td>cbc</td>
-				      <td>남</td>
-				      <td>01054881234</td>
-				      <td>경기도 구리시 토평동 푸르지오 1004-102</td>
-				      <td><button type="button" class="btn btn-danger">삭제</button></td>
-				    </tr> 
-				    <tr>
-				      <td>4</td>
-				      <td><a href="">Mark</a></td>
-				      <td>dbc</td>
-				      <td>남</td>
-				      <td>01054881234</td>
-				      <td>경기도 구리시 토평동 푸르지오 1004-102</td>
-				      <td><button type="button" class="btn btn-danger">삭제</button></td>
-				    </tr> 
-				    
+				  	<!-- 데이터 돌리기 -->
+				  	<c:forEach items="${roomList}" var="rvo" varStatus="status">
+				  		 <tr>
+						      <td>${status.count}</td>
+						      <td><img src="${rvo.roomMainImg}" width="60%"/></td>
+						      <td>${rvo.roomName}</td>
+						      <td>${rvo.roomSido}${rvo.roomSigungu}${rvo.roomBname}</td>
+						      <td>${rvo.host.username }</td>
+						      <td>￦<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></td>
+						      <td><button type="button" class="btn btn-danger">삭제</button></td>
+					    </tr> 
+				  	</c:forEach> 
 				  </tbody>
 				</table>			
 			</div>

@@ -200,5 +200,37 @@ update review set review_content = '1. 화장실이 조금 좁아요 (+수건걸
 where fk_roomcode = 23;
 commit;
 
+select roomsido, roomsigungu, roombname, latitude,longitude
+from room;
+
 select *
-from member;
+from member; 
+
+update room set roomsido = '광주광역시' , roomsigungu = '서구 ' ,roombname = '화정동 185-10'
+where latitude = 35.153572 and longitude = 126.883984;
+commit;
+
+
+select roommainimg, roomname, roomsido, roomsigungu, roombname, username, roomprice
+from room A JOIN member B
+on A.fk_userid = B.userid;
+
+
+ select sid
+ from V$SESSION;
+ 
+select a.sid, a.serial# from v$session a, v$lock b, dba_objects c 
+where a.sid=b.sid and b.id1=c.object_id and b.type='TM' and c.object_name='roomrule'; 
+
+select *
+from DBA_OBJECTS;
+
+
+
+
+
+
+
+
+
+

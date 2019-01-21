@@ -11,4 +11,6 @@ public interface InterWCDAO {
 
 	List<ReviewVO> getBestReviewList();
 
+	List<RoomVO> getAllRoomList();
+
 }
