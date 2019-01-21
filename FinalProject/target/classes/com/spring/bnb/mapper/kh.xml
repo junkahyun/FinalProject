@@ -66,5 +66,16 @@
 		select avg(ROOMPRICE)
 		from room
 	</select>
+	
+	<select id="getReservCode" resultType="int">
+		select rsvcode_seq.nextval as seq
+		from dual	
+	</select>
+	
+	<!-- <insert id="insertReservation" parameterType="HashMap">
+		insert into reservation (FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT,RSV_MSG)
+		values(#{revCode},#{roomcode},#{my_userid},#{guestcount},#{babycount}
+		,#{message})
+	</insert> -->
 
 </mapper>

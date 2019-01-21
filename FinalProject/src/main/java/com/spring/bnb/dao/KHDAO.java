@@ -29,7 +29,7 @@ public class KHDAO implements InterKHDAO {
     //======================================================================
 	// *** 숙소 정보 뽑아오는 메소드 *** //
 	@Override
-	public RoomVO getOneRoomInfo(HashMap<String,String> map) {
+	public RoomVO getOneRoomInfo(HashMap<String,Object> map) {
 		// *** 숙소 정보 가져오기 *** //
 		RoomVO oneRoom = sqlsession.selectOne("kh.getOneRoomInfo",map);// 숙소 정보 가져오기
 		
@@ -46,7 +46,7 @@ public class KHDAO implements InterKHDAO {
 	
 	// *** 리뷰 갯수 가져오기 *** //
 	@Override
-	public int getReviewCount(HashMap<String, String> map) {
+	public int getReviewCount(HashMap<String, Object> map) {
 		int count = sqlsession.selectOne("kh.getReviewCount", map);
 		return count;
 	}
@@ -58,7 +58,19 @@ public class KHDAO implements InterKHDAO {
 		return avg;
 	}
 	
+	// *** 예약 시퀀스 채번해오기 *** //
+	@Override
+	public int getReservCode() {
+		int avg = sqlsession.selectOne("kh.getReservCode");
+		return avg;
+	}
 	
+	// *** 숙소 예약하는 메소드 *** //
+	@Override
+	public int insertReservation(HashMap<String, Object> map) {
+		int reservation = sqlsession.insert("kh.insertReservation",map);
+		return reservation;
+	}
 	
 	
 	

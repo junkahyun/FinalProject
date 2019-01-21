@@ -6,12 +6,14 @@ import java.util.Calendar;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tools.ant.types.resources.comparators.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +51,7 @@ public class KHController {
 		String roomcode = "10";
 		String host_userid = "leess";
 		
-		HashMap<String,String> map = new HashMap<String,String>();
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
 		map.put("host_userid", host_userid);
 		
@@ -90,7 +92,7 @@ public class KHController {
 		String my_userid = req.getParameter("my_userid");
 		/*-------------end---------------*/
 		
-		HashMap<String,String> map = new HashMap<String,String>();
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
 		map.put("host_userid", host_userid);
 		
@@ -121,7 +123,7 @@ public class KHController {
 	
 	// ***** 예약 확인 및 결제하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.POST})
-	public String reservationCheckAndPay (HttpServletRequest req) {
+	public String reservationCheckAndPay (HttpServletRequest req) throws Exception {
 		
 		String my_userid = req.getParameter("my_userid");
 		String roomcode = req.getParameter("roomcode");
@@ -135,11 +137,28 @@ public class KHController {
 		String totalprice = req.getParameter("totalprice");
 		String message = req.getParameter("message");
 		
-		HashMap<String,String> map = new HashMap<String,String>();
+		// *** 예약 시퀀스 채번해오기 *** //
+		//int revCode = service.getReservCode();
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
+		map.put("my_userid", my_userid);
+		map.put("babycount", Integer.parseInt(babycount));
+		map.put("guestcount", Integer.parseInt(guestcount));
+		map.put("year", year);
+		map.put("checkmonth1", checkmonth1);
+		map.put("checkmonth2", checkmonth2);
+		map.put("checkday1", checkday1);
+		map.put("checkday2", checkday2);
+		map.put("totalprice", totalprice);
+		map.put("message", message);
+		/*map.put("revCode", String.valueOf(revCode));*/
 		
 		// *** 숙소 정보 뽑아오는 메소드 *** //
 		RoomVO oneRoom = service.getOneRoomInfo(map);
+		
+		// *** 숙소 예약하는 메소드 *** //
+		//int reserve = service.insertReservation(map);
 		
 		req.setAttribute("my_userid", my_userid);
 		req.setAttribute("babycount", babycount);
@@ -165,20 +184,8 @@ public class KHController {
 		return "paymentGateway";
 	}
 	
-	// 예약 코드 만드는 메소드 
-	// 예약코드는 o+날짜+시퀀스
-	/*private String getReservCode() {
-		
-		Date now = new Date();
-		SimpleDateFormat smdate = new SimpleDateFormat("yyyyMMdd");
-		String today = smdate.format(now); // 현재 날짜 구해옴
-		
-		// *** 예약 시퀀스 채번해오기 *** //
-		//int seq = service.getReservCode();
-		
-		return "O"+seq+today;
-	}
-	*/
+	
+	
 	
 	
 	
