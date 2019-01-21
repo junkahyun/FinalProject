@@ -26,4 +26,5 @@ public interface InterKHService {
 	// *** 숙소 예약하는 메소드 *** //
 	int insertReservation(HashMap<String,Object> map);
 	
+	
 }

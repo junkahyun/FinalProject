@@ -36,14 +36,22 @@ h3{font-size: 14pt;
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
+		
+		
 		$("#btnsubmit").click(function(){
 			
-			<%-- var frm = document.reservationFinalConfirm;
-			frm.method="get";//post로 바꿔야함
+			var total = $("#totalprice").text();
+			var totalprice = total.split(",");
+			
+			var price = totalprice.join("");
+			
+			var frm = document.finalRev;
+			frm.totalprice.value = price;
+			frm.method="GET";//post로 바꿔야함
 			frm.action = "<%=ctxPath%>/paymentGateway.air";
-			frm.submit(); --%>
-			var url ="<%=ctxPath%>/paymentGateway.air";
-			window.open(url,"예약결제", "width=880, height=630, top=200, left=500");
+			frm.submit();
+			
 		});//
 		
 	});//end of $(document).ready------------
@@ -78,12 +86,12 @@ h3{font-size: 14pt;
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="전화번호" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="01064262641" readonly="readonly" />
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="이메일" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="rkgus3575@naver.com" readonly="readonly"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -91,18 +99,18 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray;">
 		<div class="col-md-3"  align="center">
 			<span class="myinfomation">숙소이미지</span><br><br>
-			<img src="${oneRoom.roomMainImg}" style="width: 80%;"/>
+			<img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 80%;"/>
 		</div>
 		
 		<div class="col-md-3" >
 			<span class="myinfomation">여행지</span><br>
-			<input class="reservationInfo" type="text" value="${oneRoom.roomSigungu}"/><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSigungu}"/><br><br>
 			
 			<span class="myinfomation">숙박시설 호스트</span><br>
-			<input class="reservationInfo" type="text" value="${oneRoom.fk_userid}님" /><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).fk_userid}님" /><br><br>
 			
 			<span class="myinfomation">숙소주소</span><br>
-			<input class="reservationInfo" type="text" value="${oneRoom.roomSido}&nbsp;${oneRoom.roomBname}" /><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSido}&nbsp;${(sessionScope.oneRoom).roomBname}" /><br><br>
 		</div>
 		
 		<div class="col-md-3">
@@ -113,12 +121,12 @@ h3{font-size: 14pt;
 			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일 " /><br><br>
 			
 			<span class="myinfomation">총인원</span><br>
-			<input class="reservationInfo" type="text" value="${guestcount}명" /><br><br>
+			<input class="reservationInfo" type="text" value="${sessionScope.totalpeople}명" /><br><br>
 		</div>
 		
 		<div class="col-md-3" >
 			<span class="myinfomation">숙소종류</span><br>
-			<input class="reservationInfo" type="text" value="${oneRoom.roomType_name}"/><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
 			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일 " /><br><br>
@@ -129,7 +137,7 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray;">
 		<div align="right" style="font-size: 14pt;">
 			<span style="margin-right: 20%;">총합계(KWR)(수수료포함)</span>
-			<span>₩${totalprice}</span>
+			₩<span id="totalprice">${totalprice}</span>
 		</div>
 	</div>
 	<div class="col-md-12">
@@ -141,6 +149,13 @@ h3{font-size: 14pt;
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>
+
+<form name="finalRev">
+	<input type="hidden" value="콩길동" name="username"/>
+	<input type="hidden" value="rkgus3575@naver.com" name="email"/>
+	<input type="hidden" value="01064262641" name="phone"/>
+	<input type="hidden" value="" name="totalprice"/>
+</form>
 
 </body>
 </html>

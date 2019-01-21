@@ -139,7 +139,7 @@ h3{font-size: 14pt;
 
 	function gonextCheck(){
 		var frm = document.revCheckFrm;
-		frm.method="POST";
+		frm.method="GET";
 		frm.action="<%=ctxPath%>/reservationCheckPeople.air"
 		frm.submit();
 	}
@@ -162,7 +162,6 @@ h3{font-size: 14pt;
 	<div class="col-md-7" style="margin-top: 3%;">
 		<h2 >숙소이용규칙 확인하기</h2>
 		<br>
-		${my_userid}
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
 				<c:if test="${oneRoom.roomPrice < avgPrice }">
@@ -177,12 +176,12 @@ h3{font-size: 14pt;
 					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
 				    </div>
 				</c:if>
-				<%-- <c:if test="${oneRoom.viewcount > 10}">
+				
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
 				    </div> 
-			    </c:if> --%>
+			    
 			</div>
 		</div>
 		<br>
@@ -192,14 +191,14 @@ h3{font-size: 14pt;
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
 			<div class="chekdate">체크인:수요일 <br>
-			${oneRoom.checkInTime}:00시 이후</div>
+			${oneRoom.checkInTime}시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
 			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
 			<div class="chekdate">체크아웃:수요일 <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
-					${oneRoom.checkOutTime}:00시 까지
+					${oneRoom.checkOutTime}시 까지
 				</c:if>
 				<c:if test="${oneRoom.checkOutTime == '00'}">
 				 	24:00시 까지 
@@ -304,7 +303,7 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${person}명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${guestcount}명</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
@@ -362,15 +361,10 @@ h3{font-size: 14pt;
 	</div>
 </div>
 <form name="revCheckFrm">
-<input type="text" value="${oneRoom.roomcode}" name="roomcode"/>
-<input type="text" value="${oneRoom.fk_userid}" name="host_userid"/>
-<input type="text" value="${person}" name="guestcount"/>
-<input type="text" value="${my_userid}" name="my_userid"/>
-<input type="text" value="${year}" name="year"/>
-<input type="text" value="${month}" name="checkmonth1"/>
-<input type="text" value="${month}" name="checkmonth2"/>
-<input type="text" value="${day}" name="checkday1"/>
-<input type="text" value="${(day+7)}" name="checkday2"/>
+<input type="hidden" value="${month}" name="checkmonth1"/>
+<input type="hidden" value="${month}" name="checkmonth2"/>
+<input type="hidden" value="${day}" name="checkday1"/>
+<input type="hidden" value="${(day+7)}" name="checkday2"/>
 </form>
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>

@@ -72,10 +72,14 @@
 		from dual	
 	</select>
 	
-	<!-- <insert id="insertReservation" parameterType="HashMap">
-		insert into reservation (FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT,RSV_MSG)
-		values(#{revCode},#{roomcode},#{my_userid},#{guestcount},#{babycount}
-		,#{message})
-	</insert> -->
+	<insert id="insertReservation" parameterType="HashMap">
+		insert into RESERVATION (RSVCODE,FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT
+		,RSV_NAME,RSV_PHONE,RSV_EMAIL,RSV_CHECKINDATE,RSV_CHECKOUTDATE,
+		PAYDATE,TOTALPRICE,RSV_MSG,DCPRICE,RSV_CANCLEDATE)
+		values(#{revcode},#{roomcode},#{my_userid},#{guestcount},#{babycount}
+		,#{username},#{phone},#{email},
+		(#{year}||#{checkmonth1}||#{checkday1}),
+		(#{year}||#{checkmonth2}||#{checkday2}),sysdate,#{totalprice},#{message},'','')
+	</insert>
 
 </mapper>
