@@ -13,8 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterKHService;
+import com.spring.common.GoogleMail;
+import com.spring.common.KHGoogleMail;
 
 
 @Controller
@@ -189,9 +192,44 @@ public class KHController {
 		// **** 예약테이블에 insert하는 메소드 **** //
 		int finalReservation = service.insertReservation(map);
 		
-		/*if(finalReservation == 1) {
+		if(finalReservation == 1) {
+			try {
+				KHGoogleMail gmail = new KHGoogleMail();
+				StringBuilder sb = new StringBuilder();
+				
+				// *** 예약자 정보 가져오기 *** //
+				ReservationVO rvo = service.getOneReserve(map);
+				
+				sb.append("<img src='https://ci4.googleusercontent.com/proxy/ycoe9yJWtDXnJKHImcia25D30dkyKMUWkev09437rXQjdXs46I5wDsuZuF7jS8OLh8gCCMZeK5PMFzSb8U-6RXj5c2zjwG0sD2DwMJeD2SrOGQzWpsfp52Qg3X29kLGdKZGDzG2YUO2UgNYqbNgRSwFJug=s0-d-e1-ft#https://a1.muscache.com/airbnb/rookery/dls/logo_standard_2x-c0ed1450d18490825bc37dd6cb23e5c5.png' onClick='"+req.getContextPath()+"/index.air' style='cursor:pointer; width:100px;'/><br><br>");
+				sb.append("<h1>비앤비 에어 영수증</h1><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%; '><strong>영수증 ID</strong>: "+rvo.getRsvcode()+" , "+rvo.getPaydate()+"</span><br>");
+				sb.append("<hr style='border: 1px solid lightgray;'><br>");
+				sb.append("<h1>"+oneroom.getRoomSigungu()+"</h1><br>");
+				sb.append("<img src='"+oneroom.getRoomMainImg()+"' style='width:150px;'/><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+(Integer.parseInt(checkday2)-Integer.parseInt(checkday1))+"박 </span><br>");
+				sb.append("<hr style='border: 1px solid lightgray;'><br>");
+				sb.append("<span style='font-size:12pt;'>"+year+"년"+checkmonth1+"월"+checkday1+"일 → "+year+"년"+checkmonth2+"월"+checkday2+"일</span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestcount)+Integer.parseInt(babycount))+""+"명</span><br>");
+				sb.append("<hr style='border: 1px solid lightgray;'><br>");
+				sb.append("<h1>요금내역</h1>");
+				sb.append("<h2>총 금액 (KRW) </h2>"+"<span style='font-size:12pt;'>₩"+totalprice+"</span><br>");
+				sb.append("<hr style='border: 1px solid lightgray;'><br>");
+				sb.append("<button type='button' style='width:50%; line-height: 60px; font-size:15pt; margin-bottom:3%; background-color:tomato;'><span style='color:white;'>영수증 인쇄하기</span></button><br>");
+				sb.append("<hr style='border: 1px solid lightgray;'><br><p style='font-size:12pt;'><strong>BnbAir Payments UK Ltd.</strong><br>\r\n" + 
+						"\r\n" + 
+						"BnbAir Payments는 호스트의 대금 수령 한정 대리인입니다. 즉, 회원님이 BnbAir Payments를 통해 결제하면 호스트에 대한 지급 의무를 다하게 됩니다. "
+						+ "(1) 호스트의 환불 정책(숙소 페이지에서 확인 가능) 또는 "
+						+ "(2) 비앤비에어의 게스트 환불 정책 약관(<span style='color:#00a699;'>www.airbnb.com/terms</span>) "
+						+ "궁금하신 사항이 있거나 불만 사항을 제기하려면 BnbAir Payments UK Ltd.(전화번호: +44 203 318 1111)에 문의하세요.</p>");
+				
+				String emailContents = sb.toString();
 			
-		}*/
+				gmail.sendmail_OrderFinish(email, username, emailContents);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		req.setAttribute("revcode", revcode);
 		

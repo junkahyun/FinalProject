@@ -27,4 +27,8 @@ public interface InterKHService {
 	int insertReservation(HashMap<String,Object> map);
 	
 	
+	// *** 예약자 정보 가져오기 *** //
+	ReservationVO getOneReserve(HashMap<String,Object> map);
+	
+	
 }
