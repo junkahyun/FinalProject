@@ -77,7 +77,7 @@
 <form name="memberFrm">
 	<div id="searchbar" style="text-align: center;">
 		<select id="searchType" name="searchType">
-			<option value="username">번호</option>
+			<option value="num">번호</option>
 			<option value="userid">아이디</option>
 		</select>
         <input type="text" id="searchWord" name="searchWord" placeholder="검색" style="" />

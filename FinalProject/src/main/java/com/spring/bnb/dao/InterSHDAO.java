@@ -25,4 +25,13 @@ public interface InterSHDAO {
 	
 	// 신고글 가져오기
 	List<ReportVO> getReport();
+
+	// 검색조건에 만족하는 회원수를 알아오기
+	int getTotalCountWithSearch(HashMap<String, String> paraMap);
+
+	// 검색조건이 없는 회원수를 알아오기
+	int getTotalCountNoSearch();
+
+	// 검색조건이 없는것 또는 검색조건이 있는 회원전체목록 가져오기
+	List<MemberVO> memberlistPaging(HashMap<String, String> paraMap);
 }

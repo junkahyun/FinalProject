@@ -77,8 +77,28 @@
 		order by report_idx desc
 	</select>
 	
+	<select id="getTotalCountNoSearch" resultType="int">
+		select count(*)
+		from member
+	</select>
 	
+	<select id="getTotalCountWithSearch" parameterType="HashMap" resultType="int">
+		select count(*)
+		from member
+		where ${searchType} like '%'|| #{searchWord} ||'%'
+	</select>
 	
+	<select id="memberlistPaging" parameterType="HashMap" resultType="com.spring.bnb.model.MemberVO">
+	  	select userid, username, pwd, email, phone, post, addr, detailAddr, gender
+		     , birthday, introduction, memberstatus, profileimg, warncount, regdate, rno
+		from
+		(
+		    select userid, username, pwd, email, phone, post, addr, detailAddr, gender
+		         , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate, rownum as rno
+		    from member
+		)v
+		where RNO between #{STARTRNO} and #{ENDRNO}
+    </select>
 	
 	
 	

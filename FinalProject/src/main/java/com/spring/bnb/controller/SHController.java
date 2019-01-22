@@ -18,15 +18,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.PhotoVO;
-import com.spring.bnb.model.ReportVO;
 import com.spring.bnb.service.InterSHService;
 import com.spring.common.AES256;
 import com.spring.common.FileManager;
 import com.spring.common.LargeThumbnailManager;
+import com.spring.common.MyUtil;
 
 @Controller
 @Component
@@ -48,10 +47,134 @@ public class SHController {
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 		
+		List<MemberVO> memberList = new ArrayList<MemberVO>();
+		
+		memberList = service.getMemberList();
+		
+		String searchWord = req.getParameter("searchWord");
+		String searchType = req.getParameter("searchType");
+
+		if(searchType == null) {
+			searchType = "username";
+		}
+		if(searchWord == null) {
+			searchWord = "";
+		}
+		
+		if(!"username".equals(searchType) &&
+		   !"userid".equals(searchType) &&
+		   !"addr".equals(searchType) ) {
+			searchType = "username";
+		}
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("searchType", searchType);
+		
+		List<MemberVO> searchMember = service.getSearchMember(paraMap);
+		
+		String str_currentShowPageNo = req.getParameter("currentShowPageNo");
+		System.out.println(str_currentShowPageNo);  
+		
+		
+	    int totalCount = 0; // 총 게시물 건수
+	    int sizePerPage = 10; // 한 페이지당 보여줄 게시물 건수
+	    int currentShowPageNo = 0; // 현재 보여주는 페이지번호로서 , 초기치로는 1페이지로 설정한다.
+	    int totalPage = 0; // 총페이지수(웹브라우저상에 보여줄 총 페이지 갯수)	 
+	    int startRno = 0; // 시작 행 번호
+	    int endRno = 0; // 끝 행 번호
+	    int blockSize = 10; // "페이지바" 에 보여줄 페이지의 갯수
+	   
+	    /*
+	    	=== 총 페이지수(totalPage) 구하기 ===
+	    	검색조건이 없을때의 총페이지수(search값이 null 또는 "" 인경우)와
+	    	검색조건이 있을때의 총페이지수(search값이 null 이아니고  "" 도아닌경우)를 구해야 한다.
+	    */
+	    // 먼저, 총 게시물 건수를 구해야 한다.
+	    // 총 게시물 건수는 검색조건이 있을때와 없을때로 나뉘어진다.
+	    
+	    totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
+	    // 23.7 ==> 24.0 ==> 24
+	   
+	    if(str_currentShowPageNo == null) {
+		    // 게시판 초기화면 일 경우
+		   
+		    currentShowPageNo = 1;
+	    }
+	    else {
+		   // 특정페이지를 조회한 경우
+		   try {
+			   currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+			   
+			   if(currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+
+				  currentShowPageNo = 1;
+			   }
+			} catch (NumberFormatException e) {
+				currentShowPageNo = 1;
+			}
+	    }
+	    
+	    // **** 가져올 게시글의 범위를 구한다.(공식!!!!) ****
+	    /*
+	    		currentShowPageNo	startRno	endRno
+	    		======================================
+	    		       1 페이지		   1		  10
+	    			   1 페이지		   1		  10
+	    			   1 페이지		   1		  10
+	    			   ...			  ...        ...
+	    */
+	    
+	    if(searchWord != null &&
+			!searchWord.trim().equals("") &&
+			!searchWord.trim().equals("null")) {
+			// 검색이 있는경우(페이징 처리 한 것임)
+			totalCount = service.getTotalCountWithSearch(paraMap);
+		   
+	    }
+	    else {
+			// 검색이 없는경우(페이징 처리 한 것임)
+			totalCount = service.getTotalCountNoSearch();
+	    }
+	   
+	    
+	    startRno = ((currentShowPageNo-1)*sizePerPage) + 1;
+	    endRno = (startRno + sizePerPage) - 1;
+	    
+	    paraMap.put("STARTRNO", String.valueOf(startRno));
+	    paraMap.put("ENDRNO", String.valueOf(endRno));
+	   
+	    memberList = service.memberlistPaging(paraMap);
+	    /*System.out.println("boardList.size() :"+boardList.size());*/
+	    
+	    // ===== #120. 페이지바 만들기 =====
+	    String pagebar = "<ul>";
+	    
+	    pagebar += MyUtil.getPageBarWithSearch(sizePerPage, blockSize, totalPage, currentShowPageNo, "", searchWord, null, "adminMember.air");
+	   
+	    pagebar += "</ul>";
+		
+		// ===== #68. 글조회수(readCount)증가 (DML문 update)는
+		/*            반드시 해당 글제목을 클릭했을 경우에만 글조회수가 증가되고 
+		                         이전글보기, 다음글보기를 했을 경우나 웹브라우저에서 새로고침(F5)을 했을 경우에는 증가가 안되도록 한다.
+		  			 이것을 하기 위해서는 우리는 session을 이용하여 처리한다.===== 
+		*/
+	    
+		HttpSession session = req.getSession();
+		session.setAttribute("readCountPermission", "yes");
+		
+		req.setAttribute("memberList", memberList);
+		req.setAttribute("searchMember", searchMember);
+	    req.setAttribute("pagebar", pagebar); // view단에서 pagebar 넘기기
+	   
+	    String gobackURL = MyUtil.getCurrentURL(req);
+	    req.setAttribute("gobackURL", gobackURL);
+		
 		return "admin/adminMember.admintiles";
 	}
 	
-	// 관리자 회원관리 페이지(ajax, 페이징처리 전)
+	
+	// 관리자 회원관리 페이지(ajax)
 	@RequestMapping(value="/adminMemberJSON.air", method= {RequestMethod.GET})
 	public String adminMemberJSON(HttpServletRequest req) {
 		
@@ -118,7 +241,8 @@ public class SHController {
 				jsonObj.put("ADDR", searchMember.get(i).getAddr());
 				jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
 				
-				jsonArr.put(jsonObj);
+				jsonArr.put(jsonObj);			
+				
 			}
 			
 			String str_jsonArr = jsonArr.toString();
@@ -161,20 +285,83 @@ public class SHController {
 	
 	}
 	 
-	// 관리자 신고관리 페이지
+	/*// 관리자 신고관리 페이지
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
 		
-		List<ReportVO> reportMap = new ArrayList<ReportVO>();
+		List<ReportVO> reportvo = new ArrayList<ReportVO>();
 		
-		reportMap = service.getReport();
+		reportvo = service.getReport();
 		// System.out.println(reportMap);
 		
-		req.setAttribute("reportMap", reportMap);
+		String searchWord = req.getParameter("searchWord");
+		String searchType = req.getParameter("searchType");
+
+		if(searchType == null) {
+			searchType = "username";
+		}
+		if(searchWord== null) {
+			searchWord = "";
+		}
 		
+		if(!"num".equals(searchType) &&
+		   !"userid".equals(searchType) ) {
+			searchType = "username";
+		}
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("searchType", searchType);
+		
+		List<MemberVO> searchMember = service.getSearchMember(paraMap);
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		if(searchMember == null) {
+			
+			for(int i=0; i<memberList.size(); i++) {
+				
+				JSONObject jsonObj = new JSONObject();
+				
+				jsonObj.put("USERID", memberList.get(i).getUserid());
+				jsonObj.put("USERNAME", memberList.get(i).getUsername());
+				jsonObj.put("BIRTHDAY", memberList.get(i).getBirthday());
+				jsonObj.put("GENDER", memberList.get(i).getGender());
+				jsonObj.put("PHONE", memberList.get(i).getPhone());
+				jsonObj.put("ADDR", memberList.get(i).getAddr());
+				jsonObj.put("DETAILADDR", memberList.get(i).getDetailAddr());
+				
+				jsonArr.put(jsonObj);
+			}
+			
+			String str_jsonArr = jsonArr.toString();
+			req.setAttribute("str_jsonArr", str_jsonArr);
+		}
+		
+		else if(searchMember != null) {
+			
+			for(int i=0; i<searchMember.size(); i++) {
+				
+				JSONObject jsonObj = new JSONObject();
+				
+				jsonObj.put("USERID", searchMember.get(i).getUserid());
+				jsonObj.put("USERNAME", searchMember.get(i).getUsername());
+				jsonObj.put("BIRTHDAY", searchMember.get(i).getBirthday());
+				jsonObj.put("GENDER", searchMember.get(i).getGender());
+				jsonObj.put("PHONE", searchMember.get(i).getPhone());
+				jsonObj.put("ADDR", searchMember.get(i).getAddr());
+				jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
+				
+				jsonArr.put(jsonObj);			
+				
+			}
+			
+			String str_jsonArr = jsonArr.toString();
+			req.setAttribute("str_jsonArr", str_jsonArr);
+		}
 		
 		return "admin/adminVan.admintiles";
-	}
+	}*/
 	
 	// 신고 글쓰기 페이지 요청
 	@RequestMapping(value="/vanWrite.air", method= {RequestMethod.GET})

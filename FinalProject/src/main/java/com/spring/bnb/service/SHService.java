@@ -70,5 +70,32 @@ public class SHService implements InterSHService {
 		return reportMap;
 
 	}
+
+	// 검색조건에 만족하는 회원수를 알아오기
+	@Override
+	public int getTotalCountWithSearch(HashMap<String, String> paraMap) {
+		
+		int count = dao.getTotalCountWithSearch(paraMap);
+		
+		return count;
+	}
+
+	// 검색조건이 없는 회원수를 알아오기
+	@Override
+	public int getTotalCountNoSearch() {
+		
+		int count = dao.getTotalCountNoSearch();
+		
+		return count;
+	}
+
+	// 검색조건이 없는것 또는 검색조건이 있는 회원전체목록 가져오기
+	@Override
+	public List<MemberVO> memberlistPaging(HashMap<String, String> paraMap) {
+		
+		List<MemberVO> memberList =  dao.memberlistPaging(paraMap);
+		
+		return memberList;
+	}
 	
 }

@@ -16,23 +16,25 @@
 		
 		goSearch();
 		
-		// 검색어에 엔터를 입력한 경우
 		$("#searchWord").keydown(function(event){
-			if(event.keyCode == 13) {
-				// 엔터를 했을 경우
+			
+			if(event.keyCode == 13) {	// 엔터를 했을 경우
 				
-				goSearch();
+				var addrSearch = $(this).val();
+				goSearch(addrSearch);
 				
+				return false;
 			}
+			
 		});
-		
+
 	});
 	
-	function goSearch() {
+	function goSearch(currentShowPageNo) {
 		
 		var searchWord = $("#searchWord").val().trim();
 		var searchType = $("#searchType").val().trim();
-		var data_form = {"searchWord":searchWord, "searchType" : searchType};
+		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
 		
 		$.ajax({
 			url:"<%=request.getContextPath()%>/adminMemberJSON.air",
@@ -135,7 +137,7 @@
 	</form>
 	
 	<div class="pageBar" style="text-align: center; margin: 2%;">
-		[이전]    1    2    3    4    5		6		7		8		9    [다음]
+		${pagebar}
 	</div>
 	
 

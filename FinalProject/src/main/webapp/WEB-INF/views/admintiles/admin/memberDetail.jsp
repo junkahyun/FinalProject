@@ -22,21 +22,21 @@
 <div class="container" style="padding: 2%; border: solid 0px gray; width: 83%; float:right; text-align: right;">
 
   <div class="col-md-5" style="text-align: center; margin-top:7%; border: solid 0px gray;">
-  	<h2>${membervo.username}님 상세보기</h2>	<!-- (유저 이름) 상세보기로 할 것 -->
+  	<h2>${membervo.username}님 상세정보</h2>
   </div>
   
   <c:if test="${membervo.profileimg != null}">
 	  <div class="col-md-5" style="text-align: center; margin-right:13%; border: solid 0px gray; float: right;">
 		  <h5>member image<code>member</code>:</h5>
 		  <img src="<%= cxtPath %>/resources/images/${membervo.profileimg}" alt="member image" style="width: 50%;"/>
-	  </div>	<!-- 이미지는 프로필 사진임 -->
+	  </div>	<!-- 이미지는 프로필 사진 -->
   </c:if>
   
   <c:if test="${membervo.profileimg == null}">
 	  <div class="col-md-5" style="text-align: center; margin-right:13%; border: solid 0px gray; float: right;">
 		  <h5>member image<code>member</code>:</h5>
 		  <img src="<%= cxtPath %>/resources/images/친구와함께.JPG" alt="member image" style="width: 50%;"/>
-	  </div>	<!-- 이미지는 프로필 사진임 -->
+	  </div>	<!-- 이미지는 프로필 사진 -->
   </c:if>
   
   <div class="col-md-12" style="padding: 2%; float: center; padding-left: 8%;">
