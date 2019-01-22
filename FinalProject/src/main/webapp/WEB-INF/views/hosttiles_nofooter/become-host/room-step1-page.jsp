@@ -166,10 +166,6 @@
 		});
       //우편번호 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
       
-      $(".optionradio").click(function(){
-      	alert(check);
-      });
-      
 
    });// $(document).ready(function()
 
@@ -579,11 +575,10 @@
 						 	<div class="row" style="border: 1px solid red; padding-left: 2px;"> 
 						 	  
 		                        <div class="col-md-1" style="border: 1px solid black; ">
-		                              <input type="radio" class="optionradio" value="${map.OPTIONNAME}" id="${status.count}option"/>
+		                              <input type="checkbox" value="${map.OPTION_IDX}" name="optionchk" id="option"/>
 		                        </div>
-		
 		                        <div class="col-md-11" style="border: 1px solid blue;" >		                        	
-		                              <label for="${status.count}option">
+		                              <label for="option">
 		                              	<span id="cklist">${map.OPTIONNAME }</span><br/>
 		                              	<input type="text" value="${map.OPTION_IDX }"/>		                              
 		                              </label>		                            
