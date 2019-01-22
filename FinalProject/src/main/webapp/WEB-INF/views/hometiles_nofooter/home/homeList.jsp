@@ -29,8 +29,7 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-	 var data1 = $("data1").val();
-	 
+	
 	 /* 
 	 $(".option").click(function(){       
 	       var $target = $(event.target);   
@@ -60,63 +59,99 @@
 	         }            
 	      }      
 	    });   
-	 */
-	 
-	 // 옵션 클릭시 스타일 주기	
-	 $(".option").click(function(){		 
-		 var $target = $(event.target);	 
-		 
-		 // 폰트 색깔 바꾸기
-		 if(!$target.hasClass("subjectstyle")){			
-			 $target.addClass("subjectstyle"); 
-		 }
-		 else{			
-			 $target.removeClass("subjectstyle");
-		 }		  
-		  
+	 */	 
+	
+		 // 이용규칙 클릭시
 		 var result1 = "";
-		 var result2 = "";
-		 var result3 = "";
-		
-		 var has = $(this).hasClass("subjectstyle");
-		 var parent = $(this).parent();
-		 			 
-		 /* if(parent.hasClass("rulename")){ */
-			 if(has){
-			 /* result1 = $(document).find("div#rulename").find("span.subjectstyle").text(); */
-			 result1 = $(this).parent()
+		 $(".rule").click(function(){		
+			 var thisText = $(this).text()
+			 var $target = $(event.target);	 
+
+			 // 폰트 색깔 바꾸기
+			 if(!$target.hasClass("subjectstyle")){			
+				 $target.addClass("subjectstyle"); 
+	        	  result1 += thisText + ",";	
+			 }
+			 else{			
+				 $target.removeClass("subjectstyle");
+	        	  result1 = result1.replace($(this).text()+",","");
+			 }		  
+			
+			 $("#data1").val(result1); 
 			 
-			 //alert(result1);
-			 parent.find("input[name=rulename]").val(result1);
-			  
-		 }else if(parent.hasClass("roomtype_name")){
-			 result2 = $(document).find("div#roomtype_name").find("span.subjectstyle").text();
-			  
-			 //alert(result2);
-			 parent.find("input[name=roomtype_name]").val(result2); 
-
-		 }else {
-			 result3 = $(document).find("div#service").find("div.subjectstyle").text();
-			 //alert(result3);
-			 parent.find("input[name=optionname]").val(result3); 
-
-		 }  
+			 // 문자열 자르기
+		      var jbString = result1;
+		      var jbSplit = jbString.split(',');
+		            
+		      for(var i in jbSplit){
+		         if(jbSplit[i] != ""){            
+		        //	alert(jbSplit[i);
+		        	var splitArr = jbSplit[i];		        
+		         }            
+		         
+		      } 			 
+		 });
 		 
-		/* alert(result);*/
-		/*
-		$("#data").val(result); 
-		var jbString = result;
-		var jbSplit = jbString.split(',');
-				
-		for(var i in jbSplit){
-			if(jbSplit[i] != ""){				
-			//	alert(jbSplit[i]);					
-			}				
-		}		
-		 */
-		
-	 });	
-	 
+		 // 임대유형 클릭시
+		 var result2 = "";
+		 $(".buildType").click(function(){		
+			 var thisText = $(this).text()
+			 var $target = $(event.target);	 
+
+			 // 폰트 색깔 바꾸기
+			 if(!$target.hasClass("subjectstyle")){			
+				 $target.addClass("subjectstyle"); 
+	        	  result2 += thisText + ",";	
+			 }
+			 else{			
+				 $target.removeClass("subjectstyle");
+	        	  result2 = result2.replace($(this).text()+",","");
+			 }		  
+			
+			 $("#data2").val(result2); 
+			 
+			 // 문자열 자르기
+		      var jbString = result2;
+		      var jbSplit = jbString.split(',');
+		            
+		      for(var i in jbSplit){
+		         if(jbSplit[i] != ""){            
+		        // 	alert(jbSplit[i]);
+		        	var splitArr = jbSplit[i];		
+		         }            
+		      } 			 
+		 });
+		 
+		 // 고객편의 클릭시
+		 var result3 = ""; 
+		 $(".easy").click(function(){		
+			 var thisText = $(this).text()
+			 var $target = $(event.target);	 
+
+			 // 폰트 색깔 바꾸기
+			 if(!$target.hasClass("subjectstyle")){			
+				 $target.addClass("subjectstyle"); 
+	        	  result3 += thisText + ",";	
+			 }
+			 else{			
+				 $target.removeClass("subjectstyle");
+	        	  result3 = result3.replace($(this).text()+",","");
+			 }		  
+			
+			 $("#data3").val(result3); 
+			 
+			 // 문자열 자르기
+		      var jbString = result3;
+		      var jbSplit = jbString.split(',');
+		            
+		      for(var i in jbSplit){
+		         if(jbSplit[i] != ""){            
+		         //	alert(jbSplit[i]);  
+		        	var splitArr = jbSplit[i];		
+		         }            
+		      } 			 
+		 });
+		 
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#city").change(function(){
 		 

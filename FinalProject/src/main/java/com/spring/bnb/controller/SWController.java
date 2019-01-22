@@ -125,13 +125,11 @@ public class SWController {
 	
 	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})
 	public String option(HttpServletRequest req, HttpServletResponse res) {
-		
-		String option = req.getParameter("option");
+			
 		String roomcode = req.getParameter("roomcode");
 		/*String[] rulename = 
 		String values = req.getParameter("rulename");
 		
-		System.out.println("이거냐"+values);
 		*/
 		JSONArray jsonArr = new JSONArray();  
 		
