@@ -77,7 +77,7 @@
 	        	  result1 = result1.replace($(this).text()+",","");
 			 }		  
 			
-			 $("#data1").val(result1); 
+		//	 $("#data1").val(result1); 
 			 
 			 // 문자열 자르기
 		      var jbString = result1;
@@ -86,7 +86,8 @@
 		      for(var i in jbSplit){
 		         if(jbSplit[i] != ""){            
 		        //	alert(jbSplit[i);
-		        	var splitArr = jbSplit[i];		        
+		        	var splitArr = jbSplit[i];
+		        	$("#data1").val(splitArr);
 		         }            
 		         
 		      } 			 

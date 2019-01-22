@@ -125,18 +125,22 @@ public class SWController {
 	
 	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})
 	public String option(HttpServletRequest req, HttpServletResponse res) {
-			
-		String roomcode = req.getParameter("roomcode");
-		/*String[] rulename = 
-		String values = req.getParameter("rulename");
 		
-		*/
-		JSONArray jsonArr = new JSONArray();  
+		String[] rulename = req.getParameterValues("rulename");
+		String[] roomtype_name = req.getParameterValues("roomtype_name");
+		String[] optionname = req.getParameterValues("optionname");
 		
-		List<String> optionList = service.getOptionList(roomcode);
-		//List<String> optionList = service.getOptionList(optionname, rule_name, roomtype_name);
+		JSONArray jsonArr = new JSONArray();  		
+		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
+		paraMap.put("RULENAME", rulename);
+		paraMap.put("ROOMTYPE_NAME", roomtype_name);
+		paraMap.put("OPTIONNAME", optionname);
 		
-		for(String test : optionList) {
+		System.out.println(paraMap);
+		
+		List<HashMap<String, String>> optionList = service.getOptionList(paraMap);
+		
+		for(HashMap<String, String> test : optionList) {
 			
 			JSONObject jsonObj = new JSONObject();
 			
@@ -147,11 +151,11 @@ public class SWController {
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
-		/*
+		
 		req.setAttribute("optionname", optionname);
-		req.setAttribute("rule_name", rule_name);
+		req.setAttribute("rulename", rulename);
 		req.setAttribute("roomtype_name", roomtype_name);
-		*/
+		
 		System.out.println(str_json);
 		System.out.println(optionList);
 		System.out.println(jsonArr);

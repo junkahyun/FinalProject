@@ -1,5 +1,6 @@
 package com.spring.bnb.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,12 +73,15 @@ public class SWService implements InterSWService {
 	}
 
 	@Override
-	public List<String> getOptionList(String roomcode) {
+	public List<HashMap<String, String>> getOptionList(HashMap<String, String[]> paraMap) {
 
-		List<String> optionList = dao.getOptionList(roomcode);
-		
+		List<HashMap<String, String>> optionList = dao.getOptionList(paraMap);
+			
 		return optionList;
 	}
 
+	
+
+	
 	
 }

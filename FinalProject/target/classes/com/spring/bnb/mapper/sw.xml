@@ -51,8 +51,14 @@
 		from reservation     
 		where fk_userid = #{userid}
 	</select>
-	<!-- 
-	<select id="getOptionList" resultType="String" parameterType="String">
+	 
+	<resultMap type="HashMap" id="dataResultMap">
+		<result property="RULENAME"      column="rule_name"     javaType="String" />
+		<result property="ROOMTYPE_NAME" column="roomtype_name" javaType="String" />
+		<result property="OPTIONNAME"    column="optionname"    javaType="String" />
+	</resultMap>
+	 
+	<select id="getOptionList" parameterType="HashMap" resultMap="dataResultMap">
 		select roomname, roommainimg, roomprice, roomtel, roomsigungu
 			 , basic_person, max_person, person_addpay, viewcount
 		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name
@@ -64,7 +70,22 @@
 		on A.roomcode = D.fk_roomcode
 		JOIN allrule E
 		on D.fk_rule_idx = E.rule_idx
-		where optionname='난방' and E.rule_name=#{} and F.roomtype_name = '집 전체'
+		where 1 = 1
+		<if test="RULENAME != null">		
+			<foreach item="rulename" open="('" separator="','" close="')" collection="RULENAME">
+				and in #{rulename}			
+			</foreach>
+		</if>
+		<if test="ROOMTYPE_NAME != null">	
+			<foreach item="rtname" open="('" separator="','" close="')" collection="ROOMTYPE_NAME">
+				and in #{rtname}			
+			</foreach>
+		</if>
+		<if test="OPTIONNAME != null">	
+			<foreach item="opname" open="('" separator="','" close="')" collection="OPTIONNAME">
+				and in #{opname}			
+			</foreach>
+		</if>
 	</select>
- -->
+ 
 </mapper>

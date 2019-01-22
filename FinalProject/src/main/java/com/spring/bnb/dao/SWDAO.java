@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -73,12 +74,15 @@ public class SWDAO implements InterSWDAO {
 	}
 
 	@Override
-	public List<String> getOptionList(String roomcode) {
+	public List<HashMap<String, String>> getOptionList(HashMap<String, String[]> paraMap) {
 
-		List<String> optionList = sqlsession.selectList("sw.getOptionList", roomcode);
-			
+		List<HashMap<String, String>> optionList = sqlsession.selectList("sw.getOptionList", paraMap);
+		
 		return optionList;
 	}
+
+
+	
 
 	
 
