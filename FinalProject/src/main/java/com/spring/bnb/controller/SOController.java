@@ -43,7 +43,7 @@ public class SOController {
 		
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
-		System.out.println(mvoUser);
+	
 		if(mvoUser == null) {
 		
 			String msg = "먼저 로그인 해주세요!";
@@ -54,7 +54,6 @@ public class SOController {
 			return "msg"; 
 		}else {		
 			String userid = mvoUser.getUserid();
-			System.out.println(userid);
 			
 			String date = MyUtil.getNowTime();
 		
@@ -172,9 +171,6 @@ public class SOController {
 		//처음에는 겟방식으로 보여짐
 		String userid ="leess";
 		String email = req.getParameter("changeEmail");
-		System.out.println(userid);
-		System.out.println(email);
-		System.out.println(method);
 		//if("POST".equalsIgnoreCase(method)) {
 
 		//회원 으로 존재하는 경우
@@ -297,7 +293,6 @@ public class SOController {
 		
 		String rsvcode = req.getParameter("rsvcode");
 		String luser ="leess";
-		System.out.println("rsvcode");
 		
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("rsvcode", rsvcode);
@@ -320,10 +315,11 @@ public class SOController {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
-		
+		System.out.println(userid);
 		//내가 쓴 후기 
-		List<HashMap<String,String>> myWriteReview = service.getMyReview(userid);
-		
+		List<ReviewVO> myWriteReview = service.getMyReview(userid);
+		System.out.println(myWriteReview.get(0));
+		req.setAttribute("myWriteReview", myWriteReview);
 		return "mypage/review.hometiles";
 	}
 	@RequestMapping(value = "/couponReg.air", method = RequestMethod.POST)
@@ -331,7 +327,6 @@ public class SOController {
 		
 		
 		   String method = req.getMethod();
-		   System.out.println(method);
 		return "mypage/couponReg.notiles";
 	}
 	

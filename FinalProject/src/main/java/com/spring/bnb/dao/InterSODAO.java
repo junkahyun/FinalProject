@@ -27,6 +27,6 @@ public interface InterSODAO {
 	HashMap<String, String> getMap(HashMap<String, String> paraMap);
 		
 	//내가 작성한 후기
-	List<HashMap<String, String>> getMyReview(String userid);
+	List<ReviewVO> getMyReview(String userid);
 
 }

@@ -102,7 +102,7 @@
 	        </ul>	 
 
          </div>
-
+		
 	
 
 	    </div>
@@ -134,21 +134,57 @@
 	      	<h3 class="edit-profile-section-heading">내가 작성한 후기</h3>
 
 	      </div>
-
-	      <div class="panel-body" style="border: 1px solid gray;">
-
-	        <ul class="list-layout reviews-list">
-
-	             <li class="reviews-list-item">
-
-	                               아직 후기를 남기지 않으셨습니다.
-
-				 </li>
-
-			</ul>
-
+				
+		      <div class="panel-body" style="border: 1px solid gray;">
+		       <c:forEach items="${myWriteReview}" var="wirteReview">
+		       <c:if test="${wirteReview eq null}">
+		        <ul class="list-layout reviews-list">
+		             <li class="reviews-list-item">
+	
+		                               아직 후기를 남기지 않으셨습니다.
+	
+					 </li>	
+				</ul>	
+				</c:if>
+				</c:forEach>	
+				<c:forEach items="${myWriteReview}" var="wirteReview" varStatus="count">
+					<c:if test="${wirteReview not eq null}">					
+						<table class="panel-body memberList table table-hover">						
+								<col width="10%;"/>
+								<col width="15%;"/>
+								<col width="15%;"/>
+								<col width="10%"/>
+								<col width="10%"/>
+								<col width="10%"/>
+								<col width="10%"/>
+								<col width="10%"/>
+							 <c:if test="${count == 1}">
+							  <thead>
+						
+							    <tr>
+							      <th>번호</th>
+							      <th>숙소 이름</th>
+							      <th>후기 내용</th>
+							      <th>후기 쓴 날짜</th>
+							    </tr>
+							    
+							  </thead>
+							  	  </c:if>
+							  <tbody>					  
+							    <tr>
+							      <td>${wirteReview.review_idx}</td>
+							      <td><a href="">${wirteReview.room.roomName}</a></td>
+							      <td>${wirteReview.review_content}</td>
+							      <td>${wirteReview.review_writedate}</td>
+								</tr>
+							</table>
+				      </c:if>	
+				  </c:forEach>
+				
 			</div>
-
+				</div>
+		
+		
 	    </div>	
 
 	   </div>

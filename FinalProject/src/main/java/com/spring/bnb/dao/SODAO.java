@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
@@ -65,35 +66,32 @@ public class SODAO implements InterSODAO {
 
 	// 내가 작성한 후기 
 	@Override
-	public List<HashMap<String, String>> getMyReview(String userid) {
-		List<HashMap<String, String>> myWriteReview= sqlsession.selectList("cso.getMyReview", userid);
+	public List<ReviewVO>  getMyReview(String userid) {
+		List<HashMap<String, Object>> myWriteReview= sqlsession.selectList("cso.getMyReview", userid);
 		
-		/*A.review_idx,B.roomcode,B.fk_userid AS host_userid,A.correct,
-A.communicate,A.clean,A.position,A.checkin,A.value
-,A.review_content,A.hostanswer,A.review_writedate
-*/
-		
+
 		List<ReviewVO> myReviewVO = new ArrayList<ReviewVO>();
-		for(HashMap<String,String> map : myWriteReview) {
-			int review_idx = map.get("review_idx");
-			int correct = map.get("correct");
-			String communicate = map.get("communicate");
-			String clean= map.get("clean");
-			String position=map.get("position");
-			String checkin=map.get("checkin");
-			String value=map.get("value");
-			String review_content=map.get("review_content");
-			String hostanswer =map.get("hostanswer");
-			String review_writedate=map.get("review_writedate");
+		for(HashMap<String,Object> map : myWriteReview) {
+			int review_idx = (int)map.get("review_idx");
+			int correct = (int)map.get("correct");
+			int communicate = (int)map.get("communicate");
+			int clean=(int)map.get("clean");
+			int position=(int)map.get("position");
+			int checkin=(int)map.get("checkin");
+			int value=(int)map.get("value");
+			String review_content=(String) map.get("review_content");
+			String hostAnswer =(String) map.get("hostanswer");
+			String review_writedate=(String) map.get("review_writedate");
+			String roomName = (String) map.get("roomname");
+			String roomcode = (String) map.get("roomcode");
+			String fk_userid= (String) map.get("fk_userid");
 			
-			String roomcode = map.get("roomcode");
-			String fk_userid= map.get("fk_userid");
-			
-			RoomVO roomvo = new RoomVO();
+			RoomVO room = new RoomVO();
 			ReviewVO reviewvo = new ReviewVO();
 			
-			roomvo.setRoomcode(roomcode);
-			roomvo.setFk_userid(fk_userid);
+			room.setRoomcode(roomcode);
+			room.setFk_userid(fk_userid);
+			room.setRoomName(roomName);
 			
 			reviewvo.setReview_idx(review_idx);
 			reviewvo.setCorrect(correct);
@@ -105,10 +103,13 @@ A.communicate,A.clean,A.position,A.checkin,A.value
 			reviewvo.setReview_content(review_content);
 			reviewvo.setHostAnswer(hostAnswer);
 			reviewvo.setReview_writedate(review_writedate);
-			
+			reviewvo.setRoom(room);		
+
+			myReviewVO.add(reviewvo);
 			
 			
 		}
+		return myReviewVO;
 		
 	}
 

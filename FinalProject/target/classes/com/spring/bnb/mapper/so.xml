@@ -227,7 +227,7 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
 <resultMap type="HashMap" id="myReviewHashMap">
 	<result column="review_idx" property="review_idx" javaType="int"/>
 	<result column="roomcode" property="roomcode" javaType="String"/>
-	<result column="fk_userid" property="host_userid" javaType="int"/>
+	<result column="fk_userid" property="host_userid" javaType="String"/>
 	<result column="correct" property="correct" javaType="int"/>
 	<result column="communicate" property="communicate" javaType="int"/>
 	<result column="clean" property="clean" javaType="int"/>
@@ -235,14 +235,14 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
 	<result column="checkin" property="checkin" javaType="int"/>
 	<result column="value" property="value" javaType="int"/>
 	<result column="review_content" property="review_content" javaType="String"/>
-	<result column="hostanswer" property="hostanswer" javaType="String"/>
-	<result column="review_writedate" property="review_writedate" javaType="String"/>
+	<result column="hostanswer" property="hostAnswer" javaType="String"/>
+	<result column="roomname" property="roomname" javaType="String"/>
 </resultMap>
 <select id="getMyReview" parameterType="String" resultMap="myReviewHashMap">
 
-		select A.review_idx,B.roomcode,B.fk_userid AS host_userid,correct,
-			communicate,clean,position,checkin,value
-			,review_content,hostanswer,A.review_writedate
+		select A.review_idx,B.roomname,B.roomcode,B.fk_userid AS host_userid,A.correct,
+				A.communicate,A.clean,A.position,A.checkin,A.value
+				,A.review_content,A.hostanswer,A.review_writedate
 		from review A join room B
 		on B.roomcode = A.fk_roomcode
 		where A.fk_userid = #{userid}

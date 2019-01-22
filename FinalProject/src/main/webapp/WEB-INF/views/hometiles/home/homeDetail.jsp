@@ -7,6 +7,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 <script>
 	$(document).ready(function(){
+
     	var obj = $("#followHY").offset();
     	var objEnd = $("#followEndHY").offset();
        	$(window).scroll(function(event){

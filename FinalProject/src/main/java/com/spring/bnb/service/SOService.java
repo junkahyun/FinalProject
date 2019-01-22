@@ -55,8 +55,8 @@ public class SOService implements InterSOService{
 	
 	// 내가 작성한 후기 
 	@Override
-	public List<HashMap<String,String>> getMyReview(String userid) {
-		List<HashMap<String,String>> myWriteReview  = dao.getMyReview(userid);
+	public List<ReviewVO> getMyReview(String userid) {
+		List<ReviewVO> myWriteReview  = dao.getMyReview(userid);
 		
 		return myWriteReview ;
 	}
