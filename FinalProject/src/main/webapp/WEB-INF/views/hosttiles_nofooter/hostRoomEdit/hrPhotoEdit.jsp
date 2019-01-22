@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 hr {
 	width: 70%;
@@ -146,53 +144,68 @@ div {
 	-webkit-transition: all .2s ease-in-out;
 	transition: all .2s ease-in-out
 }
+.opacityDiv{
+	opacity:0.2;
+}
 </style>
-
 <script>
 
 	$(document).ready(function(){
 		$("#imgfile").on("change",ImgsFilesSelect);
-		
 	});
 	
-	var Imgfiles =[];
-	
+	var imgArr = []; // 이미지를 담을 배열 
 	function ImgsFilesSelect(e) {
+		imgArr = [];
+		 
+		//$("#imgList").empty();
 		var files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		
-		filesArr.forEach(function(f){
+		var index = 0; // id에 고유값을 주기 위한 index
+		filesArr.forEach(function (f){
 			if(!f.type.match("image.*")){
-				alert("확장자는 이미지 확장자만 가능합니다.");
+				alert("이미지 확장자만 가능합니다.");
 				return;
 			}
 			
-			Imgfiles.push(f);
+			imgArr.push(f);	
 			
 			var reader = new FileReader();
-			
 			reader.onload = function(e){
-				var imgs = "<div class='col-md-2 target'><img class='img-thumbnail' src='"+e.target.result+"'/></div>";
-				$("#imgList").append(imgs);
+				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
+				$("#imgList").append(html);
 				index++;
 			}
-			
 			reader.readAsDataURL(f);
 		});
-		
-	}
-  	
+	} 
 	
+	function removePhoto(index){
+		imgArr.splice(index,1);
+		var imgbox = "#imgbox"+index;
+		$(imgbox).remove();
+		$("#imgfile").val("");
+	}
+	
+	function cancel() {
+		window.location.reload();
+	}
+	
+	function submitPhoto() {
+		var frm = document.fileUpimg;
+		frm.method = "POST";
+		frm.action = "imgfileupload.air";
+		frm.submit();
+	}
 	
 </script>
-
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit"  href="javascript:history.back();">수정으로 돌아가기</a>
 	<h3 align="left" style="font-weight: bold;">사진</h3>
 	<p>게스트에게 숙소의 실제 모습을 보여주는 사진을 추가하세요.</p>
 	<hr align="left">
 </div>
-
 <div class="col-md-4" style="margin-left: 22%;" align="center">
 	<img class="img-largeThumbnail" alt="" src="${roomvo.roomMainImg }">
 </div>
@@ -201,28 +214,30 @@ div {
  	<span style="font-weight: bold;">커버사진</span>
  	<a><span style="margin-left: 60%;">변경</span></a>
 </div>
-<form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
 
-<div class="col-md-12 photodiv">
-	<hr align="left">
-	<h3 align="left" style="font-weight: bold;">사진정렬</h3>
-		<div id="imgList" class="row"></div>
-	
-		<div  class="filebox">  
-			<label for="imgfile">사진 추가하기</label> 
-			<input type="file" id="imgfile" name="attach" accept="image/*" multiple/>	
-		</div>
+<form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
+	<input type="hidden" name="roomcode" value="${roomvo.roomcode }">
+	<div class="col-md-12 photodiv">
 		<hr align="left">
-		<div class="row" style="margin-top: 2%; margin-bottom: 2%;">
-			<div class="col-md-1">
-				<input class="btn" type="button" value="저장하기" style="background-color: #008489; color: #f0f0f0;"/>
-			</div>
+		<h3 align="left" style="font-weight: bold;">사진정렬</h3>
+			<div id="imgList" class="row">
 			
-			<div class="col-md-1">
-				<input id="delete" class="btn" type="button" value="취소하기" style="color: #008489;" onclick=""/>
 			</div>
-		</div>
-</div>
+			<div id="imgfiles"  class="filebox">  
+				<label for="imgfile">사진 추가하기</label> 
+				<input type="file" id="imgfile" name="attach" accept="image/*" multiple/>	
+			</div>
+			<hr align="left">
+			<div class="row" style="margin-top: 2%; margin-bottom: 2%;">
+				<div class="col-md-1">
+					<input class="btn" type="button" value="저장하기" style="background-color: #008489; color: #f0f0f0;" onclick="submitPhoto();"/>
+				</div>
+				
+				<div class="col-md-1">
+					<input class="btn" type="button" value="취소하기" style="color: #008489;" onclick="cancel();"/>
+				</div>
+			</div>
+	</div>
 </form>
 
 
