@@ -7,11 +7,46 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 <script>
 	$(document).ready(function(){
+<<<<<<< HEAD
+		var obj = $("#followHY").offset();
+		var objEnd = $("#followEndHY").offset();
+		$(window).scroll(function(event){
+			if($( document ).scrollTop() > obj.top){
+				$("#").addClass("followDiv");
+			}
+			else{
+				$("#followHY").removeClass("followDiv");
+			}
+		});	
+		$.ajax({
+			url:"JSONtest.air",
+			type:"GET",
+			data:"JSON",
+			success:function(json){
+				alter(JSON.stringify(json));
+			},
+			error: function(){
+				
+			}
+		})
+	});
+	function reviewSearch(){
+		
+	}
+	function likeRoom(){
+		var saveTitle = $("#saveTitle").val();
+		var roomcode = $("#roomcode").val();
+		if(${loginuser == null}){
+			alert("로그인이 필요합니다.");
+			location.reload();
+			return;
+=======
     	var obj = $("#followHY").offset();
     	var objEnd = $("#followEndHY").offset();
        	$(window).scroll(function(event){
         	if($( document ).scrollTop() > obj.top){
             $("#followHY").addClass("followDiv");
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 		}
         else{
         	$("#followHY").removeClass("followDiv");
