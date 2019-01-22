@@ -45,5 +45,17 @@ public class HYService implements InterHYService {
 	public List<ReviewVO> getSearchReview(HashMap<String, String> paraMap) {
 		List<ReviewVO> reviewList = dao.getSearchReview(paraMap);
 		return reviewList;
+	}
+
+	@Override
+	public int checkDuplicateID(String userid) {
+		int n = dao.checkDuplicateID(userid);
+		return n;
+	}
+
+	@Override
+	public int insertMember(MemberVO member) {
+		int n = dao.insertMember(member);
+		return n;
 	} 
 }

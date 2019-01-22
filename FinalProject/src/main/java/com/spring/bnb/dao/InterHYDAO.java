@@ -19,4 +19,8 @@ public interface InterHYDAO {
 
 	List<ReviewVO> getSearchReview(HashMap<String, String> paraMap);
 
+	int checkDuplicateID(String userid);
+
+	int insertMember(MemberVO member);
+
 }

@@ -1,22 +1,33 @@
 package com.spring.bnb.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.DefaultNamingPolicy;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterHYService;
+import com.spring.common.AES256;
+import com.spring.common.SHA256;
 
 @Controller
 public class HYController {
@@ -25,8 +36,8 @@ public class HYController {
 	@Autowired
 	private InterHYService service; 
 
-	/*@Autowired
-	private AES256 aes;*/
+	@Autowired
+	private AES256 aes;
 	
 	// 숙소 상세페이지
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
@@ -71,8 +82,6 @@ public class HYController {
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
-		System.out.println(member.getUserid());
-		System.out.println(member.getPwd());
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
@@ -87,6 +96,7 @@ public class HYController {
 		}
 		jobj.put("logincheck", logincheck);
 		String str_json = jobj.toString();
+		System.out.println(str_json);
 		req.setAttribute("str_json", str_json);
 		return "JSON";
 	}
@@ -132,6 +142,60 @@ public class HYController {
 			jsonArr.put(result);
 		}
 		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	// 회원가입시 아이디 중복체크
+	@RequestMapping(value = "/idDuplicateCheck.air", method = RequestMethod.POST)
+	public String idDuplicateCheck(HttpServletRequest req) {
+		String userid = req.getParameter("userid");
+		System.out.println(userid);
+		int n = service.checkDuplicateID(userid);
+		JSONObject json = new JSONObject();
+		json.put("n", n);
+		String str_json = json.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	// ajax 회원가입
+	@RequestMapping(value = "/joinEnd.air", method = RequestMethod.POST)
+	public String joinEnd(HttpServletRequest req,MemberVO member) throws IOException {
+		MultipartHttpServletRequest mreq = (MultipartHttpServletRequest)req;
+		// 생년월일 변환
+		String year = mreq.getParameter("year");
+		String month = mreq.getParameter("month");
+		String day = mreq.getParameter("day");
+		if(Integer.parseInt(month)<10) month = "0"+month;
+		if(Integer.parseInt(day)<10) day = "0"+day;		
+		String birth = year+"-"+month+"-"+day;
+		member.setBirthday(birth);
+		// 암호화
+		try {
+			member.setPwd(SHA256.encrypt(member.getPwd()));
+			member.setEmail(aes.encrypt(member.getEmail()));
+			member.setPhone(aes.encrypt(member.getPhone()));
+		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			e.printStackTrace();
+		}
+		// 프로필 이미지 업로드
+		if(mreq.getFile("profileimg")!=null) {
+			HttpSession session = req.getSession();
+	        ServletContext root = session.getServletContext();
+	        String path = root+"resources"+File.separator+"images"+File.separator+"profile";
+	        System.out.println(">> 파일경로(path) : "+path);
+	        
+	        File dir = new File(path);
+	 		if(!dir.exists()) dir.mkdirs();
+	        
+	        MultipartFile multiFile = mreq.getFile(member.getProfileimg());
+	        multiFile.transferTo(new File(path));
+		}
+        //int n = service.insertMember(member);
+		JSONObject json = new JSONObject();
+		json.put("n", "check");
+		String str_json = json.toString();
 		req.setAttribute("str_json", str_json);
 		return "JSON";
 	}
