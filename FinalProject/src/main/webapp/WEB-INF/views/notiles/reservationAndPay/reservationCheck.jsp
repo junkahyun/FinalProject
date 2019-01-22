@@ -216,6 +216,8 @@ h3{font-size: 14pt;
 		<br><br>
 		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>
 		<!-- 주의할사항 이미지 -->
+		
+		
 		<c:forEach var="oneRoom" items="${oneRoom.optionList}">
 			<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${oneRoom.OPTIONICON}" /></i>
 			<span style="margin-left: 2%; font-size: 12pt;">${oneRoom.OPTIONNAME} 있음.</span><br>
