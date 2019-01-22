@@ -192,7 +192,7 @@ public class KHController {
 		// **** 예약테이블에 insert하는 메소드 **** //
 		int finalReservation = service.insertReservation(map);
 		
-		if(finalReservation == 1) {
+		if(finalReservation == 1) { //결제 완료시 메일보내기 
 			try {
 				KHGoogleMail gmail = new KHGoogleMail();
 				StringBuilder sb = new StringBuilder();
@@ -200,7 +200,7 @@ public class KHController {
 				// *** 예약자 정보 가져오기 *** //
 				ReservationVO rvo = service.getOneReserve(map);
 				
-				sb.append("<img src='https://ci4.googleusercontent.com/proxy/ycoe9yJWtDXnJKHImcia25D30dkyKMUWkev09437rXQjdXs46I5wDsuZuF7jS8OLh8gCCMZeK5PMFzSb8U-6RXj5c2zjwG0sD2DwMJeD2SrOGQzWpsfp52Qg3X29kLGdKZGDzG2YUO2UgNYqbNgRSwFJug=s0-d-e1-ft#https://a1.muscache.com/airbnb/rookery/dls/logo_standard_2x-c0ed1450d18490825bc37dd6cb23e5c5.png' onClick='"+req.getContextPath()+"/index.air' style='cursor:pointer; width:100px;'/><br><br>");
+				sb.append("<img src='https://ci4.googleusercontent.com/proxy/ycoe9yJWtDXnJKHImcia25D30dkyKMUWkev09437rXQjdXs46I5wDsuZuF7jS8OLh8gCCMZeK5PMFzSb8U-6RXj5c2zjwG0sD2DwMJeD2SrOGQzWpsfp52Qg3X29kLGdKZGDzG2YUO2UgNYqbNgRSwFJug=s0-d-e1-ft#https://a1.muscache.com/airbnb/rookery/dls/logo_standard_2x-c0ed1450d18490825bc37dd6cb23e5c5.png' onClick='javascript:location.href="+req.getContextPath()+"/index.air' style='cursor:pointer; width:100px;'/><br><br>");
 				sb.append("<h1>비앤비 에어 영수증</h1><br>");
 				sb.append("<span style='font-size:12pt; margin-bottom:5%; '><strong>영수증 ID</strong>: "+rvo.getRsvcode()+" , "+rvo.getPaydate()+"</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
@@ -214,7 +214,7 @@ public class KHController {
 				sb.append("<h1>요금내역</h1>");
 				sb.append("<h2>총 금액 (KRW) </h2>"+"<span style='font-size:12pt;'>₩"+totalprice+"</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
-				sb.append("<button type='button' style='width:50%; line-height: 60px; font-size:15pt; margin-bottom:3%; background-color:tomato;'><span style='color:white;'>영수증 인쇄하기</span></button><br>");
+				sb.append("<button type='button' style='width:50%; font-size:15pt; margin-bottom:3%; background-color:tomato;'><span style='color:white;'>영수증 인쇄하기</span></button><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br><p style='font-size:12pt;'><strong>BnbAir Payments UK Ltd.</strong><br>\r\n" + 
 						"\r\n" + 
 						"BnbAir Payments는 호스트의 대금 수령 한정 대리인입니다. 즉, 회원님이 BnbAir Payments를 통해 결제하면 호스트에 대한 지급 의무를 다하게 됩니다. "
