@@ -29,39 +29,81 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
+	 var data1 = $("data1").val();
+	 
+	 /* 
+	 $(".option").click(function(){       
+	       var $target = $(event.target);   
+	              
+	       if(!$target.hasClass("subjectstyle")){         
+	          $target.addClass("subjectstyle");            
+	       }
+	       else{         
+	          $target.removeClass("subjectstyle");
+	       }       
+
+	       var result = "";
+	       $(".subjectstyle").each(function(event){
+	          var has = $(this).hasClass("subjectstyle");
+	          if(has){
+	             result += $(this).text() + ",";
+	          }         
+	       });
+	      alert(result);
+	      $("#data").val(result);
+	      var jbString = result;
+	      var jbSplit = jbString.split(',');
+	            
+	      for(var i in jbSplit){
+	         if(jbSplit[i] != ""){            
+	         //   alert(jbSplit[i]);               
+	         }            
+	      }      
+	    });   
+	 */
 	 
 	 // 옵션 클릭시 스타일 주기	
 	 $(".option").click(function(){		 
-		 var $target = $(event.target);	
-		 var form_data = {data : $("#data").val()};
-		 		 
+		 var $target = $(event.target);	 
+		 
+		 // 폰트 색깔 바꾸기
 		 if(!$target.hasClass("subjectstyle")){			
-			 $target.addClass("subjectstyle");
-			 $.ajax({
-					url : "<%=request.getContextPath()%>/option.air",
-			   		type : "GET",
-					data : form_data,
-					dataType : "JSON",
-					success : function(json){ 
-					
-					},
-		            error: function(request, status, error){
-		                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		            }
-				 });
+			 $target.addClass("subjectstyle"); 
 		 }
 		 else{			
 			 $target.removeClass("subjectstyle");
-		 }		 
-	
-		 var result = "";
-		 $(".subjectstyle").each(function(event){
-			 var has = $(this).hasClass("subjectstyle");
+		 }		  
+		  
+		 var result1 = "";
+		 var result2 = "";
+		 var result3 = "";
+		
+		 var has = $(this).hasClass("subjectstyle");
+		 var parent = $(this).parent();
+		 			 
+		 /* if(parent.hasClass("rulename")){ */
 			 if(has){
-				 result += $(this).text() + ",";
-			 }			
-		 });
+			 /* result1 = $(document).find("div#rulename").find("span.subjectstyle").text(); */
+			 result1 = $(this).parent()
+			 
+			 //alert(result1);
+			 parent.find("input[name=rulename]").val(result1);
+			  
+		 }else if(parent.hasClass("roomtype_name")){
+			 result2 = $(document).find("div#roomtype_name").find("span.subjectstyle").text();
+			  
+			 //alert(result2);
+			 parent.find("input[name=roomtype_name]").val(result2); 
+
+		 }else {
+			 result3 = $(document).find("div#service").find("div.subjectstyle").text();
+			 //alert(result3);
+			 parent.find("input[name=optionname]").val(result3); 
+
+		 }  
+		 
 		/* alert(result);*/
+		/*
 		$("#data").val(result); 
 		var jbString = result;
 		var jbSplit = jbString.split(',');
@@ -71,6 +113,8 @@
 			//	alert(jbSplit[i]);					
 			}				
 		}		
+		 */
+		
 	 });	
 	 
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
@@ -235,12 +279,12 @@
             	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty" value="0"/></span>       	
             </div>  
             
-            <div class="optionbox">
+            <div id="rulename" class="optionbox rulename">
             	<span class="optionname">이용 규칙</span>
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
-            	<input type="text" id="data" name="option"/>
+            	<input type="text" id="data1" name="rulename"/>
             	
             </div>        
            
@@ -262,11 +306,12 @@
         		</select>
         	</div>
             
-            <div class="optionbox">            	
+            <div id="roomtype_name" class="optionbox roomtype_name">            	
             	<span class="optionname" style="margin-right: 9%;">임대 유형</span>
             	<c:forEach items="${roomType}" var="room">
             		<span class="buildType option" style="margin-right: 11.5%; cursor: pointer;">${room}</span>&nbsp;
-            	</c:forEach>              	                  	
+            	</c:forEach>              
+            	<input type="text" id="data2" name="roomtype_name"/>	                  	
             </div>
             
             <div class="optionbox" id="service">
@@ -276,6 +321,7 @@
             		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
             		<div class="option col-md-2 easy" style="margin:0;padding:0; cursor: pointer;">${option}</div>
             		</c:forEach>  
+            		<input type="text" id="data3" name="optionname"/>
             	</div>          	
             </div> 
                         

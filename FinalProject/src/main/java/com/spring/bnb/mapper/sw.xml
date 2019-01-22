@@ -51,7 +51,7 @@
 		from reservation     
 		where fk_userid = #{userid}
 	</select>
-	
+	<!-- 
 	<select id="getOptionList" resultType="String" parameterType="String">
 		select roomname, roommainimg, roomprice, roomtel, roomsigungu
 			 , basic_person, max_person, person_addpay, viewcount
@@ -64,7 +64,7 @@
 		on A.roomcode = D.fk_roomcode
 		JOIN allrule E
 		on D.fk_rule_idx = E.rule_idx
-		where optionname='난방' and E.rule_name='흡연가능' and F.roomtype_name = '집 전체'
+		where optionname='난방' and E.rule_name=#{} and F.roomtype_name = '집 전체'
 	</select>
-
+ -->
 </mapper>

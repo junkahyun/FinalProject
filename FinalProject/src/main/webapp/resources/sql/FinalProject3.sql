@@ -299,13 +299,29 @@ create table roomrule
 ,constraints FK_roomrule_roomcode foreign key(fk_roomcode) references room(roomcode)
 );
 
- 
+create sequence roomrule_idx_seq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache; 
 
-select A.sid, A.SERIAL#
-from V$SESSION A, V$LOCK B, DBA_OBJECTS C
-where A.SID = B.SID AND B.ID1 = C.OBJECT_ID AND B.TYPE='TM' AND C.OBJECT_NAME = 'room';
+alter table allrule add constraints PK_ALLRULE_RULE_IDX primary key(rule_idx);
+commit;
 
+desc allrule;
 
+select *
+from roomoption;
+
+insert into roomrule (roomrule_idx, fk_rule_idx, rulestatus, fk_roomcode)
+values (roomrule_idx_seq.nextval, 1, default, 10);
+
+insert into roomrule (roomrule_idx, fk_rule_idx, rulestatus, fk_roomcode)
+values (roomrule_idx_seq.nextval, 3, default, 10);
+
+commit;
 
 select *
 from roomrule
@@ -454,3 +470,22 @@ from room A JOIN roomoption B
 on A.roomcode = B.fk_roomcode
 JOIN options C
 on B.fk_option_idx = c.option_idx
+JOIN roomrule D
+on A.roomcode = D.fk_roomcode
+JOIN allrule E
+on D.fk_rule_idx = E.rule_idx
+JOIN roomtype F
+ON A.fk_roomtype_idx = F.roomtype_idx
+where optionname='난방' and E.rule_name='흡연가능' and F.roomtype_name = '집 전체'
+
+select *
+from allrule A JOIN roomrule B
+on A.rule_idx = B.fk_rule_idx
+JOIN room C
+on B.fk_roomcode = C.roomcode
+
+select *
+from roomtype
+
+select *
+from room
