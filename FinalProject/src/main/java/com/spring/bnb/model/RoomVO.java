@@ -3,14 +3,15 @@ package com.spring.bnb.model;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class RoomVO {
 	private String roomcode;
 	private String fk_userid; 
 	private String fk_buildType_detail_idx;
 	private String fk_roomoption_idx;
 	private String fk_roomType_idx;
-	private String roomName;
-	private String roomMainImg; 
+	private String roomName; 
 	private String roomTel;
 	private String roomInfo; 
 	private String roomPost;
@@ -33,6 +34,15 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+	
+	private MultipartFile attach; // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
+ 	// !!!!!! MultipartFile attach 는 오라클 데이터베이스 tblBoard 테이블의 컬럼이 아니다.!!!!!!  
+ 	// /Board/src/main/webapp/WEB-INF/views/tiles1/board/add.jsp 파일에서 input type="file" 인 name 의 이름(attach)과 
+ 	// 동일해야만 파일첨부가 가능해진다.!!!!
+	
+	private String roomMainImg;
+	private String imgfileName;     // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
+ 	private String imgorgFilename;  // 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
 	
 	//add(getter,setter 아직 안넣음)
 	private String roomType_name;
@@ -92,6 +102,31 @@ public class RoomVO {
 	public void setRoomMainImg(String roomMainImg) {
 		this.roomMainImg = roomMainImg;
 	}
+	
+	public MultipartFile getAttach() {
+		return attach;
+	}
+
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
+	}
+
+	public String getImgfileName() {
+		return imgfileName;
+	}
+
+	public void setImgfileName(String imgfileName) {
+		this.imgfileName = imgfileName;
+	}
+
+	public String getImgorgFilename() {
+		return imgorgFilename;
+	}
+
+	public void setImgorgFilename(String imgorgFilename) {
+		this.imgorgFilename = imgorgFilename;
+	}
+	
 	public String getRoomTel() {
 		return roomTel;
 	}
@@ -100,7 +135,8 @@ public class RoomVO {
 	}
 	public String getRoomInfo() {
 		return roomInfo;
-	}
+	}	
+	
 	public void setRoomInfo(String roomInfo) {
 		this.roomInfo = roomInfo;
 	}
