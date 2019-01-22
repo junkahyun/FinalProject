@@ -302,7 +302,7 @@ public class boboController {
 				bytes = attach.getBytes();
 				// getBytes() 는 첨부된 파일을 바이트 단위로 파일을 다 읽어오는 것이다.
 				
-				newFileName = fileManager.doFileUpload(bytes, roomvo.getImgorgFilename(), path);
+				newFileName = fileManager.doFileUpload(bytes, roomvo.getRoomMainImg(), path);
 				// 첨부된 파일을 WAS(톰캣)의 디스크로 파일올리기를 하는 것이다.
 				// 파일을 올린후 예를 들어, 20190107091235343253242345332432.png 와 같은 파일명을 얻어온다. 
 				
@@ -310,7 +310,7 @@ public class boboController {
 				// >>>> 확인용 newFileName ==> 201901071126172769559848039192.jpg
 				
 			// 3. BoardVO boardvo 에 fileName 값과 orgFilename 값과 fileSize 값을 넣어주기 
-				roomvo.setImgfileName(newFileName);
+				roomvo.setRoomImgfilename(newFileName);
 				//roomvo.setImgorgFilename(attach.getOriginalFilename());
 				
 				fileSize =attach.getSize();

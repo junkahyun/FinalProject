@@ -204,14 +204,9 @@
            }); 
            
            function imageadd() { 
-        	   alert("이미지 클릭함");
-        	   attach();
+				$
 			}
-           
-           function attach() {
-				alert("불러짐");
-			}
-           
+
 
             
             function next() {
@@ -246,7 +241,7 @@
         		 </br>Drag & Drop Files Here
         		 <INPUT type="hidden" id="imgorgFilename" name="imgorgFilename"/> 
         		 <INPUT type="hidden" id="imgfileSize" name="imgfileSize"/> 
-        		 <INPUT type="file" onclick="attach" id="attach" name="attach" style="display:none;"/>
+        		 <INPUT type="file" id="attach" name="attach" style="display:none;"/>
         		 </div>
         	</div>
         </div>

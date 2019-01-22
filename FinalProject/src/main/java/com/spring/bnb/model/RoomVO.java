@@ -40,9 +40,8 @@ public class RoomVO {
  	// /Board/src/main/webapp/WEB-INF/views/tiles1/board/add.jsp 파일에서 input type="file" 인 name 의 이름(attach)과 
  	// 동일해야만 파일첨부가 가능해진다.!!!!
 	
-	private String roomMainImg;
-	private String imgfileName;     // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
- 	private String imgorgFilename;  // 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
+	private String roomMainImg;		// 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
+	private String roomImgfilename;     // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
 	
 	//add(getter,setter 아직 안넣음)
 	private String roomType_name;
@@ -96,6 +95,8 @@ public class RoomVO {
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
 	}
+	
+	///////////////////////////////////////////////////////////
 	public String getRoomMainImg() {
 		return roomMainImg;
 	}
@@ -110,23 +111,15 @@ public class RoomVO {
 	public void setAttach(MultipartFile attach) {
 		this.attach = attach;
 	}
-
-	public String getImgfileName() {
-		return imgfileName;
+	public String getRoomImgfilename() {
+		return roomImgfilename;
 	}
 
-	public void setImgfileName(String imgfileName) {
-		this.imgfileName = imgfileName;
+	public void setRoomImgfilename(String roomImgfilename) {
+		this.roomImgfilename = roomImgfilename;
 	}
+	////////////////////////////////////////////////////////////
 
-	public String getImgorgFilename() {
-		return imgorgFilename;
-	}
-
-	public void setImgorgFilename(String imgorgFilename) {
-		this.imgorgFilename = imgorgFilename;
-	}
-	
 	public String getRoomTel() {
 		return roomTel;
 	}
