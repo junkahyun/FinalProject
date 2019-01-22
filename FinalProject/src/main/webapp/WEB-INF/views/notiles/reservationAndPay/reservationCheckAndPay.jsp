@@ -30,7 +30,8 @@ h3{font-size: 14pt;
 .reservationInfo{font-size: 12pt; border: 0px;
 }
   
-
+input{outline: none;
+}
 </style>
 
 <script type="text/javascript">
