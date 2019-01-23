@@ -15,7 +15,7 @@ public interface InterSODAO {
 	MemberVO getMyInfo(String loginuser);
 	
 	//나의 정보 수정하기
-	int memberUpdate(MemberVO member);
+	void memberUpdate(MemberVO member);
 
 	//나의 예약 내역 가져오기
 	List<HashMap<String,String>> getMemberReservationList(String loginuser);
@@ -31,5 +31,10 @@ public interface InterSODAO {
 
 	//나에게 작성한 후기
 	List<HashMap<String,String>> getHostReview(String userid);
-
+	
+	// 쿠폰 등록하기
+	int addCoupon(HashMap<String, String> map);
+	// 쿠폰 리스트 가져오기
+	List<HashMap<String, String>> getCoupon();
+	
 }

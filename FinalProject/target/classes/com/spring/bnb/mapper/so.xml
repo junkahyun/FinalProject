@@ -250,4 +250,25 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 		where host_userid = #{userid}
 		order by review_idx
 </select>
+
+<!-- 나의 정보 수정 -->
+<update id="memberUpdate" parameterType="com.spring.bnb.model.MemberVO">
+	update member set email=#{email}, phone=#{phone}, post=#{post}, addr= #{addr}, detailaddr=#{detailAddr}, introduction=#{introduction}, profileimg=#{profileimg}
+	where userid=#{userid}
+</update>
+
+<insert id="addCoupon" parameterType="HashMap"> 	
+  insert into myCoupon (mycp_idx,fk_cpcode,fk_userid,userdate)
+  values(mycp_idx_seq.nextval,#{coupon},#{userid}, sysdate)
+</insert>
+
+<resultMap type="HashMap" id="couponListMap">
+	<result column="cpcode" property="cpcode" javaType="String"/>
+	<result column="cpname" property="cpname" javaType="String"/>
+</resultMap>
+<select id="couponList" resultMap="couponListMap">
+	select cpcode,cpname
+ 	from coupon
+</select>
+
 </mapper>	

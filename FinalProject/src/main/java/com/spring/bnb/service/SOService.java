@@ -29,15 +29,19 @@ public class SOService implements InterSOService{
 	}
 	// 나의 정보 수정
 	@Override
-	public int memberUpdate(MemberVO member) {
-		int n = dao.memberUpdate(member);
-		return n;
+	public void memberUpdate(MemberVO member) {
+		System.out.println("11");
+		/*int n = */ dao.memberUpdate(member);
+		System.out.println("22");
+		/*return n;*/
 	}
 	
 	//나의 예약 내역 가져오기
 	@Override
 	public List<HashMap<String,String>> getMemberReservationList(String loginuser) {
+		
 		List<HashMap<String,String>> memberResList = dao.getMemberReservationList(loginuser);
+		
 		return memberResList;
 	}
 	
@@ -66,6 +70,19 @@ public class SOService implements InterSOService{
 	public List<HashMap<String,String>> getHostReview(String userid) {
 		List<HashMap<String,String>> hostReview = dao.getHostReview(userid); 
 		return hostReview;
+	}
+	
+	// *** 쿠폰 등록하기 ***
+	@Override
+	public int addCoupon(HashMap<String, String> map) {
+		int n = dao.addCoupon(map);
+		return n;
+	}
+	// *** 쿠폰 가져오기 ***
+	@Override
+	public List<HashMap<String, String>> getCoupon() {
+		List<HashMap<String,String>> couponList = dao.getCoupon();
+		return couponList;
 	}
 
 }

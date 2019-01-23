@@ -40,9 +40,9 @@ public class SODAO implements InterSODAO {
 	
 	// 나의 정보수정 하기
 	@Override
-	public int memberUpdate(MemberVO member) {
-		int n = sqlsession.update("cso.memberUpdate",member);
-		return n;
+	public void memberUpdate(MemberVO member) {
+		/*int n =*/ sqlsession.update("cso.memberUpdate",member);
+		/*return n;*/
 	}
 	
 	//나의 예약 내역 가져오기
@@ -121,6 +121,20 @@ public class SODAO implements InterSODAO {
 		List<HashMap<String,String>> hostReview = sqlsession.selectList("cso.hostReview",userid);
 		
 		return hostReview;
+	}
+
+	// 쿠폰 등록하기 
+	@Override
+	public int addCoupon(HashMap<String, String> map) {
+		int n = sqlsession.update("cso.addCoupon",map);
+		return n;
+	}
+	// 쿠폰 리스트 가져오기
+	@Override
+	public List<HashMap<String, String>> getCoupon() {
+		List<HashMap<String, String>> couponList = sqlsession.selectList("cso.getCoupon");
+		
+		return couponList;
 	}
 
 

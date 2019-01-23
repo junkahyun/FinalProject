@@ -1,5 +1,9 @@
 package com.spring.bnb.controller;
  
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
@@ -11,14 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.plaf.synth.SynthSeparatorUI;
+import javax.swing.plaf.synth.SynthSplitPaneUI;
 
 import org.apache.commons.digester.Substitutor;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
@@ -30,6 +37,7 @@ import com.spring.common.AES256;
 import com.spring.common.FileManager;
 import com.spring.common.GoogleMail;
 import com.spring.common.MyUtil;
+import com.sun.org.apache.bcel.internal.generic.CPInstruction;
 
 @Controller
 public class SOController {
@@ -76,7 +84,7 @@ public class SOController {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
-		
+		/*try {*/
 			//나의 개인정보 가져오기
 			MemberVO myInfo = new MemberVO();
 			myInfo = service.getMyInfo(userid);
@@ -97,6 +105,9 @@ public class SOController {
 			String birthday= myInfo.getBirthday();
 			Date date = new Date();
 			
+		/*	String email = aes.decrypt(myInfo.getEmail());
+			myInfo.setEmail(email);*/
+			
 			String birthdayYY = birthday.substring(0, 4);
 			String birthdayMM = birthday.substring(5,7);
 			String birthdayDD = birthday.substring(8,10);
@@ -106,7 +117,10 @@ public class SOController {
 			req.setAttribute("birthdayDD", birthdayDD);
 			req.setAttribute("str_gender", str_gender);
 			req.setAttribute("myInfo", myInfo);
-			
+	/*		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 			return "mypage/myEdit.hometiles";		
 	}
 	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)
@@ -221,8 +235,22 @@ public class SOController {
 	
 	// 나의 정보 수정
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
-	public String myEditEnd(MemberVO membervo, MultipartHttpServletRequest req, MultipartRequest mtreq) {
+	public String myEditEnd(HttpServletRequest req,@RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
 		String method = req.getMethod();
+		
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+		
+		String email = req.getParameter("email");
+		String phone = req.getParameter("phone");
+		String introduction = req.getParameter("introduction");
+		String str_post = req.getParameter("post");
+		int post = Integer.parseInt(str_post);
+		String addr = req.getParameter("addr");
+		String detailAddr = req.getParameter("detailAddr");
+		
+		MemberVO member = new MemberVO();
 		
 		if(!"POST".equals(method)) {
 			String msg="비정상적인 경로입니다.";
@@ -232,30 +260,57 @@ public class SOController {
 			req.setAttribute("loc", loc);
 			return "msg";
 		}else {
-			HttpSession session = req.getSession();
-			ServletContext sclCtx = session.getServletContext();
-			String imagesDir = sclCtx.getRealPath("/images/profile");
-			System.out.println("첨부되어지는 이미지 파일이 올라가는 절대 경로 : "+imagesDir);
-				
-			String profileimg = mtreq.getFileNames("profileimg");
-			String email = req.getParameter("email");
-			String phone = req.getParameter("phone");
-			String introduction = req.getParameter("introduction");
-			String post = req.getParameter("post");
-			String addr = req.getParameter("addr");
-			String addrDetail = req.getParameter("addrDetail");
-			MemberVO member = new MemberVO();
 			
-			member.setProfileimg(profileimg);
-			member.setEmail(email);
-			member.setPhone(phone);
-			member.setBirthday(birthday);
-			member.setIntroduction(introduction);
-		
-			int n = service.memberUpdate(member);
-
-		}
-		
+					String filename = "";
+					if(!multipartFile.isEmpty()) {
+						ServletContext application = req.getServletContext();
+						String realPath = application.getRealPath("/resources/images/profile");
+						
+						filename = multipartFile.getOriginalFilename();
+						
+						int index = filename.lastIndexOf("\\");
+						filename = filename.substring(index +1);
+						
+						File file = new File(realPath,filename);
+						if(file.exists()) {
+							filename = System.currentTimeMillis()+"_"+filename;
+							file = new File(realPath,filename);
+						}
+						System.out.println("업로드 경로 "+realPath);
+						System.out.println("업로드 파일명"+filename);
+						
+						
+							IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+							member.setProfileimg(filename);
+							System.out.println("11"+filename);
+						
+					}else {
+						filename = req.getParameter("profileimg");
+						System.out.println(filename);
+						member.setProfileimg(filename);
+						System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
+					}
+			
+				
+	
+				/*member.setEmail(aes.encrypt(email));
+				member.setPhone(aes.encrypt(phone));*/
+				member.setEmail(email);
+				member.setPhone(phone);
+				member.setIntroduction(introduction);
+				member.setPost(post);
+				member.setAddr(addr);
+				member.setDetailAddr(detailAddr);
+				member.setUserid(userid);
+				
+				/*int n = */service.memberUpdate(member);
+				
+		/*		if(n==1) {
+					System.out.println("업데이트 성공");
+				}else {
+					System.out.println("업데이트 실패!");
+				}*/
+		}		
 		
 		return"mypage/myEdit.hometiles"; 
 	}
@@ -349,18 +404,51 @@ public class SOController {
 		req.setAttribute("myWriteReview", myWriteReview);
 		return "mypage/review.hometiles";
 	}
-	@RequestMapping(value = "/couponReg.air", method = RequestMethod.POST)
+	@RequestMapping(value = "/couponReg.air", method = {RequestMethod.GET,RequestMethod.POST})
 	public String couponReg(HttpServletRequest req, HttpServletResponse res) {
 		
-		
-		   String method = req.getMethod();
 		return "mypage/couponReg.notiles";
 	}
 	
-	@RequestMapping(value = "/couponRegEnd.air", method = RequestMethod.POST)
+	@RequestMapping(value = "/couponRegEnd.air", method = {RequestMethod.GET,RequestMethod.POST})
 	public String couponRegEnd(HttpServletRequest req, HttpServletResponse res) {
-
-		return "mypage/couponRegEnd.notiles";
+		//	*** 아이디 정보 가져오기 ***
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+		String coupon = req.getParameter("coupon");
+		List<HashMap<String,String>> couponList = service.getCoupon();		
+		System.out.println("11");
+		for(int i=0;i<couponList.size();i++) {
+		
+			String cpcode = couponList.get(i).get("cpcode");
+			System.out.println("22");
+			if(cpcode == coupon) {
+				cpcode = coupon;
+				System.out.println("33");
+			}
+				coupon = "";
+		}
+		System.out.println("44");
+		if(coupon == null || coupon.trim() =="") {
+			System.out.println("55");
+			String msg = "쿠폰번호를 등록해 주세요!";
+			String loc = "javascript:history.back()";
+			
+			return "msg";
+		}else {
+			//*** 쿠폰 정보 가져오기 ***			
+			System.out.println("66");
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("userid", userid);
+			map.put("coupon",coupon);
+			
+			int n = service.addCoupon(map);
+			req.setAttribute("n", n);
+			return "mypage/couponRegEnd.notiles";
+		}		
+		
+	
 	}
 	
 	

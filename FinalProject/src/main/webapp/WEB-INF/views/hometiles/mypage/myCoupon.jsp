@@ -63,13 +63,12 @@ td{
 	$(document).ready(function(){
 		$("#checkCoupon").click(function(){
 			var url ="/bnb/couponReg.air";
-			window.open(url,"쿠폰등록","width=400,height=300");
-			
-		    var frm = document.couponRegFrm;
+			window.open(url,"쿠폰등록","width=400,height=300");			
+/* 		    var frm = document.couponRegFrm;
 		    frm.action=url;
 			frm.method = "POST";  
 		    frm.target = "쿠폰등록"; 
-		    frm.submit(); 
+		    frm.submit();  */
 		  
 		});
 	});

@@ -207,7 +207,7 @@
 						  </div>					   
 					  </div>
 					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right">
-					  	<a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${luser}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a>
+					  	<a href="<%= ctxPath %>/myReservationDetail.air?userid=${luser}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a>
 					  </div>  				  
 		      </div> 	           	   	       
 	        </div> 
