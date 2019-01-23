@@ -29,140 +29,122 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-	
-	 /* 
-	 $(".option").click(function(){       
-	       var $target = $(event.target);   
-	              
-	       if(!$target.hasClass("subjectstyle")){         
-	          $target.addClass("subjectstyle");            
-	       }
-	       else{         
-	          $target.removeClass("subjectstyle");
-	       }       
+		
+	 // 이용규칙 클릭시
+	 var result1 = "";
+	 $(".rule").click(function(){		
+		 var thisText = $(this).text()
+		 var $target = $(event.target);	 
 
-	       var result = "";
-	       $(".subjectstyle").each(function(event){
-	          var has = $(this).hasClass("subjectstyle");
-	          if(has){
-	             result += $(this).text() + ",";
-	          }         
-	       });
-	      alert(result);
-	      $("#data").val(result);
-	      var jbString = result;
+		 // 폰트 색깔 바꾸기
+		 if(!$target.hasClass("subjectstyle")){			
+			 $target.addClass("subjectstyle"); 
+        	  result1 += thisText + ",";	
+		 }
+		 else{			
+			 $target.removeClass("subjectstyle");
+        	  result1 = result1.replace($(this).text()+",","");
+		 }		  
+		
+	//	 $("#data1").val(result1); 
+		 
+		 // 문자열 자르기
+	      var jbString = result1;
 	      var jbSplit = jbString.split(',');
 	            
 	      for(var i in jbSplit){
 	         if(jbSplit[i] != ""){            
-	         //   alert(jbSplit[i]);               
+	        //	alert(jbSplit[i);
+	        	var splitArr = jbSplit[i];
+	        	$("#data1").val(splitArr);
 	         }            
-	      }      
-	    });   
-	 */	 
-	
-		 // 이용규칙 클릭시
-		 var result1 = "";
-		 $(".rule").click(function(){		
-			 var thisText = $(this).text()
-			 var $target = $(event.target);	 
-
-			 // 폰트 색깔 바꾸기
-			 if(!$target.hasClass("subjectstyle")){			
-				 $target.addClass("subjectstyle"); 
-	        	  result1 += thisText + ",";	
-			 }
-			 else{			
-				 $target.removeClass("subjectstyle");
-	        	  result1 = result1.replace($(this).text()+",","");
-			 }		  
+	         
+	      }		      
+	      
+	      var ruleArr = $("#data1").val();
+	      var rulenameArr = new Array($("#rulename").val());
+	      for(var i=0; i<rulenameArr.length; i++){
+	    	  alert(rulenameArr[i]);
+	      }
+	      var roomtypenameArr = $("#roomtype_name").val();
+	      var optionnameArr = $("#optionname").val();
+	      
+	      var form_data = {rule :ruleArr, 
+	    		  		   rulename : rulenameArr,
+	    		  		   roomtype_name : roomtypenameArr,
+	    		  		   optionname : optionnameArr
+	    		  		   };
+	      var html = "";
+	   alert("여기오니?");
 			
-		//	 $("#data1").val(result1); 
-			 
-			 // 문자열 자르기
-		      var jbString = result1;
-		      var jbSplit = jbString.split(',');
-		            
-		      for(var i in jbSplit){
-		         if(jbSplit[i] != ""){            
-		        //	alert(jbSplit[i);
-		        	var splitArr = jbSplit[i];
-		        	$("#data1").val(splitArr);
-		         }            
-		         
-		      }		      
-		      
-		      var form_data = {rule : $("#data1").val(splitArr)};
-		      var html = "";
-		     alert("여기오니?");
-		      $.ajax({			    	 
-				url: "<%=request.getContextPath()%>/optionJSON.air",
-				type: "GET",
-				data: form_data,
-				dataType: "JSON",
-				success: function(json){ 					
-					$("#allList").empty();
+	      $.ajax({			    	 
+			url: "<%=request.getContextPath()%>/optionJSON.air",
+			type: "GET",
+			data: form_data,
+			dataType: "JSON",
+			success: function(json){ 					
+				/* $("#allList").empty(); */
+				alert("gkgkgk");
+				/* $.each(json, function(entryIndex, entry){
+					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+						  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
+						  + "</div>"
+						  + "</div>";
+				});// end of $.each()------------- 
+				
+				$("#allList").append(html); 	*/  
 					
-					$.each(json, function(entryIndex, entry){
-						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-							  + "</div>"
-							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
-							  + "</div>"
-							  + "<div>"
-							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
-							  + "</div>"
-							  + "<div>"
-							  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
-							  + "</div>"
-							  + "<div>"
-							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-							  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
-							  + "</div>"
-							  + "</div>";
-					});// end of $.each()-------------
-					
-					$("#allList").append(html); 	  
-						
-				},
-				error: function(request, status, error){
-				    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
+			},
+			error: function(request, status, error){
+			    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
 
-		      });
-		 });
+	      });
+	 });
+	 
+	 // 임대유형 클릭시
+	 var result2 = "";
+	 $(".buildType").click(function(){		
+		 var thisText = $(this).text()
+		 var $target = $(event.target);	 
+
+		 // 폰트 색깔 바꾸기
+		 if(!$target.hasClass("subjectstyle")){			
+			 $target.addClass("subjectstyle"); 
+        	  result2 += thisText + ",";	
+		 }
+		 else{			
+			 $target.removeClass("subjectstyle");
+        	  result2 = result2.replace($(this).text()+",","");
+		 }		  
+		
+		 $("#data2").val(result2); 
 		 
-		 // 임대유형 클릭시
-		 var result2 = "";
-		 $(".buildType").click(function(){		
-			 var thisText = $(this).text()
-			 var $target = $(event.target);	 
-
-			 // 폰트 색깔 바꾸기
-			 if(!$target.hasClass("subjectstyle")){			
-				 $target.addClass("subjectstyle"); 
-	        	  result2 += thisText + ",";	
-			 }
-			 else{			
-				 $target.removeClass("subjectstyle");
-	        	  result2 = result2.replace($(this).text()+",","");
-			 }		  
-			
-			 $("#data2").val(result2); 
-			 
-			 // 문자열 자르기
-		      var jbString = result2;
-		      var jbSplit = jbString.split(',');
-		            
-		      for(var i in jbSplit){
-		         if(jbSplit[i] != ""){            
-		        // 	alert(jbSplit[i]);
-		        	var splitArr = jbSplit[i];		
-		         }            
-		      } 			 
-		 });
+		 // 문자열 자르기
+	      var jbString = result2;
+	      var jbSplit = jbString.split(',');
+	            
+	      for(var i in jbSplit){
+	         if(jbSplit[i] != ""){            
+	        // 	alert(jbSplit[i]);
+	        	var splitArr = jbSplit[i];		
+	         }            
+	      } 			 
+	 });
 		 
 		 // 고객편의 클릭시
 		 var result3 = ""; 
@@ -510,17 +492,17 @@
                     <div>
                         <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
                         <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
-                        	<input type="hidden" value="${oplist.OPTIONNAME }" />
+                        	<input type="text" id="optionname" name="optionname" value="${oplist.OPTIONNAME }" />
                         </c:forEach>
                         <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
-                       	 	<input type="hidden" value="${rule.RULE_NAME}" />
+                       	 	<input type="text" id="rulename" name="rulename" value="${rule.RULE_NAME}" />
                         </c:forEach>                         
-                        <input type="hidden" value="${RList.roomType_name }" />
-                        <input type="hidden" value="${RList.roomcode }" />
+                        <input type="text" id="roomtype_name" name="roomtype_name" value="${RList.roomType_name }" />
+                        <input type="text" id="roomcode" name="roomcode" value="${RList.roomcode }" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
-                        <input type="hidden" name="roomcode" value="${RList.roomcode }" />
+                        <input type="text" id="roomcode" name="roomcode" value="${RList.roomcode }" />
                     </div>                
                 </div>
             </c:forEach>

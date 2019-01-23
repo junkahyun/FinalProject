@@ -131,6 +131,9 @@ public class SWController {
 		String[] optionname = req.getParameterValues("optionname");
 		
 		System.out.println("gkgk");
+		System.out.println(rulename);
+		System.out.println(roomtype_name);
+		System.out.println(optionname);		
 		
 		JSONArray jsonArr = new JSONArray();  		
 		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
