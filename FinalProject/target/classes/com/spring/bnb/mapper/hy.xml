@@ -98,7 +98,7 @@
 	</select>
 	
 	<select id="getSearchReview" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
-		select*from review where fk_roomcode=#{ROOMCODE} and review_content =#{REVIEWSEARCHWORD}
+		select*from review where fk_roomcode=#{ROOMCODE} and review_content like '%'||#{REVIEWSEARCHWORD}||'%'
 	</select>
 	
 	<select id="checkDuplicateID" parameterType="String" resultType="Integer">

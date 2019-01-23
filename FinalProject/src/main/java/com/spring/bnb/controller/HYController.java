@@ -50,7 +50,7 @@ public class HYController {
 		return "home/homeDetail.hometiles";
 	}
 	
-	// 숙소 상세페이지
+	// 리뷰 검색
 	@RequestMapping(value = "/reviewSearch.air", method = RequestMethod.GET)
 	public String reviewSearch(HttpServletRequest req) {
 		String reviewSearchWord = req.getParameter("reviewSearchWord");
@@ -168,25 +168,24 @@ public class HYController {
 			HttpSession session = req.getSession();
 			String root = session.getServletContext().getRealPath("/");
 			String realPath = root + "resources"+File.separator+"images"+File.separator+"profile";
-			
 			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
 			// 엣지 브라우저 요청 파일이름 처리
 			int index = filename.lastIndexOf("\\");
 			filename = filename.substring(index + 1);
-	        
 	        File file = new File(realPath, filename);
 	        if (file.exists()) { // 해당 경로에 동일한 파일명이 이미 존재하는 경우 파일명 앞에 업로드 시간 밀리초 붙여서 파일명 중복을 방지
 	        	filename = System.currentTimeMillis() + "_" + filename;
 	        	file = new File(realPath, filename);
 	        }
-	        
 	        System.out.println("업로드 경로: " + realPath);
 	        System.out.println("업로드 파일명: " + filename);
-	        
 	        // 업로드 수행
 	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
-		} else System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
-		member.setProfileimg(filename);
+			member.setProfileimg(filename);
+		} else {
+			System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
+			member.setProfileimg("user.png");
+		}
 		
 		// 생년월일 변환
 		String year = req.getParameter("year");
