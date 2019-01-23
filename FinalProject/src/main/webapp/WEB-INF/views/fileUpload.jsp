@@ -125,14 +125,23 @@
                 var rowCount=0;
                 function createStatusbar(obj){
                          
-                    rowCount++;
-                    var row="odd";
-                    if(rowCount %2 ==0) row ="even";
+                   rowCount++;
+                   var row="odd";
+                   if(rowCount %2 ==0) row ="even";
                     this.statusbar = $("<div class='statusbar "+row+"'></div>");
                     this.filename = $("<div class='filename'></div>").appendTo(this.statusbar);
                     this.size = $("<div class='filesize'></div>").appendTo(this.statusbar);
                     this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
                     this.abort = $("<div class='abort'>중지</div>").appendTo(this.statusbar);
+                    this.del = $("<button class='del' type='button'>삭제</button>").appendTo(this.statusbar);
+                    
+                    this.del.click(function(){
+                    	$(".filename").remove();
+                 	    $(".statusbar").remove();
+                 	    $(".filesize").remove();
+                 	    $(".abort").remove();
+                    });
+
                      
                     obj.after(this.statusbar);
                   
@@ -205,7 +214,8 @@
                   
                     status.setAbort(jqXHR);
                 }
-                 
+                
+
             });
             
         </script>

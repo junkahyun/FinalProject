@@ -111,6 +111,8 @@ public class RoomVO {
 	public void setAttach(MultipartFile attach) {
 		this.attach = attach;
 	}
+	
+	
 	public String getRoomImgfilename() {
 		return roomImgfilename;
 	}
@@ -118,7 +120,8 @@ public class RoomVO {
 	public void setRoomImgfilename(String roomImgfilename) {
 		this.roomImgfilename = roomImgfilename;
 	}
-	////////////////////////////////////////////////////////////
+	
+	////////////////
 
 	public String getRoomTel() {
 		return roomTel;

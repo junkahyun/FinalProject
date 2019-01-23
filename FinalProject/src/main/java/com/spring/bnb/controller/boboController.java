@@ -109,9 +109,8 @@ public class boboController {
 	}	
 	
 	@RequestMapping(value="/roomstep2.air", method={RequestMethod.GET})
-	public String roomstep2(HttpServletRequest req) {
+	public String roomstep2(RoomVO roomvo, HttpServletRequest req) {
 		
-		RoomVO roomvo = new RoomVO();
 		String[] optionchk = req.getParameterValues("optionchk");
 		for (String val : optionchk) {
 			System.out.println(val);
@@ -271,11 +270,16 @@ public class boboController {
 		MultipartFile attach = roomvo.getAttach();
 		System.out.println(attach);
 		
+		String[] roomMainImg = req.getParameterValues("roomMainImg");
+		for(String a : roomMainImg) {
+			System.out.println(a);
+		}
+		
 		if(attach != null) {
 			// attach 가 비어있지 않다면(즉, 첨부파일이 있는 경우라면) 
 			/*
 			    1. 사용자가 보낸 파일을 WAS(톰캣)의 특정 폴더에 저장해주어야 한다. 
-			    >>>> 파일이 업로드 되어질 특정 경로(폴더)지정해주기 
+			    >>>> 파일이 업로드 되어질 특정 경로(폴더)지정해주기   
 			       우리는 WAS의 webapp/resources/files 라는 폴더로 지정해주겠다. 
 			 */
 			// WAS의 webapp 의 절대경로를 알아와야 한다.
@@ -297,7 +301,7 @@ public class boboController {
 			
 			long fileSize = 0;
 			// 파일크기를 읽어오기 위한 용도 
-			
+			 
 			try {
 				bytes = attach.getBytes();
 				// getBytes() 는 첨부된 파일을 바이트 단위로 파일을 다 읽어오는 것이다.
@@ -361,7 +365,7 @@ public class boboController {
         while (itr.hasNext()) { //받은 파일들을 모두 돌린다.
              
              //기존 주석처리
-            /*MultipartFile mpff = multipartRequest.getFile(itr.next());
+         /*   MultipartFile mpff = multipartRequest.getFile(itr.next());
             String originFileName = mpff.getOriginalFilename();
             System.out.println("FILE_INFO: "+originFileName); //받은 파일 리스트 출력'
 */           
@@ -390,6 +394,10 @@ public class boboController {
     }
 	
 	
+ 
+    
+    
+    
 	
 	
 }
