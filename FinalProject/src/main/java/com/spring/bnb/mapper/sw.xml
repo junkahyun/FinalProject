@@ -26,7 +26,7 @@
 	<!-- 숙소 이용규칙 -->
 	<select id="getRoomRule" resultType="String">
 		select rule_name
-		from roomrule
+		from allrule
 	</select>
 	
 	<!-- 건물유형(소)-->
@@ -38,11 +38,27 @@
 	</select> 
 	
 	<select id="getRoomList" resultType="com.spring.bnb.model.RoomVO">
-		select roomname, roommainimg, roomprice, roomtel, roomsigungu
-		     , basic_person, max_person, person_addpay, viewcount
-		     , latitude, longitude
-		from room
-		<!-- where roomsigungu like '%'||#{roomsigungu}||'%' -->
+		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx		
+	</select>
+	
+	<resultMap type="HashMap" id="dataResultMap2">
+		<result property="OPTIONNAME" column="optionname" javaType="String" />
+		<result property="FK_ROOMCODE" column="fk_roomcode" javaType="String" />
+	</resultMap>
+	
+	<select id="getRoomOptionList" parameterType="String" resultMap="dataResultMap2">
+		select*from roomoption R join options O on R.fk_option_idx = O.option_idx
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	<resultMap type="HashMap" id="dataResultMap3">
+		<result property="RULE_NAME" column="rule_name" javaType="String" />
+		<result property="FK_ROOMCODE" column="fk_roomcode" javaType="String" />
+	</resultMap>
+	
+	<select id="getRuleList" parameterType="String" resultMap="dataResultMap3">
+		select*from roomrule A join allrule B on A.fk_rule_idx = B.rule_idx
+		where fk_roomcode = #{roomcode}
 	</select>
 	
 	<select id="getReservationList" resultType="com.spring.bnb.model.ReservationVO" parameterType="String"> 
@@ -50,6 +66,44 @@
 		     , rsv_phone, guestcount, babycount, rsv_email, fk_userid, totalprice, dcprice, to_char(paydate, 'yyyy-mm-dd') AS paydate, rsv_msg
 		from reservation     
 		where fk_userid = #{userid}
+	</select>	
+	 
+	<resultMap type="HashMap" id="dataResultMap">
+		<result property="ROOMMAINIMG"   column="roommainimg"   javaType="String" />
+		<result property="ROOMNAME"      column="roomname"      javaType="String" />
+		<result property="ROOMPRICE"     column="roomprice"     javaType="int" />
+		<result property="ROOMCODE"      column="roomcode"      javaType="String" />
+		<result property="RULENAME"      column="rule_name"     javaType="String" />
+		<result property="ROOMTYPE_NAME" column="roomtype_name" javaType="String" />
+		<result property="OPTIONNAME"    column="optionname"    javaType="String" />
+	</resultMap>
+	 
+	<select id="getSWOptionList" parameterType="HashMap" resultMap="dataResultMap">
+		select roomname, roommainimg, roomprice, roomtel, roomsigungu
+			 , basic_person, max_person, person_addpay, viewcount
+		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name
+		from room A JOIN roomoption B
+		on A.roomcode = B.fk_roomcode
+		JOIN options C
+		on B.fk_option_idx = c.option_idx
+		JOIN roomrule D
+		on A.roomcode = D.fk_roomcode
+		JOIN allrule E
+		on D.fk_rule_idx = E.rule_idx
+		JOIN roomtype F
+		on A.fk_roomtype_idx = F.roomtype_idx
+		where 1 = 1
+		<if test="RULENAME != ''">	
+			and rule_name in #{RULENAME}
+		</if>
+		<if test="ROOMTYPE_NAME != ''">	
+			and roomtype_name in #{ROOMTYPE_NAME}	
+		</if>
+		<if test="OPTIONNAME != ''">	
+			and optionname in #{OPTIONNAME}	
+		</if>
 	</select>
-
+	
+	
+ 
 </mapper>

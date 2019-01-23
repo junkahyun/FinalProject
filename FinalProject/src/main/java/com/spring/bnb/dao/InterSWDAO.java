@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.spring.bnb.model.ReservationVO;
@@ -20,6 +21,8 @@ public interface InterSWDAO {
 	List<RoomVO> getRoomList();  // 숙소 리스트보기
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황 보기
+
+	List<HashMap<String, String>> getSWOptionList(HashMap<String, String> paraMap);  // 옵션 정보 받아오기
 
 	
 }
