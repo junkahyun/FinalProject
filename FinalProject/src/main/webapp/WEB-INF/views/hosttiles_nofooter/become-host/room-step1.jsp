@@ -42,14 +42,14 @@
 						<h2 style="font-weight: normal;">숙소 등록을 시작해보세요.</h2>
 					</div>
 					<div class="col-md-11" id="text" style="border: 0px solid red;">
-						숙소의 유형, 침대 ,편의 시설등을 설정하겠습니다.
+						숙소의 유형, 침대 ,편의시설 등을 설정하겠습니다.
 					</div>
 				</div>
 				
 				<div class="row" style="border-bottom: 1px solid #D8D8D8; padding-bottom: 25px; margin-bottom: 25px;"> 
 					<div class="col-md-8" style="font-weight: bold; color: gray; border: 0px solid red;">1단계</div>
 					<div class="col-md-11" id="stap" style="border: 0px solid red; margin-top: 20px;">
-						침대, 욕실, 편의시설 등
+						침대, 욕실, 편의시설, 이용규칙 등
 					</div>  
 					<div class="col-md-8" align="left" style="margin-top: 3%;">
 						<button type="button" onclick="start();" class="form-control" style="width: 60px; height: 33px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold;">계속</button>
@@ -80,7 +80,7 @@
 				
 			</div>
 			<div class="col-md-4">
-				<img src="<%=request.getContextPath() %>/resources/boimg/roomenrollment.PNG" />
+				<img src="<%=request.getContextPath() %>/resources/images/boimg/roomenrollment.PNG" />
 			</div>
 		
 		</div>

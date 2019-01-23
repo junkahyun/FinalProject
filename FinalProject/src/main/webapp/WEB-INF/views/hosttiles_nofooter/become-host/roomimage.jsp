@@ -115,10 +115,8 @@
 
 <script type="text/javascript">
             $(document).ready(function(){  
-            	var index = 0;
-            	
             	var objDragAndDrop = $(".dragAndDropDiv");
-            	
+            	var index = 0;
             	$("#delete").hide(); // 삭제버튼 숨기기
             	
             	objDragAndDrop
@@ -160,6 +158,14 @@
             	    dragOver(e); //1
             	    e.dataTransfer = e.originalEvent.dataTransfer; //2
             	    var files = e.target.files || e.dataTransfer.files;
+            	    
+            	    var reader = new FileReader();
+                    reader.onload = function (e) {
+                    	for(var i=0;i<files.length;i++){
+             	    	   console.log(e.target.result);
+                   	   }	
+                    }
+            	    
             	 
             	    if (files.length > 1) {
             	        return;
@@ -188,10 +194,13 @@
             	    
             	    $("#delete").show(); // 삭제버튼 보이기
             	    
-            	/*     for (var i = 0; i < files.length; i++){
-	            	    $("#roomMainImg").val(files[i].name); // 이미지명 넣기
-	            	    $("#attach").val(files[i]); 
-            	    } */
+            	  /*    for (var i = 0; i < files.length; i++){
+	            	    //$("#roomMainImg").val(files[i].name); // 이미지명 넣기
+	            	    $("#file").val(files[i]);
+	            	    alert(files[i]);
+	            	    
+	            	    
+            	    }  */
             	    
             	    
             	}
@@ -203,7 +212,7 @@
         	    	});
         	    	
         	    	$("#roomMainImg").val("");
-             	    $("#attach").val("");
+             	    $("#file").val("");
              	    
              	    $(".filename").remove();
              	    $(".statusbar").remove();
@@ -218,7 +227,7 @@
             $(document).on('dragover', function (e){
                e.stopPropagation();
                e.preventDefault();
-               objDragAndDrop.css('border', '2px dashed #92AAB0');
+               $(".dragAndDropDiv").css('border', '2px dashed #92AAB0');
 			                
            });
                        
@@ -329,8 +338,6 @@
                   
                     status.setAbort(jqXHR);
                 }
-                
-                index++;
            /////////
                       
            
@@ -366,7 +373,7 @@
 	        		 <button id="delete" type="button" style="width: 50px; height: 30px; font-size:15px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; float: top;">삭제</button>	        	
 	        		 </br>Drag & Drop Files Here
 	        		 <INPUT type="hidden" id="roomMainImg" name="roomMainImg"/>
-	        		 <INPUT type="file" id="attach" name="attach" style="display:none;"/>
+	        		 <INPUT type="file" id="file" name="file" style="display:none;"/>
         		 </div>
         	</div>
         </div>
