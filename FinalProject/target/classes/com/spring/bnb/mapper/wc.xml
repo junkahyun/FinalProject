@@ -23,8 +23,7 @@
 		    rownum
 		)V
 		where RNO between 1 and 7
-	</select>
-	
+	</select> 
 	<resultMap type="HashMap" id="reviewList">
 		<result property="FK_USERID" column="FK_USERID" 		  	  javaType="String" />
 		<result property="REVIEW_CONTENT" column="REVIEW_CONTENT" 	  javaType="String" />
@@ -62,13 +61,25 @@
 		on A.fk_userid = B.userid
 		where A.ROOMSTATUS = 1
 	</select>
-	
+	<select id="toPermitLodgingList" resultMap="allRoomList">
+		select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
+		from room A JOIN member B
+		on A.fk_userid = B.userid
+		where A.ROOMSTATUS = 99
+	</select>
 	<select id="getLodgingTotalCountWithSearch" parameterType="HashMap" resultType="int">
 		select count(*)
 		from room
 		where roomstatus = 1
 		and ${COLNAME} like '%'|| #{SEARCH} ||'%' 
 	</select>
+	<select id="getLodgingTotalCountWithSearchBeforePermission">
+		select count(*)
+		from room
+		where roomstatus = 99
+		and ${COLNAME} like '%'|| #{SEARCH} ||'%' 
+	</select>
+	
 	<select id="getLodgingTotalCountNoSearch" resultType="int">
 		select count(*)
 		from room
@@ -83,7 +94,7 @@
 			    select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROOMSTATUS
 			    from room A JOIN member B
 			    on A.fk_userid = B.userid
-			    where 1 = 1
+			    where ROOMSTATUS in (0,1)
 			    <if test='SEARCH != null and SEARCH != "" and SEARCH != "null" and !COLNAME.equalsIgnoreCase("LOCATION") '>
 			    and ${COLNAME} like '%'||#{SEARCH}||'%'
 			    </if>
@@ -105,4 +116,5 @@
 		update room set roomstatus = 1
 		where roomcode = #{_parameter}
 	</update> 
+	
 </mapper>

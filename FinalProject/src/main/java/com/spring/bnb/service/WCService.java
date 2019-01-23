@@ -61,4 +61,18 @@ public class WCService implements InterWCService {
 	public int continueRoomByRoomcode(String roomcode) {		
 		return dao.continueRoomByRoomcode(roomcode);
 	}
+
+	@Override
+	public int getLodgingTotalCountWithSearchBeforePermission(HashMap<String, String> paraMap) {
+		return dao.getLodgingTotalCountWithSearchBeforePermission(paraMap);
+	}
+
+	@Override
+	public List<RoomVO> toPermitLodgingList() {
+		
+		return dao.toPermitLodgingList();
+	}
+
+	
+	
 }

@@ -10,6 +10,7 @@
 	table#lodgingManage thead tr th,
 	table#lodgingManage tbody tr td{
 		vertical-align: middle;
+		text-align:center;
 	}
 </style>
 <script type="text/javascript">
@@ -24,7 +25,7 @@
 		frm.submit();
 	}
 	function searchKeep(){
-		if(${search != null && search != "" && search != "null"}) { 
+		if(${search != null && search != "" && search != "null"}) {  
 			$("#colname").val("${colname}");
 			$("#search").val("${search}");
 		}
@@ -78,13 +79,14 @@
 		<div class="row">		
 			<div class="col-md-12">
 			<table id="lodgingManage" class="table"> 
+					<col width="5%;"/>
 					<col width="10%;"/>
-					<col width="15%;"/>
 					<col width="8%;"/>
-					<col width="12%"/>
+					<col width="14%"/>
 					<col width="10%"/>
 					<col width="10%"/>
 					<col width="10%"/>
+					<col width="8%"/>
 					<col width="10%"/>
 				  <thead>
 				    <tr>
@@ -94,6 +96,7 @@
 				      <th>소재지</th>
 				      <th>숙소 보유자명</th>
 				      <th>숙소가격</th>
+				      <th>영업상태</th>
 				      <th>숙소관리</th>
 				    </tr>
 				  </thead>
@@ -109,14 +112,20 @@
 						      <td>${rvo.roomcode}</td>
 						      <td><img src="${rvo.roomMainImg}" width="60%"/></td>
 						      <td>${rvo.roomName}</td>
-						      <td>${rvo.roomSido}${rvo.roomSigungu}${rvo.roomBname}</td>
+						      <td>${rvo.roomSido}&nbsp;${rvo.roomSigungu}&nbsp;${rvo.roomBname}</td>
 						      <td>${rvo.host.username }</td>
 						      <td>￦<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></td>
+						      <c:if test="${rvo.roomstatus == 1}">
+						  	  <td>정상영업중</td>
+						  	  </c:if>
+						  	  <c:if test="${rvo.roomstatus == 0 }">
+						  	  <td>영업정지</td>
+						      </c:if>
 						      <c:if test="${rvo.roomstatus == 1}">
 						  	  <td><button type="button" class="btn btn-danger" onClick="goSuspension(${rvo.roomcode})">영업정지</button></td>
 						  	  </c:if>
 						  	  <c:if test="${rvo.roomstatus == 0 }">
-						  	  <td><button type="button" class="btn btn-danger" onClick="goContinue(${rvo.roomcode})">영업활성화</button></td>
+						  	  <td><button type="button" class="btn btn-success" onClick="goContinue(${rvo.roomcode})">영업활성화</button></td>
 						      </c:if>
 					    </tr> 
 				  	</c:forEach> 

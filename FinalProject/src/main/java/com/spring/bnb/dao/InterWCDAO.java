@@ -24,5 +24,10 @@ public interface InterWCDAO {
 
 	int continueRoomByRoomcode(String roomcode);
 
+	int getLodgingTotalCountWithSearchBeforePermission(HashMap<String, String> paraMap);
+
+	List<RoomVO> toPermitLodgingList();
+
+
 }
  
