@@ -116,9 +116,8 @@ from(
     on A.roomcode = B.fk_roomcode
     join member C
     on B.fk_userid = C.userid 
-    group by roomcode, (roomcode), roomcode, roomcode, roomcode, 
-    roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
-    rownum
+    group by roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
+    rownum, (roomcode)
 )V
 where RNO between 1 and 7;
 
@@ -215,21 +214,27 @@ select roommainimg, roomname, roomsido, roomsigungu, roombname, username, roompr
 from room A JOIN member B
 on A.fk_userid = B.userid;
 
-
- select sid
- from V$SESSION;
- 
-select a.sid, a.serial# from v$session a, v$lock b, dba_objects c 
-where a.sid=b.sid and b.id1=c.object_id and b.type='TM' and c.object_name='roomrule'; 
+desc room;
 
 select *
-from DBA_OBJECTS;
+from room;
+
+
+select *
+from member;
 
 
 
-
-
-
+select ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, RNO
+from(
+    select ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROWNUM AS RNO
+    from room A JOIN member B
+    on A.fk_userid = B.userid
+    where A.ROOMSTATUS = 1
+    and (ROOMSIDO like '%수원%' or ROOMSIGUNGU like '%수원%' or ROOMBNAME like '%수원%')
+    and USERNAME like '%홍길동%'
+) 
+where RNO between 1 and 10
 
 
 

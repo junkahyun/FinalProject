@@ -19,8 +19,7 @@
 		    on A.roomcode = B.fk_roomcode
 		    join member C
 		    on B.fk_userid = C.userid 
-		    group by roomcode, (roomcode), roomcode, roomcode, roomcode, 
-		    roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
+		    group by roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
 		    rownum
 		)V
 		where RNO between 1 and 7
@@ -47,6 +46,7 @@
 	</select> 
 	
 	<resultMap type="HashMap" id="allRoomList">
+		<result property="ROOMCODE"	   column="ROOMCODE"    javaType="String" />
 		<result property="ROOMMAINIMG" column="ROOMMAINIMG" javaType="String" />
 		<result property="ROOMNAME"    column="ROOMNAME"    javaType="String" />
 		<result property="ROOMSIDO"    column="ROOMSIDO"    javaType="String" />
@@ -56,10 +56,43 @@
 		<result property="ROOMPRICE"   column="ROOMPRICE"   javaType="String" />
 	</resultMap>
 	<select id="getWCAllRoomList" resultMap="allRoomList">
-		select ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
+		select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
 		from room A JOIN member B
 		on A.fk_userid = B.userid
 		where A.ROOMSTATUS = 1
+	</select>
+	
+	<select id="getLodgingTotalCountWithSearch" parameterType="HashMap" resultType="int">
+		select count(*)
+		from room
+		where roomstatus = 1
+		and ${COLNAME} like '%'|| #{SEARCH} ||'%' 
+	</select>
+	<select id="getLodgingTotalCountNoSearch" resultType="int">
+		select count(*)
+		from room
+		where roomstatus = 1 
+	</select> 
+	
+	<select id="lodgingListPaging" parameterType="HashMap" resultMap="allRoomList">
+		select ROOMCODE,ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, RNO
+		from(
+			select ROOMCODE,ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROWNUM AS RNO
+			from(
+			    select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
+			    from room A JOIN member B
+			    on A.fk_userid = B.userid
+			    where A.ROOMSTATUS = 1
+			    <if test='SEARCH != null and SEARCH != "" and SEARCH != "null" and !COLNAME.equalsIgnoreCase("LOCATION") '>
+			    and ${COLNAME} like '%'||#{SEARCH}||'%'
+			    </if>
+			    <if test='SEARCH != null and SEARCH != "" and SEARCH != "null" and COLNAME.equalsIgnoreCase("LOCATION") '>
+			    and (ROOMSIDO like '%'||#{SEARCH}||'%' or ROOMSIGUNGU like '%'||#{SEARCH}||'%' or ROOMBNAME like '%'||#{SEARCH}||'%')
+			    </if>
+			    order by ROOMCODE desc
+			)
+		) 
+		where RNO between #{STARTRNO} and #{ENDRNO} 
 	</select>
 	
 </mapper>

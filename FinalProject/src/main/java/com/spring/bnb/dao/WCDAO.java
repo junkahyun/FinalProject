@@ -111,5 +111,52 @@ public class WCDAO implements InterWCDAO {
 		 
 		return roomList;
 	}
+
+	
+	@Override
+	public int getLodgingTotalCountWithSearch(HashMap<String, String> paraMap) {
+		
+		return sqlsession.selectOne("wc.getLodgingTotalCountWithSearch", paraMap);
+	}
+
+	@Override
+	public int getLodgingTotalCountNoSearch() {
+		
+		return sqlsession.selectOne("wc.getLodgingTotalCountNoSearch");
+	}
+
+	@Override
+	public List<RoomVO> lodgingListPaging(HashMap<String, String> paraMap) {
+		List<RoomVO> roomList = new ArrayList<RoomVO>();
+		List<HashMap<String,String>> rList = sqlsession.selectList("wc.lodgingListPaging", paraMap);
+		
+		for(HashMap<String,String> map : rList) {
+			String roomcode = map.get("ROOMCODE");
+			String roomMainImg = map.get("ROOMMAINIMG");
+			String roomName = map.get("ROOMNAME");
+			String roomSido = map.get("ROOMSIDO");
+			String roomSigungu = map.get("ROOMSIGUNGU");
+			String roomBname = map.get("ROOMBNAME");
+			String username = map.get("USERNAME");
+			String roomPrice = map.get("ROOMPRICE");
+			
+			RoomVO rvo = new RoomVO();
+			MemberVO mvo = new MemberVO();
+			mvo.setUsername(username);
+			
+			rvo.setRoomcode(roomcode);
+			rvo.setRoomMainImg(roomMainImg);
+			rvo.setRoomName(roomName);
+			rvo.setRoomSido(roomSido);
+			rvo.setRoomSigungu(roomSigungu);
+			rvo.setRoomBname(roomBname);
+			rvo.setRoomPrice(roomPrice);
+			rvo.setHost(mvo);
+			
+			roomList.add(rvo);
+		}
+		
+		return roomList;
+	}
 }
  

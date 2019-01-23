@@ -1,5 +1,6 @@
 package com.spring.bnb.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,23 @@ public class WCService implements InterWCService {
 	public List<RoomVO> getAllRoomList() {
 		
 		return dao.getAllRoomList();
+	}
+
+	@Override
+	public int getLodgingTotalCountWithSearch(HashMap<String, String> paraMap) {
+		
+		return dao.getLodgingTotalCountWithSearch(paraMap);
+	}
+
+	@Override
+	public int getLodgingTotalCountNoSearch() {
+		
+		return dao.getLodgingTotalCountNoSearch();
+	}
+
+	@Override
+	public List<RoomVO> lodgingListPaging(HashMap<String, String> paraMap) {
+		
+		return dao.lodgingListPaging(paraMap);
 	}
 }
