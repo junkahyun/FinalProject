@@ -155,6 +155,7 @@ div {
 	});
 	
 	var imgArr = []; // 이미지를 담을 배열 
+	
 	function ImgsFilesSelect(e) {
 		imgArr = [];
 		 
@@ -192,10 +193,22 @@ div {
 		window.location.reload();
 	}
 	
+
 	function submitPhoto() {
-		var form_data = new FormData($("#fileUpimg"));
 		
-		$.ajax({
+		/* document.fileUpimg.imgfile.value = imgArr; */
+		
+		var form_data = new FormData(document.fileUpimg);
+		
+		var roomcode = document.getElementById("roomcode").value;
+		
+		form_data.append("roomcode", roomcode);
+		
+		/* for(var i=0; i<imgArr.length; i++){
+			form_data.append("imgfile", imgArr[i]);
+		} */
+		
+		$('#myForm').ajaxForm({
 			url:"imgfileupload.air",
 			type:"POST",
 			data: form_data,
@@ -233,16 +246,15 @@ div {
 </div>
 
 <form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
-	<input type="hidden" name="roomcode" value="${roomvo.roomcode }">
+	<input id="roomcode" type="text" name="roomcode" value="${roomvo.roomcode}">
 	<div class="col-md-12 photodiv">
 		<hr align="left">
 		<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 			<div id="imgList" class="row">
-			
 			</div>
 			<div id="imgfiles"  class="filebox">  
 				<label for="imgfile">사진 추가하기</label> 
-				<input type="file" id="imgfile" name="attach" accept="image/*" multiple/>	
+				<input type="file" id="imgfile" name="imgfile" accept="image/*" multiple/>
 			</div>
 			<hr align="left">
 			<div class="row" style="margin-top: 2%; margin-bottom: 2%;">

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -57,7 +58,7 @@ public class SCController {
 	public String hostRoomEdit(HttpServletRequest req) {
 		List<RoomVO> roomList = null;
 		String roomcode = req.getParameter("roomcode");
-		System.out.println("roomcode1 : " + roomcode);
+		//System.out.println("roomcode1 : " + roomcode);
 
 		/*
 		 * HttpSession session = req.getSession(); MemberVO loginuser =
@@ -89,31 +90,51 @@ public class SCController {
 	public String hrPhotoEdit(HttpServletRequest req) {
 
 		String roomcode = req.getParameter("roomcode");
-		System.out.println("roomcode2 : " + roomcode);
+	//	System.out.println("roomcode2 : " + roomcode);
 		RoomVO roomvo = (RoomVO) service.getRoomInfo(roomcode);
 		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 
 	@RequestMapping(value = "/imgfileupload.air", method = { RequestMethod.POST })
-	public String imgfileupload(MultipartHttpServletRequest req) {
-		
+	public String imgfileupload(MultipartHttpServletRequest req, @RequestParam("imgfile") MultipartFile[] multipartFile) {
+		String roomcode = req.getParameter("roomcode");
+		System.out.println("roomcode3 : "+roomcode);
+		System.out.println(multipartFile.length);
+		for(MultipartFile multi :multipartFile) {
+			System.out.println("check"+multi.getOriginalFilename());
+			System.out.println("End");
+		}
+
 		// 저장 경로 설정
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
 		String path = root + "resources" + File.separator + "files";
-
+		//System.out.println(path);
 		File dir = new File(path);
 		if (!dir.isDirectory()) {
 			dir.mkdir();
 		}
+		/*
+		 * for(int i=0; i<imgArr.size(); i++) {
+		 * System.out.println(imgArr.get(i).getOriginalFilename()); String uploadFile =
+		 * imgArr.get(i).getOriginalFilename(); MultipartFile mFile =
+		 * req.getFile(uploadFile); String fileName =mFile.getOriginalFilename();
+		 * System.out.println("실제 파일 이름 : " +fileName);
+		 * 
+		 * try { mFile.transferTo(new File(dir+fileName)); } catch
+		 * (IllegalStateException | IOException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 * 
+		 * }
+		 */
 		
-		
+		/*
 		Iterator<String> files = req.getFileNames();
-		System.out.println("Iterator<String> files: "+files);
+		// System.out.println("Iterator<String> files: "+files); --> 객체 이름 나옴
 		while(files.hasNext()){
 			String uploadFile = files.next(); 
-			System.out.println(uploadFile);
+			// System.out.println(uploadFile); -- > [object HTMLInputElement]
 			MultipartFile mFile = req.getFile(uploadFile); 
 			String fileName =mFile.getOriginalFilename(); 
 			System.out.println("실제 파일 이름 : " +fileName); 
@@ -122,7 +143,7 @@ public class SCController {
 			} catch (Exception e) {
 				e.printStackTrace(); 
 			} 
-		}
+		}*/
 
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
