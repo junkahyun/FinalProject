@@ -34,6 +34,7 @@
 	 var rulenameArr = new Array();	      
      var optionnameArr = new Array();
      var roomtypenameArr = new Array();
+     var roomcodeArr = new Array();
      
 	 $(".option").click(function(){
 		 var thisText = $(this).text()
@@ -80,14 +81,15 @@
 	    		optionnameArr.push($(this).text());
 	    	}
 	      }   
-	           
+	       
 	      //alert("rulenameArr : " + rulenameArr);
 	      //alert("roomtypenameArr : " + roomtypenameArr);
 	      //alert("optionnameArr : " + optionnameArr);
 	      
 	      jQuery.ajaxSettings.traditional = true;
-	      
-	      alert(typeof rulenameArr);
+	      /* ,
+ 		   "roomcode" : roomcodeArr */
+	//    alert(typeof rulenameArr);
 	      var form_data = {"rulename" : rulenameArr,
 	    		  		   "roomtype_name" : roomtypenameArr,
 	    		  		   "optionname" : optionnameArr
@@ -453,11 +455,10 @@
                        	 	<input type="text" name="rulename" value="${rule.RULE_NAME}" />
                         </c:forEach>                         
                         <input type="text" name="roomtype_name" value="${RList.roomType_name }" />
-                        <input type="text" name="roomcode" value="${RList.roomcode }" />
+                        <input type="text" id="roomcode${status.index }" class="roomcode" name="roomcode" value="${RList.roomcode }" />
                     </div>
                     <div>
-                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
-                        <input type="text" name="roomcode" value="${RList.roomcode }" />
+                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                       
                     </div>                
                 </div>
             </c:forEach>

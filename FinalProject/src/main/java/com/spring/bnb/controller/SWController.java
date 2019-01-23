@@ -133,14 +133,11 @@ public class SWController {
 		if(optionname == null) {
 			optionname = new String[]{""};
 		}
+		
 		String rulenameStr = Arrays.toString(rulename);
 		String roomtype_nameStr = Arrays.toString(roomtype_name);
 		String optionnameStr = Arrays.toString(optionname);
-
 		
-		System.out.println("rulenameStr : " + rulenameStr);
-		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
-		System.out.println("optionnameStr : " + optionnameStr);
 		
 		rulenameStr = rulenameStr.replace("[", "{");
 		rulenameStr = rulenameStr.replace("]", "}");
@@ -148,23 +145,27 @@ public class SWController {
 		roomtype_nameStr = roomtype_nameStr.replace("]", "}");
 		optionnameStr = optionnameStr.replace("[", "{");
 		optionnameStr = optionnameStr.replace("]", "}");
-		
-		
+			
 		System.out.println("rulenameStr : " + rulenameStr);
 		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
 		System.out.println("optionnameStr : " + optionnameStr);
 		
 		JSONArray jsonArr = new JSONArray();  		
-		HashMap<String,String> paraMap =  new HashMap<String,String>();
-		paraMap.put("RULENAME", rulenameStr);
-		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
-		paraMap.put("OPTIONNAME", optionnameStr);
+		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
+		paraMap.put("RULENAME", rulename);
+		paraMap.put("ROOMTYPE_NAME", roomtype_name);
+		paraMap.put("OPTIONNAME", optionname);
 		
+		/*paraMap.put("RULENAME", rulenameStr);
+		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
+		paraMap.put("OPTIONNAME", optionnameStr);*/
+	
 		System.out.println(paraMap);
 		
-		List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);
-		
-		for(HashMap<String, String> test : optionList) {
+		/*List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);*/
+		List<RoomVO> optionList = service.getSWOptionList(paraMap);
+		System.out.println(optionList);
+		for(RoomVO test : optionList) {
 			
 			JSONObject jsonObj = new JSONObject();
 			

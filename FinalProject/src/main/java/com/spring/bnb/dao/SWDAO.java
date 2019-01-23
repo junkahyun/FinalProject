@@ -78,23 +78,42 @@ public class SWDAO implements InterSWDAO {
 		
 		return reservationList;
 	}
-
+/*
 	@Override
 	public List<HashMap<String, String>> getSWOptionList(HashMap<String, String> paraMap) {
 
-		List<HashMap<String, String>> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
+		//List<HashMap<String, String>> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
 		List<String> selectRoomList = sqlsession.selectList("sw.getSWOptionList", paraMap);
 		List<RoomVO> roomList = new ArrayList<RoomVO>();
-		/*for(String str:selectRoomList) {
-			RoomVO room = sqlsession.selectList("sw.getRoomByRoomcode",str);
+		for(String str:selectRoomList) {
+			RoomVO room = (RoomVO) sqlsession.selectList("sw.getRoomByRoomcode",str);
 			roomList.add(room);
-		}*/
-		return optionList;
+		}
+		return roomList;
+	}*/
+
+	@Override
+	public List<RoomVO> getSWOptionList(HashMap<String, String[]> paraMap) {
+		List<RoomVO> resultList = new ArrayList<RoomVO>();
+		
+		// 해당 조건을 갖춘 숙소의 ROOMCODE 리스트 받아오기
+		List<RoomVO> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
+		
+		for(RoomVO room : optionList) { // roomcode들을 반복
+			room = sqlsession.selectOne("sw.getHomeList", room.getRoomcode());
+			
+			List<HashMap<String,String>> option = sqlsession.selectList("sw.getRoomOptionList",room.getRoomcode());
+			room.setOptionList(option);
+			List<HashMap<String,String>> ruleList = sqlsession.selectList("sw.getRuleList",room.getRoomcode());
+			room.setRuleList(ruleList);
+			
+			resultList.add(room);
+		}		
+		 
+		return resultList;
 	}
 
-
 	
-
-	
-
 }
+	
+
