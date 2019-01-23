@@ -147,6 +147,12 @@ public class boboController {
 		return "become-host/room-step3-page.hosttiles_nofooter";
 	}
 	
+	@RequestMapping(value="/roomlaststep.air", method={RequestMethod.GET})
+	public String roomlaststep(HttpServletRequest req) {
+		
+		return "become-host/room-lastStep.hosttiles_nofooter";
+	}
+	
 	
 	
 	

@@ -74,7 +74,7 @@
 	
 	function next3(){
 		var frm = document.roomtitle; 
-		frm.action="roomstep3.air";
+		frm.action="roomlaststep.air";
 		frm.method="GET";
 		frm.submit();
 	}
