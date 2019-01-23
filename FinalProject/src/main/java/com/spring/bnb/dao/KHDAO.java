@@ -72,6 +72,13 @@ public class KHDAO implements InterKHDAO {
 		return reservation;
 	}
 	
+	// *** 예약자 정보 가져오기 *** //
+	@Override
+	public ReservationVO getOneReserve(HashMap<String, Object> map) {
+		ReservationVO rvo = sqlsession.selectOne("kh.getOneReserve", map);
+		return rvo;
+	}
+	
 	
 	
 }

@@ -124,6 +124,18 @@ h3{font-size: 14pt;
 			
 		});
 		
+		// *** 날짜 시간만 가져오기 ***//
+		var check1 = $("#checkin1").text();
+		$("#checkin1").text(check1.substring(11,13));
+		
+		var checkout1 = $("#checkout1").text();
+		$("#checkout1").text(checkout1.substring(11,13));
+		
+		var checkout2 = $("#checkout2").text();
+		$("#checkout2").text(checkout2.substring(11,13));
+		
+		//------------------------------------------------
+		
 		// 총금액 구하기
 		var stayday = $("#Price").text();cleanpay
 		var cleanpay = $("#cleanpay").text();
@@ -192,17 +204,17 @@ h3{font-size: 14pt;
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
 			<div class="chekdate">체크인:수요일 <br>
-			${oneRoom.checkInTime}시 이후</div>
+			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
 			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
 			<div class="chekdate">체크아웃:수요일 <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
-					${oneRoom.checkOutTime}시 까지
+					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
 				</c:if>
 				<c:if test="${oneRoom.checkOutTime == '00'}">
-				 	24:00시 까지 
+				 	<span id="checkout2">24:00</span>시 까지 
 				</c:if>
 			</div>
 		</div>
@@ -217,12 +229,17 @@ h3{font-size: 14pt;
 		<br><br>
 		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>
 		<!-- 주의할사항 이미지 -->
-		<c:forEach var="oneRoom" items="${oneRoom.optionList}">
-			<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${oneRoom.OPTIONICON}" /></i>
-			<span style="margin-left: 2%; font-size: 12pt;">${oneRoom.OPTIONNAME} 있음.</span><br>
-			<br>
-		</c:forEach>
+		<c:if test="${(oneRoom.optionList).size() < 0}">
+			편의시설 없음
+		</c:if>
 		
+		<c:if test="${(oneRoom.optionList).size() > 0}">
+			<c:forEach var="oneRoom" items="${oneRoom.optionList}">
+				<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${oneRoom.OPTIONICON}" /></i>
+				<span style="margin-left: 2%; font-size: 12pt;">${oneRoom.OPTIONNAME} 있음.</span><br>
+				<br>
+			</c:forEach>
+		</c:if>
 		<div class="pluscontext plus">더보기 <i class="fas fa-chevron-down" ></i></div>
 		<!-- 추가규칙  -->
 		<div id="plusRole" style="-webkit-font-smoothing: antialiased;">
