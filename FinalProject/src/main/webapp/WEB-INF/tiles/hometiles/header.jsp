@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function(){
 		$(".passIcon").addClass("passIconHide");
@@ -156,11 +158,11 @@
        			}
        		});
        		if(checkCnt==0){
-       			var form_data = $("#joinFrm").serialize()
-       			$.ajax({
+       			//var form_data = $("input[name=joinFrm]").serialize();
+       			$("#joinFrm").ajaxForm({
        				url:"joinEnd.air",
        				type:"POST",
-       				data:form_data,
+       				//data:form_data, 
        				dataType:"JSON",
        				success:function(json){
        					var n = json.n;
@@ -172,7 +174,12 @@
        				error: function(request, status, error){
                         alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
                     }
-       			});
+       			})
+       			$("#joinFrm").submit();
+       			/* var frm = document.joinFrm;
+       			frm.method="POST";
+       			frm.action="joinEnd.air";
+       			frm.submit(); */
        		}
        	});
     }); // end of $(document).ready()-------------------
@@ -355,7 +362,7 @@
 			        	<img id="profilePreview" style="width:100%;"/>
 			        </div>
 			        <div style="position:absolute; top:16%;left:30%;">
-			         	<input type="file" id="imgInput" name="profileimg" style="display:none;position:absolute;height:30px;z-index:2;width:150px;margin-left:28%;">
+			         	<input type="file" id="imgInput" name="file" style="display:none;position:absolute;height:30px;z-index:2;width:150px;margin-left:28%;">
 				        <button id="fileInputBtn" type="button" style="width:150px; height:30px;background-color:lightgray;border:none;font-weight:bold;color:white;border-radius:3px;margin-left:30%;">프로필 이미지 선택</button>
 			        </div>
 			        <div style="padding:0;">
@@ -376,7 +383,7 @@
 				        	<input name="pwd" id="pwd" placeholder="비밀번호" class="col-md-6 input-data form-control registInput" type="password" style="width: 100%;padding-left: 30%;"/>
 				        </div>
 				        <div class="col-md-5" style="padding:0;margin-left: 2%;">
-				        	<input name="pwdcheck" id="pwdcheck" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="password" style="width: 92%;"/>
+				        	<input id="pwdcheck" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="password" style="width: 92%;"/>
 			        	</div>
 			        	<div class="col-md-11 error" style="color:red;"></div>
 			        </div>
