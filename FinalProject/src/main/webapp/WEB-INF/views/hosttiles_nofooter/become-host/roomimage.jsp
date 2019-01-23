@@ -53,7 +53,9 @@
              display: table-cell;
              border-radius: 5px;
          }
-         .progressBar {
+         
+         
+    .progressBar {
              width: 200px;
              height: 22px;
              border: 1px solid #ddd;
@@ -106,15 +108,18 @@
              cursor:pointer;
              vertical-align:top
          }
-         
-}
+       
+
 
 </style>
 
 <script type="text/javascript">
-            $(document).ready(function(){
+            $(document).ready(function(){  
+            	var objDragAndDrop = $(".dragAndDropDiv");
+            	var index = 0;
+            	$("#delete").hide(); // 삭제버튼 숨기기
             	
-            	$('.dragAndDropDiv')
+            	objDragAndDrop
             	  .on("dragover", dragOver)
             	  .on("dragleave", dragOver)
             	  .on("drop", uploadFiles);
@@ -151,12 +156,18 @@
             	    e.stopPropagation();
             	    e.preventDefault();
             	    dragOver(e); //1
-            	 
             	    e.dataTransfer = e.originalEvent.dataTransfer; //2
             	    var files = e.target.files || e.dataTransfer.files;
+            	    
+            	    var reader = new FileReader();
+                    reader.onload = function (e) {
+                    	for(var i=0;i<files.length;i++){
+             	    	   console.log(e.target.result);
+                   	   }	
+                    }
+            	    
             	 
             	    if (files.length > 1) {
-            	        alert('하나만 올려라.');
             	        return;
             	    }
             	    
@@ -179,19 +190,44 @@
             	      return;
             	    }
             	    
-            	    $("#imgorgFilename").val(files[0].name);
-            	    $("#imgfileSize").val(files[0].size);
-            	    $("#attach").val(files);
+            	    handleFileUpload(files,objDragAndDrop);
+            	    
+            	    $("#delete").show(); // 삭제버튼 보이기
+            	    
+            	  /*    for (var i = 0; i < files.length; i++){
+	            	    //$("#roomMainImg").val(files[i].name); // 이미지명 넣기
+	            	    $("#file").val(files[i]);
+	            	    alert(files[i]);
+	            	    
+	            	    
+            	    }  */
+            	    
+            	    
             	}
             	
-            	
-            });
+            	// 삭제버튼
+        	    $("#delete").click(function(){
+        	    	$(".dragAndDropDiv").css({
+        	    		"background-image": "url()"
+        	    	});
+        	    	
+        	    	$("#roomMainImg").val("");
+             	    $("#file").val("");
+             	    
+             	    $(".filename").remove();
+             	    $(".statusbar").remove();
+             	    $(".filesize").remove();
+             	    $(".abort").remove();
+        	    });
+
+            	        	
+            });// end ready --- 
             
          	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때)
             $(document).on('dragover', function (e){
                e.stopPropagation();
                e.preventDefault();
-               objDragAndDrop.css('border', '2px dashed #92AAB0');
+               $(".dragAndDropDiv").css('border', '2px dashed #92AAB0');
 			                
            });
                        
@@ -203,12 +239,108 @@
                
            }); 
            
-           function imageadd() { 
-				$
-			}
-
-
-            
+           ////////
+           function handleFileUpload(files,obj)
+                {
+                   for (var i = 0; i < files.length; i++) 
+                   {
+                        var fd = new FormData();
+                        fd.append('file', files[i]);
+                  
+                        var status = new createStatusbar(obj); //Using this we can set progress.
+                        status.setFileNameSize(files[i].name,files[i].size);
+                        sendFileToServer(fd,status);                        
+                  
+                   }
+                }
+                 
+                var rowCount=0;
+                function createStatusbar(obj){
+                         
+                    rowCount++;
+                    var row="odd";
+                    if(rowCount %2 ==0) row ="even";
+                    this.statusbar = $("<div class='statusbar "+row+"'></div>");
+                    this.filename = $("<div class='filename'></div>").appendTo(this.statusbar);
+                    this.size = $("<div class='filesize'></div>").appendTo(this.statusbar);
+                    this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
+                    this.abort = $("<div class='abort'>중지</div>").appendTo(this.statusbar);
+                    
+                    
+                    obj.after(this.statusbar);
+                  
+                    this.setFileNameSize = function(name,size){
+                        var sizeStr="";
+                        var sizeKB = size/1024;
+                        if(parseInt(sizeKB) > 1024){
+                            var sizeMB = sizeKB/1024;
+                            sizeStr = sizeMB.toFixed(2)+" MB";
+                        }else{
+                            sizeStr = sizeKB.toFixed(2)+" KB";
+                        }
+                  
+                        this.filename.html(name);
+                        this.size.html(sizeStr);
+                    }
+                     
+                    this.setProgress = function(progress){       
+                        var progressBarWidth =progress*this.progressBar.width()/ 100;  
+                        this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+                        if(parseInt(progress) >= 100)
+                        {
+                            this.abort.hide();
+                        }
+                    }
+                     
+                    this.setAbort = function(jqxhr){
+                        var sb = this.statusbar;
+                        this.abort.click(function()
+                        {
+                            jqxhr.abort();
+                            sb.hide();
+                        });
+                    }
+                }
+                 
+                function sendFileToServer(formData,status)
+                {
+                    var uploadURL = "/fileUpload/post"; //Upload URL
+                    var extraData ={}; //Extra Data.
+                    var jqXHR=$.ajax({
+                            xhr: function() {
+                            var xhrobj = $.ajaxSettings.xhr();
+                            if (xhrobj.upload) {
+                                    xhrobj.upload.addEventListener('progress', function(event) {
+                                        var percent = 0;
+                                        var position = event.loaded || event.position;
+                                        var total = event.total;
+                                        if (event.lengthComputable) {
+                                            percent = Math.ceil(position / total * 100);
+                                        }
+                                        //Set progress
+                                        status.setProgress(percent);
+                                    }, false);
+                                }
+                            return xhrobj;
+                        },
+                        url: uploadURL,
+                        type: "POST",
+                        contentType:false,
+                        processData: false,
+                        cache: false,
+                        data: formData,
+                        success: function(data){
+                            status.setProgress(100);
+                  
+                            //$("#status1").append("File upload Done<br>");           
+                        }
+                    }); 
+                  
+                    status.setAbort(jqXHR);
+                }
+           /////////
+                      
+           
             function next() {
             	var frm = document.image; 
         		frm.action="roomstep3.air";
@@ -217,6 +349,9 @@
 			}
 
 </script>
+
+
+
 
 <form name="image" enctype="multipart/form-data">
 <div>
@@ -234,14 +369,11 @@
         
         <div class="row" style="border: 0px solid red; margin-top: 20px;">
         	<div class="col-md-12" style="margin-bottom: 20px;">
-        		<!--  <div id="fileUpload" class="dragAndDropDiv">이미지 로드</br>Drag & Drop Files Here
-        		 </div> -->
-        		 <div class="dragAndDropDiv">
-        		 <button type="button" onclick="imageadd();" style="width: 180px; height: 48px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; align-items: center;">사진업로드</button>
-        		 </br>Drag & Drop Files Here
-        		 <INPUT type="hidden" id="imgorgFilename" name="imgorgFilename"/> 
-        		 <INPUT type="hidden" id="imgfileSize" name="imgfileSize"/> 
-        		 <INPUT type="file" id="attach" name="attach" style="display:none;"/>
+        		 <div class="dragAndDropDiv">	        		
+	        		 <button id="delete" type="button" style="width: 50px; height: 30px; font-size:15px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; float: top;">삭제</button>	        	
+	        		 </br>Drag & Drop Files Here
+	        		 <INPUT type="hidden" id="roomMainImg" name="roomMainImg"/>
+	        		 <INPUT type="file" id="file" name="file" style="display:none;"/>
         		 </div>
         	</div>
         </div>
