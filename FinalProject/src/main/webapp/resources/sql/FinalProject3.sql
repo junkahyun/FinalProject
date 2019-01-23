@@ -268,10 +268,18 @@ from roomtype
 
 select * from user_sequences
 
-create table roomrule
+drop table rules purge
+commit;
+
+drop sequence rule_idx_seq purge
+
+select *
+from allrule;
+
+create table allrule
 (rule_idx number not null
 ,rule_name varchar2(40) not null
-,rule_status number default 0 
+,rule_icon varchar2(300)
 );
 
 create sequence rule_idx_seq
@@ -282,14 +290,50 @@ nominvalue
 nocycle
 nocache; 
 
-insert into roomrule (rule_idx, rule_name, rule_status)
-values (rule_idx_seq.nextval, '흡연가능', default);
+create table roomrule
+(roomrule_idx number not null
+,fk_rule_idx number not null
+,rulestatus number(1) default 0
+,fk_roomcode varchar2(30) not null
+,constraints FK_roomrule_rule_idx foreign key(fk_rule_idx) references allrule(rule_idx)
+,constraints FK_roomrule_roomcode foreign key(fk_roomcode) references room(roomcode)
+);
 
-insert into roomrule (rule_idx, rule_name, rule_status)
-values (rule_idx_seq.nextval, '반려동물 입실가능', default);
+create sequence roomrule_idx_seq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache; 
 
-insert into roomrule (rule_idx, rule_name, rule_status)
-values (rule_idx_seq.nextval, '이벤트 및 행사가능', default);
+alter table allrule add constraints PK_ALLRULE_RULE_IDX primary key(rule_idx);
+commit;
+
+desc allrule;
+
+select *
+from roomoption;
+
+insert into roomrule (roomrule_idx, fk_rule_idx, rulestatus, fk_roomcode)
+values (roomrule_idx_seq.nextval, 1, default, 10);
+
+insert into roomrule (roomrule_idx, fk_rule_idx, rulestatus, fk_roomcode)
+values (roomrule_idx_seq.nextval, 3, default, 10);
+
+commit;
+
+select *
+from roomrule
+
+insert into allrule (rule_idx, rule_name, rule_icon)
+values (rule_idx_seq.nextval, '흡연가능', null);
+
+insert into allrule (rule_idx, rule_name, rule_icon)
+values (rule_idx_seq.nextval, '반려동물 입실가능', null);
+
+insert into allrule (rule_idx, rule_name, rule_icon)
+values (rule_idx_seq.nextval, '이벤트 및 행사가능', null);
 
 commit;
 
@@ -300,7 +344,7 @@ values('leess',default,'이순신','qwer1234$','final.leess@gmail.com','01073132
 insert into member(userid,profileimg,username,pwd,email ,phone ,post  ,addr,Detailddr,gender ,birthday,introduction,MemberStatus,warnCount,regDate)
 values('hongkd',default,'홍길동','qwer1234$','final.leess@gmail.com','01040829302',04540,'서울특별시 중구 남대문로','120 대일빌딩',2,'92/02/14','홍길동 계정입니다. 호스트 계정입니다. 테스트 계정입니다.',1,0,default);
 
-select rule_name
+select *
 from roomrule
 
 select buildtype_detail_name
@@ -350,7 +394,7 @@ alter table reservation modify(rsv_phone varchar2(200));
 
 commit;
 
-select * from room
+select * from roomrule
 
 insert into room(ROOMCODE,FK_USERID,fk_buildType_detail_idx,FK_ROOMTYPE_IDX,ROOMNAME,ROOMMAINIMG,ROOMTEL,ROOMINFO,ROOMPOST,ROOMSIGUNGU,ROOMSIDO,ROOMBNAME,ROOMPRICE,PEAKPER,CLEANPAY,BASIC_PERSON,MAX_PERSON,PERSON_ADDPAY,ROOMCOUNT,BATHCOUNT,CHECKINTIME,CHECKOUTTIME,LATITUDE,LONGITUDE,VIEWCOUNT,ROOMSTATUS,ROOM_WARNCOUNT) 
 values(ROOMCODE_seq.nextval,'hongkd',10,3,'바다가 한 눈에 보이는 럭셔리 호텔!!','https://image.goodchoice.kr/resize_490x348/adimg_new/10775/0/5835449794615.jpg',0519984565,
@@ -412,5 +456,4 @@ where fk_userid = 'leess'
         
 commit;
 
-delete reservation 
-where rsvcode = 13
+select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx

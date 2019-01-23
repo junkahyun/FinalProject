@@ -36,7 +36,6 @@ public class SWController {
 		req.getParameter("checkout");
 		
 		/*req.setAttribute("testList", testList);*/
-		
 		// 숙소유형(대)
 		List<String> buildList = service.getBuildList();		
 		// 옵션종류
@@ -47,7 +46,6 @@ public class SWController {
 		List<String> roomRule = service.getRoomRule();
 		// 숙소유형(소)
 		List<RoomVO> roomList = service.getRoomList();
-	
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
@@ -121,6 +119,72 @@ public class SWController {
 		req.setAttribute("listSize", reservationList.size());
 		
 		return "hostPage/reservationList.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})
+	public String option(HttpServletRequest req, HttpServletResponse res, String[] rulename, String[] roomtype_name, String[] optionname) {
+		 
+		if(rulename == null ) {
+			rulename = new String[]{""};
+		}
+		if(roomtype_name == null) {
+			roomtype_name = new String[]{""};
+		}
+		if(optionname == null) {
+			optionname = new String[]{""};
+		}
+		String rulenameStr = Arrays.toString(rulename);
+		String roomtype_nameStr = Arrays.toString(roomtype_name);
+		String optionnameStr = Arrays.toString(optionname);
+
+		
+		System.out.println("rulenameStr : " + rulenameStr);
+		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
+		System.out.println("optionnameStr : " + optionnameStr);
+		
+		rulenameStr = rulenameStr.replace("[", "{");
+		rulenameStr = rulenameStr.replace("]", "}");
+		roomtype_nameStr = roomtype_nameStr.replace("[", "{");
+		roomtype_nameStr = roomtype_nameStr.replace("]", "}");
+		optionnameStr = optionnameStr.replace("[", "{");
+		optionnameStr = optionnameStr.replace("]", "}");
+		
+		
+		System.out.println("rulenameStr : " + rulenameStr);
+		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
+		System.out.println("optionnameStr : " + optionnameStr);
+		
+		JSONArray jsonArr = new JSONArray();  		
+		HashMap<String,String> paraMap =  new HashMap<String,String>();
+		paraMap.put("RULENAME", rulenameStr);
+		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
+		paraMap.put("OPTIONNAME", optionnameStr);
+		
+		System.out.println(paraMap);
+		
+		List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);
+		
+		for(HashMap<String, String> test : optionList) {
+			
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("optionList", test);
+			
+			jsonArr.put(jsonObj);
+		}
+		
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		
+		req.setAttribute("optionname", optionname);
+		req.setAttribute("rulename", rulename);
+		req.setAttribute("roomtype_name", roomtype_name);
+		
+		System.out.println(str_json);
+		System.out.println(optionList);
+		System.out.println(jsonArr);
+		
+		return "JSON";
 	}
 	
 }
