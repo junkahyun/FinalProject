@@ -13,8 +13,12 @@
 	</resultMap>
 
 	<select id="getRoomRule" resultMap="ruleMap">
-		select rule_name,rule_status,rule_idx
-		from roomrule
+		select rule_name,rule_icon
+		from roomrule A
+		join room B
+		on A.fk_roomcode = B.roomcode
+		join allrule c
+		on c.rule_idx = A.roomrule_idx
 	</select>
 	
 	<select id="getOneRoomInfo" resultType="com.spring.bnb.model.RoomVO" parameterType="HashMap">

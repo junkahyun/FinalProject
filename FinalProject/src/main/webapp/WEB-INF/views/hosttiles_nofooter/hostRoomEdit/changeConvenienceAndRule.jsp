@@ -99,7 +99,7 @@ select:focus {
 	<h3 >어떤 이용규칙이 있나요?</h3>
 	<c:forEach  var="rule" items="${roomRule}" varStatus="status">
 		<span style="font-size: 13pt; margin-right: 15%;">${rule.rule_name}</span>
-			<c:if test="${rule.rule_status == 0 }">
+			<%-- <c:if test="${rule.rule_status == 0 }">
 				<label for="No${status.count}">
 					<input type="checkbox" checked="checked" id="No${status.count}"/><span class="checkYesorNo">아니오</span>
 				</label>
@@ -117,7 +117,7 @@ select:focus {
 				<label for="yes${status.count}">
 					<input type="checkbox" checked="checked" id="yes${status.count}"/><span class="checkYesorNo">예</span>
 				</label>
-			</c:if>
+			</c:if> --%>
 		<br><br>
 	</c:forEach>
 	<hr style="width: 50%;" align="left">

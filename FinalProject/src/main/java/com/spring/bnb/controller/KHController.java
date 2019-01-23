@@ -288,7 +288,9 @@ public class KHController {
 		// ** 이용규칙 가져오는 메소드 ** //
 		List<HashMap<String,String>> roomRule = service.getRoomRule();
 		
+		
 		req.setAttribute("roomRule", roomRule);
+		
 		
 		return "hostRoomEdit/changeConvenienceAndRule.hosttiles_nofooter";
 	}
