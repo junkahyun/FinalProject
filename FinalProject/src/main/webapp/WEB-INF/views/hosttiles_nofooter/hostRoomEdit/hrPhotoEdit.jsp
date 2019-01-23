@@ -173,7 +173,7 @@ div {
 			
 			var reader = new FileReader();
 			reader.onload = function(e){
-				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
+				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img name='imgs' class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
 				$("#imgList").append(html);
 				index++;
 			}
@@ -193,10 +193,27 @@ div {
 	}
 	
 	function submitPhoto() {
-		var frm = document.fileUpimg;
-		frm.method = "POST";
+		var form_data = new FormData($("#fileUpimg"));
+		
+		$.ajax({
+			url:"imgfileupload.air",
+			type:"POST",
+			data: form_data,
+			contentType:false,
+	        processData:false,
+	        success:function(html){
+	        	alert("파일 업로드 저장 완료.");
+	        	window.location.reload();
+	        },
+	        error:function(){
+	            
+	        }
+		}); 
+		
+		/* var frm = document.fileUpimg;
 		frm.action = "imgfileupload.air";
-		frm.submit();
+		frm.method = "POST";
+		frm.submit(); */
 	}
 	
 </script>

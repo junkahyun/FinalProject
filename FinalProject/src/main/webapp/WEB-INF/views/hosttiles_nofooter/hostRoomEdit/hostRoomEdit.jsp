@@ -124,6 +124,10 @@ div{border: /* 1px solid gray;  */
 		location.href="<%=request.getContextPath()%>/bedroomEdit.air";
 	}
 	
+	function goRoomEdit(roomcode){
+		location.href="hostRoomEdit.air?roomcode="+roomcode;
+		
+	}
 	
 </script>
 
@@ -152,8 +156,8 @@ div{border: /* 1px solid gray;  */
 
 	      </li><!-- 숙소 리스트로 -->
 	      <c:forEach var="room" items="${roomList }">
-		      <li style=" padding: 2%;">
-			      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
+		      <li style=" padding: 2%;" onclick="goRoomEdit('${room.roomcode}')">
+			      <a ><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
 			      <c:if test="${room.roomstatus == 1 }">
 			      	<span style="font-size: 11pt;">운영중</span>
 			      </c:if>
