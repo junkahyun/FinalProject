@@ -1,26 +1,27 @@
 package com.spring.bnb.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.DefaultNamingPolicy;
 import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReviewVO;
@@ -150,7 +151,6 @@ public class HYController {
 	@RequestMapping(value = "/idDuplicateCheck.air", method = RequestMethod.POST)
 	public String idDuplicateCheck(HttpServletRequest req) {
 		String userid = req.getParameter("userid");
-		System.out.println(userid);
 		int n = service.checkDuplicateID(userid);
 		JSONObject json = new JSONObject();
 		json.put("n", n);
@@ -161,12 +161,37 @@ public class HYController {
 	
 	// ajax 회원가입
 	@RequestMapping(value = "/joinEnd.air", method = RequestMethod.POST)
-	public String joinEnd(HttpServletRequest req,MemberVO member) throws IOException {
-		MultipartHttpServletRequest mreq = (MultipartHttpServletRequest)req;
+	public String joinEnd(MultipartHttpServletRequest req, @RequestParam("file") MultipartFile profile, @ModelAttribute MemberVO member) throws IOException {
+		// 프로필 이미지 업로드
+		String filename = null; // 파일명 초기화
+		if (!profile.isEmpty()) { // 파일 있으면(업로드 했으면)
+			HttpSession session = req.getSession();
+			String root = session.getServletContext().getRealPath("/");
+			String realPath = root + "resources"+File.separator+"images"+File.separator+"profile";
+			
+			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
+			// 엣지 브라우저 요청 파일이름 처리
+			int index = filename.lastIndexOf("\\");
+			filename = filename.substring(index + 1);
+	        
+	        File file = new File(realPath, filename);
+	        if (file.exists()) { // 해당 경로에 동일한 파일명이 이미 존재하는 경우 파일명 앞에 업로드 시간 밀리초 붙여서 파일명 중복을 방지
+	        	filename = System.currentTimeMillis() + "_" + filename;
+	        	file = new File(realPath, filename);
+	        }
+	        
+	        System.out.println("업로드 경로: " + realPath);
+	        System.out.println("업로드 파일명: " + filename);
+	        
+	        // 업로드 수행
+	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
+		} else System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
+		member.setProfileimg(filename);
+		
 		// 생년월일 변환
-		String year = mreq.getParameter("year");
-		String month = mreq.getParameter("month");
-		String day = mreq.getParameter("day");
+		String year = req.getParameter("year");
+		String month = req.getParameter("month");
+		String day = req.getParameter("day");
 		if(Integer.parseInt(month)<10) month = "0"+month;
 		if(Integer.parseInt(day)<10) day = "0"+day;		
 		String birth = year+"-"+month+"-"+day;
@@ -179,22 +204,10 @@ public class HYController {
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
 			e.printStackTrace();
 		}
-		// 프로필 이미지 업로드
-		if(mreq.getFile("profileimg")!=null) {
-			HttpSession session = req.getSession();
-	        ServletContext root = session.getServletContext();
-	        String path = root+"resources"+File.separator+"images"+File.separator+"profile";
-	        System.out.println(">> 파일경로(path) : "+path);
-	        
-	        File dir = new File(path);
-	 		if(!dir.exists()) dir.mkdirs();
-	        
-	        MultipartFile multiFile = mreq.getFile(member.getProfileimg());
-	        multiFile.transferTo(new File(path));
-		}
-        //int n = service.insertMember(member);
+		
+        int n = service.insertMember(member);
 		JSONObject json = new JSONObject();
-		json.put("n", "check");
+		json.put("n", n);
 		String str_json = json.toString();
 		req.setAttribute("str_json", str_json);
 		return "JSON";

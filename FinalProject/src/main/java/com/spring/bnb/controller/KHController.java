@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterKHService;
-import com.spring.common.GoogleMail;
 import com.spring.common.KHGoogleMail;
 
 
