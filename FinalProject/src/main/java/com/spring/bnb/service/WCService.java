@@ -49,4 +49,16 @@ public class WCService implements InterWCService {
 		
 		return dao.lodgingListPaging(paraMap);
 	}
+
+	@Override
+	public int deleteRoomByRoomcode(String roomcode) {
+		
+		return dao.deleteRoomByRoomcode(roomcode);
+	}
+
+	
+	@Override
+	public int continueRoomByRoomcode(String roomcode) {		
+		return dao.continueRoomByRoomcode(roomcode);
+	}
 }

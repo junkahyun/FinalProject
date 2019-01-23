@@ -20,4 +20,8 @@ public interface InterWCService {
 
 	List<RoomVO> lodgingListPaging(HashMap<String, String> paraMap);
 
+	int deleteRoomByRoomcode(String roomcode);
+
+	int continueRoomByRoomcode(String roomcode);
+
 }

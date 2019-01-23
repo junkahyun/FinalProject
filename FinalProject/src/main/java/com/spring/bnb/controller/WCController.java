@@ -127,17 +127,61 @@ public class WCController {
 		return "admin/lodging_regist_manage.admintiles";
 	} 
 	
-	@RequestMapping(value = "/roomdelete.air", method = RequestMethod.GET)
-	public String roomdelete() {
+	@RequestMapping(value = "/roomdelete.air", method = RequestMethod.POST)
+	public String roomdelete(HttpServletRequest req) {
+		
+		String roomcode = req.getParameter("roomcode");
+		
+		int result = service.deleteRoomByRoomcode(roomcode);
+		
+		String msg = "";
+		String loc = "";
+		
+		if(result == 1) {
+			msg = "해당 숙소를 영업정지 시켰습니다.";
+			loc = "lodgingManage.air";
+			
+			
+		}else {
+			msg = "해당 숙소 영업정지에 실패하였습니다.";
+			loc = "javascript:history.back();";
+		
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
 		
 		
-		
-		
-		
-		
-		
-		return "admin/lodging_regist_manage.admintiles";
 	}
-	
+	@RequestMapping(value = "/roomcontinue.air", method = RequestMethod.POST)
+	public String roomcontinue(HttpServletRequest req) {
+		
+		String roomcode = req.getParameter("roomcode");
+		
+		int result = service.continueRoomByRoomcode(roomcode);
+		
+		String msg = "";
+		String loc = "";
+		
+		if(result == 1) {
+			msg = "해당 숙소를 영업활성화 시켰습니다.";
+			loc = "lodgingManage.air";
+			
+			
+		}else {
+			msg = "해당 숙소 영업활성화에 실패하였습니다.";
+			loc = "javascript:history.back();";
+		
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+		
+		
+	}
 	
 } 

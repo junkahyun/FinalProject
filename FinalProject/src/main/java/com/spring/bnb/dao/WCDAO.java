@@ -139,6 +139,7 @@ public class WCDAO implements InterWCDAO {
 			String roomBname = map.get("ROOMBNAME");
 			String username = map.get("USERNAME");
 			String roomPrice = map.get("ROOMPRICE");
+			String roomstatus = map.get("ROOMSTATUS");
 			
 			RoomVO rvo = new RoomVO();
 			MemberVO mvo = new MemberVO();
@@ -151,12 +152,27 @@ public class WCDAO implements InterWCDAO {
 			rvo.setRoomSigungu(roomSigungu);
 			rvo.setRoomBname(roomBname);
 			rvo.setRoomPrice(roomPrice);
+			rvo.setRoomstatus(roomstatus);
 			rvo.setHost(mvo);
 			
 			roomList.add(rvo);
 		}
 		
 		return roomList;
+	}
+
+	
+	@Override
+	public int deleteRoomByRoomcode(String roomcode) {
+		int result = sqlsession.update("wc.deleteRoomByRoomcode", roomcode);  
+		return result;
+	}
+
+	
+	@Override
+	public int continueRoomByRoomcode(String roomcode) {
+		
+		return sqlsession.update("wc.continueRoomByRoomcode", roomcode);
 	}
 }
  

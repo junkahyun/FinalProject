@@ -29,18 +29,32 @@
 			$("#search").val("${search}");
 		}
 	}
-	function goDelete(roomcode){ 
+	function goSuspension(roomcode){ 
 		var r = confirm(roomcode+": 해당 숙소를 영업정지 시키겠습니까?");
 		
 		if(r){
-			var frm = document.goDelFrm;
-			frm.method = "GET";
+			var frm = document.goRoomStatusFrm;
+			frm.roomcode.value = roomcode; 
+			frm.method = "POST";
 			frm.action = "roomdelete.air";
 			frm.submit();	
 		}else{
 			return;
 		}
 		
+	}
+	function goContinue(roomcode){
+		var r = confirm(roomcode+": 해당 숙소를 영업활성화 시키겠습니까?");
+		
+		if(r){
+			var frm = document.goRoomStatusFrm;
+			frm.roomcode.value = roomcode; 
+			frm.method = "POST";
+			frm.action = "roomcontinue.air";
+			frm.submit();	
+		}else{
+			return;
+		}
 	}
 </script>
 <div class="col-md-10">
@@ -86,14 +100,24 @@
 				  <tbody>
 				  	<!-- 데이터 돌리기 -->
 				  	<c:forEach items="${roomList}" var="rvo" varStatus="status">
+				  		<c:if test="${rvo.roomstatus == 1}">
 				  		 <tr>
+				  		 </c:if>
+				  		 <c:if test="${rvo.roomstatus == 0 }">
+				  		 <tr style="background-color:#ff0;">
+				  		 </c:if>
 						      <td>${rvo.roomcode}</td>
 						      <td><img src="${rvo.roomMainImg}" width="60%"/></td>
 						      <td>${rvo.roomName}</td>
 						      <td>${rvo.roomSido}${rvo.roomSigungu}${rvo.roomBname}</td>
 						      <td>${rvo.host.username }</td>
 						      <td>￦<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></td>
-						      <td><button type="button" class="btn btn-danger" onClick="goDelete(${rvo.roomcode})">영업정지</button></td>
+						      <c:if test="${rvo.roomstatus == 1}">
+						  	  <td><button type="button" class="btn btn-danger" onClick="goSuspension(${rvo.roomcode})">영업정지</button></td>
+						  	  </c:if>
+						  	  <c:if test="${rvo.roomstatus == 0 }">
+						  	  <td><button type="button" class="btn btn-danger" onClick="goContinue(${rvo.roomcode})">영업활성화</button></td>
+						      </c:if>
 					    </tr> 
 				  	</c:forEach> 
 				  </tbody>
@@ -104,7 +128,7 @@
 	<div class="pageBar" style="text-align: center; margin: 2%;">
 		${pagebar}
 	</div> 
-	<form name="goDelFrm">
+	<form name="goRoomStatusFrm">
 		<input type="hidden" name="roomcode" />
 	</form>
 </div>

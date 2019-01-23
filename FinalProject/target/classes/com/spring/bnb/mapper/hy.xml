@@ -100,5 +100,15 @@
 	<select id="getSearchReview" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
 		select*from review where fk_roomcode=#{ROOMCODE} and review_content =#{REVIEWSEARCHWORD}
 	</select>
+	
+	<select id="checkDuplicateID" parameterType="String" resultType="Integer">
+		select count(*) from member where userid=#{userid}
+	</select>
+	
+	<insert id="insertMember" parameterType="com.spring.bnb.model.MemberVO">
+		insert into member(USERID,USERNAME,PWD,EMAIL,PHONE,POST,ADDR,DETAILADDR,GENDER,BIRTHDAY,INTRODUCTION,MEMBERSTATUS,PROFILEIMG,WARNCOUNT,REGDATE) 
+		values(#{userid},#{username},#{pwd},#{email},#{phone},#{post},#{addr},#{detailAddr},#{gender},#{birthday},#{introduction},default,#{profileimg},default,default,default)
+	</insert>
+	
 </mapper>
 

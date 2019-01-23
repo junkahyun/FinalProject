@@ -25,9 +25,9 @@
 					<col width="10%"/>
 				  <thead>
 				    <tr>
-				      <th>번호</th>
+				      <th onClick="sortTable(0)">숙소코드</th>
 				      <th>숙소이미지</th>
-				      <th>숙소명</th>
+				      <th onClick="sortTable(0)">숙소명</th>
 				      <th>소재지</th>
 				      <th>숙소 보유자명</th>
 				      <th>숙소가격</th>

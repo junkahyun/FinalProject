@@ -54,6 +54,7 @@
 		<result property="ROOMBNAME"   column="ROOMBNAME"   javaType="String" />
 		<result property="USERNAME"    column="USERNAME"    javaType="String" />
 		<result property="ROOMPRICE"   column="ROOMPRICE"   javaType="String" />
+		<result property="ROOMSTATUS"  column="ROOMSTATUS"  javaType="String"/>
 	</resultMap>
 	<select id="getWCAllRoomList" resultMap="allRoomList">
 		select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
@@ -75,14 +76,14 @@
 	</select> 
 	
 	<select id="lodgingListPaging" parameterType="HashMap" resultMap="allRoomList">
-		select ROOMCODE,ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, RNO
+		select ROOMCODE,ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, RNO, ROOMSTATUS
 		from(
-			select ROOMCODE,ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROWNUM AS RNO
+			select ROOMCODE,ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROOMSTATUS ,ROWNUM AS RNO
 			from(
-			    select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
+			    select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROOMSTATUS
 			    from room A JOIN member B
 			    on A.fk_userid = B.userid
-			    where A.ROOMSTATUS = 1
+			    where 1 = 1
 			    <if test='SEARCH != null and SEARCH != "" and SEARCH != "null" and !COLNAME.equalsIgnoreCase("LOCATION") '>
 			    and ${COLNAME} like '%'||#{SEARCH}||'%'
 			    </if>
@@ -95,4 +96,13 @@
 		where RNO between #{STARTRNO} and #{ENDRNO} 
 	</select>
 	
+	<update id="deleteRoomByRoomcode" parameterType="String">
+		update room set roomstatus = 0
+		where roomcode = #{_parameter}
+	</update>
+	 
+	<update id="continueRoomByRoomcode" parameterType="String">
+		update room set roomstatus = 1
+		where roomcode = #{_parameter}
+	</update> 
 </mapper>

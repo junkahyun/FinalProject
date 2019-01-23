@@ -81,5 +81,12 @@
 		(#{year}||#{checkmonth1}||#{checkday1}),
 		(#{year}||#{checkmonth2}||#{checkday2}),sysdate,#{totalprice},#{message},'','')
 	</insert>
+	
+	
+	<select id="getOneReserve" parameterType="HashMap" resultType="com.spring.bnb.model.ReservationVO">
+		select*
+		from reservation
+		where rsvcode= #{revcode} and fk_userid=#{my_userid}
+	</select>
 
 </mapper>
