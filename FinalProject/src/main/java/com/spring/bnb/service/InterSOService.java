@@ -30,5 +30,7 @@ public interface InterSOService {
 	
 	// 내가 작성한 후기 
 	List<ReviewVO> getMyReview(String userid);
+	// *** 나에게 쓴 후기 ***
+	List<HashMap<String,String>> getHostReview(String userid);
 
 }

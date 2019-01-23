@@ -60,5 +60,12 @@ public class SOService implements InterSOService{
 		
 		return myWriteReview ;
 	}
+	
+	// *** 나에게 쓴 후기 ***
+	@Override
+	public List<HashMap<String,String>> getHostReview(String userid) {
+		List<HashMap<String,String>> hostReview = dao.getHostReview(userid); 
+		return hostReview;
+	}
 
 }

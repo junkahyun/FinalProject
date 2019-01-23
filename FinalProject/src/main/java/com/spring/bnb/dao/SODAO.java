@@ -14,6 +14,7 @@ import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
+
 //===== #32. DAO 선언  =====
 @Repository
 //DB Exception Translation
@@ -55,6 +56,7 @@ public class SODAO implements InterSODAO {
 	@Override
 	public HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap) {
 		 HashMap<String, String> resDetail = sqlsession.selectOne("cso.getMemberReservationDetail", paraMap);
+		 
 		return resDetail;
 	}
 
@@ -111,6 +113,14 @@ public class SODAO implements InterSODAO {
 		}
 		return myReviewVO;
 		
+	}
+
+	// 나에게 작성한 후기
+	@Override
+	public List<HashMap<String,String>> getHostReview(String userid) {
+		List<HashMap<String,String>> hostReview = sqlsession.selectList("cso.hostReview",userid);
+		
+		return hostReview;
 	}
 
 

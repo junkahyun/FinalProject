@@ -39,7 +39,7 @@ text-align: center;
 }
 
 .firstDIV{
-	margin-top: 10%;
+	margin-top: 5%;
 	margin-bottom: 5%; 
 }
 .margin_top{
@@ -75,9 +75,9 @@ td{
 	});
 </script>
 
-<div class="row firstDIV" style="border: 0px soild red;">
+<div class="row firstDIV">
 <!--  사이드바 -->
-	<div class="col-md-1" style="border: 0px solid red"></div>
+	<div class="col-md-1"></div>
     <div class="col-md-2">
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">

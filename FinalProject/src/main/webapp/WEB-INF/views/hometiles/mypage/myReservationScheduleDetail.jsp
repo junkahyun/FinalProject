@@ -3,12 +3,11 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/startspring/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -31,14 +30,37 @@
 }
 .calcel{
 		font-weight: bold;
-		color: 	#6ac259;
+		color: 	#6ac259;font-: bold;
 	}
- 
+ #lodgLocation{
+ 	cursor:pointer;
+ 	color :#008489; 
+ 	
+ }
+ #lodgLocation:hover{
+ text-decoration:underline;
+ font-weight:bold;
+ }
 </style>
 <script type="text/javascript" src="/startspring/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
+$(document).ready(function(){
+	$("#lodgLocation").click(function(){
+		showLocation();
+		
+	});	
+
+});
+function showLocation(){
+	var url = "/bnb/myReservationMAP.air?rsvcode="+${myRsvDetail.rsvcode};
+	window.open(url,"숙소위치","width=500,height=350");
 	
+}
+function goCancel() {
+	
+}
+
 </script>
 
 <div class="row" style="border: 0px soild red;">
@@ -48,19 +70,22 @@
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="true" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
+			    </li>
+			    <li>
+			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
- <div class="col-md-6 firstDIV">
+ <div class="col-md-7 firstDIV">
    	<div class="box" style="margin-bottom: 6%">
 		<h3>고객님의 투숙 예정숙소 입니다!</h3><p>고객님이 투숙예정 숙소들 입니다!</p><a href="javascript:history.back();">>>>예약페이지로 돌아가기</a>
 	</div>	
@@ -70,9 +95,10 @@
 		
 			<div style="margin-left: 2%; margin-top: 5%" >
 				<div class="property-info">
-					<h3><a href="#">호텔 몬토레 에델호프 삿포로</a></h3>
-					<p><span data-selenium="hotel-address-map">1-1 Nishi, Kita 2-jo, Chuo-Ku, 삿포로 일본 060-0002 - </span>
-					<a href="#">숙소 위치 확인</a></p>
+					<h3><a href="#">${myRsvDetail.roomname}</a></h3>
+					<p><span data-selenium="hotel-address-map">${myRsvDetail.roomsido}&nbsp;${myRsvDetail.roomsigungu}&nbsp;
+						${reservationInfo.roombname}&nbsp;${myRsvDetail.roomdetailaddr}</span>
+					<span id="lodgLocation">&nbsp;숙소 위치 확인</span></p>
 				</div>
 			</div>
 			<div  class="col-md-12">			
@@ -81,68 +107,104 @@
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
 						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
 						<div class="col-md-7" style="border: 0px solid gray; float:left;">
-							<div style="margin-bottom: 3%">218773244</div>
+							<div style="margin-bottom: 3%">${myRsvDetail.rsvcode}</div>
 							<div style="margin-bottom: 2%">
-								<span class="calcel">>&nbsp;예약일:</span>
+								<span class="calcel"><img src="<%= ctxPath %>/resources/images/mypage/checked.png" width="5%;">&nbsp;예약일 : ${myRsvDetail.paydate}</span>
 							</div>
 						</div>
 					</div> 
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding:1%;">
 						<div class="col-md-12" style="float:left;">
 							<div class="col-md-5" style="border: 0px solid red; float:left;"><h5>체크인</h5></div>
-							<div class="col-md-7" style="float:left;">2017년 8월 1일 화요일</div>					
+							<div class="col-md-7" style="float:left;">${myRsvDetail.rsv_checkindate}&nbsp;${myRsvDetail.checkInDay}</div>					
 						</div>	 
 						<div class="col-md-12">			
 							<div class="col-md-5" style="float:left;"><h5>체크아웃</h5></div>
-							<div class="col-md-7" data-selenium="check-out-content">2017년 8월 4일 금요일</div>
-							<!-- <div style="float:left;" data-selenium="number-of-stay">3박</div> -->
+							<div class="col-md-5" data-selenium="check-out-content">${myRsvDetail.rsv_checkoutdate}&nbsp;${myRsvDetail.checkOutDay}</div>
+							 <div class="col-md-2" style="float:left;" data-selenium="number-of-stay">${myRsvDetail.dat}박</div>
 						</div>
 					</div> 
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>연락처 정보</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%">예약자 메일</div>
-							<div style="margin: 1%;">예약자 폰번호</div>
+							<div style="margin-bottom: 5%">예약자 메일 : ${myRsvDetail.rsv_email}</div>
+							<div style="margin: 1%;">예약자 폰번호 : ${myRsvDetail.rsv_phone}</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>투숙객 이름</h5></div>
 						<div class="col-md-6 row">
-							<div style="margin: 1%;">suwook choi</div>
+							<div style="margin: 1%;">${myRsvDetail.rsv_name}</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
 						<div class="col-md-6 row">
-							<div style="margin: 1%;">숙소 유형</div>
-							<div style="margin: 1%;">건물유형</div>
-							<div style="margin: 1%;">침실갯수</div>
-							<div style="margin: 1%;">침대 유형</div>
+							<div style="margin: 1%;">숙소 유형 : ${myRsvDetail.roomtype_name}</div>
+							<div style="margin: 1%;">건물유형 : ${myRsvDetail.buildtype}</div>
+							<div style="margin: 1%;">건물유형 : ${myRsvDetail.buildtype_detail_name}</div>
+							<div style="margin: 1%;">침실갯수 : ${myRsvDetail.bedcount}</div>
+							<div style="margin: 1%;">침대 유형 : ${myRsvDetail.bedtype}</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
 						<div class="col-md-5"  style="float:left;"><h5>총 예약 인원</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%;">성인 2명</div>
+							<div style="margin: 1%;">성인 : ${myRsvDetail.guestcount} / 유아 : ${myRsvDetail.babycount}</div>
 						</div>
 					</div>
-					<div class="col-md-12" style="padding: 3%;">
-						<div class="col-md-5"  style="float:left;"><h5>결제 금액</h5></div>
+					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
+						<div class="col-md-5" style="float:left;"><h5>결제 금액</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
 							<div style="margin-bottom: 5%">서비스 세금 : </div>
-							<div style="margin: 1%;">청소비 : </div>
-							<div style="margin: 1%;">할인금액 : </div>
-							<div style="margin: 1%;">총 결제금액: </div>
+							<div style="margin: 1%;">청소비 : <fmt:formatNumber value="${myRsvDetail.cleanpay}" pattern="#,###" />원</div>
+							<div style="margin: 1%;">할인금액 :<fmt:formatNumber value="${myRsvDetail.dcprice}" pattern="#,###" />원</div>
+							<div style="margin: 1%;">숙소요금 : <fmt:formatNumber value="${myRsvDetail.roomprice}" pattern="#,###" />원</div>
+							<div style="margin: 1%;">총 결제금액: <fmt:formatNumber value="${myRsvDetail.totalprice}" pattern="#,###" />원</div>
 						</div>
 					</div>
+					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
+						<div class="col-md-5" style="float:left;"><h5>예약 메시지</h5></div>
+						<div class="col-md-6 row" style="padding: 1%;">${myRsvDetail.rsv_msg}</div>
+					</div>
 				</div>
-			</div>
+			</div>			
 		</div>
-
        </div>
-       </div>
-
-	    </div>	
+	   </div>
+	   <div class="col-md-12" style="margin-top:2%;">
+	   		<div class="col-md-10"></div>
+	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default" data-toggle="modal" data-target="#myModal">예약 취소 버튼</a></div></div>
+     		 <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">숙소 예약 취소</h4>
+        </div>
+        <div class="modal-body">
+          <p>${myRsvDetail.rsv_name} 님! </p>
+          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.roomname}</span> 숙소를 취소하시겠습니까?
+          	 <ul>
+          	 <li> 예약번호  : ${myRsvDetail.rsvcode} </li>
+			 <li> 체 크 인    : ${myRsvDetail.rsv_checkindate}&nbsp;${myRsvDetail.checkInDay} </li>
+			 <li> 체크아웃 : ${myRsvDetail.rsv_checkoutdate}&nbsp;${myRsvDetail.checkOutDay} </li>
+			 </ul> 	
+		   <p>예약 취소 시 취소가 불가 합니다!</p>			
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal" onClick="goCancel();">예약취소하기</button>
+          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+     
+      </div>
+	  <div>
 </div>
 </div>
 

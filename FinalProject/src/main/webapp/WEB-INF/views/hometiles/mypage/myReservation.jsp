@@ -1,4 +1,4 @@
-<%@ taglib prefix="frm" uri="http://java.sun.com/jsp/jstl/fmt"  %>
+<%@ taglib prefix="frm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 
     pageEncoding="UTF-8"%>
@@ -8,7 +8,6 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%= ctxPath %>/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -31,14 +30,16 @@
     color: var(--color-text-link, #008489) !important;
     font-family: var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;
 }
+.panel-header{
 
+}
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
-	});
+
+	 	}); 
 </script>
 
 <div class="row firstDIV">
@@ -80,21 +81,24 @@
 <!--  예약 내용 -->	
 	  <div class="tab-content">
 	    
-	    <!--  투숙 예정 예약  -->
-	    
-	    <div id="home" class="tab-pane fade in active" style="padding:1%; border: 0px solid yellow;">
-
+	    <!--  투숙 예정 예약  -->	    
+	    <div id="home" class="tab-pane fade in active" style="padding:1%;">
 	      <div class="panel-header" style="margin-top: 3%; border: 1px solid #dbdfdf">
 	     	 <h3 class="edit-profile-section-heading">투숙 예정 호텔</h3>
 	      </div>
-	      <div class="panel-body" style="border: 1px solid #dbdfdf;">
+	    <div class="panel-body" style="border: 1px solid #dbdfdf;">
 	      
 	      <!--  for 문 시작 --> 
-	  <c:forEach var="reservationInfo" items="${memberResList}">
-      <frm:parseDate value="${reservationInfo.rsv_cancledate}" pattern="yyyy-MM-dd" var="cancledate" />
-	  <frm:parseDate value="${reservationInfo.rsv_checkindate}" pattern="yyyy-MM-dd" var="checkindate" />
-	  <frm:parseDate value="${reservationInfo.rsv_checkoutdate}" pattern="yyyy-MM-dd" var="checkoutdate" />
-	  <c:if test="${cancledate == null && checkindate> today}" >
+	 
+	  <c:forEach var="reservationInfo" items="${memberResList}" varStatus="status">	
+<%--       <c:if test="${reservationInfo.rsv_cancledate == null and reservationInfo.flag == 2}" >
+	   			<div>
+	   				<h5>예약된 내용이 없습니다!</h5>
+	   				<h5>다음 여행을 계획하세요!</h5>
+	   			</div>
+	  </c:if> --%>
+	  <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 1}" >
+	  	
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
 	        		<%-- <img src="<%= request.getContextPath() %>/resources/image/${reservationInfo.roommainimg}" width="100%" height="90%"/> --%>
@@ -125,23 +129,22 @@
 							    </ul>
 						    </div>   
 						  </div>
-						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin: 0">
-							 
-								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 1;">
-									<div style="font-size: 8pt; padding-left:1px; border: 0px solid blue">체크아웃</div>
-									<div style="border: 0px solid blue; padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
+						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin-left: 1px">							 
+								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
+									<div style="font-size: 8pt; padding-left:1px;">체크아웃</div>
+									<div style="padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
 								</div>
 								<div class="col-md-6" style= "padding: 0; margin: 0;">
 										<ul class="list-layout reviews-list">
 									       	<li class="reviews-list-item"><br/></li>	  
-											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp${reservationInfo.checiOutDay}</li>
+											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp;${reservationInfo.checkOutDay}</li>
 									    </ul>
 							    </div> 
 							
 						     
 						  </div>					   
 					  </div>
-					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right"><a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${luser}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
+					  <div style="margin-bottom : 1%;" align="right"><a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${userid}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
 		      </div> 	           	   	       
 	        </div> 	
 	       </c:if> 
@@ -159,15 +162,11 @@
 
 
       <div class="panel-body" style="border: 1px solid #dbdfdf;">
-      	      <!--  for 문 시작 -->
-	      <c:forEach var="resList" items="${memberResList}">
-		      <frm:parseDate value="${reservationInfo.rsv_cancledate}" pattern="yyyy-MM-dd" var="cancledate" />
-			  <frm:parseDate value="${reservationInfo.rsv_checkindate}" pattern="yyyy-MM-dd" var="checkindate" />
-			  <frm:parseDate value="${reservationInfo.rsv_checkoutdate}" pattern="yyyy-MM-dd" var="checkoutdate" />
-			  <c:if test="${cancledate == null && checkindate < today}" >
+			 <c:forEach var="reservationInfo" items="${memberResList}">	    
+	 		 <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 2}" >
 	     	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
-	        		<img src="<%= request.getContextPath() %>/resources/image/${reservationInfo.roommainimg}" width="100%" height="90%"/>
+	        		<img src="${reservationInfo.roommainimg}" style=" display: block; max-width: 100%; width: 100% \9;height: auto; }"/>
 	        	</div>
 	     	 
 	     	 	<div  class="col-md-8" class="row">
@@ -190,24 +189,21 @@
 							<div class="col-md-6" style="padding: 0;border-right : 1px dashed gray">
 								<ul class="list-layout reviews-list">
 							       	<li class="reviews-list-item"><br/></li>	  
-									<li><p>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월</p>${reservationInfo.checkInDay}</li>
+									<li>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월&nbsp;${reservationInfo.checkInDay}</li>
 							    </ul>
 						    </div>   
 						  </div>
-						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin: 0">
-							 
+						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin-left: 1px">							 
 								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
-									<div style="font-size: 8pt; padding-left:1px; border: 0px solid blue">체크아웃</div>
-									<div style="border: 0px solid blue; padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
+									<div style="font-size: 8pt; margin-left:1px;">체크아웃</div>
+									<div style="padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
 								</div>
 								<div class="col-md-6" style= "padding: 0; margin: 0;">
 										<ul class="list-layout reviews-list">
 									       	<li class="reviews-list-item"><br/></li>	  
-											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월${reservationInfo.checiOutDay}</li>
+											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp;${reservationInfo.checkOutDay}</li>
 									    </ul>
-							    </div> 
-							
-						     
+							    </div> 					     
 						  </div>					   
 					  </div>
 					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right">
@@ -230,20 +226,21 @@
 
       <div class="panel-body" style="border: 1px solid #dbdfdf;">
          <!--  for 문 시작 -->
-	      <c:forEach var="fori" begin="1" end="3">
+	     <c:forEach var="reservationInfo" items="${memberResList}">	    
+	  	<c:if test="${reservationInfo.rsv_cancledate != null and reservationInfo.rsv_cancledate !='' }" >
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box">
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
-	        		<img src="<%= request.getContextPath() %>/resources/image/changHotel.jpg" width="100%" height="90%"/>
+	        		<img src="${reservationInfo.roommainimg}" style=" display: block; max-width: 100%; width: 100% \9;height: auto; }"/>
 	        	</div>
 	     	 
 	     	 	<div  class="col-md-8" class="row">
-		     	  <div  style="padding: 0; margin-bottom: 3%;" align="right">예약 취소일 </div>
+		     	  <div  style="padding: 0; margin-bottom: 3%;" align="right">예약 취소일  : ${reservationInfo.rsv_cancledate}</div>
 		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
-					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>후아 창 헤리티지 호텔 (Hua Chang Heritage Hotel)</h4></li></ul></div>
+					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
 					      <div  style="border: 0px solid blue;"><ul class="list-layout reviews-list">
-					       	<li class="reviews-list-item">숙소위치 &nbsp;</li>	  
-							  <li>예약번호&nbsp;</li>
-							  <li>룸타입&nbsp;</li>
+					       	<li class="reviews-list-item">${reservationInfo.roomsido}${reservationInfo.roomsigungu}${reservationInfo.roombname}${reservationInfo.roomdetailaddr} &nbsp;</li>	  
+							  <li>예약번호 :${reservationInfo.rsvcode}&nbsp;</li>
+							  <li>${reservationInfo.roomtype_name}&nbsp;</li>
 					        </ul>
 					       </div>
 					  </div> 
@@ -251,25 +248,25 @@
 						  <div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
 							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
 								<div style="font-size: 8pt; text-align: left; border: 0px solid blue">체크인</div>
-								<div style="border: 0px solid blue; text-align: left; font-size: 20pt">12</div>
+								<div style="border: 0px solid blue; text-align: left; font-size: 20pt">${reservationInfo.checkInDD}</div>
 							</div>
 							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0; border-right : 1px dashed gray">
 								<ul class="list-layout reviews-list">
 							       	<li class="reviews-list-item"><br/></li>	  
-									  <li>18년 6월 화</li>
+									  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp;${reservationInfo.checkOutDay}</li>
 							    </ul>
 						    </div>   
 						  </div>
-						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin: 0">
+						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin-left: 1px">
 							 
-								<div class="col-md-7" style="border: 0px solid blue; padding: 0; margin: 0;">
-									<div style="font-size: 8pt; padding-left:3px; border: 0px solid blue">체크아웃</div>
-									<div style="border: 0px solid blue; padding-left:3px; font-size: 20pt">15</div>
+								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
+									<div style="font-size: 8pt; margin-left:1px;">체크아웃</div>
+									<div style="padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
 								</div>
-								<div class="col-md-5" style="border: 0px solid blue; padding: 0; margin: 0;">
+								<div class="col-md-6" style= "padding: 0; margin: 0;">
 										<ul class="list-layout reviews-list">
 									       	<li class="reviews-list-item"><br/></li>	  
-											  <li>18년6월 화</li>
+											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp;${reservationInfo.checkOutDay}</li>
 									    </ul>
 							    </div> 
 							
@@ -280,6 +277,7 @@
 					  
 		      </div>  	       	   	       
 	        </div> 	 
+	        </c:if>
 	        </c:forEach>
 	        <!-- for문 끝 -->
          </div>
