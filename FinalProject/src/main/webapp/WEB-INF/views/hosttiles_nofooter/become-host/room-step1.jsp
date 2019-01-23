@@ -49,7 +49,7 @@
 				<div class="row" style="border-bottom: 1px solid #D8D8D8; padding-bottom: 25px; margin-bottom: 25px;"> 
 					<div class="col-md-8" style="font-weight: bold; color: gray; border: 0px solid red;">1단계</div>
 					<div class="col-md-11" id="stap" style="border: 0px solid red; margin-top: 20px;">
-						침대, 욕실, 편의시설, 이용규칙 등
+						침대, 욕실, 편의시설, 이용규칙 
 					</div>  
 					<div class="col-md-8" align="left" style="margin-top: 3%;">
 						<button type="button" onclick="start();" class="form-control" style="width: 60px; height: 33px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold;">계속</button>
@@ -72,7 +72,7 @@
 						<h3 style="color: gray;">게스트를 맞이할 준비를 하세요</h3>
 					</div>
 					<div class="col-md-8" id="stap3" style="border: 0px solid red;">
-						예약 설정, 달력, 요금
+						체크인아웃 시간, 요금설정
 					</div>
 				</div>
 				

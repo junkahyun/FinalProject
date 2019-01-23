@@ -34,6 +34,7 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+	private List<HashMap<String,String>> ruleList;
 	
 
 	private MultipartFile attach; // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
@@ -51,7 +52,6 @@ public class RoomVO {
 	private int likeCount;
 	private List<String> roomimgList;
 	private List<HashMap<String,String>> optionList;
-	private List<HashMap<String,String>> ruleList;
 	private List<ReviewVO> reviewList;
 	private List<ReservationVO> reservationList;
 	private MemberVO host;

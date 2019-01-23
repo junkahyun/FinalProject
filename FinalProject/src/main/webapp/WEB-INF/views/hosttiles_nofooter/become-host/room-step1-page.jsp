@@ -50,8 +50,10 @@
     #cklist{font-size: 16px;
     		color: #5D5D5D;
     		font-weight: normal}
-	#cklistDetail{font-size: 13px;
-	color: #5D5D5D;}
+    		
+ 	#rulelist{font-size: 16px;
+   			color: #5D5D5D;
+   			font-weight: normal}
 
 </style>
 
@@ -185,6 +187,22 @@
        		
     	});
       
+       $(".rule").click(function(){
+
+ 	      $(".rule").each(function(){
+ 	      	var check = $(this).prop("checked");
+ 	      	
+ 	      	if(check){
+ 	      		$(this).parent().find("label").css("background-color","#148487");
+ 	      	}
+ 	      	else{
+ 	      		$(this).parent().find("label").css("background-color","white");
+ 	      	}
+ 	      });
+ 	      
+    		
+ 		});
+      
       
    });// $(document).ready(function()
 
@@ -266,6 +284,26 @@
 		frm.method="GET";
 		frm.submit();
 	}
+	
+   //기본수용인원 감소 버튼
+   function basicminus() {
+	   var start = $("#basic_person").val();
+	   var minus = parseInt(start);
+	   minus--;
+	   if(minus<1){
+		   alert("인원수는 1명 이상이여야 합니다.");
+		   minus = 1;
+	   }
+	   $("#basic_person").val(minus);
+   }  
+   
+   //기본수용인원 증가 버튼
+   function basicplus() {
+	   var start = $("#basic_person").val();
+	   var plus = parseInt(start);
+	   plus++;
+	   $("#basic_person").val(plus);
+   }
 	
    //최대숙박인원 감소 버튼
    function peopleminus() {
@@ -457,6 +495,18 @@
 		         <div class="title">숙소에 몇명이 숙박할 수 있나요?</div>
 		         <div class="row" style="padding: 0; margin-bottom: 100px; border: 0px solid green;" >
 		         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
+		         		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">기본 수용 인원</div>
+		         		<div class="col-md-2" style="border: 0px solid green;">
+		         		 	<button type="button" onclick="basicminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+		         		</div>
+		         		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+		         			<input type="text" id="basic_person" name="basic_person" value="1" style="border: 0; width: 20px; height: 20px;" readonly>   
+		         		</div>
+		         		<div class="col-md-2" style="border: 0px solid green;">
+		         		 	<button type="button" onclick="basicplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+		         		</div>
+		         	</div>
+		         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
 		         		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">최대 숙박 인원</div>
 		         		<div class="col-md-2" style="border: 0px solid green;">
 		         		 	<button type="button" onclick="peopleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
@@ -602,7 +652,7 @@
 		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid blue;">
 		            
 						<c:forEach items="${options}" var="map" varStatus="status"> 
-						 	<div class="row" style="border: 0px solid red; padding-left: 2px;"> 
+						 	<div class="row" style="border: 0px solid red; padding-left: 15px;"> 
 		                        <div class="col-md-1" style="border: 0px solid black; padding: 0 ">
 		                              <input type="checkbox" value="${map.OPTION_IDX}" name="optionchk" class="option" id="${status.count}option" style="display: none;"/>
 		                              <label for="${status.count}option" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
@@ -638,16 +688,16 @@
 		         <div class="row" style="padding: 0; border: 0px solid green;" >
 		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid blue;">
 		            
-						<c:forEach items="${options}" var="map" varStatus="status"> 
-						 	<div class="row" style="border: 0px solid red; padding-left: 2px;"> 
+						<c:forEach items="${rule}" var="map" varStatus="status"> 
+						 	<div class="row" style="border: 0px solid red; padding-left: 15px;"> 
 		                        <div class="col-md-1" style="border: 0px solid black; padding: 0 ">
-		                              <input type="checkbox" value="${map.OPTION_IDX}" name="optionchk" class="option" id="${status.count}option" style="display: none;"/>
-		                              <label for="${status.count}option" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
+		                              <input type="checkbox" value="${map.RULE_IDX}" name="rulechk" class="rule" id="${status.count}rule" style="display: none;"/>
+		                              <label for="${status.count}rule" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
 		                        </div>
 		                        <div class="col-md-10" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
-		                              <label for="${status.count}option">
-		                              	<span id="cklist">${map.OPTIONNAME }</span><br/>
-		                              	<input type="hidden" value="${map.OPTION_IDX}"/>		                              
+		                              <label for="${status.count}rule">
+		                              	<span id="rulelist">${map.RULE_NAME}</span><br/>
+		                              	<input type="hidden" value="${map.RULE_IDX}"/>		                              
 		                              </label>		                            
 		                        </div>  
 		                 	</div>
