@@ -79,4 +79,16 @@ public class HYDAO implements InterHYDAO {
 		return reviewList;
 	}
 
+	@Override
+	public int checkDuplicateID(String userid) {
+		int n = sqlsession.selectOne("hy.checkDuplicateID", userid);
+		return n;
+	}
+
+	@Override
+	public int insertMember(MemberVO member) {
+		int n = sqlsession.insert("hy.insertMember", member);
+		return n;
+	}
+
 }
