@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.PhotoVO;
+import com.spring.bnb.model.ReportVO;
 import com.spring.bnb.service.InterSHService;
 import com.spring.common.AES256;
 import com.spring.common.FileManager;
@@ -150,6 +151,14 @@ public class SHController {
 	    // ===== #120. 페이지바 만들기 =====
 	    String pagebar = "<ul>";
 	    
+	    System.out.println(totalCount);
+	    System.out.println(sizePerPage);
+	    System.out.println(currentShowPageNo);
+	    System.out.println(totalPage);
+	    System.out.println(startRno);
+	    System.out.println(endRno);
+	    System.out.println(blockSize);
+	    
 	    pagebar += MyUtil.getPageBarWithSearch(sizePerPage, blockSize, totalPage, currentShowPageNo, "", searchWord, null, "adminMember.air");
 	   
 	    pagebar += "</ul>";
@@ -169,6 +178,9 @@ public class SHController {
 	   
 	    String gobackURL = MyUtil.getCurrentURL(req);
 	    req.setAttribute("gobackURL", gobackURL);
+	    
+	    
+	    
 		
 		return "admin/adminMember.admintiles";
 	}
@@ -285,11 +297,11 @@ public class SHController {
 	
 	}
 	 
-	/*// 관리자 신고관리 페이지
+	// 관리자 신고관리 페이지
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
 		
-		List<ReportVO> reportvo = new ArrayList<ReportVO>();
+		/*List<ReportVO> reportvo = new ArrayList<ReportVO>();
 		
 		reportvo = service.getReport();
 		// System.out.println(reportMap);
@@ -358,29 +370,88 @@ public class SHController {
 			
 			String str_jsonArr = jsonArr.toString();
 			req.setAttribute("str_jsonArr", str_jsonArr);
-		}
+		}*/
 		
 		return "admin/adminVan.admintiles";
-	}*/
+	}
 	
 	// 신고 글쓰기 페이지 요청
 	@RequestMapping(value="/vanWrite.air", method= {RequestMethod.GET})
 	public String vanWrite(HttpServletRequest req) {
-		
-		
+
 		
 		return "home/vanWrite.hometiles";
 	}
 	
-	/*// 신고 글쓰기 페이지 요청
+	// 신고 글쓰기 페이지 요청
 	@RequestMapping(value="/vanWriteEnd.air", method= {RequestMethod.GET})
-	public String vanWriteEnd(HttpServletRequest req) {
+	public String vanWriteEnd(ReportVO reportvo, HttpServletRequest req) {
 		
-		String select = req.getParameter("select");
-		System.out.println(select);
+		int n = 0;
+		n = service.add(reportvo);
 		
-		return "home/vanWrite.hometiles";
-	}*/
+		String loc = "";
+		if(n==1) {	
+			loc = req.getContextPath()+"/vanWrite.air";
+			// getContextPath() => /board
+		}
+		else {		
+			loc = req.getContextPath()+"/index.air";
+		}
+		
+		req.setAttribute("n", n);
+		req.setAttribute("loc", loc);
+		
+		return "home/vanWriteEnd.hometiles";
+	}
+	
+	// 쿠폰등록 페이지 요청
+	@RequestMapping(value="/couponRegs.air", method= {RequestMethod.GET})
+	public String couponReg(HttpServletRequest req) {
+
+		
+		return "admin/couponRegs.admintiles";
+	}
+	
+	// 쿠폰등록 완료 요청
+	@RequestMapping(value="/couponRegsEnd.air", method= {RequestMethod.POST})
+	public String couponRegEnd(HttpServletRequest req) {
+		
+		String cpname = req.getParameter("cpname");
+		String dcmoney = req.getParameter("dcmoney");
+		
+		String randomNo = "";
+		for(int i=0; i<6; i++) {
+			randomNo += Integer.toString(MyUtil.myRandom(1, 9));
+		}
+
+		HashMap<String, String> paramap = new HashMap<String, String>();
+		paramap.put("randomNo", randomNo);
+		paramap.put("cpname", cpname);
+		paramap.put("dcmoney", dcmoney);
+		
+		System.out.println(randomNo);
+		System.out.println(cpname);
+		System.out.println(dcmoney);
+		
+		int n = 0;
+		n = service.cpAdd(paramap);
+		
+		String loc = "";
+		if(n==1) {	
+			loc = req.getContextPath()+"/couponRegs.air";
+		}
+		else {		
+			loc = req.getContextPath()+"/admin.air";
+		}
+		
+		req.setAttribute("n", n);
+		req.setAttribute("loc", loc);
+		
+		return "admin/couponRegsEnd.admintiles";
+	}
+	
+	
 	
 	// ==== #스마트에디터1. 단일사진 파일업로드 ====
 	@RequestMapping(value="/image/phothUpload.action", method= {RequestMethod.GET})

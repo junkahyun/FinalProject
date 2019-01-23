@@ -31,7 +31,7 @@
 	        
 	        //폼 submit
 	        var writeFrm = document.writeFrm;
-			writeFrm.action = "<%= request.getContextPath() %>/addEnd.air";
+			writeFrm.action = "<%= request.getContextPath() %>/vanWriteEnd.air";
 			writeFrm.method = "POST";
 			writeFrm.submit();
 	    });
@@ -54,9 +54,9 @@
 	
 	<div class="input-group mb-3" style="padding: 2%;">
 	  <div class="input-group-prepend" style="padding: 1%;">
-	    <label class="input-group-text" for="inputGroupSelect01">선택하기</label>
+	    <label class="input-group-text" for="inputGroupSelect01">신고유형</label>
 	  </div>
-	  <select class="custom-select" id="select" name="select" style="width: 200px; height: 30px; padding-left: 10px; font-size: 18px; color: #352c31; border: 1px solid #352c31; border-radius: 3px;">
+	  <select class="custom-select" id="reporttype" name="reporttype" style="width: 200px; height: 30px; padding-left: 10px; font-size: 18px; color: #352c31; border: 1px solid #352c31; border-radius: 3px;">
 	    <option selected value="0">선택하기</option>
 	    <option value="1">투숙객신고</option>
 	    <option value="2">호스트신고</option>

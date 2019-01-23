@@ -5,7 +5,7 @@ import java.util.List;
 public class MemberVO {
 
 	private String userid; 
-	private String profileimg ;
+	private String profileimg;
 	private String username;
 	private String pwd;
 	private String email; 

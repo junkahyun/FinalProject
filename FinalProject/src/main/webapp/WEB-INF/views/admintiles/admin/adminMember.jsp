@@ -63,6 +63,8 @@
 								   " <td><button type='button' class='btn btn-danger' >삭제</button></td>"+
 								   "</tr>"; 
 						$("#result").html(html);
+						
+						
 					});
 				}
 				else {
@@ -137,7 +139,7 @@
 	</form>
 	
 	<div class="pageBar" style="text-align: center; margin: 2%;">
-		${pagebar}
+		
 	</div>
 	
 

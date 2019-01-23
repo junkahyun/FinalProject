@@ -34,4 +34,10 @@ public interface InterSHDAO {
 
 	// 검색조건이 없는것 또는 검색조건이 있는 회원전체목록 가져오기
 	List<MemberVO> memberlistPaging(HashMap<String, String> paraMap);
+
+	// 신고 글쓰기 insert하기
+	int add(ReportVO reportvo);
+
+	// 쿠폰 등록하기
+	int cpAdd(HashMap<String, String> paramap);
 }

@@ -96,4 +96,22 @@ public class SHDAO implements InterSHDAO {
 		
 		return memberList;
 	}
+
+	// 신고 글쓰기 insert하기
+	@Override
+	public int add(ReportVO reportvo) {
+		
+		int n = sqlsession.insert("sh.add", reportvo);
+		
+		return n;
+	}
+
+	// 쿠폰등록하기
+	@Override
+	public int cpAdd(HashMap<String, String> paramap) {
+		
+		int n = sqlsession.insert("sh.cpAdd", paramap);
+		
+		return n;
+	}
 }
