@@ -47,10 +47,6 @@
 			      <li class="profileDrop" onClick="goMypage();">마이페이지</li>
 			    </ul>
             </div>
-	        
-	        
-	        
-	        
 			<div class="headermenuButton" onClick="" style="float:right; padding:1% 1.5%;">
 				<button class="btn" style="background-color: #008489;">
 					<span style="color: white; font-weight: bold;">숙소등록하기</span>

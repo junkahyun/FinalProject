@@ -57,6 +57,13 @@ public class KHService implements InterKHService {
 		int reservation = dao.insertReservation(map);
 		return reservation;
 	}
+	
+	// *** 예약자 정보 가져오기 *** //
+	@Override
+	public ReservationVO getOneReserve(HashMap<String, Object> map) {
+		ReservationVO rvo = dao.getOneReserve(map);
+		return rvo;
+	}
 
 	
 }

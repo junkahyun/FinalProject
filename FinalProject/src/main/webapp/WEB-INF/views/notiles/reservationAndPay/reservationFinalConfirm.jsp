@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -15,14 +16,11 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<style type="text/css">
 
 <style type="text/css">
-
 
 h2,h3{font-weight: bold;
-      
-     }
+  }
 tr,td{border: 1px solid gray; font-size: 12pt;
 }
 
@@ -36,7 +34,8 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 .reservationInfo{font-size: 12pt; border: 0px; margin-bottom: 15%; 
 }
   
-
+input{outline: none;
+}
 </style>
 
 <script type="text/javascript">
@@ -79,8 +78,9 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomName}"  readonly="readonly"/><br>
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSido}&nbsp;${(sessionScope.oneRoom).roomBname}"  readonly="readonly"/><br><br>
 			
-			<span class="myinfomation">보증금</span><br>
-			<input class="plusfee" type="text" value="₩101,610" style="border: 0px; font-size: 12pt;" readonly="readonly"/>
+			<span class="myinfomation">총 인원</span><br>
+			<input class="plusfee" type="text" value="게스트 : ${guestcount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/><br>
+			<input class="plusfee" type="text" value="유아 : ${babycount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-3" >
@@ -90,7 +90,6 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 			<span class="myinfomation">숙박시설 호스트</span><br>
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).fk_userid}님"  readonly="readonly"/><br>
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomTel}"  readonly="readonly"/><br>
-			
 		</div>
 		
 		<div class="col-md-3">
@@ -121,27 +120,27 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${checkday2-checkday1}박</td>
-					<td >₩${((sessionScope.oneRoom).roomPrice)*(checkday2-checkday1)}</td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(checkday2-checkday1)}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr>
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">청소비</td>
-					<td >₩${(sessionScope.oneRoom).cleanPay}</td>
+					<td >₩<fmt:formatNumber value="${oneRoom.cleanPay}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">성수기 추가 요금</td>
-					<td >${((sessionScope.oneRoom).roomPrice/100)*(oneRoom.peakper)}</td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">추가 인원 요금</td>
-					<td >₩${(sessionScope.oneRoom).person_addpay}</td>
+					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">합계</td>
-					<td >₩${totalprice}</td>
+					<td >₩<fmt:formatNumber value="${totalprice}" pattern="#,###"/></td>
 				</tr>
 			<%-- </c:forEach> --%>		
 		</table>
@@ -150,7 +149,7 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${checkmonth1}월 ${checkday1}일</td>
-					<td >₩${totalprice}</td>
+					<td >₩<fmt:formatNumber value="${totalprice}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr>
