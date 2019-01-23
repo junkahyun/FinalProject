@@ -90,7 +90,48 @@
 		        	$("#data1").val(splitArr);
 		         }            
 		         
-		      } 			 
+		      }		      
+		      
+		      var form_data = {rule : $("#data1").val(splitArr)};
+		      var html = "";
+		     alert("여기오니?");
+		      $.ajax({			    	 
+				url: "<%=request.getContextPath()%>/optionJSON.air",
+				type: "GET",
+				data: form_data,
+				dataType: "JSON",
+				success: function(json){ 					
+					$("#allList").empty();
+					
+					$.each(json, function(entryIndex, entry){
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
+							  + "</div>"
+							  + "</div>";
+					});// end of $.each()-------------
+					
+					$("#allList").append(html); 	  
+						
+				},
+				error: function(request, status, error){
+				    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+
+		      });
 		 });
 		 
 		 // 임대유형 클릭시
@@ -320,7 +361,7 @@
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
-            	<input type="text" id="data1" name="rulename"/>
+            	<input type="hidden" id="data1" name="rulename"/>
             	
             </div>        
            
@@ -347,7 +388,7 @@
             	<c:forEach items="${roomType}" var="room">
             		<span class="buildType option" style="margin-right: 11.5%; cursor: pointer;">${room}</span>&nbsp;
             	</c:forEach>              
-            	<input type="text" id="data2" name="roomtype_name"/>	                  	
+            	<input type="hidden" id="data2" name="roomtype_name"/>	                  	
             </div>
             
             <div class="optionbox" id="service">
@@ -357,7 +398,7 @@
             		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
             		<div class="option col-md-2 easy" style="margin:0;padding:0; cursor: pointer;">${option}</div>
             		</c:forEach>  
-            		<input type="text" id="data3" name="optionname"/>
+            		<input type="hidden" id="data3" name="optionname"/>
             	</div>          	
             </div> 
                         
@@ -455,7 +496,7 @@
         <div class="col-md-8" style="height:100vh; padding: 1%;">
             <div class="row">
             <c:forEach items="${roomList}" var="RList" varStatus="status">
-                <div class="col-md-4" style="margin-bottom: 2%;">               
+                <div id="allList" class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
                     </div>
@@ -468,6 +509,14 @@
                     </div>
                     <div>
                         <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
+                        <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
+                        	<input type="hidden" value="${oplist.OPTIONNAME }" />
+                        </c:forEach>
+                        <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
+                       	 	<input type="hidden" value="${rule.RULE_NAME}" />
+                        </c:forEach>                         
+                        <input type="hidden" value="${RList.roomType_name }" />
+                        <input type="hidden" value="${RList.roomcode }" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>

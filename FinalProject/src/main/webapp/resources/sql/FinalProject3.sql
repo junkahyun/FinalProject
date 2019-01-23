@@ -456,36 +456,4 @@ where fk_userid = 'leess'
         
 commit;
 
-select *
-from roomoption;
-
-select *
-from options
-
-select *
-from roomtype
-
-select *
-from room A JOIN roomoption B
-on A.roomcode = B.fk_roomcode
-JOIN options C
-on B.fk_option_idx = c.option_idx
-JOIN roomrule D
-on A.roomcode = D.fk_roomcode
-JOIN allrule E
-on D.fk_rule_idx = E.rule_idx
-JOIN roomtype F
-ON A.fk_roomtype_idx = F.roomtype_idx
-where optionname='난방' and E.rule_name='흡연가능' and F.roomtype_name = '집 전체'
-
-select *
-from allrule A JOIN roomrule B
-on A.rule_idx = B.fk_rule_idx
-JOIN room C
-on B.fk_roomcode = C.roomcode
-
-select *
-from roomtype
-
-select *
-from room
+select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx

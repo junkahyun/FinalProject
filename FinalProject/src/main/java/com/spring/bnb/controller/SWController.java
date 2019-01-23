@@ -130,6 +130,8 @@ public class SWController {
 		String[] roomtype_name = req.getParameterValues("roomtype_name");
 		String[] optionname = req.getParameterValues("optionname");
 		
+		System.out.println("gkgk");
+		
 		JSONArray jsonArr = new JSONArray();  		
 		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
 		paraMap.put("RULENAME", rulename);
@@ -138,7 +140,7 @@ public class SWController {
 		
 		System.out.println(paraMap);
 		
-		List<HashMap<String, String>> optionList = service.getOptionList(paraMap);
+		List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);
 		
 		for(HashMap<String, String> test : optionList) {
 			

@@ -25,7 +25,7 @@ public interface InterSWService {
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황보여주기
 
-	List<HashMap<String, String>> getOptionList(HashMap<String, String[]> paraMap); // 옵션 정보 받아오기
+	List<HashMap<String, String>> getSWOptionList(HashMap<String, String[]> paraMap); // 옵션 정보 받아오기
 
 	
 }

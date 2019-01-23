@@ -61,7 +61,12 @@ public class SWDAO implements InterSWDAO {
 	public List<RoomVO> getRoomList() {
 
 		List<RoomVO> roomList = sqlsession.selectList("sw.getRoomList");
-		
+		for(RoomVO room : roomList) {
+			List<HashMap<String,String>> optionList = sqlsession.selectList("sw.getRoomOptionList",room.getRoomcode());
+			room.setOptionList(optionList);
+			List<HashMap<String,String>> ruleList = sqlsession.selectList("sw.getRuleList",room.getRoomcode());
+			room.setRuleList(ruleList);
+		}
 		return roomList;
 	}
 
@@ -74,9 +79,9 @@ public class SWDAO implements InterSWDAO {
 	}
 
 	@Override
-	public List<HashMap<String, String>> getOptionList(HashMap<String, String[]> paraMap) {
+	public List<HashMap<String, String>> getSWOptionList(HashMap<String, String[]> paraMap) {
 
-		List<HashMap<String, String>> optionList = sqlsession.selectList("sw.getOptionList", paraMap);
+		List<HashMap<String, String>> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
 		
 		return optionList;
 	}
