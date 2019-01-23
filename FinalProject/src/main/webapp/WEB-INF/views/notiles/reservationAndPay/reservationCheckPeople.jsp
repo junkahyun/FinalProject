@@ -132,6 +132,8 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
+		$("#finalPeople").val("${guestcount}"); //인원추가 하지 않을시 기존에 선택한 값만 넘김
+		
 		$("#close").click(function(){ //인원변경 클릭시 가격, 인원수 변경하기
 			var babym = $("#babycount").val();
 			var adultm = $("#guestcount").val();
@@ -155,16 +157,24 @@ h3{font-size: 14pt;
 			var room = roomtotalPrice.split(",");
 			var rom2 = room.join("");
 			
-			var room3 = parseInt(rom2);//최대인원추가시 연산을 위해 기본가격을 int타입으로 바꿈
+			var room3 = parseInt(rom2);//최대인원추가시 연산을 위해 기본가격을 int타입으로 바꿈, 최종금액
 			
-			if(parseInt(maxperson) < parseInt(finalpeople)){
+			if(parseInt(maxperson) < parseInt(finalpeople)){ // 최대인원추가시 인원당 가격 추가
 				var plus = (parseInt(finalpeople)-parseInt(maxperson))*${oneRoom.person_addpay};
-				$("#pluspeople").val(plus);
+				// 인원추가시 추가되는 금액
+				$("#pluspeople").empty().val(plus);
 				$("#roomtotalPrice").empty().text(Number(room3+plus).toLocaleString());
-			}
-			else{
 				
-			}
+			}//end of if---------
+			/* else if(parseInt(finalpeople)-parseInt(maxperson) == 0){
+				var minus = parseInt($("#pluspeople").val());
+				console.log($("#pluspeople").val());
+				
+				if(minus != ""){
+					$("#roomtotalPrice").text(Number(room3-minus).toLocaleString());
+				}
+			}//end of if----------- */
+			
 		});
 		
 	});
