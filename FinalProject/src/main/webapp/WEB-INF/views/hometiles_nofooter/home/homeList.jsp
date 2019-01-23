@@ -30,9 +30,12 @@
  
  $(document).ready(function(){
 		
-	 // 이용규칙 클릭시
 	 var result1 = "";
-	 $(".rule").click(function(){		
+	 var rulenameArr = new Array();	      
+     var optionnameArr = new Array();
+     var roomtypenameArr = new Array();
+     
+	 $(".option").click(function(){
 		 var thisText = $(this).text()
 		 var $target = $(event.target);	 
 
@@ -45,137 +48,91 @@
 			 $target.removeClass("subjectstyle");
         	  result1 = result1.replace($(this).text()+",","");
 		 }		  
+		//	alert(result1);
+	 	$("#data1").val(result1);
 		
-	//	 $("#data1").val(result1); 
-		 
 		 // 문자열 자르기
 	      var jbString = result1;
-	      var jbSplit = jbString.split(',');
-	            
-	      for(var i in jbSplit){
-	         if(jbSplit[i] != ""){            
-	        //	alert(jbSplit[i);
-	        	var splitArr = jbSplit[i];
-	        	$("#data1").val(splitArr);
-	         }            
-	         
-	      }		      
+	      var jbSplit = jbString.split(','); 
+	      var resultArr = new Array();
 	      
-	      var ruleArr = $("#data1").val();
-	      var rulenameArr = new Array($("#rulename").val());
-	      for(var i=0; i<rulenameArr.length; i++){
-	    	  alert(rulenameArr[i]);
-	      }
-	      var roomtypenameArr = $("#roomtype_name").val();
-	      var optionnameArr = $("#optionname").val();
 	      
-	      var form_data = {rule :ruleArr, 
-	    		  		   rulename : rulenameArr,
-	    		  		   roomtype_name : roomtypenameArr,
-	    		  		   optionname : optionnameArr
+	      if($(this).parent().hasClass("rulename")){
+	    	if(rulenameArr.includes($(this).text())){
+	    		var sindex = rulenameArr.indexOf($(this).text()); 
+	    		rulenameArr.splice(sindex,1);
+	    		
+	    	}else{
+     			rulenameArr.push($(this).text());
+	    	}
+	      }else if($(this).parent().hasClass("roomtype_name")){
+      		if(roomtypenameArr.includes($(this).text())){
+      			var sindex = roomtypenameArr.indexOf($(this).text()); 
+      			roomtypenameArr.splice(sindex,1);
+	    	}else{
+	    		roomtypenameArr.push($(this).text());
+	    	}
+	      }else{
+      		if(optionnameArr.includes($(this).text())){
+      			var sindex = optionnameArr.indexOf($(this).text()); 
+      			optionnameArr.splice(sindex,1);
+	    	}else{
+	    		optionnameArr.push($(this).text());
+	    	}
+	      }   
+	           
+	      //alert("rulenameArr : " + rulenameArr);
+	      //alert("roomtypenameArr : " + roomtypenameArr);
+	      //alert("optionnameArr : " + optionnameArr);
+	      
+	      jQuery.ajaxSettings.traditional = true;
+	      
+	      alert(typeof rulenameArr);
+	      var form_data = {"rulename" : rulenameArr,
+	    		  		   "roomtype_name" : roomtypenameArr,
+	    		  		   "optionname" : optionnameArr
 	    		  		   };
 	      var html = "";
-	   alert("여기오니?");
-			
-	      $.ajax({			    	 
-			url: "<%=request.getContextPath()%>/optionJSON.air",
-			type: "GET",
-			data: form_data,
-			dataType: "JSON",
-			success: function(json){ 					
-				/* $("#allList").empty(); */
-				alert("gkgkgk");
-				/* $.each(json, function(entryIndex, entry){
-					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
-						  + "</div>"
-						  + "<div>"
-						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
-						  + "</div>"
-						  + "<div>"
-						  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
-						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-						  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
-						  + "</div>"
-						  + "</div>";
-				});// end of $.each()------------- 
-				
-				$("#allList").append(html); 	*/  
+	      
+		  $.ajax({
+			    url: "<%=request.getContextPath()%>/optionJSON.air",
+				type: "GET",
+				data: form_data,
+				dataType: "JSON",
+				success: function(json){ 					
+					/* $("#allList").empty(); */
+					alert("gkgkgk");
+					/* $.each(json, function(entryIndex, entry){
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
+							  + "</div>"
+							  + "</div>";
+					});// end of $.each()------------- 
 					
-			},
-			error: function(request, status, error){
-			    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-
+					$("#allList").append(html); 	*/  
+						
+				},
+				error: function(request, status, error){
+				    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
 	      });
+	      
 	 });
-	 
-	 // 임대유형 클릭시
-	 var result2 = "";
-	 $(".buildType").click(function(){		
-		 var thisText = $(this).text()
-		 var $target = $(event.target);	 
-
-		 // 폰트 색깔 바꾸기
-		 if(!$target.hasClass("subjectstyle")){			
-			 $target.addClass("subjectstyle"); 
-        	  result2 += thisText + ",";	
-		 }
-		 else{			
-			 $target.removeClass("subjectstyle");
-        	  result2 = result2.replace($(this).text()+",","");
-		 }		  
-		
-		 $("#data2").val(result2); 
-		 
-		 // 문자열 자르기
-	      var jbString = result2;
-	      var jbSplit = jbString.split(',');
-	            
-	      for(var i in jbSplit){
-	         if(jbSplit[i] != ""){            
-	        // 	alert(jbSplit[i]);
-	        	var splitArr = jbSplit[i];		
-	         }            
-	      } 			 
-	 });
-		 
-		 // 고객편의 클릭시
-		 var result3 = ""; 
-		 $(".easy").click(function(){		
-			 var thisText = $(this).text()
-			 var $target = $(event.target);	 
-
-			 // 폰트 색깔 바꾸기
-			 if(!$target.hasClass("subjectstyle")){			
-				 $target.addClass("subjectstyle"); 
-	        	  result3 += thisText + ",";	
-			 }
-			 else{			
-				 $target.removeClass("subjectstyle");
-	        	  result3 = result3.replace($(this).text()+",","");
-			 }		  
-			
-			 $("#data3").val(result3); 
-			 
-			 // 문자열 자르기
-		      var jbString = result3;
-		      var jbSplit = jbString.split(',');
-		            
-		      for(var i in jbSplit){
-		         if(jbSplit[i] != ""){            
-		         //	alert(jbSplit[i]);  
-		        	var splitArr = jbSplit[i];		
-		         }            
-		      } 			 
-		 });
-		 
+	  
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#city").change(function(){
 		 
@@ -373,15 +330,13 @@
             	<input type="hidden" id="data2" name="roomtype_name"/>	                  	
             </div>
             
-            <div class="optionbox" id="service">
-            	<div class="row" style="padding:0;width:100%;">
-	            	<div class="optionname col-md-2">고객 편의</div>
-            		<c:forEach items="${optionList}" var="option" varStatus="status">  			
-            		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
-            		<div class="option col-md-2 easy" style="margin:0;padding:0; cursor: pointer;">${option}</div>
-            		</c:forEach>  
-            		<input type="hidden" id="data3" name="optionname"/>
-            	</div>          	
+            <div class="optionbox row" id="service" style="padding:0; margin:0;width:100%;">
+            	<div class="optionname col-md-2">고객 편의</div>
+           		<c:forEach items="${optionList}" var="option" varStatus="status">  			
+           		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
+           		<span class="option col-md-2 easy" style=" display:block; margin:0;padding:0; cursor: pointer;">${option}</span>
+           		</c:forEach>  
+           		<input type="hidden" id="data3" name="optionname"/>
             </div> 
                         
         </div>
@@ -492,17 +447,17 @@
                     <div>
                         <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
                         <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
-                        	<input type="text" id="optionname" name="optionname" value="${oplist.OPTIONNAME }" />
+                        	<input type="text" name="optionname" value="${oplist.OPTIONNAME }" />
                         </c:forEach>
                         <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
-                       	 	<input type="text" id="rulename" name="rulename" value="${rule.RULE_NAME}" />
+                       	 	<input type="text" name="rulename" value="${rule.RULE_NAME}" />
                         </c:forEach>                         
-                        <input type="text" id="roomtype_name" name="roomtype_name" value="${RList.roomType_name }" />
-                        <input type="text" id="roomcode" name="roomcode" value="${RList.roomcode }" />
+                        <input type="text" name="roomtype_name" value="${RList.roomType_name }" />
+                        <input type="text" name="roomcode" value="${RList.roomcode }" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
-                        <input type="text" id="roomcode" name="roomcode" value="${RList.roomcode }" />
+                        <input type="text" name="roomcode" value="${RList.roomcode }" />
                     </div>                
                 </div>
             </c:forEach>

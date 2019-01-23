@@ -36,7 +36,6 @@ public class SWController {
 		req.getParameter("checkout");
 		
 		/*req.setAttribute("testList", testList);*/
-		
 		// 숙소유형(대)
 		List<String> buildList = service.getBuildList();		
 		// 옵션종류
@@ -47,7 +46,6 @@ public class SWController {
 		List<String> roomRule = service.getRoomRule();
 		// 숙소유형(소)
 		List<RoomVO> roomList = service.getRoomList();
-	
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
@@ -124,22 +122,43 @@ public class SWController {
 	}
 	
 	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})
-	public String option(HttpServletRequest req, HttpServletResponse res) {
+	public String option(HttpServletRequest req, HttpServletResponse res, String[] rulename, String[] roomtype_name, String[] optionname) {
+		 
+		if(rulename == null ) {
+			rulename = new String[]{""};
+		}
+		if(roomtype_name == null) {
+			roomtype_name = new String[]{""};
+		}
+		if(optionname == null) {
+			optionname = new String[]{""};
+		}
+		String rulenameStr = Arrays.toString(rulename);
+		String roomtype_nameStr = Arrays.toString(roomtype_name);
+		String optionnameStr = Arrays.toString(optionname);
+
 		
-		String[] rulename = req.getParameterValues("rulename");
-		String[] roomtype_name = req.getParameterValues("roomtype_name");
-		String[] optionname = req.getParameterValues("optionname");
+		System.out.println("rulenameStr : " + rulenameStr);
+		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
+		System.out.println("optionnameStr : " + optionnameStr);
 		
-		System.out.println("gkgk");
-		System.out.println(rulename);
-		System.out.println(roomtype_name);
-		System.out.println(optionname);		
+		rulenameStr = rulenameStr.replace("[", "{");
+		rulenameStr = rulenameStr.replace("]", "}");
+		roomtype_nameStr = roomtype_nameStr.replace("[", "{");
+		roomtype_nameStr = roomtype_nameStr.replace("]", "}");
+		optionnameStr = optionnameStr.replace("[", "{");
+		optionnameStr = optionnameStr.replace("]", "}");
+		
+		
+		System.out.println("rulenameStr : " + rulenameStr);
+		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
+		System.out.println("optionnameStr : " + optionnameStr);
 		
 		JSONArray jsonArr = new JSONArray();  		
-		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
-		paraMap.put("RULENAME", rulename);
-		paraMap.put("ROOMTYPE_NAME", roomtype_name);
-		paraMap.put("OPTIONNAME", optionname);
+		HashMap<String,String> paraMap =  new HashMap<String,String>();
+		paraMap.put("RULENAME", rulenameStr);
+		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
+		paraMap.put("OPTIONNAME", optionnameStr);
 		
 		System.out.println(paraMap);
 		

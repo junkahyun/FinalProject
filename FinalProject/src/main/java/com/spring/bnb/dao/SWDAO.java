@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,10 +80,15 @@ public class SWDAO implements InterSWDAO {
 	}
 
 	@Override
-	public List<HashMap<String, String>> getSWOptionList(HashMap<String, String[]> paraMap) {
+	public List<HashMap<String, String>> getSWOptionList(HashMap<String, String> paraMap) {
 
 		List<HashMap<String, String>> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
-		
+		List<String> selectRoomList = sqlsession.selectList("sw.getSWOptionList", paraMap);
+		List<RoomVO> roomList = new ArrayList<RoomVO>();
+		/*for(String str:selectRoomList) {
+			RoomVO room = sqlsession.selectList("sw.getRoomByRoomcode",str);
+			roomList.add(room);
+		}*/
 		return optionList;
 	}
 

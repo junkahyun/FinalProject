@@ -90,21 +90,17 @@
 		on A.roomcode = D.fk_roomcode
 		JOIN allrule E
 		on D.fk_rule_idx = E.rule_idx
+		JOIN roomtype F
+		on A.fk_roomtype_idx = F.roomtype_idx
 		where 1 = 1
-		<if test="RULENAME != null">		
-			<foreach item="rulename" open="('" separator="','" close="')" collection="RULENAME">
-				and rule_name in #{rulename}			
-			</foreach>
+		<if test="RULENAME != ''">	
+			and rule_name in #{RULENAME}
 		</if>
-		<if test="ROOMTYPE_NAME != null">	
-			<foreach item="rtname" open="('" separator="','" close="')" collection="ROOMTYPE_NAME">
-				and roomtype_name in #{rtname}			
-			</foreach>
+		<if test="ROOMTYPE_NAME != ''">	
+			and roomtype_name in #{ROOMTYPE_NAME}	
 		</if>
-		<if test="OPTIONNAME != null">	
-			<foreach item="opname" open="('" separator="','" close="')" collection="OPTIONNAME">
-				and optionname in #{opname}			
-			</foreach>
+		<if test="OPTIONNAME != ''">	
+			and optionname in #{OPTIONNAME}	
 		</if>
 	</select>
 	
