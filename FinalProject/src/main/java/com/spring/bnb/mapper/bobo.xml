@@ -41,16 +41,28 @@
 		order by buildType_detail_idx
 	</select>
 	
-	<!-- 옵션유형 가져오기 -->
+	<!-- 옵션 가져오기 -->
  	<resultMap type="HashMap" id="options">
 		  <result property="OPTION_IDX" column="option_idx" javaType="String" />
 		  <result property="OPTIONNAME" column="optionName" javaType="String" />
 	</resultMap>
 	
- 	<select id="selectoptions" parameterType="String" resultMap="buildType_detail">
+ 	<select id="selectoptions" parameterType="String" resultMap="options">
 		select option_idx, optionName
 		from options
 		order by option_idx
+	</select>
+	
+	<!-- 이용규칙 가져오기 -->
+ 	<resultMap type="HashMap" id="rule">
+		  <result property="RULE_IDX" column="rule_idx" javaType="String" />
+		  <result property="RULE_NAME" column="rule_name" javaType="String" />
+	</resultMap>
+	
+ 	<select id="selectrule" parameterType="String" resultMap="rule">
+		select rule_idx, rule_name
+		from allrule
+		order by rule_idx
 	</select>
 
  

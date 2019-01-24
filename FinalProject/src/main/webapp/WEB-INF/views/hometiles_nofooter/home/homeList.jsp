@@ -29,37 +29,110 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-	 
-	 // 옵션 클릭시 스타일 주기	
-	 $(".option").click(function(){		 
-		 var $target = $(event.target);	
-		 		 
+		
+	 var result1 = "";
+	 var rulenameArr = new Array();	      
+     var optionnameArr = new Array();
+     var roomtypenameArr = new Array();
+     
+	 $(".option").click(function(){
+		 var thisText = $(this).text()
+		 var $target = $(event.target);	 
+
+		 // 폰트 색깔 바꾸기
 		 if(!$target.hasClass("subjectstyle")){			
-			 $target.addClass("subjectstyle");				
+			 $target.addClass("subjectstyle"); 
+        	  result1 += thisText + ",";	
 		 }
 		 else{			
 			 $target.removeClass("subjectstyle");
-		 }		 
-
-		 var result = "";
-		 $(".subjectstyle").each(function(event){
-			 var has = $(this).hasClass("subjectstyle");
-			 if(has){
-				 result += $(this).text() + ",";
-			 }			
-		 });
-		/* alert(result);
-		$("#data").val(result); */
-		var jbString = result;
-		var jbSplit = jbString.split(',');
-				
-		for(var i in jbSplit){
-			if(jbSplit[i] != ""){				
-			//	alert(jbSplit[i]);					
-			}				
-		}		
-	 });	
-	 
+        	  result1 = result1.replace($(this).text()+",","");
+		 }		  
+		//	alert(result1);
+	 	$("#data1").val(result1);
+		
+		 // 문자열 자르기
+	      var jbString = result1;
+	      var jbSplit = jbString.split(','); 
+	      var resultArr = new Array();
+	      
+	      
+	      if($(this).parent().hasClass("rulename")){
+	    	if(rulenameArr.includes($(this).text())){
+	    		var sindex = rulenameArr.indexOf($(this).text()); 
+	    		rulenameArr.splice(sindex,1);
+	    		
+	    	}else{
+     			rulenameArr.push($(this).text());
+	    	}
+	      }else if($(this).parent().hasClass("roomtype_name")){
+      		if(roomtypenameArr.includes($(this).text())){
+      			var sindex = roomtypenameArr.indexOf($(this).text()); 
+      			roomtypenameArr.splice(sindex,1);
+	    	}else{
+	    		roomtypenameArr.push($(this).text());
+	    	}
+	      }else{
+      		if(optionnameArr.includes($(this).text())){
+      			var sindex = optionnameArr.indexOf($(this).text()); 
+      			optionnameArr.splice(sindex,1);
+	    	}else{
+	    		optionnameArr.push($(this).text());
+	    	}
+	      }   
+	           
+	      //alert("rulenameArr : " + rulenameArr);
+	      //alert("roomtypenameArr : " + roomtypenameArr);
+	      //alert("optionnameArr : " + optionnameArr);
+	      
+	      jQuery.ajaxSettings.traditional = true;
+	      
+	      alert(typeof rulenameArr);
+	      var form_data = {"rulename" : rulenameArr,
+	    		  		   "roomtype_name" : roomtypenameArr,
+	    		  		   "optionname" : optionnameArr
+	    		  		   };
+	      var html = "";
+	      
+		  $.ajax({
+			    url: "<%=request.getContextPath()%>/optionJSON.air",
+				type: "GET",
+				data: form_data,
+				dataType: "JSON",
+				success: function(json){ 					
+					/* $("#allList").empty(); */
+					alert("gkgkgk");
+					/* $.each(json, function(entryIndex, entry){
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
+							  + "</div>"
+							  + "</div>";
+					});// end of $.each()------------- 
+					
+					$("#allList").append(html); 	*/  
+						
+				},
+				error: function(request, status, error){
+				    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+	      });
+	      
+	 });
+	  
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#city").change(function(){
 		 
@@ -209,25 +282,25 @@
             	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;">~
             	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;">   
             	<c:forEach items="${roomList }" var="RList" varStatus="status">
-            		<input type="hidden" id="cnt" value="${status.index}" />
-            		<input type="hidden" id="lat" class="lat" value="${RList.latitude }" />
-            		<input type="hidden" id="lng" class="lng" value="${RList.longitude }" />
+            		<input type="hidden" id="cnt${status.index}" class="cnt" value="${status.index}" />
+            		<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
+            		<input type="hidden" id="lng${status.index}" class="lng" name="lat" value="${RList.longitude }" />
             	</c:forEach>       	
             </div>
            
            	<div class="optionbox">
             	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>
-            	<span style="margin-right: 6%;">성인&nbsp;<input class="person" name="pqty"  value="0" height="48"/></span>
+            	<span style="margin-right: 6%;">성인&nbsp;<input class="person" name="pqty" value="0" height="48"/></span>
             	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input class="person" name="pqty" value="0"/></span>
-            	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty"  value="0"/></span>       	
+            	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty" value="0"/></span>       	
             </div>  
             
-            <div class="optionbox">
+            <div id="rulename" class="optionbox rulename">
             	<span class="optionname">이용 규칙</span>
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
-            	<input type="hidden" id="data"/>
+            	<input type="hidden" id="data1" name="rulename"/>
             	
             </div>        
            
@@ -249,21 +322,21 @@
         		</select>
         	</div>
             
-            <div class="optionbox">            	
+            <div id="roomtype_name" class="optionbox roomtype_name">            	
             	<span class="optionname" style="margin-right: 9%;">임대 유형</span>
             	<c:forEach items="${roomType}" var="room">
             		<span class="buildType option" style="margin-right: 11.5%; cursor: pointer;">${room}</span>&nbsp;
-            	</c:forEach>              	                  	
+            	</c:forEach>              
+            	<input type="hidden" id="data2" name="roomtype_name"/>	                  	
             </div>
             
-            <div class="optionbox" id="service">
-            	<div class="row" style="padding:0;width:100%;">
-	            	<div class="optionname col-md-2">고객 편의</div>
-            		<c:forEach items="${optionList}" var="option" varStatus="status">  			
-            		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
-            		<div class="option col-md-2" style="margin:0;padding:0; cursor: pointer;">${option}</div>
-            		</c:forEach>  
-            	</div>          	
+            <div class="optionbox row" id="service" style="padding:0; margin:0;width:100%;">
+            	<div class="optionname col-md-2">고객 편의</div>
+           		<c:forEach items="${optionList}" var="option" varStatus="status">  			
+           		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
+           		<span class="option col-md-2 easy" style=" display:block; margin:0;padding:0; cursor: pointer;">${option}</span>
+           		</c:forEach>  
+           		<input type="hidden" id="data3" name="optionname"/>
             </div> 
                         
         </div>
@@ -285,6 +358,8 @@
 		   markOnMap();
 	   });
 
+	  
+	   
 	   function markOnMap(){
 		   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	       mapOption = {
@@ -306,20 +381,38 @@
 		        if (status === daum.maps.services.Status.OK) {
 		   
 		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-		           
+		           	           		           
 		           // 마커가 표시될 위치입니다 
 		           var markerPosition = "";
-		           for(var i=0; i<1; i++ ){
-		           		markerPosition  = new daum.maps.LatLng(document.getElementById('lat').value, document.getElementById('lng').value); 
+		           for(var i=0; i<9; i++ ){
+		        	    var latid = 'lat' +i;
+		        	    var lngid = 'lng' +i;
+		        	    
+		        	    var latitude = $('#'+latid).val();
+		        	    var longitude = $("#"+lngid).val();
+		        	    // alert(latitude);
+			        	//alert((document.getElementById(latid)).value);
+			        	//alert((document.getElementById(lngid)).value); 
+		        	   
+		           		markerPosition  = new daum.maps.LatLng(latitude, longitude);
+		           	   var marker = new daum.maps.Marker({
+			               map: map,
+			               position: markerPosition
+			           });
+		           	   
+		           	   var rnid = 'roomName' + i;
+		           	   var rn = $('#'+rnid).text();
+		           	   
+		           	   if(rn.length >= 30){
+		           		   rn = rn.substr(0,30)+'...';
+		           		  $("#"+rnid).html(rn);
+		           	   }		           	  
 		           }
 		           
 		           /* document.getElementById('lat').value, document.getElementById('lng').value */
 		           
 		           // 결과값으로 받은 위치를 마커로 표시합니다
-		           var marker = new daum.maps.Marker({
-		               map: map,
-		               position: markerPosition
-		           });
+		           
 		   
 		         /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
 		           var infowindow = new daum.maps.InfoWindow({
@@ -339,26 +432,36 @@
         
         <div class="col-md-8" style="height:100vh; padding: 1%;">
             <div class="row">
-            <c:forEach items="${roomList}" var="RList">
-                <div class="col-md-4" style="margin-bottom: 2%;">               
+            <c:forEach items="${roomList}" var="RList" varStatus="status">
+                <div id="allList" class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
-                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; cursor: pointer;" onClick="goHomeDetail()" />
+                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em; font-weight: bold;">개인실 · 침대 2개</span>
                     </div>
                     <div>
-                        <span style="font-weight:bold; font-size:1.2em;">${RList.roomName }</span>
+                        <%-- <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/> --%>
+                        <span id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;">${RList.roomName }</span>
                     </div>
                     <div>
                         <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
+                        <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
+                        	<input type="text" name="optionname" value="${oplist.OPTIONNAME }" />
+                        </c:forEach>
+                        <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
+                       	 	<input type="text" name="rulename" value="${rule.RULE_NAME}" />
+                        </c:forEach>                         
+                        <input type="text" name="roomtype_name" value="${RList.roomType_name }" />
+                        <input type="text" name="roomcode" value="${RList.roomcode }" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
+                        <input type="text" name="roomcode" value="${RList.roomcode }" />
                     </div>                
                 </div>
             </c:forEach>
-            </div>
+            </div> 
         </div>
       
     </div>

@@ -24,10 +24,10 @@ public class MemberVO {
 	private List<RoomVO> myroomList;
 	
 	public MemberVO() {}
-	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
-					String addr, String detailAddr, int gender, String birthday, String introduction, int memberStatus,
-					int warnCount, String regDate) {
 
+	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
+			String addr, String detailAddr, int gender, String birthday, String introduction, int memberStatus,
+			int warnCount, String regDate) {
 		super();
 		this.userid = userid;
 		this.profileimg = profileimg;
