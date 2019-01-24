@@ -157,7 +157,7 @@
        //$("#bedoqty").hide(); // 처음에 침대종류 숨기기
 	   
 	   // 침대 추가하기 버튼 클릭시 
-	   /* var flag = false;
+	   var flag = false;
 	   $(".bedAdd").click(function() {
 		   if(flag == false){
 			   var bed = $(".bedAdd").text("완료");   
@@ -169,9 +169,9 @@
 			  $("#bedoqty").hide();
 			  flag = false;
 		   }
-	   });	   */
+	   });
 	   
- 	  /*  $("#bedroom").change(function(){
+ 	   $("#bedroom").change(function(){
  	   		   
 		   var addbed = $("#addbed").html();
 		   
@@ -190,7 +190,7 @@
 			
 			$("#addarea").html(html);
 				   
-	   });  */
+	   }); 
 	   
       //두번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
 
@@ -596,79 +596,78 @@
 		                <div class="selecthead">게스트가 사용할 수 있는 침실은 몇 개인가요?</div>  
 		                <div class="col-md-9" style="padding: 0">
 		                <select id="bedroom" class="select" name="roomCount" style="width: 100%; padding: 9px;">  
-		                   <%for(int i=1; i<=50; i++){ %>
-		                   <option value="<%=i%>"><%="침실 "+i+"개"%></option>
-		                   <%} %>
+		                   <c:forEach var="i" begin="1" end="30" step="1" >
+		                   <option value="${i }">침실 ${i }개</option>
+		                   </c:forEach>
 		                </select>
 		                </div>  
 		            </div>              			            
 		         </div>
 		         
 		         <h3> 침대 유형 </h3>
-		         
 		         <div class="row" style="border: 0px solid black" id="addbed">
-		         <hr/>
-<!-- 		         	<div class="col-md-12">
+		         	<hr/>
+ 		         	<div class="col-md-12">
 				         <div class="col-md-6" style="border: 0px solid blue">
-				         	<div style="font-size: 19px;">1번 침실</div>
+				         	<div style="font-size: 19px;">${bedroom }번 침실</div>
 				         	<div style="font-size: 19px; color: #767676;">침대 0개</div>
 				         </div>
 				         <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;">
 				         	<button type="button" class="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
 				         </div>
 			        </div>
-			      <hr/> -->
-		         
-		         <div class="col-md-12" id="bedoqty">
-			         <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="doubleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
-							<input type="text" id="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="doubleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
+				      <hr/>
+			         
+			         <div class="col-md-12" id="bedoqty">
+				         <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="doubleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
+								<input type="text" id="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="doubleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
+				       	 <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="queenminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+								<input type="text" id="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="queenplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
+				       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="singleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+								<input type="text" id="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="singleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
+				       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="sofaminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+								<input type="text" id="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="sofaplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
 			       	</div>
-			       	 <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="queenminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-							<input type="text" id="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="queenplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
-			       	</div>
-			       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="singleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-							<input type="text" id="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="singleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
-			       	</div>
-			       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="sofaminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-							<input type="text" id="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="sofaplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
-			       	</div>
-		       	</div>
 		       	<hr/>
 		       	</div>
 		       	<div class="row" id="addarea"></div>
