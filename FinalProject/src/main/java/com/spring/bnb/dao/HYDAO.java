@@ -52,6 +52,7 @@ public class HYDAO implements InterHYDAO {
 	@Override
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
+		System.out.println("check : "+loginuser.getUserid());
 		if(loginuser!=null) {
 			List<RoomVO> myroom = sqlsession.selectList("hy.checkHostUser",member);
 			if(myroom != null) {
@@ -89,6 +90,12 @@ public class HYDAO implements InterHYDAO {
 	public int insertMember(MemberVO member) {
 		int n = sqlsession.insert("hy.insertMember", member);
 		return n;
+	}
+
+	@Override
+	public List<RoomVO> getRecommendRoomList(String sigungu) {
+		List<RoomVO> recommendRoomList = sqlsession.selectList("hy.getRecommendRoomList", sigungu);
+		return recommendRoomList;
 	}
 
 }
