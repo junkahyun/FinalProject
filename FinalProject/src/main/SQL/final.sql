@@ -277,6 +277,16 @@ where roomcode = 23;
 
 rollback;
 
-
 select *
 from member;
+
+update member set userid = 'admin'
+where username ='leess';
+
+select *
+from room
+order by roomcode desc;
+
+update room set ROOMSTATUS = 99
+where ROOMCODE in (24,25,26);
+commit;
