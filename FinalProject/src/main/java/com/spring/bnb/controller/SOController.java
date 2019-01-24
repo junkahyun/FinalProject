@@ -241,7 +241,7 @@ public class SOController {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
-		
+		System.out.println(userid);
 		String email = req.getParameter("email");
 		String phone = req.getParameter("phone");
 		String introduction = req.getParameter("introduction");
@@ -311,8 +311,13 @@ public class SOController {
 					System.out.println("업데이트 실패!");
 				}*/
 		}		
+		String msg="회원정보 수정 성공!";
+		String loc="/bnb/myEdit.air";
 		
-		return"mypage/myEdit.hometiles"; 
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return"msg"; 
 	}
 
 
@@ -399,6 +404,9 @@ public class SOController {
 		// *** 나에게 쓴 후기 ***
 		List<HashMap<String,String>> myReadReview = service.getHostReview(userid);
 		// *** 작성해야 할 후기 ***
+		// *** 나의 예약 코드 받아오기 ***
+		//String rsvcode = service.getMyRsvCode(userid);
+		//int n = service.getNoReview(userid)
 		
 		req.setAttribute("myReadReview", myReadReview);
 		req.setAttribute("myWriteReview", myWriteReview);

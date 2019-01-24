@@ -46,7 +46,8 @@
   display: block;
    max-width: 100%;
    width: 100% \9;
-height: auto; }
+height: auto; 
+}
 
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script> 
@@ -291,8 +292,12 @@ function codeCheckFun() {
 		       	   이메일 주소 <i aria-label="비공개" class="icon icon-lock icon-ebisu" data-behavior="tooltip" role="img" tabindex="0"></i>
 		        </label>
 		        <div class="col-sm-9">
-		        	<input id="email" name="email" size="30" type="text" value="${myInfo.email}">
-		        	<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" id="emailChangeInput">이메일 변경하기</button></div>
+		        	<div class="col-sm-12" style="bording : 1px solid red; padding-right: 30%;">
+		        		<input id="email" name="email" type="text" value="${myInfo.email}">
+		        	</div>
+		        	<div style="margin-top:8px">
+		        		<button type="button" class="_1k01n3v1" aria-busy="false" id="emailChangeInput">이메일 변경하기</button>
+		        	</div>
 		            <div class="text-muted space-top-1">이메일 주소는 다른 에어비앤비 회원에게 공개되지 않습니다.</div>
 		        </div>
 		    </div>
@@ -305,27 +310,21 @@ function codeCheckFun() {
 				                	<div style="margin-top:9px">
 				                		<div class="text-muted" style="margin-top:4px">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div>			                			
 					                	<div style="margin-top:8px">
-					                		<div class="phone-number-verify-widget ">
-					                			<div class="_16lavrk">
-					                				<div>
-					                					<strong>이메일 변경하기</strong>
-					                					<div style="margin-bottom: 16px;">이 메일주소로 인증코드를 보내드립니다.</div> 
-						                					
-						                					<div class="pniw-number-container">  
-						                						<input type="text" id="changeEmail" style="width: 70%" >
-						                						<span class="error" style="color: blue; font-size: 12px;">이메일 형식에 맞게 입력하세요.</span>
-						                					</div>
-							                				<div style="margin-top: 16px;">
-							                					<button type="button" class="btn btn-primary" id="emailCheckCode" style="margin: 2%;" onClick="emailCodeCheck();">인증코드 보내기</button>
-							                				</div> 
-						                				
-						                					<div id="addCode">
-						                						<div style="margin:5%; padding-right:10%"><input type="text" name="input_confirmCode" id="input_confirmCode"/></div>
-						   										<div><button class="btn" id="codeCheckBtn" type="button" onClick="codeCheckFun();">인증코드 확인하기</button></div>
-						                					</div>
-						                					</div>
-						                					<div id="addComment"></div>														
-													</div>
+					                		<div class="phone-number-verify-widget ">		                				
+			                					<strong>이메일 변경하기</strong>
+			                					<div style="margin-bottom: 16px;">이 메일주소로 인증코드를 보내드립니다.</div> 
+				                					<div class="pniw-number-container">  
+				                						<input type="text" id="changeEmail" style="width: 70%" >
+				                						<span class="error" style="color: blue; font-size: 12px;">이메일 형식에 맞게 입력하세요.</span>
+				                					</div>
+					                				<div style="margin-top: 16px;">
+					                					<button type="button" class="btn btn-primary" id="emailCheckCode" style="margin: 2%;" onClick="emailCodeCheck();">인증코드 보내기</button>
+					                				</div> 				                				
+				                					<div id="addCode">
+				                						<div style="margin:5%; padding-right:10%"><input type="text" name="input_confirmCode" id="input_confirmCode"/></div>
+				   										<div><button class="btn" id="codeCheckBtn" type="button" onClick="codeCheckFun();">인증코드 확인하기</button></div>
+				                					</div>				                				
+				                					<div id="addComment"></div>														
 												</div>
 											</div>
 					               		 </div>
@@ -339,12 +338,11 @@ function codeCheckFun() {
 			<!--  전화번호 DIV 시작 -->
 		     <div class="row row-condensed space-4">
 	        	<label class="text-right col-sm-3" for="user_phone_numbers">전화번호</label>
-		        <div class="col-sm-9"> 
-			    	<c:if test="${myInfo.phone ne null}">
-			    		<input id="phone" name="phone" type="text" width="30%;" value="${myInfo.phone}">
-			    		<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 변경하기</button></div>
-				       	<!--  전화번호 입력 버튼 선택 시  -->
-				     	 <!--  번호 입력 네모 박스 -->
+		        <div class="col-sm-9" style="padding-left:2%; padding-right: 23%;"> 
+				  <input id="phone" name="phone" type="text" width="30%;" value="${myInfo.phone}">
+			    	<!-- 	<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 변경하기</button></div>
+				       	<!--  전화번호 입력 버튼 선택 시  
+				     	  번호 입력 네모 박스
 				      	 <div class="col-sm-9" id="showInputPhone">
 			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055">
 			                	<div dir="ltr" data-reactroot="">
@@ -367,8 +365,7 @@ function codeCheckFun() {
 					                </div>
 				                </div>
 				            </div>
-				         </div>
-			         </c:if>
+				         </div> -->  
 			       </div>
 			    </div>
 			    <!--  전화번호 DIV 끝 -->
@@ -377,7 +374,7 @@ function codeCheckFun() {
 	               <div class="text-right col-sm-3">
 	                  <label for="postnum">우편번호</label>
 	               </div>
-	               <div class="col-sm-2">  
+	               <div class="col-sm-2" style="padding-left: 2%;">  
 	                  <input type="text" id="postnum" name="post" maxlength="3" class="form-control requiredinfo" value="${myInfo.post}" placeholder="PostNum">
 	               	  <span class="error error_post">우편번호 형식이 아닙니다.</span> 
 					  <button type="button" class="btn" id="zipcodeSearch" style="width: 80px; height: 20px; padding: 0%;"><span style="font-size: 2pt;">우편번호찾기</span></button>
@@ -389,13 +386,13 @@ function codeCheckFun() {
 	               <div class="text-right col-sm-3">
 	                  <label for="address">주소</label>
 	               </div>
-	               <div class="text-right col-sm-9" style="padding: 0;">
+	               <div class="text-right col-sm-9" style="padding-left: 2%; padding-right: 23%;">
 	                  <input type="text" id="addr" name="addr" class="form-control requiredinfo"value="${myInfo.addr}" placeholder="Enter Your Address" raeadOnly>
 	               </div>
 	            </div>
 	            <div class="row row-condensed space-4">
 	               <div class="text-right col-sm-3"></div>
-	               <div class="col-sm-9" style="padding: 0;">
+	               <div class="col-sm-9" style="padding-left: 2%; padding-right: 23%;">
 	                  <input type="text" id="detailAddr" name="detailAddr" class="address form-control requiredinfo" value="${myInfo.detailAddr}"placeholder="Enter Your Address">
 	               </div>
 	            </div>	
@@ -403,7 +400,7 @@ function codeCheckFun() {
 	            <!--  자기소개 DIV 시작 -->	
 		        <div class="row row-condensed space-4">
 		          <label class="text-right col-sm-3" for="user_profile_info_about">자기소개</label>
-		          <div class="col-sm-9">			          
+		          <div class="col-sm-9" style="padding-left:2%; padding-right: 5%;">			          
 		        	<textarea cols="40" id="user_profile_info_about" id="introduction"name="introduction" rows="5" >${myInfo.introduction}</textarea>
 		  			<div class="text-muted space-top-1">에어비앤비는 사람들 간의 관계를 기반으로 만들어졌습니다. 회원님이 어떤 사람인지 알려주세요. <br><br> 어떤 것들을 좋아하는지 알려주세요. 가장 좋아하는 여행지, 책, 영화, TV 프로그램, 음악, 음식 등 뭐든지 좋습니다.<br><br> 회원님은 어떤 스타일의 게스트 또는 호스트인가요? <br><br> 인생의 좌우명은 무엇인가요?</div>
 		          </div>

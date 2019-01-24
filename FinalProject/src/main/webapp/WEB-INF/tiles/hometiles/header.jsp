@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function(){
 		$(".passIcon").addClass("passIconHide");
@@ -158,7 +155,6 @@
        			}
        		});
        		if(checkCnt==0){
-       			//var form_data = $("input[name=joinFrm]").serialize();
        			$("#joinFrm").ajaxForm({
        				url:"joinEnd.air",
        				type:"POST",
@@ -176,10 +172,6 @@
                     }
        			})
        			$("#joinFrm").submit();
-       			/* var frm = document.joinFrm;
-       			frm.method="POST";
-       			frm.action="joinEnd.air";
-       			frm.submit(); */
        		}
        	});
     }); // end of $(document).ready()-------------------
@@ -459,30 +451,18 @@
 </div> 
 <%-- ****** 비밀번호찾기 Modal ****** --%>
 <div class="modal fade" id="pwdfind" role="dialog">
-   <div class="modal-dialog">
-       <!-- Modal content-->
-       <div class="modal-content" style="width: 568px; height: 372px;">   
-          <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 5%; background-color: white;  margin-top: 2%; margin-bottom: 5%; border: 0px;"><img src="<%=request.getContextPath() %>/resources/ymimg/cancel.png" alt="X"></button>
-           <span style="font-size: 15pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">비밀번호 재설정</span>
-            <span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
-            <span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
-            <span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
-             <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid rightgray;  width: 504px; height: 46px; border-radius: 10px;" />
-             <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
-         </div>
+	<div class="modal-dialog">
+	<!-- Modal content-->
+		<div class="modal-content" style="width: 100%; height: 350px;">   
+			<button type="button" class="myclose" data-dismiss="modal" style="margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+           	<div style="padding: 3% 5%;">
+	           	<div style="font-size: 15pt;border-top:1px solid lightgray; padding-top:2%; font-weight: bold; margin-bottom: 5%;">비밀번호 재설정</div>
+	            <div style="margin-top:5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</div>
+	            <div style=" font-size: 12pt; ">전송해 드립니다.</div>
+	            <div style="font-size: 11pt; font-weight: bold; margin-bottom: 5%;">이메일 주소</div>
+	            <input  class="input-data form-control" type="text" style="font-size: 13pt; margin: 2% 0; border: 1px solid rightgray;  width: 100%; height: 46px; border-radius: 10px;" />
+	            <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
+        	</div>
+        </div>
     </div>
-    <div class="col-md-3 calc"  style="margin-left: 7%;">
-
-      <c:set var="year" value="2019"></c:set>
-        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
-           <option>년</option>
-           <c:forEach var="i" begin="1900" end="${year}" step="1" >
-           <option value="${year - i + 1900}">${year - i + 1900}</option>
-            </c:forEach>
-        </select>
-    </div>
-    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
-    <div class="modal-footer" style="margin-top: 2%;">
-       <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
-    </div>    
 </div>

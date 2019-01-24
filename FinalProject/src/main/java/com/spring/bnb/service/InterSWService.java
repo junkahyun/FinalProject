@@ -1,5 +1,6 @@
 package com.spring.bnb.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public interface InterSWService {
 	List<RoomVO> getRoomList();  // 숙소리스트 보기
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황보여주기
+
+	List<HashMap<String, String>> getSWOptionList(HashMap<String, String> paraMap); // 옵션 정보 받아오기
 
 	
 }

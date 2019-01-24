@@ -116,82 +116,72 @@
 		        </c:if>
 	        </c:forEach>	
 	        <!-- ---------------------- -->
-	        <c:forEach items="${myReadReview}" var="wirteReview" varStatus="status">
-					<c:if test="${wirteReview != null}">					
-						<table class="memberList table table-hover">						
-								<col width="10%;"/>
-								<col width="8%;"/>
-								<col width="25%;"/>
-								<col width="7%"/>
-								<col width="7%"/>
-								<col width="8%"/>
-								<col width="6%"/>
-								<col width="6%;"/>
-								<col width="7%;"/>
-								<col width="6%;"/>
-								<col width="20%;"/>
-								<c:if test="${status.count ==1 }">
-								  <thead>						
-								    <tr id="table_header">
-								      <th>예약번호</th>
-								      <th>아이디</th>
-								      <th>후기내용</th>
-								      <th>평점</th>
-								      <th>정확성</th>
-								      <th>의사소통</th>
-								      <th>청결</th>
-								      <th>위치</th>
-								      <th>체크인</th>
-								      <th>가치</th>
-								      <th>후기작성일</th>
-								    </tr>							    
-								  </thead>
-							  </c:if>							 
-							  <tbody>					  
-							    <tr id="tbody_td">
-							      <td>${wirteReview.review_idx}</td>
-							      <td>${wirteReview.write_userid}</td>
-							      <td>${wirteReview.review_content}</td>							      
-							     	<td>${wirteReview.AVG}</td>
-							      <td>${wirteReview.correct}</td>
-							      <td>${wirteReview.communicate}</td>
-							      <td>${wirteReview.clean}</td>
-							      <td>${wirteReview.position}</td>
-							      <td>${wirteReview.checkin}</td>
-							      <td>${wirteReview.value}</td>
-							      <td>${wirteReview.review_writedate}</td>								
-								</tr>
-							</table>
-				      </c:if>	
-				  </c:forEach> 
-
+        <c:forEach items="${myReadReview}" var="wirteReview" varStatus="status">
+			<c:if test="${wirteReview != null}">					
+				<table class="memberList table table-hover">						
+							<col width="10%;"/>
+							<col width="8%;"/>
+							<col width="25%;"/>
+							<col width="7%"/>
+							<col width="7%"/>
+							<col width="8%"/>
+							<col width="6%"/>
+							<col width="6%;"/>
+							<col width="7%;"/>
+							<col width="6%;"/>
+							<col width="20%;"/>
+						<c:if test="${status.count ==1 }">
+						  <thead>						
+						    <tr id="table_header">
+						      <th>예약번호</th>
+						      <th>아이디</th>
+						      <th>후기내용</th>
+						      <th>평점</th>
+						      <th>정확성</th>
+						      <th>의사소통</th>
+						      <th>청결</th>
+						      <th>위치</th>
+						      <th>체크인</th>
+						      <th>가치</th>
+						      <th>후기작성일</th>
+						    </tr>							    
+						  </thead>
+					  </c:if>							 
+				   <tbody>					  
+					    <tr id="tbody_td">
+					      <td>${wirteReview.review_idx}</td>
+					      <td>${wirteReview.write_userid}</td>
+					      <td>${wirteReview.review_content}</td>							      
+					     	<td>${wirteReview.AVG}</td>
+					      <td>${wirteReview.correct}</td>
+					      <td>${wirteReview.communicate}</td>
+					      <td>${wirteReview.clean}</td>
+					      <td>${wirteReview.position}</td>
+					      <td>${wirteReview.checkin}</td>
+					      <td>${wirteReview.value}</td>
+					      <td>${wirteReview.review_writedate}</td>								
+						</tr>
+					</tbody>
+				 </table>
+			  </c:if>	
+			</c:forEach> 
          </div>
-		
-	
-
-	    </div>
-
+	   </div>
+	   <!-- 작성해야 할 후기 -->
 	    <div id="menu1" class="tab-pane tab-panel">
-
-	    	 <div class="panel-header" style="margin-top: 3%;">
-
-	      		<h3 class="edit-profile-section-heading">작성해야 할 후기</h3>
-
-	         </div>
-			
-		     <div class="panel-body">
-
+    	 <div class="panel-header" style="margin-top: 3%;">
+	      	<h3 class="edit-profile-section-heading">작성해야 할 후기</h3>
+		 </div>			
+		 <div class="panel-body">
 		       <ul class="list-layout reviews-list">
-
 	             <li class="reviews-list-item">
-
 		      		현재 작성할 후기가 없습니다. 여행을 한번 다녀올 때가 된 것 같네요!
-
 		       	 </li>
-
-	        	</ul>	 
+	           </ul>
+	     </div> 
+	   <!-- 작성해야 할 후기 --> 		 
 <!-- -----------------------------------------------------------  -->
-        	</div>
+        	
 
           <div class="panel-header" style="margin-top: 3%;">	     
 
@@ -211,45 +201,38 @@
 				</ul>	
 				</c:if>
 				</c:forEach>	
-				<c:forEach items="${myWriteReview}" var="wirteReview" varStatus="status">
-					<c:if test="${wirteReview != null}">					
-						<table class="memberList table table-hover">						
-								<col width="10%;"/>
-								<col width="15%;"/>
-								<col width="30%;"/>
-								<col width="10%"/>
-								<c:if test="${status.count ==1 }">
-								  <thead>						
-								    <tr>
-								      <th>번호</th>
-								      <th>숙소 이름</th>
-								      <th>후기 내용</th>
-								      <th>후기 쓴 날짜</th>
-								    </tr>							    
-								  </thead>
-							  </c:if>							 
-							  <tbody>					  
-							    <tr id="tbody_td ">
-							      <td>${wirteReview.review_idx}</td>
-							      <td><a href="">${wirteReview.room.roomName}</a></td>
-							      <td>${wirteReview.review_content}</td>
-							      <td>${wirteReview.review_writedate}</td>
-								</tr>
-							</table>
-				      </c:if>	
-				  </c:forEach>
-				
-			</div>
-				</div>
-		
-		
-	    </div>	
-
-	   </div>
-
-	  </div>
-
+			 <c:forEach items="${myWriteReview}" var="wirteReview" varStatus="status">
+				<c:if test="${wirteReview != null}">					
+					<table class="memberList table table-hover">						
+						<col width="10%;"/>
+						<col width="15%;"/>
+						<col width="30%;"/>
+						<col width="10%"/>
+						<c:if test="${status.count ==1 }">
+						  <thead>						
+						    <tr>
+						      <th>번호</th>
+						      <th>숙소 이름</th>
+						      <th>후기 내용</th>
+						      <th>후기 쓴 날짜</th>
+						    </tr>							    
+						  </thead>
+					 	 </c:if>							 
+					  <tbody>					  
+					    <tr id="tbody_td ">
+					      <td>${wirteReview.review_idx}</td>
+					      <td><a href="">${wirteReview.room.roomName}</a></td>
+					      <td>${wirteReview.review_content}</td>
+					      <td>${wirteReview.review_writedate}</td>
+						</tr>
+					</table>
+				 </c:if>	
+			  </c:forEach>	
+		   </div>
+		 </div>
+	   </div>	
+	 </div>
+   </div>
  </div>
-
-     </div>
+</div>
 

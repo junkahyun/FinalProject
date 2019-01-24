@@ -16,4 +16,7 @@ public interface InterBODAO {
 	
 	//옵션가져오기
 	List<String> selectoptions();
+	
+	//이용규칙가져오기
+	List<String> selectrule();
 }

@@ -38,6 +38,8 @@ public interface InterSOService {
 	// ***쿠폰 리스트 가져오기 ***
 	List<HashMap<String, String>> getCoupon();
 
+	String getMyRsvCode(String userid);
+
 
 
 }

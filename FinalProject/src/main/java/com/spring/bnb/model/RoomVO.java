@@ -34,7 +34,9 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+	private List<HashMap<String,String>> ruleList;
 	
+
 	private MultipartFile attach; // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
  	// !!!!!! MultipartFile attach 는 오라클 데이터베이스 tblBoard 테이블의 컬럼이 아니다.!!!!!!  
  	// /Board/src/main/webapp/WEB-INF/views/tiles1/board/add.jsp 파일에서 input type="file" 인 name 의 이름(attach)과 
@@ -111,6 +113,8 @@ public class RoomVO {
 	public void setAttach(MultipartFile attach) {
 		this.attach = attach;
 	}
+	
+	
 	public String getRoomImgfilename() {
 		return roomImgfilename;
 	}
@@ -118,7 +122,8 @@ public class RoomVO {
 	public void setRoomImgfilename(String roomImgfilename) {
 		this.roomImgfilename = roomImgfilename;
 	}
-	////////////////////////////////////////////////////////////
+	
+	////////////////
 
 	public String getRoomTel() {
 		return roomTel;
@@ -257,6 +262,13 @@ public class RoomVO {
 		this.room_warnCount = room_warnCount;
 	}
 	
+	public String getRuleType_name() {
+		return roomType_name;
+	}
+	public void setRuleType_name(String roomType_name) {
+		this.roomType_name = roomType_name;
+	}	
+	
 	// 추가
 	public String getRoomType_name() {
 		return roomType_name;
@@ -295,7 +307,14 @@ public class RoomVO {
 	}
 	public void setOptionList(List<HashMap<String,String>> optionList) {
 		this.optionList = optionList;
+	}	
+	public List<HashMap<String, String>> getRuleList() {
+		return ruleList;
 	}
+	public void setRuleList(List<HashMap<String, String>> ruleList) {
+		this.ruleList = ruleList;
+	}
+
 	public List<ReviewVO> getReviewList() {
 		return reviewList;
 	}
