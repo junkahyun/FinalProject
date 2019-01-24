@@ -192,16 +192,7 @@
             	    
             	    handleFileUpload(files,objDragAndDrop);
             	    
-            	    $("#delete").show(); // 삭제버튼 보이기
-            	    
-            	  /*    for (var i = 0; i < files.length; i++){
-	            	    //$("#roomMainImg").val(files[i].name); // 이미지명 넣기
-	            	    $("#file").val(files[i]);
-	            	    alert(files[i]);
-	            	    
-	            	    
-            	    }  */
-            	    
+            	    $("#delete").show(); // 삭제버튼 보이기   	   
             	    
             	}
             	
