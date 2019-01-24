@@ -81,7 +81,7 @@ public class SWService implements InterSWService {
 	}*/
 
 	@Override
-	public List<RoomVO> getSWOptionList(HashMap<String, String[]> paraMap) {
+	public List<RoomVO> getSWOptionList(HashMap<String, Object> paraMap) {
 
 		List<RoomVO> optionList = dao.getSWOptionList(paraMap);
 		

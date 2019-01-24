@@ -96,18 +96,21 @@
 		on A.fk_roomtype_idx = F.roomtype_idx
 		where 1 = 1
 		<if test="RULENAME != ''">
-			<foreach collection="RULENAME" item="rname">	
-				and rule_name = #{rname}
+		and rule_name IN
+			<foreach collection="RULENAME" item="rname" open="(" close=")" separator=",">
+				 #{rname.value}
 			</foreach>
 		</if>
 		<if test="ROOMTYPE_NAME != ''">	
-			<foreach collection="ROOMTYPE_NAME" item="rtname">
-				and roomtype_name = #{rtname}
+			and roomtype_name in
+			<foreach collection="ROOMTYPE_NAME" item="rtname" open="(" close=")" separator=",">
+				 #{rtname.value}
 			</foreach>	
 		</if>
 		<if test="OPTIONNAME != ''">	
-			<foreach collection="OPTIONNAME" item="opname">
-				and optionname = #{opname}	
+		and optionname IN
+			<foreach collection="OPTIONNAME" item="opname" open="(" close=")" separator=",">
+				 #{opname.value}	
 			</foreach>
 		</if>
 	</select>

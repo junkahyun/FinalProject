@@ -108,7 +108,7 @@
 						html += "<div id='allList' class='row'>"
 							  + "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<img src='' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
 							  + "</div>"
 							  + "<div>"
 							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -121,7 +121,7 @@
 							  + "</div>"
 							  + "<div>"
 							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-							  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
+							  + "<input type='hidden' name='roomcode' value='' />" 
 							  + "</div>"
 							  + "</div>"
 							  + "</div>";

@@ -160,16 +160,31 @@ public class SWController {
 		listMap.put("rule", valueList);	
 		
 		System.out.println(listMap);*/
+		List<String> rulenameList = new ArrayList<String>();
+		for(String rule : rulename) {
+			rulenameList.add(rule);
+		}
+		//String[] roomtype_name, String[] optionname
+		List<String> roomtype_nameList = new ArrayList<String>();
+		for(String a : roomtype_name) {
+			roomtype_nameList.add(a);
+		}
+		List<String> optionnameList = new ArrayList<String>();
+		for(String b : optionname) {
+			optionnameList.add(b);
+		}
+		
 		
 		JSONArray jsonArr = new JSONArray();  		
-		
-		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
+		  
+		HashMap<String,Object> paraMap =  new HashMap<String,Object>();
 		paraMap.put("RULENAME", rulename);
-		paraMap.put("ROOMTYPE_NAME", roomtype_name);
-		paraMap.put("OPTIONNAME", optionname);
+		paraMap.put("ROOMTYPE_NAME", roomtype_nameList);
+		paraMap.put("OPTIONNAME", optionnameList);
 		
 		System.out.println(paraMap);
-		String rulenameStr = Arrays.toString(paraMap.get("RULENAME"));
+		
+		/*String rulenameStr = Arrays.toString(paraMap.get("RULENAME"));
 		String roomtype_nameStr = Arrays.toString(paraMap.get("ROOMTYPE_NAME"));
 		String optionnameStr = Arrays.toString(paraMap.get("OPTIONNAME"));
 		
@@ -177,25 +192,27 @@ public class SWController {
 		System.out.println(roomtype_nameStr);
 		System.out.println(optionnameStr);
 		
-		List<String> myList = new ArrayList<String>();
-		myList.add(rulenameStr);
+		HashMap<String,String> myList = new HashMap<String,String>();
+		myList.add();
 		myList.add(roomtype_nameStr);
 		myList.add(optionnameStr);
 		
-		System.out.println(myList);
-		
+		System.out.println(myList);*/
+		System.out.println("실패1"); 
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);
-		
+		System.out.println("실패2");
 		for(RoomVO test : optionList) {
 			
 			JSONObject jsonObj = new JSONObject();			
-			jsonObj.put("optionList", test);			
+			jsonObj.put("optionList", test.getOptionList());
+			jsonObj.put("ruleList", test.getRuleList());
+			jsonObj.put("roomtypeList", test.getRoomType_name());
 			jsonArr.put(jsonObj);
 		}
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);		
-		req.setAttribute("optionname", optionnameStr);
+		req.setAttribute("optionname", optionname);
 		req.setAttribute("rulename", rulename);
 		req.setAttribute("roomtype_name", roomtype_name);
 		

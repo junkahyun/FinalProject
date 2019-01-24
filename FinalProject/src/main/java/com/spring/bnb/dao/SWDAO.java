@@ -102,7 +102,7 @@ public class SWDAO implements InterSWDAO {
 	}*/
 
 	@Override
-	public List<RoomVO> getSWOptionList(HashMap<String, String[]> paraMap) {
+	public List<RoomVO> getSWOptionList(HashMap<String, Object> paraMap) {
 		List<RoomVO> resultList = new ArrayList<RoomVO>();
 		
 		// 해당 조건을 갖춘 숙소의 ROOMCODE 리스트 받아오기
