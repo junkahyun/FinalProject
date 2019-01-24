@@ -43,12 +43,21 @@ public class KHController {
 		int month = current.get(Calendar.MONTH)+1;
 		int day = current.get(Calendar.DATE);
 		
-		String roomcode = "10";//숙소코드(테스트용)
-		String host_userid = "leess";//호스트 아이디(테스트용)
+		String roomcode = req.getParameter("roomcode");
+		String guestCount = req.getParameter("guestCount");
+		String babyCount = req.getParameter("babyCount");
+		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
+		//String rsv_checkInDate = req.getParameter("rsv_checkInDate");
 		
+		System.out.println(guestCount);
+		System.out.println(babyCount);
+		
+		/*String roomcode = "10";//숙소코드(테스트용)
+		String host_userid = "leess";//호스트 아이디(테스트용)
+*/		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
-		map.put("host_userid", host_userid);
+		//map.put("host_userid", host_userid);
 		
 		// *** 숙소 정보 뽑아오는 메소드 *** //
 		RoomVO oneRoom = service.getOneRoomInfo(map);
