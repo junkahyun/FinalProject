@@ -25,6 +25,16 @@
           padding-top: 2px;
           padding-bottom: 20px;
           margin: 0px}  
+          
+      .error1{background-color: #FFEAEA;}
+   	  .error1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   				
+   	  .error2{background-color: #FFEAEA;}
+   	  .error2_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
 </style>
 
  
@@ -35,6 +45,26 @@
 	
 	   $("#second").hide();
 	   $("#third").hide();
+	   
+	   //유효성검사
+	   $("#roomInfo").removeClass("error1");
+	   $(".error1_text").hide();
+	   $("#roomName").removeClass("error2");
+	   $(".error2_text").hide();
+	   
+	   //두번째 페이지 스크립트 시작
+	    $("#roomInfo").click(function(){
+	    	 $("#roomInfo").removeClass("error1");
+	  	     $(".error1_text").hide();
+	    });
+	   //두번째 페이지 스크립트 끝
+	   
+	   //두번째 페이지 스크립트 시작
+	    $("#roomName").click(function(){
+	    	 $("#roomName").removeClass("error2");
+	  	     $(".error2_text").hide();
+	    });
+	   //두번째 페이지 스크립트 끝
 	   
    });// $(document).ready(function()
 
@@ -59,6 +89,13 @@
 	}
 	
 	function next2(){
+		
+		var roomInfo = $("#roomInfo").val();
+		if(roomInfo == ""){
+			$("#roomInfo").addClass("error1");
+			$(".error1_text").show();
+			return;
+		}
 		$("#second").hide();
 		$("#third").show();
 	}
@@ -70,6 +107,13 @@
 	}
 	
 	function next3(){
+		
+		var roomName = $("#roomName").val();
+		if(roomName == ""){
+			$("#roomName").addClass("error2");
+			$(".error2_text").show();
+			return;
+		}
 		var frm = document.roomtitle; 
 		frm.action="roomstep3.air";
 		frm.method="GET";
@@ -115,11 +159,11 @@
 	         	<div class="col-md-8 title">숙소 설명하기</div>
 	            <div class="col-md-8" style="font-size: 20px; color: #747474; padding-bottom: 10px;"> 요약 </div>
 	            <div class="col-md-8"> 
-	            	<textarea name="roomInfo" cols="45" rows="6" style="padding: 20px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="이용시 주의사항, 주변정보 등을 입력하세요."></textarea>
+	            	<textarea id="roomInfo" class="error1" name="roomInfo" cols="45" rows="6" style="padding: 20px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="이용시 주의사항, 주변정보 등을 입력하세요."></textarea>
+	            	<div class="error1_text">숙소 설명을 작성해야 합니다. 게스트가 숙소의 모습을 머릿속으로 그려볼 수 있도록 상세 설명을 추가해 주세요.</div>
 	            </div>
 	         
-	
-		         <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
+		        <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
 		         	 <hr/>
 			         <div class="col-md-3" style="padding: 0;">
 			            <button type="button" onclick="back2();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
@@ -128,15 +172,16 @@
 			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
 			            <button type="button" onclick="next2();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
 			         </div>
-		         </div> 
-	          </div> 
-		      <!-- 두번째 입력창 끝 -->
+		        </div> 
+	         </div> 
+		     <!-- 두번째 입력창 끝 -->
 		      
-		      <!-- 세번째 입력창 시작-->
-		      <div class="row" id="third">
+		     <!-- 세번째 입력창 시작-->
+		     <div class="row" id="third">
 	         	 <div class="col-md-8 title">이름 지정</div>
 	             <div class="col-md-8"> 
-	             	<textarea name="roomName" cols="45" rows="1" style="padding: 20px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="숙소 제목"></textarea>
+	             	<textarea class="error2" id="roomName" name="roomName" cols="45" rows="1" style="padding: 20px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="숙소 제목"></textarea>
+	             	<div class="error2_text">숙소 이름이 있어야 합니다.</div>
 	             </div>
 	          
 	

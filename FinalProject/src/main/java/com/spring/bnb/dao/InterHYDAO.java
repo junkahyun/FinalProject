@@ -23,4 +23,6 @@ public interface InterHYDAO {
 
 	int insertMember(MemberVO member);
 
+	List<RoomVO> getRecommendRoomList(String sigungu);
+
 }
