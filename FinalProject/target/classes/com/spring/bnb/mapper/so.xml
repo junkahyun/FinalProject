@@ -258,18 +258,17 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 </update>
 
 <insert id="addCoupon" parameterType="HashMap"> 	
-  insert into myCoupon (mycp_idx,fk_cpcode,fk_userid,userdate)
-  values(mycp_idx_seq.nextval,#{coupon},#{userid}, sysdate)
+ 	insert into mycoupon(mycp_idx,fk_cpcode,fk_userid)
+ 	values(mycp_idx_seq.nextval,#{coupon},#{userid})
 </insert>
 
-<resultMap type="HashMap" id="couponListMap">
-	<result column="cpcode" property="cpcode" javaType="String"/>
-	<result column="cpname" property="cpname" javaType="String"/>
-</resultMap>
-<select id="couponList" resultMap="couponListMap">
-	select cpcode,cpname
+
+<select id="getCoupon" parameterType="String" resultType="int">
+	select count(*) AS cpcode
  	from coupon
+ 	where cpcode =#{cpcode}
 </select>
+
 <resultMap type="HashMap" id="myRsvcodeList">
 <result column="rsvcode" property="rsvcode" javaType="String"/>
 <result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
@@ -277,14 +276,21 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 <result column="roomname" property="roomname" javaType="String"/>
 </resultMap>
 <select id="getMyRsvCode" parameterType="String" resultMap="myRsvcodeList">
-select V.rsvcode,V.fk_userid,to_char(V.rsv_checkindate,'yyyy-mm-dd') AS rsv_checkindate,to_char(V.rsv_checkoutdate,'yyyy-mm-dd') AS rsv_checkoutdate,B.roomname
+select rsvcode,V.fk_userid,rsv_checkindate,rsv_checkoutdate,roomname
 from
-(select rsvcode,fk_userid,rsv_checkindate,rsv_checkoutdate
-from reservation
-where fk_userid = #{userid} and not fk_roomcode in (select fk_roomcode from review where fk_userid=#{userid}) 
+(
+	select rsvcode,fk_userid,to_char(rsv_checkindate,'yyyy-mm-dd') AS rsv_checkindate,to_char(rsv_checkoutdate,'yyyy-mm-dd') AS rsv_checkoutdate,fk_roomcode
+	from reservation
+	where fk_userid = #{userid} and not fk_roomcode in (select fk_roomcode from review where fk_userid=#{userid}) 
 )V left join room B
-on V.fk_roomcode = B.roomcode;
+on V.fk_roomcode = B.roomcode
+order by rsvcode desc
 			
 </select>
+
+<update id="goCancelMyRsv" parameterType="HashMap" >
+	update reservation set rsv_cancledate = sysdate
+  	where fk_userid = #{userid} and rsvcode = #{rsvcode}	
+</update>
 
 </mapper>	

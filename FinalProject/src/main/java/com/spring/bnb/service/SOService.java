@@ -76,14 +76,14 @@ public class SOService implements InterSOService{
 	// *** 쿠폰 등록하기 ***
 	@Override
 	public int addCoupon(HashMap<String, String> map) {
-		int n = dao.addCoupon(map);
-		return n;
+		int couponAdd= dao.addCoupon(map);
+		return couponAdd;
 	}
 	// *** 쿠폰 가져오기 ***
 	@Override
-	public List<HashMap<String, String>> getCoupon() {
-		List<HashMap<String,String>> couponList = dao.getCoupon();
-		return couponList;
+	public int getCoupon(String coupon) {
+		int n= dao.getCoupon(coupon);
+		return n;
 	}
 	// *** 후긱없는 예약코드 가져오기 ***
 	@Override
@@ -91,5 +91,13 @@ public class SOService implements InterSOService{
 		List<HashMap<String,String>>  myRsvList =  dao.getMyRsvCode(userid);
 		return myRsvList;
 	}
+	
+	// *** 나의 투숙예약 취소하기 ***
+	@Override
+	public int goCancelMyRsv(HashMap<String, String> map) {
+		int n = dao.goCancelMyRsv(map);
+		return n;
+	}
+
 
 }

@@ -41,6 +41,10 @@
  text-decoration:underline;
  font-weight:bold;
  }
+ ul>li{
+  list-style: none;
+  margin: 2%;
+ }
 </style>
 <script type="text/javascript" src="/startspring/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
@@ -58,7 +62,10 @@ function showLocation(){
 	
 }
 function goCancel() {
-	
+	var frm = document.goCancelFrm;
+	frm.method="POST";
+	frm.action="goCancel.air";
+	frm.submit();
 }
 
 </script>
@@ -185,12 +192,12 @@ function goCancel() {
           <h4 class="modal-title">숙소 예약 취소</h4>
         </div>
         <div class="modal-body">
-          <p>${myRsvDetail.rsv_name} 님! </p>
-          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.roomname}</span> 숙소를 취소하시겠습니까?
+          <p><H4>${myRsvDetail.rsv_name} 님! </H4></p>
+          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.roomname}</span>&nbsp;숙소를 취소하시겠습니까?
           	 <ul>
-          	 <li> 예약번호  : ${myRsvDetail.rsvcode} </li>
-			 <li> 체 크 인    : ${myRsvDetail.rsv_checkindate}&nbsp;${myRsvDetail.checkInDay} </li>
-			 <li> 체크아웃 : ${myRsvDetail.rsv_checkoutdate}&nbsp;${myRsvDetail.checkOutDay} </li>
+          	 	<li> 예약번호 &nbsp;:&nbsp;${myRsvDetail.rsvcode} </li>
+			 	<li> 체 크 인 &nbsp;&nbsp;:&nbsp;${myRsvDetail.rsv_checkindate}&nbsp;${myRsvDetail.checkInDay} </li>
+				<li> 체크아웃&nbsp;:&nbsp;${myRsvDetail.rsv_checkoutdate}&nbsp;${myRsvDetail.checkOutDay} </li>
 			 </ul> 	
 		   <p>예약 취소 시 취소가 불가 합니다!</p>			
         </div>
@@ -206,5 +213,8 @@ function goCancel() {
       </div>
 	  <div>
 </div>
+<form name="goCancelFrm">
+	<input type="hidden" name="rsvcode" value="${myRsvDetail.rsvcode}" />
+</form>
 </div>
 

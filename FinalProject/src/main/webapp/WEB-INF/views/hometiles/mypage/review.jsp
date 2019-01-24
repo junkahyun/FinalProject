@@ -37,10 +37,14 @@
 	align-items: center;
 	
 }
+thead>tr>th{
+ 	vertical-align : middle;
+	text-align: center;
+}
  #tbody_td > td {
  	vertical-align : middle;
 	text-align: center;
-	border-bottom: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;	
 	}
 .panel-body{
 
@@ -101,7 +105,7 @@
 
 	      <div class="panel-body">
 			<c:forEach items="${myReadReview}" var="wirteReview" varStatus="status">
-			  <c:if test="${wirteReview == null}">					
+			  <c:if test="${wirteReview eq null}">					
 				    <ul class="list-layout reviews-list">
 		
 			          <li class="reviews-list-item">
@@ -117,7 +121,7 @@
 	        </c:forEach>	
 	        <!-- ---------------------- -->
         <c:forEach items="${myReadReview}" var="wirteReview" varStatus="status">
-			<c:if test="${wirteReview != null}">					
+			<c:if test="${wirteReview ne null}">					
 				<table class="memberList table table-hover">						
 							<col width="10%;"/>
 							<col width="8%;"/>
@@ -182,13 +186,13 @@
 	           </ul>
 		 	</c:if>
 		 	<c:if test="${rsvCode.rsvcode != null and rsvCode != ''}">
-		 		<table class="memberList table table-hover">						
-						<col width="10%;"/>
-						<col width="15%;"/>
+		 		<table class="table table-hover">						
+						<col width="20%;"/>
 						<col width="30%;"/>
+						<col width="20%;"/>
+						<col width="20%;"/>
 						<c:if test="${status.count ==1 }">
-						  <thead>	
-						  <a><h5>예약하러 가기</h5></a>					
+						  <thead>										
 						    <tr>
 						      <th>예약번호</th>
 						      <th> 숙소명 </th>
@@ -198,16 +202,16 @@
 						  </thead>
 					 	 </c:if>							 
 					  <tbody>					  
-					    <tr id="tbody_td ">
+					    <tr id="tbody_td">
 					      <td>${rsvCode.rsvcode}</td>
 					      <td>${rsvCode.roomname}</td>
-					      <td>${rsvCode.rsv_checkInDate}</td>
-					      <td>${rsvCode.rsv_checkOutDate}</td>
+					      <td>${rsvCode.rsv_checkindate}</td>
+					      <td>${rsvCode.rsv_checkoutdate}</td>
 						</tr>
 					</table>
 		 	</c:if>
 		 </c:forEach>
-
+			<!-- <div>[이전]  1 2 3 4 5 [이후]</div> -->
 	     </div> 
 	   <!-- 작성해야 할 후기 --> 		 
 <!-- -----------------------------------------------------------  -->
@@ -222,13 +226,13 @@
 		      <div class="panel-body" align="center">
 		       <c:forEach items="${myWriteReview}" var="wirteReview">
 		       <c:if test="${wirteReview eq null}">
-		        <ul class="list-layout reviews-list">
-		             <li class="reviews-list-item">
-	
-		                               아직 후기를 남기지 않으셨습니다.
-	
-					 </li>	
-				</ul>	
+			        <ul class="list-layout reviews-list">
+			             <li class="reviews-list-item">
+		
+			                               아직 후기를 남기지 않으셨습니다.
+		
+						 </li>	
+					</ul>	
 				</c:if>
 				</c:forEach>	
 			 <c:forEach items="${myWriteReview}" var="wirteReview" varStatus="status">
@@ -256,6 +260,7 @@
 					      <td>${wirteReview.review_writedate}</td>
 						</tr>
 					</table>
+					1 2 3 4 5
 				 </c:if>	
 			  </c:forEach>	
 		   </div>

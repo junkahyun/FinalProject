@@ -131,15 +131,24 @@ public class SODAO implements InterSODAO {
 	// 쿠폰 등록하기 
 	@Override
 	public int addCoupon(HashMap<String, String> map) {
-		int n = sqlsession.update("cso.addCoupon",map);
+		int couponAdd= sqlsession.insert("cso.addCoupon",map);
+		return couponAdd;
+	}
+	// 쿠폰 존재 확인하기
+	@Override
+	public int getCoupon(String coupon) {
+		
+		int n = sqlsession.selectOne("cso.getCoupon",coupon);
+		
 		return n;
 	}
-	// 쿠폰 리스트 가져오기
+
+	// 나의 투숙 예약 취소하기
 	@Override
-	public List<HashMap<String, String>> getCoupon() {
-		List<HashMap<String, String>> couponList = sqlsession.selectList("cso.getCoupon");
-		
-		return couponList;
+	public int goCancelMyRsv(HashMap<String, String> map) {
+		 int n = sqlsession.update("cso.goCancelMyRsv",map);
+
+		return n;
 	}
 
 

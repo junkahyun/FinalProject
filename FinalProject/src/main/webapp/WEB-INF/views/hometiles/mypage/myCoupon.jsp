@@ -20,41 +20,32 @@
 	}
 	._1k01n3v1:hover{color:var(--color-text-link-hover, #008489) !important;}._1k01n3v1:active{color:var(--color-text-link-active, #006C70) !important;}}._1k01n3v1:active{color:#006C70 !important;outline:0px !important;}</style>
 <style type="text/css">
-
-.box {
-  border: 1px solid;
-  padding: 5px;
-  box-shadow: 2px 4px #dbdfdf;
+._1k01n3v1 {
+    color: var(--color-text-link, #008489) !important;
+    font-family: var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;
 }
-.couponTop{
-	border: 1px solid #b7b7b7;
-	text-align: center;
-	background-color: #dadada;
-	padding: 2%;
-}
-
-tr > td {
-border: 1px solid #b7b7b7;
-text-align: center;
-}
-
 .firstDIV{
 	margin-top: 5%;
 	margin-bottom: 5%; 
 }
-.margin_top{
-	margin-top: 5%;
+#table_header{
+	font-size: 10pt;
+	align-content: center;
+	align-items: center;
+	
 }
-table{
-	font-size: 9pt
+thead>tr>th{
+ 	vertical-align : middle;
+	text-align: center;
 }
-td{
-	padding: 3%;
-}
-#checkCoupon{
- cursor: pointer;
- color: green;
- font-weight: bold;
+ #tbody_td > td {
+ 	vertical-align : middle;
+	text-align: center;
+	border-bottom: 1px solid lightgray;	
+	}
+.panel-body{
+
+	border: 1px solid lightgray;
 }
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
@@ -63,13 +54,7 @@ td{
 	$(document).ready(function(){
 		$("#checkCoupon").click(function(){
 			var url ="/bnb/couponReg.air";
-			window.open(url,"쿠폰등록","width=400,height=300");			
-/* 		    var frm = document.couponRegFrm;
-		    frm.action=url;
-			frm.method = "POST";  
-		    frm.target = "쿠폰등록"; 
-		    frm.submit();  */
-		  
+			window.open(url,"쿠폰등록","width=400,height=300");			  
 		});
 	});
 </script>
@@ -116,22 +101,23 @@ td{
 <!--  보유쿠폰 목록 -->	
 	    <div id="home" class="tab-pane fade in active " style="padding:1%;">
 		<div align="center">
-		    <table>
+		
+		<table class="table table-hover">						
 				<colgroup>
 					<col width="150pt">
 					<col width="150pt">
 					<col width="100pt">
 					<col width="200pt">
 				</colgroup>
-				<thead>
-					<tr>
-						<th class="first couponTop" scope="col">쿠폰</th>
-						<th class="couponTop" scope="col">쿠폰코드</th>
-						<th class="couponTop" scope="col">할인금액</th>
-						<th class="couponTop" scope="col">유효기간</th>
-					</tr>
-				</thead>
-	
+						
+						  <thead>						
+						    <tr id="table_header">
+						    	<th class="first couponTop" scope="col">쿠폰</th>
+								<th class="couponTop" scope="col">쿠폰코드</th>
+								<th class="couponTop" scope="col">할인금액</th>
+								<th class="couponTop" scope="col">유효기간</th>
+						    </tr>							    
+						  </thead>	
 				<tbody>
 	
 					<c:forEach items="${myCoupon}" var="coupon">
@@ -160,21 +146,24 @@ td{
 	<!-- 사용한 쿠폰 리스트 -->
 	    <div id="menu1" class="tab-pane tab-panel"  style="padding:1%; border: 0px solid yellow;">
 		    <div align="center">
-		     <table>
+		    
+		    		<table class="table table-hover">						
 				<colgroup>
 					<col width="150pt">
 					<col width="150pt">
 					<col width="100pt">
 					<col width="200pt">
 				</colgroup>
-				<thead>
-					<tr>
-						<th class="first couponTop" scope="col">쿠폰명</th>
+						
+						  <thead>						
+						    <tr id="table_header">
+					<th class="first couponTop" scope="col">쿠폰명</th>
 						<th class="couponTop" scope="col">쿠폰번호</th>
 						<th class="couponTop" scope="col">할인 금액</th>
 						<th class="couponTop" scope="col">사용한날짜</th>
-					</tr>
-				</thead>
+						    </tr>							    
+						  </thead>	
+
 	
 				<tbody>
 					<c:forEach items="${myCoupon}" var="coupon">
@@ -205,7 +194,7 @@ td{
 
 
 <form name="couponRegFrm">
-	<input type="text" name="userid" value="회원아이디넣는칸"/>
+	<input type="hidden" name="userid" value=""/>
 </form>
 	  </div>
 	</div>

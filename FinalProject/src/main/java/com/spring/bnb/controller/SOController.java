@@ -26,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
@@ -391,6 +392,34 @@ public class SOController {
 		return "mypage/myReservationScheduleDetail.hometiles";
 	}
 	
+	// 투숙 예약 취소하기
+	@RequestMapping(value = "/goCancel.air", method = {RequestMethod.POST, RequestMethod.GET})
+	public String requireLogin_myReservationScheduleCancel(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+		String rsvcode = req.getParameter("rsvcode");
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("userid", userid);
+		map.put("rsvcode",rsvcode);
+		
+		int n = service.goCancelMyRsv(map);
+		if(n==1) {
+			String msg="예약이 취소되었습니다!";
+			String loc="/bnb/myReservation.air";
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
+			return "msg";
+		}else {
+			String msg="예약이 취소가 실패되었습니다!";
+			String loc="javascript:history.back();";
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
+			return "msg";			
+		}
+				
+	}
 	// 나의 후기 보기
 	@RequestMapping(value = "/review.air", method = RequestMethod.GET)
 	public String requireLogin_review(HttpServletRequest req, HttpServletResponse res) {
@@ -404,11 +433,16 @@ public class SOController {
 		
 		// *** 나에게 쓴 후기 ***
 		List<HashMap<String,String>> myReadReview = service.getHostReview(userid);
+		
 		// *** 작성해야 할 후기 ***
 		// *** 후기 없는 나의 예약 코드 받아오기 ***
 		List<HashMap<String,String>> myRsvList= service.getMyRsvCode(userid);
 		
-		System.out.println(myRsvList.get(0));
+/*		if(myRsvList.isEmpty()) {
+			
+		}else {
+			
+		}*/
 		req.setAttribute("myRsvList", myRsvList);
 		req.setAttribute("myReadReview", myReadReview);
 		req.setAttribute("myWriteReview", myWriteReview);
@@ -421,44 +455,47 @@ public class SOController {
 	}
 	
 	@RequestMapping(value = "/couponRegEnd.air", method = {RequestMethod.GET,RequestMethod.POST})
+	
+	
 	public String couponRegEnd(HttpServletRequest req, HttpServletResponse res) {
 		//	*** 아이디 정보 가져오기 ***
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
 		String coupon = req.getParameter("coupon");
-		List<HashMap<String,String>> couponList = service.getCoupon();		
-		System.out.println("11");
-		for(int i=0;i<couponList.size();i++) {
+		System.out.println(coupon);
+		//*** 쿠폰 정보 존재 확인 ***	
 		
-			String cpcode = couponList.get(i).get("cpcode");
-			System.out.println("22");
-			if(cpcode == coupon) {
-				cpcode = coupon;
-				System.out.println("33");
-			}
-				coupon = "";
-		}
-		System.out.println("44");
-		if(coupon == null || coupon.trim() =="") {
-			System.out.println("55");
+		if(coupon == null || ("").equals(coupon.trim())) {
+			
 			String msg = "쿠폰번호를 등록해 주세요!";
 			String loc = "javascript:history.back()";
 			
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
 			return "msg";
 		}else {
-			//*** 쿠폰 정보 가져오기 ***			
-			System.out.println("66");
-			HashMap<String,String> map = new HashMap<String,String>();
-			map.put("userid", userid);
-			map.put("coupon",coupon);
 			
-			int n = service.addCoupon(map);
+			int n= service.getCoupon(coupon);
+			System.out.println("쿠폰 정보 존재 확인 : "+n);
+		
+			if(n==1) {
+				n = 1;
+				
+				HashMap<String,String> map = new HashMap<String,String>();
+				map.put("userid", userid);
+				map.put("coupon",coupon);
+				
+				// *** 쿠폰 등록하기 ***
+				int couponAdd = service.addCoupon(map);
+				req.setAttribute("couponAdd", couponAdd);				
+			}else {
+				n=0;
+			}
 			req.setAttribute("n", n);
 			return "mypage/couponRegEnd.notiles";
-		}		
-		
-	
+		}
+				
 	}
 	
 	

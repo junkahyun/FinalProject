@@ -91,14 +91,8 @@
 	      <!--  for 문 시작 --> 
 	 
 	  <c:forEach var="reservationInfo" items="${memberResList}" varStatus="status">	
-<%--       <c:if test="${reservationInfo.rsv_cancledate == null and reservationInfo.flag == 2}" >
-	   			<div>
-	   				<h5>예약된 내용이 없습니다!</h5>
-	   				<h5>다음 여행을 계획하세요!</h5>
-	   			</div>
-	  </c:if> --%>
+
 	  <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 1}" >
-	  	
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
 	        		<%-- <img src="<%= request.getContextPath() %>/resources/image/${reservationInfo.roommainimg}" width="100%" height="90%"/> --%>

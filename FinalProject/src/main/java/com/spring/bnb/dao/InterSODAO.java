@@ -23,7 +23,10 @@ public interface InterSODAO {
 
 	//나의 예약 상세 내역 가져오기
 	HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap);
-
+	
+	// 나의 투숙 예약 취소하기
+	int goCancelMyRsv(HashMap<String, String> map);
+	
 	// 나의 예약 숙소 위치정보 가져오기
 	HashMap<String, String> getMap(HashMap<String, String> paraMap);
 		
@@ -38,8 +41,10 @@ public interface InterSODAO {
 	
 	// 쿠폰 등록하기
 	int addCoupon(HashMap<String, String> map);
-	// 쿠폰 리스트 가져오기
-	List<HashMap<String, String>> getCoupon();
+	// 쿠폰 존재확인하기
+	int getCoupon(String coupon);
+
+
 
 	
 }
