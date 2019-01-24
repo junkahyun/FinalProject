@@ -22,7 +22,7 @@
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
-        center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
+        center: new daum.maps.LatLng(${rsvLocation.latitude},${rsvLocation.longitude}), // 지도의 중심좌표33.450701, 126.570667
         level: 3 // 지도의 확대 레벨
     };  
 
@@ -33,7 +33,7 @@ var map = new daum.maps.Map(mapContainer, mapOption);
 var geocoder = new daum.maps.services.Geocoder();
 
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('대한민국 충청남도 천안시 서북구 불당동 898번지', function(result, status) {
+geocoder.addressSearch('${rsvLocation.roomsido} ${rsvLocation.roomsigungu} ${rsvLocation.roombname}', function(result, status) {
 
     // 정상적으로 검색이 완료됐으면 
      if (status === daum.maps.services.Status.OK) {
@@ -48,7 +48,7 @@ geocoder.addressSearch('대한민국 충청남도 천안시 서북구 불당동 
 
         // 인포윈도우로 장소에 대한 설명을 표시합니다
         var infowindow = new daum.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">숙소명</div>'
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">${rsvLocation.roomname}</div>'
         });
         infowindow.open(map, marker);
 
