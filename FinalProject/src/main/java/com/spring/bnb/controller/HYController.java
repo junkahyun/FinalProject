@@ -45,7 +45,10 @@ public class HYController {
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
 		if(roomcode==null) roomcode = "10";
+		roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
+		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
+		req.setAttribute("recommendRoomList", recommendRoomList);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
 	}

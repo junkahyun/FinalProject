@@ -89,9 +89,10 @@
 	    <div class="panel-body" style="border: 1px solid #dbdfdf;">
 	      
 	      <!--  for 문 시작 --> 
-	 
+	 <c:if test="${empty memberResList}">
+	 	현재 투숙 예정인 숙소가 없습니다! 새로운 여행을 떠나세요!
+	 </c:if>
 	  <c:forEach var="reservationInfo" items="${memberResList}" varStatus="status">	
-
 	  <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 1}" >
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
 	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
@@ -156,6 +157,9 @@
 
 
       <div class="panel-body" style="border: 1px solid #dbdfdf;">
+      <c:if test="${empty memberResList}">
+      	저희와 함께 해보지 않으셨군요! 저희와 함께 새로운 여행을 떠나보세요!
+      </c:if>
 			 <c:forEach var="reservationInfo" items="${memberResList}">	    
 	 		 <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 2}" >
 	     	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
@@ -220,6 +224,7 @@
 
       <div class="panel-body" style="border: 1px solid #dbdfdf;">
          <!--  for 문 시작 -->
+         <c:if test="${empty memberResList || memberResList == null || memberResList == ''}"> 현재 취소된 예약이 없습니다</c:if>
 	     <c:forEach var="reservationInfo" items="${memberResList}">	    
 	  	<c:if test="${reservationInfo.rsv_cancledate != null and reservationInfo.rsv_cancledate !='' }" >
 	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box">

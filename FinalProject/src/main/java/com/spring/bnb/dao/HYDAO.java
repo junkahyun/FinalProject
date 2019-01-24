@@ -92,4 +92,10 @@ public class HYDAO implements InterHYDAO {
 		return n;
 	}
 
+	@Override
+	public List<RoomVO> getRecommendRoomList(String sigungu) {
+		List<RoomVO> recommendRoomList = sqlsession.selectList("hy.getRecommendRoomList", sigungu);
+		return recommendRoomList;
+	}
+
 }

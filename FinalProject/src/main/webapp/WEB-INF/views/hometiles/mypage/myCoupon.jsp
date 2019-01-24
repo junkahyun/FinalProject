@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -29,6 +29,7 @@
 	margin-bottom: 5%; 
 }
 #table_header{
+	margin-top:5%;
 	font-size: 10pt;
 	align-content: center;
 	align-items: center;
@@ -38,7 +39,10 @@ thead>tr>th{
  	vertical-align : middle;
 	text-align: center;
 }
- #tbody_td > td {
+.margin_top{
+	margin-top:5%;
+}
+ tbody > tr > td {
  	vertical-align : middle;
 	text-align: center;
 	border-bottom: 1px solid lightgray;	
@@ -46,6 +50,11 @@ thead>tr>th{
 .panel-body{
 
 	border: 1px solid lightgray;
+}
+#checkCoupon{
+		cursor:pointer;
+		color:#008489;
+		font-weight: bold;
 }
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
@@ -118,23 +127,14 @@ thead>tr>th{
 								<th class="couponTop" scope="col">유효기간</th>
 						    </tr>							    
 						  </thead>	
-				<tbody>
-	
+				<tbody>	
 					<c:forEach items="${myCoupon}" var="coupon">
 						<c:if test="${coupon.usedate == null and coupon.cpexpire>date}">
 							<tr class="first">
-								<td class="first">
-									<div class="ticket_cup">
-										<p>${coupon.cpname}</p>
-									</div>
-								</td>
-								<td>  
-									<div class="myt_ico_wrap alignL"><p>${coupon.cpcode}</p></div> 
-								</td>
-								<td><div style="width: 50px;"><p>${coupon.dcmoney}</p></div></td>
-								<td>
-									<p>${coupon.cpexpire}</p>
-								</td>
+								<td class="first"><p>${coupon.cpname}</p></td>
+								<td><p>${coupon.cpcode}</p></td>
+								<td><p><fmt:formatNumber value="${coupon.dcmoney}" pattern="#,###"/>원</p></td>
+								<td><p>${coupon.cpexpire}</p></td>
 							</tr>					
 							</c:if>
 						</c:forEach>
@@ -169,18 +169,10 @@ thead>tr>th{
 					<c:forEach items="${myCoupon}" var="coupon">
 						<c:if test="${coupon.usedate != null}">
 							<tr class="first">
-								<td class="first">
-									<div class="ticket_cup">
-										<p>${coupon.cpname}</p>
-									</div>
-								</td>
-								<td>  
-									<div class="myt_ico_wrap alignL"><p>${coupon.cpcode}</p></div> 
-								</td>
-								<td><div style="width: 50px;"><p>${coupon.dcmoney}</p></div></td>
-								<td>
-									<p>${coupon.usedate}</p>
-								</td>
+								<td class="first"><p>${coupon.cpname}</p></td>
+								<td><p>${coupon.cpcode}</p></td>
+								<td><p>${coupon.dcmoney}</p></td>
+								<td><p>${coupon.usedate}</p></td>
 							</tr>					
 							</c:if>
 						</c:forEach>

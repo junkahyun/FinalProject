@@ -17,35 +17,35 @@
 
 <style type="text/css">
 
-   .title{ font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif ;
-          overflow-wrap: break-word ;
-          font-size: 24px ;
-          font-weight: 800 ;
-          line-height: 1.25em ;
-          color: rgb(72, 72, 72) ;
-          padding-top: 2px ;
-          padding-bottom: 2px ;
-          margin: 0px ;}       
+   .title{ font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+          overflow-wrap: break-word;
+          font-size: 24px;
+          font-weight: 800;
+          line-height: 1.25em;
+          color: rgb(72, 72, 72);
+          padding-top: 2px;
+          padding-bottom: 2px;
+          margin: 0px;}       
 
-   .select{font-size: var(--font-form-element-font-size, 16px) ;
-          line-height: var(--font-form-element-line-height, 24px) ;
-          letter-spacing: var(--font-form-element-letter-spacing, normal) ;
-          font-family: var(--font-form-element-font-family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) ;
-          text-transform: var(--font-form-element-text-transform, undefined) ;
-          color: #484848 ;
-          padding-top: var(--spacing-form-element-vertical, 10px) ;
-          padding-bottom: var(--spacing-form-element-vertical, 10px) ;
-          font-weight: var(--font-light-font-weight, normal) ;
-          background-color: transparent ;
+   .select{font-size: var(--font-form-element-font-size, 16px);
+          line-height: var(--font-form-element-line-height, 24px);
+          letter-spacing: var(--font-form-element-letter-spacing, normal);
+          font-family: var(--font-form-element-font-family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif);
+          text-transform: var(--font-form-element-text-transform, undefined);
+          color: #484848;
+          padding-top: var(--spacing-form-element-vertical, 10px);
+          padding-bottom: var(--spacing-form-element-vertical, 10px);
+          font-weight: var(--font-light-font-weight, normal);
+          background-color: transparent;
           border-radius: 3px;}  
 
-   .selecthead{font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif ;
-             overflow-wrap: break-word ;
-             font-size: 16px ;
-             font-weight: 600 ;
-             line-height: 1.375em ;
-             color: rgb(118, 118, 118) ;
-             margin-bottom: 8px ;} 
+   .selecthead{font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+             overflow-wrap: break-word;
+             font-size: 16px;
+             font-weight: 600;
+             line-height: 1.375em;
+             color: rgb(118, 118, 118);
+             margin-bottom: 8px;} 
              
     #cklist{font-size: 16px;
     		color: #5D5D5D;
@@ -54,6 +54,25 @@
  	#rulelist{font-size: 16px;
    			color: #5D5D5D;
    			font-weight: normal}
+   			
+   	.error1{background-color: #FFEAEA;}  
+   	.error1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   				
+   	.error2{background-color: #FFEAEA;}
+   	.error2_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   				
+   	.error3_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   				
+   	.error4{background-color: #FFEAEA;}
+   	.error4_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
 
 </style>
 
@@ -69,6 +88,16 @@
 	   $("#fifth").hide();
 	   $("#sixth").hide();
 	   $("#seventh").hide();
+	   
+	   // 유효성검사
+	   $("#buildType").removeClass('error1'); 
+	   $(".error1_text").hide();
+	   $("#buildType_detail").removeClass('error2');
+	   $(".error2_text").hide();
+	   $(".error3_text").hide();
+	   $("#addrDetail").removeClass('error4');
+	   $(".error4_text").hide();
+	   
 
    
 	  //첫번째 입력창 스크립트 시작-----------------------------------------------------------------------------------------------------------	  
@@ -110,11 +139,22 @@
 	 	 });// end of $.ajax({ --- 	
  			 
       });// $("#buildType").change(function()
+    
+      // 유효성검사
+      $("#buildType").click(function(){
+    	 $("#buildType").removeClass('error1'); 
+    	 $(".error1_text").hide();
+      });      
+      $("#buildType_detail").click(function(){
+    	 $("#buildType_detail").removeClass('error2'); 
+    	 $(".error2_text").hide();
+      });
+     
       
       //첫번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
       
       //두번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
-       $("#bedoqty").hide(); // 처음에 침대종류 숨기기
+       //$("#bedoqty").hide(); // 처음에 침대종류 숨기기
 	   
 	   // 침대 추가하기 버튼 클릭시 
 	   var flag = false;
@@ -129,7 +169,7 @@
 			  $("#bedoqty").hide();
 			  flag = false;
 		   }
-	   });	  
+	   });
 	   
  	   $("#bedroom").change(function(){
  	   		   
@@ -153,25 +193,9 @@
 	   }); 
 	   
       //두번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
-      
-      //우편번호 입력창 스크립트 시작 ----------------------------------------------------------------------------------------------------------
-	  $("#bname").click(function() {
-			    new daum.Postcode({
-			         oncomplete: function(data) {
-			        	// alert(JSON.stringify(data));
-			        	 $("#address").val(data.address);
-			             $("#postnum").val(data.zonecode);
-			             $("#sido").val(data.sido);
-			             $("#sigungu").val(data.sigungu);
-			             $("#bname").val(data.bname);
-			         }
-			     }).open();
-			   
-		});
-      //우편번호 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
-      
 
-       $(".option").click(function(){
+	  //네번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
+      $(".option").click(function(){
 
     	      $(".option").each(function(){
     	      	var check = $(this).prop("checked");
@@ -185,9 +209,11 @@
     	      });
     	      
        		
-    	});
-      
-       $(".rule").click(function(){
+      });
+      //네번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
+
+      //다섯번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
+      $(".rule").click(function(){
 
  	      $(".rule").each(function(){
  	      	var check = $(this).prop("checked");
@@ -199,9 +225,40 @@
  	      		$(this).parent().find("label").css("background-color","white");
  	      	}
  	      });
- 	      
-    		
- 		});
+ 	      	
+ 	   });
+       //다섯번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
+       
+       //여섯번째 입력창 스크립트 시작 ---------------------------------------------------------------------------------------------------------
+       //유효성검사
+       $("#bname").click(function(){
+    	   $(".error3_text").hide();
+       });
+       
+       $("#addrDetail").click(function(){
+    	   $("#addrDetail").removeClass('error4');
+    	   $(".error4_text").hide();
+       });
+       
+       //여섯번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
+      
+      //우편번호 입력창 스크립트 시작 ----------------------------------------------------------------------------------------------------------
+	  $(".addclick").click(function() {
+			    new daum.Postcode({
+			         oncomplete: function(data) {
+			        	// alert(JSON.stringify(data));
+			        	 $("#address").val(data.address);
+			             $("#postnum").val(data.zonecode);
+			             $("#sido").val(data.sido);
+			             $("#sigungu").val(data.sigungu);
+			             $("#bname").val(data.bname);
+			         }
+			     }).open();   
+		});
+      //우편번호 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
+      
+
+
       
       
    });// $(document).ready(function()
@@ -216,6 +273,21 @@
 	}
    
    function next1(){
+	   
+	   var buildType = $("#buildType").val();
+   	   if(buildType == null){
+   			$("#buildType").addClass('error1');
+   			$(".error1_text").show();
+   			return;
+   	   }
+   	   
+   	   var buildType_detail = $("#buildType_detail").val();
+   	   if(buildType_detail == null){
+   			$("#buildType_detail").addClass('error2');
+   			$(".error2_text").show();
+   			return;
+   	   }
+   	   
 	   $("#first").hide();
 	   $("#second").show();
 	}
@@ -410,9 +482,9 @@
 	   var start = $("#bathroomsupdown").val();
 	   var minus = parseInt(start);
 	   minus--;
-	   if(minus<0){
-		   alert("욕실수는 0개 이상이여야 합니다.");
-		   minus = 0;
+	   if(minus<1){
+		   alert("욕실수는 1개 이상이여야 합니다.");
+		   minus = 1;
 	   }
 	   $("#bathroomsupdown").val(minus);
    }  
@@ -449,19 +521,20 @@
 		         <div class="row" style="padding: 0; border: 0px solid green;" >
 		            <div class="col-md-9" style="margin-top: 50px; border: 0px solid red;">
 		                <div class="selecthead">우선 범위를 좁혀볼까요?</div>    
-		                <select id="buildType" class="select" name="buildType" style="width: 100%; padding: 9px;">  
+		                <select id="buildType" class="select error1" name="buildType" style="width: 100%; padding: 9px;">  
 		                	<option selected value="0" disabled>하나를 선택해주세요.</option>
 		                    <c:forEach items="${buildTypeList}" var="map">
 		                   		<option value="${map.BUILDTYPE_IDX}">${map.BUILDTYPE}</option>
-		                    </c:forEach>
+		                    </c:forEach>  
 		                </select>
-		
+						<div class="error1_text">옵션을 선택하세요.</div>
 		            </div>
 		            <div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 		                <div class="selecthead">건물 유형을 선택하세요</div>    
-		                <select id="buildType_detail" class="select" name="fk_buildType_detail_idx" style="width: 100%; padding: 9px;" disabled>  
+		                <select id="buildType_detail" class="select error2" name="fk_buildType_detail_idx" style="width: 100%; padding: 9px;" disabled>  
 		                  	<option value="0">건물 유형 선택</option>
 		                </select> 
+		                <div class="error2_text">옵션을 선택하세요.</div>
 		            </div>
 		
 		            <div id="guestroom" >
@@ -523,79 +596,78 @@
 		                <div class="selecthead">게스트가 사용할 수 있는 침실은 몇 개인가요?</div>  
 		                <div class="col-md-9" style="padding: 0">
 		                <select id="bedroom" class="select" name="roomCount" style="width: 100%; padding: 9px;">  
-		                   <%for(int i=1; i<=50; i++){ %>
-		                   <option value="<%=i%>"><%="침실 "+i+"개"%></option>
-		                   <%} %>
+		                   <c:forEach var="i" begin="1" end="30" step="1" >
+		                   <option value="${i }">침실 ${i }개</option>
+		                   </c:forEach>
 		                </select>
 		                </div>  
 		            </div>              			            
 		         </div>
 		         
 		         <h3> 침대 유형 </h3>
-		         
 		         <div class="row" style="border: 0px solid black" id="addbed">
-		         <hr/>
-		         	<div class="col-md-12">
+		         	<hr/>
+ 		         	<div class="col-md-12">
 				         <div class="col-md-6" style="border: 0px solid blue">
-				         	<div style="font-size: 19px;">1번 침실</div>
+				         	<div style="font-size: 19px;">${bedroom }번 침실</div>
 				         	<div style="font-size: 19px; color: #767676;">침대 0개</div>
 				         </div>
-				         <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;"  >
+				         <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;">
 				         	<button type="button" class="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
 				         </div>
 			        </div>
-			      <hr/>
-		         
-		         <div class="col-md-12" id="bedoqty">
-			         <div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="doubleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
-							<input type="text" id="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="doubleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
+				      <hr/>
+			         
+			         <div class="col-md-12" id="bedoqty">
+				         <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="doubleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
+								<input type="text" id="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="doubleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
+				       	 <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="queenminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+								<input type="text" id="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="queenplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
+				       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="singleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+								<input type="text" id="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="singleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
+				       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="sofaminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+				       		</div>
+				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+								<input type="text" id="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+							</div>
+				       		<div class="col-md-2" style="border: 0px solid green;">
+				       		 	<button type="button" onclick="sofaplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+				       		</div>
+				       	</div>
 			       	</div>
-			       	 <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="queenminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-							<input type="text" id="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="queenplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
-			       	</div>
-			       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="singleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-							<input type="text" id="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="singleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
-			       	</div>
-			       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-			       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="sofaminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-			       		</div>
-			       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-							<input type="text" id="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-						</div>
-			       		<div class="col-md-2" style="border: 0px solid green;">
-			       		 	<button type="button" onclick="sofaplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-			       		</div>
-			       	</div>
-		       	</div>
 		       	<hr/>
 		       	</div>
 		       	<div class="row" id="addarea"></div>
@@ -624,7 +696,7 @@
 		         		 	<button type="button" onclick="bathroomsminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
 		         		</div>
 		         		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-                        	<input type="text" id="bathroomsupdown" name="bathCount" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+                        	<input type="text" id="bathroomsupdown" name="bathCount" value="1" style="border: 0; width: 20px; height: 20px;" readonly>   
                         </div>
 		         		<div class="col-md-2" style="border: 0px solid green;">
 		         		 	<button type="button" onclick="bathroomsplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
@@ -727,36 +799,38 @@
 		         	<div class="col-md-5" style="margin-top: 50px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">시/도</div>  
 						<div class="col-md-12" style="border: 0px solid blue; padding-right: 0;">
-							<input type="text" id="sido" name="roomSido" style="margin: 0; padding: 25px;" class="input-data form-control" placeholder="예) 서울특별시" readonly="readonly"/>
+							<input type="text" id="sido" name="roomSido" style="margin: 0; padding: 25px;" class="input-data form-control addclick" placeholder="예) 서울특별시" readonly="readonly"/>
 						</div>
 		            </div>
 		            
 		            <div class="col-md-5" style="margin-top: 50px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">시/군</div>  
 						<div class="col-md-12" style="border: 0px solid blue; padding-right: 0">
-							<input type="text" id="sigungu" name="roomSigungu" style="margin: 0; padding: 25px;" class="input-data form-control" placeholder="예) 강남구" readonly="readonly"/>
+							<input type="text" id="sigungu" name="roomSigungu" style="margin: 0; padding: 25px;" class="input-data form-control addclick" placeholder="예) 강남구" readonly="readonly"/>
 						</div>
 		            </div>
 		         
 		            <div class="col-md-10" style="margin-top: 25px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">동  / 도로명</div>  
 						<div class="col-md-12" style="border: 0px solid blue; padding-right: 0;">
-							<input type="text" id="bname" name="roomBname" style="margin: 0; padding: 25px;" class="input-data form-control" placeholder="이곳을 클릭해주세요" readonly="readonly"/>
-							<input type="text" id="address" name="roomAddr" style="margin-top: 10px; margin-bottom : 0; margin-left:0; margin-right:0; padding: 25px;" class="input-data form-control" readonly="readonly"/>
+							<input type="text" id="bname" name="roomBname" style="margin: 0; padding: 25px;" class="input-data form-control addclick" placeholder="예) 역삼동" readonly="readonly"/>
+							<input type="text" id="address" name="roomAddr" style="margin-top: 10px; margin-bottom : 0; margin-left:0; margin-right:0; padding: 25px;" class="input-data form-control addclick" placeholder="예) 서울 강남구 강남대로 298" readonly="readonly"/>
+							<div class="error3_text">주소를 입력하세요.</div>
 						</div>
 		            </div>
 		            
 		            <div class="col-md-10" style="margin-top: 25px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">상세주소(필수)</div>  
 						<div class="col-md-12" style="border: 0px solid blue; padding-right: 0;">
-							<input type="text" id="addrDetail" name="roomdetailAddr" style="margin: 0; padding: 25px" class="input-data form-control" placeholder="예) 35동 3층 301호"/>
+							<input type="text" id="addrDetail" name="roomdetailAddr" style="margin: 0; padding: 25px" class="input-data form-control error4" placeholder="예) 35동 3층 301호"/>
+							<div class="error4_text">상세주소를 입력하세요.</div>
 						</div>
 		            </div>
 		            
 		            <div class="col-md-11" style="margin-top: 25px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">우편번호</div>  
 						<div class="col-md-5" style="border: 0px solid blue; padding-right: 0;">
-							<input type="text" id="postnum" name="roomPost" style="margin: 0; padding: 25px;" class="input-data form-control" placeholder="예) 12345" readonly="readonly"/>
+							<input type="text" id="postnum" name="roomPost" style="margin: 0; padding: 25px;" class="input-data form-control addclick" placeholder="예) 12345" readonly="readonly"/>
 						</div>
 		            </div> 
 		            
@@ -781,8 +855,8 @@
 		         <div class="row" style="padding: 0; border: 0px solid green;" >
 		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid red;">
 						숙소의 정확한 위치는 예약이 확정된 게스트만 볼 수 있습니다.
-						<input type="text" id="ib" name="longitude"/><!-- 경도 -->
-		            	<input type="text" id="jb" name="latitude"/><!-- 위도 -->
+						<input type="hidden" id="ib" name="longitude"/><!-- 경도 -->
+		            	<input type="hidden" id="jb" name="latitude"/><!-- 위도 -->
 		            </div>
 		            <div class="col-md-8" id="addrtext" style="margin-top: 25px; margin-bottom: 10px;"></div>
 		            <div class="col-md-12" style="border: 0px solid red; ">
@@ -817,6 +891,19 @@
 <script> 
 
 function next6(){
+	
+	var bname = $("#bname").val();
+	if(bname == ""){
+		$(".error3_text").show();
+		return;
+	}
+	
+	var addrDetail = $("#addrDetail").val();
+	if(addrDetail == ""){
+		$("#addrDetail").addClass('error4');
+		$(".error4_text").show();
+		return;
+	}
 	 
 	 var address = $("#address").val();   	 
 	     var form_data = {"address":address};

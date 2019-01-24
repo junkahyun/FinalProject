@@ -274,9 +274,10 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 <result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
 <result column="rsv_checkoutdate" property="rsv_checkoutdate" javaType="String"/>
 <result column="roomname" property="roomname" javaType="String"/>
+<result column="roomcode" property="roomcode" javaType="String"/>
 </resultMap>
 <select id="getMyRsvCode" parameterType="String" resultMap="myRsvcodeList">
-select rsvcode,V.fk_userid,rsv_checkindate,rsv_checkoutdate,roomname
+select rsvcode,V.fk_userid,rsv_checkindate,rsv_checkoutdate,roomname,B.roomcode
 from
 (
 	select rsvcode,fk_userid,to_char(rsv_checkindate,'yyyy-mm-dd') AS rsv_checkindate,to_char(rsv_checkoutdate,'yyyy-mm-dd') AS rsv_checkoutdate,fk_roomcode

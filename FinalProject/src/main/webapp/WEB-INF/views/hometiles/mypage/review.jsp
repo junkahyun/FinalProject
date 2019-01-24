@@ -104,8 +104,7 @@ thead>tr>th{
 	      </div>
 
 	      <div class="panel-body">
-			<c:forEach items="${myReadReview}" var="wirteReview" varStatus="status">
-			  <c:if test="${wirteReview eq null}">					
+	      		<c:if test="${empty myReadReview}">			
 				    <ul class="list-layout reviews-list">
 		
 			          <li class="reviews-list-item">
@@ -117,8 +116,7 @@ thead>tr>th{
 					  <li>아직 작성된 후기가 없습니다.</li>
 		
 			        </ul>
-		        </c:if>
-	        </c:forEach>	
+		        </c:if>	
 	        <!-- ---------------------- -->
         <c:forEach items="${myReadReview}" var="wirteReview" varStatus="status">
 			<c:if test="${wirteReview ne null}">					
@@ -176,15 +174,19 @@ thead>tr>th{
     	 <div class="panel-header" style="margin-top: 3%;">
 	      	<h3 class="edit-profile-section-heading">작성해야 할 후기</h3>
 		 </div>			
+		 
 		 <div class="panel-body">
-		 <c:forEach items="${myRsvList}" var="rsvCode" varStatus="status">
-		 	<c:if test="${rsvCode.rsvcode eq null}">
+		 <c:if test="${empty myRsvList}">
+		 
 		 		<ul class="list-layout reviews-list">
 	             <li class="reviews-list-item">
 		      		현재 작성할 후기가 없습니다. 여행을 한번 다녀올 때가 된 것 같네요!
 		       	 </li>
 	           </ul>
-		 	</c:if>
+		 </c:if>
+		 <c:forEach items="${myRsvList}" var="rsvCode" varStatus="status">
+		 	
+		 	
 		 	<c:if test="${rsvCode.rsvcode != null and rsvCode != ''}">
 		 		<table class="table table-hover">						
 						<col width="20%;"/>
@@ -195,7 +197,7 @@ thead>tr>th{
 						  <thead>										
 						    <tr>
 						      <th>예약번호</th>
-						      <th> 숙소명 </th>
+						      <th>숙소명 </th>
 						      <th>체크인</th>
 						      <th>체크아웃</th>
 						    </tr>							    
@@ -204,7 +206,7 @@ thead>tr>th{
 					  <tbody>					  
 					    <tr id="tbody_td">
 					      <td>${rsvCode.rsvcode}</td>
-					      <td>${rsvCode.roomname}</td>
+					      <td><a href="<%= ctxPath %>/homeDetail.air?roomcode=${rsvCode.roomcode}">${rsvCode.roomname}</a></td>
 					      <td>${rsvCode.rsv_checkindate}</td>
 					      <td>${rsvCode.rsv_checkoutdate}</td>
 						</tr>
@@ -224,8 +226,7 @@ thead>tr>th{
 	      </div>
 				
 		      <div class="panel-body" align="center">
-		       <c:forEach items="${myWriteReview}" var="wirteReview">
-		       <c:if test="${wirteReview eq null}">
+		      <c:if test="${empty myWriteReview}">		       
 			        <ul class="list-layout reviews-list">
 			             <li class="reviews-list-item">
 		
@@ -233,8 +234,9 @@ thead>tr>th{
 		
 						 </li>	
 					</ul>	
+				
+					
 				</c:if>
-				</c:forEach>	
 			 <c:forEach items="${myWriteReview}" var="wirteReview" varStatus="status">
 				<c:if test="${wirteReview != null}">					
 					<table class="memberList table table-hover">						
