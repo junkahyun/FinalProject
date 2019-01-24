@@ -429,6 +429,7 @@
       	<div class="col-md-12">
          	<div class="infoSubjectHYBig" style="margin-bottom: 2%;">추천 숙소 더 보기</div>
          	<div class="row" style="width: 100vw">
+         		<c:forEach items="${recommendRoomList }" var="recommendRoom">
                 <div class="col-md-2" style="margin-bottom: 2%;">
                     <div style="margin-bottom: 3%;">
                         <img src="https://a0.muscache.com/im/pictures/68d2bca8-bf81-489a-9ba7-b6a24f91557d.jpg?aki_policy=large" style="border-radius: 5px; width: 100%;" />
@@ -446,6 +447,7 @@
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>
                     </div>
               	</div>
+              	</c:forEach>
           	</div>
       	</div>
    	</div>
