@@ -478,7 +478,7 @@
 <%-- Right Fixed Menues --%>
 <div id="fixed_hide_menues">
 	<ul>
-		<li>
+		<li> 
 		  <a href="javascript:void plusFriendChat()">
 		  <img src="https://developers.kakao.com/assets/img/about/logos/plusfriend/consult_small_yellow_pc.png"/>
 		</a>

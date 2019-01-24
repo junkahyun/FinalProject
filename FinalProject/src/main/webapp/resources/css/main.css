@@ -429,7 +429,7 @@ footer div.container div.footer_menues:after{
 .profileDrop:hover{
 	background-color: rgba(210,210,210,0.8);
 }
-.resize1>.dropdown-menu{
+.resize1>.dropdown-menu{	
 	width:300px;
 	position: absolute;
   	right: 0 !important;

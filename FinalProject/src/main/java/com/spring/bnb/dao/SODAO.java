@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
+import com.spring.bnb.model.ReviewVO;
+import com.spring.bnb.model.RoomVO;
+
 
 //===== #32. DAO 선언  =====
 @Repository
@@ -35,9 +40,9 @@ public class SODAO implements InterSODAO {
 	
 	// 나의 정보수정 하기
 	@Override
-	public int memberUpdate(MemberVO member) {
-		int n = sqlsession.update("cso.memberUpdate",member);
-		return n;
+	public void memberUpdate(MemberVO member) {
+		/*int n =*/ sqlsession.update("cso.memberUpdate",member);
+		/*return n;*/
 	}
 	
 	//나의 예약 내역 가져오기
@@ -51,8 +56,104 @@ public class SODAO implements InterSODAO {
 	@Override
 	public HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap) {
 		 HashMap<String, String> resDetail = sqlsession.selectOne("cso.getMemberReservationDetail", paraMap);
+		 
 		return resDetail;
 	}
+
+	@Override
+	public HashMap<String, String> getMap(HashMap<String, String> paraMap) {
+		HashMap<String, String> rsvLocation = sqlsession.selectOne("cso.getMap",paraMap);
+		return rsvLocation;
+	}
+	// 후기없는 예약코드 가져오기
+	@Override
+	public List<HashMap<String,String>> getMyRsvCode(String userid) {
+		List<HashMap<String,String>> myRsvList = sqlsession.selectList("cso.getMyRsvCode", userid);
+		return myRsvList;
+	}
+	// 내가 작성한 후기 
+	@Override
+	public List<ReviewVO>  getMyReview(String userid) {
+		List<HashMap<String, Object>> myWriteReview= sqlsession.selectList("cso.getMyReview", userid);
+		
+
+		List<ReviewVO> myReviewVO = new ArrayList<ReviewVO>();
+		for(HashMap<String,Object> map : myWriteReview) {
+			int review_idx = (int)map.get("review_idx");
+			int correct = (int)map.get("correct");
+			int communicate = (int)map.get("communicate");
+			int clean=(int)map.get("clean");
+			int position=(int)map.get("position");
+			int checkin=(int)map.get("checkin");
+			int value=(int)map.get("value");
+			String review_content=(String) map.get("review_content");
+			String hostAnswer =(String) map.get("hostanswer");
+			String review_writedate=(String) map.get("review_writedate");
+			String roomName = (String) map.get("roomname");
+			String roomcode = (String) map.get("roomcode");
+			String fk_userid= (String) map.get("fk_userid");
+			
+			RoomVO room = new RoomVO();
+			ReviewVO reviewvo = new ReviewVO();
+			
+			room.setRoomcode(roomcode);
+			room.setFk_userid(fk_userid);
+			room.setRoomName(roomName);
+			
+			reviewvo.setReview_idx(review_idx);
+			reviewvo.setCorrect(correct);
+			reviewvo.setCommunicate(communicate);
+			reviewvo.setClean(clean);
+			reviewvo.setPosition(position);
+			reviewvo.setCheckin(checkin);
+			reviewvo.setValue(value);
+			reviewvo.setReview_content(review_content);
+			reviewvo.setHostAnswer(hostAnswer);
+			reviewvo.setReview_writedate(review_writedate);
+			reviewvo.setRoom(room);		
+
+			myReviewVO.add(reviewvo);
+			
+			
+		}
+		return myReviewVO;
+		
+	}
+
+	// 나에게 작성한 후기
+	@Override
+	public List<HashMap<String,String>> getHostReview(String userid) {
+		List<HashMap<String,String>> hostReview = sqlsession.selectList("cso.hostReview",userid);
+		
+		return hostReview;
+	}
+
+	// 쿠폰 등록하기 
+	@Override
+	public int addCoupon(HashMap<String, String> map) {
+		int couponAdd= sqlsession.insert("cso.addCoupon",map);
+		return couponAdd;
+	}
+	// 쿠폰 존재 확인하기
+	@Override
+	public int getCoupon(String coupon) {
+		
+		int n = sqlsession.selectOne("cso.getCoupon",coupon);
+		
+		return n;
+	}
+
+	// 나의 투숙 예약 취소하기
+	@Override
+	public int goCancelMyRsv(HashMap<String, String> map) {
+		 int n = sqlsession.update("cso.goCancelMyRsv",map);
+
+		return n;
+	}
+
+
+
+
 
 
 	

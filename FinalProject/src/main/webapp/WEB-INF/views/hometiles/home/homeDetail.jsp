@@ -20,6 +20,7 @@ var babyCount = 0;
         		$("#followHY").removeClass("followDiv");
         	}
        	});
+
        	$("#reviewSearchWord").keydown(function(event){
        		if(event.keyCode==13){
        			reviewSearch();
