@@ -33,6 +33,9 @@
 		font-weight: bold;
 		color: 	#6ac259;
 	}
+.roomTitle{
+	color:black;
+}
  
 </style>
 <script type="text/javascript" src="/startspring/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
@@ -44,7 +47,7 @@
 		});		
 	});
 	function showLocation(){
-		var url = "/bnb/myReservationMAP.air";
+		var url = "/bnb/myReservationMAP.air?rsvcode="+${resDetail.rsvcode};
 		window.open(url,"숙소위치","width=500,height=350");
 		
 	}
@@ -58,19 +61,22 @@
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/edit/231754930" aria-selected="true" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="https://www.airbnb.co.kr/users/reviews/231754930" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
+			    </li>
+			    <li>
+			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
- <div class="col-md-7">
+ <div class="col-md-7" style="margin-bottom: 5%;">
    	<div class="box" style="margin-bottom: 6%">
 		<h3>투숙 완료했던 숙소 입니다!</h3><p>고객님이 묵었던 숙소들 입니다!</p><a href="javascript:history.back();">>>>예약페이지로 돌아가기</a>
 	</div>	
@@ -112,38 +118,39 @@
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>연락처 정보</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%; margin-left: 5%">예약자 메일</div>
-							<div style="margin: 1%; margin-left: 5%">예약자 폰번호</div>
+							<div style="margin-bottom: 5%; margin-left: 5%">${resDetail.email}</div>
+							<div style="margin: 1%; margin-left: 5%">${resDetail.phone}</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>투숙객 이름</h5></div>
 						<div class="col-md-6 row">
-							<div style="margin: 1%;">suwook choi</div>
+							<div style="margin: 1%;">${resDetail.rsv_name}</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
 						<div class="col-md-6 row">
-							<div style="margin: 1%;">숙소 유형</div>
-							<div style="margin: 1%;">건물유형</div>
-							<div style="margin: 1%;">침실갯수</div>
-							<div style="margin: 1%;">침대 유형</div>
+							<div style="margin: 1%;"class="roomTitle"><h6>숙소 유형 : ${resDetail.roomtype_name}</h6></div>
+							<div style="margin: 1%;"class="roomTitle"><h6>건물유형  : ${resDetail.buildtype}/${resDetail.buildtype_detail_name}</h6></div>
+							<div style="margin: 1%;"class="roomTitle"><h6>침실갯수  : ${resDetail.roomcount}</h6></div>
+							<div style="margin: 1%;"class="roomTitle"><h6>침대 유형 : ${resDetail.bedtype}</h6></div>
+							<div style="margin: 1%;"class="roomTitle"><h6>침대 갯수 : ${resDetail.bedcount}</h6></div>
 						</div>
 					</div>
 					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
 						<div class="col-md-5"  style="float:left;"><h5>총 예약 인원</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%;">성인 2명</div>
+							<div style="margin: 1%;">${resDetail.guestcount}&nbsp;명</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>결제 금액</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%">서비스 세금 : </div>
-							<div style="margin: 1%;">청소비 : </div>
-							<div style="margin: 1%;">할인금액 : </div>
-							<div style="margin: 1%;">총 결제금액: </div>
+							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : </div>
+							<div style="margin: 1%;" class="roomTitle"><h6>청소비 : ${resDetail.cleanpay}</h6></div>
+							<div style="margin: 1%;" class="roomTitle"><h6>할인금액 :${resDetail.dcprice}</h6></div>
+							<div style="margin: 1%;" class="roomTitle"><h6>총 결제금액: ${resDetail.totalprice}</h6></div>
 						</div>
 					</div>
 				</div>
@@ -153,6 +160,6 @@
        </div>
        </div>
 
-	    </div>	
+	    </div >	
 </div>
 </div>

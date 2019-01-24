@@ -212,7 +212,7 @@
       });
    }
    function goRegistHost(){
-      location.href="roomstap1.air";
+      location.href="roomstep1.air";
    }
    function goMypage(){
       location.href="myEdit.air";

@@ -28,6 +28,46 @@
           
      #text{font-size: 18px; 
      		padding-bottom: 10px;} 
+     		
+      .error1{background-color: #FFEAEA;}
+   	  .error1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   	  .error1_1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   				
+      .error2{background-color: #FFEAEA;}
+   	  .error2_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   	  .error2_1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}   				
+   				
+      .error3{background-color: #FFEAEA;}
+   	  .error3_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   	  .error3_1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}
+   				   				
+      .error4{background-color: #FFEAEA;}
+   	  .error4_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}  
+   	  .error4_1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}  
+   				
+      .error5{background-color: #FFEAEA;}
+   	  .error5_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}  
+   	  .error5_1_text{margin-top: 5px;
+   				color:#d93900;
+   				font-weight: bold;}    				 				 				   				   				
 </style>
 
  
@@ -38,6 +78,57 @@
 	
 	   $("#second").hide();
 	   $("#third").hide();
+	   
+	   //유효성검사
+	   $("#roomPrice").removeClass("error1");
+	   $(".error1_text").hide();
+	   $(".error1_1_text").hide();
+	   $("#peakper").removeClass("error2");
+	   $(".error2_text").hide();
+	   $(".error2_1_text").hide();
+	   $("#person_addpay").removeClass("error3");
+	   $(".error3_text").hide();
+	   $(".error3_1_text").hide();
+	   $("#cleanPay").removeClass("error4");
+	   $(".error4_text").hide();
+	   $(".error4_1_text").hide();
+	   $("#roomTel").removeClass("error5");
+	   $(".error5_text").hide();
+	   $(".error5_1_text").hide();
+	   
+	   //두번째 페이지 스크립트 시작 --------------------
+   		$("#roomPrice").change(function(){
+   		 	$("#roomPrice").removeClass("error1");
+  	   		$(".error1_text").hide();
+  	   		$(".error1_1_text").hide();
+   		});
+   
+   		$("#peakper").change(function(){
+   		   $("#peakper").removeClass("error2");
+   		   $(".error2_text").hide();
+   		   $(".error2_1_text").hide();
+   		});
+   		
+   		$("#person_addpay").change(function(){
+   		   $("#person_addpay").removeClass("error3");
+   		   $(".error3_text").hide();
+   		   $(".error3_1_text").hide();
+   		});
+   		
+   		$("#cleanPay").change(function(){
+   		   $("#cleanPay").removeClass("error4");
+   		   $(".error4_text").hide();
+   		   $(".error4_1_text").hide();
+   		});
+	   //두번째 페이지 스크립트 끝 --------------------
+	   
+	   //세번째 페이지 스크립트 시작 --------------------
+   		$("#roomTel").click(function(){
+   		 	$("#roomTel").removeClass("error5");
+  	   		$(".error5_text").hide();
+  	   		$(".error5_1_text").hide();
+   		});
+	   //세번째 페이지 스크립트 끝 --------------------
 	   
    });// $(document).ready(function()
 
@@ -62,6 +153,57 @@
 	}
 	
 	function next2(){
+		
+		var regExp = /^[0-9]+$/; // 숫자만 입력 정규포현식
+
+		var roomPrice = $("#roomPrice").val();
+		if(roomPrice == ""){
+			$("#roomPrice").addClass("error1");
+			$(".error1_text").show();
+			return;
+		}
+		if(!regExp.test(roomPrice)){
+			$("#roomPrice").addClass("error1");
+  	   		$(".error1_1_text").show();
+  	   		return;
+		}
+		
+		var peakper = $("#peakper").val();
+		if(peakper == ""){
+			$("#peakper").addClass("error2");
+			$(".error2_text").show();
+			return;
+		}
+		if(!regExp.test(peakper)){
+			$("#peakper").addClass("error2");
+  	   		$(".error2_1_text").show();
+  	   		return;
+		}
+		
+		var person_addpay = $("#person_addpay").val();
+		if(person_addpay == ""){
+			$("#person_addpay").addClass("error3");
+			$(".error3_text").show();
+			return;
+		}
+		if(!regExp.test(person_addpay)){
+			$("#person_addpay").addClass("error3");
+  	   		$(".error3_1_text").show();
+  	   		return;
+		}
+		
+		var cleanPay = $("#cleanPay").val();
+		if(cleanPay == ""){
+			$("#cleanPay").addClass("error4");
+			$(".error4_text").show();
+			return;
+		}
+		if(!regExp.test(cleanPay)){
+			$("#cleanPay").addClass("error4");
+  	   		$(".error4_1_text").show();
+  	   		return;
+		}
+		
 		$("#second").hide();
 		$("#third").show();
 	}
@@ -72,7 +214,22 @@
 	   $("#third").hide();
 	}
 	
-	function next3(){
+	function next3(){	
+		
+		var regExp = /^\d{2,3}\d{3,4}\d{4}$/; // 연락처 정규표현식
+
+		var roomTel = $("#roomTel").val();
+		if(roomTel == ""){
+			$("#roomTel").addClass("error5");
+			$(".error5_text").show();
+			return;
+		}
+		if(!regExp.test(roomTel)){
+			$("#roomTel").addClass("error5");
+  	   		$(".error5_1_text").show();
+  	   		return;
+		}
+		
 		var frm = document.roomtitle; 
 		frm.action="roomlaststep.air";
 		frm.method="GET";
@@ -171,22 +328,30 @@
          	
             <div class="col-md-8" style="font-size: 17px; font-weight:bold; padding-bottom: 10px;"> 기본요금 </div>
             <div class="col-md-8" style="margin-bottom: 30px;"> 
-            	<textarea name="roomPrice" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<textarea id="roomPrice" class="error1" name="roomPrice" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<div class="error1_text">요금을 설정하세요.</div>
+            	<div class="error1_1_text">숫자만 입력하세요.</div>
             </div>
             
             <div class="col-md-8" style="font-size: 17px; font-weight:bold; padding-bottom: 10px;"> 성수기요금 </div>
             <div class="col-md-8" style="margin-bottom: 30px;"> 
-            	<textarea name="peakper" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<textarea id="peakper" class="error2" name="peakper" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<div class="error2_text">요금을 설정하세요.</div>
+            	<div class="error2_1_text">숫자만 입력하세요.</div>
             </div>
             
             <div class="col-md-8" style="font-size: 17px; font-weight:bold; padding-bottom: 10px;"> 인원추가 비용 </div>
             <div class="col-md-8" style="margin-bottom: 30px;"> 
-            	<textarea name="person_addpay" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<textarea id="person_addpay" class="error3" name="person_addpay" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<div class="error3_text">요금을 설정하세요.</div>
+            	<div class="error3_1_text">숫자만 입력하세요.</div>
             </div>
             
             <div class="col-md-8" style="font-size: 17px; font-weight:bold; padding-bottom: 10px;"> 청소비용 </div>
             <div class="col-md-8" style="margin-bottom: 30px;"> 
-            	<textarea name="cleanPay" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<textarea id="cleanPay" class="error4" name="cleanPay" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="￦ 123456 "></textarea>
+            	<div class="error4_text">요금을 설정하세요.</div>
+            	<div class="error4_1_text">숫자만 입력하세요.</div>
             </div>
             
             
@@ -210,7 +375,9 @@
          	
             <div class="col-md-8" style="font-size: 17px; color: #747474; padding-bottom: 10px"> 연락처 </div>
             <div class="col-md-8" style="margin-bottom: 30px;"> 
-            	<textarea name="roomTel" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="연락처를 입력해주세요"></textarea>
+            	<textarea class="error5" id="roomTel" name="roomTel" cols="45" rows="1" style="padding: 10px; border-radius: 4px; font-size: 18px; resize: none; outline: 0 solid transparent;" placeholder="숫자만 입력해주세요"></textarea>
+            	<div class="error5_text">요금을 설정하세요.</div>
+            	<div class="error5_1_text">전화번호 형식에 맞게 입력하세요.</div>
             </div>
 
             

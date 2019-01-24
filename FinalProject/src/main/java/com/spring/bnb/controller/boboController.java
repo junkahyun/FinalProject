@@ -115,16 +115,21 @@ public class boboController {
 		String[] optionchk = req.getParameterValues("optionchk");
 		String[] rulechk = req.getParameterValues("rulechk");
 		
-		session.setAttribute("optionchk", optionchk);
-		session.setAttribute("rulechk", rulechk);
-		
-		/*for(String val : rulechk) {
+		// 체크된 옵션들 세션에 저장하고 마지막에 insert작업
+		if(optionchk != null) {
+			session.setAttribute("optionchk", optionchk);
+			/*for (String val : optionchk) {
 			System.out.println(val);
 		}*/
+		}
 		
-		/*for (String val : optionchk) {
+		// 체크된 이용규칙들 세션에 저장하고 마지막에 insert작업
+		if(rulechk != null) {
+			session.setAttribute("rulechk", rulechk);
+			/*for(String val : rulechk) {
 			System.out.println(val);
 		}*/
+		}
 				
 		return "become-host/room-step2.hosttiles_nofooter";
 	}

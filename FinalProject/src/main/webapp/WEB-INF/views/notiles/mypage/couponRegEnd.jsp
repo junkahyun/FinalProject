@@ -25,32 +25,35 @@
 <script type="text/javascript">
 	
 	function endWindow() {
+		window.opener.document.location.reload();
 		window.close();
 	}
 	
 	function couponAdd() {
-
+		window.opener.document.location.reload();
 		var frm = document.couponAddFrm;
 		var url ="/bnb/couponReg.air";
-		frm.method="POST"; 
+		frm.method="GET"; 
 		frm.action=url;
 		frm.submit();
+		
 		
 	}
 	
 </script>
 <form name="couponAddSuccessFrm">
-	<div style="padding-top: 10%; border: 0px solid red">
+<c:if test="${n == 1}">
+	<div style="padding-top: 10%; text-align: center;" align="center">
 	<div style="padding-left: 10%;"><strong>쿠폰등록에 성공하셧습니다!</strong></div>
 		<div class="col-md-1"></div>	
-		<div class="col-md-10" style="border: 0px solid red">		 
-			<div style="margin: 3%;">쿠폰번호</div>
-			<div style="margin: 3%;">쿠폰명</div>
-			<div style="margin-top: 5%; margin-left: 35%;"><button class="btn" type="button" id="btnOK" onClick="endWindow()">확인</button></div>
+		<div class="col-md-10" style="border: 0px solid red; align-content: center;">		 
+			<div style="margin-top: 5%;"><button class="btn" type="button" id="btnOK" onClick="endWindow()">확인</button></div>
 		</div>
 	</div>
+</c:if>
 </form>
 <form name="couponAddFrm">
+<c:if test="${n != 1}">
 	<div style="padding-top: 10%; border: 0px solid red">
 	<div style="padding-left: 10%;"><strong>쿠폰등록에 실패하였습니다! </strong></div>
 		<div class="col-md-1"></div>	
@@ -60,4 +63,5 @@
 			<button class="btn"  type="button" id="btnOK" onClick="endWindow()">아니오</button></div>
 		</div>
 	</div>
+</c:if>
 </form>

@@ -45,7 +45,10 @@ public class HYController {
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
 		if(roomcode==null) roomcode = "10";
+		roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
+		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
+		req.setAttribute("recommendRoomList", recommendRoomList);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
 	}
@@ -83,6 +86,8 @@ public class HYController {
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
+
+
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
@@ -165,9 +170,9 @@ public class HYController {
 		// 프로필 이미지 업로드
 		String filename = null; // 파일명 초기화
 		if (!profile.isEmpty()) { // 파일 있으면(업로드 했으면)
-			HttpSession session = req.getSession();
-			String root = session.getServletContext().getRealPath("/");
-			String realPath = root + "resources"+File.separator+"images"+File.separator+"profile";
+			String root = req.getContextPath();
+			System.out.println(root);
+			String realPath = root+File.separator+"resources"+File.separator+"images"+File.separator+"profile";
 			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
 			// 엣지 브라우저 요청 파일이름 처리
 			int index = filename.lastIndexOf("\\");
