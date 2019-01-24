@@ -456,4 +456,42 @@ where fk_userid = 'leess'
         
 commit;
 
+select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx;
+
+select *
+from roomoption;
+
+select roomname, roommainimg, roomprice, roomtel, roomsigungu
+			 , basic_person, max_person, person_addpay, viewcount
+		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name
+from room A JOIN roomoption B
+on A.roomcode = B.fk_roomcode
+JOIN options C
+on B.fk_option_idx = c.option_idx
+JOIN roomrule D
+on A.roomcode = D.fk_roomcode
+JOIN allrule E
+on D.fk_rule_idx = E.rule_idx
+JOIN roomtype F
+on A.fk_roomtype_idx = F.roomtype_idx
+where 1 = 1
+and rule_name in ('흡연가능')
+
+select distinct roomcode
+from room A JOIN roomoption B
+on A.roomcode = B.fk_roomcode
+JOIN options C
+on B.fk_option_idx = c.option_idx
+JOIN roomrule D
+on A.roomcode = D.fk_roomcode
+JOIN allrule E
+on D.fk_rule_idx = E.rule_idx
+JOIN roomtype F
+on A.fk_roomtype_idx = F.roomtype_idx
+where 1 = 1
+and rule_name in ('흡연가능') and optionname = '구급상자' and optionname = '조식'
+
+select*from room;
+
 select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
+		where roomcode = 10

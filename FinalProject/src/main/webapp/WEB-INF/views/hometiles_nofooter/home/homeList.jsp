@@ -84,7 +84,7 @@
 	       
 	      //alert("rulenameArr : " + rulenameArr);
 	      //alert("roomtypenameArr : " + roomtypenameArr);
-	      //alert("optionnameArr : " + optionnameArr);
+	      alert("optionnameArr : " + optionnameArr);
 	      
 	      jQuery.ajaxSettings.traditional = true;
 	      /* ,
@@ -103,7 +103,8 @@
 				dataType: "JSON",
 				success: function(json){ 					
 					/* $("#allList").empty(); */
-					alert("gkgkgk");
+					alert("${optionname}");
+					
 					/* $.each(json, function(entryIndex, entry){
 						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"

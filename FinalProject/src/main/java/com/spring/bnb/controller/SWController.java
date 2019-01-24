@@ -137,8 +137,7 @@ public class SWController {
 		String rulenameStr = Arrays.toString(rulename);
 		String roomtype_nameStr = Arrays.toString(roomtype_name);
 		String optionnameStr = Arrays.toString(optionname);
-		
-		
+				
 		rulenameStr = rulenameStr.replace("[", "{");
 		rulenameStr = rulenameStr.replace("]", "}");
 		roomtype_nameStr = roomtype_nameStr.replace("[", "{");
@@ -161,23 +160,20 @@ public class SWController {
 		paraMap.put("OPTIONNAME", optionnameStr);*/
 	
 		System.out.println(paraMap);
-		
+		System.out.println(paraMap.get("OPTIONNAME")[0]);
 		/*List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);*/
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);
 		System.out.println(optionList);
 		for(RoomVO test : optionList) {
 			
-			JSONObject jsonObj = new JSONObject();
-			
-			jsonObj.put("optionList", test);
-			
+			JSONObject jsonObj = new JSONObject();			
+			jsonObj.put("optionList", test);			
 			jsonArr.put(jsonObj);
 		}
 		
 		String str_json = jsonArr.toString();
-		req.setAttribute("str_json", str_json);
-		
-		req.setAttribute("optionname", optionname);
+		req.setAttribute("str_json", str_json);		
+		req.setAttribute("optionname", optionname.toString());
 		req.setAttribute("rulename", rulename);
 		req.setAttribute("roomtype_name", roomtype_name);
 		
