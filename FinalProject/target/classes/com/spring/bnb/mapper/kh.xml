@@ -32,10 +32,10 @@
 	</select>
 	
 	
-	<select id="getOneHost" parameterType="com.spring.bnb.model.RoomVO" resultType="com.spring.bnb.model.MemberVO">
+	<select id="getOneHost" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
 		select*
 		from member 
-		where userid = #{host_userid}
+		where userid = #{fk_userid}
 	</select>
 	
 	
@@ -80,10 +80,10 @@
 		insert into RESERVATION (RSVCODE,FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT
 		,RSV_NAME,RSV_PHONE,RSV_EMAIL,RSV_CHECKINDATE,RSV_CHECKOUTDATE,
 		PAYDATE,TOTALPRICE,RSV_MSG,DCPRICE,RSV_CANCLEDATE)
-		values(#{revcode},#{roomcode},#{my_userid},#{guestcount},#{babycount}
+		values(#{revcode},#{roomcode},#{my_userid},#{guestCount},#{babyCount}
 		,#{username},#{phone},#{email},
-		(#{year}||#{checkmonth1}||#{checkday1}),
-		(#{year}||#{checkmonth2}||#{checkday2}),sysdate,#{totalprice},#{message},'','')
+		(#{year1}||#{mon1}||#{day1}),
+		(#{year2}||#{mon2}||#{day2}),sysdate,#{totalprice},#{message},'','')
 	</insert>
 	
 	

@@ -124,17 +124,17 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-4" >
 			<span class="myinfomation" >이름</span><br><br>
-			<input class="reservationInfo" type="text" value="${my_userid}" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${loginuser.username}" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="01064262641" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="${loginuser.phone}" readonly="readonly" />
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="rkgus3575@naver.com" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${loginuser.email}" readonly="readonly"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -158,10 +158,10 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" /><br><br>
+			<input class="reservationInfo" type="text" value="${day2-day1}박" /><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일 " /><br><br>
+			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일 " /><br><br>
 			
 			<span class="myinfomation">총인원</span><br>
 			<input class="reservationInfo" type="text" value="${sessionScope.totalpeople}명" /><br><br>
@@ -172,7 +172,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일 " /><br><br>
+			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일 " /><br><br>
 		</div>
 	</div>
 	
@@ -194,9 +194,9 @@ input{outline: none;
 </div>
 
 <form name="finalRev">
-	<input type="hidden" value="콩길동" name="username"/>
-	<input type="hidden" value="rkgus3575@naver.com" name="email"/>
-	<input type="hidden" value="01064262641" name="phone"/>
+	<input type="hidden" value="${loginuser.username}" name="username"/>
+	<input type="hidden" value="${loginuser.email}" name="email"/>
+	<input type="hidden" value="${loginuser.phone}" name="phone"/>
 	<input type="hidden" value="" name="totalprice"/>
 </form>
 

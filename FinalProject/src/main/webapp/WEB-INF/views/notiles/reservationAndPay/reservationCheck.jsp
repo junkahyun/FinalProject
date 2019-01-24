@@ -150,10 +150,7 @@ h3{font-size: 14pt;
 
 
 	function gonextCheck(){
-		var frm = document.revCheckFrm;
-		frm.method="GET";
-		frm.action="<%=ctxPath%>/reservationCheckPeople.air"
-		frm.submit();
+		location.href="<%=ctxPath%>/reservationCheckPeople.air"
 	}
 
 </script>
@@ -240,16 +237,16 @@ h3{font-size: 14pt;
 		</div>
 		<br>
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >${oneRoom.roomSigungu} ${(day+7)-day}박</h3>
+		<h3 >${oneRoom.roomSigungu} ${day1-(day1-day2)}박</h3>
 		<br>
 		<div class="col-md-5 rev" >
-			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
+			<div class="col-md-3 date" align="center">${mon1}월<br>${day1}일</div>
 			<div class="chekdate">체크인:수요일 <br>
 			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
-			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
+			<div class="col-md-3 date"  align="center">${mon2}월<br>${day2}일</div>
 			<div class="chekdate">체크아웃:수요일 <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
 					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
@@ -362,11 +359,20 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${guestcount}명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i>
+				<span style="margin-left: 3%;">게스트 ${guestCount}명
+				<c:if test="${babyCount == 0}">
+				</c:if>
+				
+				<c:if test="${babyCount != 0}">
+				, 유아 ${babyCount}명
+				</c:if>
+				
+				</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				${year}년 ${month}월 ${day}일 <i class="fas fa-arrow-right"></i>${year}년 ${month}월 ${day+7}일
+				${year1}년 ${mon1}월 ${day1}일 <i class="fas fa-arrow-right"></i>${year2}년 ${mon2}월 ${day2}일
 				</span>
 			</div>
 			</div>
@@ -378,10 +384,10 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
-				 </span> x <span id="stayday">${(day+7)-day}</span>박
+				 </span> x <span id="stayday">2</span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*((day+7)-day)}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*2}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -419,12 +425,7 @@ h3{font-size: 14pt;
 		</div>
 	</div>
 </div>
-<form name="revCheckFrm">
-<input type="hidden" value="${month}" name="checkmonth1"/>
-<input type="hidden" value="${month}" name="checkmonth2"/>
-<input type="hidden" value="${day}" name="checkday1"/>
-<input type="hidden" value="${(day+7)}" name="checkday2"/>
-</form>
+
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>

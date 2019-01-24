@@ -114,7 +114,7 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-3" >
 			<span class="myinfomation" >이름</span><br>
-			<input class="reservationInfo" type="text" value="${username}" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${loginuser.username}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">숙소주소</span><br>
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomName}"  readonly="readonly"/><br>
@@ -139,7 +139,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -148,7 +148,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -161,8 +161,8 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${checkday2-checkday1}박</td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(checkday2-checkday1)}" pattern="#,###"/></td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${day2-day1}박</td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(day2-day1)}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr>

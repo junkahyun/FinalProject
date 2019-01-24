@@ -1,6 +1,5 @@
 package com.spring.bnb.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReservationVO;
-import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
 @Repository

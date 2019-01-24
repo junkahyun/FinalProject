@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterKHService;
@@ -36,28 +37,27 @@ public class KHController {
 		String my_userid = "kongkd2"; //(테스트용)
 		session.setAttribute("my_userid", my_userid);
 		//===================================================
-		String guestcount = "1";//예약 인원(테스트용)
-		Calendar current = Calendar.getInstance();
-		
-		int year = current.get(Calendar.YEAR);
-		int month = current.get(Calendar.MONTH)+1;
-		int day = current.get(Calendar.DATE);
-		
 		String roomcode = req.getParameter("roomcode");
 		String guestCount = req.getParameter("guestCount");
 		String babyCount = req.getParameter("babyCount");
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
-		//String rsv_checkInDate = req.getParameter("rsv_checkInDate");
+		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");
 		
 		System.out.println(guestCount);
 		System.out.println(babyCount);
 		
-		/*String roomcode = "10";//숙소코드(테스트용)
-		String host_userid = "leess";//호스트 아이디(테스트용)
-*/		
+		
+		// *** 날짜 쪼개기 *** //
+		String year1 = rsv_checkInDate.substring(0, 4);
+		String mon1 = rsv_checkInDate.substring(5, 7);
+		String day1 = rsv_checkInDate.substring(8);
+		
+		String year2 = rsv_checkOutDate.substring(0, 4);
+		String mon2 = rsv_checkOutDate.substring(5, 7);
+		String day2 = rsv_checkOutDate.substring(8);
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
-		//map.put("host_userid", host_userid);
 		
 		// *** 숙소 정보 뽑아오는 메소드 *** //
 		RoomVO oneRoom = service.getOneRoomInfo(map);
@@ -68,10 +68,14 @@ public class KHController {
 		// *** 평균 요금 구하는 메소드 *** //
 		int avgPrice = service.getAvgPrice();
 		
-		session.setAttribute("guestcount", guestcount);
-		session.setAttribute("year", year);
-		session.setAttribute("month", month);
-		session.setAttribute("day", day);
+		session.setAttribute("guestCount", guestCount);
+		session.setAttribute("babyCount", babyCount);
+		session.setAttribute("year1", Integer.parseInt(year1));
+		session.setAttribute("mon1", Integer.parseInt(mon1));
+		session.setAttribute("day1", Integer.parseInt(day1));
+		session.setAttribute("year2", Integer.parseInt(year2));
+		session.setAttribute("mon2", Integer.parseInt(mon2));
+		session.setAttribute("day2", Integer.parseInt(day2));
 		session.setAttribute("reviewCount", reviewCount);
 		session.setAttribute("oneRoom", oneRoom);
 		session.setAttribute("avgPrice", avgPrice);
@@ -83,23 +87,6 @@ public class KHController {
 	// ***** 일행 확인하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.GET})
 	public String reservationCheckPeople (HttpServletRequest req,HttpSession session) {
-		
-		// where절에 숙소 코드 넣어서 가져오기
-		//-------------getparameter---------------
-		String checkmonth1 = req.getParameter("checkmonth1");
-		String checkmonth2 = req.getParameter("checkmonth2");
-		String checkday1 = req.getParameter("checkday1");
-		String checkday2 = req.getParameter("checkday2");
-		//-------------end---------------
-		
-		// *** 평균 요금 구하는 메소드 *** //
-		int avgPrice = service.getAvgPrice();
-		
-		session.setAttribute("checkmonth1", checkmonth1);//체크인 월
-		session.setAttribute("checkmonth2", checkmonth2);//체크아웃 월
-		session.setAttribute("checkday1", checkday1);//체크인 일
-		session.setAttribute("checkday2", checkday2);//체크아웃 일
-		session.setAttribute("avgPrice", avgPrice);//평균 요금
 		
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
@@ -129,18 +116,12 @@ public class KHController {
 	public String paymentGateway(HttpServletRequest req,HttpSession session) {
 		
 		String totalprice = req.getParameter("totalprice");
-		String email = req.getParameter("email");
-		String phone = req.getParameter("phone");
-		String username = req.getParameter("username");
 		
 		RoomVO oneroom = (RoomVO)session.getAttribute("oneRoom");
 		
 		String roomname = oneroom.getRoomName();
 		
 		session.setAttribute("totalprice", totalprice);
-		session.setAttribute("email", email);
-		session.setAttribute("phone", phone);
-		session.setAttribute("username", username);
 		session.setAttribute("roomname", roomname);
 		
 		return "paymentGateway";
@@ -153,30 +134,33 @@ public class KHController {
 	public String reservationFinalConfirm (HttpServletRequest req,HttpSession session) {
 		
 		RoomVO oneroom = (RoomVO)session.getAttribute("oneRoom");
+		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
+		
 		
 		String revcode = getOdrCode();//예약 코드 
 		String roomcode = oneroom.getRoomcode();//룸 코드
-		String my_userid = (String)session.getAttribute("my_userid");
-		String guestcount = (String)session.getAttribute("guestcount");
-		String babycount = (String)session.getAttribute("babycount");
-		String username = (String)session.getAttribute("username");
-		String phone = (String)session.getAttribute("phone");
-		String email = (String)session.getAttribute("email");
-		int year = (int)session.getAttribute("year");
-		String checkmonth1 = (String)session.getAttribute("checkmonth1");
-		String checkmonth2 = (String)session.getAttribute("checkmonth2");
-		String checkday1 = (String)session.getAttribute("checkday1");
-		String checkday2 = (String)session.getAttribute("checkday2");
+		String my_userid = loginuser.getUserid();
+		String guestCount = (String)session.getAttribute("guestCount");
+		String babyCount = (String)session.getAttribute("babyCount");
+		String username = loginuser.getUsername();
+		String phone = loginuser.getPhone();
+		String email = loginuser.getEmail();
+		String year1 = (String)session.getAttribute("year1");
+		String year2 = (String)session.getAttribute("year2");
+		String mon1 = (String)session.getAttribute("mon1");
+		String mon2 = (String)session.getAttribute("mon2");
+		String day1 = (String)session.getAttribute("checkday1");
+		String day2 = (String)session.getAttribute("checkday2");
 		String totalprice = (String)session.getAttribute("totalprice");
 		String message = (String)session.getAttribute("message");
 		
-		if(Integer.parseInt(checkmonth1) < 10 || Integer.parseInt(checkmonth2) < 10) {
-			checkmonth1 = "0"+checkmonth1;
-			checkmonth2 = "0"+checkmonth2;
+		if(Integer.parseInt(mon1) < 10 || Integer.parseInt(mon2) < 10) {
+			mon1 = "0"+mon1;
+			mon2 = "0"+mon2;
 		}
-		if(Integer.parseInt(checkday1) < 10 || Integer.parseInt(checkday2) < 10) {
-			checkday1 = "0"+checkday1;
-			checkday2 = "0"+checkday2;
+		if(Integer.parseInt(day1) < 10 || Integer.parseInt(day2) < 10) {
+			day1 = "0"+day1;
+			day2 = "0"+day2;
 		}
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -184,16 +168,17 @@ public class KHController {
 		map.put("revcode", revcode);
 		map.put("roomcode", roomcode);
 		map.put("my_userid", my_userid);
-		map.put("guestcount", Integer.parseInt(guestcount));
-		map.put("babycount", Integer.parseInt(babycount));
+		map.put("guestCount", Integer.parseInt(guestCount));
+		map.put("babyCount", Integer.parseInt(babyCount));
 		map.put("username", username);
 		map.put("phone", phone);
 		map.put("email", email);
-		map.put("year", String.valueOf(year));
-		map.put("checkmonth1", checkmonth1);
-		map.put("checkmonth2", checkmonth2);
-		map.put("checkday1", checkday1);
-		map.put("checkday2", checkday2);
+		map.put("year1", year1);
+		map.put("year2", year2);
+		map.put("mon1", mon1);
+		map.put("mon2", mon2);
+		map.put("day1", day1);
+		map.put("day2", day2);
 		map.put("totalprice", Integer.parseInt(totalprice));
 		map.put("message", message);
 		
@@ -214,10 +199,10 @@ public class KHController {
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>"+oneroom.getRoomSigungu()+"</h1><br>");
 				sb.append("<img src='"+oneroom.getRoomMainImg()+"' style='width:150px;'/><br>");
-				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+(Integer.parseInt(checkday2)-Integer.parseInt(checkday1))+"박 </span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+(Integer.parseInt(day2)-Integer.parseInt(day1))+"박 </span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
-				sb.append("<span style='font-size:12pt;'>"+year+"년"+checkmonth1+"월"+checkday1+"일 → "+year+"년"+checkmonth2+"월"+checkday2+"일</span><br>");
-				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestcount)+Integer.parseInt(babycount))+""+"명</span><br>");
+				sb.append("<span style='font-size:12pt;'>"+year1+"년"+mon1+"월"+day1+"일 → "+year2+"년"+mon2+"월"+day2+"일</span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestCount)+Integer.parseInt(babyCount))+""+"명</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>요금내역</h1>");
 				sb.append("<h2>총 금액 (KRW) </h2>"+"<span style='font-size:12pt;'>₩"+totalprice+"</span><br>");
