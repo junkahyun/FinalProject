@@ -7,9 +7,9 @@
 	$(document).ready(function(){
 		var adultCount = 1;
 		var babyCount = 0;
-		$("adultCount").val(adultCount);
+		$("#adultCount").val(adultCount);
 		$("#babyCount").val(babyCount);
-		
+		$("#babyhide").hide();
     	var obj = $("#followHY").offset();
     	var objEnd = $("#followEndHY").offset();
        	$(window).scroll(function(event){
@@ -26,21 +26,44 @@
        		}
        	});
        	$(".adultCnt").click(function(){
-       		alert();
        		var thistext = $(this).text();
         	if(thistext=="+") adultCount ++;
-        	else adultCount++;
-    		$("adultCount").val(adultCount);
+        	else{
+        		if(adultCount-1<1){
+        			alert("1명 이하로는 선택이 불가능합니다.");
+        			return;
+        		}
+        		adultCount--;
+        	}
+    		$("#adultCount").val(adultCount);
+    		$("#adultTotal").text(adultCount);
        	});
-       	$(".cntDown").click(function(){
+       	$(".babyCnt").click(function(){
        		var thistext = $(this).text();
-    		if(thistext=="+") adultCount++; 
-        	else babyCount--;
+    		if(thistext=="+") {
+    			babyCount++; 
+    			if(babyCount+1>1){
+        			$("#babyhide").show();
+        		}
+    		}
+        	else {
+        		if(babyCount-1<0){
+        			alert("0명 이하로는 선택이 불가능합니다.");
+        			return;
+        		}
+        		else if(babyCount-1==0) {
+        			$("#babyhide").hide();
+        			babyCount=0;
+        		}
+        		else babyCount--;
+        	}
     		$("#babyCount").val(babyCount);
+    		$("#babyTotal").text(babyCount);
        	});
-       	$('.dropdown').click(function(){
+       	/* $('.dropdown').click(function(){
             alert();
-        });
+        }); */
+		$("#adultTotal").text(adultCount);
 	});   
 	function reviewSearch(){
 	   	var reviewSearchWord = $("#reviewSearchWord").val();
@@ -100,6 +123,10 @@
 	}
   	function goReserve(){
   		var frm = document.reserveFrm;
+  		frm.guestCount.value=adultTotal;
+  		frm.babyCount.value=babyTotal;
+  		frm.rsv_checkInDate.value="2019-01-31";
+  		frm.rsv_checkOutDate.value="2019-02-02";
   		frm.action="reservationCheck.air";
   		frm.method="GET";
   		frm.submit();
@@ -345,6 +372,11 @@
 	<%-- 예약하기 --%>
 	<div class="col-md-4 noSpace">
 	<form name="reserveFrm">
+		<input type=hidden name="roomcode" id="roomcode" value="${room.roomcode}"/>
+		<input type="hidden" name="guestCount">
+		<input type="hidden" name="babyCount">
+		<input type="hidden" name="rsv_checkInDate">
+		<input type="hidden" name="rsv_checkOutDate">
 		<div id="followHY" class="noSpace" style="width: 400px;padding: 0 3%;">
 			<div style="height:380px;width: 400px;border:1px solid lightgray; padding: 5%;">
 				<div style="height:60px; border-bottom: 1px solid lightgray;">
@@ -357,7 +389,7 @@
                      	<div class="row DetailsInput" style="padding-left:5%;"><div class="col-md-4">체크인</div><div class="col-md-3">→</div><div class="col-md-4">체크아웃</div></div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
-                        	<div class="dropdown-toggle" data-toggle="dropdown" style="padding-left:10%;cursor:pointer;">게스트 1명<span class="caret"></span></div>
+                        	<div class="dropdown-toggle" data-toggle="dropdown" style="padding-left:10%;padding-top:2%;cursor:pointer;">게스트 성인 <span id="adultTotal"></span>명<span id="babyhide">, 유아 <span id="babyTotal"></span>명</span><span class="caret"></span></div>
                         	<div id="myDropdown" class="dropdown-menu dropdown-content" style="width:79%;position:absolute; top: 62%; margin-left: 12%;border-top: solid #148487;">
                             	<div style="padding: 3% 5%; border-radius:5px;width:100%;">
                                		<div class="row dropsubrow" style="margin-bottom:3%;">
@@ -365,7 +397,7 @@
                                   		<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown adultCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="adultCount" style="margin: 0 13%;text-align:center;border:none; width:100%;" value="1"/></div>
+		                                     	<div class="col-md-4"><input id="adultCount" style="margin: 0 13%;text-align:center;border:none; width:100%;" /></div>
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown adultCnt" >+</button></div>
                                   			</div>
                                   		</div>
@@ -375,7 +407,7 @@
 	                                  	<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 0 13%;text-align:center;border:none;width:100%;" value="0"/></div>
+		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 0 13%;text-align:center;border:none;width:100%;" /></div>
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >+</button></div>
                                   			</div>
 	                                  	</div>
