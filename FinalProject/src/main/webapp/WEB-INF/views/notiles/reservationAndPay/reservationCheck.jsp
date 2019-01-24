@@ -14,6 +14,7 @@
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
  <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 
 
 <style type="text/css">
@@ -27,13 +28,12 @@ h3{font-size: 14pt;
 
 #plusRole{-webkit-font-smoothing: antialiased;
 }
-
 .chekdate{padding: 5%; 
           margin-left: 30%;
 } 
 .rev{font-size: 12pt;
     }
-    
+  
 .btn{background-color: #008489;
     
      font-size: 14pt; 
@@ -88,6 +88,10 @@ h3{font-size: 14pt;
 .memberinfo{font-size: 12pt;
 }
 
+.sticky {
+  position: fixed;
+  top: 0;
+}
 </style>
 
 <script type="text/javascript">
@@ -119,20 +123,49 @@ h3{font-size: 14pt;
 			
 		});
 		
+		// *** 날짜 시간만 가져오기 ***//
+		var check1 = $("#checkin1").text();
+		$("#checkin1").text(check1.substring(11,13));
+		
+		var checkout1 = $("#checkout1").text();
+		$("#checkout1").text(checkout1.substring(11,13));
+		
+		var checkout2 = $("#checkout2").text();
+		$("#checkout2").text(checkout2.substring(11,13));
+		
+		//------------------------------------------------
+		
+		// 총금액 구하기
+		var stayday = $("#Price").text();cleanpay
+		var cleanpay = $("#cleanpay").text();
+		var peakpay = $("#peakpay").text();
+		
+		var stay = stayday.split(",");
+		var clean = cleanpay.split(",");
+		var peak = peakpay.split(",");
+		
+		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
+		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
 	});//end of $(document).ready------------
 
 
 	function gonextCheck(){
-		location.href="<%=ctxPath%>/reservationCheckPeople.air";
+		var frm = document.revCheckFrm;
+		frm.method="GET";
+		frm.action="<%=ctxPath%>/reservationCheckPeople.air"
+		frm.submit();
 	}
 
 </script>
+
 </head>
 <body>
 
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
-    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" /></div>
+    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
 </div>
@@ -141,31 +174,47 @@ h3{font-size: 14pt;
 	<div class="col-md-7" style="margin-top: 3%;">
 		<h2 >숙소이용규칙 확인하기</h2>
 		<br>
-		
-		
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/아이콘.gif" style="width: 55px;"/></div>
-				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-				      숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 
-				   1박 이상의 예약이 곧 마감될 수 있습니다.
-			    </div>
+				<c:if test="${oneRoom.roomPrice < avgPrice }">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-oneRoom.roomPrice}" pattern="#,###" />저렴합니다.
+				    </div>
+				</c:if>
+				<c:if test="${oneRoom.viewcount > 10}">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/흔치않은기회.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
+				    </div>
+				</c:if>
+				
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+				    </div> 
+			    
 			</div>
 		</div>
 		<br>
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >방콕 3박</h3>
+		<h3 >${oneRoom.roomSigungu} ${(day+7)-day}박</h3>
 		<br>
 		<div class="col-md-5 rev" >
-			<div class="col-md-3 date" align="center">월<br>일</div>
-			<div class="chekdate">체크인:요일 <br>
-			${roomList.checkintime}시 이후</div>
+			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
+			<div class="chekdate">체크인:수요일 <br>
+			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
-			<div class="col-md-3 date"  align="center">월<br>일</div>
-			<div class="chekdate">체크아웃:요일 <br>
-			 ${roomList.checkouttime}시 
+			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
+			<div class="chekdate">체크아웃:수요일 <br>
+				<c:if test="${oneRoom.checkOutTime != '00'}">
+					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
+				</c:if>
+				<c:if test="${oneRoom.checkOutTime == '00'}">
+				 	<span id="checkout2">24:00</span>시 까지 
+				</c:if>
 			</div>
 		</div>
 		<hr>
@@ -179,12 +228,17 @@ h3{font-size: 14pt;
 		<br><br>
 		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>
 		<!-- 주의할사항 이미지 -->
-		<c:forEach var="roomoption" items="${roomoption}">
-			<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${roomoption.optionicon}" /></i>
-			<span style="margin-left: 2%; font-size: 12pt;">${roomoption.optionname} 있음.</span><br>
-			<br>
-		</c:forEach>
+		<c:if test="${(oneRoom.optionList).size() < 0}">
+			편의시설 없음
+		</c:if>
 		
+		<c:if test="${(oneRoom.optionList).size() > 0}">
+			<c:forEach var="oneRoom" items="${oneRoom.optionList}">
+				<i class="fas fa-lg fa-border "><img src="<%=request.getContextPath() %>/resources/images/optionicon/${oneRoom.OPTIONICON}" /></i>
+				<span style="margin-left: 2%; font-size: 12pt;">${oneRoom.OPTIONNAME} 있음.</span><br>
+				<br>
+			</c:forEach>
+		</c:if>
 		<div class="pluscontext plus">더보기 <i class="fas fa-chevron-down" ></i></div>
 		<!-- 추가규칙  -->
 		<div id="plusRole" style="-webkit-font-smoothing: antialiased;">
@@ -203,29 +257,74 @@ h3{font-size: 14pt;
 	</div>
 	<!-- ==================== 숙소 ========================== -->
 	<!-- 숙소 정보 패널 -->
-	<div class="col-md-5" style="padding-top: 4.7%;">
-		<div class="panel panel-default">
+	
+	<div class="col-md-5" style="padding-top: 4.7%; ">
+		<div class="panel panel-default " id="scrollpannel" >
 			<!-- 숙소 정보 패널 1 -->
 			<div class="panel-body hostpanel">
-				<div class="col-md-8">
-					<span style="font-weight: bold; font-size: 12pt;">${roomList.roomname}</span>
-				     <br><br>${roomList.fk_userid}의 ${roomList.roomtype_name}<br>
+				<div class="col-md-8" style="margin-bottom: 5%;">
+					<span style="font-weight: bold; font-size: 12pt;">${oneRoom.roomName}</span>
+				     <br><br>${oneRoom.fk_userid}의 ${oneRoom.buildType_detail_name}<br>
 				     <c:forEach begin="1" end="4" ><i class="fas fa-star fa-sm" style="color: #008489;"></i></c:forEach>
 				     <i class="fas fa-star-half-alt fa-sm" style="color: #008489;"></i>
-				         후기 개
+				        후기${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${roomList.roommainimg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%;"/></div>
+				<div class="infoDiv" >
+				<%-- 지역정보 --%>
+				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
+				
+				<script> 
+				   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				       mapOption = {
+				           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
+				           level: 3 // 지도의 확대 레벨
+				       };  
+				   
+				   // 지도를 생성합니다    
+				   var map = new daum.maps.Map(mapContainer, mapOption); 
+				   
+				   // 주소-좌표 변환 객체를 생성합니다
+				   var geocoder = new daum.maps.services.Geocoder();
+				   
+				   // 주소로 좌표를 검색합니다
+				   geocoder.addressSearch('${oneRoom.roomSido} ${oneRoom.roomSigungu} ${oneRoom.roomBname}', function(result, status) {
+				   
+				       // 정상적으로 검색이 완료됐으면 
+				        if (status === daum.maps.services.Status.OK) {
+				   
+				           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+				   
+				           // 결과값으로 받은 위치를 마커로 표시합니다
+				           var marker = new daum.maps.Marker({
+				               map: map,
+				               position: coords
+				           });
+				   
+				          /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
+				           var infowindow = new daum.maps.InfoWindow({
+				               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+'${address}'+'</div>'
+				           });
+				           infowindow.open(map, marker); */
+				   
+				           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+				           map.setCenter(coords);
+				       } 
+				   });  
+				   
+				</script>
+			</div>
 			</div>
 			<!-- 숙소 정보 패널 2 -->
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 1명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${guestcount}명</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				2019년 1월 1일 <i class="fas fa-arrow-right"></i>년 월 일
+				${year}년 ${month}월 ${day}일 <i class="fas fa-arrow-right"></i>${year}년 ${month}월 ${day+7}일
 				</span>
 			</div>
 			</div>
@@ -235,12 +334,12 @@ h3{font-size: 14pt;
 			<!-- 숙박요금 -->
 			<div>
 				<div class="col-md-9" >
-				 ₩<span id="onedayPrice">
-				 <fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/>
-				 </span> x <span id="stayday"></span>박
+				 ₩<span >
+				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
+				 </span> x <span id="stayday">${(day+7)-day}</span>박
 				</div>
-				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩90,000
+				<div class="col-md-3" style="margin-bottom: 3%;" >
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*((day+7)-day)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -250,7 +349,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 일회성 숙소 청소 비용입니다."></i>
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<span id="cleanpay"><fmt:formatNumber value="${roomList.cleanpay}" pattern="#,###"/></span>
+				 ₩<span id="cleanpay"><fmt:formatNumber value="${oneRoom.cleanPay}" pattern="#,###"/></span>
 				</div>
 			</div>
 			<div>
@@ -259,7 +358,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${roomList.roomprice}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
@@ -270,13 +369,20 @@ h3{font-size: 14pt;
 				 총 합계 (KRW)
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 <span style="font-weight: bold;">₩</span>
+				 ₩<span style="font-weight: bold;" id="roomtotalPrice">
+				 
+				 </span>
+				</div>
 			</div>
 		</div>
 	</div>
-	</div>
 </div>
-
+<form name="revCheckFrm">
+<input type="hidden" value="${month}" name="checkmonth1"/>
+<input type="hidden" value="${month}" name="checkmonth2"/>
+<input type="hidden" value="${day}" name="checkday1"/>
+<input type="hidden" value="${(day+7)}" name="checkday2"/>
+</form>
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>

@@ -53,7 +53,9 @@
              display: table-cell;
              border-radius: 5px;
          }
-         .progressBar {
+         
+         
+    .progressBar {
              width: 200px;
              height: 22px;
              border: 1px solid #ddd;
@@ -106,56 +108,66 @@
              cursor:pointer;
              vertical-align:top
          }
-         
-}
+       
+
 
 </style>
 
 <script type="text/javascript">
-            $(document).ready(function(){
-            	
+            $(document).ready(function(){  
             	var objDragAndDrop = $(".dragAndDropDiv");
+            	var index = 0;
+            	$("#delete").hide(); // 삭제버튼 숨기기
             	
             	objDragAndDrop
             	  .on("dragover", dragOver)
-            	  .on("dragenter", dragEnter) // dragenter 드래그 요소가 드롭영역에 들어갈때 발생하는 이벤트
-            	  .on("drop", drop); // drop 드롭 할때 발생하는 이벤트 
+            	  .on("dragleave", dragOver)
+            	  .on("drop", uploadFiles);
             	 
             	function dragOver(e){
             	  e.stopPropagation();
             	  e.preventDefault();
             	}
-            	
-            	// 드롭영역 안에 들어갔을때 css 적용
-            	function dragEnter(e){
-              	  e.stopPropagation();
-              	  e.preventDefault();
-	              	if (e.type == "dragenter") {
-	        	        $(e.target).css({
-	        	        	"border": "2px dashed #0B85A1"
-	        	        });
-	        	    } else {
-	        	        $(e.target).css({
-	        	        	"border": "2px dashed #92AAB0"
-	        	        });
-	        	    } 
-              	}
             	 
-            	function drop(e){
+            	function uploadFiles(e){
             	  e.stopPropagation();
             	  e.preventDefault();
-            	}            	
+            	}
             	
-                function drop(e) {
+            	function dragOver(e) {
+            	    e.stopPropagation();
+            	    e.preventDefault();
+            	    if (e.type == "dragover") {
+            	        $(e.target).css({
+            	        	"border": "2px dashed #0B85A1",
+            	        	"background-color" : "#EAEAEA",
+            	        	"outline-offset": "-20px"
+            	        });
+            	    } else {
+            	        $(e.target).css({
+            	        	"border": "2px dashed #92AAB0",
+            	        	"background-color" : "white",
+            	        	"outline-offset": "-10px"
+            	        });
+            	    }
+            	}
+            	
+            	function uploadFiles(e) {
             	    e.stopPropagation();
             	    e.preventDefault();
             	    dragOver(e); //1
-            	 
             	    e.dataTransfer = e.originalEvent.dataTransfer; //2
             	    var files = e.target.files || e.dataTransfer.files;
+            	    
+            	    var reader = new FileReader();
+                    reader.onload = function (e) {
+                    	for(var i=0;i<files.length;i++){
+             	    	   console.log(e.target.result);
+                   	   }	
+                    }
+            	    
             	 
             	    if (files.length > 1) {
-            	        alert('하나만 올려라.');
             	        return;
             	    }
             	    
@@ -165,6 +177,7 @@
             	        alert('이미지가 아닙니다.');
             	        return;
             	    }
+
             	    
             	    if (files[0].type.match(/image.*/)) {
             	        $(e.target).css({
@@ -179,38 +192,64 @@
             	    
             	    handleFileUpload(files,objDragAndDrop);
             	    
+            	    $("#delete").show(); // 삭제버튼 보이기
+            	    
+            	  /*    for (var i = 0; i < files.length; i++){
+	            	    //$("#roomMainImg").val(files[i].name); // 이미지명 넣기
+	            	    $("#file").val(files[i]);
+	            	    alert(files[i]);
+	            	    
+	            	    
+            	    }  */
+            	    
+            	    
             	}
+            	
+            	// 삭제버튼
+        	    $("#delete").click(function(){
+        	    	$(".dragAndDropDiv").css({
+        	    		"background-image": "url()"
+        	    	});
+        	    	
+        	    	$("#roomMainImg").val("");
+             	    $("#file").val("");
+             	    
+             	    $(".filename").remove();
+             	    $(".statusbar").remove();
+             	    $(".filesize").remove();
+             	    $(".abort").remove();
+        	    });
 
-
-            	////////////////////////
-     
-             	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때)
-                 $(document).on('dragover', function (e){
-	                e.stopPropagation();
-	                e.preventDefault();
-	                objDragAndDrop.css('border', '2px dashed #92AAB0');
-				                
-                });
-                            
-                // drop 드롭영역 밖에서 드롭할 때 발생하는 이벤트
-                  $(document).on('drop', function (e){
-                    e.stopPropagation();
-                    e.preventDefault();	
-                    //alert("드롭함");
-                    
-                }); 
-                  
-                function handleFileUpload(files,obj)
+            	        	
+            });// end ready --- 
+            
+         	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때)
+            $(document).on('dragover', function (e){
+               e.stopPropagation();
+               e.preventDefault();
+               $(".dragAndDropDiv").css('border', '2px dashed #92AAB0');
+			                
+           });
+                       
+           // drop 드롭영역 밖에서 드롭할 때 발생하는 이벤트
+             $(document).on('drop', function (e){
+               e.stopPropagation();
+               e.preventDefault();	
+               //alert("드롭함");
+               
+           }); 
+           
+           ////////
+           function handleFileUpload(files,obj)
                 {
                    for (var i = 0; i < files.length; i++) 
                    {
                         var fd = new FormData();
-                        fd.append('file', files[i]);                    
+                        fd.append('file', files[i]);
                   
                         var status = new createStatusbar(obj); //Using this we can set progress.
                         status.setFileNameSize(files[i].name,files[i].size);
-                        sendFileToServer(fd,status);
-                        
+                        sendFileToServer(fd,status);                        
                   
                    }
                 }
@@ -226,7 +265,8 @@
                     this.size = $("<div class='filesize'></div>").appendTo(this.statusbar);
                     this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
                     this.abort = $("<div class='abort'>중지</div>").appendTo(this.statusbar);
-                     
+                    
+                    
                     obj.after(this.statusbar);
                   
                     this.setFileNameSize = function(name,size){
@@ -298,19 +338,22 @@
                   
                     status.setAbort(jqXHR);
                 }
-      
-            });
-            
+           /////////
+                      
+           
             function next() {
             	var frm = document.image; 
         		frm.action="roomstep3.air";
-        		frm.method="GET";
+        		frm.method="POST";
         		frm.submit();
 			}
 
 </script>
 
-<form name="image">
+
+
+
+<form name="image" enctype="multipart/form-data">
 <div>
    <div class="row" style="border: 0px solid green;">
 
@@ -326,7 +369,11 @@
         
         <div class="row" style="border: 0px solid red; margin-top: 20px;">
         	<div class="col-md-12" style="margin-bottom: 20px;">
-        		 <div id="fileUpload" class="dragAndDropDiv">이미지 로드</br>Drag & Drop Files Here
+        		 <div class="dragAndDropDiv">	        		
+	        		 <button id="delete" type="button" style="width: 50px; height: 30px; font-size:15px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; float: top;">삭제</button>	        	
+	        		 </br>Drag & Drop Files Here
+	        		 <INPUT type="hidden" id="roomMainImg" name="roomMainImg"/>
+	        		 <INPUT type="file" id="file" name="file" style="display:none;"/>
         		 </div>
         	</div>
         </div>

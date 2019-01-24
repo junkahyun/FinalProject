@@ -17,69 +17,76 @@
 		from roomrule
 	</select>
 	
-	
-	<resultMap type="HashMap" id="roomMap">
-		<result property="roomname"  column="roomname"  javaType="String" />
-		<result property="roommainimg"  column="roommainimg"  javaType="String" />
-		<result property="basic_person"  column="basic_person"  javaType="String" />
-		<result property="person_addpay"  column="person_addpay"  javaType="String" />
-		<result property="viewcount"  column="viewcount"  javaType="String" />
-		<result property="roomaddr"  column="roomaddr"  javaType="String" />
-		<result property="fk_userid"  column="fk_userid"  javaType="String" />
-		<result property="roomtype_name"  column="roomtype_name"  javaType="String" />
-		<result property="buildtype_detail_name"  column="buildtype_detail_name"  javaType="String" />
-		<result property="roomtel"  column="roomtel"  javaType="String" />
-		<result property="roompost"  column="roompost"  javaType="String" />
-		<result property="roomtel"  column="roomtel"  javaType="String" />
-		<result property="roomsigungu"  column="roomsigungu"  javaType="String" />
-		<result property="roomsido"  column="roomsido"  javaType="String" />
-		<result property="roombname"  column="roombname"  javaType="String" />
-		<result property="roomprice"  column="roomprice"  javaType="int" />
-		<result property="peakper"  column="peakper"  javaType="int" />
-		<result property="cleanpay"  column="cleanpay"  javaType="String" />
-		<result property="basic_person"  column="basic_person"  javaType="String" />
-		<result property="max_person"  column="max_person"  javaType="String" />
-		<result property="roomcount"  column="roomcount"  javaType="String" />
-		<result property="bathcount"  column="bathcount"  javaType="String" />
-		<result property="checkintime"  column="checkintime"  javaType="String" />
-		<result property="checkouttime"  column="checkouttime"  javaType="String" />
-	</resultMap>
-	
-	<select id="getRoomInfo" resultMap="roomMap">
-		select roomname,roommainimg,basic_person,person_addpay,viewcount,roomaddr,roomcode,fk_userid
-		      ,roomtype_name,buildtype_detail_name,roomtel,roompost,roomsigungu,roomsido,
-		      roombname,roomprice,peakper,cleanpay,basic_person,max_person,roomcount,bathcount
-		      checkintime,checkouttime,fk_userid
+	<select id="getOneRoomInfo" resultType="com.spring.bnb.model.RoomVO" parameterType="HashMap">
+		select *
 		from room A 
 		join roomtype B
 		on A.fk_roomtype_idx = B.roomtype_idx
 		join BUILDTYPE_DETAIL C
 		on A.FK_BUILDTYPE_DETAIL_IDX = C.BUILDTYPE_DETAIL_IDX
-		where roomcode = 10
-		and fk_userid = 'leess'
+		where roomcode = #{roomcode}
 	</select>
 	
 	
-	<resultMap type="HashMap" id="roomOptions">
-		<result column="optionname" property="optionname" javaType="String" />
-		<result column="optionicon" property="optionicon" javaType="String" />
+	<select id="getOneHost" parameterType="com.spring.bnb.model.RoomVO" resultType="com.spring.bnb.model.MemberVO">
+		select*
+		from member 
+		where userid = #{host_userid}
+	</select>
+	
+	
+	<resultMap type="HashMap" id="roomOption">
+		<result column="OPTIONNAME" property="OPTIONNAME" javaType="String" />
+		<result column="OPTIONICON" property="OPTIONICON" javaType="String" />
 	</resultMap>
 	
-	<select id="getRoomOptions" resultMap="roomOptions">
-		select optionname,optionicon
+	<select id="roomOptionList" parameterType="HashMap" resultMap="roomOption">
+		select OPTIONNAME,OPTIONICON
 		from roomoption B 
 		join options A
 		on B.fk_option_idx = A.option_idx
-		where fk_roomcode = 10
+		where fk_roomcode = #{roomcode}
 	</select>
 	
-	<select id="gethostImage" resultType="String">
-		select profileimg
-		from member A 
-		join room B
-		on A.userid = B.fk_userid
-		where userid = 'leess'
-		and roomcode = 10
+	
+	<select id="roomReviewCount" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
+		select count(*)
+		from review
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	
+	<select id="getReviewCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from review
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	<select id="getAvgPrice" resultType="int">
+		select avg(ROOMPRICE)
+		from room
+	</select>
+	
+	<select id="getReservCode" resultType="int">
+		select rsvcode_seq.nextval as seq
+		from dual	
+	</select>
+	
+	<insert id="insertReservation" parameterType="HashMap">
+		insert into RESERVATION (RSVCODE,FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT
+		,RSV_NAME,RSV_PHONE,RSV_EMAIL,RSV_CHECKINDATE,RSV_CHECKOUTDATE,
+		PAYDATE,TOTALPRICE,RSV_MSG,DCPRICE,RSV_CANCLEDATE)
+		values(#{revcode},#{roomcode},#{my_userid},#{guestcount},#{babycount}
+		,#{username},#{phone},#{email},
+		(#{year}||#{checkmonth1}||#{checkday1}),
+		(#{year}||#{checkmonth2}||#{checkday2}),sysdate,#{totalprice},#{message},'','')
+	</insert>
+	
+	
+	<select id="getOneReserve" parameterType="HashMap" resultType="com.spring.bnb.model.ReservationVO">
+		select*
+		from reservation
+		where rsvcode= #{revcode} and fk_userid=#{my_userid}
 	</select>
 
 </mapper>

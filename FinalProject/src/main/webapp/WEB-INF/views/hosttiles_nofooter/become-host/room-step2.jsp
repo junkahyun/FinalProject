@@ -20,6 +20,18 @@
 		   color: gray;}
 </style>
 
+<script>
+
+	function start(){
+		var frm = document.roomstep2;
+		frm.action = "roomstep2page.air";
+		frm.method = "GET";
+		frm.submit();
+	}
+	
+</script>
+
+<form name="roomstep2">
 <div>
 	<div class="row">
 	
@@ -36,11 +48,11 @@
 			
 			<div class="row" style="border-bottom: 1px solid #D8D8D8; padding-bottom: 25px; margin-bottom: 25px;"> 
 				<div class="col-md-11" id="stap" style="border: 0px solid red;">
-					침대, 욕실, 편의시설 등<br/>
+					침대, 욕실, 편의시설, 이용규칙 <br/>
 					<a style="color: #148487"> 변경</a>
 				</div>  
 				<div class="col-md-1" style="border: 0px solid blue; padding: 0;">
-					<img style="border: 0px solid red;  width: 40px; height: 40px;" src="<%=request.getContextPath() %>/resources/boimg/success.png" />
+					<img style="border: 0px solid red;  width: 40px; height: 40px;" src="<%=request.getContextPath() %>/resources/images/boimg/success.png" />
 				</div>
 			</div>
 			
@@ -53,7 +65,7 @@
 					사진, 간단한 설명, 제목
 				</div>
 				<div class="col-md-8" align="left" style="margin-top: 3%;">
-					<button type="button" class="form-control" style="width: 60px; height: 33px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold;">계속</button>
+					<button type="button" onclick="start();" class="form-control" style="width: 60px; height: 33px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold;">계속</button>
 				</div>
 			</div>
 			
@@ -63,7 +75,7 @@
 					<h3 style="color: gray;">게스트를 맞이할 준비를 하세요</h3>
 				</div>
 				<div class="col-md-8" id="stap3" style="border: 0px solid red;">
-					예약 설정, 달력, 요금
+					체크인아웃 시간, 요금설정
 				</div>
 			</div>
 			
@@ -71,9 +83,10 @@
 			
 		</div>
 		<div class="col-md-4">
-			<img src="<%=request.getContextPath() %>/resources/boimg/roomenrollment.PNG" />
+			<img src="<%=request.getContextPath() %>/resources/images/boimg/roomenrollment.PNG" />
 		</div>
 	
 	</div>
 </div>
+</form>
 

@@ -30,20 +30,29 @@ h3{font-size: 14pt;
 .reservationInfo{font-size: 12pt; border: 0px;
 }
   
-
+input{outline: none;
+}
 </style>
 
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
+		
+		
 		$("#btnsubmit").click(function(){
 			
-			<%-- var frm = document.reservationFinalConfirm;
-			frm.method="get";//post로 바꿔야함
+			var total = $("#totalprice").text();
+			var totalprice = total.split(",");
+			
+			var price = totalprice.join("");
+			
+			var frm = document.finalRev;
+			frm.totalprice.value = price;
+			frm.method="GET";//post로 바꿔야함
 			frm.action = "<%=ctxPath%>/paymentGateway.air";
-			frm.submit(); --%>
-			var url ="<%=ctxPath%>/paymentGateway.air";
-			window.open(url,"예약결제", "width=880, height=630, top=200, left=500");
+			frm.submit();
+			
 		});//
 		
 	});//end of $(document).ready------------
@@ -56,7 +65,9 @@ h3{font-size: 14pt;
 
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
-    	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;"><img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" /></div>
+  		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 >  2. 게스트 정보 입력 >  3. 확인 및 결제  > </span> 4. 예약완료</div>
   </div>
 </div>
@@ -71,17 +82,17 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-4" >
 			<span class="myinfomation" >이름</span><br><br>
-			<input class="reservationInfo" type="text" value="이름" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${my_userid}" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="전화번호" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="01064262641" readonly="readonly" />
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="이메일" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="rkgus3575@naver.com" readonly="readonly"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -89,40 +100,37 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray;">
 		<div class="col-md-3"  align="center">
 			<span class="myinfomation">숙소이미지</span><br><br>
-			<img src="<%=ctxPath %>/resources/img/숙소사진.JPG" style="width: 80%;"/>
+			<img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 80%;"/>
 		</div>
 		
 		<div class="col-md-3" >
 			<span class="myinfomation">여행지</span><br>
-			<input class="reservationInfo" type="text" value="타이페이"/><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSigungu}"/><br><br>
 			
 			<span class="myinfomation">숙박시설 호스트</span><br>
-			<input class="reservationInfo" type="text" value="5박" /><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).fk_userid}님" /><br><br>
 			
 			<span class="myinfomation">숙소주소</span><br>
-			<input class="reservationInfo" type="text" value="숙소주소" /><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSido}&nbsp;${(sessionScope.oneRoom).roomBname}" /><br><br>
 		</div>
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="5박" /><br><br>
+			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" /><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="2019년 10월 15일 12:00시" /><br><br>
+			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일 " /><br><br>
 			
-			<span class="myinfomation">여행지</span><br>
-			<input class="reservationInfo" type="text" value="타이베이" /><br><br>
+			<span class="myinfomation">총인원</span><br>
+			<input class="reservationInfo" type="text" value="${sessionScope.totalpeople}명" /><br><br>
 		</div>
 		
 		<div class="col-md-3" >
 			<span class="myinfomation">숙소종류</span><br>
-			<input class="reservationInfo" type="text" value="아파트전체"/><br><br>
+			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="2019년 10월 25일 18:00시" /><br><br>
-			
-			<span class="myinfomation">총인원</span><br>
-			<input class="reservationInfo" type="text" value="5명" /><br><br>
+			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일 " /><br><br>
 		</div>
 	</div>
 	
@@ -130,7 +138,7 @@ h3{font-size: 14pt;
 		<hr style="border: 0.5px solid gray;">
 		<div align="right" style="font-size: 14pt;">
 			<span style="margin-right: 20%;">총합계(KWR)(수수료포함)</span>
-			<span>₩101,610</span>
+			₩<span id="totalprice">${totalprice}</span>
 		</div>
 	</div>
 	<div class="col-md-12">
@@ -142,6 +150,13 @@ h3{font-size: 14pt;
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>
+
+<form name="finalRev">
+	<input type="hidden" value="콩길동" name="username"/>
+	<input type="hidden" value="rkgus3575@naver.com" name="email"/>
+	<input type="hidden" value="01064262641" name="phone"/>
+	<input type="hidden" value="" name="totalprice"/>
+</form>
 
 </body>
 </html>

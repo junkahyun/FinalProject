@@ -48,9 +48,12 @@
              margin-bottom: 8px ;} 
              
     #cklist{font-size: 16px;
-    		color: #5D5D5D;}
-	#cklistDetail{font-size: 13px;
-	color: #5D5D5D;}
+    		color: #5D5D5D;
+    		font-weight: normal}
+    		
+ 	#rulelist{font-size: 16px;
+   			color: #5D5D5D;
+   			font-weight: normal}
 
 </style>
 
@@ -65,6 +68,7 @@
 	   $("#fourth").hide();
 	   $("#fifth").hide();
 	   $("#sixth").hide();
+	   $("#seventh").hide();
 
    
 	  //첫번째 입력창 스크립트 시작-----------------------------------------------------------------------------------------------------------	  
@@ -166,11 +170,40 @@
 		});
       //우편번호 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
       
-      $(".optionradio").click(function(){
-      	alert(check);
-      });
-      
 
+       $(".option").click(function(){
+
+    	      $(".option").each(function(){
+    	      	var check = $(this).prop("checked");
+    	      	
+    	      	if(check){
+    	      		$(this).parent().find("label").css("background-color","#148487");
+    	      	}
+    	      	else{
+    	      		$(this).parent().find("label").css("background-color","white");
+    	      	}
+    	      });
+    	      
+       		
+    	});
+      
+       $(".rule").click(function(){
+
+ 	      $(".rule").each(function(){
+ 	      	var check = $(this).prop("checked");
+ 	      	
+ 	      	if(check){
+ 	      		$(this).parent().find("label").css("background-color","#148487");
+ 	      	}
+ 	      	else{
+ 	      		$(this).parent().find("label").css("background-color","white");
+ 	      	}
+ 	      });
+ 	      
+    		
+ 		});
+      
+      
    });// $(document).ready(function()
 
    // 버튼 함수들
@@ -218,28 +251,59 @@
 	function next4(){
 	   $("#fourth").hide();
 	   $("#fifth").show();
-	}	
+	}
 	
 	// fifth ---------------------------------------------------------
 	function back5(){
-		$("#fourth").show();
-		$("#fifth").hide();
+	   $("#fourth").show();
+	   $("#fifth").hide();
 	}
 	
-	
+	function next5(){
+	   $("#fifth").hide();
+	   $("#sixth").show();
+	}
 	
 	// sixth ---------------------------------------------------------
 	function back6(){
-	   $("#fifth").show();
-	   $("#sixth").hide();
+		$("#fifth").show();
+		$("#sixth").hide();
 	}
 	
-	function next6(){
+	// next는 맨밑에
+	
+	// seventh ---------------------------------------------------------
+	function back7(){
+	   $("#sixth").show();
+	   $("#seventh").hide();
+	}
+	
+	function next7(){
 		var frm = document.roomtype; 
 		frm.action="roomstep2.air";
 		frm.method="GET";
 		frm.submit();
 	}
+	
+   //기본수용인원 감소 버튼
+   function basicminus() {
+	   var start = $("#basic_person").val();
+	   var minus = parseInt(start);
+	   minus--;
+	   if(minus<1){
+		   alert("인원수는 1명 이상이여야 합니다.");
+		   minus = 1;
+	   }
+	   $("#basic_person").val(minus);
+   }  
+   
+   //기본수용인원 증가 버튼
+   function basicplus() {
+	   var start = $("#basic_person").val();
+	   var plus = parseInt(start);
+	   plus++;
+	   $("#basic_person").val(plus);
+   }
 	
    //최대숙박인원 감소 버튼
    function peopleminus() {
@@ -431,6 +495,18 @@
 		         <div class="title">숙소에 몇명이 숙박할 수 있나요?</div>
 		         <div class="row" style="padding: 0; margin-bottom: 100px; border: 0px solid green;" >
 		         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
+		         		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">기본 수용 인원</div>
+		         		<div class="col-md-2" style="border: 0px solid green;">
+		         		 	<button type="button" onclick="basicminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+		         		</div>
+		         		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+		         			<input type="text" id="basic_person" name="basic_person" value="1" style="border: 0; width: 20px; height: 20px;" readonly>   
+		         		</div>
+		         		<div class="col-md-2" style="border: 0px solid green;">
+		         		 	<button type="button" onclick="basicplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+		         		</div>
+		         	</div>
+		         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
 		         		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">최대 숙박 인원</div>
 		         		<div class="col-md-2" style="border: 0px solid green;">
 		         		 	<button type="button" onclick="peopleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
@@ -572,28 +648,25 @@
 	        <!-- 네번째 입력창 끝 -->
 	        <div class="row" id="fourth">
 		         <div class="title">어떤 편의시설을 제공하시나요?</div>
-		         <div class="row" style="padding: 0; border: 1px solid green;" >
-		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 1px solid blue;">
+		         <div class="row" style="padding: 0; border: 0px solid green;" >
+		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid blue;">
 		            
 						<c:forEach items="${options}" var="map" varStatus="status"> 
-						 	<div class="row" style="border: 1px solid red; padding-left: 2px;"> 
-						 	  
-		                        <div class="col-md-1" style="border: 1px solid black; ">
-		                              <input type="radio" class="optionradio" value="${map.OPTIONNAME}" id="${status.count}option"/>
+						 	<div class="row" style="border: 0px solid red; padding-left: 15px;"> 
+		                        <div class="col-md-1" style="border: 0px solid black; padding: 0 ">
+		                              <input type="checkbox" value="${map.OPTION_IDX}" name="optionchk" class="option" id="${status.count}option" style="display: none;"/>
+		                              <label for="${status.count}option" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
 		                        </div>
-		
-		                        <div class="col-md-11" style="border: 1px solid blue;" >		                        	
+		                        <div class="col-md-10" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
 		                              <label for="${status.count}option">
 		                              	<span id="cklist">${map.OPTIONNAME }</span><br/>
-		                              	<input type="text" value="${map.OPTION_IDX }"/>		                              
+		                              	<input type="hidden" value="${map.OPTION_IDX}"/>		                              
 		                              </label>		                            
-		                        </div>
-		                        
+		                        </div>  
 		                 	</div>
 		                 </c:forEach>	
 		                 	                 
 		            </div>
-		  
 		         </div>
 		
 		         <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
@@ -611,6 +684,43 @@
 	        
 	        <!-- 다섯번째 입력창 끝 -->
 	        <div class="row" id="fifth">
+		         <div class="title">이용규칙을 정해주세요</div>
+		         <div class="row" style="padding: 0; border: 0px solid green;" >
+		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid blue;">
+		            
+						<c:forEach items="${rule}" var="map" varStatus="status"> 
+						 	<div class="row" style="border: 0px solid red; padding-left: 15px;"> 
+		                        <div class="col-md-1" style="border: 0px solid black; padding: 0 ">
+		                              <input type="checkbox" value="${map.RULE_IDX}" name="rulechk" class="rule" id="${status.count}rule" style="display: none;"/>
+		                              <label for="${status.count}rule" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
+		                        </div>
+		                        <div class="col-md-10" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
+		                              <label for="${status.count}rule">
+		                              	<span id="rulelist">${map.RULE_NAME}</span><br/>
+		                              	<input type="hidden" value="${map.RULE_IDX}"/>		                              
+		                              </label>		                            
+		                        </div>  
+		                 	</div>
+		                 </c:forEach>	
+		                 	                 
+		            </div>
+		         </div>
+		
+		         <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
+		         	 <hr/>
+			         <div class="col-md-3" style="padding: 0;">
+			            <button type="button" onclick="back5();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+			         </div>
+			         <div class="col-md-6" style="border: 0px solid red;"></div>
+			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
+			            <button type="button" onclick="next5();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
+			         </div>
+		        </div>
+	        </div>
+	        <!-- 다섯번째 입력창 끝 -->
+	        
+	        <!-- 여섯번째 입력창 끝 -->
+	        <div class="row" id="sixth">
 		         <div class="col-md-10 title">숙소의 위치를 알려주세요.</div>
 		         <div class="row" style="padding: 0; border: 0px solid green;" >
 		         
@@ -655,18 +765,18 @@
 		         <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
 		         	 <hr/>
 			         <div class="col-md-3" style="padding: 0;">
-			            <button type="button" onclick="back5();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+			            <button type="button" onclick="back6();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
 			         </div>
 			         <div class="col-md-6" style="border: 0px solid red;"></div>
 			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-			            <button type="button" onclick="next5();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
+			            <button type="button" onclick="next6();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
 			         </div>
 		        </div>
 	        </div> 
-	        <!-- 다섯번째 입력창 끝 -->
-	        
 	        <!-- 여섯번째 입력창 끝 -->
-	        <div class="row" id="sixth">
+	        
+	        <!-- 일곱번째 입력창 끝 -->
+	        <div class="row" id="seventh">
 		         <div class="title">핀이 놓인 위치가 정확한가요?</div>
 		         <div class="row" style="padding: 0; border: 0px solid green;" >
 		            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid red;">
@@ -683,21 +793,21 @@
 				<div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
 		         	 <hr/>
 			         <div class="col-md-3" style="padding: 0;">
-			            <button type="button" onclick="back6();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+			            <button type="button" onclick="back7();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
 			         </div>
 			         <div class="col-md-6" style="border: 0px solid red;"></div>
 			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-			            <button type="button" onclick="next6();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
+			            <button type="button" onclick="next7();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
 			         </div>
 		        </div>
 		    </div>
-	        <!-- 여섯번째 입력창 끝 -->
+	        <!-- 일곱번째 입력창 끝 -->
 
 	      </div> <!-- 입력창 반복되는 div -->
 	      
 	
 	      <div class="col-md-4" style="border: 0px solid blue;">
-	         <img src="<%=request.getContextPath() %>/resources/boimg/roomenrollment.PNG" />
+	         <img src="<%=request.getContextPath() %>/resources/images/boimg/roomenrollment.PNG" />
 	      </div>
 	
 	   </div>
@@ -706,7 +816,7 @@
 
 <script> 
 
-function next5(){
+function next6(){
 	 
 	 var address = $("#address").val();   	 
 	     var form_data = {"address":address};
@@ -718,8 +828,8 @@ function next5(){
 		 data:form_data,
 		 success:function(json) {
 			 
-			$("#fifth").hide();
-		    $("#sixth").show();
+			$("#sixth").hide();
+		    $("#seventh").show();
 		    
 		    $("#addrtext").html(json);
 			 
