@@ -97,54 +97,46 @@ public class SCController {
 	}
 
 	@RequestMapping(value = "/imgfileupload.air", method = { RequestMethod.POST })
-	public String imgfileupload(MultipartHttpServletRequest req, @RequestParam("imgfile") MultipartFile[] multipartFile) {
+	public String imgfileupload(MultipartHttpServletRequest req) throws IllegalStateException, IOException {
+		
 		String roomcode = req.getParameter("roomcode");
 		System.out.println("roomcode3 : "+roomcode);
-		System.out.println(multipartFile.length);
-		for(MultipartFile multi :multipartFile) {
-			System.out.println("check"+multi.getOriginalFilename());
-			System.out.println("End");
-		}
-
+		
 		// 저장 경로 설정
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "resources" + File.separator + "files";
-		//System.out.println(path);
+		String path = root + "resources" + File.separator+ "images";
+		System.out.println(path);
 		File dir = new File(path);
 		if (!dir.isDirectory()) {
 			dir.mkdir();
 		}
-		/*
-		 * for(int i=0; i<imgArr.size(); i++) {
-		 * System.out.println(imgArr.get(i).getOriginalFilename()); String uploadFile =
-		 * imgArr.get(i).getOriginalFilename(); MultipartFile mFile =
-		 * req.getFile(uploadFile); String fileName =mFile.getOriginalFilename();
-		 * System.out.println("실제 파일 이름 : " +fileName);
-		 * 
-		 * try { mFile.transferTo(new File(dir+fileName)); } catch
-		 * (IllegalStateException | IOException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 * 
-		 * }
-		 */
 		
-		/*
-		Iterator<String> files = req.getFileNames();
-		// System.out.println("Iterator<String> files: "+files); --> 객체 이름 나옴
-		while(files.hasNext()){
-			String uploadFile = files.next(); 
-			// System.out.println(uploadFile); -- > [object HTMLInputElement]
-			MultipartFile mFile = req.getFile(uploadFile); 
-			String fileName =mFile.getOriginalFilename(); 
-			System.out.println("실제 파일 이름 : " +fileName); 
-			try { 
-				mFile.transferTo(new File(path+fileName)); 
-			} catch (Exception e) {
-				e.printStackTrace(); 
-			} 
-		}*/
-
+		List<MultipartFile> mfList = req.getFiles("imgfile");
+		
+		for(int i=0; i<mfList.size(); i++) {
+			String filename = mfList.get(i).getOriginalFilename();
+			System.out.println(filename);
+			
+			String newFilename = null;
+			String fileExt = filename.substring(filename.lastIndexOf(".")); 
+			if(fileExt == null || fileExt.equals("")) 
+				return null;
+			// 서버에 저장할 새로운 파일명을 만든다.
+			newFilename = String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", 
+					         Calendar.getInstance());
+			newFilename += System.nanoTime();
+			newFilename += fileExt;			
+			System.out.println(newFilename);
+			
+			mfList.get(i).transferTo(new File(path+newFilename));
+			HashMap<String,String> paraMap = new HashMap<String,String>();
+			paraMap.put("roomcode", roomcode);
+			paraMap.put("newFilename", newFilename);
+			
+			service.setRoomImg(paraMap);
+		}
+		
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 

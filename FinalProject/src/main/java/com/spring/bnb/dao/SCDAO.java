@@ -29,7 +29,7 @@ public class SCDAO implements InterSCDAO {
 		RoomVO roomvo = sqlsession.selectOne("sc.getRoomInfo",roomcode);
 
 		String buildType_detail_idx = roomvo.getFk_buildType_detail_idx();
-		System.out.println("buildType_detail_idx : "+buildType_detail_idx);
+		//System.out.println("buildType_detail_idx : "+buildType_detail_idx);
 		
 		String buildType_detail_name = sqlsession.selectOne("sc.getBuildType_detail",buildType_detail_idx); 
 		roomvo.setBuildType_detail_name(buildType_detail_name);
@@ -39,7 +39,17 @@ public class SCDAO implements InterSCDAO {
 		
 		List<HashMap<String,String>> optionList = sqlsession.selectList("sc.getRoomOptionList", roomcode); // 숙소 옵션 리스트
 		roomvo.setOptionList(optionList);
+		
 
 		return roomvo;
 	}
+	
+	//룸이미지 추가하기
+	@Override
+	public void setRoomImg(HashMap<String, String> paraMap) {
+		sqlsession.insert("sc.setRoomImg", paraMap);
+	}
+
+	
+
 }

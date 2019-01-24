@@ -1,5 +1,6 @@
 package com.spring.bnb.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,4 +13,5 @@ public interface InterSCService {
 
 	RoomVO getRoomInfo(String roomcode); // 룸정보 가져오기 
 
+	void setRoomImg(HashMap<String, String> paraMap);//룸이미지 추가하기
 }

@@ -1,5 +1,6 @@
 package com.spring.bnb.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,8 @@ public class SCService implements InterSCService {
 		RoomVO roomvo = dao.getRoomInfo(roomcode);
 		return roomvo;
 	}
-
-}
+	// 룸이미지 추가하기 
+	@Override
+	public void setRoomImg(HashMap<String, String> paraMap) {
+		dao.setRoomImg(paraMap);
+	}}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 hr {
 	width: 70%;
@@ -155,11 +156,10 @@ div {
 	});
 	
 	var imgArr = []; // 이미지를 담을 배열 
-	
 	function ImgsFilesSelect(e) {
 		imgArr = [];
 		 
-		//$("#imgList").empty();
+		$("#imgList").empty();
 		var files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		
@@ -174,12 +174,15 @@ div {
 			
 			var reader = new FileReader();
 			reader.onload = function(e){
-				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img name='imgs' class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
+				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
 				$("#imgList").append(html);
 				index++;
 			}
 			reader.readAsDataURL(f);
+			
 		});
+		
+		submitPhoto();
 	} 
 	
 	function removePhoto(index){
@@ -193,22 +196,10 @@ div {
 		window.location.reload();
 	}
 	
-
 	function submitPhoto() {
+		var form_data = new FormData($("#fileUpimg")[0]);
 		
-		/* document.fileUpimg.imgfile.value = imgArr; */
-		
-		var form_data = new FormData(document.fileUpimg);
-		
-		var roomcode = document.getElementById("roomcode").value;
-		
-		form_data.append("roomcode", roomcode);
-		
-		/* for(var i=0; i<imgArr.length; i++){
-			form_data.append("imgfile", imgArr[i]);
-		} */
-		
-		$('#myForm').ajaxForm({
+		$.ajax({
 			url:"imgfileupload.air",
 			type:"POST",
 			data: form_data,
@@ -216,17 +207,11 @@ div {
 	        processData:false,
 	        success:function(html){
 	        	alert("파일 업로드 저장 완료.");
-	        	window.location.reload();
 	        },
 	        error:function(){
 	            
 	        }
-		}); 
-		
-		/* var frm = document.fileUpimg;
-		frm.action = "imgfileupload.air";
-		frm.method = "POST";
-		frm.submit(); */
+		});
 	}
 	
 </script>
@@ -246,15 +231,20 @@ div {
 </div>
 
 <form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
-	<input id="roomcode" type="text" name="roomcode" value="${roomvo.roomcode}">
+	<input type="hidden" name="roomcode" value="${roomvo.roomcode }">
 	<div class="col-md-12 photodiv">
 		<hr align="left">
 		<h3 align="left" style="font-weight: bold;">사진정렬</h3>
 			<div id="imgList" class="row">
+				<c:forEach var="room" items="${roomvo.roomimgList }">
+					<div class="col-md-2">
+						<img alt="" src="/resources/${room.roomImgList}" />
+					</div>
+				</c:forEach>
 			</div>
 			<div id="imgfiles"  class="filebox">  
 				<label for="imgfile">사진 추가하기</label> 
-				<input type="file" id="imgfile" name="imgfile" accept="image/*" multiple/>
+				<input type="file" id="imgfile" name="imgfile" accept="image/*" multiple/>	
 			</div>
 			<hr align="left">
 			<div class="row" style="margin-top: 2%; margin-bottom: 2%;">

@@ -43,4 +43,9 @@
 		where fk_roomcode = #{roomcode}
 	</select>
 	
+	<insert id="setRoomImg" parameterType="HashMap">
+		insert into roomImg(roomImg_idx, fk_roomcode, img)
+		values(roomimg_idx_seq.nextval, #{roomcode}, #{newFilename})
+	</insert>
+	
 </mapper>
