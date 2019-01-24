@@ -41,4 +41,11 @@ public class boboDAO implements InterBODAO{
 		return options;
 	}
 
+	// 이용규칙 가져오기
+	@Override
+	public List<String> selectrule() {
+		List<String> rule = sqlsession.selectList("bobo.selectrule");
+		return rule;
+	}
+
 }

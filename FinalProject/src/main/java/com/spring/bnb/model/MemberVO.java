@@ -25,7 +25,6 @@ public class MemberVO {
 	
 	public MemberVO() {}
 	public MemberVO(String userid, String profileimg, String username, String pwd, String email, String phone, int post,
-
 			String addr, String detailAddr, int gender, String birthday, String introduction, int memberStatus,
 			int warnCount, String regDate) {
 

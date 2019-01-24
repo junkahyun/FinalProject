@@ -42,4 +42,11 @@ public class boboService implements InterBOService{
 		return options;
 	}
 
+	// 이용규칙 가져오기
+	@Override
+	public List<String> selectrule() {
+		List<String> rule = dao.selectrule();
+		return rule;
+	}
+
 }
