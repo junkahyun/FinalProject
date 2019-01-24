@@ -458,3 +458,9 @@ footer div.container div.footer_menues:after{
 	width:100%;
 	height:40px;
 } 
+/* Right Fixed Menues */
+div#fixed_hide_menues{
+	position:fixed;
+	right:0;
+	bottom:0;
+}
