@@ -110,5 +110,9 @@
 		values(#{userid},#{username},#{pwd},#{email},#{phone},#{post},#{addr},#{detailAddr},#{gender},#{birthday},#{introduction},default,#{profileimg},default,default)
 	</insert>
 	
+	<select id="getRecommendRoomList" parameterType="String" resultType="com.spring.bnb.model.ReviewVO">
+		select * from room where roomsigungu=#{sigungu}
+	</select>
+	
 </mapper>
 
