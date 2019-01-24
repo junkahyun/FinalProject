@@ -43,8 +43,8 @@ public class KHController {
 		int month = current.get(Calendar.MONTH)+1;
 		int day = current.get(Calendar.DATE);
 		
-		String roomcode = "12";//숙소코드(테스트용)
-		String host_userid = "hongkd";//호스트 아이디(테스트용)
+		String roomcode = "10";//숙소코드(테스트용)
+		String host_userid = "leess";//호스트 아이디(테스트용)
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);

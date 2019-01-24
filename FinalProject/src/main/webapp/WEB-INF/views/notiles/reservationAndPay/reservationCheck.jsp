@@ -231,10 +231,10 @@ h3{font-size: 14pt;
 				    </div>
 				</c:if>
 				
-					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
-					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
-				    </div> 
+				<%-- <div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+				     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+			    </div> --%>
 			    
 			</div>
 		</div>
