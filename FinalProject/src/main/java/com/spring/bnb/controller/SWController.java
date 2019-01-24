@@ -133,7 +133,7 @@ public class SWController {
 		if(optionname == null) {
 			optionname = new String[]{""};
 		}
-		
+		/*
 		String rulenameStr = Arrays.toString(rulename);
 		String roomtype_nameStr = Arrays.toString(roomtype_name);
 		String optionnameStr = Arrays.toString(optionname);
@@ -147,23 +147,45 @@ public class SWController {
 			
 		System.out.println("rulenameStr : " + rulenameStr);
 		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
-		System.out.println("optionnameStr : " + optionnameStr);
+		System.out.println("optionnameStr : " + optionnameStr);*/
+		
+		/*List<String> valueList = new ArrayList<>();
+		valueList.add(rulenameStr);
+		valueList.add(roomtype_nameStr);
+		valueList.add(optionnameStr);
+						
+		System.out.println(valueList);
+		
+		HashMap<String, List<String> > listMap = new HashMap<>();
+		listMap.put("rule", valueList);	
+		
+		System.out.println(listMap);*/
 		
 		JSONArray jsonArr = new JSONArray();  		
+		
 		HashMap<String,String[]> paraMap =  new HashMap<String,String[]>();
 		paraMap.put("RULENAME", rulename);
 		paraMap.put("ROOMTYPE_NAME", roomtype_name);
 		paraMap.put("OPTIONNAME", optionname);
 		
-		/*paraMap.put("RULENAME", rulenameStr);
-		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
-		paraMap.put("OPTIONNAME", optionnameStr);*/
-	
 		System.out.println(paraMap);
-		System.out.println(paraMap.get("OPTIONNAME")[0]);
-		/*List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);*/
+		String rulenameStr = Arrays.toString(paraMap.get("RULENAME"));
+		String roomtype_nameStr = Arrays.toString(paraMap.get("ROOMTYPE_NAME"));
+		String optionnameStr = Arrays.toString(paraMap.get("OPTIONNAME"));
+		
+		System.out.println(rulenameStr);
+		System.out.println(roomtype_nameStr);
+		System.out.println(optionnameStr);
+		
+		List<String> myList = new ArrayList<String>();
+		myList.add(rulenameStr);
+		myList.add(roomtype_nameStr);
+		myList.add(optionnameStr);
+		
+		System.out.println(myList);
+		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);
-		System.out.println(optionList);
+		
 		for(RoomVO test : optionList) {
 			
 			JSONObject jsonObj = new JSONObject();			
@@ -173,13 +195,13 @@ public class SWController {
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);		
-		req.setAttribute("optionname", optionname.toString());
+		req.setAttribute("optionname", optionnameStr);
 		req.setAttribute("rulename", rulename);
 		req.setAttribute("roomtype_name", roomtype_name);
 		
-		System.out.println(str_json);
-		System.out.println(optionList);
-		System.out.println(jsonArr);
+		System.out.println("2 : " +str_json);
+		System.out.println("3 : " +optionList);
+		System.out.println("4 : " +jsonArr);
 		
 		return "JSON";
 	}

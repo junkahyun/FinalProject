@@ -84,7 +84,7 @@
 	       
 	      //alert("rulenameArr : " + rulenameArr);
 	      //alert("roomtypenameArr : " + roomtypenameArr);
-	      alert("optionnameArr : " + optionnameArr);
+	      //alert("optionnameArr : " + optionnameArr);
 	      
 	      jQuery.ajaxSettings.traditional = true;
 	      /* ,
@@ -102,11 +102,11 @@
 				data: form_data,
 				dataType: "JSON",
 				success: function(json){ 					
-					/* $("#allList").empty(); */
-					alert("${optionname}");
-					
-					/* $.each(json, function(entryIndex, entry){
-						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+					 $("#allList").empty();
+													 
+					  $.each(json, function(entryIndex, entry){
+						html += "<div id='allList' class='row'>"
+							  + "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 							  + "<img src='"+enrty.optionList+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
 							  + "</div>"
@@ -123,10 +123,11 @@
 							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
 							  + "<input type='hidden' name='roomcode' value='"+entry.optionList+"' />" 
 							  + "</div>"
+							  + "</div>"
 							  + "</div>";
-					});// end of $.each()------------- 
+					});// end of $.each()-------------  
 					
-					$("#allList").append(html); 	*/  
+					$("#allList").append(html); 	  
 						
 				},
 				error: function(request, status, error){
@@ -434,9 +435,9 @@
         </div>
         
         <div class="col-md-8" style="height:100vh; padding: 1%;">
-            <div class="row">
+            <div id="allList" class="row">
             <c:forEach items="${roomList}" var="RList" varStatus="status">
-                <div id="allList" class="col-md-4" style="margin-bottom: 2%;">               
+                <div  class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
                     </div>
