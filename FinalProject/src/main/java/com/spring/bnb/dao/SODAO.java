@@ -65,7 +65,12 @@ public class SODAO implements InterSODAO {
 		HashMap<String, String> rsvLocation = sqlsession.selectOne("cso.getMap",paraMap);
 		return rsvLocation;
 	}
-
+	// 후기없는 예약코드 가져오기
+	@Override
+	public List<HashMap<String,String>> getMyRsvCode(String userid) {
+		List<HashMap<String,String>> myRsvList = sqlsession.selectList("cso.getMyRsvCode", userid);
+		return myRsvList;
+	}
 	// 내가 작성한 후기 
 	@Override
 	public List<ReviewVO>  getMyReview(String userid) {
@@ -136,6 +141,8 @@ public class SODAO implements InterSODAO {
 		
 		return couponList;
 	}
+
+
 
 
 

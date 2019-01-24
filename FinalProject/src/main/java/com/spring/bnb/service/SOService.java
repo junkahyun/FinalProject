@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSODAO;
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 
 @Service
@@ -83,6 +84,12 @@ public class SOService implements InterSOService{
 	public List<HashMap<String, String>> getCoupon() {
 		List<HashMap<String,String>> couponList = dao.getCoupon();
 		return couponList;
+	}
+	// *** 후긱없는 예약코드 가져오기 ***
+	@Override
+	public List<HashMap<String,String>>  getMyRsvCode(String userid) {
+		List<HashMap<String,String>>  myRsvList =  dao.getMyRsvCode(userid);
+		return myRsvList;
 	}
 
 }

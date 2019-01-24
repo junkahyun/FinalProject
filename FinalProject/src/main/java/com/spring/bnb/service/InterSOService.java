@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 
 public interface InterSOService {
@@ -38,7 +39,8 @@ public interface InterSOService {
 	// ***쿠폰 리스트 가져오기 ***
 	List<HashMap<String, String>> getCoupon();
 
-	String getMyRsvCode(String userid);
+	// *** 후기 없는 나의 예약코드 리스트 받아오기 ***
+	List<HashMap<String,String>> getMyRsvCode(String userid);
 
 
 

@@ -173,11 +173,41 @@
 	      	<h3 class="edit-profile-section-heading">작성해야 할 후기</h3>
 		 </div>			
 		 <div class="panel-body">
-		       <ul class="list-layout reviews-list">
+		 <c:forEach items="${myRsvList}" var="rsvCode" varStatus="status">
+		 	<c:if test="${rsvCode.rsvcode eq null}">
+		 		<ul class="list-layout reviews-list">
 	             <li class="reviews-list-item">
 		      		현재 작성할 후기가 없습니다. 여행을 한번 다녀올 때가 된 것 같네요!
 		       	 </li>
 	           </ul>
+		 	</c:if>
+		 	<c:if test="${rsvCode.rsvcode != null and rsvCode != ''}">
+		 		<table class="memberList table table-hover">						
+						<col width="10%;"/>
+						<col width="15%;"/>
+						<col width="30%;"/>
+						<c:if test="${status.count ==1 }">
+						  <thead>	
+						  <a><h5>예약하러 가기</h5></a>					
+						    <tr>
+						      <th>예약번호</th>
+						      <th> 숙소명 </th>
+						      <th>체크인</th>
+						      <th>체크아웃</th>
+						    </tr>							    
+						  </thead>
+					 	 </c:if>							 
+					  <tbody>					  
+					    <tr id="tbody_td ">
+					      <td>${rsvCode.rsvcode}</td>
+					      <td>${rsvCode.roomname}</td>
+					      <td>${rsvCode.rsv_checkInDate}</td>
+					      <td>${rsvCode.rsv_checkOutDate}</td>
+						</tr>
+					</table>
+		 	</c:if>
+		 </c:forEach>
+
 	     </div> 
 	   <!-- 작성해야 할 후기 --> 		 
 <!-- -----------------------------------------------------------  -->

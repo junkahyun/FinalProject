@@ -32,6 +32,7 @@
 		var url ="/bnb/couponRegEnd.air";
 		frm.method="POST"; 
 		frm.action=url;
+		frm.target='등록';
 		frm.submit();
 		
 	}

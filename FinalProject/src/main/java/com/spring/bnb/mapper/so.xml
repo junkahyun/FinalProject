@@ -270,5 +270,21 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 	select cpcode,cpname
  	from coupon
 </select>
+<resultMap type="HashMap" id="myRsvcodeList">
+<result column="rsvcode" property="rsvcode" javaType="String"/>
+<result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
+<result column="rsv_checkoutdate" property="rsv_checkoutdate" javaType="String"/>
+<result column="roomname" property="roomname" javaType="String"/>
+</resultMap>
+<select id="getMyRsvCode" parameterType="String" resultMap="myRsvcodeList">
+select V.rsvcode,V.fk_userid,to_char(V.rsv_checkindate,'yyyy-mm-dd') AS rsv_checkindate,to_char(V.rsv_checkoutdate,'yyyy-mm-dd') AS rsv_checkoutdate,B.roomname
+from
+(select rsvcode,fk_userid,rsv_checkindate,rsv_checkoutdate
+from reservation
+where fk_userid = #{userid} and not fk_roomcode in (select fk_roomcode from review where fk_userid=#{userid}) 
+)V left join room B
+on V.fk_roomcode = B.roomcode;
+			
+</select>
 
 </mapper>	

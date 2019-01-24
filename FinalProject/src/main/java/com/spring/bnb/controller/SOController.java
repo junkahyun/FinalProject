@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.service.InterSOService;
 import com.spring.common.AES256;
@@ -404,10 +405,11 @@ public class SOController {
 		// *** 나에게 쓴 후기 ***
 		List<HashMap<String,String>> myReadReview = service.getHostReview(userid);
 		// *** 작성해야 할 후기 ***
-		// *** 나의 예약 코드 받아오기 ***
-		//String rsvcode = service.getMyRsvCode(userid);
-		//int n = service.getNoReview(userid)
+		// *** 후기 없는 나의 예약 코드 받아오기 ***
+		List<HashMap<String,String>> myRsvList= service.getMyRsvCode(userid);
 		
+		System.out.println(myRsvList.get(0));
+		req.setAttribute("myRsvList", myRsvList);
 		req.setAttribute("myReadReview", myReadReview);
 		req.setAttribute("myWriteReview", myWriteReview);
 		return "mypage/review.hometiles";
