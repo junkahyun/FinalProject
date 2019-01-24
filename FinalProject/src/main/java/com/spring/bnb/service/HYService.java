@@ -1,5 +1,6 @@
 package com.spring.bnb.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,5 +58,11 @@ public class HYService implements InterHYService {
 	public int insertMember(MemberVO member) {
 		int n = dao.insertMember(member);
 		return n;
+	}
+
+	@Override
+	public List<RoomVO> getRecommendRoomList() {
+		List<RoomVO> recoomendRoomList = new ArrayList<RoomVO>();
+		return recoomendRoomList;
 	} 
 }
