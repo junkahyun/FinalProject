@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -74,114 +75,9 @@ public class SHController {
 		
 		List<MemberVO> searchMember = service.getSearchMember(paraMap);
 		
-		String str_currentShowPageNo = req.getParameter("currentShowPageNo");
-		System.out.println(str_currentShowPageNo);  
-		
-		
-	    int totalCount = 0; // 총 게시물 건수
-	    int sizePerPage = 10; // 한 페이지당 보여줄 게시물 건수
-	    int currentShowPageNo = 0; // 현재 보여주는 페이지번호로서 , 초기치로는 1페이지로 설정한다.
-	    int totalPage = 0; // 총페이지수(웹브라우저상에 보여줄 총 페이지 갯수)	 
-	    int startRno = 0; // 시작 행 번호
-	    int endRno = 0; // 끝 행 번호
-	    int blockSize = 10; // "페이지바" 에 보여줄 페이지의 갯수
-	   
-	    /*
-	    	=== 총 페이지수(totalPage) 구하기 ===
-	    	검색조건이 없을때의 총페이지수(search값이 null 또는 "" 인경우)와
-	    	검색조건이 있을때의 총페이지수(search값이 null 이아니고  "" 도아닌경우)를 구해야 한다.
-	    */
-	    // 먼저, 총 게시물 건수를 구해야 한다.
-	    // 총 게시물 건수는 검색조건이 있을때와 없을때로 나뉘어진다.
-	    
-	    totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
-	    // 23.7 ==> 24.0 ==> 24
-	   
-	    if(str_currentShowPageNo == null) {
-		    // 게시판 초기화면 일 경우
-		   
-		    currentShowPageNo = 1;
-	    }
-	    else {
-		   // 특정페이지를 조회한 경우
-		   try {
-			   currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
-			   
-			   if(currentShowPageNo < 1 || currentShowPageNo > totalPage) {
-
-				  currentShowPageNo = 1;
-			   }
-			} catch (NumberFormatException e) {
-				currentShowPageNo = 1;
-			}
-	    }
-	    
-	    // **** 가져올 게시글의 범위를 구한다.(공식!!!!) ****
-	    /*
-	    		currentShowPageNo	startRno	endRno
-	    		======================================
-	    		       1 페이지		   1		  10
-	    			   1 페이지		   1		  10
-	    			   1 페이지		   1		  10
-	    			   ...			  ...        ...
-	    */
-	    
-	    if(searchWord != null &&
-			!searchWord.trim().equals("") &&
-			!searchWord.trim().equals("null")) {
-			// 검색이 있는경우(페이징 처리 한 것임)
-			totalCount = service.getTotalCountWithSearch(paraMap);
-		   
-	    }
-	    else {
-			// 검색이 없는경우(페이징 처리 한 것임)
-			totalCount = service.getTotalCountNoSearch();
-	    }
-	   
-	    
-	    startRno = ((currentShowPageNo-1)*sizePerPage) + 1;
-	    endRno = (startRno + sizePerPage) - 1;
-	    
-	    paraMap.put("STARTRNO", String.valueOf(startRno));
-	    paraMap.put("ENDRNO", String.valueOf(endRno));
-	   
-	    memberList = service.memberlistPaging(paraMap);
-	    /*System.out.println("boardList.size() :"+boardList.size());*/
-	    
-	    // ===== #120. 페이지바 만들기 =====
-	    String pagebar = "<ul>";
-	    
-	    System.out.println(totalCount);
-	    System.out.println(sizePerPage);
-	    System.out.println(currentShowPageNo);
-	    System.out.println(totalPage);
-	    System.out.println(startRno);
-	    System.out.println(endRno);
-	    System.out.println(blockSize);
-	    
-	    pagebar += MyUtil.getPageBarWithSearch(sizePerPage, blockSize, totalPage, currentShowPageNo, "", searchWord, null, "adminMember.air");
-	   
-	    pagebar += "</ul>";
-		
-		// ===== #68. 글조회수(readCount)증가 (DML문 update)는
-		/*            반드시 해당 글제목을 클릭했을 경우에만 글조회수가 증가되고 
-		                         이전글보기, 다음글보기를 했을 경우나 웹브라우저에서 새로고침(F5)을 했을 경우에는 증가가 안되도록 한다.
-		  			 이것을 하기 위해서는 우리는 session을 이용하여 처리한다.===== 
-		*/
-	    
-		HttpSession session = req.getSession();
-		session.setAttribute("readCountPermission", "yes");
-		
 		req.setAttribute("memberList", memberList);
 		req.setAttribute("searchMember", searchMember);
-	    req.setAttribute("pagebar", pagebar); // view단에서 pagebar 넘기기
-	   
-	    String gobackURL = MyUtil.getCurrentURL(req);
-	    req.setAttribute("gobackURL", gobackURL);
-	    
-	    
-	    
-		
+
 		return "admin/adminMember.admintiles";
 	}
 	
@@ -384,19 +280,39 @@ public class SHController {
 	}
 	
 	// 신고 글쓰기 페이지 요청
-	@RequestMapping(value="/vanWriteEnd.air", method= {RequestMethod.GET})
-	public String vanWriteEnd(ReportVO reportvo, HttpServletRequest req) {
+	@RequestMapping(value="/vanWriteEnd.air", method= {RequestMethod.POST})
+	public String vanWriteEnd(HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		int n = 0;
-		n = service.add(reportvo);
-		
+		if(loginuser != null) {
+
+			String fk_userid = loginuser.getUserid();
+
+			String reporttype = req.getParameter("reporttype");
+			String report_rsvcode = req.getParameter("report_rsvcode");
+			String report_subject = req.getParameter("report_subject");
+			String report_content = req.getParameter("report_content");
+			
+			HashMap<String, String> paramap = new HashMap<String, String>();
+			paramap.put("report_content", report_content);
+			paramap.put("reporttype", reporttype);
+			paramap.put("report_rsvcode", report_rsvcode);
+			paramap.put("report_subject", report_subject);
+			paramap.put("fk_userid", fk_userid);
+
+			n = service.vanAdd(paramap);
+		}
+
 		String loc = "";
 		if(n==1) {	
-			loc = req.getContextPath()+"/vanWrite.air";
+			loc = req.getContextPath()+"/index.air";
 			// getContextPath() => /board
 		}
 		else {		
-			loc = req.getContextPath()+"/index.air";
+			loc = req.getContextPath()+"/vanWrite.air";
 		}
 		
 		req.setAttribute("n", n);
@@ -429,10 +345,6 @@ public class SHController {
 		paramap.put("randomNo", randomNo);
 		paramap.put("cpname", cpname);
 		paramap.put("dcmoney", dcmoney);
-		
-		System.out.println(randomNo);
-		System.out.println(cpname);
-		System.out.println(dcmoney);
 		
 		int n = 0;
 		n = service.cpAdd(paramap);

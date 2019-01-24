@@ -114,4 +114,13 @@ public class SHDAO implements InterSHDAO {
 		
 		return n;
 	}
+
+	// 신고 글쓰기 insert하기
+	@Override
+	public int vanAdd(HashMap<String, String> paramap) {
+		
+		int n = sqlsession.insert("sh.vanAdd", paramap);
+		
+		return n;
+	}
 }

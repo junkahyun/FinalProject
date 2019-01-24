@@ -79,6 +79,8 @@
 
 	}	
 	
+	makePageBar
+	
 </script>
 <style type="text/css">
 	table.memberList thead tr th,

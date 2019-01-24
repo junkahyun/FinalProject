@@ -98,20 +98,20 @@ public class SHService implements InterSHService {
 		return memberList;
 	}
 
-	// 신고 글쓰기 insert하기
-	@Override
-	public int add(ReportVO reportvo) {
-		
-		int n = dao.add(reportvo);
-		
-		return n;
-	}
-
 	// 쿠폰등록하기
 	@Override
 	public int cpAdd(HashMap<String, String> paramap) {
 		
 		int n = dao.cpAdd(paramap);
+		
+		return n;
+	}
+
+	// 신고 글쓰기 insert하기
+	@Override
+	public int vanAdd(HashMap<String, String> paramap) {
+
+		int n = dao.vanAdd(paramap);
 		
 		return n;
 	}

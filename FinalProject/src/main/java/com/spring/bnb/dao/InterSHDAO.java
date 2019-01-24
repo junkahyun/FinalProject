@@ -40,4 +40,7 @@ public interface InterSHDAO {
 
 	// 쿠폰 등록하기
 	int cpAdd(HashMap<String, String> paramap);
+
+	// 신고 글쓰기 insert하기
+	int vanAdd(HashMap<String, String> paramap);
 }
