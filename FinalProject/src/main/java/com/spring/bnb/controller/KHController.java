@@ -37,24 +37,32 @@ public class KHController {
 		String my_userid = "kongkd2"; //(테스트용)
 		session.setAttribute("my_userid", my_userid);
 		//===================================================
-		String roomcode = req.getParameter("roomcode");
+		/*String roomcode = req.getParameter("roomcode");
 		String guestCount = req.getParameter("guestCount");
 		String babyCount = req.getParameter("babyCount");
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
-		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");
+		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");*/
 		
-		System.out.println(guestCount);
-		System.out.println(babyCount);
-		
+		String roomcode = "10";
+		String guestCount = "2";
+		String babyCount = "1";
 		
 		// *** 날짜 쪼개기 *** //
-		String year1 = rsv_checkInDate.substring(0, 4);
+		/*String year1 = rsv_checkInDate.substring(0, 4);
 		String mon1 = rsv_checkInDate.substring(5, 7);
 		String day1 = rsv_checkInDate.substring(8);
 		
 		String year2 = rsv_checkOutDate.substring(0, 4);
 		String mon2 = rsv_checkOutDate.substring(5, 7);
-		String day2 = rsv_checkOutDate.substring(8);
+		String day2 = rsv_checkOutDate.substring(8);*/
+		
+		String year1 = "2019";
+		String mon1 = "1";
+		String day1 = "23";
+		
+		String year2 = "2019";
+		String mon2 = "2";
+		String day2 = "2";
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
@@ -68,6 +76,7 @@ public class KHController {
 		// *** 평균 요금 구하는 메소드 *** //
 		int avgPrice = service.getAvgPrice();
 		
+				
 		session.setAttribute("guestCount", guestCount);
 		session.setAttribute("babyCount", babyCount);
 		session.setAttribute("year1", Integer.parseInt(year1));
