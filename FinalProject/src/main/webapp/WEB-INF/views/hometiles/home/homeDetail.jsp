@@ -376,7 +376,7 @@
 		<input type="hidden" name="guestCount">
 		<input type="hidden" name="babyCount">
 		<input type="hidden" name="rsv_checkInDate">
-		<input type="hidden" name="rsv_checkOutDate">
+		<input type="hidden" name="rsv_checkOutDate" >
 		<div id="followHY" class="noSpace" style="width: 400px;padding: 0 3%;">
 			<div style="height:380px;width: 400px;border:1px solid lightgray; padding: 5%;">
 				<div style="height:60px; border-bottom: 1px solid lightgray;">
