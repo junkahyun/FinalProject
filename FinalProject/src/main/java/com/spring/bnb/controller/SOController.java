@@ -294,7 +294,7 @@ public class SOController {
 		HashMap<String,String> resDetail = service.getMemberReservationDetail(paraMap);
 		System.out.println(resDetail.get(0));
 		req.setAttribute("resDetail", resDetail);
-		System.out.println("111");
+		
 		return "mypage/myReservationDetail.hometiles";
 	}
 	
