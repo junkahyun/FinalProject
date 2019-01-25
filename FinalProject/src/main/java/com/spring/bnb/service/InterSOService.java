@@ -11,10 +11,16 @@ public interface InterSOService {
 	
 	
 	// 나의 쿠폰 리스트 가져오기
-	List<HashMap<String, String>> getMyCoupon(String loginuser);
+	List<HashMap<String, String>> getMyCoupon(HashMap<String, String> paraMap);
 
 	// 쿠폰 등록하기 
 	int addCoupon(HashMap<String, String> map);
+	
+	// 나의 쿠폰 페이징 처리를 위한 총 쿠폰 갯수 구하기
+	int getTotalCount(String userid);
+	
+	// 쿠폰 존재 확인하기 
+	int getCoupon(String coupon);
 	
 	//나의 개인정보 가져오기
 	MemberVO getMyInfo(String loginuser);
@@ -37,13 +43,23 @@ public interface InterSOService {
 	
 	// *** 내가 작성한 후기  ***
 	List<ReviewVO> getMyReview(String userid);
+	
 	// *** 나에게 쓴 후기 ***
 	List<HashMap<String,String>> getHostReview(String userid);
-	// ***쿠폰 존재 확인하기 ***
-	int getCoupon(String coupon);
+
 
 	// *** 후기 없는 나의 예약코드 리스트 받아오기 ***
 	List<HashMap<String,String>> getMyRsvCode(String userid);
+
+	// *** 사용한 쿠폰 리스트 ***
+	List<HashMap<String, String>> getMyUserCoupon(HashMap<String, String> paraMap);
+	// *** 사용한 쿠폰 총 갯수 ***
+	int getUseTotalCount(String userid);
+
+	
+
+
+
 
 	
 
