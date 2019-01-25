@@ -53,68 +53,19 @@
              display: table-cell;
              border-radius: 5px;
          }
-         .progressBar {
-             width: 200px;
-             height: 22px;
-             border: 1px solid #ddd;
-             border-radius: 5px; 
-             overflow: hidden;
-             display:inline-block;
-             margin:0px 10px 5px 5px;
-             vertical-align:top;
-         }
-           
-         .progressBar div {
-             height: 100%;
-             color: #fff;
-             text-align: right;
-             line-height: 22px; /* same as #progressBar height if we want text middle aligned */
-             width: 0;
-             background-color: #0ba1b5; border-radius: 3px; 
-         }
-         .statusbar{
-             border-top:1px solid #A9CCD1;
-             min-height:25px;
-             width:99%;
-             padding:10px 10px 0px 10px;
-             vertical-align:top;
-         }
-         .statusbar:nth-child(odd){
-             background:#EBEFF0;
-         }
-         .filename{
-             display:inline-block;
-             vertical-align:top;
-             width:250px;
-         }
-         .filesize{
-             display:inline-block;
-             vertical-align:top;
-             color:#30693D;
-             width:100px;
-             margin-left:10px;
-             margin-right:5px;
-         }
-         .abort{
-             background-color:#A8352F;
-             -moz-border-radius:4px;
-             -webkit-border-radius:4px;
-             border-radius:4px;display:inline-block;
-             color:#fff;
-             font-family:arial;font-size:13px;font-weight:normal;
-             padding:4px 15px;
-             cursor:pointer;
-             vertical-align:top
-         }
          
-}
-
+         
 </style>
 
 <script type="text/javascript">
-            $(document).ready(function(){
+            $(document).ready(function(){  
             	
-            	$('.dragAndDropDiv')
+                // 파일 리스트 번호
+                var fileIndex = 0;
+                // 파일 리스트
+                var fileList = new Array();
+
+                $(".dragAndDropDiv")
             	  .on("dragover", dragOver)
             	  .on("dragleave", dragOver)
             	  .on("drop", uploadFiles);
@@ -146,21 +97,30 @@
             	        });
             	    }
             	}
-            	
+        
             	function uploadFiles(e) {
             	    e.stopPropagation();
             	    e.preventDefault();
             	    dragOver(e); //1
-            	 
             	    e.dataTransfer = e.originalEvent.dataTransfer; //2
-            	    var files = e.target.files || e.dataTransfer.files;
+            	    var files = e.target.files || e.dataTransfer.files;           	    
+            	    
+            	    var reader = new FileReader();
+                    reader.onload = function (e) {
+                    	for(var i=0;i<files.length;i++){
+             	    	   console.log(e.target.result);
+                   	   }	
+                    }
+            	    
             	 
             	    if (files.length > 1) {
-            	        alert('하나만 올려라.');
             	        return;
             	    }
             	    
-            	    if (files[0].type.match(/image.*/)) {
+            	    for(var i=0; i<100; i++){
+            	    fileList[i] = files[i]
+            	    
+            	    if (files[i].type.match(/image.*/)) {
             	        
             	    }else{
             	        alert('이미지가 아닙니다.');
@@ -168,9 +128,9 @@
             	    }
 
             	    
-            	    if (files[0].type.match(/image.*/)) {
+            	    if (files[i].type.match(/image.*/)) {
             	        $(e.target).css({
-            	            "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+            	            "background-image": "url(" + window.URL.createObjectURL(files[i]) + ")",
             	            "outline": "none",
             	            "background-size": "100% 100%"
             	        });
@@ -178,20 +138,63 @@
             	      alert('이미지가 아닙니다.');
             	      return;
             	    }
+     
+                    // 업로드 파일 목록 생성
+                    addFileList(files, fileIndex, files[i].name, files[i].size);
+                    // 파일 번호 증가
+                    fileIndex++;
+                    
+            	    } 	   
             	    
-            	    $("#imgorgFilename").val(files[0].name);
-            	    $("#imgfileSize").val(files[0].size);
-            	    $("#attach").val(files);
             	}
             	
-            	
-            });
+            	 // 업로드 파일 목록 생성
+                function addFileList(files, fIndex, fileName, fileSize){
+            		 
+            	  var form_data = {"fileName":fileName};   
+            	  
+           		  $.ajax({
+         	 		 url:"dropJOSN.air",
+         	 		 type:"GET",
+         	 		 dataType:"JSON",
+         	 		 data:form_data,
+         	 		 success:function(json) {
+         	 			var html = "";
+                        html += "<div id='fileTr_" + fIndex + "'>";
+                        html +=         fileName + " / " + fileSize + "MB "  + "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>"
+                        html += "</div>"
+                 
+                        $("#list").append(html);
+         	 		 },
+         	 		 error: function(request, status, error){
+         	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+         	 		 }
+         	 	 });// end of $.ajax({ ---             		 
+     
+                } 
+            	        	
+            });// end ready --- 
+            
+            // 업로드 파일 삭제
+            function deleteFile(fIndex){
+                // 업로드 파일 테이블 목록에서 삭제
+                $("#fileTr_" + fIndex).remove();
+                
+                var list = $("#list").html();
+                if(list == ""){
+                $(".dragAndDropDiv").css({
+    	            "background-image": "url(white)",
+    	            "outline": "none",
+    	            "background-size": "100% 100%"
+    	        });
+                }
+            }
             
          	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때)
             $(document).on('dragover', function (e){
                e.stopPropagation();
                e.preventDefault();
-               objDragAndDrop.css('border', '2px dashed #92AAB0');
+               $(".dragAndDropDiv").css('border', '2px dashed #92AAB0');
 			                
            });
                        
@@ -202,21 +205,18 @@
                //alert("드롭함");
                
            }); 
-           
-           function imageadd() { 
-				$
-			}
-
-
-            
-            function next() {
+    
+           function next() {
             	var frm = document.image; 
         		frm.action="roomstep3.air";
         		frm.method="POST";
         		frm.submit();
-			}
+		   }
 
 </script>
+
+
+
 
 <form name="image" enctype="multipart/form-data">
 <div>
@@ -234,15 +234,12 @@
         
         <div class="row" style="border: 0px solid red; margin-top: 20px;">
         	<div class="col-md-12" style="margin-bottom: 20px;">
-        		<!--  <div id="fileUpload" class="dragAndDropDiv">이미지 로드</br>Drag & Drop Files Here
-        		 </div> -->
-        		 <div class="dragAndDropDiv">
-        		 <button type="button" onclick="imageadd();" style="width: 180px; height: 48px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; align-items: center;">사진업로드</button>
-        		 </br>Drag & Drop Files Here
-        		 <INPUT type="hidden" id="imgorgFilename" name="imgorgFilename"/> 
-        		 <INPUT type="hidden" id="imgfileSize" name="imgfileSize"/> 
-        		 <INPUT type="file" id="attach" name="attach" style="display:none;"/>
+        		 <div class="dragAndDropDiv">	        		
+	        		 </br>Drag & Drop Files Here
+	        		 <INPUT type="hidden" id="roomMainImg" name="roomMainImg"/>
+	        		 <INPUT type="file" id="file" name="file" style="display:none;"/>
         		 </div>
+        		 <div id="list"></div>
         	</div>
         </div>
         

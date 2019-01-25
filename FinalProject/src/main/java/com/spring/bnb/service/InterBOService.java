@@ -16,5 +16,8 @@ public interface InterBOService {
 	
 	// 옵션 가져오기
 	List<String> selectoptions();
+	
+	// 이용규칙 가져오기
+	List<String> selectrule();
 
 }
