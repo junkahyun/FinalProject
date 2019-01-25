@@ -106,20 +106,20 @@
 				success: function(json){ 					
 					 $("#allList").empty();
 													 
-					 /* $.each(json, function(entryIndex, entry){
+					 $.each(json, function(entryIndex, entry){
 						html += "<div id='allList' class='row'>"
 							  + "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
 							  + "</div>"
 							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>· 침대 2개</span>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
 							  + "</div>"
 							  + "<div>"
-							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'></span>"
+							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
 							  + "</div>"
 							  + "<div>"
-							  + "<span>₩<fmt:formatNumber pattern='#,###'/></span>원"
+							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
 							  + "</div>"
 							  + "<div>"
 							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
@@ -127,7 +127,7 @@
 							  + "</div>"
 							  + "</div>"
 							  + "</div>";
-					});// end of $.each()-------------   */
+					});// end of $.each()-------------  
 					 
 					$("#allList").append(html); 	  
 						

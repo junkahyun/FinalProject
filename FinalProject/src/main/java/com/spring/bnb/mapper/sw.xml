@@ -119,30 +119,30 @@
 		where roomcode = 10
 		<if test="RULENAME != ''">
 			and not exists(select rule_idx
-			from allrule
-			where rule_idx in (select rule_idx from allrule where rule_name in (#{RULENAME}))
-			minus                  
-			select fk_rule_idx
-			from roomrule
-			where fk_roomcode = 10)
+							from allrule
+							where rule_idx in (select rule_idx from allrule where rule_name in (#{RULENAME}))
+							minus                  
+							select fk_rule_idx
+							from roomrule
+							where fk_roomcode = 10)
 		</if>
 		<if test="OPTIONNAME != ''">		                                   
 			and not exists (select option_idx
-			from options
-			where option_idx in (select option_idx from options where optionname in (#{OPTIONNAME}))
-			minus
-			select fk_option_idx
-			from roomoption
-			where fk_roomcode = 10)
+							from options
+							where option_idx in (select option_idx from options where optionname in (#{OPTIONNAME}))
+							minus
+							select fk_option_idx
+							from roomoption
+							where fk_roomcode = 10)
 		 </if>
 		 <if test="ROOMTYPE_NAME != ''">                                   
 			and not exists (select roomtype_idx
-			from roomtype
-			where roomtype_idx in (select roomtype_idx from roomtype where roomtype_name in (#{ROOMTYPE_NAME}))
-			minus
-			select fk_roomtype_idx 
-			from room
-			where roomcode = 10) 
+							from roomtype
+							where roomtype_idx in (select roomtype_idx from roomtype where roomtype_name in (#{ROOMTYPE_NAME}))
+							minus
+							select fk_roomtype_idx 
+							from room
+							where roomcode = 10) 
 		  </if>                                  
 		  
 	</select>

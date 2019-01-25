@@ -124,7 +124,8 @@ public class SWController {
 		return "hostPage/reservationList.hosttiles_nofooter";
 	}
 	
-	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})	
+	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})
+	/*@ResponseBody*/
 	public String option(HttpServletRequest req, HttpServletResponse res) {
 		 
 		List<HashMap<String,Object>> mapList = new ArrayList<HashMap<String,Object>>();
@@ -138,7 +139,8 @@ public class SWController {
 		String rulenameStr = "";
 		String roomtype_nameStr = "";
 		String optionnameStr = "";
-			
+	
+		List<String> rulenameList = new ArrayList<String>();
 		if(rulename != null) {
 			for(int i=0; i<rulename.length; i++) {
 				String rule = rulename[i];				
@@ -150,8 +152,9 @@ public class SWController {
 				}				
 			}
 		//	System.out.println(rulenameStr);
-		}		
+		}
 		
+		List<String> roomtype_nameList = new ArrayList<String>();
 		if(roomtype_name != null) {
 			for(int i=0; i<roomtype_name.length; i++) {
 				String roomtype = roomtype_name[i];				
@@ -163,8 +166,9 @@ public class SWController {
 				}				
 			}
 		//	System.out.println(roomtype_nameStr);
-		}		
+		}
 		
+		List<String> optionnameList = new ArrayList<String>();
 		if(optionname != null) {
 			for(int i=0; i<optionname.length; i++) {
 				String option = optionname[i];				
@@ -178,16 +182,16 @@ public class SWController {
 		//	System.out.println(optionnameStr);
 		}		
 		
-		/*System.out.println(rulenameStr);
+		System.out.println(rulenameStr);
 		System.out.println(roomtype_nameStr);
-		System.out.println(optionnameStr);*/
+		System.out.println(optionnameStr);
 		
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
 				
-		/*System.out.println("1 :"+paraMap);*/
+		System.out.println("1 :"+paraMap);
 		
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
@@ -200,7 +204,7 @@ public class SWController {
 			
 			mapList.add(map);
 		}
-		/*System.out.println("2 :"+mapList);*/
+		System.out.println("2 :"+mapList);
 		
 		JSONArray jsonArr = new JSONArray();  		
 				
@@ -217,7 +221,7 @@ public class SWController {
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);		
 		
-		/*System.out.println("3 : " +str_json);*/
+		System.out.println("3 : " +str_json);
 		
 		return "JSON";
 	}
