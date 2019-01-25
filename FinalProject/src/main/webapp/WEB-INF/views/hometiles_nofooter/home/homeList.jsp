@@ -30,6 +30,8 @@
  
  $(document).ready(function(){
 		
+	
+	 
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
      var optionnameArr = new Array();
@@ -104,29 +106,29 @@
 				success: function(json){ 					
 					 $("#allList").empty();
 													 
-					  $.each(json, function(entryIndex, entry){
+					 /* $.each(json, function(entryIndex, entry){
 						html += "<div id='allList' class='row'>"
 							  + "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
 							  + "</div>"
 							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>· 침대 2개</span>"
 							  + "</div>"
 							  + "<div>"
-							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>${oplist.ROOMNAME }</span>"
+							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'></span>"
 							  + "</div>"
 							  + "<div>"
-							  + "<span>₩<fmt:formatNumber value='300' pattern='#,###'/></span>원"
+							  + "<span>₩<fmt:formatNumber pattern='#,###'/></span>원"
 							  + "</div>"
 							  + "<div>"
 							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-							  + "<input type='hidden' name='roomcode' value='' />" 
+							  + "<input type='hidden' name='roomcode' value=''/>" 
 							  + "</div>"
 							  + "</div>"
 							  + "</div>";
-					});// end of $.each()-------------  
-					
+					});// end of $.each()-------------   */
+					 
 					$("#allList").append(html); 	  
 						
 				},
@@ -440,6 +442,7 @@
                 <div  class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
+                    	<input type="text" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em; font-weight: bold;">개인실 · 침대 2개</span>
@@ -457,7 +460,7 @@
                        	 	<input type="text" name="rulename" value="${rule.RULE_NAME}" />
                         </c:forEach>                         
                         <input type="text" name="roomtype_name" value="${RList.roomType_name }" />
-                        <input type="text" id="roomcode${status.index }" class="roomcode" name="roomcode" value="${RList.roomcode }" />
+                        
                     </div>
                     <div>
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                       

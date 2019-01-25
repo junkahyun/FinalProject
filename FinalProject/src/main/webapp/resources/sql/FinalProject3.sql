@@ -477,7 +477,7 @@ on A.fk_roomtype_idx = F.roomtype_idx
 where 1 = 1
 and rule_name in ('흡연가능')
 
-select distinct roomcode
+select *
 from room A JOIN roomoption B
 on A.roomcode = B.fk_roomcode
 JOIN options C
@@ -489,9 +489,206 @@ on D.fk_rule_idx = E.rule_idx
 JOIN roomtype F
 on A.fk_roomtype_idx = F.roomtype_idx
 where 1 = 1
-and rule_name in ('흡연가능') and optionname = '구급상자' and optionname = '조식'
+and rule_name = ('흡연가능' and '이벤트 및 행사가능') 반려동물
+group by roomcode;
+
+--------------------------------------------------------------------
+
+select *
+from room A JOIN roomoption B
+on A.roomcode = B.fk_roomcode
+JOIN options C
+on B.fk_option_idx = c.option_idx
+JOIN roomrule D
+on A.roomcode = D.fk_roomcode
+JOIN allrule E
+on D.fk_rule_idx = E.rule_idx
+JOIN roomtype F
+on A.fk_roomtype_idx = F.roomtype_idx
+where 1 = 1
+-- and rule_name = ('흡연가능' and '이벤트 및 행사가능') 
+and rule_name = ('반려동물 입실가능') 
+-- 반려동물 입실가능
+group by roomcode;
+
+-- 흡연가능
+-- 이벤트 및 행사가능
+
+select *
+from allrule;
+/*
+rule_idx    rule_name
+1        	흡연가능	
+2        	반려동물 입실가능	
+3	        이벤트 및 행사가능	
+*/
+
+select *
+from roomrule;
+/*
+   fk_rule_idx     fk_roomcode
+1	   1	     0	    10       흡연가능
+2	   3	     0	    10       이벤트 및 행사가능
+*/
+
+select *
+from room;
+/*
+roomcode
+10
+24
+25
+26
+12
+18
+20
+21
+22
+23
+*/
+
+
+from room 
+  흡연가능   이벤트 및 행사가능	  --> 나옴
+
+  흡연가능  반려동물 입실가능	이벤트 및 행사가능  --> 안나옴
+
+select *  
+from room
+where roomcode in (select fk_roomcode from roomrule where fk_rule_idx in( select rule_idx from allrule where rule_name in ('흡연가능','이벤트 및 행사가능')  )   )
+                                                                         --  1  3
+                  -- 10                                                       
+
+select *  
+from room
+where roomcode in (select fk_roomcode from roomrule where fk_rule_idx in( select rule_idx from allrule where rule_name in ('흡연가능','반려동물 입실가능','이벤트 및 행사가능')  )   )
+                                                                         -- 1  2  3
+                  -- 10
+                  
+select rule_idx
+from allrule           -- 1 2 3       
+minus                  
+select fk_rule_idx
+from roomrule
+where fk_roomcode = 10  -- 1 3
+-- 2
+
+
+select *  
+from room
+where roomcode = 10
+
+
+select *  
+from room
+where roomcode = 10 and not exists(select rule_idx
+                                   from allrule
+                                   where rule_idx in (1,3)
+                                   minus                  
+                                   select fk_rule_idx
+                                   from roomrule
+                                   where fk_roomcode = 10 )
+                                   
+                                   
+select *  
+from room
+where roomcode = 10 and not exists(select rule_idx
+                                   from allrule
+                                   where rule_idx in (select rule_idx from allrule where rule_name in ('흡연가능','이벤트 및 행사가능'))
+                                   minus                  
+                                   select fk_rule_idx
+                                   from roomrule
+                                   where fk_roomcode = 10 )
+                    and not exists (select option_idx
+                                    from options
+                                    where option_idx in (select option_idx from options where optionname in ('난방','에어컨','구급상자','주차공간'))
+                                    minus
+                                    select fk_option_idx
+                                    from roomoption
+                                    where fk_roomcode = 10)
+                    and not exists (select roomtype_idx
+                                    from roomtype
+                                    where roomtype_idx in (select roomtype_idx from roomtype where roomtype_name in ('집 전체'))
+                                    minus
+                                    select fk_roomtype_idx 
+                                    from room
+                                    where roomcode = 10)
+
+
+-- 난방 에어컨 구급상자 주차공간
+-- 집전체
+
+select option_idx
+from options
+where option_idx in (select option_idx from options where optionname in ('난방','에어컨','구급상자','주차공간'))
+minus
+select fk_option_idx
+from roomoption
+where fk_roomcode = 10
+                                   
+select *  
+from room
+where roomcode = 10 and not exists(select rule_idx
+                                   from allrule
+                                   where rule_idx in (select rule_idx from allrule where rule_name in ('흡연가능','이벤트 및 행사가능'))
+                                   minus                  
+                                   select fk_rule_idx
+                                   from roomrule
+                                   where fk_roomcode = 10 )      -- 2                             
+                                   
+                                   
+select *  
+from room
+where roomcode = 10 and not exists(select rule_idx
+                                   from allrule
+                                   where rule_idx in (select rule_idx from allrule where rule_name in ('흡연가능','반려동물 입실가능','이벤트 및 행사가능'))
+                                   minus                  
+                                   select fk_rule_idx
+                                   from roomrule
+                                   where fk_roomcode = 10 )                                   
+                                   
+                                   
+select *  
+from room
+where roomcode = 10 and not exists(select rule_idx
+                                   from allrule
+                                   where rule_idx in (select rule_idx from allrule where rule_name in ('흡연가능','반려동물 입실가능','이벤트 및 행사가능'))
+                                   minus                  
+                                   select fk_rule_idx
+                                   from roomrule
+                                   where fk_roomcode = 10 )  
+                                   
+
+
+
+select *
+from roomrule;
+                  
+  
+---------------------------------------------------------------------
 
 select*from room;
 
 select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
 		where roomcode = 10
+
+select *
+from room;
+select *
+from roomoption;
+select *
+from roomrule;
+select *
+from allrule;
+
+select rule_idx
+from allrule
+where rule_name in ('흡연가능','이벤트 및 행사가능');
+
+select fk_roomcode
+from roomrule
+where fk_rule_idx in (2)
+
+select roomcode
+from room
+where rule

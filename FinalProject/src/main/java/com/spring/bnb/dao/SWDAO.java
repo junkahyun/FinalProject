@@ -101,7 +101,7 @@ public class SWDAO implements InterSWDAO {
 		return resultList;
 	}*/
 
-	@Override
+	/*@Override
 	public List<RoomVO> getSWOptionList(HashMap<String, Object> paraMap) {
 		List<RoomVO> resultList = new ArrayList<RoomVO>();
 		
@@ -119,9 +119,17 @@ public class SWDAO implements InterSWDAO {
 			resultList.add(room);
 		}		
 		 
-		return resultList;
-	}
+		return optionList;
+	}*/
+	
+	@Override
+	public List<RoomVO> getSWOptionList(HashMap<String,String> paraMap) {
 
+		List<RoomVO> optionByHomeList = sqlsession.selectList("sw.getSWOptionList", paraMap);
+		
+		return optionByHomeList;
+	}
+	
 	
 }
 	
