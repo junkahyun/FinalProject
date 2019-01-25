@@ -3,9 +3,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 
 <mapper namespace="cso">
+
+
+<select id="getTotalCount" parameterType="String" resultType="int">
+	select count(*)
+	from
+	(
+		select nvl(to_char(usedate,'yyyy-mm-dd'),-99) AS usedate
+		from mycoupon
+		where fk_userid = #{userid}
+	)
+	where usedate like '%'||'-99'||'%'
+</select>
+
+<select id="getUseTotalCount" parameterType="String" resultType="int">
+	select count(*)
+	from
+	(
+		select nvl(to_char(usedate,'yyyy-mm-dd'),-99) AS usedate
+		from mycoupon
+		where fk_userid = #{userid}
+	)
+	where not usedate = '-99'
+</select>
 <resultMap type="HashMap" id="getMyCouponList">
 	<!-- <result property="mycp_idx" column="mycp_idx" javaType="String" /> -->
-	<result property="cpcode" column="fk_cpcode" javaType="String" />
+	<result property="cpcode" column="cpcode" javaType="String" />
 	<result property="userid" column="fk_userid" javaType="String" />
 	<result property="dcmoney" column="dcmoney" javaType="String" />
 	<result property="cpexpire" column="cpexpire" javaType="String" />
@@ -14,11 +37,47 @@
 </resultMap>
 
 <select id="getMyCoupon" parameterType="String" resultMap="getMyCouponList">
-		select mycp_idx,fk_cpcode,cpname,cpexpire,dcmoney,fk_userid,usedate
+    
+    select rnum, mycp_idx,cpcode,cpname,cpexpire,dcmoney,userid,usedate
+    from
+    (    
+    select rownum AS rnum, mycp_idx,fk_cpcode AS cpcode,cpname,cpexpire,dcmoney,fk_userid as userid,usedate
+    from
+        (
+        select mycp_idx,fk_cpcode,cpname,cpexpire,dcmoney,fk_userid,nvl(to_char(usedate,'yyyy-mm-dd'),-9999) AS usedate
 		from myCoupon A join coupon B
 		on A.fk_cpcode = B.cpcode
-		where fk_userid=#{loginuser}
-		order by mycp_idx
+		where fk_userid= #{userid}
+        order by cpexpire
+        )V
+         where usedate = '-9999'
+    )F
+     where rnum between #{startRno} and #{endRno}
+</select>
+
+<resultMap type="HashMap" id="getMyUserMap">
+	<result property="cpcode" column="cpcode" javaType="String" />
+	<result property="dcmoney" column="dcmoney" javaType="String" />
+	<result property="cpexpire" column="cpexpire" javaType="String" />
+	<result property="cpname" column="cpname" javaType="String" />
+	<result property="usedate" column="usedate" javaType="String" />
+</resultMap>
+<select id="getMyUseCoupon" parameterType="HashMap" resultMap="getMyUserMap">
+    select rnum,cpcode,cpname,cpexpire,dcmoney,usedate
+    from
+    (    
+    select rownum AS rnum, mycp_idx,fk_cpcode AS cpcode,cpname,cpexpire,dcmoney,fk_userid,usedate
+    from
+        (
+        select mycp_idx,fk_cpcode,cpname,cpexpire,dcmoney,fk_userid,nvl(to_char(usedate,'yyyy-mm-dd'),-9999) AS usedate
+		from myCoupon A join coupon B
+		on A.fk_cpcode = B.cpcode
+		where fk_userid= #{userid}
+        order by cpexpire
+        )V
+         where not usedate = '-9999'
+    )F
+     where rnum between #{startRno} and #{endRno} 
 </select>
 <select id="getMyInfo" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
 
@@ -293,5 +352,6 @@ order by rsvcode desc
 	update reservation set rsv_cancledate = sysdate
   	where fk_userid = #{userid} and rsvcode = #{rsvcode}	
 </update>
+
 
 </mapper>	
