@@ -53,6 +53,7 @@ public class HYDAO implements InterHYDAO {
 	@Override
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
+		System.out.println("check : "+loginuser.getUserid());
 		if(loginuser!=null) {
 			List<RoomVO> myroom = sqlsession.selectList("hy.checkHostUser",member);
 			if(myroom != null) {

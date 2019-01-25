@@ -40,7 +40,7 @@ public class loginCheck {
 	         if(session.getAttribute("loginuser") == null) {
 	            // 해당 요청자가 로그인을 하지 않은 상태이라면 로그인하는 페이지로 이동을 시키겠다
 	            String msg = "먼저 로그인 하세요 ";
-	            String loc = request.getContextPath()+"/login.action";
+	            String loc = request.getContextPath()+"/index.air";
 	            
 	            // === 로그인 성공 후 로그인 하기전  페이지로 돌아가는 작업하기 ===
 	            // === 현재 페이지 주소 URL 주소 알아내기 ===

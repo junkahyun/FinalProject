@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -20,41 +20,45 @@
 	}
 	._1k01n3v1:hover{color:var(--color-text-link-hover, #008489) !important;}._1k01n3v1:active{color:var(--color-text-link-active, #006C70) !important;}}._1k01n3v1:active{color:#006C70 !important;outline:0px !important;}</style>
 <style type="text/css">
-
-.box {
-  border: 1px solid;
-  padding: 5px;
-  box-shadow: 2px 4px #dbdfdf;
+._1k01n3v1 {
+    color: var(--color-text-link, #008489) !important;
+    font-family: var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;
 }
-.couponTop{
-	border: 1px solid #b7b7b7;
-	text-align: center;
-	background-color: #dadada;
-	padding: 2%;
-}
-
-tr > td {
-border: 1px solid #b7b7b7;
-text-align: center;
-}
-
 .firstDIV{
-	margin-top: 10%;
+	margin-top: 5%;
 	margin-bottom: 5%; 
 }
+#table_header{
+	margin-top:5%;
+	font-size: 10pt;
+	align-content: center;
+	align-items: center;
+	
+}
+thead>tr>th{
+ 	vertical-align : middle;
+	text-align: center;
+}
 .margin_top{
-	margin-top: 5%;
+	margin-top:3%;
 }
-table{
-	font-size: 9pt
-}
-td{
-	padding: 3%;
+ tbody > tr > td {
+ 	vertical-align : middle;
+	text-align: center;
+	border-bottom: 1px solid lightgray;	
+	}
+.panel-body{
+
+	border: 1px solid lightgray;
 }
 #checkCoupon{
- cursor: pointer;
- color: green;
- font-weight: bold;
+		cursor:pointer;
+		color:#008489;
+		font-weight: bold;
+}
+#pagebar{
+	vertical-align: center;
+	text-align: center;
 }
 </style>
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
@@ -63,41 +67,108 @@ td{
 	$(document).ready(function(){
 		$("#checkCoupon").click(function(){
 			var url ="/bnb/couponReg.air";
-			window.open(url,"쿠폰등록","width=400,height=300");
-			
-		    var frm = document.couponRegFrm;
-		    frm.action=url;
-			frm.method = "POST";  
-		    frm.target = "쿠폰등록"; 
-		    frm.submit(); 
-		  
+			window.open(url,"쿠폰등록","width=400,height=300");			  
 		});
+		
+	
 	});
+
+	<%-- function makeCommentPageBar(currentShowPageNo) {
+		var form_data = {sizePerPage:"10"};
+		
+		$.ajax({
+			url:"<%=request.getContextPath() %>/myCoupon.air", 
+			data:form_data,
+			type:"GET",
+			dataType:"JSON",
+			success:function(json){
+				var req_totalPage = ${totalPage};
+				if(req_totalPage > 0) {
+					// 댓글이 있는 경우
+					 
+					var totalPage = req_totalPage;
+					var pageBarHTML = "";
+					
+					/////////////////////////////////
+					var blockSize = 10;
+					// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 갯수이다. 
+					
+					var loop = 1;
+					/*
+					   loop 는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 갯수(지금은 10개)까지만
+					     증가하는 용도이다.
+					*/
+					
+					var pageNo = Math.floor((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+					// !!! 공식이다. !!! //
+	
+					// **** [이전] 만들기 **** //
+				    if( pageNo != 1 ) {
+				    	pageBarHTML += "&nbsp;<a href=\myCoupon.air?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+${sizePerPage}+"\" >"+"[이전]</a>&nbsp;";
+				    }
+					
+					// ------------------------------ //
+					
+					while(!(loop > blockSize || pageNo > totalPage)) {
+						
+						if(pageNo == currentShowPageNo) {
+							pageBarHTML += "&nbsp;<span style=\"color:red; font-size:13pt; font-weight:bold; text-decoration:underline;\">"+pageNo+ "</span>&nbsp;";
+						}
+						else {
+							pageBarHTML +=  "&nbsp;<a href=\myCoupon.air?currentShowPageNo="+pageNo+"&sizePerPage="+${sizePerPage}+"\" >"+pageNo+"</a>" + "&nbsp;";
+						}
+						
+						loop++;
+						pageNo++;
+					}// end of while---------------------
+				    // ------------------------------------- //
+				    
+				    // **** [다음] 만들기 **** //
+				    if( !(pageNo > totalPage) ) {
+				    	pageBarHTML += "&nbsp;<a href=\myCoupon.air?currentShowPageNo="+pageNo+"&sizePerPage="+${sizePerPage}+"\" >"+"[다음]</a>&nbsp;";
+				    }
+					
+					/////////////////////////////////
+					
+					$(".pageBar").empty().html(pageBarHTML);
+					pageBarHTML = "";
+				}
+				else {
+					// 댓글이 없는 경우 
+					$(".pageBar").empty();
+				}
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+	}// end of function makeCommentPageBar(currentShowPageNo)-------------  --%>
 </script>
 
-<div class="row firstDIV" style="border: 0px soild red;">
+<div class="row firstDIV">
 <!--  사이드바 -->
-	<div class="col-md-1" style="border: 0px solid red"></div>
-    <div class="col-md-3">
+	<div class="col-md-1"></div>
+    <div class="col-md-2">
 	      <div class="sidenav" align="center">
 			  <ul class="sidenav-list">
 			    <li>
-			      <a href="#" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
+			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="#" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="#" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
-			      <a href="#" aria-selected="true" class="sidenav-item"><h4>나의 쿠폰</h4></a>
+			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="true" class="sidenav-item"><h4>나의 쿠폰</h4></a>
 			    </li>
 			  </ul>
 		 </div>	
 	  </div>
 <!--  사이드바끝 -->  
-    <div class="col-md-6">
+    <div class="col-md-7">
      <div style="padding:2%; border: 1px solid #dbdfdf;" >
 		<h3>상품할인쿠폰</h3>
 		<p>고객님이 받으신 e-mail 이나 오프라인에서 지급받으신 쿠폰 번호를 입력하시면, 할인쿠폰을 지급해 드립니다.</p>
@@ -106,108 +177,98 @@ td{
 	</div>	
     <div id="dashboard-content" class="margin_top">   
 <!--  상단 바 -->
-	  <ul class="nav nav-tabs">
+     <div class="menutab"> 
+      <ul class="nav nav-tabs">
 	    <li class="active"><a data-toggle="tab" href="#home">보유쿠폰</a></li>
 	    <li><a data-toggle="tab" href="#menu1">사용내역</a></li>
 	  </ul>
+	 </div>
 <!--  상단 바 -->
-
-	  <div class="tab-content margin_top">
-	    
+	  <div class="tab-content margin_top">	    
 <!--  보유쿠폰 목록 -->	
+	
 	    <div id="home" class="tab-pane fade in active " style="padding:1%;">
 		<div align="center">
-		    <table>
+		<input type="hidden" name="menu1" class="menu1" value="1"/>		
+		<table class="table table-hover">						
 				<colgroup>
 					<col width="150pt">
 					<col width="150pt">
 					<col width="100pt">
 					<col width="200pt">
-				</colgroup>
-				<thead>
-					<tr>
-						<th class="first couponTop" scope="col">쿠폰</th>
-						<th class="couponTop" scope="col">쿠폰코드</th>
-						<th class="couponTop" scope="col">할인금액</th>
-						<th class="couponTop" scope="col">유효기간</th>
-					</tr>
-				</thead>
-	
-				<tbody>
-	
-					<c:forEach items="${myCoupon}" var="coupon">
-						<c:if test="${coupon.usedate == null and coupon.cpexpire>date}">
-							<tr class="first">
-								<td class="first">
-									<div class="ticket_cup">
-										<p>${coupon.cpname}</p>
-									</div>
-								</td>
-								<td>  
-									<div class="myt_ico_wrap alignL"><p>${coupon.cpcode}</p></div> 
-								</td>
-								<td><div style="width: 50px;"><p>${coupon.dcmoney}</p></div></td>
-								<td>
-									<p>${coupon.cpexpire}</p>
-								</td>
-							</tr>					
-							</c:if>
-						</c:forEach>
+				</colgroup>						
+						  <thead>	
+									
+						    <tr id="table_header">
+						    	<th class="first couponTop" scope="col">쿠폰</th>
+								<th class="couponTop" scope="col">쿠폰코드</th>
+								<th class="couponTop" scope="col">할인금액</th>
+								<th class="couponTop" scope="col">유효기간</th>
+						    </tr>							    
+						  </thead>	
+				<tbody>	
+					<c:forEach items="${myCoupon}" var="coupon">						
+						<tr class="first">
+							<td class="first"><p>${coupon.cpname}</p></td>
+							<td><p>${coupon.cpcode}</p></td>
+							<td><p><fmt:formatNumber value="${coupon.dcmoney}" pattern="#,###"/>원</p></td>
+							<td><p>${coupon.cpexpire}</p></td>
+						</tr>					
+							
+					</c:forEach>
 				</tbody>
 			</table>	
-		</div>    
+		</div>   
+		<c:if test="${totalCount > 10}">
+			<div class=".pagebar" name="pagebar" style="border : 1px solid red">${pagebar}</div>
+		</c:if>
       </div> 
 	<!--  보유쿠폰 목록 -->	
 	<!-- 사용한 쿠폰 리스트 -->
-	    <div id="menu1" class="tab-pane tab-panel"  style="padding:1%; border: 0px solid yellow;">
-		    <div align="center">
-		     <table>
+	   <div id="menu1" class="tab-pane tab-panel"  style="padding:1%; border: 0px solid yellow;">
+		  <div align="center">
+		  <input type="hidden" name="menu1" value="2"/>
+		   <table class="table table-hover">						
 				<colgroup>
 					<col width="150pt">
 					<col width="150pt">
 					<col width="100pt">
 					<col width="200pt">
-				</colgroup>
-				<thead>
-					<tr>
-						<th class="first couponTop" scope="col">쿠폰명</th>
-						<th class="couponTop" scope="col">쿠폰번호</th>
-						<th class="couponTop" scope="col">할인 금액</th>
-						<th class="couponTop" scope="col">사용한날짜</th>
-					</tr>
-				</thead>
-	
-				<tbody>
-					<c:forEach items="${myCoupon}" var="coupon">
-						<c:if test="${coupon.usedate != null}">
-							<tr class="first">
-								<td class="first">
-									<div class="ticket_cup">
-										<p>${coupon.cpname}</p>
-									</div>
-								</td>
-								<td>  
-									<div class="myt_ico_wrap alignL"><p>${coupon.cpcode}</p></div> 
-								</td>
-								<td><div style="width: 50px;"><p>${coupon.dcmoney}</p></div></td>
-								<td>
-									<p>${coupon.usedate}</p>
-								</td>
-							</tr>					
-							</c:if>
-						</c:forEach>
-				
-				</tbody>
-			</table>
-		</div>
-				
-	    </div>	
+				</colgroup>	
+					 <thead>						
+						<tr id="table_header">
+							<th class="first couponTop" scope="col">쿠폰</th>
+							<th class="couponTop" scope="col">쿠폰코드</th>
+							<th class="couponTop" scope="col">할인 금액</th>
+							<th class="couponTop" scope="col">사용한날짜</th>
+						</tr>							    
+					  </thead>		
+					<tbody>
+					
+						<c:forEach items="${myUseCoupon}" var="coupon">
+								<tr class="first">
+									<td class="first"><p>${coupon.cpname}</p></td>
+									<td><p>${coupon.cpcode}</p></td>
+									<td><p>${coupon.dcmoney}</p></td>
+									<td><p>${coupon.usedate}</p></td>
+								</tr>					
+						</c:forEach>				
+					</tbody>
+				</table>
+			</div>
+			<c:if test="${totalCount > 10}">
+			<div class=".pagebar" name="pagebar" style="border : 1px solid red">${pagebar}</div>
+		</c:if>
+	 </div>
+	 
 	<!-- 사용한 쿠폰 리스트 -->
-
-
+	<form name="menu1Frm" value=""></form>	
 <form name="couponRegFrm">
-	<input type="text" name="userid" value="회원아이디넣는칸"/>
+	<input type="hidden" name="userid" value="${userid}"/>
 </form>
+
+	
+
 	  </div>
 	</div>
  </div>
