@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -212,6 +214,35 @@ public class HYController {
 		json.put("n", n);
 		String str_json = json.toString();
 		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	// 침실과 침대 갯수 가져오기
+	@RequestMapping(value = "/checkbedroom.air", method = RequestMethod.POST)
+	public String checkbedroom(HttpServletRequest req) {
+		String bedroomInfo = req.getParameter("bedroomInfo");
+		String[] bedroomInfoArr = bedroomInfo.split("/");
+		// for문을돌리면 하나의 침실정보가 String 형태로 나옴
+		for(String str : bedroomInfoArr) {
+			HashMap<String,Object> hash = new HashMap<String,Object>();
+			// 가져온 String 형태를 JSON으로 변환
+			JSONObject jsonbedinfo = new JSONObject(str);
+			// JSON으로 변환된 객체의 key들을 가져옴
+			Set<String> jsonkeys = jsonbedinfo.keySet();
+			// key값만큼 for문을 돌려서 hash맵 형태로 저장
+			for(String key :jsonkeys) {
+				hash.put(key, jsonbedinfo.get(key));
+				System.out.println("key : "+key+"/ value : "+jsonbedinfo.get(key));
+				/*key : doublebedCount/ value : 2
+				key : queenbedCount/ value : 1
+				key : bedroomNo/ value : 1
+				key : doublebedCount/ value : 1
+				key : singlebedCount/ value : 1
+				key : bedroomNo/ value : 2*/
+			}
+			System.out.println("&");
+			//int n = service.insertbedroom(hash);
+		}
+		req.setAttribute("str_json", new JSONObject());
 		return "JSON";
 	}
 }
