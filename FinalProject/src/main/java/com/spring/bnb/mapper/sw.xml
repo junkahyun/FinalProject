@@ -68,7 +68,7 @@
 		where fk_userid = #{userid}
 	</select>	
 	 
-	<resultMap type="HashMap" id="dataResultMap">
+	<!-- <resultMap type="HashMap" id="dataResultMap">
 		<result property="ROOMMAINIMG"   column="roommainimg"   javaType="String" />
 		<result property="ROOMNAME"      column="roomname"      javaType="String" />
 		<result property="ROOMPRICE"     column="roomprice"     javaType="int" />
@@ -76,12 +76,14 @@
 		<result property="RULENAME"      column="rule_name"     javaType="String" />
 		<result property="ROOMTYPE_NAME" column="roomtype_name" javaType="String" />
 		<result property="OPTIONNAME"    column="optionname"    javaType="String" />
-	</resultMap>
+	</resultMap> -->
 	 
-	<select id="getSWOptionList" parameterType="HashMap" resultMap="dataResultMap">
-		select roomname, roommainimg, roomprice, roomtel, roomsigungu
+	<select id="getSWOptionList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">
+		<!-- roomname, roommainimg, roomprice, roomtel, roomsigungu
 			 , basic_person, max_person, person_addpay, viewcount
-		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name
+		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name -->
+		
+		<!-- select distinct roomcode 
 		from room A JOIN roomoption B
 		on A.roomcode = B.fk_roomcode
 		JOIN options C
@@ -93,17 +95,62 @@
 		JOIN roomtype F
 		on A.fk_roomtype_idx = F.roomtype_idx
 		where 1 = 1
-		<if test="RULENAME != ''">	
-			and rule_name in #{RULENAME}
+		<if test="RULENAME != ''">
+		and rule_name IN
+			<foreach collection="RULENAME" item="rname" open="(" close=")" separator=",">
+				 #{rname.value}
+			</foreach>
 		</if>
 		<if test="ROOMTYPE_NAME != ''">	
-			and roomtype_name in #{ROOMTYPE_NAME}	
+			and roomtype_name in
+			<foreach collection="ROOMTYPE_NAME" item="rtname" open="(" close=")" separator=",">
+				 #{rtname.value}
+			</foreach>	
 		</if>
 		<if test="OPTIONNAME != ''">	
-			and optionname in #{OPTIONNAME}	
+		and optionname IN
+			<foreach collection="OPTIONNAME" item="opname" open="(" close=")" separator=",">
+				 #{opname.value}	
+			</foreach>
+		</if> -->
+		
+		select *  
+		from room
+		where roomcode = 10
+		<if test="RULENAME != ''">
+			and not exists(select rule_idx
+							from allrule
+							where rule_idx in (select rule_idx from allrule where rule_name in (#{RULENAME}))
+							minus                  
+							select fk_rule_idx
+							from roomrule
+							where fk_roomcode = 10)
 		</if>
+		<if test="OPTIONNAME != ''">		                                   
+			and not exists (select option_idx
+							from options
+							where option_idx in (select option_idx from options where optionname in (#{OPTIONNAME}))
+							minus
+							select fk_option_idx
+							from roomoption
+							where fk_roomcode = 10)
+		 </if>
+		 <if test="ROOMTYPE_NAME != ''">                                   
+			and not exists (select roomtype_idx
+							from roomtype
+							where roomtype_idx in (select roomtype_idx from roomtype where roomtype_name in (#{ROOMTYPE_NAME}))
+							minus
+							select fk_roomtype_idx 
+							from room
+							where roomcode = 10) 
+		  </if>                                  
+		  
 	</select>
 	
+	<select id="getHomeList" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
+		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
+		where roomcode = #{roomcode}
+	</select>
 	
  
 </mapper>
