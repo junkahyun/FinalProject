@@ -12,10 +12,15 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
  <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 
+  
 
 <style type="text/css">
 
@@ -98,6 +103,12 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
+		getDatebetween();
+		
+		getTotal();
+		
+		getChekinOut();
+		
 		$(".minus").hide();
 		$("#plusRole").hide();
 		
@@ -123,6 +134,10 @@ h3{font-size: 14pt;
 			
 		});
 		
+		
+	});//end of $(document).ready------------
+
+	function getChekinOut(){
 		// *** 날짜 시간만 가져오기 ***//
 		var check1 = $("#checkin1").text();
 		$("#checkin1").text(check1.substring(11,13));
@@ -133,8 +148,10 @@ h3{font-size: 14pt;
 		var checkout2 = $("#checkout2").text();
 		$("#checkout2").text(checkout2.substring(11,13));
 		
-		//------------------------------------------------
-		
+	}
+	
+	
+	function getTotal(){
 		// 총금액 구하기
 		var stayday = $("#Price").text();cleanpay
 		var cleanpay = $("#cleanpay").text();
@@ -146,12 +163,29 @@ h3{font-size: 14pt;
 		
 		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
-	});//end of $(document).ready------------
-
-
-	function gonextCheck(){
-		location.href="<%=ctxPath%>/reservationCheckPeople.air"
 	}
+	
+	function getDatebetween(){
+		var day1 = new Date(2019,1,25);
+		var day2 = new Date(2019,2,1);
+		
+		var date = day2.getTime()-day1.getTime();
+		
+		var result = date/(1000*60*60*24);
+		
+		console.log(result);
+		
+	}
+	
+	function gonextCheck(){ // 다음페이지로 보내기
+		var frm = document.datecheck;
+		frm.method="get";
+		frm.action="reservationCheckPeople.air";
+		frm.submit();
+		
+		<%-- location.href="<%=ctxPath%>/reservationCheckPeople.air" --%>
+	}
+	
 
 </script>
 
@@ -199,6 +233,40 @@ h3{font-size: 14pt;
     }
   })();
 </script>
+
+ <script>
+  $( function() {
+    var dateFormat = "mm/dd/yy",
+      from = $( "#from" )
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 1
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 1
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;
+    }
+  } );
+  </script>
 <!-- End Channel Plugin -->
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
@@ -208,6 +276,13 @@ h3{font-size: 14pt;
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
 </div>
+
+<form name="datecheck">
+<label for="from">From</label>
+<input type="text" id="from" name="from">
+<label for="to">to</label>
+<input type="text" id="to" name="to">
+</form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 	<div class="col-md-7" style="margin-top: 3%;">
@@ -237,7 +312,7 @@ h3{font-size: 14pt;
 		</div>
 		<br>
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >${oneRoom.roomSigungu} ${day1-(day1-day2)}박</h3>
+		<h3 >${oneRoom.roomSigungu} <span id="day_between"></span>박</h3>
 		<br>
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center">${mon1}월<br>${day1}일</div>
@@ -384,7 +459,7 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
-				 </span> x <span id="stayday">2</span>박
+				 </span> x <span id="day_between"></span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
 				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*2}" pattern="#,###"/></span>

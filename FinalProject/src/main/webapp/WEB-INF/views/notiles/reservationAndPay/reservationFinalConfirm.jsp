@@ -41,8 +41,8 @@ input{outline: none;
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
 		$("#btnsubmit").click(function(){
-			
 			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		

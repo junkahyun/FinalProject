@@ -38,8 +38,6 @@ input{outline: none;
 
 	$(document).ready(function(){
 		
-		
-		
 		$("#btnsubmit").click(function(){
 			
 			var total = $("#totalprice").text();

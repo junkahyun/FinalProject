@@ -1,12 +1,13 @@
 package com.spring.bnb.controller;
 
+import java.text.ParseException;
 import java.util.Calendar;
-
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class KHController {
 	// ***** 숙소이용규칙 확인하기 (예약)<aop처리해야댐> ***** //
 	
 	@RequestMapping(value="/reservationCheck.air", method= {RequestMethod.GET})
-	public String reservationCheck (HttpServletRequest req) {
+	public String reservationCheck (HttpServletRequest req) throws ParseException {
 		
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
@@ -63,6 +64,7 @@ public class KHController {
 		String year2 = "2019";
 		String mon2 = "2";
 		String day2 = "2";
+		//************************
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
@@ -93,12 +95,22 @@ public class KHController {
 		return "reservationAndPay/reservationCheck.notiles";
 	}
 	
+	
+	
 	// ***** 일행 확인하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.GET})
-	public String reservationCheckPeople (HttpServletRequest req,HttpSession session) {
+	public String reservationCheckPeople (HttpServletRequest req,HttpSession session)  {
+		
+		String from = req.getParameter("from");
+		String to = req.getParameter("to");
+	
+		System.out.println(from);
+		System.out.println(to);
 		
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
+
+	
 	
 	// ***** 예약 확인 및 결제하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.GET})
@@ -135,6 +147,8 @@ public class KHController {
 		
 		return "paymentGateway";
 	}
+	
+	
 	
 	
 	

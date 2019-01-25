@@ -186,6 +186,8 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
+		getTotal();
+		
 		$("#host_error_message2").hide();
 
 		$("#people").click(function(){
@@ -254,7 +256,10 @@ h3{font-size: 14pt;
 		});
 		
 		
-		
+	});//end of $(document).ready------------
+
+	
+	function getTotal(){
 		// 총금액 구하기
 		var stayday = $("#Price").text();cleanpay
 		var cleanpay = $("#cleanpay").text();
@@ -268,9 +273,7 @@ h3{font-size: 14pt;
 		
 		
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
-		
-	});//end of $(document).ready------------
-
+	}
 	
 </script>
 
@@ -506,7 +509,7 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${(sessionScope.oneRoom).roomPrice}" pattern="#,###"/>
-				 </span> x <span id="stayday">${day2-day1}</span>박
+				 </span> x <span id="day_between"></span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
 				 ₩<span id="Price"><fmt:formatNumber value="${((sessionScope.oneRoom).roomPrice)*(day2-day1)}" pattern="#,###"/></span>
