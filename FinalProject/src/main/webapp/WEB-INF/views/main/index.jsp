@@ -47,6 +47,7 @@
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/bootstrap.min.js"></script>	
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/main.js"></script>
 </head>
 <body>
@@ -254,7 +255,7 @@
 						</div>
 					</div>
 	    		</div> 
-			</div> 
+			</div>  
 	</section>
 	<%-- 시/도 선택 모달 --%>
 	<div class="modal fade" id="sido" role="dialog">
@@ -474,6 +475,26 @@
        <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
     </div>    
 </div>
-	
+<%-- Right Fixed Menues --%>
+<div id="fixed_hide_menues">
+	<ul>
+		<li> 
+		  <a href="javascript:void plusFriendChat()">
+		  <img src="https://developers.kakao.com/assets/img/about/logos/plusfriend/consult_small_yellow_pc.png"/>
+		</a>
+		</li>
+	</ul>
+	<script type="text/javascript">
+		//<![CDATA[
+	    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+	    Kakao.init('1aaa903adf0964073056fbd134bda841');
+	    function plusFriendChat() {
+	      Kakao.PlusFriend.chat({
+	        plusFriendId: '_qxnqxij' // 플러스친구 홈 URL에 명시된 id로 설정합니다.
+	      });
+	    }
+  	//]]>
+	</script>
+</div>
 </body>
 </html>

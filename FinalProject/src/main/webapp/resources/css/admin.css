@@ -132,6 +132,13 @@ h1.page-header {
 .side-body {
 	margin-left: 310px;
 }
+
+#searchFrm{
+	text-align:center;
+}
+#lodgingList{
+	margin-top:20px;
+}
 /* small screen */
 @media (max-width: 768px) {
 	.side-menu {

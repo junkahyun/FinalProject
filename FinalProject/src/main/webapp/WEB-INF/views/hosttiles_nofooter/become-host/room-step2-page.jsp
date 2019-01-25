@@ -35,6 +35,20 @@
    	  .error2_text{margin-top: 5px;
    				color:#d93900;
    				font-weight: bold;}
+
+   .dragAndDropDiv {
+             border: 2px dashed #92AAB0;
+             width: 1000px;
+             height: 400px;
+             color: #92AAB0;
+             text-align: center;
+             vertical-align: middle;
+             padding: 10px 0px 10px 10px;
+             font-size:200%;
+             display: table-cell;
+             border-radius: 5px;
+         }
+
 </style>
 
  
@@ -43,6 +57,7 @@
 
    $(document).ready(function(){
 	
+	   $("#seconddiv").hide();
 	   $("#second").hide();
 	   $("#third").hide();
 	   
@@ -52,22 +67,168 @@
 	   $("#roomName").removeClass("error2");
 	   $(".error2_text").hide();
 	   
-	   //두번째 페이지 스크립트 시작
+	   //첫번째 페이지 스크립트 시작 ------------------------------------------------------------------------------------------------
+       // 파일 리스트 번호
+       var fileIndex = 0;
+       // 파일 리스트
+       var fileList = new Array();
+
+       $(".dragAndDropDiv")
+	   	  .on("dragover", dragOver)
+	   	  .on("dragleave", dragOver)
+	   	  .on("drop", uploadFiles);
+   	 
+	   function dragOver(e){
+	   	  e.stopPropagation();
+	   	  e.preventDefault();
+	   }
+	   	 
+	   function uploadFiles(e){
+	   	  e.stopPropagation();
+	   	  e.preventDefault();
+	   }
+	   	
+	   function dragOver(e) {
+	   	    e.stopPropagation();
+	   	    e.preventDefault();
+	   	    if (e.type == "dragover") {
+	   	        $(e.target).css({
+	   	        	"border": "2px dashed #0B85A1",
+	   	        	"background-color" : "#EAEAEA",
+	   	        	"outline-offset": "-20px"
+	   	        });
+	   	    } else {
+	   	        $(e.target).css({
+	   	        	"border": "2px dashed #92AAB0",
+	   	        	"background-color" : "white",
+	   	        	"outline-offset": "-10px"
+	   	        });
+	   	    }
+	    }
+	
+	   	function uploadFiles(e) {
+	   	    e.stopPropagation();
+	   	    e.preventDefault();
+	   	    dragOver(e); //1
+	   	    e.dataTransfer = e.originalEvent.dataTransfer; //2
+	   	    var files = e.target.files || e.dataTransfer.files;           	    
+	   	    
+	   	    var reader = new FileReader();
+	           reader.onload = function (e) {
+	           	for(var i=0;i<files.length;i++){
+	    	    	   console.log(e.target.result);
+	          	   }	
+	           }
+	   	    
+	   	 
+	   	    if (files.length > 1) {
+	   	        return;
+	   	    }
+	   	    
+	   	    for(var i=0; i<100; i++){
+		   	    fileList[i] = files[i]
+		   	    
+		   	    if (files[i].type.match(/image.*/)) {
+		   	        
+		   	    }else{
+		   	        alert('이미지가 아닙니다.');
+		   	        return;
+		   	    }
+	
+		   	    if (files[i].type.match(/image.*/)) {
+		   	        $(e.target).css({
+		   	            "background-image": "url(" + window.URL.createObjectURL(files[i]) + ")",
+		   	            "outline": "none",
+		   	            "background-size": "100% 100%"
+		   	        });
+		   	    }else{
+		   	      alert('이미지가 아닙니다.');
+		   	      return;
+		   	    }
+		
+	           // 업로드 파일 목록 생성
+	           addFileList(files, fileIndex, files[i].name, files[i].size);
+	           // 파일 번호 증가
+	           fileIndex++;     
+	   	   } 	    
+	   }
+	   	
+	   // 업로드 파일 목록 생성
+	   function addFileList(files, fIndex, fileName, fileSize){
+	   		 
+	   	  var form_data = {"fileName":fileName};   
+	   	  
+  		  $.ajax({
+	 		 url:"dropJOSN.air",
+	 		 type:"GET",
+	 		 dataType:"JSON",
+	 		 data:form_data,
+	 		 success:function(json) {
+	 			var html = "";
+               html += "<div id='fileTr_" + fIndex + "'>";
+               html +=         fileName + " / " + fileSize + "MB "  + "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>"
+               html += "</div>"
+        
+               $("#list").append(html);
+	 		 },
+	 		 error: function(request, status, error){
+	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 		 }
+	 	 });// end of $.ajax({ ---             		 
+	
+	   } 
+	   //첫번째 페이지 스크립트 끝 ------------------------------------------------------------------------------------------------
+	   
+	   //두번째 페이지 스크립트 시작 ------------------------------------------------------------------------------------------------
 	    $("#roomInfo").click(function(){
 	    	 $("#roomInfo").removeClass("error1");
 	  	     $(".error1_text").hide();
 	    });
-	   //두번째 페이지 스크립트 끝
+	   //두번째 페이지 스크립트 끝 ------------------------------------------------------------------------------------------------
 	   
-	   //두번째 페이지 스크립트 시작
+	   //두번째 페이지 스크립트 시작 ------------------------------------------------------------------------------------------------
 	    $("#roomName").click(function(){
 	    	 $("#roomName").removeClass("error2");
 	  	     $(".error2_text").hide();
 	    });
-	   //두번째 페이지 스크립트 끝
+	   //두번째 페이지 스크립트 끝 ------------------------------------------------------------------------------------------------
 	   
    });// $(document).ready(function()
 
+		   
+   // 첫번째 페이지 함수 시작----------------------------------------------------------------------------------------------------------
+   // 업로드 파일 삭제
+   function deleteFile(fIndex){
+       // 업로드 파일 테이블 목록에서 삭제
+       $("#fileTr_" + fIndex).remove();
+       
+       var list = $("#list").html();
+       if(list == ""){
+       $(".dragAndDropDiv").css({
+           "background-image": "url(white)",
+           "outline": "none",
+           "background-size": "100% 100%"
+       });
+       }
+   }
+   
+	// dragover 드래그 요소가 특정영역에 있을때 발생하는 이벤트(드롭영역에 들어갔다 나올때)
+   $(document).on('dragover', function (e){
+      e.stopPropagation();
+      e.preventDefault();
+      $(".dragAndDropDiv").css('border', '2px dashed #92AAB0');
+	                
+   });
+              
+   // drop 드롭영역 밖에서 드롭할 때 발생하는 이벤트
+   $(document).on('drop', function (e){
+      e.stopPropagation();
+      e.preventDefault();	
+      //alert("드롭함");
+      
+   }); 
+   // 첫번째 페이지 함수 끝----------------------------------------------------------------------------------------------------------
+	   
    // 버튼 함수들
    // first ---------------------------------------------------------
    function back1(){
@@ -78,14 +239,15 @@
 	}
    
    function next1(){
-	   $("#first").hide();
+	   $("#firstdiv").hide();
+	   $("#seconddiv").show();
 	   $("#second").show();
 	}
    
 	// second ---------------------------------------------------------
 	function back2(){
-	   $("#first").show();
-	   $("#second").hide();
+	   $("#firstdiv").show();
+	   $("#seconddiv").hide();
 	}
 	
 	function next2(){
@@ -124,7 +286,49 @@
 
 <form name="roomtitle">
 	<div>
-	   <div class="row" style="border: 0px solid green;">
+	   <div class="row" id="firstdiv">
+	   
+   	   <!-- 첫번째 입력창 시작-->
+       <div class="row">
+       
+       		<!-- 진행상태바 -->
+		    <div class="container col-md-12" style="border: 0px solid red;">
+			   <div class="progress" style="height: 13px;"> 
+			     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
+			     </div>
+			   </div>
+		    </div>
+		    
+       		<div class="col-md-5" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">	    		
+	         	<div class="title">게스트에게 숙소의 모습을 보여 주세요</div>        
+		        <div class="row" style="border: 0px solid red; margin-top: 20px;">
+		        	<div class="col-md-12" style="margin-bottom: 20px;">
+		        		 <div class="dragAndDropDiv">	        		
+			        		 </br>Drag & Drop Files Here
+			        		 <INPUT type="hidden" id="roomMainImg" name="roomMainImg"/>
+			        		 <INPUT type="file" id="file" name="file" style="display:none;"/>
+		        		 </div>
+		        		 <div id="list"></div>
+		        	</div>
+		        </div>
+		         	 
+		        <div class="col-md-6" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
+		         	 <hr/>
+			         <div class="col-md-3" style="padding: 0;">
+			            <button type="button" onclick="back1();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
+			         </div>
+			         <div class="col-md-6" style="border: 0px solid red;"></div>
+			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
+			            <button type="button" onclick="next1();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
+			         </div>
+		         </div>
+	         </div> 
+    	</div>
+    	<!-- 첫번째 입력창 끝-->
+    	
+	   </div>
+	   
+	   <div class="row" id="seconddiv" style="border: 0px solid green;">
 	   
 	   <!-- 진행상태바 -->
 	   <div class="container col-md-12" style="border: 0px solid red;">
@@ -136,23 +340,6 @@
 	    
 	    <!-- 입력창 반복되는 div 시작 -->
 	    <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
-	    
-	    	<!-- 첫번째 입력창 시작-->
-	    	<div class="row" id="first">
-	    		사진사진사진
-	    	
-	    		<div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
-		         	 <hr/>
-			         <div class="col-md-3" style="padding: 0;">
-			            <button type="button" onclick="back1();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em">이전</button>
-			         </div>
-			         <div class="col-md-6" style="border: 0px solid red;"></div>
-			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-			            <button type="button" onclick="next1();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
-			         </div>
-		         </div> 
-	    	</div>
-	    	<!-- 첫번째 입력창 끝-->
 	    
 	      	<!-- 두번째 입력창 시작 -->
 	        <div class="row" id="second">
