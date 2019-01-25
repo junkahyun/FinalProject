@@ -192,3 +192,10 @@ order by viewcount desc
 )V
 where RNO between 1 and 2;
 
+select *
+from roomimg
+where fk_roomcode = 10; 
+
+commit;
+
+

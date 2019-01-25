@@ -16,4 +16,6 @@ public interface InterSCDAO {
 	
 	void setRoomImg(HashMap<String, String> paraMap);//룸이미지 추가하기 
 
+	void deleteFile(String imgfilename);//룸이미지 삭제하기
+
 }

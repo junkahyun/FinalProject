@@ -88,9 +88,13 @@ div{border: /* 1px solid gray;  */
 		document.getElementById("defaultOpen").click();
 		
 		$(".emailSend").click(function(){
-			
 			$(this).addClass("changeColor");
-			
+		});
+		
+		$("#searchInput").keydown(function(event){
+			if(event.keyCode == 13){
+				alert("");
+			}	
 		});
 		
 	});
@@ -147,16 +151,19 @@ div{border: /* 1px solid gray;  */
     <span class="dropdown-toggle" data-toggle="dropdown" style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; margin-left: 1.2%;">숙소변경하기
     <span class="caret"></span></span>
 	    <ul class="dropdown-menu" style="width: 45%; font-size: 15pt; ">
-	      <li style="border-bottom: 1px solid gray; padding: 2%;">
-		      <img src="<%=request.getContextPath() %>/resources/images/검색.JPG" style="cursor: pointer; margin-left: 3%;"/>
-		      <input type="text" id="search" style="border: 0px; margin-left: 2%; font-size: 12pt;" value="숙소 검색"/>
+	      <li style="border-bottom: 1px solid gray; padding-bottom: 1%;" >
+		     <div id="searchbar">
+               <div id="logoDiv">
+               	<img src="<%= request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px">
+               </div>
+               <input type="text" name="search" id="searchInput" placeholder="검색">
+            </div>
 	      </li>
 	      <li style="border-bottom: 1px solid gray; padding: 2%;">
 		      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">모든숙소</span></a>
-
 	      </li><!-- 숙소 리스트로 -->
 	      <c:forEach var="room" items="${roomList }">
-		      <li style=" padding: 2%;" onclick="goRoomEdit('${room.roomcode}')">
+		      <li style=" padding: 1%;" onclick="goRoomEdit('${room.roomcode}')">
 			      <a ><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
 			      <c:if test="${room.roomstatus == 1 }">
 			      	<span style="font-size: 11pt;">운영중</span>

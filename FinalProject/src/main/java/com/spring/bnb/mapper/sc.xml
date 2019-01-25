@@ -30,6 +30,7 @@
 		select img
 		from roomimg
 		where fk_roomcode = #{roomcode}
+		order by roomimg_idx
 	</select>
 	
 	<resultMap type="HashMap" id="optionList">
@@ -47,5 +48,10 @@
 		insert into roomImg(roomImg_idx, fk_roomcode, img)
 		values(roomimg_idx_seq.nextval, #{roomcode}, #{newFilename})
 	</insert>
+	
+	<delete id="deleteFile" parameterType="String">
+		delete roomimg
+		where img = #{imgfilename}
+	</delete>
 	
 </mapper>

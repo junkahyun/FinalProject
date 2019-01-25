@@ -31,4 +31,9 @@ public class SCService implements InterSCService {
 	@Override
 	public void setRoomImg(HashMap<String, String> paraMap) {
 		dao.setRoomImg(paraMap);
+	}
+	//룸이미지 삭제하기
+	@Override
+	public void deleteFile(String imgfilename) {
+		dao.deleteFile(imgfilename);		
 	}}

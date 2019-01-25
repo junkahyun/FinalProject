@@ -14,4 +14,6 @@ public interface InterSCService {
 	RoomVO getRoomInfo(String roomcode); // 룸정보 가져오기 
 
 	void setRoomImg(HashMap<String, String> paraMap);//룸이미지 추가하기
+
+	void deleteFile(String imgfilename);// 룸이미지 삭제하기 
 }

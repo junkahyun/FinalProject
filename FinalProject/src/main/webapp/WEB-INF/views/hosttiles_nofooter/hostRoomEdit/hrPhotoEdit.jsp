@@ -155,11 +155,12 @@ div {
 		$("#imgfile").on("change",ImgsFilesSelect);
 	});
 	
+	// =========== 이미지 파일 올리기 =============
 	var imgArr = []; // 이미지를 담을 배열 
 	function ImgsFilesSelect(e) {
 		imgArr = [];
 		 
-		$("#imgList").empty();
+		//$("#imgList").empty();
 		var files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		
@@ -172,46 +173,75 @@ div {
 			
 			imgArr.push(f);	
 			
-			var reader = new FileReader();
+			/* var reader = new FileReader();
 			reader.onload = function(e){
 				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
 				$("#imgList").append(html);
 				index++;
 			}
-			reader.readAsDataURL(f);
+			reader.readAsDataURL(f); */
 			
 		});
-		
 		submitPhoto();
-	} 
-	
-	function removePhoto(index){
-		imgArr.splice(index,1);
-		var imgbox = "#imgbox"+index;
-		$(imgbox).remove();
-		$("#imgfile").val("");
-	}
-	
-	function cancel() {
-		window.location.reload();
 	}
 	
 	function submitPhoto() {
+	
 		var form_data = new FormData($("#fileUpimg")[0]);
-		
+
 		$.ajax({
 			url:"imgfileupload.air",
 			type:"POST",
 			data: form_data,
 			contentType:false,
 	        processData:false,
-	        success:function(html){
+	        dataType:"JSON",
+	        success:function(json){
 	        	alert("파일 업로드 저장 완료.");
+	        	var resultHTML = "";	
+	        	$.each(json,function(entryIndex, entry){
+					resultHTML += "<div class='col-md-2'>"+
+								"<img class='img-thumbnail' alt='' src='resources/images/"+entry.roomImgList+"'/><a onclick='deletePhoto('"+entry.roomImgList+"');'>삭제하기</a>"+
+								"</div><br>";
+				});// end of each
+				
+	        	$("#imgs").empty().html(resultHTML);
+	        	location.reload();
 	        },
 	        error:function(){
 	            
 	        }
 		});
+	}
+	
+	function deletePhoto(Img){
+		
+		var form_data = {"img":Img, "roomcode":"${roomvo.roomcode}"};
+		
+		$.ajax({
+			url:"imgfiledelete.air",
+			type:"POST",
+			data: form_data,
+	        dataType:"JSON",
+	        success:function(json){
+	        	alert("파일 삭제 완료.");
+	        	var resultHTML = "";	
+	        	$.each(json,function(entryIndex, entry){
+					resultHTML += "<div class='col-md-2'>"+
+								"<img class='img-thumbnail' alt='' src='resources/images/"+entry.roomImgList+"'/><a onclick='deletePhoto('"+entry.roomImgList+"');'>삭제하기</a>"+
+								"</div><br>";
+				});// end of each
+	        	$("#imgs").empty().html(resultHTML);
+	        	location.reload();
+	        },
+	        error:function(){
+	            
+	        }
+		});
+	}
+	
+	function changeCover(Img){
+		
 	}
 	
 </script>
@@ -227,18 +257,20 @@ div {
 
  <div class="col-md-3">
  	<span style="font-weight: bold;">커버사진</span>
- 	<a><span style="margin-left: 60%;">변경</span></a>
+ 	<a data-toggle="modal" data-target="#myModal">
+ 		<span style="margin-left: 60%;">변경</span>
+ 	</a>
 </div>
 
 <form id="fileUpimg" name="fileUpimg" enctype="multipart/form-data">
-	<input type="hidden" name="roomcode" value="${roomvo.roomcode }">
+	<input type="hidden" name="roomcode" value="${roomvo.roomcode }"/>
 	<div class="col-md-12 photodiv">
 		<hr align="left">
 		<h3 align="left" style="font-weight: bold;">사진정렬</h3>
-			<div id="imgList" class="row">
+			<div id="imgs" class="row">
 				<c:forEach var="room" items="${roomvo.roomimgList }">
 					<div class="col-md-2">
-						<img alt="" src="/resources/${room.roomImgList}" />
+						<img class='img-thumbnail' alt="" src="resources/images/${room.roomImgList}"/><a onclick="deletePhoto('${room.roomImgList}','${roomvo.roomMainImg}');">삭제하기</a>
 					</div>
 				</c:forEach>
 			</div>
@@ -247,19 +279,41 @@ div {
 				<input type="file" id="imgfile" name="imgfile" accept="image/*" multiple/>	
 			</div>
 			<hr align="left">
-			<div class="row" style="margin-top: 2%; margin-bottom: 2%;">
-				<div class="col-md-1">
-					<input class="btn" type="button" value="저장하기" style="background-color: #008489; color: #f0f0f0;" onclick="submitPhoto();"/>
-				</div>
-				
-				<div class="col-md-1">
-					<input class="btn" type="button" value="취소하기" style="color: #008489;" onclick="cancel();"/>
-				</div>
-			</div>
 	</div>
 </form>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog" align="center">
+	<div class="modal-dialog">
 
-	
-	
+		<!-- Modal content-->
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">커버 사진 변경</h4>
+			</div>
+			<div class="modal-body" style=" width: auto;">
+				<div>
+					<img class="img-thumbnail" alt="" src="${roomvo.roomMainImg }">
+					<hr align="center" style="width: 100%;">
+					<h3 align="left" style="font-weight: bold;">사진선택</h3>
+					<div id="imgs" class="row">
+						<c:forEach var="room" items="${roomvo.roomimgList }">
+							<div class="col-md-3" style="margin-bottom: 1%;">
+								<img class='img-thumbnail' alt="" src="resources/images/${room.roomImgList}" onclick="changeCover('${roomvo.roomimgList }');"/>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
 

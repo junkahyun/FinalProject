@@ -12,6 +12,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,13 +102,14 @@ public class SCController {
 	public String imgfileupload(MultipartHttpServletRequest req) throws IllegalStateException, IOException {
 		
 		String roomcode = req.getParameter("roomcode");
-		System.out.println("roomcode3 : "+roomcode);
+		//System.out.println("roomcode3 : "+roomcode);
 		
 		// 저장 경로 설정
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "resources" + File.separator+ "images";
-		System.out.println(path);
+		String path = root + "resources" + File.separator+ "images";		
+		//System.out.println("root"+root);
+		//System.out.println(path);
 		File dir = new File(path);
 		if (!dir.isDirectory()) {
 			dir.mkdir();
@@ -116,7 +119,7 @@ public class SCController {
 		
 		for(int i=0; i<mfList.size(); i++) {
 			String filename = mfList.get(i).getOriginalFilename();
-			System.out.println(filename);
+			//System.out.println(filename);
 			
 			String newFilename = null;
 			String fileExt = filename.substring(filename.lastIndexOf(".")); 
@@ -127,9 +130,9 @@ public class SCController {
 					         Calendar.getInstance());
 			newFilename += System.nanoTime();
 			newFilename += fileExt;			
-			System.out.println(newFilename);
+			//System.out.println(newFilename);
 			
-			mfList.get(i).transferTo(new File(path+newFilename));
+			mfList.get(i).transferTo(new File(path+File.separator+newFilename));
 			HashMap<String,String> paraMap = new HashMap<String,String>();
 			paraMap.put("roomcode", roomcode);
 			paraMap.put("newFilename", newFilename);
@@ -137,8 +140,61 @@ public class SCController {
 			service.setRoomImg(paraMap);
 		}
 		
-		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
+		RoomVO roomvo = service.getRoomInfo(roomcode);
+		List<String> roomimgList = roomvo.getRoomimgList();
+		
+		JSONArray jsonArr = new JSONArray(); // [] null이 아니다.
+		//JSONObject jsonobj = new JSONObject();
+		for(int i=0; i<roomimgList.size(); i++) {
+			//jsonobj.put("roomimg", roomimgList.get(i));
+			//System.out.println(jsonobj);
+			jsonArr.put(roomimgList.get(i));
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		
+		return "JSON";
+		
+		//return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
+	
+	@RequestMapping(value = "/imgfiledelete.air", method = { RequestMethod.POST })
+	public String imgfiledelete(HttpServletRequest req){
+		
+		String imgfilename = req.getParameter("img");
+		String roomcode = req.getParameter("roomcode");
+		System.out.println(imgfilename);
+		System.out.println(roomcode);
+		
+		HttpSession session = req.getSession();
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "resources" + File.separator+ "images";	
+		File file = new File(path+File.separator+imgfilename);
+		System.out.println(file);
+		
+		if(file.exists()) {
+			file.deleteOnExit();
+			service.deleteFile(imgfilename);
+			
+			RoomVO roomvo = service.getRoomInfo(roomcode);
+			List<String> roomimgList = roomvo.getRoomimgList();
+			
+			JSONArray jsonArr = new JSONArray(); // [] null이 아니다.
+			//JSONObject jsonobj = new JSONObject();
+			for(int i=0; i<roomimgList.size(); i++) {
+				//jsonobj.put("roomimg", roomimgList.get(i));
+				//System.out.println(jsonobj);
+				jsonArr.put(roomimgList.get(i));
+			}
+			//System.out.println(jsonArr);
+			String str_json = jsonArr.toString();
+			req.setAttribute("str_json", str_json);
+		}
+		
+		return "JSON";
+	}
+	
+	
 
 	// 호스트 숙소세부사진 수정
 	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = { RequestMethod.GET })

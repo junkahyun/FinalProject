@@ -36,7 +36,7 @@ public class SCDAO implements InterSCDAO {
 
 		List<String> roomimgList = sqlsession.selectList("sc.getRoomImgList", roomcode);// 숙소 사진 리스트
 		roomvo.setRoomimgList(roomimgList);
-		
+	
 		List<HashMap<String,String>> optionList = sqlsession.selectList("sc.getRoomOptionList", roomcode); // 숙소 옵션 리스트
 		roomvo.setOptionList(optionList);
 		
@@ -48,6 +48,12 @@ public class SCDAO implements InterSCDAO {
 	@Override
 	public void setRoomImg(HashMap<String, String> paraMap) {
 		sqlsession.insert("sc.setRoomImg", paraMap);
+	}
+
+	//룸이미지 삭제하기
+	@Override
+	public void deleteFile(String imgfilename) {
+		sqlsession.delete("sc.deleteFile", imgfilename);	
 	}
 
 	
