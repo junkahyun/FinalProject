@@ -116,8 +116,7 @@ from(
     on A.roomcode = B.fk_roomcode
     join member C
     on B.fk_userid = C.userid 
-    group by roomcode, (roomcode), roomcode, roomcode, roomcode, 
-    roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
+    group by roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
     rownum
 )V
 where RNO between 1 and 7;
@@ -141,16 +140,31 @@ select ROWNUM, ROOMCODE, ROOMNAME, ROOMMAINIMG, ROOMPRICE, PROFILEIMG
 
 
 insert into room(ROOMCODE, FK_USERID, fk_buildType_detail_idx, FK_ROOMTYPE_IDX, ROOMNAME, ROOMMAINIMG, ROOMTEL, ROOMINFO, ROOMPOST, 
-                 ROOMSIGUNGU, ROOMSIDO, ROOMDETAILADDR, ROOMBNAME, ROOMPRICE, PEAKPER, CLEANPAY, BASIC_PERSON, MAX_PERSON, PERSON_ADDPAY, 
+                 ROOMSIDO,ROOMSIGUNGU,  ROOMBNAME , ROOMDETAILADDR, ROOMPRICE, PEAKPER, CLEANPAY, BASIC_PERSON, MAX_PERSON, PERSON_ADDPAY, 
                  ROOMCOUNT, BATHCOUNT, CHECKINTIME,
-                 CHECKOUTTIME, LATITUDE, LONGITUDE, VIEWCOUNT, ROOMSTATUS, ROOM_WARNCOUNT) 
+                 CHECKOUTTIME, LATITUDE, LONGITUDE, VIEWCOUNT, ROOMSTATUS, ROOM_WARNCOUNT, ROOMIMGFILENAME) 
 values(ROOMCODE_seq.nextval,
-       'leess', 3, 3, '작고 밝은 공간 昭小 (소소)',
-       'https://a0.muscache.com/im/pictures/046b64d7-b014-43a4-8e0e-af8b1de82bad.jpg?aki_policy=xx_large',
-       123456789,
-       '작고 밝은 공간이라는 뜻의 昭小(소소) 입니다. 광주로 여행 오신 분들 뿐만 아니라 일상을 벗어나 혼자만의 시간을 갖고 싶으신 분들이 조용히 책도 보고 생각을 정리하며 편히 쉬었다 갈수 있는 공간이 되었으면 합니다. ', 48303,
-       '광주', '광주광역시','광주광역시 서구', '농성2동', 300000,20,50000,4,6,20000,4,2,to_date('2019/01/20 13:00:00','yyyy/mm/dd hh24:mi:ss'),to_date('2019/01/30 13:00:00','yyyy/mm/dd hh24:mi:ss'),35.153572, 126.883984,default,default,default);
+       'daiunii', 3, 3, 'Joy HouseA',
+       'https://a0.muscache.com/im/pictures/6d077dd4-fb9a-4f79-b5e6-2da65189a8db.jpg?aki_policy=xx_large',
+       1231561,
+       '직접 전 세계 여행을 했었던 소품들로 가득 개인의 소중한 추억들이 담겨있는 방 세계여행 소품으로 꾸며진 MOMOROOM 입니다. '
+       , 15134,
+       '인천광역시', '중구','인현동', '20-6', 30500, 20, 50000, 4, 6, 20000, 4, 2, 
+       to_date('2019/01/20 18:00:00','yyyy/mm/dd hh24:mi:ss'),
+       to_date('2019/01/30 13:00:00','yyyy/mm/dd hh24:mi:ss'),
+       37.475218, 126.630540,default,default,default,
+       'aceguesthouse.jpg');
+       
 commit;
+
+select *
+from member;
+
+select ROOMCODE, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, ROOMDETAILADDR
+from room;
+
+update room set ROOMBNAME = '화정동' , ROOMDETAILADDR = '185-10'
+where roomcode = 23;
 
 desc room;
 
@@ -181,21 +195,107 @@ from dual;
  from review A JOIN room B
  on A.fk_roomcode = B.roomcode;
  
-select RNO, FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG, rownum as RNO
+select FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG
 from 
 (select A.FK_USERID, REVIEW_CONTENT, ROOMNAME, REVIEW_WRITEDATE, PROFILEIMG
 from review A JOIN room B
 on A.fk_roomcode = B.roomcode
 JOIN member C
-on B.fk_userid = C.userid
-order by viewcount desc
+on B.fk_userid = C.userid 
+order by to_date(REVIEW_WRITEDATE,'yyyy-mm-dd hh24:mi:ss') desc
 )V
-where RNO between 1 and 2;
+where rownum between 1 and 2;
 
 select *
+<<<<<<< HEAD
 from roomimg
 where fk_roomcode = 10; 
 
 commit;
 
 
+=======
+from review A join room B
+on A.fk_roomcode = B.roomcode;
+
+update review set review_content = '1. 화장실이 조금 좁아요 (+수건걸이가 샤워기에 조금 더 떨어져 있으면 좋겠어요.) 2. 주방이 분리되어 있어서 음식하는냄새가 안들어와서 좋아요. 3. 침대가 넓어서 두명도 다 사용할수 있어요! 4. 보일러가 올라오는게 조금 늦어요♥ 5. 큰거울이 있어서 너무 편했어요. 6. 곳곳에 게스트분들을 위해서 준비해놓게 너무 기분 좋았어요! +7. 버스터미널이랑 가까우니깐 광주여행 오신분들은 꼭 이용하셨으면 좋겠어요^^'
+where fk_roomcode = 23;
+commit;
+
+select roomsido, roomsigungu, roombname, latitude,longitude
+from room;
+
+select *
+from member; 
+
+update room set roomsido = '광주광역시' , roomsigungu = '서구 ' ,roombname = '화정동 185-10'
+where latitude = 35.153572 and longitude = 126.883984;
+commit;
+
+
+select roommainimg, roomname, roomsido, roomsigungu, roombname, username, roomprice
+from room A JOIN member B
+on A.fk_userid = B.userid;
+
+desc room;
+
+select *
+from room;
+
+
+select *
+from member;
+
+select ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, RNO
+from(
+    select ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE, ROWNUM AS RNO
+    from(
+        select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMSIDO, ROOMSIGUNGU, ROOMBNAME, USERNAME, ROOMPRICE
+        from room A JOIN member B
+        on A.fk_userid = B.userid
+        where A.ROOMSTATUS = 1
+        order by ROOMCODE desc
+        
+    ) 
+)
+where RNO between 1 and 10;
+
+
+select *
+from review;
+
+
+select *
+from reservation;
+
+select *
+from(
+select nvl(REVIEW_IDX, -9999) as REVIEW_IDX
+from review A RIGHT JOIN reservation B
+on A.F = B.FK_USERID
+)
+where review_idx = -9999 ;
+
+update room set roomstatus = 0
+where roomcode = 23;
+
+select roomstatus
+from room
+where roomcode = 23;
+
+rollback;
+
+select *
+from member;
+
+update member set userid = 'admin'
+where username ='leess';
+
+select *
+from room
+order by roomcode desc;
+
+update room set ROOMSTATUS = 99
+where ROOMCODE in (24,25,26);
+commit;
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

@@ -26,9 +26,9 @@ public class SODAO implements InterSODAO {
 
 	// 나의 쿠폰 리스트 가져오기
 	@Override
-	public List<HashMap<String, String>> getMyCoupon(String loginuser) {
+	public List<HashMap<String, String>> getMyCoupon(HashMap<String,String> paraMap) {
 		
-		List<HashMap<String, String>> getMyCoupon = sqlsession.selectList("cso.getMyCoupon",loginuser);
+		List<HashMap<String, String>> getMyCoupon = sqlsession.selectList("cso.getMyCoupon",paraMap);
 		return getMyCoupon;
 	}
 
@@ -149,6 +149,27 @@ public class SODAO implements InterSODAO {
 		 int n = sqlsession.update("cso.goCancelMyRsv",map);
 
 		return n;
+	}
+
+	
+	// 나의 쿠폰 리스트 페이징 처리를 위한 전체 갯수 불러오기
+	@Override
+	public int getTotalCount(String userid) {
+		int count = sqlsession.selectOne("cso.getTotalCount",userid);
+		return count;
+	}
+	// 나의 사용한 쿠폰 리스트
+	@Override
+	public List<HashMap<String, String>> getMyUseCoupon(HashMap<String, String> paraMap) {
+		List<HashMap<String,String>> myUseList = sqlsession.selectList("cso.getMyUseCoupon",paraMap);
+		return myUseList;
+	}
+
+	// *** 사용한 쿠폰 총 갯수 ***
+	@Override
+	public int getUseTotalCount(String userid) {
+		int count = sqlsession.selectOne("cso.getUseTotalCount", userid);
+		return count;
 	}
 
 

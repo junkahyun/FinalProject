@@ -18,40 +18,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
+import com.spring.bnb.service.InterHYService;
+
+
 import com.spring.bnb.service.InterSCService;
-import com.spring.common.AES256;
 
 @Controller
 public class SCController {
 
 	@Autowired
-	private InterSCService service;
+	private InterSCService service; 
 
-	@Autowired
-	private AES256 aes;
+	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
+	public String hostroomList() {
 
-	// 호스트 숙소 리스트
-	@RequestMapping(value = "/hostroomList.air", method = { RequestMethod.GET })
-	public String hostroomList(HttpServletRequest req) {
-		List<RoomVO> roomList = null;
-
-		/*
-		 * HttpSession session = req.getSession(); MemberVO loginuser =
-		 * (MemberVO)session.getAttribute("loginuser"); String userid = null;
-		 * if(loginuser != null) { userid = loginuser.getUserid(); }
-		 */
-		String userid = null;
-		userid = "leess";
-
-		roomList = service.getRoomList(userid);
-		System.out.println(userid);
-		req.setAttribute("roomList", roomList);
 		return "host/hostroomList.hosttiles";
 	}
 

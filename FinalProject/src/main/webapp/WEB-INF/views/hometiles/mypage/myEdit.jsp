@@ -238,7 +238,7 @@ function codeCheckFun() {
 			   <div class="col-md-2" style="margin:0; align-items: center;">
 				   <!--  user 이미지 보이기 -->
 				     <input type="hidden" name="profileimg" id="profileimgorg" value="${myInfo.profileimg}">
-				     <img src="<%= ctxPath %>/resources/images/${myInfo.profileimg}" id="img" style="border-radius:100%; border: 1px solid lightgray; background-color: lightgray;" width="80%"/>
+				     <img src="${realPath}/resources/images/${myInfo.profileimg}" id="img" style="border-radius:100%; border: 1px solid lightgray; background-color: lightgray;" width="80%"/>
 					<!--  user 이미지 보이기 끝-->
 					<!--  유저 이미지 변경 -->
 					 <div class="filebox preview-image" id="filebox">
