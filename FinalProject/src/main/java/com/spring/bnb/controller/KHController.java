@@ -42,8 +42,8 @@ public class KHController {
 		String babyCount = req.getParameter("babyCount");
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");*/
-		
-		String roomcode = "10";
+	
+		String roomcode = "24";
 		String guestCount = "2";
 		String babyCount = "1";
 		
