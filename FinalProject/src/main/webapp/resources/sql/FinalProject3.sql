@@ -594,26 +594,29 @@ select *
 from room
 where roomcode = 10 and not exists(select rule_idx
                                    from allrule
-                                   where rule_idx in (select rule_idx from allrule where rule_name in ('흡연가능','이벤트 및 행사가능'))
+                                   where rule_idx in (select rule_idx from allrule where rule_name in ('반려동물 입실가능','이벤트 및 행사가능'))
                                    minus                  
                                    select fk_rule_idx
                                    from roomrule
                                    where fk_roomcode = 10 )
                     and not exists (select option_idx
                                     from options
-                                    where option_idx in (select option_idx from options where optionname in ('난방','에어컨','구급상자','주차공간'))
+                                    where option_idx in (select option_idx from options where optionname in ('난방','에어컨','TV','주차공간'))
                                     minus
                                     select fk_option_idx
                                     from roomoption
                                     where fk_roomcode = 10)
                     and not exists (select roomtype_idx
                                     from roomtype
-                                    where roomtype_idx in (select roomtype_idx from roomtype where roomtype_name in ('집 전체'))
+                                    where roomtype_idx in (select roomtype_idx from roomtype where roomtype_name in ('집 전체', '다인실'))
                                     minus
                                     select fk_roomtype_idx 
                                     from room
                                     where roomcode = 10)
-
+                         
+select*from allrule;
+select*from roomrule;
+select*from room where roomcode = (select fk_roomcode from roomrule A join allrule B on A.fk_rule_idx=B.rule_idx where rule_name ='이벤트 및 행사가능')
 
 -- 난방 에어컨 구급상자 주차공간
 -- 집전체
