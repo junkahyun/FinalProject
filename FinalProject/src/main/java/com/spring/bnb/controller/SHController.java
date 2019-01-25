@@ -48,35 +48,6 @@ public class SHController {
 	// 관리자 회원관리 페이지(페이징처리 전)
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
-		
-		List<MemberVO> memberList = new ArrayList<MemberVO>();
-		
-		memberList = service.getMemberList();
-		
-		String searchWord = req.getParameter("searchWord");
-		String searchType = req.getParameter("searchType");
-
-		if(searchType == null) {
-			searchType = "username";
-		}
-		if(searchWord == null) {
-			searchWord = "";
-		}
-		
-		if(!"username".equals(searchType) &&
-		   !"userid".equals(searchType) &&
-		   !"addr".equals(searchType) ) {
-			searchType = "username";
-		}
-		
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("searchWord", searchWord);
-		paraMap.put("searchType", searchType);
-		
-		List<MemberVO> searchMember = service.getSearchMember(paraMap);
-		
-		req.setAttribute("memberList", memberList);
-		req.setAttribute("searchMember", searchMember);
 
 		return "admin/adminMember.admintiles";
 	}
@@ -86,78 +57,125 @@ public class SHController {
 	@RequestMapping(value="/adminMemberJSON.air", method= {RequestMethod.GET})
 	public String adminMemberJSON(HttpServletRequest req) {
 		
-		List<MemberVO> memberList = new ArrayList<MemberVO>();
+		HashMap<String, String> paraMap = null;
 		
-		memberList = service.getMemberList();
-		
+		String currentShowPageNo = req.getParameter("currentShowPageNo");
 		String searchWord = req.getParameter("searchWord");
 		String searchType = req.getParameter("searchType");
-
-		if(searchType == null) {
-			searchType = "username";
-		}
-		if(searchWord== null) {
+		
+		if(searchWord == null) {
 			searchWord = "";
 		}
 		
 		if(!"username".equals(searchType) &&
 		   !"userid".equals(searchType) &&
-		   !"addr".equals(searchType) ) {
+		   !"addr".equals(searchType) &&
+		   searchType == null) {
 			searchType = "username";
 		}
 		
-		HashMap<String, String> paraMap = new HashMap<String, String>();
+		if(currentShowPageNo == null || "".equals(currentShowPageNo)) {
+			currentShowPageNo = "1";
+		}
+		
+		int sizePerPage = 10;	// 한 페이지당 보여줄 갯수
+		
+		int rno1 = Integer.parseInt(currentShowPageNo)*sizePerPage - (sizePerPage-1);	// 공식!!!
+		int rno2 = Integer.parseInt(currentShowPageNo)*sizePerPage;	
+		// System.out.println(sizePerPage);
+		// System.out.println(rno1);
+		// System.out.println(rno2);
+		
+		
+		paraMap = new HashMap<String, String>();
+		paraMap.put("RNO1", String.valueOf(rno1));
+		paraMap.put("RNO2", String.valueOf(rno2));
+
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("searchType", searchType);
 		
 		List<MemberVO> searchMember = service.getSearchMember(paraMap);
 		
 		JSONArray jsonArr = new JSONArray();
-		
-		if(searchMember == null) {
 			
-			for(int i=0; i<memberList.size(); i++) {
-				
-				JSONObject jsonObj = new JSONObject();
-				
-				jsonObj.put("USERID", memberList.get(i).getUserid());
-				jsonObj.put("USERNAME", memberList.get(i).getUsername());
-				jsonObj.put("BIRTHDAY", memberList.get(i).getBirthday());
-				jsonObj.put("GENDER", memberList.get(i).getGender());
-				jsonObj.put("PHONE", memberList.get(i).getPhone());
-				jsonObj.put("ADDR", memberList.get(i).getAddr());
-				jsonObj.put("DETAILADDR", memberList.get(i).getDetailAddr());
-				
-				jsonArr.put(jsonObj);
-			}
+		for(int i=0; i<searchMember.size(); i++) {
 			
-			String str_jsonArr = jsonArr.toString();
-			req.setAttribute("str_jsonArr", str_jsonArr);
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("USERID", searchMember.get(i).getUserid());
+			jsonObj.put("USERNAME", searchMember.get(i).getUsername());
+			jsonObj.put("BIRTHDAY", searchMember.get(i).getBirthday());
+			jsonObj.put("GENDER", searchMember.get(i).getGender());
+			jsonObj.put("PHONE", searchMember.get(i).getPhone());
+			jsonObj.put("ADDR", searchMember.get(i).getAddr());
+			jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
+			
+			jsonArr.put(jsonObj);			
+			
 		}
 		
-		else if(searchMember != null) {
-			
-			for(int i=0; i<searchMember.size(); i++) {
-				
-				JSONObject jsonObj = new JSONObject();
-				
-				jsonObj.put("USERID", searchMember.get(i).getUserid());
-				jsonObj.put("USERNAME", searchMember.get(i).getUsername());
-				jsonObj.put("BIRTHDAY", searchMember.get(i).getBirthday());
-				jsonObj.put("GENDER", searchMember.get(i).getGender());
-				jsonObj.put("PHONE", searchMember.get(i).getPhone());
-				jsonObj.put("ADDR", searchMember.get(i).getAddr());
-				jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
-				
-				jsonArr.put(jsonObj);			
-				
-			}
-			
-			String str_jsonArr = jsonArr.toString();
-			req.setAttribute("str_jsonArr", str_jsonArr);
-		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
 
-		return "admintiles/admin/adminMemberJSON";
+		return "JSON";
+	}
+	
+	
+	@RequestMapping(value="/getTotalPage.air", method={RequestMethod.GET})
+	public String getCommentTotalPage(HttpServletRequest req) {
+		
+		HashMap<String, String> paraMap = null;
+		
+		String currentShowPageNo = req.getParameter("currentShowPageNo");
+		String sizePerPage = "10";
+		
+		if(currentShowPageNo == null || "".equals(currentShowPageNo)) {
+			currentShowPageNo = "1";
+		}
+		
+		paraMap = new HashMap<String, String>();
+		
+		String searchWord = req.getParameter("searchWord");
+		String searchType = req.getParameter("searchType");
+
+		if(searchWord== null) {
+			searchWord = "";
+		}
+		
+		if(!"username".equals(searchType) &&
+		   !"userid".equals(searchType) &&
+		   !"addr".equals(searchType) &&
+		   searchType == null) {
+			searchType = "username";
+		}
+		
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("searchType", searchType);
+		paraMap.put("sizePerPage", sizePerPage);
+		// System.out.println(searchWord);
+		// System.out.println(searchType);
+		
+		
+		int totalCount = service.getTotalCount(paraMap);
+		// 원글 글번호에 해당하는 댓글의 총 갯수를 알아온다.
+		// System.out.println(totalCount);
+		// System.out.println(sizePerPage);
+		// 총 페이지 수 구하기
+		int totalPage = (int)Math.ceil((double)totalCount/Integer.parseInt(sizePerPage));
+		/*
+		 	57.0(행갯수)/10(sizePerPage) ==> 5.7 ==> 6.0 ==> 6
+		 	57.0(행갯수)/5(sizePerPage) ==> 11.4 ==> 12.0 ==> 12
+		 	57.0(행갯수)/3(sizePerPage) ==> 19.0 ==> 19.0 ==> 19
+		*/
+		// System.out.println("총페이지 보여주세요:"+totalPage);
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("totalPage", totalPage);
+		
+		String totalPageJSON = jsonObj.toString();
+		
+		req.setAttribute("totalPage", totalPageJSON);
+		return "totalPageJSON";
+		
 	}
 	
 	// 관리자 회원상세 페이지
@@ -192,7 +210,17 @@ public class SHController {
 		}
 	
 	}
-	 
+	
+	@RequestMapping(value="/adminMemberDel.air", method= {RequestMethod.GET})
+	public String adminMemberDel(HttpServletRequest req) {
+		
+		String userid = req.getParameter("useridDel");
+		
+		int n = service.adminDeleteMember(userid);
+		
+		return "admin/adminMember.admintiles";
+	}
+	
 	// 관리자 신고관리 페이지
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {

@@ -14,14 +14,14 @@
 	
 	$(document).ready(function(){
 		
-		goSearch();
+		goSearch("1");
 		
 		$("#searchWord").keydown(function(event){
 			
 			if(event.keyCode == 13) {	// 엔터를 했을 경우
 				
 				var addrSearch = $(this).val();
-				goSearch(addrSearch);
+				goSearch("1");
 				
 				return false;
 			}
@@ -52,7 +52,6 @@
 						}else{
 							genderTD = "<td>여자</td>";
 						}
-						
 						 html += "<tr>"+
 								   "<td><a href='memberDetail.air?userid="+entry.USERID+"'>"+entry.USERNAME+"</a></td>"+
 								   "<td>"+entry.USERID+"</td>"+
@@ -60,10 +59,12 @@
 								   genderTD+
 								   "<td>"+entry.PHONE+"</td>"+
 								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
-								   " <td><button type='button' class='btn btn-danger' >삭제</button></td>"+
+								   "<td><button type='button' class='btn btn-danger' onClick='goDelete(\""+entry.USERID+"\");'>삭제</button></td>"+
 								   "</tr>"; 
+								   
 						$("#result").html(html);
 						
+						makePageBar(currentShowPageNo);
 						
 					});
 				}
@@ -75,11 +76,99 @@
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 		});
-		
-
 	}	
 	
-	makePageBar
+	// ==== 댓글내용 페이지바 Ajax로 만들기
+	function makePageBar(currentShowPageNo) {
+		
+		var searchWord = $("#searchWord").val().trim();
+		var searchType = $("#searchType").val().trim();
+		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
+		
+		$.ajax({
+			url:"<%=request.getContextPath()%>/getTotalPage.air",
+			type:"GET",
+			data:data_form,
+			dataType:"JSON",
+			success:function(json){
+				
+				var totalPage = json.totalPage;
+				
+				if(totalPage > 0) {
+					// 댓글이 있는 경우
+					
+					var pageBarHTML = "";
+
+					var blockSize = 10;
+					// blockSize는 1개 블럭(토막)당 보여지는 페이지 번호의 갯수이다.
+					
+					var loop = 1;
+					/*
+						loop는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 갯수이다.
+						증가하는 용도이다
+					*/
+					
+					var pageNo = Math.floor((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+					
+					
+					// **** [이전] 만들기 ***** //
+					if( pageNo != 1 ) {
+						
+						pageBarHTML += "&nbsp;<a href='javascript:goSearch(\""+(pageNo-1)+"\");'>[이전]</a>&nbsp;";
+						
+					}
+					
+					//--------------------------------//
+					while(! (loop > blockSize || pageNo > totalPage) ) {
+						
+						if(pageNo == currentShowPageNo) {
+							// 현재 내가 보는 페이지와 똑같다면
+							pageBarHTML += "&nbsp;<span style='color:red; font-weight: bold; text-decoration:underline;'>"+pageNo+"</span>&nbsp;";
+						}
+						else {
+							pageBarHTML += "&nbsp;<a href='javascript:goSearch(\""+pageNo+"\");'>"+pageNo+"</a>&nbsp;";
+						}
+						
+						loop++;
+						pageNo++;
+						
+					}// end of while()----------------
+					
+					//--------------------------------//
+					
+					// **** [다음] 만들기 ***** //
+					if( !(pageNo > totalPage) ) {
+						
+						pageBarHTML += "&nbsp;<a href='javascript:goSearch(\""+pageNo+"\");'>[다음]</a>&nbsp;";
+						
+					}
+					
+					//////////////////////////////
+					$("#pageBar").empty().html(pageBarHTML);
+					pageBarHTML = "";
+				}
+				else {
+					// 댓글이 없는 경우(안해도 괜찮음)
+					$("#pageBar").empty();
+				}
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+		}); 
+		
+	} // end of makeCommentPageBar ---------------
+
+	function goDelete(userid) {
+
+		var delFrm = document.delFrm;
+		delFrm.useridDel.value = userid;
+		delFrm.method = "GET";
+		delFrm.action = "<%=request.getContextPath()%>/adminMemberDel.air"
+		delFrm.submit();
+		
+	}
 	
 </script>
 <style type="text/css">
@@ -99,36 +188,40 @@
 	
 	<div class="container">	
 		<div class="row">
-			<div class="col-md-12" style="border: 0px solid gray;"> 
-				<table class="memberList table table-hover">
-						<col width="10%;"/>
-						<col width="10%;"/>
-						<col width="10%;"/> 
-						<col width="10%"/>
-						<col width="10%"/>
-						<col width="20%"/>
-						<col width="15%"/>
-						<col width="5%"/>
-					  <thead>
-					    <tr>
-					      <th>이름</th>
-					      <th>아이디</th>
-					      <th>생년월일</th>
-					      <th>성별</th>
-					      <th>전화</th>
-					      <th>주소</th>
-					      <th>회원삭제</th>
-					    </tr>
-					  </thead>
-					  <tbody id="result">
-					  	
-					  </tbody>
-				</table>			
+			<div class="col-md-12" style="border: 0px solid gray;">
+				<form name="delFrm">
+					<table class="memberList table table-hover">
+							<col width="10%;"/>
+							<col width="10%;"/>
+							<col width="10%;"/> 
+							<col width="10%"/>
+							<col width="10%"/>
+							<col width="20%"/>
+							<col width="15%"/>
+							<col width="5%"/>
+						  <thead>
+						    <tr>
+						      <th>이름</th>
+						      <th>아이디</th>
+						      <th>생년월일</th>
+						      <th>성별</th>
+						      <th>전화</th>
+						      <th>주소</th>
+						      <th>회원삭제</th>
+						    </tr>
+						  </thead>
+						  <tbody id="result">
+						  	
+						  </tbody>
+					</table>
+					<input type="hidden" name="useridDel"/>
+				</form>	
 			</div>
 		</div>
 	</div>
 	
 	<form name="memberFrm">
+		<input type="hidden" id="useriddel" name="useriddel"/>
 		<div id="searchbar" style="text-align: center;">
 			<select id="searchType" name="searchType">
 				<option value="username">이름</option>
@@ -136,11 +229,15 @@
 				<option value="addr">주소</option>
 			</select>
 	        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style="" />
-	        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch();"/></span>
+	        
+	        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch('1');"/></span>
+	    	<div style="visibility:hidden;">
+	    		<input type="text" />
+	    	</div>
 	    </div>
 	</form>
 	
-	<div class="pageBar" style="text-align: center; margin: 2%;">
+	<div class="pageBar" id="pageBar"style="text-align: center; margin: 2%;">
 		
 	</div>
 	

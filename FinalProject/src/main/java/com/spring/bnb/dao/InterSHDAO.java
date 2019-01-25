@@ -9,7 +9,7 @@ import com.spring.bnb.model.ReportVO;
 public interface InterSHDAO {
 
 	// 검색없이 회원목록 보여주기
-	List<MemberVO> getMemberList();
+	// List<MemberVO> getMemberList(HashMap<String, String> paraMap);
 
 	// 검색해서 회원목록 보여주기
 	List<MemberVO> getSearchMember(HashMap<String, String> paraMap);
@@ -43,4 +43,10 @@ public interface InterSHDAO {
 
 	// 신고 글쓰기 insert하기
 	int vanAdd(HashMap<String, String> paramap);
+
+	// 검색조건에 맞는 회원 수 알아오기
+	int getTotalCount(HashMap<String, String> paraMap);
+
+	// memberList에서 회원삭제하기
+	int adminDeleteMember(String userid);
 }

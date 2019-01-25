@@ -5,19 +5,31 @@
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="sh">
 	
-	<select id="getMemberList" resultType="com.spring.bnb.model.MemberVO">
+	<!-- <select id="getMemberList" resultType="com.spring.bnb.model.MemberVO">
 		select userid, username, pwd, email, phone, post, addr, detailAddr, gender
-		    , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
-		from member
+		     , birthday, introduction, memberstatus, profileimg, warncount, regdate, rno
+		from
+		(
+		    select userid, username, pwd, email, phone, post, addr, detailAddr, gender
+		         , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate, rownum as rno
+		    from member
+		)v
+		where rno between #{RNO1} and #{RNO2}
 		order by regdate desc
-	</select>
+	</select> -->
 	
 	<select id="getSearchMember" parameterType="HashMap" resultType="com.spring.bnb.model.MemberVO">
 		select userid, username, pwd, email, phone, post, addr, detailAddr, gender
-		    , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate
-		from member
-		where 1=1
-		and ${searchType} like '%'|| #{searchWord} ||'%'
+		     , birthday, introduction, memberstatus, profileimg, warncount, regdate, rno
+		from
+		(
+		    select userid, username, pwd, email, phone, post, addr, detailAddr, gender
+		         , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate, rownum as rno
+		    from member
+		    where 1=1
+		    and ${searchType} like '%'|| #{searchWord} ||'%'
+		)v
+		where rno between #{RNO1} and #{RNO2}
 		order by regdate desc
 	</select>
 	
@@ -97,7 +109,8 @@
 		         , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate, rownum as rno
 		    from member
 		)v
-		where RNO between #{STARTRNO} and #{ENDRNO}
+		where ${searchType} like '%'|| #{searchWord} ||'%' 
+		and RNO between #{STARTRNO} and #{ENDRNO}
     </select>
 	
 	<!-- <insert id="add" parameterType="com.spring.bnb.model.ReportVO">
@@ -114,6 +127,17 @@
 		insert into report(report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, report_rsvcode)
 		values(REPORT_IDX_SEQ.nextval, #{fk_userid}, #{reporttype}, #{report_content}, sysdate, 0, #{report_subject}, #{report_rsvcode})
 	</insert>
+	
+	<select id="getTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from member
+		where ${searchType} like '%'|| #{searchWord} ||'%'
+	</select>
+	
+	<delete id="adminDeleteMember" parameterType="String">
+		delete from member
+		where userid = #{userid}
+	</delete>
 	
 	
 </mapper>

@@ -17,13 +17,13 @@ public class SHService implements InterSHService {
 	private InterSHDAO dao;
 
 	// 검색없이 회원목록 보여주기
-	@Override
-	public List<MemberVO> getMemberList() {
+	/*@Override
+	public List<MemberVO> getMemberList(HashMap<String, String> paraMap) {
 
-		List<MemberVO> memberList = dao.getMemberList();
+		List<MemberVO> memberList = dao.getMemberList(paraMap);
 		
 		return memberList;
-	}
+	}*/
 
 	// 검색해서 회원목록 보여주기
 	@Override
@@ -112,6 +112,23 @@ public class SHService implements InterSHService {
 	public int vanAdd(HashMap<String, String> paramap) {
 
 		int n = dao.vanAdd(paramap);
+		
+		return n;
+	}
+
+	// 검색조건에 맞는 회원 수 알아오기
+	@Override
+	public int getTotalCount(HashMap<String, String> paraMap) {
+		
+		int n = dao.getTotalCount(paraMap);
+		
+		return n;
+	}
+
+	@Override
+	public int adminDeleteMember(String userid) {
+		
+		int n = dao.adminDeleteMember(userid);
 		
 		return n;
 	}

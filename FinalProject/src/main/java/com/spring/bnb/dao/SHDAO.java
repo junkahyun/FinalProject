@@ -17,13 +17,13 @@ public class SHDAO implements InterSHDAO {
 	private SqlSessionTemplate sqlsession;
 
 	// 검색없이 회원목록 보여주기
-	@Override
-	public List<MemberVO> getMemberList() {
+	/*@Override
+	public List<MemberVO> getMemberList(HashMap<String, String> paraMap) {
 		
-		List<MemberVO> memberList = sqlsession.selectList("sh.getMemberList");
+		List<MemberVO> memberList = sqlsession.selectList("sh.getMemberList", paraMap);
 		
 		return memberList;
-	}
+	}*/
 
 	// 검색해서 회원목록 보여주기
 	@Override
@@ -120,6 +120,24 @@ public class SHDAO implements InterSHDAO {
 	public int vanAdd(HashMap<String, String> paramap) {
 		
 		int n = sqlsession.insert("sh.vanAdd", paramap);
+		
+		return n;
+	}
+
+	// 검색조건에 맞는 회원수 알아오기
+	@Override
+	public int getTotalCount(HashMap<String, String> paraMap) {
+		
+		int n = sqlsession.selectOne("sh.getTotalCount", paraMap);
+		
+		return n;
+	}
+
+	// 회원삭제하기
+	@Override
+	public int adminDeleteMember(String userid) {
+		
+		int n = sqlsession.delete("sh.adminDeleteMember", userid);
 		
 		return n;
 	}
