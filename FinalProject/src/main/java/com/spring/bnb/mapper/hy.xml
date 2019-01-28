@@ -114,5 +114,16 @@
 		select * from room where roomsigungu=#{sigungu}
 	</select>
 	
+	<!-- <insert id="insertbedroom" parameterType="HashMap">
+		insert into bedroom(bedroom_idx,fk_roomcode) values(bedroom_idx_seq.nextval,#{rooomcode})
+	</insert>
+	
+	<select id="getBedroomIdx" resultType="Integer">
+		select bedroom_idx_seq.currval from dual
+	</select>
+	
+	<insert id="insertbed" parameterType="HashMap">
+		insert into bed(bed_idx,bedCount,fk_bedroom_idx,fk_bedobj_idx) values(bed_idx_seq.nextval,#{bedCount},#{bedroom_idx},#{bedobj_idx})
+	</insert> -->
 </mapper>
 

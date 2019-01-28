@@ -140,15 +140,20 @@ public class boboController {
 		return "become-host/room-step2-page.hosttiles_nofooter";
 	}
 	
-	// 드롭하는 이미지 파일명 가져오기
-	@RequestMapping(value="/dropJOSN.air", method={RequestMethod.GET})
-	public String dropJOSN(HttpServletRequest req) {
+	// 이미지 파일명 가져오기
+	@RequestMapping(value="/fileListJOSN.air", method={RequestMethod.POST})
+	public String fileListJOSN(HttpServletRequest req,  @RequestParam("fileList") List<MultipartFile> fileArr) {
 		
-		String fileName = req.getParameter("fileName");
+		String[] fileList = req.getParameterValues("fileList");
 		JSONArray jsonArr = new JSONArray();
 		
-		System.out.println(fileName);
-		jsonArr.put(fileName);
+		System.out.println(fileList);
+		
+/*		for(String val : fileList) {
+			System.out.println(val);
+		}
+*/
+		jsonArr.put(fileList);
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
@@ -158,6 +163,9 @@ public class boboController {
 	
 	@RequestMapping(value="/roomstep3.air", method={RequestMethod.GET})
 	public String roomstep3(RoomVO roomvo, HttpServletRequest request) {	
+		
+		
+		
 		return "become-host/room-step3.hosttiles_nofooter";
 	}
 	
@@ -171,6 +179,18 @@ public class boboController {
 	public String roomlaststep(HttpServletRequest req) {
 		
 		return "become-host/room-lastStep.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/test5.air", method={RequestMethod.GET})
+	public String test5(HttpServletRequest req) {
+		
+		return "become-host/test5.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/roomimage.air", method={RequestMethod.GET})
+	public String roomimage(HttpServletRequest req) {
+		
+		return "become-host/roomimage.hosttiles_nofooter";
 	}
 	
 	
