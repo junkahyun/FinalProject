@@ -52,7 +52,7 @@
         )V
          where usedate = '-9999'
     )F
-     where rnum between #{startRno} and #{endRno}
+   where rnum between #{startRno} and #{endRno} 
 </select>
 
 <resultMap type="HashMap" id="getMyUserMap">
@@ -77,7 +77,7 @@
         )V
          where not usedate = '-9999'
     )F
-     where rnum between #{startRno} and #{endRno} 
+     where rnum between #{startRno} and #{endRno}  
 </select>
 <select id="getMyInfo" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
 
@@ -88,67 +88,64 @@
 </select>
 
 <resultMap type="HashMap" id="resList">
+	<result column="rsvcode" property="rsvcode" javaType="String"/>
 	<result column="username" property="username" javaType="String"/>
 	<result column="email" property="email" javaType="String"/>
 	<result column="phone" property="phone" javaType="String"/>
-	<result column="rsvcode" property="rsvcode" javaType="String"/>
 	<result column="roomcode" property="roomcode" javaType="String"/>
-	<result column="guestcount" property="guestcount" javaType="String"/>
 	<result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
+	<result column="checkInDay" property="checkInDay" javaType="String"/>
 	<result column="rsv_checkoutdate" property="rsv_checkoutdate" javaType="String"/>
-	<result column="rsv_name" property="rsv_name" javaType="String"/>
+	<result column="checkOutDay" property="checkOutDay" javaType="String"/>
 	<result column="paydate" property="paydate" javaType="String"/>
-	<result column="totalprice" property="totalprice" javaType="String"/>
-	<result column="dcprice" property="dcprice" javaType="String"/>
 	<result column="rsv_cancledate" property="rsv_cancledate" javaType="String"/>
-	<result column="fk_roomtype_idx" property="fk_roomtype_idx" javaType="String"/>
 	<result column="roomname" property="roomname" javaType="String"/>
 	<result column="roommainimg" property="roommainimg" javaType="String"/>
+	<result column="roomtel" property="roomtel" javaType="String"/>
 	<result column="roompost" property="roompost" javaType="String"/>
 	<result column="roomsigungu" property="roomsigungu" javaType="String"/>
 	<result column="roomsido" property="roomsido" javaType="String"/>
 	<result column="roombname" property="roombname" javaType="String"/>
+	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
 	<result column="latitude" property="latitude" javaType="String"/>
 	<result column="longitude" property="longitude" javaType="String"/>
-	<result column="roominfo" property="roominfo" javaType="String"/>
-	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
-	<result column="checkInDD" property="checkInDD" javaType="String"/>
-	<result column="checkInYY" property="checkInYY" javaType="String"/>
-	<result column="checkInMM" property="checkInMM" javaType="String"/>
-	<result column="checkInDay" property="checkInDay" javaType="String"/>
-	<result column="checkOutDD" property="checkOutDD" javaType="String"/>
 	<result column="checkOutMM" property="checkOutMM" javaType="String"/>
 	<result column="checkOutYY" property="checkOutYY" javaType="String"/>
-	<result column="checkOutDay" property="checkOutDay" javaType="String"/>
-	<result column="roominfo" property="roominfo" javaType="String"/>
-	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
-	<result column="roomtype_name" property="roomtype_name" javaType="String"/>
+	<result column="checkOutDD" property="checkOutDD" javaType="String"/>
+	<result column="checkInMM" property="checkInMM" javaType="String"/>
+	<result column="checkInYY" property="checkInYY" javaType="String"/>
+	<result column="checkInDD" property="checkInDD" javaType="String"/>
 	<result column="flag" property="flag" javaType="String"/>
+	<result column="dat" property="dat" javaType="String"/>
 </resultMap>
 <select id="getMemberReservationList" parameterType="String" resultMap="resList">
-select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode AS roomcode,guestcount
-		   ,babycount,rsv_name,rsv_phone,rsv_name,rsv_email,		   
+    select B.rsvcode ,A.userid AS userid, username, email, phone, C.roomcode AS roomcode,
            to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
            substr(rsv_checkindate,7,2) AS checkInDD,
-           substr(rsv_checkoutdate,0,2) AS checkInYY,
-           substr(rsv_checkoutdate,4,2) AS checkInMM,
-           to_char(rsv_checkindate, 'DY' ) AS checkInDay,
-	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
+           substr(rsv_checkindate,0,2) AS checkInYY,
+           substr(rsv_checkindate,4,2) AS checkInMM,
            substr(rsv_checkoutdate,7,2) AS checkOutDD,
            substr(rsv_checkoutdate,0,2) AS checkOutYY,
            substr(rsv_checkoutdate,4,2) AS checkOutMM,
-           to_char(rsv_checkoutdate, 'DY' ) AS checkOutDay,
-	       to_char(paydate,'yyyy-mm-dd') as paydate,totalprice,dcprice,to_char(rsv_cancledate,'yyyy-mm-dd') AS rsv_cancledate,
-	       fk_roomtype_idx,roomname
-	       ,roommainimg,roomtel,roompost,roomsigungu,roomsido,roombname,cleanpay,basic_person,
-	       rsv_msg,roomcount,bathcount,latitude,longitude,fk_buildtype_detail_idx,roomdetailaddr
-           ,roomtype_name,case when rsv_checkindate > sysdate then 1 else 2 end AS flag
-	from member A join reservation B
+           to_char(rsv_checkindate, 'DAY' ) AS checkInDay,
+	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
+	       to_char(rsv_checkoutdate, 'DAY' ) AS checkOutDay,
+	       to_char(paydate,'yyyy-mm-dd') as paydate,
+	       to_char(rsv_cancledate,'yyyy-mm-dd') AS rsv_cancledate
+	       ,roomname ,roommainimg, roomtel
+	       ,roompost, roomsigungu, roomsido, roombname,roomdetailaddr,latitude,longitude
+	       ,case when rsv_checkindate > sysdate then 1 else 2 end AS flag
+           ,(to_date(rsv_checkoutdate,'yyyy-mm-dd') - to_date(rsv_checkindate,'yyyy-mm-dd')) AS dat
+	from member A right join reservation B
 	      on A.userid = B.fk_userid
 	      join room C
           on B.fk_roomcode = C.roomcode
-          join roomtype D
+         left join roomtype D
           on C.fk_roomtype_idx = D.roomtype_idx
+          left join BUILDTYPE_DETAIL E
+          on C.fk_buildType_detail_idx = e.buildtype_detail_idx
+         left join BUILDTYPE F
+          on F.BUILDTYPE_IDX = E.FK_BUILDTYPE_IDX 
     where A.userid = #{loginuser}
 
 </select> 
@@ -186,20 +183,22 @@ select A.userid AS userid ,username,email,phone,B.rsvcode AS rsvcode,C.roomcode 
 	<result column="longitude" property="longitude" javaType="String"/>
 	<result column="roominfo" property="roominfo" javaType="String"/>
 	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
-	<result column="roominfo" property="roominfo" javaType="String"/>
+	<result column="roomtel" property="roomtel" javaType="String"/>
 	<result column="roomdetailaddr" property="roomdetailaddr" javaType="String"/>
 	<result column="roomtype_name" property="roomtype_name" javaType="String"/>
-	<result column="buildtype_detail_name" property="buildtype_detail_name" javaType="String"/>
-	<result column="buildtype_idx" property="buildtype_idx" javaType="String"/>
-	<result column="buildtype" property="buildtype" javaType="String"/>
-	<result column="bedtype" property="bedtype" javaType="String"/>
-	<result column="bedcount" property="bedcount" javaType="String"/>
+	<result column="checkInDD" property="checkInDD" javaType="String"/>	
+	<result column="checkInMM" property="checkInMM" javaType="String"/>	
+	<result column="checkInYY" property="checkInYY" javaType="String"/>
+    <result column="checkOutDD" property="checkOutDD" javaType="String"/>	
+	<result column="checkOutMM" property="checkOutMM" javaType="String"/>	
+	<result column="checkOutYY" property="checkOutYY" javaType="String"/>
 	<result column="cleanpay" property="cleanpay" javaType="String"/>
 	<result column="flag" property="flag" javaType="String"/>
+	<result column="servicePrice" property="servicePrice" javaType="String"/>
 </resultMap>
 
 <select id="getMemberReservationDetail" parameterType="HashMap" resultMap="resDetail">
-
+<!-- 
 select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomcode AS roomcode
 		   ,basic_person, guestcount ,babycount,rsv_name,rsv_phone,rsv_email,		   
            to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
@@ -230,7 +229,34 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
          left join bed H
           on G.bedroom_idx = H.fk_bedroom_idx
          left join BEDOBJ I
-          on I.bedobj_idx = H.fk_bedobj_idx
+          on I.bedobj_idx = H.fk_bedobj_idx -->
+          
+  select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomcode AS roomcode
+		   ,basic_person, guestcount ,babycount,rsv_name,rsv_phone,rsv_email,		   
+           to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
+           substr(rsv_checkindate,7,2) AS checkInDD,
+           substr(rsv_checkindate,0,2) AS checkInYY,
+           substr(rsv_checkindate,4,2) AS checkInMM,
+           substr(rsv_checkoutdate,7,2) AS checkOutDD,
+           substr(rsv_checkoutdate,0,2) AS checkOutYY,
+           substr(rsv_checkoutdate,4,2) AS checkOutMM,
+           to_char(rsv_checkindate, 'DAY' ) AS checkInDay,
+	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
+	       to_char(rsv_checkoutdate, 'DAY' ) AS checkOutDay,
+	       to_char(paydate,'yyyy-mm-dd') as paydate,
+	       to_char(rsv_cancledate,'yyyy-mm-dd') AS rsv_cancledate
+	       ,totalprice, dcprice, cleanpay,roomprice,roomprice*0.1 AS servicePrice, fk_roomtype_idx,roomname ,roommainimg, roomtel
+	       ,roompost, roomsigungu, roomsido, roombname,roomdetailaddr,latitude,longitude
+	       ,rsv_msg,roomcount,bathcount
+           ,roomtype_name
+           ,case when rsv_checkindate > sysdate then 1 else 2 end AS flag
+           ,(to_date(rsv_checkoutdate,'yyyy-mm-dd') - to_date(rsv_checkindate,'yyyy-mm-dd')) AS dat
+	from member A join reservation B
+	      on A.userid = B.fk_userid
+	      join room C
+          on B.fk_roomcode = C.roomcode
+         left join roomtype D
+          on C.fk_roomtype_idx = D.roomtype_idx
     where A.userid = #{userid} and rsvcode= #{rsvcode}
 </select> 
 <resultMap type="HashMap" id="getMapHashMap">
@@ -353,5 +379,30 @@ order by rsvcode desc
   	where fk_userid = #{userid} and rsvcode = #{rsvcode}	
 </update>
 
+
+<resultMap type="HashMap" id="getBedMap">
+<result column="bedcount" property="bedcount" javaType="String"/>
+<result column="fk_roomcode" property="fk_roomcode" javaType="String"/>
+<result column="bedtype" property="bedtype" javaType="String"/>
+</resultMap>
+<select id="getBedType" parameterType="String" resultMap="getBedMap">
+    select bedcount,fk_roomcode,bedtype
+    from view_bedtype
+    where fk_roomcode = #{roomcode}
+</select>
+
+<resultMap type="HashMap" id="buildTypeMap">
+<result property="buildtype_detail_name" column="buildtype_detail_name" javaType="String"/>
+<result property="buildtype" column="buildtype" javaType="String"/>
+</resultMap>
+
+<select id="getBuildType" parameterType="String" resultMap="buildTypeMap">
+	select buildtype_detail_name,buildtype
+    from BUILDTYPE_DETAIL A join BUILDTYPE B
+    on B.BUILDTYPE_IDX = A.FK_BUILDTYPE_IDX
+    right join room C
+    on C.FK_BUILDTYPE_DETAIL_IDX = A.BUILDTYPE_DETAIL_IDX
+    where roomcode = #{roomcode}
+</select>
 
 </mapper>	
