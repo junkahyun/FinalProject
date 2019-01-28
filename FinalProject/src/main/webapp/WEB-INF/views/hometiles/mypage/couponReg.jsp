@@ -64,7 +64,6 @@ td{
  font-weight: bold;
 }
 </style>
-<script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
 	$(document).ready(function(){

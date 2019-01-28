@@ -61,7 +61,6 @@ thead>tr>th{
 	text-align: center;
 }
 </style>
-<script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -70,10 +69,47 @@ thead>tr>th{
 			window.open(url,"쿠폰등록","width=400,height=300");			  
 		});
 		
+		makeCommentPageBar();
+		
 	
 	});
+	
+	function goViewComment(currentShowPageNo) {
+		var form_data={"currentShowPageNo":currentShowPageNo} 
+		
+		$.ajax({
+			url:"<%= request.getContextPath() %>/myCoupon.action",
+			data:form_data,
+			type:"GET",
+			dataType:"JSON",
+			success: function(json) {
+/* 	            var resultHTML = "";
+	            $.each(json,function(entryIndex,entry){	               
+	               resultHTML += "<tr>"+
+	                          "<td style='text-align: center;'>"+entry.NAME+"</td>"+
+	                          "<td>"+entry.CONTENT+"</td>"+
+	                          "<td style='text-align: center;'>"+entry.REGDATE+"</td>"+
+	                          "</tr>";
+	                          
+	            });// end of each-----------------
+	            
+	            $("#commentDisplay").empty().html(resultHTML); */
+	            
+	            
+	            // 페이지바 함수 호출
+				//page 넘길 때 기존의 값을 없앤 후 위의 html로 채운다
+				
+				// ==== 댓글 내용 페이지바 AJAX로 만들기 ====
+	            makeCommentPageBar(currentShowPageNo);
+			
+			},error: function(request, status, error){
+			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+						
+		});
+	}// end of goViewComment(currentShowPageNo) 
 
-	<%-- function makeCommentPageBar(currentShowPageNo) {
+function makeCommentPageBar(currentShowPageNo) {
 		var form_data = {sizePerPage:"10"};
 		
 		$.ajax({
@@ -84,8 +120,7 @@ thead>tr>th{
 			success:function(json){
 				var req_totalPage = ${totalPage};
 				if(req_totalPage > 0) {
-					// 댓글이 있는 경우
-					 
+
 					var totalPage = req_totalPage;
 					var pageBarHTML = "";
 					
@@ -101,37 +136,38 @@ thead>tr>th{
 					
 					var pageNo = Math.floor((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 					// !!! 공식이다. !!! //
-	
-					// **** [이전] 만들기 **** //
-				    if( pageNo != 1 ) {
-				    	pageBarHTML += "&nbsp;<a href=\myCoupon.air?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+${sizePerPage}+"\" >"+"[이전]</a>&nbsp;";
-				    }
-					
-					// ------------------------------ //
-					
-					while(!(loop > blockSize || pageNo > totalPage)) {
+					// -----------------------------------------
+					// 					[이전] 만들기
+						if(pageNo != 1){
+							pageBarHTML += "&nbsp;<a href='javascript:goViewComment(\""+(pageNo-1)+"\");'>[이전]</a>";	
+						}		
 						
-						if(pageNo == currentShowPageNo) {
-							pageBarHTML += "&nbsp;<span style=\"color:red; font-size:13pt; font-weight:bold; text-decoration:underline;\">"+pageNo+ "</span>&nbsp;";
-						}
-						else {
-							pageBarHTML +=  "&nbsp;<a href=\myCoupon.air?currentShowPageNo="+pageNo+"&sizePerPage="+${sizePerPage}+"\" >"+pageNo+"</a>" + "&nbsp;";
+					// -----------------------------------------
+									 // 현재페이지
+						while(!(loop > blockSize || pageNo > totalPage)){
+							if(pageNo == currentShowPageNo) {// 보고 있는 페이지가 현재 페이지일 경우
+								pageBarHTML += "&nbsp;<span style='color:red; font-size:12pt; font-weight:bold; text-decoration:underline;'>"+pageNo+"</span>";	
+							}else{
+								pageBarHTML += "&nbsp;<a href='javascript:goViewComment(\""+pageNo+"\");'>"+pageNo+"</a>";	
+							}						
+							
+							loop++;
+							pageNo++;
 						}
 						
-						loop++;
-						pageNo++;
-					}// end of while---------------------
-				    // ------------------------------------- //
-				    
-				    // **** [다음] 만들기 **** //
-				    if( !(pageNo > totalPage) ) {
-				    	pageBarHTML += "&nbsp;<a href=\myCoupon.air?currentShowPageNo="+pageNo+"&sizePerPage="+${sizePerPage}+"\" >"+"[다음]</a>&nbsp;";
-				    }
 					
-					/////////////////////////////////
-					
-					$(".pageBar").empty().html(pageBarHTML);
-					pageBarHTML = "";
+					// -----------------------------------------					
+								   // [다음] 만들기
+					if(!(pageNo > totalPage)){
+							pageBarHTML += "&nbsp;<a href='javascript:goViewComment(\""+pageNo+"\");'>[다음]</a>";	
+						}							
+						$("#pageBar").empty().html(pageBarHTML);					
+						pageBarHTML = "";//초기화		
+						
+					}else{
+						// 댓글이 없는경우
+						$("#pageBar").empty();
+					}
 				}
 				else {
 					// 댓글이 없는 경우 
@@ -143,7 +179,7 @@ thead>tr>th{
 			}
 		});
 		
-	}// end of function makeCommentPageBar(currentShowPageNo)-------------  --%>
+	}// end of function makeCommentPageBar(currentShowPageNo)------------- 
 </script>
 
 <div class="row firstDIV">
@@ -257,7 +293,7 @@ thead>tr>th{
 				</table>
 			</div>
 			<c:if test="${totalCount > 10}">
-			<div class=".pagebar" name="pagebar" style="border : 1px solid red">${pagebar}</div>
+			<div class=".pagebar" name="pagebar" style="border : 0px solid red">${pagebar}</div>
 		</c:if>
 	 </div>
 	 

@@ -75,11 +75,7 @@
    				font-weight: bold;}
 
 </style>
-
- 
-
 <script type="text/javascript">
-
    $(document).ready(function(){
 	   
 	   $("#second").hide();
@@ -98,8 +94,6 @@
 	   $("#addrDetail").removeClass('error4');
 	   $(".error4_text").hide();
 	   
-
-   
 	  //첫번째 입력창 스크립트 시작-----------------------------------------------------------------------------------------------------------	  
       $("#guestroom").hide(); 
 
@@ -153,45 +147,181 @@
       
       //첫번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
       
-      //두번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
-       //$("#bedoqty").hide(); // 처음에 침대종류 숨기기
-	   
-	   // 침대 추가하기 버튼 클릭시 
-	   var flag = false;
-	   $(".bedAdd").click(function() {
-		   if(flag == false){
-			   var bed = $(".bedAdd").text("완료");   
-			   $("#bedoqty").show();
-			   flag = true;
-		   }
-		   else{
-			  bed = $(".bedAdd").text("침대 추가하기");
-			  $("#bedoqty").hide();
-			  flag = false;
-		   }
-	   });
-	   
- 	   $("#bedroom").change(function(){
- 	   		   
-		   var addbed = $("#addbed").html();
-		   
-		   var html = "";
-			
-		   var bedroom = $("#bedroom").val();
-			
-			if(bedroom == "1"){
-				$("#addarea").empty();
+      	//두번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
+		$(".bedoqty").hide(); // 처음에 침대종류 숨기기
+       
+		// 처음에 침대 갯수 30개 만들어 놓고 hide하기
+	   	var html = "";
+		var addbed = $("#bedhtmladdHY").html();
+		for(var j=2; j<=30; j++){
+			html += "<div class='bedroomEach bedroom_"+j+"' style='margin-bottom: 5%;'><hr/>";
+			html += addbed;
+			html += "<hr/></div>";
+			if(j!=30) html+= "</div><div>";
+		}	
+		addbed = "<div class='bedroomEach bedroom_1'>"+addbed+"</div>";
+
+		$("#bedhtmladdHY").html(addbed);
+		$("#addarea").html(html);
+		for(var i=2;i<=50;i++){
+			$(".bedroom_"+i+"").children(".gochild").children(".gochild").find(".bedroomNum").text(""+i+"번 침실");
+			$(".bedroom_"+i+"").children(".gochild").children(".gochild").find(".bedCountinFor").text("침대 0개");
+		}
+		$(".bedroomEach").hide();
+		$(".bedroom_1").show();
+
+		
+		// 침대 추가하기 버튼 클릭시 
+		$(".bedAdd").click(function() {
+			var bedAddBtn = $(this).text();
+			if(bedAddBtn=="침대 추가하기"){
+				$(this).text("완료");
+				$(this).parent().parent().parent().find(".bedoqty").show();
 			}
 			else{
-				for(var i=1; i<=bedroom; i++){
-					html += addbed;
-				}				
+				$(this).text("침대 추가하기");
+			  	$(this).parent().parent().parent().find(".bedoqty").hide();
+			  	var doubleCount = $(this).parent().parent().parent().find(".doubleupdown").val();
+				var queenupdown = $(this).parent().parent().parent().find(".queenupdown").val();
+				var singleupdown = $(this).parent().parent().parent().find(".singleupdown").val();
+				var sofaupdown = $(this).parent().parent().parent().find(".sofaupdown").val();
+				var allCount = parseInt(doubleCount) + parseInt(queenupdown) + parseInt(singleupdown) + parseInt(sofaupdown);
+				$(this).parent().parent().parent().parent().children().children(".gochild").children(".gochild").find(".bedCountinFor").text("침대 "+allCount+"개");
+				$(this).parent().parent().parent().parent().children().children(".gochild").children(".gochild").find(".bedQtyCount").val(allCount);
 			}
-			
-			$("#addarea").html(html);
-				   
-	   }); 
-	   
+		});
+		var bedroom = 1;
+		$("#bedroom").change(function(){
+ 		    var changebedroom = $("#bedroom").val();
+ 	   	   	if(changebedroom<bedroom){
+				for(var i=bedroom;i>changebedroom;i--){
+					$(".bedroom_"+i+"").hide();
+				}
+ 	   	   	}
+ 	   	   	else{
+ 	   	   		for(var i=1;i<=changebedroom;i++){
+ 	   	   			$(".bedroom_"+i+"").show();
+				}	
+ 	   	   	}
+ 	   		bedroom = changebedroom;
+	   	}); 
+		$(".doubleminus").click(function(){
+ 		 	var start = $(this).parent().parent().find(".doubleupdown").val();
+		   	var minus = parseInt(start);
+		   	minus--;
+		   	if(minus<0){
+			   	alert("침대수는 0개 이상이여야 합니다.");
+			   	minus = 0;
+		   	}
+		   	$(this).parent().parent().find(".doubleupdown").val(minus);
+		});
+ 	 	$(".doubleplus").click(function(){
+ 			var start = $(this).parent().parent().find(".doubleupdown").val();
+		   	var plus = parseInt(start);
+		   	plus++;
+		   	$(this).parent().parent().find(".doubleupdown").val(plus);
+		});
+ 		$(".queenminus").click(function(){
+ 			var start = $(this).parent().parent().find(".queenupdown").val();
+		   	var minus = parseInt(start);
+		   	minus--;
+		   	if(minus<0){
+			   	alert("침대수는 0개 이상이여야 합니다.");
+			   	minus = 0;
+		   	}
+		   	$(this).parent().parent().find(".queenupdown").val(minus);
+		});
+	 	$(".queenplus").click(function(){
+	 		var start = $(this).parent().parent().find(".queenupdown").val();
+			   var plus = parseInt(start);
+			   plus++;
+			   $(this).parent().parent().find(".queenupdown").val(plus);
+		});
+	 	$(".singleminus").click(function(){
+	 		var start =  $(this).parent().parent().find(".singleupdown").val();
+			   var minus = parseInt(start);
+			   minus--;
+			   if(minus<0){
+				   alert("침대수는 0개 이상이여야 합니다.");
+				   minus = 0;
+			   }
+			   $(this).parent().parent().find(".singleupdown").val(minus);
+		});
+	 	$(".singleplus").click(function(){
+	 		var start =  $(this).parent().parent().find(".singleupdown").val();
+			   var plus = parseInt(start);
+			   plus++;
+			   $(this).parent().parent().find(".singleupdown").val(plus);
+		});
+	 	$(".sofabedminus").click(function(){
+	 		var start =  $(this).parent().parent().find(".sofaupdown").val();
+			   var minus = parseInt(start);
+			   minus--;
+			   if(minus<0){
+				   alert("침대수는 0개 이상이여야 합니다.");
+				   minus = 0;
+			   }
+			   $(this).parent().parent().find(".sofaupdown").val(minus);
+		});
+	 	$(".sofabedplus").click(function(){
+	 		var start =  $(this).parent().parent().find(".sofaupdown").val();
+			   var plus = parseInt(start);
+			   plus++;
+			   $(this).parent().parent().find(".sofaupdown").val(plus);
+		});
+	 	
+	 	$("#checkBtn").click(function(){
+		 	//var resultbedArr = [];
+		 	var testalertString = "";
+	 		var bedroomCount = $("#bedroom").val();
+	 		for(var i=1;i<=bedroomCount;i++){
+	 			if(parseInt(doubleTotal)==0&&parseInt(queenTotal)==0&&parseInt(singleTotal)==0&&parseInt(sofabedTotal)==0){
+		 			continue;
+	 			}
+	 			else {
+	 				var bedCount = $(".bedroom_"+i+"").find(".bedQtyCount").val();
+	 				testalertString += "{";
+	 				
+		 			var doubleTotal = $(".bedroom_"+i+"").find(".doubleupdown").val();
+		 			var queenTotal = $(".bedroom_"+i+"").find(".queenupdown").val();
+		 			var singleTotal = $(".bedroom_"+i+"").find(".singleupdown").val();
+		 			var sofabedTotal = $(".bedroom_"+i+"").find(".sofaupdown").val();
+		 			
+		 			if(parseInt(doubleTotal)!=0) testalertString += "doublebedCount : "+doubleTotal;
+		 			if(parseInt(queenTotal)!=0&&bedCount>1){
+		 				testalertString+= ",";
+		 				bedCount-=queenTotal;
+		 			}
+		 			if(parseInt(queenTotal)!=0) testalertString += "queenbedCount : "+queenTotal;
+		 			if(parseInt(singleTotal)!=0&&bedCount>1){
+		 				testalertString+= ",";
+		 				bedCount-=singleTotal;
+		 			}
+		 			if(parseInt(singleTotal)!=0) testalertString += "singlebedCount : "+singleTotal;
+		 			if(parseInt(sofabedTotal)!=0&&bedCount>1){
+		 				testalertString+= ",";
+		 				bedCount-=sofabedTotal;
+		 			}
+		 			if(parseInt(sofabedTotal)!=0) testalertString += "sofabedCount : "+sofabedTotal;
+		 			
+		 			testalertString += "}";
+		 			if(i!=bedroomCount)testalertString += "/";
+	 			}
+	 		}
+	 		alert(testalertString);
+	 		var form_data = {"bedroomInfo":testalertString};
+	 		$.ajax({
+	 			url:"checkbedroom.air",
+	 			type:"POST",
+	 			data:form_data,
+	 			dataType:"JSON",
+	 			success:function(json){
+	 				alert();
+	 			},
+	 			error:function(){
+	 			}
+	 		});
+	 	});
       //두번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
 
 	  //네번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
@@ -397,86 +527,6 @@
 	   $("#peopleupdown").val(plus);
    }
    
-   //더블침대 감소 버튼
-   function doubleminus() {
-	   var start = $("#doubleupdown").val();
-	   var minus = parseInt(start);
-	   minus--;
-	   if(minus<0){
-		   alert("침대수는 0개 이상이여야 합니다.");
-		   minus = 0;
-	   }
-	   $("#doubleupdown").val(minus);
-   }  
-   
-   //더블침대 증가 버튼
-   function doubleplus() {
-	   var start = $("#doubleupdown").val();
-	   var plus = parseInt(start);
-	   plus++;
-	   $("#doubleupdown").val(plus);
-   }
-   
-   //퀸침대 감소 버튼
-   function queenminus() {
-	   var start = $("#queenupdown").val();
-	   var minus = parseInt(start);
-	   minus--;
-	   if(minus<0){
-		   alert("침대수는 0개 이상이여야 합니다.");
-		   minus = 0;
-	   }
-	   $("#queenupdown").val(minus);
-   }  
-   
-   //퀸침대 증가 버튼
-   function queenplus() {
-	   var start = $("#queenupdown").val();
-	   var plus = parseInt(start);
-	   plus++;
-	   $("#queenupdown").val(plus);
-   }
-   
-   //싱글침대 감소 버튼
-   function singleminus() {
-	   var start = $("#singleupdown").val();
-	   var minus = parseInt(start);
-	   minus--;
-	   if(minus<0){
-		   alert("침대수는 0개 이상이여야 합니다.");
-		   minus = 0;
-	   }
-	   $("#singleupdown").val(minus);
-   }  
-   
-   //싱글침대 증가 버튼
-   function singleplus() {
-	   var start = $("#singleupdown").val();
-	   var plus = parseInt(start);
-	   plus++;
-	   $("#singleupdown").val(plus);
-   }
-   
-   //쇼파베드침대 감소 버튼
-   function sofaminus() {
-	   var start = $("#sofaupdown").val();
-	   var minus = parseInt(start);
-	   minus--;
-	   if(minus<0){
-		   alert("침대수는 0개 이상이여야 합니다.");
-		   minus = 0;
-	   }
-	   $("#sofaupdown").val(minus);
-   }  
-   
-   //쇼파베드침대 증가 버튼
-   function sofaplus() {
-	   var start = $("#sofaupdown").val();
-	   var plus = parseInt(start);
-	   plus++;
-	   $("#sofaupdown").val(plus);
-   }
-   
    //욕실 감소 버튼
    function bathroomsminus() {
 	   var start = $("#bathroomsupdown").val();
@@ -564,7 +614,7 @@
 	       
 	       
 	       <!-- 두번째 입력창 시작 -->
-	       <div class="row" id="second">
+	       <div class="row" id="second" >
 		         <div class="title">숙소에 몇명이 숙박할 수 있나요?</div>
 		         <div class="row" style="padding: 0; margin-bottom: 100px; border: 0px solid green;" >
 		         	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
@@ -601,77 +651,80 @@
 		                   </c:forEach>
 		                </select>
 		                </div>  
-		            </div>              			            
+		            </div>     
+		            <button type="button" id="checkBtn">check</button>         			            
 		         </div>
 		         
-		         <h3> 침대 유형 </h3>
-		         <div class="row" style="border: 0px solid black" id="addbed">
-		         	<hr/>
- 		         	<div class="col-md-12">
-				         <div class="col-md-6" style="border: 0px solid blue">
-				         	<div style="font-size: 19px;">${bedroom }번 침실</div>
-				         	<div style="font-size: 19px; color: #767676;">침대 0개</div>
-				         </div>
-				         <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;">
-				         	<button type="button" class="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
-				         </div>
-			        </div>
-				      <hr/>
-			         
-			         <div class="col-md-12" id="bedoqty">
-				         <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="doubleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-				       		</div>
-				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
-								<input type="text" id="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-							</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="doubleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-				       		</div>
+				<h3> 침대 유형 </h3>
+				<div style="margin-bottom: 25%;">
+				<div class="row" style="border: 0px solid black;padding:0;" id="addbed">
+					<div id="bedhtmladdHY" class="bedroomEach bedroom_1">
+	 		        	<div class="col-md-12 gochild">
+					    	<div class="col-md-6 gochild" style="border: 0px solid blue">
+					        	<div class="bedroomNum" style="font-size: 19px;">1 번 침실</div>
+					         	<div class="bedCountinFor" style="font-size: 19px; color: #767676;">침대 0개</div>
+					         	<input type="hidden" class="bedQtyCount">
+					        </div>
+					        <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;">
+					        	<button type="button" class="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
+					        </div>
+				        </div>
+					    <hr/>
+				        <div class="col-md-12 bedoqty">
+					    	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+					       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="doubleminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+					       		</div>
+					       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
+									<input type="text" class="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+								</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="doubleplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+					       		</div>
+					       	</div>
+					       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+					       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="queenminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+					       		</div>
+					       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+									<input type="text" class="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+								</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="queenplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+					       		</div>
+					       	</div>
+					       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+					       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="singleminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+					       		</div>
+					       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+									<input type="text" class="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+								</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="singleplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+					       		</div>
+					       	</div>
+					       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+					       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="sofabedminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+					       		</div>
+					       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+									<input type="text" class="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+								</div>
+					       		<div class="col-md-2" style="border: 0px solid green;">
+					       		 	<button class="sofabedplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+					       		</div>
+					       	</div>
 				       	</div>
-				       	 <div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="queenminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-				       		</div>
-				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-								<input type="text" id="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-							</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="queenplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-				       		</div>
-				       	</div>
-				       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="singleminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-				       		</div>
-				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-								<input type="text" id="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-							</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="singleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-				       		</div>
-				       	</div>
-				       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
-				       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="sofaminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
-				       		</div>
-				       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
-								<input type="text" id="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
-							</div>
-				       		<div class="col-md-2" style="border: 0px solid green;">
-				       		 	<button type="button" onclick="sofaplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
-				       		</div>
-				       	</div>
-			       	</div>
-		       	<hr/>
+			       		<hr/>
+			    	</div>
 		       	</div>
 		       	<div class="row" id="addarea"></div>
-		       	
+		       	</div>
 		        <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
 		         	 <hr/>
 			         <div class="col-md-3" style="padding: 0;">

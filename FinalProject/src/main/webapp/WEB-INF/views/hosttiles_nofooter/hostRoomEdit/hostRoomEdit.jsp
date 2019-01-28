@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
-</head>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 hr{width: 85%; 
 }
@@ -95,9 +88,13 @@ div{border: /* 1px solid gray;  */
 		document.getElementById("defaultOpen").click();
 		
 		$(".emailSend").click(function(){
-			
 			$(this).addClass("changeColor");
-			
+		});
+		
+		$("#searchInput").keydown(function(event){
+			if(event.keyCode == 13){
+				alert("");
+			}	
 		});
 		
 	});
@@ -116,37 +113,62 @@ div{border: /* 1px solid gray;  */
 		  evt.currentTarget.className += " active";
 	}
 	
+	// 사진 수정
+	function goPhotoEdit(roomcode){
+		location.href="hrPhotoEdit.air?roomcode="+roomcode;
+	}
+	
+	// 제목 수정
+	function goTitleEdit(){
+		location.href="<%=request.getContextPath()%>/hrTitleEdit.air";
+	}
+	
+	// 침실 수정
+	function goBedroomEdit(){
+		location.href="<%=request.getContextPath()%>/bedroomEdit.air";
+	}
+	
+	function goRoomEdit(roomcode){
+		location.href="hostRoomEdit.air?roomcode="+roomcode;
+		
+	}
+	
 </script>
 
-
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
-	
-	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">숙소이름
+	<div class="col-md-8">
+	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">${roomvo.roomName }</h2>
+	</div>
 	<button type="button" class="btn" style="margin-left: 50%;"><span class="editbtn">달력보기</span></button>
 	<button type="button" class="btn" style="background-color: #008489;">
 	<span style="color: white; font-weight: bold;">숙소미리보기</span>
 	</button>
 	
-	</h2>
+	
 	
 	<!-- 드롭다운 -->
 	<div class="dropdown" align="left" style="margin-top: 2%;">
     <span class="dropdown-toggle" data-toggle="dropdown" style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; margin-left: 1.2%;">숙소변경하기
     <span class="caret"></span></span>
-	    <ul class="dropdown-menu" style="width: 45%; font-size: 15pt; ">
-	      <li style="border-bottom: 1px solid gray; padding: 2%;">
-		      <img src="<%=request.getContextPath() %>/resources/images/검색.JPG" style="cursor: pointer; margin-left: 3%;"/>
-		      <input type="text" id="search" style="border: 0px; margin-left: 2%; font-size: 12pt;" value="숙소 검색"/>
+	    <ul class="dropdown-menu" style="width: 45%; font-size: 15pt;padding:0;">
+	      <li style="padding-bottom: 1%;padding:0;margin:0;" >
+             <div class="row" style="width: auto;margin:2% 5%;">
+               <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="position:absolute;z-index:1;margin-top:5px;margin-left:2%; opacity:0.7;">
+               <input id="reviewSearchWord" type="text" class="col-md-4 form-control input-data" style="width:50%; padding-left: 8%; font-weight:bold;" placeholder="숙소검색">
+            </div>
 	      </li>
-	      <li style="border-bottom: 1px solid gray; padding: 2%;">
-		      <a href="#">
-		      <span style="font-weight: bold; font-size: 12pt; ">모든숙소</span> <img src="<%=request.getContextPath() %>/resources/img/숙소.JPG" style="width: 20%; margin-left:65%;"/></a>
-		     
-	      </li><!-- 숙소 리스트로 -->
-	      <li style=" padding: 2%;">
-		      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">숙소이름</span><br>
-		      <span style="font-size: 11pt;">개인실, 운영중지</span><img src="<%=request.getContextPath() %>/resources/img/숙소.JPG" style="width: 20%; margin-left:55%; margin-bottom: 5%;"/></a>
-	      </li>
+	      <c:forEach var="room" items="${roomList }">
+		      <li style=" padding: 1%;" onclick="goRoomEdit('${room.roomcode}')">
+			      <a ><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
+			      <c:if test="${room.roomstatus == 1 }">
+			      	<span style="font-size: 11pt;">운영중</span>
+			      </c:if>
+			      <c:if test="${room.roomstatus == 0 }">
+			      	<span style="font-size: 11pt;">운영중지</span>
+			      </c:if>
+			      <img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:70%; margin-bottom: 5%;"/></a>
+		      </li>
+	      </c:forEach>
 	    </ul>
 	</div>
 	<!-- 드롭다운 -->
@@ -165,11 +187,11 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 		<div class="col-md-9" align="left" id="detail" class="tabcontent">
 			<h4 style="font-weight: bold; margin-bottom: 5%; margin-top: 5%;">사진</h4>
-			<img src="<%=request.getContextPath() %>/resources/img/숙소.JPG" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
+			<img src="resources/images/${roomvo.roomMainImg }" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
 		</div>
 		
 		<div class="col-md-2" style="margin-top: 3%; ">
-	  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+	  		<button type="button" class="btn" onclick="goPhotoEdit('${roomvo.roomcode}');"><span class="editbtn">수정</span></button>
 	    </div>
 	    </div>
 		<hr align="left" > 
@@ -177,15 +199,15 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >제목 및 설명</h4>
-				<span style="font-weight: bold; font-size: 11pt;">숙소이름</span><br><br>
-				<span style=" font-size: 13pt; ">숙소설명</span><br><br>
+				<span style="font-weight: bold; font-size: 	11pt;">${roomvo.roomName }</span><br><br>
+				<span style=" font-size: 13pt; ">${roomvo.roomInfo }</span><br><br>
 				<a href="#">숙소 이름 변경</a><br><br>
 				<a href="#">숙소 상세설명</a><br><br>
 				<a href="#">기타 메모 추가</a><br><br>
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn" onclick="goTitleEdit();"><span class="editbtn">수정</span></button>
 		    </div>
 	    </div>
 	    <hr align="left" > 
@@ -193,25 +215,22 @@ div{border: /* 1px solid gray;  */
 	    <div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >침실과 숙박인원</h4>
-				<div class="bedAndPeople" >
-					<span style="margin-right: 45%;">숙박가능인원: <span class="number">5</span></span>
-					<span>침대 수: <span class="number">5</span></span>
+				<div class="row bedAndPeople" >
+					<div class="col-md-6" style="margin: 0;">최대숙박가능인원: <span class="number">${roomvo.max_person }</span></div>
+					<div class="col-md-6">기본 인원: <span class="number">${roomvo.basic_person }</span></div>
 				</div>
-				<div class="bedAndPeople">
-					<span style="margin-right: 55%;">욕실: <span class="number">1</span></span>
-					<span>건물유형: <span class="number">게스트스위트</span></span>
+				<div class="row bedAndPeople">
+					<div class="col-md-6">욕실: <span class="number">${roomvo.bathCount }</span></div>
+					<div class="col-md-6">건물유형: <span class="number">${roomvo.buildType_detail_name }</span></div>
 				</div>
-				<div class="bedAndPeople">
-					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
-					<span>숙소유형: <span class="number">개인실</span></span>
+				<div class="row bedAndPeople">
+					<div class="col-md-6">침실갯수: <span class="number">8</span></div>
+					<div class="col-md-6">숙소유형: <span class="number">개인실</span></div>	
 				</div >
-				<div class="bedAndPeople">
-					<span style="margin-right: 45%;">침실: <span class="number">8</span></span>
-				</div>
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn" onclick="goBedroomEdit()"><span class="editbtn">수정</span></button>
 		    </div>
 	    </div>   
 	    <hr align="left" > 
@@ -225,7 +244,7 @@ div{border: /* 1px solid gray;  */
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 55%;">욕실: <span class="number">1</span></span>
-					<span>건물유형: <span class="number">게스트스위트</span></span>
+					<span>건물유형: <span class="number">${roomvo.buildType }</span></span>
 				</div>
 				<div class="bedAndPeople">
 					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
@@ -275,6 +294,7 @@ div{border: /* 1px solid gray;  */
 		    </div>
 	    </div>
 	</div>
+
 	<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
 	
 	
@@ -418,6 +438,7 @@ div{border: /* 1px solid gray;  */
 	</div>
 	
 </div>
+
 <!-- 친구초대하기 modal -->
 <div class="container" >
   <!-- Modal -->
@@ -449,5 +470,4 @@ div{border: /* 1px solid gray;  */
 </div>
 <!-- 친구초대하기 modal -->
 
-</body>
-</html>
+

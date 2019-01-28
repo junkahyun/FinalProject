@@ -34,6 +34,9 @@ public interface InterSOService {
 	//나의 예약 상세 내역 가져오기
 	HashMap<String, String> getMemberReservationDetail(HashMap<String,String> paraMap);
 	
+	// *** 예약 상세보기 침대 타입 가져오기 ***
+	List<HashMap<String,String>> getBedType(String roomcode);
+
 	// *** 투숙 예약 취소하기 ***
 	int goCancelMyRsv(HashMap<String, String> map);
 
@@ -55,6 +58,8 @@ public interface InterSOService {
 	List<HashMap<String, String>> getMyUserCoupon(HashMap<String, String> paraMap);
 	// *** 사용한 쿠폰 총 갯수 ***
 	int getUseTotalCount(String userid);
+	// *** 예약한 빌딩 유형 ***
+	HashMap<String, String> getBuildType(String roomcode);
 
 	
 
