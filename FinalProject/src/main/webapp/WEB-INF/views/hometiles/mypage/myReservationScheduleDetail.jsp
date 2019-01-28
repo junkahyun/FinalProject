@@ -4,12 +4,9 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <% String ctxPath = request.getContextPath(); %>
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link href="https://a0.muscache.com/airbnb/static/packages/dls/common_o2.1_cereal-b820ae7d16d76b0900accdef6c28185e.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
@@ -103,16 +100,21 @@ function goCancel() {
 			<div style="margin-left: 2%; margin-top: 5%" >
 				<div class="property-info">
 					<h3><a href="#">${myRsvDetail.roomname}</a></h3>
-					<p><span data-selenium="hotel-address-map">${myRsvDetail.roomsido}&nbsp;${myRsvDetail.roomsigungu}&nbsp;
-						${reservationInfo.roombname}&nbsp;${myRsvDetail.roomdetailaddr}</span>
-					<span id="lodgLocation">&nbsp;숙소 위치 확인</span></p>
+					<p><span data-selenium="hotel-address-map">
+						${myRsvDetail.roomsido}&nbsp;${myRsvDetail.roomsigungu}&nbsp;
+						${myRsvDetail.roombname}&nbsp;${myRsvDetail.roomdetailaddr}
+						<span id="lodgLocation">&nbsp;숙소 위치 확인</span><br/>
+					<img src="<%= ctxPath %>/resources/images/mypage/phone-call.png" height="15pt"/>
+					<c:set value="${myRsvDetail.roomtel}" var="phone"/>
+					<c:out value="(${fn:substring(phone, 0, 3)}) ${fn:substring(phone, 3, fn:length(phone))}"/></p></span>
+					
 				</div>
 			</div>
 			<div  class="col-md-12">			
 				<div class="col-md-3"><img src="//pix6.agoda.net/hotelImages/108/108308/108308_16120714230049506378.jpg?s=450x302" width="200px"></div>					
 				<div class="col-md-9 push_left">
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
-						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
+						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 3%;"><h5>예약 번호</h5></div>
 						<div class="col-md-7" style="border: 0px solid gray; float:left;">
 							<div style="margin-bottom: 3%">${myRsvDetail.rsvcode}</div>
 							<div style="margin-bottom: 2%">
@@ -148,22 +150,24 @@ function goCancel() {
 						<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
 						<div class="col-md-6 row">
 							<div style="margin: 1%;">숙소 유형 : ${myRsvDetail.roomtype_name}</div>
-							<div style="margin: 1%;">건물유형 : ${myRsvDetail.buildtype}</div>
-							<div style="margin: 1%;">건물유형 : ${myRsvDetail.buildtype_detail_name}</div>
-							<div style="margin: 1%;">침실갯수 : ${myRsvDetail.bedcount}</div>
-							<div style="margin: 1%;">침대 유형 : ${myRsvDetail.bedtype}</div>
+							<div style="margin: 1%;">건물유형 : ${buildtype.buildtype}</div>
+							<div style="margin: 1%;">건물유형 : ${buildtype.buildtype_detail_name}</div>
+							<div style="margin: 1%;"class="roomTitle">침실갯수  : ${myRsvDetail.roomcount}</div>
+							<c:forEach items="${bedtype}" var="bed"  >
+								<div style="margin: 1%;"class="roomTitle">침대 갯수 : ${bed.bedcount} /&nbsp;침대 유형 : ${bed.bedtype}</div>	
+							</c:forEach>
 						</div>
 					</div>
 					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
 						<div class="col-md-5"  style="float:left;"><h5>총 예약 인원</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%;">성인 : ${myRsvDetail.guestcount} / 유아 : ${myRsvDetail.babycount}</div>
+							<div style="margin: 1%;">성인 : ${myRsvDetail.guestcount} <c:if test="${myRsvDetail.babycount ne null}">/ 유아 : ${myRsvDetail.babycount}</c:if></div>
 						</div>
 					</div>
 					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
 						<div class="col-md-5" style="float:left;"><h5>결제 금액</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin-bottom: 5%">서비스 세금 : </div>
+							<div style="margin-bottom: 1%">서비스 세금 : <fmt:formatNumber value="${myRsvDetail.servicePrice}" pattern="#,###" />원</div>
 							<div style="margin: 1%;">청소비 : <fmt:formatNumber value="${myRsvDetail.cleanpay}" pattern="#,###" />원</div>
 							<div style="margin: 1%;">할인금액 :<fmt:formatNumber value="${myRsvDetail.dcprice}" pattern="#,###" />원</div>
 							<div style="margin: 1%;">숙소요금 : <fmt:formatNumber value="${myRsvDetail.roomprice}" pattern="#,###" />원</div>
@@ -181,7 +185,7 @@ function goCancel() {
 	   </div>
 	   <div class="col-md-12" style="margin-top:2%;">
 	   		<div class="col-md-10"></div>
-	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default" data-toggle="modal" data-target="#myModal">예약 취소 버튼</a></div></div>
+	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default" data-toggle="modal" data-target="#myModal">예약 취소</a></div></div>
      		 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     

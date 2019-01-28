@@ -207,14 +207,6 @@ order by to_date(REVIEW_WRITEDATE,'yyyy-mm-dd hh24:mi:ss') desc
 where rownum between 1 and 2;
 
 select *
-<<<<<<< HEAD
-from roomimg
-where fk_roomcode = 10; 
-
-commit;
-
-
-=======
 from review A join room B
 on A.fk_roomcode = B.roomcode;
 

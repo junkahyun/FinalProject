@@ -5,13 +5,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <% String ctxPath = request.getContextPath(); %>
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/startspring/css/style.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link href="https://a0.muscache.com/airbnb/static/packages/dls/common_o2.1_cereal-b820ae7d16d76b0900accdef6c28185e.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
@@ -38,7 +33,7 @@
 }
  
 </style>
-<script type="text/javascript" src="/startspring/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -87,7 +82,10 @@
 			<div style="margin-left: 2%; margin-top: 5%" >
 				<div class="property-info">
 					<h3><a href="#">${resDetail.roomname}</a></h3>
-					<p><span data-selenium="hotel-address-map">${resDetail.roomsido}${resDetail.roomsigungu}${resDetail.roombname}${resDetail.roomdetailaddr}  </span>
+					<p><span data-selenium="hotel-address-map">${resDetail.roomsido}${resDetail.roomsigungu}${resDetail.roombname}${resDetail.roomdetailaddr} <br/>
+					<img src="<%= ctxPath %>/resources/images/mypage/phone-call.png" height="20pt"/>
+					<c:set value="${resDetail.roomtel}" var="phone"/>
+					<c:out value="(${fn:substring(phone, 0, 3)}) ${fn:substring(phone, 3, fn:length(phone))}"/></span>
 					<span style="cursor: pointer;" id="lodgLocation"><a>숙소 위치 확인</a></span></p>
 					<!--  ===========숙소 등록시 위치값 받아아고 =============================================================-->
 				</div>
@@ -96,8 +94,8 @@
 				<div class="col-md-3"><img src="//pix6.agoda.net/hotelImages/108/108308/108308_16120714230049506378.jpg?s=450x302" width="200px"></div>					
 				<div class="col-md-9 push_left">
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
-						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
-						<div class="col-md-7" style="border: 0px solid gray; float:left;">
+						<div class="col-md-5" style="float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
+						<div class="col-md-7" style="float:left;">
 							<div style="margin-bottom: 3%">${resDetail.rsvcode}</div>
 							<div style="margin-bottom: 2%">
 								<span class="calcel"><img src="<%= request.getContextPath() %>/resources/images/mypage/checked.png" height="18pt" />&nbsp;투숙 완료!</span>
@@ -107,11 +105,11 @@
 					<div class="col-md-12" style="border-bottom: 1px solid #dbdfdf; padding:1%;">
 						<div class="col-md-12" style="float:left;">
 							<div class="col-md-5" style="border: 0px solid red; float:left;"><h5>체크인</h5></div>
-							<div class="col-md-7" style="float:left;">20${resDetail.checkInYY}년&nbsp;${resDetail.checkInMM}월&nbsp;${resDetail.checkInDD}일&nbsp;${resDetail.checkInDay}요일</div>					
+							<div class="col-md-7" style="float:left;">20${resDetail.checkInYY}년&nbsp;${resDetail.checkInMM}월&nbsp;${resDetail.checkInDD}일&nbsp;${resDetail.checkInDay}</div>					
 						</div>	 
 						<div class="col-md-12">			
 							<div class="col-md-5" style="float:left;"><h5>체크아웃</h5></div>
-							<div class="col-md-7" data-selenium="check-out-content">20${resDetail.checkOutYY}년&nbsp;${resDetail.checkOutMM}월&nbsp;${resDetail.checkOutDD}일&nbsp;${resDetail.checiOutDay}요일</div>
+							<div class="col-md-7" data-selenium="check-out-content">20${resDetail.checkOutYY}년&nbsp;${resDetail.checkOutMM}월&nbsp;${resDetail.checkOutDD}일&nbsp;${resDetail.checkOutDay}</div>
 							<!-- <div style="float:left;" data-selenium="number-of-stay">3박</div> -->
 						</div>
 					</div> 
@@ -132,10 +130,11 @@
 						<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
 						<div class="col-md-6 row">
 							<div style="margin: 1%;"class="roomTitle"><h6>숙소 유형 : ${resDetail.roomtype_name}</h6></div>
-							<div style="margin: 1%;"class="roomTitle"><h6>건물유형  : ${resDetail.buildtype}/${resDetail.buildtype_detail_name}</h6></div>
+							<div style="margin: 1%;"class="roomTitle"><h6>건물유형  : ${buildtype.buildtype}/${buildtype.buildtype_detail_name}</h6></div>
 							<div style="margin: 1%;"class="roomTitle"><h6>침실갯수  : ${resDetail.roomcount}</h6></div>
-							<div style="margin: 1%;"class="roomTitle"><h6>침대 유형 : ${resDetail.bedtype}</h6></div>
-							<div style="margin: 1%;"class="roomTitle"><h6>침대 갯수 : ${resDetail.bedcount}</h6></div>
+							<c:forEach items="${bedtype}" var="bed"  >
+								<div style="margin: 1%;"class="roomTitle"><h6>침대 갯수 : ${bed.bedcount} /&nbsp;침대 유형 : ${bed.bedtype}</h6></div>	
+							</c:forEach>
 						</div>
 					</div>
 					<div class="col-md-12" style="padding: 3%; border-bottom :1px solid #dbdfdf;">
@@ -147,7 +146,7 @@
 					<div class="col-md-12" style="padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>결제 금액</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : </div>
+							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : ${resDetail.servicePrice}</div>
 							<div style="margin: 1%;" class="roomTitle"><h6>청소비 : ${resDetail.cleanpay}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>할인금액 :${resDetail.dcprice}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>총 결제금액: ${resDetail.totalprice}</h6></div>

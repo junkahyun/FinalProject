@@ -52,6 +52,11 @@ public interface InterSODAO {
 
 	// *** 사용한 쿠폰 총 갯수 ***
 	int getUseTotalCount(String userid);
+	// *** 나의 예약 침대 타입 가져오기 ***
+	List<HashMap<String,String>> getBedType(String roomcode);
+
+	//*** 나의 예약 빌딩 타입 ***
+	HashMap<String, String> getBuildType(String roomcode);
 
 
 
