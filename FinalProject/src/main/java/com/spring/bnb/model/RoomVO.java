@@ -3,8 +3,6 @@ package com.spring.bnb.model;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class RoomVO {
 	private String roomcode;
 	private String fk_userid; 
@@ -34,6 +32,7 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+<<<<<<< HEAD
 	private String bedtype;	
 	private List<HashMap<String,String>> ruleList;
 	
@@ -42,6 +41,8 @@ public class RoomVO {
  	// !!!!!! MultipartFile attach 는 오라클 데이터베이스 tblBoard 테이블의 컬럼이 아니다.!!!!!!  
  	// /Board/src/main/webapp/WEB-INF/views/tiles1/board/add.jsp 파일에서 input type="file" 인 name 의 이름(attach)과 
  	// 동일해야만 파일첨부가 가능해진다.!!!!
+=======
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 	
 	private String roomMainImg;		// 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
 	private String roomImgfilename;     // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
@@ -52,11 +53,12 @@ public class RoomVO {
 	private String buildType_detail_name;
 	private int likeCount;
 	private List<String> roomimgList;
-	private List<HashMap<String,String>> optionList;
 	private List<ReviewVO> reviewList;
 	private List<ReservationVO> reservationList;
-	private MemberVO host;
+	private List<HashMap<String,String>> optionList;
+	private List<HashMap<String,String>> ruleList;
 	private List<HashMap<String,String>> bedroomList;
+	private MemberVO host;
 	public RoomVO() {}
 	
 	public String getRoomcode() {
@@ -106,15 +108,6 @@ public class RoomVO {
 	public void setRoomMainImg(String roomMainImg) {
 		this.roomMainImg = roomMainImg;
 	}
-	
-	public MultipartFile getAttach() {
-		return attach;
-	}
-
-	public void setAttach(MultipartFile attach) {
-		this.attach = attach;
-	}
-	
 	
 	public String getRoomImgfilename() {
 		return roomImgfilename;
