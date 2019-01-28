@@ -143,3 +143,6 @@
 .dropsubrow{
    margin: 2% 0;
 }
+.datepicker .datepicker-switch {
+	width: 250px;
+}
