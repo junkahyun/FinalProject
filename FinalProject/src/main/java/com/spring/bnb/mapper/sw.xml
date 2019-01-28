@@ -38,7 +38,7 @@
 	</select> 
 	
 	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
-		select *
+		<!-- select *
 		from room
 		where roomcode in (select distinct roomcode
 						   from room A JOIN buildtype_detail B
@@ -56,7 +56,35 @@
 						   <if test='STARTPRICE != "" and ENDPRICE != ""'>
 						   and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
 						   </if>
-						   )
+						   ) -->
+						   
+						   
+						   select *
+							from room
+							where roomcode in (
+							select roomcode
+							from room
+							<if test='CHECKIN != "" and CHECKOUT != "" and BUILDNAME2 != "" and STARTPRICE != "" and ENDPRICE != ""'>
+							minus
+							select roomcode
+							from room A JOIN reservation B
+							ON A.roomcode = B.fk_roomcode
+							JOIN buildtype_detail C
+							ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+							where 1=1
+							<if test='CHECKIN != "" and CHECKOUT != ""'>
+							and #{CHECKIN} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+							and #{CHECKOUT} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+							</if>
+							<if test='BUILDNAME2 != ""'> 
+						   and buildtype_detail_name = #{BUILDNAME2}
+						   </if>
+						   <if test='STARTPRICE != "" and ENDPRICE != ""'>
+						   and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
+						   </if>
+							</if>
+							)
+						   
 	</select>
 	
 	<select id="getRoomList" resultType="com.spring.bnb.model.RoomVO">

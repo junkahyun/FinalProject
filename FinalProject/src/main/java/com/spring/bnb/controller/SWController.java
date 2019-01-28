@@ -154,6 +154,7 @@ public class SWController {
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
 		System.out.println(str_json);
+		System.out.println(jsonArr.length());
 		
 		return "JSON";		
 	}

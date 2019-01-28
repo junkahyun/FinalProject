@@ -177,7 +177,6 @@
 			data : form_data,
 			dataType : "JSON",
 			success : function(json){
-				
 				$("#allList").empty();
 				 
 				 $.each(json, function(entryIndex, entry){
