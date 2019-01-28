@@ -130,7 +130,7 @@
 						<div class="col-md-5"  style="float:left;"><h5>예약 객실</h5></div>
 						<div class="col-md-6 row">
 							<div style="margin: 1%;"class="roomTitle"><h6>숙소 유형 : ${resDetail.roomtype_name}</h6></div>
-							<div style="margin: 1%;"class="roomTitle"><h6>건물유형  : ${resDetail.buildtype}/${resDetail.buildtype_detail_name}</h6></div>
+							<div style="margin: 1%;"class="roomTitle"><h6>건물유형  : ${buildtype.buildtype}/${buildtype.buildtype_detail_name}</h6></div>
 							<div style="margin: 1%;"class="roomTitle"><h6>침실갯수  : ${resDetail.roomcount}</h6></div>
 							<c:forEach items="${bedtype}" var="bed"  >
 								<div style="margin: 1%;"class="roomTitle"><h6>침대 갯수 : ${bed.bedcount} /&nbsp;침대 유형 : ${bed.bedtype}</h6></div>	
@@ -146,7 +146,7 @@
 					<div class="col-md-12" style="padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>결제 금액</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : </div>
+							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : ${resDetail.servicePrice}</div>
 							<div style="margin: 1%;" class="roomTitle"><h6>청소비 : ${resDetail.cleanpay}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>할인금액 :${resDetail.dcprice}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>총 결제금액: ${resDetail.totalprice}</h6></div>

@@ -290,3 +290,4 @@ order by roomcode desc;
 update room set ROOMSTATUS = 99
 where ROOMCODE in (24,25,26);
 commit;
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

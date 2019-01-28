@@ -194,6 +194,7 @@
 	<result column="checkOutYY" property="checkOutYY" javaType="String"/>
 	<result column="cleanpay" property="cleanpay" javaType="String"/>
 	<result column="flag" property="flag" javaType="String"/>
+	<result column="servicePrice" property="servicePrice" javaType="String"/>
 </resultMap>
 
 <select id="getMemberReservationDetail" parameterType="HashMap" resultMap="resDetail">
@@ -388,6 +389,20 @@ order by rsvcode desc
     select bedcount,fk_roomcode,bedtype
     from view_bedtype
     where fk_roomcode = #{roomcode}
+</select>
+
+<resultMap type="HashMap" id="buildTypeMap">
+<result property="buildtype_detail_name" column="buildtype_detail_name" javaType="String"/>
+<result property="buildtype" column="buildtype" javaType="String"/>
+</resultMap>
+
+<select id="getBuildType" parameterType="String" resultMap="buildTypeMap">
+	select buildtype_detail_name,buildtype
+    from BUILDTYPE_DETAIL A join BUILDTYPE B
+    on B.BUILDTYPE_IDX = A.FK_BUILDTYPE_IDX
+    right join room C
+    on C.FK_BUILDTYPE_DETAIL_IDX = A.BUILDTYPE_DETAIL_IDX
+    where roomcode = #{roomcode}
 </select>
 
 </mapper>	

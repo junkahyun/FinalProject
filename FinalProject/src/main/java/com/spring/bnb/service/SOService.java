@@ -126,6 +126,11 @@ public class SOService implements InterSOService{
 		List<HashMap<String,String>> bedtype = dao.getBedType(roomcode);
 		return bedtype;
 	}
+	@Override
+	public HashMap<String, String> getBuildType(String roomcode) {
+		 HashMap<String, String> buildType = dao.getBuildType(roomcode);
+		return buildType;
+	}
 
 
 

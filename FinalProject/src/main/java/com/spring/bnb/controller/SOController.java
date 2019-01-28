@@ -475,10 +475,9 @@ public class SOController {
 		HashMap<String,String> resDetail = service.getMemberReservationDetail(paraMap);
 		
 		String roomcode = resDetail.get("roomcode");
-		System.out.println("roomcode"+roomcode);
-		
+			
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
-		System.out.println(bedtype.get(0).get("bedtype"));
+		HashMap<String,String> buildtype = service.getBuildType(roomcode);
 		
 		
 		/*
@@ -490,6 +489,7 @@ public class SOController {
 		myReservationScheduleDetail.put("email", email);
 		System.out.println(myReservationScheduleDetail.get("email"));
 		*/
+		req.setAttribute("buildtype",buildtype);
 		req.setAttribute("bedtype", bedtype);		
 		req.setAttribute("resDetail", resDetail);
 		return "mypage/myReservationDetail.hometiles";
@@ -512,11 +512,10 @@ public class SOController {
 		HashMap<String, String> myReservationScheduleDetail = service.getMemberReservationDetail(paraMap);
 		//bed type 가져오기
 		String roomcode = myReservationScheduleDetail.get("roomcode");
-		System.out.println(roomcode);
 		
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
-		
-		
+		HashMap<String,String> buildtype = service.getBuildType(roomcode);
+				
 		/*
 		System.out.println("email : " + myReservationScheduleDetail.get("email"));
 		 
@@ -526,6 +525,7 @@ public class SOController {
 		myReservationScheduleDetail.put("email", email);
 		System.out.println(myReservationScheduleDetail.get("email"));
 		*/
+		req.setAttribute("buildtype", buildtype);
 		req.setAttribute("bedtype", bedtype);
 		req.setAttribute("myRsvDetail", myReservationScheduleDetail);
 		

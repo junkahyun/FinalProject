@@ -58,6 +58,8 @@ public interface InterSOService {
 	List<HashMap<String, String>> getMyUserCoupon(HashMap<String, String> paraMap);
 	// *** 사용한 쿠폰 총 갯수 ***
 	int getUseTotalCount(String userid);
+	// *** 예약한 빌딩 유형 ***
+	HashMap<String, String> getBuildType(String roomcode);
 
 	
 

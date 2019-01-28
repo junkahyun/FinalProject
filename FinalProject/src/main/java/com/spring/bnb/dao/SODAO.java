@@ -180,6 +180,13 @@ public class SODAO implements InterSODAO {
 		return bedtype;
 	}
 
+	// *** 나의 예약 빌딩 타입 ***
+	@Override
+	public HashMap<String, String> getBuildType(String roomcode) {
+		HashMap<String, String> buildtype = sqlsession.selectOne("cso.getBuildType", roomcode);
+		return buildtype;
+	}
+
 
 
 
