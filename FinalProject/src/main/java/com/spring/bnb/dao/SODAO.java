@@ -172,6 +172,14 @@ public class SODAO implements InterSODAO {
 		return count;
 	}
 
+	
+	// *** 나의 예약 침대 타입 가져오기 ***
+	@Override
+	public List<HashMap<String,String>> getBedType(String roomcode) {
+		List<HashMap<String,String>> bedtype = sqlsession.selectList("cso.getBedType",roomcode); 
+		return bedtype;
+	}
+
 
 
 

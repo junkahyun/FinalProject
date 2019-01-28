@@ -31,9 +31,9 @@ public class SOService implements InterSOService{
 	// 나의 정보 수정
 	@Override
 	public void memberUpdate(MemberVO member) {
-		System.out.println("11");
+	
 		/*int n = */ dao.memberUpdate(member);
-		System.out.println("22");
+
 		/*return n;*/
 	}
 	
@@ -118,6 +118,13 @@ public class SOService implements InterSOService{
 	public int getUseTotalCount(String userid) {
 		int count = dao.getUseTotalCount(userid);
 		return count;
+	}
+	
+	// *** 나의 예약 침대 타입 가져오기 ***
+	@Override
+	public List<HashMap<String,String>> getBedType(String roomcode) {
+		List<HashMap<String,String>> bedtype = dao.getBedType(roomcode);
+		return bedtype;
 	}
 
 
