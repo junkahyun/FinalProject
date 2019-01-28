@@ -1,3 +1,4 @@
+
 /* 내 테이블1 */
 CREATE TABLE my_db.my_table1 (
 	my_pk1 INTEGER NOT NULL, /* 내 기본 키 컬럼1 */
@@ -695,3 +696,4 @@ where fk_rule_idx in (2)
 select roomcode
 from room
 where rule
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

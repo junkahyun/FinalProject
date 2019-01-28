@@ -24,7 +24,7 @@ public interface InterSHDAO {
 	List<HashMap<String, String>> getMycoupon(String userid);
 	
 	// 신고글 가져오기
-	List<ReportVO> getReport();
+	List<ReportVO> getReport(HashMap<String, String> paraMap);
 
 	// 검색조건에 만족하는 회원수를 알아오기
 	int getTotalCountWithSearch(HashMap<String, String> paraMap);

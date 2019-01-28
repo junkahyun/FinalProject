@@ -7,7 +7,7 @@
 
 	$(document).ready(function(){
 		
-	   <%--  //전역변수
+	    //전역변수
 	    var obj = [];
 	    
 	    //스마트에디터 프레임생성
@@ -23,14 +23,16 @@
 	            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 	            bUseModeChanger : true,
 	    	}
-		}); --%>
+		});
 		
 		$(".error1").hide();
 		$(".error2").hide();
 		$(".error3").hide();
 	    
 	    $("#btnWrite").click(function(){
-	        //id가 content인 textarea에 에디터에서 대입
+	    	
+	       //id가 content인 textarea에 에디터에서 대입
+	       obj.getById["report_content"].exec("UPDATE_CONTENTS_FIELD", []);
 	       /*  obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []); */
 	        
 	       var reporttype = $("#reporttype").val();
@@ -87,7 +89,7 @@
     
 <div style="padding: 3%; width: 60%; margin:0 auto;">  
 
-	<form name="writeFrm">
+	<form name="writeFrm" enctype = multipart/form-data>
 		<div style="padding-bottom: 2%; padding-left: 2%; padding-right: 2%; text-align: center; font-weight: bold;"><h2>신고 글쓰기</h2></div>
 		
 		<div class="input-group mb-3" style="padding: 2%;">

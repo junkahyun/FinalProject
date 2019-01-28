@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -221,82 +220,78 @@ public class SHController {
 		return "admin/adminMember.admintiles";
 	}
 	
-	// 관리자 신고관리 페이지
 	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
+
+		return "admin/adminVan.admintiles";
+	}
+	
+	// 관리자 신고관리 페이지
+	@RequestMapping(value="/adminVanJSON.air", method= {RequestMethod.GET})
+	public String adminVanJSON(HttpServletRequest req) {
 		
-		/*List<ReportVO> reportvo = new ArrayList<ReportVO>();
+		HashMap<String, String> paraMap = null;
 		
-		reportvo = service.getReport();
-		// System.out.println(reportMap);
-		
+		String currentShowPageNo = req.getParameter("currentShowPageNo");
 		String searchWord = req.getParameter("searchWord");
 		String searchType = req.getParameter("searchType");
-
-		if(searchType == null) {
-			searchType = "username";
-		}
-		if(searchWord== null) {
+		
+		if(searchWord == null) {
 			searchWord = "";
 		}
 		
-		if(!"num".equals(searchType) &&
-		   !"userid".equals(searchType) ) {
-			searchType = "username";
+		if(!"rno".equals(searchType) &&
+		   !"fk_userid".equals(searchType) &&
+		   searchType == null) {
+			searchType = "rno";
 		}
 		
-		HashMap<String, String> paraMap = new HashMap<String, String>();
+		if(currentShowPageNo == null || "".equals(currentShowPageNo)) {
+			currentShowPageNo = "1";
+		}
+		
+		int sizePerPage = 10;	// 한 페이지당 보여줄 갯수
+		
+		int rno1 = Integer.parseInt(currentShowPageNo)*sizePerPage - (sizePerPage-1);	// 공식!!!
+		int rno2 = Integer.parseInt(currentShowPageNo)*sizePerPage;	
+		// System.out.println(sizePerPage);
+		// System.out.println(rno1);
+		// System.out.println(rno2);
+		
+		
+		paraMap = new HashMap<String, String>();
+		paraMap.put("RNO1", String.valueOf(rno1));
+		paraMap.put("RNO2", String.valueOf(rno2));
+
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("searchType", searchType);
 		
-		List<MemberVO> searchMember = service.getSearchMember(paraMap);
+		List<ReportVO> reportvo = service.getReport(paraMap);
+		System.out.println(reportvo);
 		
 		JSONArray jsonArr = new JSONArray();
-		
-		if(searchMember == null) {
 			
-			for(int i=0; i<memberList.size(); i++) {
-				
-				JSONObject jsonObj = new JSONObject();
-				
-				jsonObj.put("USERID", memberList.get(i).getUserid());
-				jsonObj.put("USERNAME", memberList.get(i).getUsername());
-				jsonObj.put("BIRTHDAY", memberList.get(i).getBirthday());
-				jsonObj.put("GENDER", memberList.get(i).getGender());
-				jsonObj.put("PHONE", memberList.get(i).getPhone());
-				jsonObj.put("ADDR", memberList.get(i).getAddr());
-				jsonObj.put("DETAILADDR", memberList.get(i).getDetailAddr());
-				
-				jsonArr.put(jsonObj);
-			}
+		for(int i=0; i<reportvo.size(); i++) {
 			
-			String str_jsonArr = jsonArr.toString();
-			req.setAttribute("str_jsonArr", str_jsonArr);
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("fk_userid", reportvo.get(i).getFk_userid());
+			jsonObj.put("report_idx", reportvo.get(i).getReport_idx());
+			jsonObj.put("reporttype", reportvo.get(i).getReporttype());
+			jsonObj.put("report_content", reportvo.get(i).getReport_content());
+			jsonObj.put("report_date", reportvo.get(i).getReport_date());
+			jsonObj.put("report_status", reportvo.get(i).getReport_status());
+			jsonObj.put("report_subject", reportvo.get(i).getReport_subject());
+			jsonObj.put("rno", reportvo.get(i).getRno());
+			
+			jsonArr.put(jsonObj);			
+			
 		}
 		
-		else if(searchMember != null) {
-			
-			for(int i=0; i<searchMember.size(); i++) {
-				
-				JSONObject jsonObj = new JSONObject();
-				
-				jsonObj.put("USERID", searchMember.get(i).getUserid());
-				jsonObj.put("USERNAME", searchMember.get(i).getUsername());
-				jsonObj.put("BIRTHDAY", searchMember.get(i).getBirthday());
-				jsonObj.put("GENDER", searchMember.get(i).getGender());
-				jsonObj.put("PHONE", searchMember.get(i).getPhone());
-				jsonObj.put("ADDR", searchMember.get(i).getAddr());
-				jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
-				
-				jsonArr.put(jsonObj);			
-				
-			}
-			
-			String str_jsonArr = jsonArr.toString();
-			req.setAttribute("str_jsonArr", str_jsonArr);
-		}*/
-		
-		return "admin/adminVan.admintiles";
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+
+		return "JSON";
 	}
 	
 	// 신고 글쓰기 페이지 요청
@@ -466,7 +461,7 @@ public class SHController {
 	}
 	
 	// ==== #스마트에디터4. 드래그앤드롭을 사용한 다중사진 파일업로드 ====
-	@RequestMapping(value="/image/multiplePhotoUpload.action", method={RequestMethod.POST})
+	@RequestMapping(value="/image/multiplePhotoUpload.air", method={RequestMethod.POST})
 	public void multiplePhotoUpload(HttpServletRequest req, HttpServletResponse res) {
 	    
 		/*
@@ -535,5 +530,6 @@ public class SHController {
 		}
 		
 	}// end of void multiplePhotoUpload(HttpServletRequest req, HttpServletResponse res)---------------- 
+	
 	
 }

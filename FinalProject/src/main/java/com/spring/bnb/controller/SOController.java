@@ -53,32 +53,91 @@ public class SOController {
 	private FileManager fileManager;
 	
 	@RequestMapping(value = "/myCoupon.air", method = RequestMethod.GET)
-	public String myCoupon(HttpServletRequest req) {
-		
-		HttpSession session = req.getSession();
+	public String myCoupon(HttpServletRequest req) {		
+/*		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
-	
-		if(mvoUser == null) {
-		
-			String msg = "먼저 로그인 해주세요!";
-			String loc="/bnb/index.air;"; 
-			req.setAttribute("msg",msg);
-			req.setAttribute("loc", loc); 
+		String userid = mvoUser.getUserid();*/
+		String userid = "leess";
+		String date = MyUtil.getNowTime();				
 			
-			return "msg"; 
-		}else {		
-			String userid = mvoUser.getUserid();
-			
-			String date = MyUtil.getNowTime();
-		
-			List<HashMap<String,String>> myCoupon = service.getMyCoupon(userid);
+		// *** 페이징 처리하기 ***	
 
-			req.setAttribute("myCoupon", myCoupon);
-			req.setAttribute("date", date);
-			return "mypage/myCoupon.hometiles";			
+		// 조건에 맞는 총 게시물 건수
+		int sizePerPage = 10; // 한페이지당 보여줄 게시물 건수
+		int currentShowPageNo =0; // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 한다.
+		int totalPage = 0; // 총 페이지 수 (웹 브라우저 상의 총 페이지 갯수)
+		int startRno = 0; // 시작 행 번호
+		int endRno = 0; // 끝 행 번호
+		int blockSize = 10; // 페이지 바 에 보여줄 페이지의 갯수 
+		int totalCount =0;
+		int menu1 =0;		
+		String  str_menu1= req.getParameter("menu1");	
+		
+		System.out.println("str_menu1"+str_menu1);		
+/*		if(str_menu1 == null) {
+			menu1 = 1;
+		}else {
+			try {
+			menu1 = Integer.parseInt(str_menu1);
+			} catch (Exception e) {
+				menu1 = 1;
+			}	
+		}		
+		
+		if(menu1 == 1) {
+			totalCount = service.getTotalCount(userid); // 미사용 쿠폰  총 갯수	
+			System.out.println("totalCount1 "+totalCount);
+		}else{
+			totalCount = service.getUseTotalCount(userid);
+			System.out.println("totalCount2 "+totalCount);
+		}*/
+		
+		totalCount = service.getTotalCount(userid); // 미사용 쿠폰  총 갯수	
+		System.out.println("totalCount1 "+totalCount);
+		
+		System.out.println("menu1 : "+menu1);
+		totalPage = (int)Math.ceil((double)totalCount/sizePerPage); // 총 페이지 수
+		
+		String str_currnetShowPageNo = req.getParameter("currentShowPageNo");
+		
+		if(str_currnetShowPageNo == null) { // 쿠폰 리스트 초기화면 일 경우			
+			currentShowPageNo =1;
+		}else { // 특정 페이지를 조회한 경우
+			try {// 유저가 currnetShowPageNo 에 문자를 입력 했을 경우 
+				currentShowPageNo = Integer.parseInt(str_currnetShowPageNo);
+				if(currentShowPageNo <1 || currentShowPageNo>totalPage) {// 유저가 임의의 값을 넣었을 경우
+					currentShowPageNo =1;	
+				}
+				
+			} catch (NumberFormatException e) {
+				currentShowPageNo =1;
+			}
 		}
 		
-	}
+		startRno = ((currentShowPageNo - 1)*sizePerPage)+1;
+		endRno = startRno+(sizePerPage-1);
+
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno",String.valueOf(endRno));
+		
+		List<HashMap<String,String>> myCoupon = service.getMyCoupon(paraMap);
+		List<HashMap<String,String>> myUseCoupon = service.getMyUserCoupon(paraMap);
+	
+		String pageBar = "<ul>";		
+		pageBar += MyUtil.getPageBar(sizePerPage, blockSize, totalPage, currentShowPageNo, "myCoupon.air");
+		pageBar += "</ul>";	
+		
+		req.setAttribute("totalCount", totalCount);
+		req.setAttribute("myUseCoupon", myUseCoupon);
+		req.setAttribute("pagebar", pageBar);
+		req.setAttribute("myCoupon", myCoupon);
+		req.setAttribute("date", date);
+		return "mypage/myCoupon.hometiles";			
+		}
+		
+
 
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
 	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		
@@ -109,11 +168,15 @@ public class SOController {
 			
 		/*	String email = aes.decrypt(myInfo.getEmail());
 			myInfo.setEmail(email);*/
+			ServletContext application = req.getServletContext();
+			String realPath = application.getRealPath("/resources/images/profile");
+			
 			
 			String birthdayYY = birthday.substring(0, 4);
 			String birthdayMM = birthday.substring(5,7);
 			String birthdayDD = birthday.substring(8,10);
-
+			
+			req.setAttribute("realPath", realPath);
 			req.setAttribute("birthdayYY", birthdayYY);
 			req.setAttribute("birthdayMM", birthdayMM);
 			req.setAttribute("birthdayDD", birthdayDD);
@@ -267,6 +330,8 @@ public class SOController {
 					if(!multipartFile.isEmpty()) {
 						ServletContext application = req.getServletContext();
 						String realPath = application.getRealPath("/resources/images/profile");
+						
+						//realPath = req.getContextPath()+"/resources/images/profile";
 						
 						filename = multipartFile.getOriginalFilename();
 						

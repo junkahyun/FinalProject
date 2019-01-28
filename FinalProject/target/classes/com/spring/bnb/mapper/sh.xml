@@ -83,10 +83,15 @@
 		<result javaType="String" column="report_subject" property="report_subject"/>
 	</resultMap> -->
 	
-	<select id="getReport" resultType="com.spring.bnb.model.ReportVO">
-		select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject
-		from report
-		order by report_idx desc
+	<select id="getReport" parameterType="HashMap" resultType="com.spring.bnb.model.ReportVO">
+		select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, rno
+		from 
+		(
+		    select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, rownum as rno
+		    from report
+		)v
+		where ${searchType} like '%'|| #{searchWord} ||'%' 
+		and RNO between #{STARTRNO} and #{ENDRNO}
 	</select>
 	
 	<select id="getTotalCountNoSearch" resultType="int">

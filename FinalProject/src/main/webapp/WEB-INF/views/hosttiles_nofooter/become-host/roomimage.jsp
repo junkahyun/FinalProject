@@ -58,120 +58,124 @@
 </style>
 
 <script type="text/javascript">
+
+			// 파일 리스트 번호
+			var fileIndex = 0;
+			// 파일 리스트
+			var fileList = new Array();
+			
             $(document).ready(function(){  
             	
-                // 파일 리스트 번호
-                var fileIndex = 0;
-                // 파일 리스트
-                var fileList = new Array();
-
+            
                 $(".dragAndDropDiv")
-            	  .on("dragover", dragOver)
-            	  .on("dragleave", dragOver)
-            	  .on("drop", uploadFiles);
-            	 
-            	function dragOver(e){
-            	  e.stopPropagation();
-            	  e.preventDefault();
-            	}
-            	 
-            	function uploadFiles(e){
-            	  e.stopPropagation();
-            	  e.preventDefault();
-            	}
-            	
-            	function dragOver(e) {
-            	    e.stopPropagation();
-            	    e.preventDefault();
-            	    if (e.type == "dragover") {
-            	        $(e.target).css({
-            	        	"border": "2px dashed #0B85A1",
-            	        	"background-color" : "#EAEAEA",
-            	        	"outline-offset": "-20px"
-            	        });
-            	    } else {
-            	        $(e.target).css({
-            	        	"border": "2px dashed #92AAB0",
-            	        	"background-color" : "white",
-            	        	"outline-offset": "-10px"
-            	        });
-            	    }
-            	}
-        
-            	function uploadFiles(e) {
-            	    e.stopPropagation();
-            	    e.preventDefault();
-            	    dragOver(e); //1
-            	    e.dataTransfer = e.originalEvent.dataTransfer; //2
-            	    var files = e.target.files || e.dataTransfer.files;           	    
-            	    
-            	    var reader = new FileReader();
-                    reader.onload = function (e) {
-                    	for(var i=0;i<files.length;i++){
-             	    	   console.log(e.target.result);
-                   	   }	
-                    }
-            	    
-            	 
-            	    if (files.length > 1) {
-            	        return;
-            	    }
-            	    
-            	    for(var i=0; i<100; i++){
-            	    fileList[i] = files[i]
-            	    
-            	    if (files[i].type.match(/image.*/)) {
-            	        
-            	    }else{
-            	        alert('이미지가 아닙니다.');
-            	        return;
-            	    }
+      	   	  .on("dragover", dragOver)
+      	   	  .on("dragleave", dragOver)
+      	   	  .on("drop", uploadFiles);
+         	 
+      	   function dragOver(e){
+      	   	  e.stopPropagation();
+      	   	  e.preventDefault();
+      	   }
+      	   	 
+      	   function uploadFiles(e){
+      	   	  e.stopPropagation();
+      	   	  e.preventDefault();
+      	   }
+      	   	
+      	   function dragOver(e) {
+      	   	    e.stopPropagation();
+      	   	    e.preventDefault();
+      	   	    if (e.type == "dragover") {
+      	   	        $(e.target).css({
+      	   	        	"border": "2px dashed #0B85A1",
+      	   	        	"background-color" : "#EAEAEA",
+      	   	        	"outline-offset": "-20px"
+      	   	        });
+      	   	    } else {
+      	   	        $(e.target).css({
+      	   	        	"border": "2px dashed #92AAB0",
+      	   	        	"background-color" : "white",
+      	   	        	"outline-offset": "-10px"
+      	   	        });
+      	   	    }
+      	    }
+      	
+      	   	function uploadFiles(e) {
+      	   	    e.stopPropagation();
+      	   	    e.preventDefault();
+      	   	    dragOver(e); //1
+      	   	    e.dataTransfer = e.originalEvent.dataTransfer; //2
+      	   	    var files = e.target.files || e.dataTransfer.files;           	    
+      	   	    
+      	   	    var reader = new FileReader();
+      	           reader.onload = function (e) {
+      	           	for(var i=0;i<files.length;i++){
+      	    	    	   console.log(e.target.result);
+      	          	   }	
+      	           }
+      	   	    
+      	   	 
+      	   	    if (files.length > 1) {
+      	   	        return;
+      	   	    }
+      	   	    
+      	   	    for(var i=0; i<100; i++){
+      		   	    fileList[i] = files[i]
+      		   	    
+      		   	    if (files[i].type.match(/image.*/)) {
+      		   	        
+      		   	    }else{
+      		   	        alert('이미지가 아닙니다.');
+      		   	        return;
+      		   	    }
+      	
+      		   	    if (files[i].type.match(/image.*/)) {
+      		   	        $(e.target).css({
+      		   	            "background-image": "url(" + window.URL.createObjectURL(files[i]) + ")",
+      		   	            "outline": "none",
+      		   	            "background-size": "100% 100%"
+      		   	        });
+      		   	    }else{
+      		   	      alert('이미지가 아닙니다.');
+      		   	      return;
+      		   	    }
 
-            	    
-            	    if (files[i].type.match(/image.*/)) {
-            	        $(e.target).css({
-            	            "background-image": "url(" + window.URL.createObjectURL(files[i]) + ")",
-            	            "outline": "none",
-            	            "background-size": "100% 100%"
-            	        });
-            	    }else{
-            	      alert('이미지가 아닙니다.');
-            	      return;
-            	    }
-     
-                    // 업로드 파일 목록 생성
-                    addFileList(files, fileIndex, files[i].name, files[i].size);
-                    // 파일 번호 증가
-                    fileIndex++;
-                    
-            	    } 	   
-            	    
-            	}
-            	
-            	 // 업로드 파일 목록 생성
-                function addFileList(files, fIndex, fileName, fileSize){
-            		 
-            	  var form_data = {"fileName":fileName};   
-            	  
-           		  $.ajax({
-         	 		 url:"dropJOSN.air",
-         	 		 type:"GET",
-         	 		 dataType:"JSON",
-         	 		 data:form_data,
-         	 		 success:function(json) {
-         	 			var html = "";
-                        html += "<div id='fileTr_" + fIndex + "'>";
-                        html +=         fileName + " / " + fileSize + "MB "  + "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>"
-                        html += "</div>"
-                 
-                        $("#list").append(html);
-         	 		 },
-         	 		 error: function(request, status, error){
-         	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-         	 		 }
-         	 	 });// end of $.ajax({ ---             		 
-     
-                } 
+   	                // 파일 배열에 넣기
+   	                fileList[fileIndex] = files[i];
+   	                
+   	
+   	                // 업로드 파일 목록 생성
+   	                addFileList(files, fileIndex, files[i].name, files[i].size);
+   	
+   	                // 파일 번호 증가
+   	                fileIndex++; 
+      	   	   } 	    
+      	   }
+      	   	
+      	   // 업로드 파일 목록 생성
+      	   function addFileList(files, fIndex, fileName, fileSize){
+      	   		 
+      	   	  var form_data = {"fileName":fileName};   
+      	   	  
+/*         		  $.ajax({
+      	 		 url:"dropJOSN.air",
+      	 		 type:"GET",
+      	 		 dataType:"JSON",
+      	 		 data:form_data,
+      	 		 success:function(json) { */
+      	 			var html = "";
+                     html += "<div id='fileTr_" + fIndex + "'>";
+                     html +=         fileName + " / " + fileSize + "MB "  + "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>"
+                     html += "</div>"
+              
+                     $("#list").append(html);
+      	 	/* 	 },
+      	 		 error: function(request, status, error){
+      	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      	 		 }
+      	 	 });// end of $.ajax({ ---             		 
+      	 */
+      	   }
             	        	
             });// end ready --- 
             
@@ -182,11 +186,11 @@
                 
                 var list = $("#list").html();
                 if(list == ""){
-                $(".dragAndDropDiv").css({
-    	            "background-image": "url(white)",
-    	            "outline": "none",
-    	            "background-size": "100% 100%"
-    	        });
+	                $(".dragAndDropDiv").css({
+	    	            "background-image": "url(white)",
+	    	            "outline": "none",
+	    	            "background-size": "100% 100%"
+	    	        });
                 }
             }
             

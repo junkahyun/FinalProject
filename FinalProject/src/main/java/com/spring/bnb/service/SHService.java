@@ -63,9 +63,9 @@ public class SHService implements InterSHService {
 
 	// 신고글 가져오기
 	@Override
-	public List<ReportVO> getReport() {
+	public List<ReportVO> getReport(HashMap<String, String> paraMap) {
 		
-		List<ReportVO> reportMap = dao.getReport();
+		List<ReportVO> reportMap = dao.getReport(paraMap);
 		// System.out.println(reportMap);
 		return reportMap;
 

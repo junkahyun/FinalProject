@@ -63,9 +63,9 @@ public class SHDAO implements InterSHDAO {
 
 	// 신고글 가져오기
 	@Override
-	public List<ReportVO> getReport() {
+	public List<ReportVO> getReport(HashMap<String, String> paraMap) {
 		
-		List<ReportVO> reportMap = sqlsession.selectList("sh.getReport");
+		List<ReportVO> reportMap = sqlsession.selectList("sh.getReport", paraMap);
 
 		return reportMap;
 	}

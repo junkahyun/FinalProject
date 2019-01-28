@@ -9,11 +9,12 @@ public class ReportVO {
 	private String report_date;
 	private int report_status;
 	private String report_subject;
+	private int rno;
 	
 	public ReportVO() {}
 
 	public ReportVO(int report_idx, String fk_userid, String reporttype, String report_content, String report_date,
-			int report_status, String report_subject) {
+			int report_status, String report_subject, int rno) {
 		super();
 		this.report_idx = report_idx;
 		this.fk_userid = fk_userid;
@@ -22,6 +23,15 @@ public class ReportVO {
 		this.report_date = report_date;
 		this.report_status = report_status;
 		this.report_subject = report_subject;
+		this.rno = rno;
+	}
+
+	public int getRno() {
+		return rno;
+	}
+
+	public void setRno(int rno) {
+		this.rno = rno;
 	}
 
 	public int getReport_idx() {
