@@ -23,6 +23,6 @@ public interface InterHYService {
 
 	int insertMember(MemberVO member);
 
-	List<RoomVO> getRecommendRoomList();
+	List<RoomVO> getRecommendRoomList(String string);
 
 }

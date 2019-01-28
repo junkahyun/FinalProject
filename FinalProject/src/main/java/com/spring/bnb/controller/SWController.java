@@ -1,6 +1,8 @@
 package com.spring.bnb.controller;
 
-import java.util.*; 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
@@ -122,67 +125,103 @@ public class SWController {
 	}
 	
 	@RequestMapping(value = "/optionJSON.air", method = {RequestMethod.GET})
-	public String option(HttpServletRequest req, HttpServletResponse res, String[] rulename, String[] roomtype_name, String[] optionname) {
+	/*@ResponseBody*/
+	public String option(HttpServletRequest req, HttpServletResponse res) {
 		 
-		if(rulename == null ) {
-			rulename = new String[]{""};
+		List<HashMap<String,Object>> mapList = new ArrayList<HashMap<String,Object>>();
+		
+		String[] rulename = req.getParameterValues("rulename");
+		String[] roomtype_name = req.getParameterValues("roomtype_name");
+		String[] optionname = req.getParameterValues("optionname");
+				
+		int roomcode = 10;
+		
+		String rulenameStr = "";
+		String roomtype_nameStr = "";
+		String optionnameStr = "";
+	
+		List<String> rulenameList = new ArrayList<String>();
+		if(rulename != null) {
+			for(int i=0; i<rulename.length; i++) {
+				String rule = rulename[i];				
+				if(rulename.length > i+1) {
+					rulenameStr += rule+", ";					
+				}
+				else {
+					rulenameStr += rule;
+				}				
+			}
+		//	System.out.println(rulenameStr);
 		}
-		if(roomtype_name == null) {
-			roomtype_name = new String[]{""};
+		
+		List<String> roomtype_nameList = new ArrayList<String>();
+		if(roomtype_name != null) {
+			for(int i=0; i<roomtype_name.length; i++) {
+				String roomtype = roomtype_name[i];				
+				if(roomtype_name.length > i+1) {
+					roomtype_nameStr += roomtype+", ";
+				}
+				else {
+					roomtype_nameStr += roomtype;
+				}				
+			}
+		//	System.out.println(roomtype_nameStr);
 		}
-		if(optionname == null) {
-			optionname = new String[]{""};
-		}
-		String rulenameStr = Arrays.toString(rulename);
-		String roomtype_nameStr = Arrays.toString(roomtype_name);
-		String optionnameStr = Arrays.toString(optionname);
-
 		
-		System.out.println("rulenameStr : " + rulenameStr);
-		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
-		System.out.println("optionnameStr : " + optionnameStr);
+		List<String> optionnameList = new ArrayList<String>();
+		if(optionname != null) {
+			for(int i=0; i<optionname.length; i++) {
+				String option = optionname[i];				
+				if(optionname.length > i+1) {
+					optionnameStr += option+", ";
+				}
+				else {
+					optionnameStr += option;
+				}				
+			}
+		//	System.out.println(optionnameStr);
+		}		
 		
-		rulenameStr = rulenameStr.replace("[", "{");
-		rulenameStr = rulenameStr.replace("]", "}");
-		roomtype_nameStr = roomtype_nameStr.replace("[", "{");
-		roomtype_nameStr = roomtype_nameStr.replace("]", "}");
-		optionnameStr = optionnameStr.replace("[", "{");
-		optionnameStr = optionnameStr.replace("]", "}");
+		System.out.println(rulenameStr);
+		System.out.println(roomtype_nameStr);
+		System.out.println(optionnameStr);
 		
-		
-		System.out.println("rulenameStr : " + rulenameStr);
-		System.out.println("roomtype_nameStr : " + roomtype_nameStr);
-		System.out.println("optionnameStr : " + optionnameStr);
-		
-		JSONArray jsonArr = new JSONArray();  		
-		HashMap<String,String> paraMap =  new HashMap<String,String>();
+		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
+				
+		System.out.println("1 :"+paraMap);
 		
-		System.out.println(paraMap);
 		
-		List<HashMap<String, String>> optionList = service.getSWOptionList(paraMap);
+		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
 		
-		for(HashMap<String, String> test : optionList) {
+		for(RoomVO roomvo : optionList) {
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("ROOMNAME", roomvo.getRoomName());
+			map.put("ROOMPRICE", roomvo.getRoomPrice());
+			map.put("ROOMMAINIMG", roomvo.getRoomMainImg());
 			
-			JSONObject jsonObj = new JSONObject();
+			mapList.add(map);
+		}
+		System.out.println("2 :"+mapList);
+		
+		JSONArray jsonArr = new JSONArray();  		
+				
+		for(RoomVO test : optionList) {
 			
-			jsonObj.put("optionList", test);
+			JSONObject jsonObj = new JSONObject();			
+			jsonObj.put("ROOMNAME", test.getRoomName());
+			jsonObj.put("ROOMPRICE", test.getRoomPrice());
+			jsonObj.put("ROOMMAINIMG", test.getRoomMainImg());
 			
 			jsonArr.put(jsonObj);
 		}
 		
 		String str_json = jsonArr.toString();
-		req.setAttribute("str_json", str_json);
+		req.setAttribute("str_json", str_json);		
 		
-		req.setAttribute("optionname", optionname);
-		req.setAttribute("rulename", rulename);
-		req.setAttribute("roomtype_name", roomtype_name);
-		
-		System.out.println(str_json);
-		System.out.println(optionList);
-		System.out.println(jsonArr);
+		System.out.println("3 : " +str_json);
 		
 		return "JSON";
 	}

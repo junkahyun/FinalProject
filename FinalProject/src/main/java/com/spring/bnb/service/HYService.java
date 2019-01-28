@@ -61,8 +61,8 @@ public class HYService implements InterHYService {
 	}
 
 	@Override
-	public List<RoomVO> getRecommendRoomList() {
-		List<RoomVO> recoomendRoomList = new ArrayList<RoomVO>();
+	public List<RoomVO> getRecommendRoomList(String sigungu) {
+		List<RoomVO> recoomendRoomList = dao.getRecommendRoomList(sigungu);
 		return recoomendRoomList;
 	} 
 }

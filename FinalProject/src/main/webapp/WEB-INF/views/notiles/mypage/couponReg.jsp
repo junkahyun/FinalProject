@@ -23,8 +23,6 @@
 <script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
-	$(document).ready(function(){
-	});
 	
 	function couponAdd() {
 
@@ -38,12 +36,12 @@
 	
 </script>
 <form name="couponAddFrm">
-	<div style="padding-top: 10%; border: 1px solid red">
+	<div style="padding-top: 10%;">
 	<div style="padding-left: 10%;"><strong>쿠폰등록을 등록해주세요 </strong></div>
 		<div class="col-md-1"></div>	
-		<div class="col-md-10" style="border: 1px solid red">		 
-			<div style="margin: 3%;"><input type="text" id="couponReg" name="couponReg" placeholder="쿠폰번호를 입력해주세요"/></div>
-			<div style="margin-top: 5%; margin-left: 35%;"><button class="btn" type="button" id="btnCoupon" onClick="couponAdd();">등록</button></div>
+		<div class="col-md-10">		 
+			<div style="margin: 3%;"><input type="text" id="couponReg"  name ="coupon" placeholder="쿠폰번호를 입력해주세요"/></div>
+			<div style="margin-top: 5%; margin-left: 35%;"><button class="btn"type="button" id="btnCoupon" onClick="couponAdd();">등록</button></div>
 		</div>
 	</div>
 </form>

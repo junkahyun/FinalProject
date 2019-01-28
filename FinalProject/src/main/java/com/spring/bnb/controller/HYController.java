@@ -45,9 +45,9 @@ public class HYController {
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
 		if(roomcode==null) roomcode = "10";
-		roomcode = "24";
+		roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
-		List<RoomVO> recommendRoomList = service.getRecommendRoomList();
+		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		req.setAttribute("recommendRoomList", recommendRoomList);
 		req.setAttribute("room", roomvo);
 		return "home/homeDetail.hometiles";
@@ -86,6 +86,8 @@ public class HYController {
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
+
+
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";

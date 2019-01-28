@@ -4,9 +4,9 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/homeDetail.css" />  
 <script type="text/javascript">
+var adultCount = 1;
+var babyCount = 0;
 	$(document).ready(function(){
-		var adultCount = 1;
-		var babyCount = 0;
 		$("#adultCount").val(adultCount);
 		$("#babyCount").val(babyCount);
 		$("#babyhide").hide();
@@ -20,6 +20,7 @@
         		$("#followHY").removeClass("followDiv");
         	}
        	});
+
        	$("#reviewSearchWord").keydown(function(event){
        		if(event.keyCode==13){
        			reviewSearch();
@@ -64,6 +65,20 @@
             alert();
         }); */
 		$("#adultTotal").text(adultCount);
+		var form1 = {
+				  view:"form", scroll:false, width:320, elements:[
+				    { view:"text", label:"Label", name:"label", value:"text"},
+				    { view:"datepicker", label:"Start date", name:"start", stringResult:true },
+				    { view:"datepicker", label:"End date", name:"end", stringResult:true },
+				    { view:"button", type:"form", value:"Submit data", click:function(){
+				      webix.message("<pre>"+JSON.stringify(this.getParentView().getValues(),0,1)+"</pre>");
+				    }}
+				  ]
+				};
+		$('#cal').setValues({
+			  start:"2018-02-01",
+			  end:new Date(2018,1,3, 14, 20)
+		});
 	});   
 	function reviewSearch(){
 	   	var reviewSearchWord = $("#reviewSearchWord").val();
@@ -123,13 +138,13 @@
 	}
   	function goReserve(){
   		var frm = document.reserveFrm;
-  		frm.guestCount.value=adultTotal;
-  		frm.babyCount.value=babyTotal;
+  		frm.guestCount.value=adultCount;
+  		frm.babyCount.value=babyCount;
   		frm.rsv_checkInDate.value="2019-01-31";
   		frm.rsv_checkOutDate.value="2019-02-02";
   		frm.action="reservationCheck.air";
   		frm.method="GET";
-  		frm.submit();
+  		//frm.submit();
   	}
   	
 </script>
@@ -232,6 +247,7 @@
          <div class="infoDiv">
             <div class="infoSubjectHY" style="font-weight:bold;">예약 가능 여부</div>
             <div class="row noSpace" style="margin-top:3%;">
+            	<div id="cal"></div>
                <table class="_p5jgym" role="presentation">
                   <tbody>
                   <%-- "_12fun97" : 예약가능 / "_z39f86g" : 예약불가 --%>
@@ -376,7 +392,7 @@
 		<input type="hidden" name="guestCount">
 		<input type="hidden" name="babyCount">
 		<input type="hidden" name="rsv_checkInDate">
-		<input type="hidden" name="rsv_checkOutDate">
+		<input type="hidden" name="rsv_checkOutDate" >
 		<div id="followHY" class="noSpace" style="width: 400px;padding: 0 3%;">
 			<div style="height:380px;width: 400px;border:1px solid lightgray; padding: 5%;">
 				<div style="height:60px; border-bottom: 1px solid lightgray;">
@@ -389,7 +405,7 @@
                      	<div class="row DetailsInput" style="padding-left:5%;"><div class="col-md-4">체크인</div><div class="col-md-3">→</div><div class="col-md-4">체크아웃</div></div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
-                        	<div class="dropdown-toggle" data-toggle="dropdown" style="padding-left:10%;padding-top:2%;cursor:pointer;">게스트 성인 <span id="adultTotal"></span>명<span id="babyhide">, 유아 <span id="babyTotal"></span>명</span><span class="caret"></span></div>
+                        	<div class="dropdown-toggle" data-toggle="dropdown" style="padding-left:10%;padding-top:3%;cursor:pointer;">게스트 성인 <span id="adultTotal"></span>명<span id="babyhide">, 유아 <span id="babyTotal"></span>명</span><span class="caret"></span></div>
                         	<div id="myDropdown" class="dropdown-menu dropdown-content" style="width:79%;position:absolute; top: 62%; margin-left: 12%;border-top: solid #148487;">
                             	<div style="padding: 3% 5%; border-radius:5px;width:100%;">
                                		<div class="row dropsubrow" style="margin-bottom:3%;">
@@ -427,7 +443,7 @@
   	<%-- 추천숙소 --%>
    	<div class="row noSpace" id="followEndHY">
       	<div class="col-md-12">
-         	<div class="infoSubjectHYBig" style="margin-bottom: 2%;">추천 숙소 더 보기</div>
+         	<div class="infoSubjectHYBig" style="margin-bottom: 2%;">주변 숙소 더 보기</div>
          	<div class="row" style="width: 100vw">
          		<c:forEach items="${recommendRoomList }" var="recommendRoom">
                 <div class="col-md-2" style="margin-bottom: 2%;">
