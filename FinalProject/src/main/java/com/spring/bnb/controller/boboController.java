@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.boboService;
 import com.spring.common.FileManager;
@@ -161,11 +162,15 @@ public class boboController {
 		return "JSON";
 	}
 	
-	@RequestMapping(value="/roomstep3.air", method={RequestMethod.GET})
-	public String roomstep3(RoomVO roomvo, HttpServletRequest request) {	
-		
-		
-		
+	@RequestMapping(value="/roomstep3.air", method={RequestMethod.POST})
+	public String roomstep3(RoomVO roomvo, HttpServletRequest req,  @RequestParam("file") List<MultipartFile> fileList) {	
+			HttpSession session = req.getSession();
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			loginuser.setUserid("leess");
+			for(MultipartFile val : fileList) {
+				System.out.println(val.getOriginalFilename());
+			}
+
 		return "become-host/room-step3.hosttiles_nofooter";
 	}
 	
@@ -190,7 +195,13 @@ public class boboController {
 	@RequestMapping(value="/roomimage.air", method={RequestMethod.GET})
 	public String roomimage(HttpServletRequest req) {
 		
-		return "become-host/roomimage.hosttiles_nofooter";
+		return "become-host/roomimage2.hosttiles_nofooter";
+	}
+	
+	@RequestMapping(value="/roomimage3.air", method={RequestMethod.GET})
+	public String roomimage3(HttpServletRequest req) {
+		
+		return "become-host/roomimage3.hosttiles_nofooter";
 	}
 	
 	
