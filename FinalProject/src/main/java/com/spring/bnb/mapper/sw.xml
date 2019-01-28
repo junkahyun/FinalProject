@@ -37,8 +37,40 @@
 		where A.buildtype = #{buildName1}
 	</select> 
 	
+	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
+		select *
+		from room
+		where roomcode in (select distinct roomcode
+						   from room A JOIN buildtype_detail B
+						   ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+						   JOIN reservation C
+						   ON A.roomcode = C.fk_roomcode
+						   where 1=1
+						   <if test='BUILDNAME2 != ""'> 
+						   and buildtype_detail_name = #{BUILDNAME2}
+						   </if>
+						   <if test='CHECKIN != "" and CHECKOUT != ""'>
+						   and not to_char(C.rsv_checkindate, 'yyyy-mm-dd') between #{CHECKIN} and #{CHECKOUT}
+						   and not to_char(C.rsv_checkoutdate, 'yyyy-mm-dd') between #{CHECKIN} and #{CHECKOUT}
+						   </if>
+						   <if test='STARTPRICE != "" and ENDPRICE != ""'>
+						   and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
+						   </if>
+						   )
+	</select>
+	
 	<select id="getRoomList" resultType="com.spring.bnb.model.RoomVO">
-		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx		
+		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx	
+		<!-- 
+		select * 
+		from room A join roomType B 
+		on A.fk_roomtype_idx = B.roomtype_idx
+		JOIN bedroom C
+		ON A.roomcode = C.fk_roomcode
+		JOIN bed D
+		ON C.bedroom_idx = D.fk_bedroom_idx
+		JOIN bedobj E
+		ON D.fk_bedobj_idx = E.bedobj_idx	 -->			
 	</select>
 	
 	<resultMap type="HashMap" id="dataResultMap2">
@@ -67,53 +99,8 @@
 		from reservation     
 		where fk_userid = #{userid}
 	</select>	
-	 
-	<!-- <resultMap type="HashMap" id="dataResultMap">
-		<result property="ROOMMAINIMG"   column="roommainimg"   javaType="String" />
-		<result property="ROOMNAME"      column="roomname"      javaType="String" />
-		<result property="ROOMPRICE"     column="roomprice"     javaType="int" />
-		<result property="ROOMCODE"      column="roomcode"      javaType="String" />
-		<result property="RULENAME"      column="rule_name"     javaType="String" />
-		<result property="ROOMTYPE_NAME" column="roomtype_name" javaType="String" />
-		<result property="OPTIONNAME"    column="optionname"    javaType="String" />
-	</resultMap> -->
-	 
-	<select id="getSWOptionList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">
-		<!-- roomname, roommainimg, roomprice, roomtel, roomsigungu
-			 , basic_person, max_person, person_addpay, viewcount
-		     , latitude, longitude, roomcode, optionname, rule_name, roomtype_name -->
-		
-		<!-- select distinct roomcode 
-		from room A JOIN roomoption B
-		on A.roomcode = B.fk_roomcode
-		JOIN options C
-		on B.fk_option_idx = c.option_idx
-		JOIN roomrule D
-		on A.roomcode = D.fk_roomcode
-		JOIN allrule E
-		on D.fk_rule_idx = E.rule_idx
-		JOIN roomtype F
-		on A.fk_roomtype_idx = F.roomtype_idx
-		where 1 = 1
-		<if test="RULENAME != ''">
-		and rule_name IN
-			<foreach collection="RULENAME" item="rname" open="(" close=")" separator=",">
-				 #{rname.value}
-			</foreach>
-		</if>
-		<if test="ROOMTYPE_NAME != ''">	
-			and roomtype_name in
-			<foreach collection="ROOMTYPE_NAME" item="rtname" open="(" close=")" separator=",">
-				 #{rtname.value}
-			</foreach>	
-		</if>
-		<if test="OPTIONNAME != ''">	
-		and optionname IN
-			<foreach collection="OPTIONNAME" item="opname" open="(" close=")" separator=",">
-				 #{opname.value}	
-			</foreach>
-		</if> -->
-		
+	
+	<select id="getSWOptionList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
 		select *  
 		from room
 		where roomcode = 10
@@ -151,6 +138,5 @@
 		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
 		where roomcode = #{roomcode}
 	</select>
-	
- 
+
 </mapper>

@@ -17,16 +17,16 @@ public interface InterSWDAO {
 	List<String> getRoomRule();  // 이용규칙
 
 	List<String> getBuildDetailList(String buildName1);  // 숙소유형(소)
-
+		
 	List<RoomVO> getRoomList();  // 숙소 리스트보기
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황 보기
-
-	/*List<RoomVO> getSWOptionList(HashMap<String, String> paraMap);  // 옵션 정보 받아오기
-*/
-	/*List<RoomVO> getSWOptionList(HashMap<String,Object> paraMap);*/
-
+	
 	List<RoomVO> getSWOptionList(HashMap<String,String> paraMap);
+
+	List<RoomVO> getHomeListByOption(HashMap<String, String> paraMap);  // 옵션에 따른 숙소리스트 받아오기
+
+	
 
 	
 }

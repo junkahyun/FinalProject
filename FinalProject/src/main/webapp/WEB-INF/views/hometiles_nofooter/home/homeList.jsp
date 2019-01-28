@@ -29,9 +29,7 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-		
 	
-	 
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
      var optionnameArr = new Array();
@@ -107,8 +105,7 @@
 					 $("#allList").empty();
 													 
 					 $.each(json, function(entryIndex, entry){
-						html += "<div id='allList' class='row'>"
-							  + "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
 							  + "</div>"
@@ -124,7 +121,6 @@
 							  + "<div>"
 							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
 							  + "<input type='hidden' name='roomcode' value=''/>" 
-							  + "</div>"
 							  + "</div>"
 							  + "</div>";
 					});// end of $.each()-------------  
@@ -158,6 +154,62 @@
 		 });
 		 
 	 });  // end of 
+	 	 
+	 // 체크인 - 체크아웃 선택시 Ajax 처리 
+	 $("#checkout").on("change", function(){	
+		 
+		if($("#checkin").val() == ""){
+			alert("체크인 날짜를 먼저 선택하세요!");
+			$("#checkout").val("");			
+			$("#checkin").focus();
+			return;
+		}
+		
+		var form_data = {checkin : $("#checkin").val(),
+				 		 checkout : $("#checkout").val(),
+				 		 buildName2 : $("#buildName2").val(),
+				 		 startprice : $(".startprice").val(),
+				 		 endprice : $(".endprice").val()};
+		var html = "";
+		$.ajax({			
+			url : "<%=request.getContextPath()%>/homeListByOption.air",
+			type : "GET",
+			data : form_data,
+			dataType : "JSON",
+			success : function(json){
+				
+				$("#allList").empty();
+				 
+				 $.each(json, function(entryIndex, entry){
+					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<input type='hidden' name='roomcode' value=''/>" 
+						  + "</div>"
+						  + "</div>";
+				});// end of $.each()-------------  
+				 
+				$("#allList").append(html); 	  
+			},
+            error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+			
+		});
+		
+	 });
 	 
 	 // 인원 수 스피너
 	 $(".person").spinner({
@@ -199,7 +251,57 @@
              }
     	  });
     	  
-      });     
+      });
+      
+      // 건물유형 소분류를 선택했을 시 Ajax 처리
+      $("#buildName2").change(function(){
+    	 
+    	  var form_data = {checkin : $("#checkin").val(),
+				 		   checkout : $("#checkout").val(),
+				 		   buildName2 : $("#buildName2").val(),
+				 		   startprice : $(".startprice").val(),
+				 		   endprice : $(".endprice").val()};
+    	  var html = "";
+    	  
+    	  $.ajax({
+    		  url : "<%=request.getContextPath()%>/homeListByOption.air",
+    		  type : "GET",
+    		  data : form_data,
+    		  dataType : "JSON",
+    		  success : function(json){
+    			  $("#allList").empty();
+    			  $.each(json, function(entryIndex, entry){
+    				  html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<input type='hidden' name='roomcode' value=''/>" 
+						  + "</div>"
+						  + "</div>";
+  				  });// end of $.each()-------------
+  				  
+  				  
+    			  
+    			  $("#allList").html(html); 
+  				  
+    		  },
+              error: function(request, status, error){
+                  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+              }
+    	  });
+    	  
+      });
       
  });
  
@@ -235,25 +337,69 @@
         var init = function () {  
             var slider3 = new rSlider({
                 target: '#slider3',
-                values: {min: 10, max: 200},
-                step: 10,
+                values: {min: 0, max: 50},
+                step: 5,
                 range: true,
-                set: [10, 40],
+                set: [0, 50],
                 scale: true,
                 labels: true,
                 width: "1700",
 				tooltip:true,
                 onChange: function (vals) {          
-                //	alert(vals);
+                //alert(vals);	
                 	var jbString = vals
             		var jbSplit = jbString.split(',');
             				
-            		for(var i in jbSplit){
-            			if(jbSplit[i] != ""){				
-            			//	alert(jbSplit[i]);
+                	var startPrice = jbSplit[0]*10000;
+        			var endPrice = jbSplit[1]*10000;
+                	
+        			$("#slider1").val(startPrice);
+	            	$("#slider2").val(endPrice); 
+	            	
+           	  var form_data = {checkin : $("#checkin").val(),
+  				 		       checkout : $("#checkout").val(),
+  				 		       buildName2 : $("#buildName2").val(),
+  				 		       startprice : $("#slider1").val(),
+  				 		       endprice : $("#slider2").val()};
+	       	         	 
+	       	  var html = "";
+	       	  
+	       	  $.ajax({
+	       		  url : "<%=request.getContextPath()%>/homeListByOption.air",
+	       		  type : "GET",
+	       		  data : form_data,
+	       		  dataType : "JSON",
+	       		  success : function(json){
+	       			  $("#allList").empty();
+	       			  $.each(json, function(entryIndex, entry){
+	       				  html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+	   						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+	   						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+	   						  + "</div>"
+	   						  + "<div>"
+	   						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+	   						  + "</div>"
+	   						  + "<div>"
+	   						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+	   						  + "</div>"
+	   						  + "<div>"
+	   						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+	   						  + "</div>"
+	   						  + "<div>"
+	   						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+	   						  + "<input type='hidden' name='roomcode' value=''/>" 
+	   						  + "</div>"
+	   						  + "</div>";
+	     				  });// end of $.each()-------------
+	       			  
+	       			  $("#allList").html(html); 
+	     				  
+	       		  	 },
+	                 error: function(request, status, error){
+	                     alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                 }
+	           });  
             				
-            			}				
-            		}		
                 }
             });
         };
@@ -285,8 +431,8 @@
             	</select>            
             	
             	<span class="optionname">날짜</span>
-            	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;">~
-            	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;">   
+            	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;" />~
+            	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;" />   
             	<c:forEach items="${roomList }" var="RList" varStatus="status">
             		<input type="hidden" id="cnt${status.index}" class="cnt" value="${status.index}" />
             		<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
@@ -349,6 +495,8 @@
                 
          <div class="col-md-12 optionbox last_optionbox" >
            	<span class="optionname" style="margin-right: 3%;">가격 (만 원)</span>
+       		<input type="hidden" id="slider1" class="startprice" name="startprice" />
+       		<input type="hidden" id="slider2" class="endprice" name="endprice" />
        		<input type="hidden" id="slider3" class="slider" />
    		 </div>
    		 
@@ -390,7 +538,7 @@
 		           	           		           
 		           // 마커가 표시될 위치입니다 
 		           var markerPosition = "";
-		           for(var i=0; i<9; i++ ){
+		           for(var i=0; i<20; i++ ){
 		        	    var latid = 'lat' +i;
 		        	    var lngid = 'lng' +i;
 		        	    
@@ -442,10 +590,10 @@
                 <div  class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
-                    	<input type="text" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
+                    	<input type="hidden" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
                     </div>
                     <div>
-                        <span style="font-size: 0.8em; font-weight: bold;">개인실 · 침대 2개</span>
+                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 <%-- ${RList.roomCount} --%>개 · 침대 <%-- ${RList.bedtype} --%> </span>
                     </div>
                     <div>
                         <%-- <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/> --%>
@@ -454,12 +602,12 @@
                     <div>
                         <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
                         <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
-                        	<input type="text" name="optionname" value="${oplist.OPTIONNAME }" />
+                        	<input type="hidden" name="optionname" value="${oplist.OPTIONNAME }" />
                         </c:forEach>
                         <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
-                       	 	<input type="text" name="rulename" value="${rule.RULE_NAME}" />
+                       	 	<input type="hidden" name="rulename" value="${rule.RULE_NAME}" />
                         </c:forEach>                         
-                        <input type="text" name="roomtype_name" value="${RList.roomType_name }" />
+                        <input type="hidden" name="roomtype_name" value="${RList.roomType_name }" />
                         
                     </div>
                     <div>

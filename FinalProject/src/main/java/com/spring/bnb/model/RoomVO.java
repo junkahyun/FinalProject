@@ -34,6 +34,7 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+	private String bedtype;	
 	private List<HashMap<String,String>> ruleList;
 	
 
@@ -260,8 +261,13 @@ public class RoomVO {
 	}
 	public void setRoom_warnCount(String room_warnCount) {
 		this.room_warnCount = room_warnCount;
+	}	
+	public String getBedtype() {
+		return bedtype;
 	}
-	
+	public void setBedtype(String bedtype) {
+		this.bedtype = bedtype;
+	}	
 	public String getRuleType_name() {
 		return roomType_name;
 	}
