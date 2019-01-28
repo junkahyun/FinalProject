@@ -207,6 +207,14 @@ order by to_date(REVIEW_WRITEDATE,'yyyy-mm-dd hh24:mi:ss') desc
 where rownum between 1 and 2;
 
 select *
+<<<<<<< HEAD
+from roomimg
+where fk_roomcode = 10; 
+
+commit;
+
+
+=======
 from review A join room B
 on A.fk_roomcode = B.roomcode;
 
@@ -290,3 +298,4 @@ order by roomcode desc;
 update room set ROOMSTATUS = 99
 where ROOMCODE in (24,25,26);
 commit;
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

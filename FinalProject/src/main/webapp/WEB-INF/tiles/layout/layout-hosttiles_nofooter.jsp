@@ -14,6 +14,7 @@
 	<link rel="shortcut icon" href="<%=ctxPath%>/resources/images/main/shortcut.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/header.css" />
 </head>
