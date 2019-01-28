@@ -29,6 +29,7 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
+	//alert($(".roomcode").val());
 	
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
@@ -39,7 +40,7 @@
 	 $(".option").click(function(){
 		 var thisText = $(this).text()
 		 var $target = $(event.target);	 
-
+		
 		 // 폰트 색깔 바꾸기
 		 if(!$target.hasClass("subjectstyle")){			
 			 $target.addClass("subjectstyle"); 
@@ -92,8 +93,8 @@
 	//    alert(typeof rulenameArr);
 	      var form_data = {"rulename" : rulenameArr,
 	    		  		   "roomtype_name" : roomtypenameArr,
-	    		  		   "optionname" : optionnameArr
-	    		  		   };
+	    		  		   "optionname" : optionnameArr,
+	    		  		   city : $("#city").val()};
 	      var html = "";
 	      
 		  $.ajax({
@@ -137,16 +138,46 @@
 	  
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#city").change(function(){
-		 
-		 var form_data = {city : $("#city").val()};
+		//  alert($("#city").val());
+		
+		 var form_data = {checkin : $("#checkin").val(),
+				 		 checkout : $("#checkout").val(),
+				 		 buildName2 : $("#buildName2").val(),
+				 		 startprice : $(".startprice").val(),
+				 		 endprice : $(".endprice").val(),
+				 		 city : $("#city").val()};
+		var html = "";
 		 
 		 $.ajax({
-			url : "<%=request.getContextPath()%>/city.air",
+			url : "<%=request.getContextPath()%>/homeListByOption.air",
 	   		type : "GET",
 			data : form_data,
 			dataType : "JSON",
 			success : function(json){ 
-			
+				$("#allList").empty();
+				 
+				 $.each(json, function(entryIndex, entry){
+					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<input type='hidden' name='roomcode' value=''/>" 
+						  + "</div>"
+						  + "</div>";
+				});// end of $.each()-------------  
+				 
+				$("#allList").append(html); 	  
 			},
             error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -169,7 +200,8 @@
 				 		 checkout : $("#checkout").val(),
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
-				 		 endprice : $(".endprice").val()};
+				 		 endprice : $(".endprice").val(),
+				 		 city : $("#city").val()};
 		var html = "";
 		$.ajax({			
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
@@ -259,7 +291,8 @@
 				 		   checkout : $("#checkout").val(),
 				 		   buildName2 : $("#buildName2").val(),
 				 		   startprice : $(".startprice").val(),
-				 		   endprice : $(".endprice").val()};
+				 		   endprice : $(".endprice").val(),
+					 		 city : $("#city").val()};
     	  var html = "";
     	  
     	  $.ajax({
@@ -359,7 +392,8 @@
   				 		       checkout : $("#checkout").val(),
   				 		       buildName2 : $("#buildName2").val(),
   				 		       startprice : $("#slider1").val(),
-  				 		       endprice : $("#slider2").val()};
+  				 		       endprice : $("#slider2").val(),
+  					 		 city : $("#city").val()};
 	       	         	 
 	       	  var html = "";
 	       	  
@@ -423,7 +457,7 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id=city style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;">
+            	<select id="city" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;">
             		<c:forEach items="${roomList }" var="RList">
             		<option value="${RList.roomSigungu }">${RList.roomSigungu }</option>
             		</c:forEach>            		         		
