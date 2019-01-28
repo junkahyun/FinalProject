@@ -46,14 +46,22 @@ public class SCDAO implements InterSCDAO {
 	
 	//룸이미지 추가하기
 	@Override
-	public void setRoomImg(HashMap<String, String> paraMap) {
-		sqlsession.insert("sc.setRoomImg", paraMap);
+	public int setRoomImg(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("sc.setRoomImg", paraMap);
+		return n;
 	}
 
 	//룸이미지 삭제하기
 	@Override
-	public void deleteFile(String imgfilename) {
-		sqlsession.delete("sc.deleteFile", imgfilename);	
+	public int deleteFile(String deleteFilename) {
+		int n = sqlsession.delete("sc.deleteFile", deleteFilename);
+		return n;
+	}
+
+	@Override
+	public int updateCoverImg(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("sc.updateCoverImg", paraMap);
+		return n;
 	}
 
 	

@@ -1,12 +1,9 @@
 package com.spring.bnb.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.bnb.model.RoomVO;
-import com.spring.bnb.service.InterHYService;
-
-
 import com.spring.bnb.service.InterSCService;
 
 @Controller
@@ -34,8 +28,14 @@ public class SCController {
 	private InterSCService service; 
 
 	@RequestMapping(value = "/hostroomList.air", method = RequestMethod.GET)
-	public String hostroomList() {
-
+	public String hostroomList(HttpServletRequest req) {
+		List<RoomVO> roomList = null;
+		String userid = null;
+		
+		userid = "leess";
+		roomList = service.getRoomList(userid);
+		
+		req.setAttribute("roomList", roomList);
 		return "host/hostroomList.hosttiles";
 	}
 
@@ -81,7 +81,8 @@ public class SCController {
 		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
-
+	
+	// 이미지파일 추가
 	@RequestMapping(value = "/imgfileupload.air", method = { RequestMethod.POST })
 	public String imgfileupload(MultipartHttpServletRequest req) throws IllegalStateException, IOException {
 		
@@ -100,7 +101,7 @@ public class SCController {
 		}
 		
 		List<MultipartFile> mfList = req.getFiles("imgfile");
-		
+		int n =0;
 		for(int i=0; i<mfList.size(); i++) {
 			String filename = mfList.get(i).getOriginalFilename();
 			//System.out.println(filename);
@@ -121,44 +122,47 @@ public class SCController {
 			paraMap.put("roomcode", roomcode);
 			paraMap.put("newFilename", newFilename);
 			
-			service.setRoomImg(paraMap);
+			n = service.setRoomImg(paraMap);
 		}
 		
-		RoomVO roomvo = service.getRoomInfo(roomcode);
-		List<String> roomimgList = roomvo.getRoomimgList();
-		
-		JSONArray jsonArr = new JSONArray(); // [] null이 아니다.
-		//JSONObject jsonobj = new JSONObject();
-		for(int i=0; i<roomimgList.size(); i++) {
-			//jsonobj.put("roomimg", roomimgList.get(i));
-			//System.out.println(jsonobj);
-			jsonArr.put(roomimgList.get(i));
+		if(n==1) {
+			RoomVO roomvo = service.getRoomInfo(roomcode);
+			List<String> roomimgList = roomvo.getRoomimgList();
+			
+			JSONArray jsonArr = new JSONArray(); // [] null이 아니다.
+			//JSONObject jsonobj = new JSONObject();
+			for(int i=0; i<roomimgList.size(); i++) {
+				//jsonobj.put("roomimg", roomimgList.get(i));
+				//System.out.println(jsonobj);
+				jsonArr.put(roomimgList.get(i));
+			}
+			String str_json = jsonArr.toString();
+			req.setAttribute("str_json", str_json);
 		}
-		String str_json = jsonArr.toString();
-		req.setAttribute("str_json", str_json);
 		
 		return "JSON";
 		
 		//return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
+	// 이미지파일 삭제 
 	@RequestMapping(value = "/imgfiledelete.air", method = { RequestMethod.POST })
 	public String imgfiledelete(HttpServletRequest req){
 		
-		String imgfilename = req.getParameter("img");
+		String deleteFilename = req.getParameter("img");
 		String roomcode = req.getParameter("roomcode");
-		System.out.println(imgfilename);
+		System.out.println(deleteFilename);
 		System.out.println(roomcode);
 		
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
 		String path = root + "resources" + File.separator+ "images";	
-		File file = new File(path+File.separator+imgfilename);
+		File file = new File(path+File.separator+deleteFilename);
 		System.out.println(file);
 		
 		if(file.exists()) {
 			file.deleteOnExit();
-			service.deleteFile(imgfilename);
+			service.deleteFile(deleteFilename);
 			
 			RoomVO roomvo = service.getRoomInfo(roomcode);
 			List<String> roomimgList = roomvo.getRoomimgList();
@@ -178,8 +182,59 @@ public class SCController {
 		return "JSON";
 	}
 	
+	// 커버이미지 변경 하는 메소드 
+	@RequestMapping(value="/coverChange.air", method= {RequestMethod.GET})
+	public String coverChange(HttpServletRequest req) {
+		String imgFilename = req.getParameter("imgFilename");
+		System.out.println(imgFilename);
+		
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("imgFilename", imgFilename);
+		
+		String str_json = jsonobj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
 	
+	@RequestMapping(value="/saveCover.air", method= {RequestMethod.GET})
+	public String saveCover(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		String changeImg = req.getParameter("changeImg");
+		String mainImg = req.getParameter("mainImg");
+		HashMap<String,String> paraMap = null;
+		System.out.println(roomcode);
+		System.out.println(changeImg);
+		System.out.println(mainImg);
+		
+		int n = 0; 
+		int n1 = 0; 
+		int n2 = 0;
+		
+		paraMap = new HashMap<String,String>();
+		paraMap.put("roomcode", roomcode);
+		paraMap.put("changeImg", changeImg);
+		n = service.updateCoverImg(paraMap);
+		
+		if(n==1) {
+			n1 = service.deleteFile(changeImg);
+		}
+		
+		if(n1==1) {
+			paraMap = new HashMap<String,String>();
+			paraMap.put("roomcode", roomcode);
+			paraMap.put("newFilename", mainImg);
 
+			n2 = service.setRoomImg(paraMap);
+		}
+		
+		if(n2==1) {
+			RoomVO roomvo = (RoomVO) service.getRoomInfo(roomcode);
+			req.setAttribute("roomvo", roomvo);
+		}
+		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
+	}
+	
+	
 	// 호스트 숙소세부사진 수정
 	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = { RequestMethod.GET })
 	public String hrDetailPhotoEdit() {

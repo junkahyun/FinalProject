@@ -150,18 +150,13 @@ div{border: /* 1px solid gray;  */
 	<div class="dropdown" align="left" style="margin-top: 2%;">
     <span class="dropdown-toggle" data-toggle="dropdown" style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; margin-left: 1.2%;">숙소변경하기
     <span class="caret"></span></span>
-	    <ul class="dropdown-menu" style="width: 45%; font-size: 15pt; ">
-	      <li style="border-bottom: 1px solid gray; padding-bottom: 1%;" >
-		     <div id="searchbar">
-               <div id="logoDiv">
-               	<img src="<%= request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px">
-               </div>
-               <input type="text" name="search" id="searchInput" placeholder="검색">
+	    <ul class="dropdown-menu" style="width: 45%; font-size: 15pt;padding:0;">
+	      <li style="padding-bottom: 1%;padding:0;margin:0;" >
+             <div class="row" style="width: auto;margin:2% 5%;">
+               <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="position:absolute;z-index:1;margin-top:5px;margin-left:2%; opacity:0.7;">
+               <input id="reviewSearchWord" type="text" class="col-md-4 form-control input-data" style="width:50%; padding-left: 8%; font-weight:bold;" placeholder="숙소검색">
             </div>
 	      </li>
-	      <li style="border-bottom: 1px solid gray; padding: 2%;">
-		      <a href="#"><span style="font-weight: bold; font-size: 12pt; ">모든숙소</span></a>
-	      </li><!-- 숙소 리스트로 -->
 	      <c:forEach var="room" items="${roomList }">
 		      <li style=" padding: 1%;" onclick="goRoomEdit('${room.roomcode}')">
 			      <a ><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
@@ -171,7 +166,7 @@ div{border: /* 1px solid gray;  */
 			      <c:if test="${room.roomstatus == 0 }">
 			      	<span style="font-size: 11pt;">운영중지</span>
 			      </c:if>
-			      <img src="${room.roomMainImg }" style="width: 20%; margin-left:55%; margin-bottom: 5%;"/></a>
+			      <img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:70%; margin-bottom: 5%;"/></a>
 		      </li>
 	      </c:forEach>
 	    </ul>
@@ -192,7 +187,7 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 		<div class="col-md-9" align="left" id="detail" class="tabcontent">
 			<h4 style="font-weight: bold; margin-bottom: 5%; margin-top: 5%;">사진</h4>
-			<img src="${roomvo.roomMainImg }" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
+			<img src="resources/images/${roomvo.roomMainImg }" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
 		</div>
 		
 		<div class="col-md-2" style="margin-top: 3%; ">

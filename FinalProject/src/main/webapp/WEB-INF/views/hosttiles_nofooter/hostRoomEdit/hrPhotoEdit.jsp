@@ -153,6 +153,12 @@ div {
 
 	$(document).ready(function(){
 		$("#imgfile").on("change",ImgsFilesSelect);
+		
+		
+		$(".closeModal").click(function(){
+		    $("#myModal").modal("hide");
+		    setTimeout("history.go(0);", 300);
+		});
 	});
 	
 	// =========== 이미지 파일 올리기 =============
@@ -172,7 +178,7 @@ div {
 			}
 			
 			imgArr.push(f);	
-			
+			// 미리보기 
 			/* var reader = new FileReader();
 			reader.onload = function(e){
 				var html = "<div id='imgbox"+index+"' class='col-md-2 imgbox'><img class='img-thumbnail' src='"+e.target.result	+"'/><br><a onClick='removePhoto("+index+");'>삭제하기</a></div>";
@@ -209,7 +215,7 @@ div {
 	        	location.reload();
 	        },
 	        error:function(){
-	            
+	        	alert("업로드 실패");
 	        }
 		});
 	}
@@ -235,15 +241,44 @@ div {
 	        	location.reload();
 	        },
 	        error:function(){
-	            
+	            alert("삭제 실패");
 	        }
 		});
 	}
 	
-	function changeCover(Img){
+	function changeCover(imgFilename){
 		
+		var form_data = {imgFilename:imgFilename};
+		//console.log(form_data);
+		$.ajax({
+			url:"coverChange.air",
+			type:"GET",
+			data:form_data,
+			dataType:"JSON",
+			success:function(json){
+				alert("커버사진 변경");
+				console.log(json.imgFilename);
+				$("#cover").empty();
+				var html = "<img id='cover' class='img-thumbnail' src='resources/images/"+json.imgFilename+"'>";
+				$("#cover").html(html);
+				var frm = document.coverChangeForm;
+				frm.changeImg.value = json.imgFilename;	
+			},
+			error:function(){
+				
+			}
+		});
 	}
 	
+	function saveCover(mainImg){
+		
+		var frm = document.coverChangeForm;
+		frm.mainImg.value = mainImg;
+		
+		frm.method = "GET";
+		frm.action = "saveCover.air";
+		frm.submit();
+	}
 </script>
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit"  href="javascript:history.back();">수정으로 돌아가기</a>
@@ -252,7 +287,7 @@ div {
 	<hr align="left">
 </div>
 <div class="col-md-4" style="margin-left: 22%;" align="center">
-	<img class="img-largeThumbnail" alt="" src="${roomvo.roomMainImg }">
+	<img class="img-largeThumbnail" alt="" src="resources/images/${roomvo.roomMainImg }">
 </div>
 
  <div class="col-md-3">
@@ -289,18 +324,20 @@ div {
 		<!-- Modal content-->
 		<div class="modal-content" >
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<button type="button" class="close closeModal" >&times;</button>
 				<h4 class="modal-title">커버 사진 변경</h4>
 			</div>
 			<div class="modal-body" style=" width: auto;">
 				<div>
-					<img class="img-thumbnail" alt="" src="${roomvo.roomMainImg }">
+					<div id="cover">
+						<img class="img-thumbnail" alt="" src="resources/images/${roomvo.roomMainImg }">
+					</div>
 					<hr align="center" style="width: 100%;">
 					<h3 align="left" style="font-weight: bold;">사진선택</h3>
 					<div id="imgs" class="row">
 						<c:forEach var="room" items="${roomvo.roomimgList }">
 							<div class="col-md-3" style="margin-bottom: 1%;">
-								<img class='img-thumbnail' alt="" src="resources/images/${room.roomImgList}" onclick="changeCover('${roomvo.roomimgList }');"/>
+								<img class='img-thumbnail changeImg' alt="" src="resources/images/${room.roomImgList}" style="cursor: pointer;" onclick="changeCover('${room.roomImgList}');"/>
 							</div>
 						</c:forEach>
 					</div>
@@ -308,12 +345,17 @@ div {
 			</div>
 			
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn" onclick="saveCover('${roomvo.roomMainImg }');" >Save</button>
+				<button type="button" class="btn btn-default closeModal">Close</button>
 			</div>
 		</div>
 
 	</div>
 </div>
 
-
+<form name="coverChangeForm">
+	<input type="hidden" name="roomcode" value="${roomvo.roomcode }"/>
+	<input type="hidden" name="changeImg"/>
+	<input type="hidden" name="mainImg"/>
+</form>
 

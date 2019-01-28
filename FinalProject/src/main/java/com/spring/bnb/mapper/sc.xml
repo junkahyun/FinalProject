@@ -51,7 +51,12 @@
 	
 	<delete id="deleteFile" parameterType="String">
 		delete roomimg
-		where img = #{imgfilename}
+		where img = #{deleteFilename}
 	</delete>
 	
+	
+	<update id="updateCoverImg" parameterType="HashMap">
+		update room set roommainImg = #{changeImg}
+		where roomcode = #{roomcode}
+	</update>
 </mapper>
