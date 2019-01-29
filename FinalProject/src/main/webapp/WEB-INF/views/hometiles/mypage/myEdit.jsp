@@ -43,21 +43,30 @@
    max-width: 100%;
    width: 100% \9;
 height: auto; 
-}
 
+}
+#phone-number-verify-widget{
+	text-align: center;
+	vertical-align: center;
+	padding: 20%;
+}
+.emailVeryfiBtn{
+	margin:5%;
+	text-align: center;
+	vertical-align: center;
+
+}
 </style>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
- 	$("#showInputPhone").hide();
+ 	
  	$("#addCode").hide();
  	$("#emailHide").hide();
- 	
- 	
- 	
  	$(".error").hide();	
+ 	$(".errorPhone").hide();
 	
 	//appendMonth();
 	var selectMonthValue = ${birthdayMM};
@@ -86,7 +95,21 @@ $(document).ready(function(){
 		}).open();
 
 	});
-});
+ 	$("#phoneEdit").blur(function(){
+      	var phone = $("#phoneEdit").val();
+      	var regExp_PHONE = /^\d{3}\d{3,4}\d{4}$/;    
+      	var bool = regExp_PHONE.test(phone);
+    
+      	if(!bool) {
+			$("#phoneEdit").parent().parent().find(".errorPhone").show();
+			$("#phoneEdit").empty().focus();
+			
+      	}
+      	else{
+			$("#phoneEdit").parent().find(".errorPhone").hide();
+      	}
+   	});// end of $("#hp2").blur()-------------
+});// end of $
 
 function handleImgFileSelect(e){
 	var files = e.target.files;
@@ -126,10 +149,7 @@ function handleImgFileSelect(e){
 	$("#month option[value=${birthdayMM}]").attr('selected','selected');
 	
 }   */
-function showPhone(){
-	$("#showInputPhone").show();
-	
-}
+
 function editInfo(){	
 	var frm = document.editFrm;
 	frm.method="POST";
@@ -233,8 +253,8 @@ function codeCheckFun() {
 			  <!-- 사용자 이미지 DIV 시작 -->
 			   <div class="col-md-2" style="margin:0; align-items: center;">
 				   <!--  user 이미지 보이기 -->
-				     <input type="hidden" name="profileimg" id="profileimgorg" value="${myInfo.profileimg}">
-				     <img src="${realPath}/resources/images/${myInfo.profileimg}" id="img" style="border-radius:100%; border: 1px solid lightgray; background-color: lightgray;" width="80%"/>
+				     <input type="hidden" name="profileimg" id="profileimgorg" value="${loginMember.profileimg}">
+				     <img src="${realPath}/resources/images/${loginMember.profileimg}" id="img" style="border-radius:100%; border: 1px solid lightgray; background-color: lightgray;" width="80%"/>
 					<!--  user 이미지 보이기 끝-->
 					<!--  유저 이미지 변경 -->
 					 <div class="filebox preview-image" id="filebox">
@@ -245,12 +265,12 @@ function codeCheckFun() {
 				</div>
 				<!-- 사용자 이미지 DIV 끝 -->	
 				<!--  사용자 이름 DIV 시작 -->
-			    <div class="col-md-10 row row-condensed" style="padding:0;">
-			        <div class="col-md-1">
+			    <div class="col-md-10 row row-condensed space-4" style="padding:0;">
+			        <div class="col-sm-1" style="text-align: right;">
 			        	 <label for="username">이름</label>
 			        </div>
-			        <div class="col-md-11" style="padding-left:2%; padding-right: 0">				        
-			          <input id="username" name="username" style="width:100%;border: none;" type="text" value="${myInfo.username}" readOnly>
+			        <div class="col-sm-11" style="padding-left:2%; padding-right: 0;">				        
+			          <input id="username" name="username" style="width:100%;border: none;" type="text" value="${loginMember.username}" readOnly>
 				      <div class="text-muted space-top-1">예약 요청 시 호스트는 회원님의 이름을 모두 확인할 수 있습니다.</div>
 			        </div>
 			     </div>
@@ -289,7 +309,7 @@ function codeCheckFun() {
 		        </label>
 		        <div class="col-sm-9">
 		        	<div class="col-sm-12" style="bording : 1px solid red; padding-right: 30%;">
-		        		<input id="email" name="email" type="text" value="${myInfo.email}">
+		        		<input id="email" name="email" type="text" value="${loginMember.email}">
 		        	</div>
 		        	<div style="margin-top:8px">
 		        		<button type="button" class="_1k01n3v1" aria-busy="false" id="emailChangeInput">이메일 변경하기</button>
@@ -306,19 +326,21 @@ function codeCheckFun() {
 				                	<div style="margin-top:9px">
 				                		<div class="text-muted" style="margin-top:4px">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div>			                			
 					                	<div style="margin-top:8px">
-					                		<div class="phone-number-verify-widget ">		                				
+					                		<div class="phone-number-verify-widget">		                				
 			                					<strong>이메일 변경하기</strong>
-			                					<div style="margin-bottom: 16px;">이 메일주소로 인증코드를 보내드립니다.</div> 
-				                					<div class="pniw-number-container">  
-				                						<input type="text" id="changeEmail" style="width: 70%" >
+			                					<div>이 메일주소로 인증코드를 보내드립니다.</div> 
+				                					<div class="pniw-number-container emailVeryfiBtn">  
+				                						<input type="text" id="changeEmail" placeholder="이메일주소를 입력하세요">
 				                						<span class="error" style="color: blue; font-size: 12px;">이메일 형식에 맞게 입력하세요.</span>
 				                					</div>
-					                				<div style="margin-top: 16px;">
-					                					<button type="button" class="btn btn-primary" id="emailCheckCode" style="margin: 2%;" onClick="emailCodeCheck();">인증코드 보내기</button>
+					                				<div class="emailVeryfiBtn">
+					                					<button type="button" class="btn btn-primary" id="emailCheckCode" onClick="emailCodeCheck();">인증코드 보내기</button>
 					                				</div> 				                				
 				                					<div id="addCode">
-				                						<div style="margin:5%; padding-right:10%"><input type="text" name="input_confirmCode" id="input_confirmCode"/></div>
-				   										<div><button class="btn" id="codeCheckBtn" type="button" onClick="codeCheckFun();">인증코드 확인하기</button></div>
+				                						<div class="emailVeryfiBtn">
+				                							<input type="text" name="input_confirmCode" id="input_confirmCode" placeholder="인증코드를 입력하세요"/>
+				                						</div>
+				   										<div class="emailVeryfiBtn"><button class="btn" id="codeCheckBtn" type="button" onClick="codeCheckFun();">인증코드 확인하기</button></div>
 				                					</div>				                				
 				                					<div id="addComment"></div>														
 												</div>
@@ -334,36 +356,9 @@ function codeCheckFun() {
 			<!--  전화번호 DIV 시작 -->
 		     <div class="row row-condensed space-4">
 	        	<label class="text-right col-sm-3" for="user_phone_numbers">전화번호</label>
-		        <div class="col-sm-9" style="padding-left:2%; padding-right: 23%;"> 
-				  <input id="phone" name="phone" type="text" width="30%;" value="${myInfo.phone}">
-			    	<!-- 	<div style="margin-top:8px"><button type="button" class="_1k01n3v1" aria-busy="false" onClick="showPhone()">전화번호 변경하기</button></div>
-				       	<!--  전화번호 입력 버튼 선택 시  
-				     	  번호 입력 네모 박스
-				      	 <div class="col-sm-9" id="showInputPhone">
-			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055">
-			                	<div dir="ltr" data-reactroot="">
-				                	<div style="margin-top:9px">
-				                		<div class="text-muted" style="margin-top:4px">예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div>			                			
-					                	<div style="margin-top:8px">
-					                		<div class="phone-number-verify-widget ">
-					                			<div class="_16lavrk">
-					                				<div class="phone-number-input-widget">
-					                					<strong>전화번호 변경하기</strong>
-					                					<div style="margin-bottom: 16px;">이 전화번호로 알림을 보내드립니다.</div>
-					                					<div class=""></div>
-					                					<div class="pniw-number-container clearfix">
-					                						<input type="tel" id="phone_number" name="phone" style="width: 70%" >
-					                					</div>
-													</div>
-												</div>
-											</div>
-					               		 </div>
-					                </div>
-				                </div>
-				            </div>
-				         </div> -->  
-			       </div>
-			    </div>
+		        <div class="col-sm-9" style="padding-left:2%; padding-right: 23%;"><input id="phoneEdit" name="phoneEdit" type="text" width="30%;" value="${loginMember.phone}"></div>
+		        <span class="errorPhone" style=" padding-left:2%; color: blue; font-size: 12px;">올바른 전화번호를 적으세요!</span>
+			</div>
 			    <!--  전화번호 DIV 끝 -->
 		        <!-- 우편번호 DIV 시작 -->		        	
 		         <div class="row row-condensed space-4">
@@ -371,7 +366,7 @@ function codeCheckFun() {
 	                  <label for="postnum">우편번호</label>
 	               </div>
 	               <div class="col-sm-2" style="padding-left: 2%;">  
-	                  <input type="text" id="postnum" name="post" maxlength="3" class="form-control requiredinfo" value="${myInfo.post}" placeholder="PostNum">
+	                  <input type="text" id="postnum" name="post" maxlength="3" class="form-control requiredinfo" value="${loginMember.post}" placeholder="PostNum">
 	               	  <span class="error error_post">우편번호 형식이 아닙니다.</span> 
 					  <button type="button" class="btn" id="zipcodeSearch" style="width: 80px; height: 20px; padding: 0%;"><span style="font-size: 2pt;">우편번호찾기</span></button>
 	               </div>
@@ -383,13 +378,13 @@ function codeCheckFun() {
 	                  <label for="address">주소</label>
 	               </div>
 	               <div class="text-right col-sm-9" style="padding-left: 2%; padding-right: 23%;">
-	                  <input type="text" id="addr" name="addr" class="form-control requiredinfo"value="${myInfo.addr}" placeholder="Enter Your Address" raeadOnly>
+	                  <input type="text" id="addr" name="addr" class="form-control requiredinfo"value="${loginMember.addr}" placeholder="Enter Your Address" raeadOnly>
 	               </div>
 	            </div>
 	            <div class="row row-condensed space-4">
 	               <div class="text-right col-sm-3"></div>
 	               <div class="col-sm-9" style="padding-left: 2%; padding-right: 23%;">
-	                  <input type="text" id="detailAddr" name="detailAddr" class="address form-control requiredinfo" value="${myInfo.detailAddr}"placeholder="Enter Your Address">
+	                  <input type="text" id="detailAddr" name="detailAddr" class="address form-control requiredinfo" value="${loginMember.detailAddr}"placeholder="Enter Your Address">
 	               </div>
 	            </div>	
 	            <!-- 상세주소 DIV 끝 -->	
@@ -397,7 +392,7 @@ function codeCheckFun() {
 		        <div class="row row-condensed space-4">
 		          <label class="text-right col-sm-3" for="user_profile_info_about">자기소개</label>
 		          <div class="col-sm-9" style="padding-left:2%; padding-right: 5%;">			          
-		        	<textarea cols="40" id="user_profile_info_about" id="introduction"name="introduction" rows="5" >${myInfo.introduction}</textarea>
+		        	<textarea cols="40" id="user_profile_info_about" id="introduction"name="introduction" rows="5" >${loginMember.introduction}</textarea>
 		  			<div class="text-muted space-top-1">에어비앤비는 사람들 간의 관계를 기반으로 만들어졌습니다. 회원님이 어떤 사람인지 알려주세요. <br><br> 어떤 것들을 좋아하는지 알려주세요. 가장 좋아하는 여행지, 책, 영화, TV 프로그램, 음악, 음식 등 뭐든지 좋습니다.<br><br> 회원님은 어떤 스타일의 게스트 또는 호스트인가요? <br><br> 인생의 좌우명은 무엇인가요?</div>
 		          </div>
 		        </div>

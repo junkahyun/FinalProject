@@ -52,6 +52,8 @@ public class loginCheck {
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
 	            
 	            dispatcher.forward(request, response);
+	         }else {
+	        	 
 	         }
 	      } catch (ServletException e) {
 	         e.printStackTrace();

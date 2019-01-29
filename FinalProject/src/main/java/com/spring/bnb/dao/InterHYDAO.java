@@ -25,4 +25,8 @@ public interface InterHYDAO {
 
 	List<RoomVO> getRecommendRoomList(String sigungu);
 
+	int insertBedroomInfo(HashMap<String, Object> hash);
+
+	List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap);
+
 }

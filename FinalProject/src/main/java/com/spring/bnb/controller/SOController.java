@@ -190,13 +190,11 @@ public class SOController {
 
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();
-		/*try {*/
-			//나의 개인정보 가져오기
-			MemberVO myInfo = new MemberVO();
-			myInfo = service.getMyInfo(userid);
-			
-			int gender = myInfo.getGender();
+		try {	
+
+			loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
+			loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
+			int gender = loginMember.getGender();
 			String str_gender = "";
 			switch (gender) {
 			case 1:
@@ -209,30 +207,26 @@ public class SOController {
 			default: str_gender = "Other";
 				break;
 			}
-			String birthday= myInfo.getBirthday();
-			Date date = new Date();
+			String birthday= loginMember.getBirthday();
 			
-		/*	String email = aes.decrypt(myInfo.getEmail());
-			myInfo.setEmail(email);*/
 			ServletContext application = req.getServletContext();
 			String realPath = application.getRealPath("/resources/images/profile");
-			
 			
 			String birthdayYY = birthday.substring(0, 4);
 			String birthdayMM = birthday.substring(5,7);
 			String birthdayDD = birthday.substring(8,10);
-			
 			req.setAttribute("realPath", realPath);
 			req.setAttribute("birthdayYY", birthdayYY);
 			req.setAttribute("birthdayMM", birthdayMM);
 			req.setAttribute("birthdayDD", birthdayDD);
 			req.setAttribute("str_gender", str_gender);
-			req.setAttribute("myInfo", myInfo);
-	/*		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			return "mypage/myEdit.hometiles";		
+			req.setAttribute("loginMember", loginMember);
+				
+		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			System.out.println("email 복호화 실패 !");
+		}
+		
+		return "mypage/myEdit.hometiles";		
 	}
 
 	
@@ -348,90 +342,85 @@ public class SOController {
 	
 	// 나의 정보 수정
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
-	public String myEditEnd(HttpServletRequest req,@RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
+	public String requireLogin_myEditEnd(HttpServletRequest req,@RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
 		String method = req.getMethod();
 		
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();
-		System.out.println(userid);
-		String email = req.getParameter("email");
-		String phone = req.getParameter("phone");
-		String introduction = req.getParameter("introduction");
-		String str_post = req.getParameter("post");
-		int post = Integer.parseInt(str_post);
-		String addr = req.getParameter("addr");
-		String detailAddr = req.getParameter("detailAddr");
+		String userid = loginMember.getUserid();		
 		
-		MemberVO member = new MemberVO();
-		
-		if(!"POST".equals(method)) {
-			String msg="비정상적인 경로입니다.";
-			String loc="javascript:history.back();";
+		try {
+			String email = req.getParameter("email");
+			String phone = req.getParameter("phone");			
+			String introduction = req.getParameter("introduction");
+			String str_post = req.getParameter("post");
+			int post = Integer.parseInt(str_post);
+			String addr = req.getParameter("addr");
+			String detailAddr = req.getParameter("detailAddr");
+			
+			MemberVO member = new MemberVO();
+			
+			if(!"POST".equals(method)) {
+				String msg="비정상적인 경로입니다.";
+				String loc="javascript:history.back();";
+				
+				req.setAttribute("msg", msg);
+				req.setAttribute("loc", loc);
+				return "msg";
+			}else {
+				
+						String filename = "";
+						if(!multipartFile.isEmpty()) {
+							ServletContext application = req.getServletContext();
+							String realPath = application.getRealPath("/resources/images/profile");
+							
+							//realPath = req.getContextPath()+"/resources/images/profile";
+							
+							filename = multipartFile.getOriginalFilename();
+							
+							int index = filename.lastIndexOf("\\");
+							filename = filename.substring(index +1);
+							
+							File file = new File(realPath,filename);
+							if(file.exists()) {
+								filename = System.currentTimeMillis()+"_"+filename;
+								file = new File(realPath,filename);
+							}
+							System.out.println("업로드 경로 "+realPath);
+							System.out.println("업로드 파일명"+filename);
+							
+							
+								IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+								member.setProfileimg(filename);
+								System.out.println("11"+filename);
+							
+						}else {
+							filename = req.getParameter("profileimg");
+							System.out.println(filename);
+							member.setProfileimg(filename);
+							System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
+						}				
+						member.setEmail(aes.encrypt(email));
+						member.setPhone(aes.encrypt(phone));
+						member.setEmail(email);
+						member.setPhone(phone);
+						member.setIntroduction(introduction);
+						member.setPost(post);
+						member.setAddr(addr);
+						member.setDetailAddr(detailAddr);
+						member.setUserid(userid);
+						
+						service.memberUpdate(member);
+					}
+			}catch (GeneralSecurityException e) {
+						System.out.println("암호화 실패 !");
+					}				
+			String msg="회원정보 수정 성공!";
+			String loc="/bnb/myEdit.air";
 			
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);
-			return "msg";
-		}else {
-			
-					String filename = "";
-					if(!multipartFile.isEmpty()) {
-						ServletContext application = req.getServletContext();
-						String realPath = application.getRealPath("/resources/images/profile");
-						
-						//realPath = req.getContextPath()+"/resources/images/profile";
-						
-						filename = multipartFile.getOriginalFilename();
-						
-						int index = filename.lastIndexOf("\\");
-						filename = filename.substring(index +1);
-						
-						File file = new File(realPath,filename);
-						if(file.exists()) {
-							filename = System.currentTimeMillis()+"_"+filename;
-							file = new File(realPath,filename);
-						}
-						System.out.println("업로드 경로 "+realPath);
-						System.out.println("업로드 파일명"+filename);
-						
-						
-							IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
-							member.setProfileimg(filename);
-							System.out.println("11"+filename);
-						
-					}else {
-						filename = req.getParameter("profileimg");
-						System.out.println(filename);
-						member.setProfileimg(filename);
-						System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
-					}
-			
-				
 	
-				/*member.setEmail(aes.encrypt(email));
-				member.setPhone(aes.encrypt(phone));*/
-				member.setEmail(email);
-				member.setPhone(phone);
-				member.setIntroduction(introduction);
-				member.setPost(post);
-				member.setAddr(addr);
-				member.setDetailAddr(detailAddr);
-				member.setUserid(userid);
-				
-				/*int n = */service.memberUpdate(member);
-				
-		/*		if(n==1) {
-					System.out.println("업데이트 성공");
-				}else {
-					System.out.println("업데이트 실패!");
-				}*/
-		}		
-		String msg="회원정보 수정 성공!";
-		String loc="/bnb/myEdit.air";
-		
-		req.setAttribute("msg", msg);
-		req.setAttribute("loc", loc);
-		
 		return"msg"; 
 	}
 
@@ -460,11 +449,10 @@ public class SOController {
 	
 	// 투숙 완료예약 상세보기
 	@RequestMapping(value = "/myReservationDetail.air", method = RequestMethod.GET)
-	public String myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
-/*		HttpSession session = req.getSession();
+	public String requireLogin_myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();*/
-		String userid ="leess";
+		String userid = loginMember.getUserid();
 		String rsvcode = req.getParameter("rsvcode");
 		
 		HashMap<String,String> paraMap = new HashMap<String,String>();
@@ -567,27 +555,69 @@ public class SOController {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
+		///////////////////////////////////////////////////////////////////////////		
+		
+		// *** 나에게 쓴 후기 ***
+				
+		String str_currnetShowPageNo = req.getParameter("currnetShowPageNo");
+		
+		int totalCount = 0; // 조건에 맞는 총 게시물 건수
+		int sizePerPage = 10; // 한페이지당 보여줄 게시물 건수
+		int currentShowPageNo =0; // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 한다.
+		int totalPage = 0; // 총 페이지 수 (웹 브라우저 상의 총 페이지 갯수)
+		int startRno = 0; // 시작 행 번호
+		int endRno = 0; // 끝 행 번호
+		int blockSize = 10; // 페이지 바 에 보여줄 페이지의 갯수 
+
+		totalCount = service.getTotalHostReviewCount(userid); // 총 게시물 갯수 
+		totalPage = (int)Math.ceil((double)totalCount/sizePerPage); // 총 페이지 수 
+			
+		if(str_currnetShowPageNo == null) { // 게시판 초기화면 일 경우
+			currentShowPageNo =1;
+		}else { // 특정 페이지를 조회한 경우
+			try {// 유저가 currnetShowPageNo 에 문자를 입력 했을 경우 
+					currentShowPageNo = Integer.parseInt(str_currnetShowPageNo);
+					if(currentShowPageNo <1 || currentShowPageNo>totalPage) {// 유저가 임의의 값을 넣었을 경우
+						currentShowPageNo =1;	
+					}
+					
+				} catch (NumberFormatException e) {
+					currentShowPageNo =1;
+				}
+			}
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		startRno = ((currentShowPageNo - 1)*sizePerPage)+1;
+		endRno = startRno+(sizePerPage-1);
+		
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno",String.valueOf(endRno));
+		paraMap.put("userid",userid);
+		
+		List<HashMap<String,String>> myReadReview = service.getHostReview(paraMap);
+		
+		// ==== #120. 페이지 바 만들기 ====
+		String pageBar = "<ul>";
+		pageBar += MyUtil.getPageBar(sizePerPage, blockSize, totalPage, currentShowPageNo, "review.air");
+		pageBar += "</ul>";
+		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//	*** 내가 쓴 후기 ***
 		List<ReviewVO> myWriteReview = service.getMyReview(userid);
-		
-		// *** 나에게 쓴 후기 ***
-		List<HashMap<String,String>> myReadReview = service.getHostReview(userid);
-		
+
 		// *** 작성해야 할 후기 ***
 		// *** 후기 없는 나의 예약 코드 받아오기 ***
 		List<HashMap<String,String>> myRsvList= service.getMyRsvCode(userid);
-		
-/*		if(myRsvList.isEmpty()) {
-			
-		}else {
-			
-		}*/
+		req.setAttribute("totalCount", totalCount);
+		req.setAttribute("pageBar", pageBar);
 		req.setAttribute("myRsvList", myRsvList);
 		req.setAttribute("myReadReview", myReadReview);
 		req.setAttribute("myWriteReview", myWriteReview);
 		return "mypage/review.hometiles";
 	}
+	
+	
 	@RequestMapping(value = "/couponReg.air", method = {RequestMethod.GET,RequestMethod.POST})
 	public String couponReg(HttpServletRequest req, HttpServletResponse res) {
 		
