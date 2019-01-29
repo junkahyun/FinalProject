@@ -30,6 +30,7 @@
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	$("#listingSelector").change(function(){
 		chart();
 	});
@@ -118,7 +119,7 @@ function chart(){
 												<div style="margin: 0; border: 0px solid red; padding: 0;">
 													<select id="listingSelector" name="selected_listing"
 														class="_bwyiq2l">
-														<option value="all">숙소 삭제</option>
+														<option value="all">숙소 선택</option>
 														<c:forEach var="room" items="${roomList }">
 															<option value="${room.roomName }">${room.roomName }</option>
 														</c:forEach>
