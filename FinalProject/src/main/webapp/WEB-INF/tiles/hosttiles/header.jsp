@@ -23,6 +23,14 @@
 	function goHostMain(){
 		location.href="hostMain.air";
 	}
+	
+	function hostroomList() {
+		location.href="hostroomList.air";
+	}
+	
+	function hostroomMark() {
+		location.href="hostroomMark.air";
+	}
 
 </script>
 <div id="header">

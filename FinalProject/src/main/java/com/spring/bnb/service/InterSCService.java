@@ -18,4 +18,6 @@ public interface InterSCService {
 	int deleteFile(String deleteFilename);// 룸이미지 삭제하기 
 
 	int updateCoverImg(HashMap<String, String> paraMap); // 룸메인이미지 업데이트
+
+	List<RoomVO> roomnameSearch(HashMap<String, String> paraMap);// 숙소이름 검색하기 
 }

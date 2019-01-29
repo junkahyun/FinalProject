@@ -45,4 +45,12 @@ public class SCService implements InterSCService {
 	public int updateCoverImg(HashMap<String, String> paraMap) {
 		int n = dao.updateCoverImg(paraMap);
 		return n;
-	}}
+	}
+	
+	//숙소이름 검색하기
+	@Override
+	public List<RoomVO> roomnameSearch(HashMap<String, String> paraMap) {
+		List<RoomVO> roomList = dao.roomnameSearch(paraMap);
+		return roomList;
+	}
+}
