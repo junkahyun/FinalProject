@@ -2,11 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/homeDetail.css" />  
-<script type="text/javascript">
-var adultCount = 1;
-var babyCount = 0;
+<script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/homeDetail.css" /> 
+<script>
+	var adultCount = 1;
+	var babyCount = 0;
 	$(document).ready(function(){
+		$('.input-daterange').datepicker({
+		    autoclose: true
+		});
+		$('.datepicker').datepicker({
+			format: 'yyyy/mm/dd',
+		    startDate: '-3d'
+		});
 		$("#adultCount").val(adultCount);
 		$("#babyCount").val(babyCount);
 		$("#babyhide").hide();
@@ -61,24 +71,6 @@ var babyCount = 0;
     		$("#babyCount").val(babyCount);
     		$("#babyTotal").text(babyCount);
        	});
-       	/* $('.dropdown').click(function(){
-            alert();
-        }); */
-		$("#adultTotal").text(adultCount);
-		var form1 = {
-				  view:"form", scroll:false, width:320, elements:[
-				    { view:"text", label:"Label", name:"label", value:"text"},
-				    { view:"datepicker", label:"Start date", name:"start", stringResult:true },
-				    { view:"datepicker", label:"End date", name:"end", stringResult:true },
-				    { view:"button", type:"form", value:"Submit data", click:function(){
-				      webix.message("<pre>"+JSON.stringify(this.getParentView().getValues(),0,1)+"</pre>");
-				    }}
-				  ]
-				};
-		$('#cal').setValues({
-			  start:"2018-02-01",
-			  end:new Date(2018,1,3, 14, 20)
-		});
 	});   
 	function reviewSearch(){
 	   	var reviewSearchWord = $("#reviewSearchWord").val();
@@ -91,8 +83,6 @@ var babyCount = 0;
     	  	dataType:"JSON",
     	  	success:function(json){
     		  	var html = "";
-    		  	
-    		  	
     		  	$.each(json,function(entryIndex,entry){
     			 	html+="<div class='row noSpace homeDetailComment'>"
                     	+"<div class='col-md-1'><div style='border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;'><img src='' style='width:50px;height:50px;'></div></div>"
@@ -125,6 +115,7 @@ var babyCount = 0;
          	url:"likeRoom.air",
          	type:"POST",
          	data:form_data,
+         	contentType:"application/json; charset=UTF-8",
          	dataType:"JSON",
          	success:function(json){
             	var n = json.n;
@@ -197,7 +188,7 @@ var babyCount = 0;
                </div>
                <%-- 호스트 프로필 --%>
                <div class="col-md-2">
-                  <div style="border: 1px solid none; height:64px; width:64px; border-radius:40px; background-color:lightgray; overflow:hidden;margin-top: 10%;margin-left:5%;padding-top:3%;"><img src="<%=request.getContextPath() %>/resources/images/${room.host.profileimg}" style="width:64px;height:64px;"/></div>
+                  <div style="border: 1px solid none; height:64px; width:64px; border-radius:40px; background-color:lightgray; overflow:hidden;margin-top: 10%;margin-left:5%;padding-top:3%;"><img src="<%=request.getContextPath() %>/resources/images/profile/${room.host.profileimg}" style="width:64px;height:64px;"/></div>
                   <div style="font-weight:bold;margin-left:12%;font-size:14pt; margin-top: 15%;">${room.host.userid }</div>
                </div>
             </div>
@@ -234,7 +225,7 @@ var babyCount = 0;
             <div class="infoSubjectHY">침대/침구</div>
             <div class="row noSpace" style="margin-top:3%;">
                <c:forEach items="${room.bedroomList }" var="bed" varStatus="status">
-               <div class="col-md-1" style="border:1px solid lightgray;height:150px;width:180px;border-radius:3px;">
+               <div class="col-md-1" style="margin-right:2%;border:1px solid lightgray;height:150px;width:180px;border-radius:3px;">
                   <div style="padding: 20% 37%;"><img src="<%=request.getContextPath()%>/resources/images/homeDetail/bed.png"></div>
                   <div style="font-weight:bold;font-size: 12pt;">${status.index+1 }번 침실</div>
                   <div style="font-size:12pt;">${bed.BEDTYPE }사이즈 침대 ${bed.BEDCOUNT }</div>
@@ -247,7 +238,6 @@ var babyCount = 0;
          <div class="infoDiv">
             <div class="infoSubjectHY" style="font-weight:bold;">예약 가능 여부</div>
             <div class="row noSpace" style="margin-top:3%;">
-            	<div id="cal"></div>
                <table class="_p5jgym" role="presentation">
                   <tbody>
                   <%-- "_12fun97" : 예약가능 / "_z39f86g" : 예약불가 --%>
@@ -338,12 +328,14 @@ var babyCount = 0;
                <div class="row noSpace homeDetailComment" style="margin-left: 5%;text-align:center; margin-bottom:5%;font-weight:bold;">아직 등록된 Review가 없습니다.</div>
                </c:if>
                <%-- 후기 페이지바 --%>
+               <div class="row" style="margin:3%;">${pagebar}</div>
                <c:if test="${room.reviewList.size() > 0 }">
-               <div class="row" style="margin:3%;color:white;">
+               <!-- <div class="row" style="margin:3%;color:white;">
                   <div class="currpageCircle">1</div>
                   <div class="pageBarCircle">2</div>
                   <div class="pageBarCircle">3</div>
-               </div>
+               </div> -->
+               <div class="row" style="margin:3%;">${pagebar}</div>
                </c:if>
             </div>
          </div>
@@ -389,10 +381,6 @@ var babyCount = 0;
 	<div class="col-md-4 noSpace">
 	<form name="reserveFrm">
 		<input type=hidden name="roomcode" id="roomcode" value="${room.roomcode}"/>
-		<input type="hidden" name="guestCount">
-		<input type="hidden" name="babyCount">
-		<input type="hidden" name="rsv_checkInDate">
-		<input type="hidden" name="rsv_checkOutDate" >
 		<div id="followHY" class="noSpace" style="width: 400px;padding: 0 3%;">
 			<div style="height:380px;width: 400px;border:1px solid lightgray; padding: 5%;">
 				<div style="height:60px; border-bottom: 1px solid lightgray;">
@@ -402,7 +390,11 @@ var babyCount = 0;
                   	</div>
                   	<div style="height:240px;padding-top:5%;">
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>
-                     	<div class="row DetailsInput" style="padding-left:5%;"><div class="col-md-4">체크인</div><div class="col-md-3">→</div><div class="col-md-4">체크아웃</div></div>
+	                    <div class="input-daterange input-group datepicker" id="datepicker" style="width:100%;padding: 2% 5%;">
+						    <input type="text" class="input-sm form-control" name="rsv_checkInDate" placeholder="체크인" style="height:40px;"/>
+						    <span class="input-group-addon">to</span>
+						    <input type="text" class="input-sm form-control" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;"/>
+						</div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
                         	<div class="dropdown-toggle" data-toggle="dropdown" style="padding-left:10%;padding-top:3%;cursor:pointer;">게스트 성인 <span id="adultTotal"></span>명<span id="babyhide">, 유아 <span id="babyTotal"></span>명</span><span class="caret"></span></div>
@@ -413,8 +405,8 @@ var babyCount = 0;
                                   		<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown adultCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="adultCount" style="margin: 0 13%;text-align:center;border:none; width:100%;" /></div>
-		                                     	<div class="col-md-4"><button type="button" class="dropUpDown adultCnt" >+</button></div>
+		                                     	<div class="col-md-4"><input id="adultCount" name="guestCount" style="margin: 2% 13%;text-align:center;border:none; width:100%;" /></div>
+		                                     	<div class="col-md-4"><button type="button" name="babyCount" class="dropUpDown adultCnt" >+</button></div>
                                   			</div>
                                   		</div>
 	                               	</div>
@@ -423,7 +415,7 @@ var babyCount = 0;
 	                                  	<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 0 13%;text-align:center;border:none;width:100%;" /></div>
+		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >+</button></div>
                                   			</div>
 	                                  	</div>

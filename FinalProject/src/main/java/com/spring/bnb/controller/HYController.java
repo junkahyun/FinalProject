@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -28,6 +30,7 @@ import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterHYService;
 import com.spring.common.AES256;
+import com.spring.common.MyUtil;
 import com.spring.common.SHA256;
 
 @Controller
@@ -48,20 +51,58 @@ public class HYController {
 		roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
-		req.setAttribute("recommendRoomList", recommendRoomList);
+		int totalReviewCount = roomvo.getReviewList().size();
+		// 리뷰 페이징 처리
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ROOMCODE", roomcode); // 해당 숙소번호의 모든 리뷰조회
+		
+		String str_currentShowPageNo = req.getParameter("currentShowPageNo"); 
+		int totalCount = 0,currentShowPageNo = 0,sizePerPage = 5,totalPage = 0;
+		int startRno = 0,endRno = 0,blockSize = 5; 
+		
+		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
+		if(str_currentShowPageNo == null) currentShowPageNo = 1;
+		else {
+			try {
+				currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+				if(currentShowPageNo < 1 || currentShowPageNo > totalPage) currentShowPageNo = 1;
+			} catch(NumberFormatException e) {currentShowPageNo = 1;}
+		}
+		startRno = ((currentShowPageNo-1)*sizePerPage) + 1;
+		endRno = startRno + sizePerPage - 1;
+		
+		paraMap.put("STARTRNO", String.valueOf(startRno));
+		paraMap.put("ENDRNO", String.valueOf(endRno));
+		
+		List<ReviewVO> reviewList = service.getAllReviewList(paraMap);
+		
+		String pagebar = "<ul>"+MyUtil.getPageBar(sizePerPage, blockSize, totalPage, currentShowPageNo, "homeDetail.air")+"</ul>";  
+		
+		HttpSession session = req.getSession();
+		session.setAttribute("readCountPermission", "yes");
+		System.out.println(pagebar);
 		req.setAttribute("room", roomvo);
+		req.setAttribute("recommendRoomList", recommendRoomList);
+		req.setAttribute("totalReviewCount", totalReviewCount);
+		req.setAttribute("pagebar", pagebar);
+		req.setAttribute("reviewList", reviewList);
 		return "home/homeDetail.hometiles";
 	}
 	
 	// 리뷰 검색
+	@ResponseBody
 	@RequestMapping(value = "/reviewSearch.air", method = RequestMethod.GET)
 	public String reviewSearch(HttpServletRequest req) {
+		// 검색어와 숙소 코드 받아오기
 		String reviewSearchWord = req.getParameter("reviewSearchWord");
 		String roomcode = req.getParameter("roomcode");
+		// 파라미터로 넘길 HashMap만들기
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("REVIEWSEARCHWORD", reviewSearchWord);
 		paraMap.put("ROOMCODE",roomcode);
+		// DB에서 검색하여 결과 가져오기
 		List<ReviewVO> reviewList = service.getSearchReview(paraMap);
+		// 가져오기
 		JSONArray jsonArr = new JSONArray();
 		for(ReviewVO review :reviewList) {
 			JSONObject jobj = new JSONObject();
@@ -74,6 +115,15 @@ public class HYController {
 		}
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
+		/*List<HashMap<String,Object>> testMapList = new ArrayList<HashMap<String,Object>>();
+		for(ReviewVO review : reviewList) {
+			HashMap<String,Object> testMap = new HashMap<String,Object>();
+			testMap.put("fk_userid", review.getFk_userid());
+			testMap.put("review_writedate", review.getReview_writedate());
+			testMap.put("review_content", review.getReview_content());
+			testMapList.add(testMap);
+			testMapList.add(testMap);
+		}*/
 		return "JSON";
 	}
 	
@@ -86,8 +136,7 @@ public class HYController {
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
-
-
+		member.setPwd(SHA256.encrypt(member.getPwd()));
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
@@ -170,22 +219,25 @@ public class HYController {
 		// 프로필 이미지 업로드
 		String filename = null; // 파일명 초기화
 		if (!profile.isEmpty()) { // 파일 있으면(업로드 했으면)
-			String root = req.getContextPath();
-			System.out.println(root);
+			String root = req.getSession().getServletContext().getRealPath("/");
 			String realPath = root+File.separator+"resources"+File.separator+"images"+File.separator+"profile";
+			String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
 			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
 			// 엣지 브라우저 요청 파일이름 처리
 			int index = filename.lastIndexOf("\\");
 			filename = filename.substring(index + 1);
 	        File file = new File(realPath, filename);
+	        File gitfile = new File(gitrealPath, filename);
 	        if (file.exists()) { // 해당 경로에 동일한 파일명이 이미 존재하는 경우 파일명 앞에 업로드 시간 밀리초 붙여서 파일명 중복을 방지
 	        	filename = System.currentTimeMillis() + "_" + filename;
 	        	file = new File(realPath, filename);
+	        	gitfile = new File(gitrealPath, filename);
 	        }
 	        System.out.println("업로드 경로: " + realPath);
 	        System.out.println("업로드 파일명: " + filename);
 	        // 업로드 수행
 	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
+	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
 			member.setProfileimg(filename);
 		} else {
 			System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
@@ -214,6 +266,27 @@ public class HYController {
 		json.put("n", n);
 		String str_json = json.toString();
 		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	// 침실과 침대 갯수 가져오기
+	@RequestMapping(value = "/checkbedroom.air", method = RequestMethod.POST)
+	public String checkbedroom(HttpServletRequest req) {
+		String bedroomInfo = req.getParameter("bedroomInfo");
+		String[] bedroomInfoArr = bedroomInfo.split("/");
+		// for문을돌리면 하나의 침실정보가 String 형태로 나옴
+		int n = 0;
+		for(String str : bedroomInfoArr) {
+			HashMap<String,Object> paraMap = new HashMap<String,Object>();
+			JSONObject jsonbedinfo = new JSONObject(str); // 가져온 String 형태를 JSON으로 변환
+			Set<String> jsonkeys = jsonbedinfo.keySet(); // JSON으로 변환된 객체의 key들을 가져옴
+			paraMap.put("roomcode", "10");
+			for(String key :jsonkeys) paraMap.put(key, jsonbedinfo.get(key)); // key값만큼 for문을 돌려서 hash맵 형태로 저장
+			n = service.insertbedroom(paraMap);
+		}
+		JSONObject json = new JSONObject();
+		json.put("n", n);
+		req.setAttribute("str_json", json.toString());
 		return "JSON";
 	}
 }

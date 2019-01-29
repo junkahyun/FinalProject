@@ -25,4 +25,8 @@ public interface InterHYService {
 
 	List<RoomVO> getRecommendRoomList(String string);
 
+	int insertbedroom(HashMap<String, Object> hash);
+
+	List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap);
+
 }

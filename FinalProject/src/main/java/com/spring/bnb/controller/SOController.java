@@ -19,6 +19,7 @@ import javax.swing.plaf.synth.SynthSplitPaneUI;
 
 import org.apache.commons.digester.Substitutor;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,33 +54,137 @@ public class SOController {
 	private FileManager fileManager;
 	
 	@RequestMapping(value = "/myCoupon.air", method = RequestMethod.GET)
-	public String myCoupon(HttpServletRequest req) {
+	public String requireLogin_myCoupon(HttpServletRequest req,HttpServletResponse res) {		
+		HttpSession session = req.getSession();
+		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
+		String userid = mvoUser.getUserid();
+
+		String date = MyUtil.getNowTime();				
+			
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+
+		req.setAttribute("date", date);
+		return "mypage/myCouponAjax.hometiles";			
+		}
+		
+	// 보유쿠폰 리스트 가져오기
+	@RequestMapping(value = "/possessionCoupon.air", method = {RequestMethod.POST,RequestMethod.GET})
+	public String requireLogin_RequpossessionCoupon(HttpServletRequest req,HttpServletResponse res) {
+		HttpSession session = req.getSession();
+		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
+		String userid = mvoUser.getUserid();
+
+		String currentShowPageNo = req.getParameter("currentShowPageNo");
+		
+		int sizePerPage =10; 
+		int startRno=Integer.parseInt(currentShowPageNo)*sizePerPage -(sizePerPage-1) ;  
+		int endRno=Integer.parseInt(currentShowPageNo)*sizePerPage;
+
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno",String.valueOf(endRno));
+		List<HashMap<String,String>> myCoupon = service.getMyCoupon(paraMap);
+		
+		JSONArray jsonArr = new JSONArray(); // []
+		
+			if(myCoupon != null && myCoupon.size()>0) {
+				
+				for(HashMap<String,String> map : myCoupon) {
+					JSONObject jsonobject = new JSONObject();
+					
+					jsonobject.put("cpcode",map.get("cpcode")); 
+					jsonobject.put("userid",map.get("userid"));
+					jsonobject.put("dcmoney",map.get("dcmoney"));
+					jsonobject.put("cpexpire",map.get("cpexpire"));
+					jsonobject.put("cpname",map.get("cpname"));
+					jsonobject.put("usedate",map.get("usedate"));
+					
+					jsonArr.put(jsonobject);
+				}
+			}
+			String str_json = jsonArr.toString();
+			req.setAttribute("str_json", str_json);							
+		return "JSON";
+	}
+	
+	// 보유쿠폰 중 사용한 쿠폰 리스트 가져오기
+	@RequestMapping(value="/useCoupon.air",method={RequestMethod.POST,RequestMethod.GET})
+	public String requireLogin_useCoupon(HttpServletRequest req,HttpServletResponse res) {
 		
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
-	
-		if(mvoUser == null) {
+		String userid = mvoUser.getUserid();
 		
-			String msg = "먼저 로그인 해주세요!";
-			String loc="/bnb/index.air;"; 
-			req.setAttribute("msg",msg);
-			req.setAttribute("loc", loc); 
-			
-			return "msg"; 
-		}else {		
-			String userid = mvoUser.getUserid();
-			
-			String date = MyUtil.getNowTime();
+		String currentShowPageNo = req.getParameter("currentShowPageNo");
+		int sizePerPage =10; 		
+		int startRno=Integer.parseInt(currentShowPageNo)*sizePerPage -(sizePerPage-1) ;  
+		int endRno=Integer.parseInt(currentShowPageNo)*sizePerPage;
 		
-			List<HashMap<String,String>> myCoupon = service.getMyCoupon(userid);
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno",String.valueOf(endRno));
 
-			req.setAttribute("myCoupon", myCoupon);
-			req.setAttribute("date", date);
-			return "mypage/myCoupon.hometiles";			
+		List<HashMap<String,String>> myUseCoupon = service.getMyUserCoupon(paraMap);
+		 
+		JSONArray jsonArr = new JSONArray();
+		
+		if(myUseCoupon  != null && myUseCoupon.size()>0) {
+			for(HashMap<String,String> map : myUseCoupon) {
+				JSONObject jobj = new JSONObject();
+				
+				jobj.put("cpcode", map.get("cpcode"));
+				jobj.put("dcmoney", map.get("dcmoney"));
+				jobj.put("cpexpire", map.get("cpexpire"));
+				jobj.put("cpname", map.get("cpname"));
+				jobj.put("usedate", map.get("usedate"));
+				jsonArr.put(jobj);
+			}
 		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);	
+		return "JSON";
+	}
+	
+	
+	@RequestMapping(value="/getTotalPage.air",method= {RequestMethod.GET})
+	public String requireLogin_getTotalPage(HttpServletRequest req,HttpServletResponse res){
+		HttpSession session = req.getSession();
+		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
+		String userid = mvoUser.getUserid();
+		
+		int totalCount =0;
+		String sizePerPage = req.getParameter("sizePerPage");
+		String page = req.getParameter("page");
+		
+		System.out.println("page"+page);
+		JSONObject jobj = new JSONObject();
+		int totalPage = 0;
+		if("1".equals(page)) {
+		
+			totalCount = service.getTotalCount(userid); // 미사용 쿠폰  총 갯수
+			totalPage = (int)Math.ceil((double)totalCount/Integer.parseInt(sizePerPage));
+			
+			jobj.put("totalPage", totalPage);
+			
+		}else {
+			
+			totalCount = service.getUseTotalCount(userid);
+			totalPage = (int)Math.ceil((double)totalCount/Integer.parseInt(sizePerPage));
+									
+			jobj.put("totalPage", totalPage);
+		}
+
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
+		
+		return "JSON";
 		
 	}
-
+	
+	
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
 	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		
 
@@ -109,11 +214,15 @@ public class SOController {
 			
 		/*	String email = aes.decrypt(myInfo.getEmail());
 			myInfo.setEmail(email);*/
+			ServletContext application = req.getServletContext();
+			String realPath = application.getRealPath("/resources/images/profile");
+			
 			
 			String birthdayYY = birthday.substring(0, 4);
 			String birthdayMM = birthday.substring(5,7);
 			String birthdayDD = birthday.substring(8,10);
-
+			
+			req.setAttribute("realPath", realPath);
 			req.setAttribute("birthdayYY", birthdayYY);
 			req.setAttribute("birthdayMM", birthdayMM);
 			req.setAttribute("birthdayDD", birthdayDD);
@@ -125,7 +234,9 @@ public class SOController {
 			}*/
 			return "mypage/myEdit.hometiles";		
 	}
-	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)
+
+	
+	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)		
 	public String verifyCertification(HttpServletRequest req,HttpServletResponse res) {
 		
 	//String userid = req.getParameter("userid");
@@ -268,6 +379,8 @@ public class SOController {
 						ServletContext application = req.getServletContext();
 						String realPath = application.getRealPath("/resources/images/profile");
 						
+						//realPath = req.getContextPath()+"/resources/images/profile";
+						
 						filename = multipartFile.getOriginalFilename();
 						
 						int index = filename.lastIndexOf("\\");
@@ -324,15 +437,15 @@ public class SOController {
 
 
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
-	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
+	public String myReservation(HttpServletRequest req, HttpServletResponse res) {
 
-		HttpSession session = req.getSession();
+/*		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();
-		
+		String userid = loginMember.getUserid();*/
+		String userid="leess";
 		List<HashMap<String,String>> memberResList = service.getMemberReservationList(userid);
 		//회원 예약 내용 가져오기
-
+		System.out.println(memberResList.get(1).get("rsvcode"));
 		req.setAttribute("memberResList", memberResList);
 		req.setAttribute("userid", userid);
 		
@@ -347,11 +460,11 @@ public class SOController {
 	
 	// 투숙 완료예약 상세보기
 	@RequestMapping(value = "/myReservationDetail.air", method = RequestMethod.GET)
-	public String requireLogin_myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
-		HttpSession session = req.getSession();
+	public String myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
+/*		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();
-		
+		String userid = loginMember.getUserid();*/
+		String userid ="leess";
 		String rsvcode = req.getParameter("rsvcode");
 		
 		HashMap<String,String> paraMap = new HashMap<String,String>();
@@ -360,37 +473,64 @@ public class SOController {
 		
 		
 		HashMap<String,String> resDetail = service.getMemberReservationDetail(paraMap);
+		
+		String roomcode = resDetail.get("roomcode");
+			
+		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
+		HashMap<String,String> buildtype = service.getBuildType(roomcode);
+		
+		
+		/*
+		System.out.println("email : " + myReservationScheduleDetail.get("email"));
+		 
+		String email = aes.decrypt(myReservationScheduleDetail.get("email"));
+		 
+		System.out.println("복호화  email : "+email);
+		myReservationScheduleDetail.put("email", email);
+		System.out.println(myReservationScheduleDetail.get("email"));
+		*/
+		req.setAttribute("buildtype",buildtype);
+		req.setAttribute("bedtype", bedtype);		
 		req.setAttribute("resDetail", resDetail);
 		return "mypage/myReservationDetail.hometiles";
 	}
 	// 투숙 예정 예약 상세보기
 	@RequestMapping(value = "/myReservationScheduleDetail.air", method = RequestMethod.GET)
-	public String requireLogin_myReservationScheduleDetail(HttpServletRequest req, HttpServletResponse res) {
+	public String myReservationScheduleDetail(HttpServletRequest req, HttpServletResponse res) {
 		//	*** 아이디 정보 가져오기 ***
-		HttpSession session = req.getSession();
+/*		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();
+		String userid = loginMember.getUserid();*/
+		String userid="leess";
 		String rsvcode = req.getParameter("rsvcode");
 		
 			
-			HashMap<String,String> paraMap = new HashMap<String,String>();
-			paraMap.put("userid", userid);
-			paraMap.put("rsvcode", rsvcode);
-			
-			HashMap<String, String> myReservationScheduleDetail = service.getMemberReservationDetail(paraMap);
-			/*
-			System.out.println("email : " + myReservationScheduleDetail.get("email"));
-			 
-			String email = aes.decrypt(myReservationScheduleDetail.get("email"));
-			 
-			System.out.println("복호화  email : "+email);
-			myReservationScheduleDetail.put("email", email);
-			System.out.println(myReservationScheduleDetail.get("email"));
-			*/
-			req.setAttribute("myRsvDetail", myReservationScheduleDetail);
-			
-		return "mypage/myReservationScheduleDetail.hometiles";
-	}
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("rsvcode", rsvcode);
+		
+		HashMap<String, String> myReservationScheduleDetail = service.getMemberReservationDetail(paraMap);
+		//bed type 가져오기
+		String roomcode = myReservationScheduleDetail.get("roomcode");
+		
+		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
+		HashMap<String,String> buildtype = service.getBuildType(roomcode);
+				
+		/*
+		System.out.println("email : " + myReservationScheduleDetail.get("email"));
+		 
+		String email = aes.decrypt(myReservationScheduleDetail.get("email"));
+		 
+		System.out.println("복호화  email : "+email);
+		myReservationScheduleDetail.put("email", email);
+		System.out.println(myReservationScheduleDetail.get("email"));
+		*/
+		req.setAttribute("buildtype", buildtype);
+		req.setAttribute("bedtype", bedtype);
+		req.setAttribute("myRsvDetail", myReservationScheduleDetail);
+		
+	return "mypage/myReservationScheduleDetail.hometiles";
+}
 	
 	// 투숙 예약 취소하기
 	@RequestMapping(value = "/goCancel.air", method = {RequestMethod.POST, RequestMethod.GET})

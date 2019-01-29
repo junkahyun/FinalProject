@@ -20,8 +20,6 @@
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 
-  
-
 <style type="text/css">
 
 
@@ -166,14 +164,7 @@ h3{font-size: 14pt;
 	}
 	
 	function getDatebetween(){
-		var day1 = new Date(2019,1,25);
-		var day2 = new Date(2019,2,1);
 		
-		var date = day2.getTime()-day1.getTime();
-		
-		var result = date/(1000*60*60*24);
-		
-		console.log(result);
 		
 	}
 	
@@ -234,39 +225,7 @@ h3{font-size: 14pt;
   })();
 </script>
 
- <script>
-  $( function() {
-    var dateFormat = "mm/dd/yy",
-      from = $( "#from" )
-        .datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          numberOfMonths: 1
-        })
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
-        }),
-      to = $( "#to" ).datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 1
-      })
-      .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
-      });
  
-    function getDate( element ) {
-      var date;
-      try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
-      } catch( error ) {
-        date = null;
-      }
- 
-      return date;
-    }
-  } );
-  </script>
 <!-- End Channel Plugin -->
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
@@ -276,13 +235,6 @@ h3{font-size: 14pt;
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
 </div>
-
-<form name="datecheck">
-<label for="from">From</label>
-<input type="text" id="from" name="from">
-<label for="to">to</label>
-<input type="text" id="to" name="to">
-</form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 	<div class="col-md-7" style="margin-top: 3%;">

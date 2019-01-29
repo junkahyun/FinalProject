@@ -695,3 +695,4 @@ where fk_rule_idx in (2)
 select roomcode
 from room
 where rule
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

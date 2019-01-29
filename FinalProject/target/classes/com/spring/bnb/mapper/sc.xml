@@ -3,4 +3,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- ===== #29. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) ===== --> 
 <mapper namespace="sc">
+	<select id="getRoomList" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
+		select roomcode, roomName, roomMainImg, roomstatus, roomInfo 
+		from member M join room R on m.userid = r.fk_userid
+		where userid= #{userid}
+	</select>
+	
+	<select id="getRoomInfo" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
+		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person, fk_roomType_idx, fk_buildType_detail_idx
+		from room
+		where roomcode = #{roomcode}
+	</select>
+
+	<select id="getBuildType_detail" parameterType="String" resultType="String" >
+		select buildType_detail_name
+		from buildtype b join buildtype_detail bd on b.buildtype_idx = bd.fk_buildtype_idx
+		where buildtype_detail_idx = #{buildType_detail_idx}
+	</select>
+	
+	
+	<resultMap type="HashMap" id="roomImgList">
+		<result property="roomImgList" column="img" javaType="String"/>
+	</resultMap>
+	
+	<select id="getRoomImgList" parameterType="String" resultMap="roomImgList">
+		select img
+		from roomimg
+		where fk_roomcode = #{roomcode}
+		order by roomimg_idx
+	</select>
+	
+	<resultMap type="HashMap" id="optionList">
+		<result property="optionname" column="optionname" javaType="String"/>
+		<result property="optionicon" column="optionicon" javaType="String"/>
+	</resultMap>
+	
+	<select id="getRoomOptionList" parameterType="String" resultMap="optionList">
+		select optionname, optionicon
+		from roomoption ro join options o on option_idx = fk_option_idx
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	<insert id="setRoomImg" parameterType="HashMap">
+		insert into roomImg(roomImg_idx, fk_roomcode, img)
+		values(roomimg_idx_seq.nextval, #{roomcode}, #{newFilename})
+	</insert>
+	
+	<delete id="deleteFile" parameterType="String">
+		delete roomimg
+		where img = #{deleteFilename}
+	</delete>
+	
+	
+	<update id="updateCoverImg" parameterType="HashMap">
+		update room set roommainImg = #{changeImg}
+		where roomcode = #{roomcode}
+	</update>
 </mapper>

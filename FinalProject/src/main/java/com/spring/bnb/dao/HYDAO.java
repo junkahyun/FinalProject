@@ -2,6 +2,7 @@ package com.spring.bnb.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,42 @@ public class HYDAO implements InterHYDAO {
 		List<RoomVO> recommendRoomList = sqlsession.selectList("hy.getRecommendRoomList", sigungu);
 		return recommendRoomList;
 	}
+	
+	public int insertBedroomInfo(HashMap<String,Object> paraMap) {
+		sqlsession.insert("hy.insertbedroom", paraMap.get("roomcode"));
+		int bedroom_idx = sqlsession.selectOne("hy.getBedroomIdx");
+		
+		Set<String> keys = paraMap.keySet();
+		for(String key: keys) {
+			HashMap<String,String> newhash = new HashMap<String,String>();
+			newhash.put("BEDROOMIDX", String.valueOf(bedroom_idx));
+			if(key.equals("queenbedCount")) {
+				newhash.put("BEDOBJIDX", "1");
+				newhash.put("BEDCOUNT", paraMap.get("queenbedCount").toString());
+				sqlsession.insert("hy.insertbed", newhash);
+			}
+			else if(key.equals("doublebedCount")) {
+				newhash.put("BEDOBJIDX", "2");
+				newhash.put("BEDCOUNT", paraMap.get("doublebedCount").toString());
+				sqlsession.insert("hy.insertbed", newhash);
+			}
+			else if(key.equals("singlebedCount")) {
+				newhash.put("BEDOBJIDX", "3");
+				newhash.put("BEDCOUNT", paraMap.get("singlebedCount").toString());
+				sqlsession.insert("hy.insertbed", newhash);
+			}
+			else if(key.equals("sofabedCount")) {
+				newhash.put("BEDOBJIDX", "4");
+				newhash.put("BEDCOUNT", paraMap.get("sofabedCount").toString());
+				sqlsession.insert("hy.insertbed", newhash);
+			}
+		}
+		return 0;
+	}
 
+	@Override
+	public List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap) {
+		List<ReviewVO> reviewList = sqlsession.selectList("hy.getAllReviewList", paraMap);
+		return reviewList;
+	}
 }

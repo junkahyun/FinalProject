@@ -101,12 +101,6 @@ public class KHController {
 	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.GET})
 	public String reservationCheckPeople (HttpServletRequest req,HttpSession session)  {
 		
-		String from = req.getParameter("from");
-		String to = req.getParameter("to");
-	
-		System.out.println(from);
-		System.out.println(to);
-		
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
 
@@ -268,11 +262,6 @@ public class KHController {
    }
 	
 	///////////////////////////////////////////////////////////////////////////////////
-	// ***** 호스트 등록된 숙소 수정하기 ***** //
-	@RequestMapping(value="/hostRoomEdit.air", method= {RequestMethod.GET})
-	public String hostRoomEdit (HttpServletRequest req) {
-		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
-	}
 	
 	// ***** 호스트 등록된 숙소 수정하기(기본요금 수정) ***** //
 	@RequestMapping(value="/changeDefaultRoomCharge.air", method= {RequestMethod.GET})
@@ -291,13 +280,13 @@ public class KHController {
 	public String changeCheckInCheckOut (HttpServletRequest req) {
 		return "hostRoomEdit/changeCheckInCheckOut.hosttiles_nofooter";
 	}
-	
+
 	// ***** 호스트 등록된 숙소 수정하기(숙박인원 수정) ***** //
 	@RequestMapping(value="/changeHostingPeople.air", method= {RequestMethod.GET})
 	public String changeHostingPeople (HttpServletRequest req) {
 		return "hostRoomEdit/changeHostingPeople.hosttiles_nofooter";
 	}
-	
+
 	// ***** 호스트 등록된 숙소 수정하기(편의시설 및 이용규칙 수정) ***** //
 	@RequestMapping(value="/changeConvenienceAndRule.air", method= {RequestMethod.GET})
 	public String changeConvenienceAndRule (HttpServletRequest req) {
@@ -311,4 +300,5 @@ public class KHController {
 		
 		return "hostRoomEdit/changeConvenienceAndRule.hosttiles_nofooter";
 	}
+
 }

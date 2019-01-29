@@ -10,7 +10,7 @@ import com.spring.bnb.model.ReviewVO;
 public interface InterSODAO {
 
 	// 나의 쿠폰 리스트 가져오기
-	List<HashMap<String, String>> getMyCoupon(String loginuser);
+	List<HashMap<String, String>> getMyCoupon(HashMap<String,String> paraMap);
 
 	//나의 정보 가져오기
 	MemberVO getMyInfo(String loginuser);
@@ -43,6 +43,20 @@ public interface InterSODAO {
 	int addCoupon(HashMap<String, String> map);
 	// 쿠폰 존재확인하기
 	int getCoupon(String coupon);
+
+	// *** 나의 쿠폰 리스트 페이징 처리를 위한 전체 갯수 불러오기 ***
+	int getTotalCount(String userid);
+
+	// *** 나의 사용한 쿠폰 리스트 ***
+	List<HashMap<String, String>> getMyUseCoupon(HashMap<String, String> paraMap);
+
+	// *** 사용한 쿠폰 총 갯수 ***
+	int getUseTotalCount(String userid);
+	// *** 나의 예약 침대 타입 가져오기 ***
+	List<HashMap<String,String>> getBedType(String roomcode);
+
+	//*** 나의 예약 빌딩 타입 ***
+	HashMap<String, String> getBuildType(String roomcode);
 
 
 

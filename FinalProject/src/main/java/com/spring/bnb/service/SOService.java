@@ -18,8 +18,8 @@ public class SOService implements InterSOService{
 	
 	// 나의 쿠폰 리스트 가져오기
 	@Override
-	public List<HashMap<String, String>> getMyCoupon(String loginuser) {
-		List<HashMap<String,String>> myCouponList = dao.getMyCoupon(loginuser);
+	public List<HashMap<String, String>> getMyCoupon(HashMap<String,String> paraMap) {
+		List<HashMap<String,String>> myCouponList = dao.getMyCoupon(paraMap);
 		return myCouponList;
 	}
 	//나의 개인정보 가져오기
@@ -31,9 +31,9 @@ public class SOService implements InterSOService{
 	// 나의 정보 수정
 	@Override
 	public void memberUpdate(MemberVO member) {
-		System.out.println("11");
+	
 		/*int n = */ dao.memberUpdate(member);
-		System.out.println("22");
+
 		/*return n;*/
 	}
 	
@@ -98,6 +98,40 @@ public class SOService implements InterSOService{
 		int n = dao.goCancelMyRsv(map);
 		return n;
 	}
+	
+	// *** 나의 쿠폰 리스트 페이징 처리를 위한 전체 갯수 불러오기 ***
+	@Override
+	public int getTotalCount(String userid) {
+		int count = dao.getTotalCount(userid);
+		return count;
+	}
+	
+	// *** 사용한 쿠폰 리스트  ***
+	@Override
+	public List<HashMap<String, String>> getMyUserCoupon(HashMap<String, String> paraMap) {
+		List<HashMap<String,String>> myUseList = dao.getMyUseCoupon(paraMap);
+		return myUseList;
+	}
+	
+	// *** 사용한 쿠폰 총 갯수 ***
+	@Override
+	public int getUseTotalCount(String userid) {
+		int count = dao.getUseTotalCount(userid);
+		return count;
+	}
+	
+	// *** 나의 예약 침대 타입 가져오기 ***
+	@Override
+	public List<HashMap<String,String>> getBedType(String roomcode) {
+		List<HashMap<String,String>> bedtype = dao.getBedType(roomcode);
+		return bedtype;
+	}
+	@Override
+	public HashMap<String, String> getBuildType(String roomcode) {
+		 HashMap<String, String> buildType = dao.getBuildType(roomcode);
+		return buildType;
+	}
+
 
 
 }
