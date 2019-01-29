@@ -426,12 +426,12 @@ public class SOController {
 
 
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
-	public String myReservation(HttpServletRequest req, HttpServletResponse res) {
+	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
 
-/*		HttpSession session = req.getSession();
+		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();*/
-		String userid="leess";
+		String userid = loginMember.getUserid();
+
 		List<HashMap<String,String>> memberResList = service.getMemberReservationList(userid);
 		//회원 예약 내용 가져오기
 		System.out.println(memberResList.get(1).get("rsvcode"));
@@ -484,12 +484,12 @@ public class SOController {
 	}
 	// 투숙 예정 예약 상세보기
 	@RequestMapping(value = "/myReservationScheduleDetail.air", method = RequestMethod.GET)
-	public String myReservationScheduleDetail(HttpServletRequest req, HttpServletResponse res) {
+	public String requireLogin_myReservationScheduleDetail(HttpServletRequest req, HttpServletResponse res) {
 		//	*** 아이디 정보 가져오기 ***
-/*		HttpSession session = req.getSession();
+		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();*/
-		String userid="leess";
+		String userid = loginMember.getUserid();
+		
 		String rsvcode = req.getParameter("rsvcode");
 		
 			
