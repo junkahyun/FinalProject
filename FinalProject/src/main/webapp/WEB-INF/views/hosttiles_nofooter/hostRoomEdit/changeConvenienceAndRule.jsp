@@ -97,29 +97,7 @@ select:focus {
 	
 	<!-- 이용규칙 -->
 	<h3 >어떤 이용규칙이 있나요?</h3>
-	<c:forEach  var="rule" items="${roomRule}" varStatus="status">
-		<span style="font-size: 13pt; margin-right: 15%;">${rule.rule_name}</span>
-			<c:if test="${rule.rule_status == 0 }">
-				<label for="No${status.count}">
-					<input type="checkbox" checked="checked" id="No${status.count}"/><span class="checkYesorNo">아니오</span>
-				</label>
-				
-				<label for="yes${status.count}">
-					<input type="checkbox" id="yes${status.count}"/><span class="checkYesorNo">예</span>
-				</label>
-			</c:if>
-			
-			<c:if test="${rule.rule_status == 1}">
-				<label for="No${status.count}">
-					<input type="checkbox" id="No${status.count}"/><span class="checkYesorNo">아니오</span>
-				</label>
-				
-				<label for="yes${status.count}">
-					<input type="checkbox" checked="checked" id="yes${status.count}"/><span class="checkYesorNo">예</span>
-				</label>
-			</c:if>
-		<br><br>
-	</c:forEach>
+	
 	<hr style="width: 50%;" align="left">
 	<button class="btn successbtn" onClick="changeCheckInOut();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn cancelbtn" onclick="javascript:history.back();">취소</button>
 </div>
