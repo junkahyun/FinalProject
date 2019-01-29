@@ -48,9 +48,8 @@ public class SHController {
 	public String adminMember(HttpServletRequest req) {
 		
 		String gobackURL = MyUtil.getCurrentURL(req);
-		
 		req.setAttribute("gobackURL", gobackURL);
-
+		
 		return "admin/adminMember.admintiles";
 	}
 	

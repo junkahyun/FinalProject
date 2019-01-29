@@ -169,6 +169,16 @@
 		
 	}
 	
+	function goView(gobackURL) {
+		
+		var frm = document.goViewFrm;
+		frm.gobackURL.value = gobackURL;
+		frm.method = "GET";
+		frm.action = "memberDetail.air";
+		frm.submit();
+		
+	}
+	
 </script>
 <style type="text/css">
 	table.memberList thead tr th,
