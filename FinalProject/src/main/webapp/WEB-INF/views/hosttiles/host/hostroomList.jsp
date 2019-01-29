@@ -95,7 +95,7 @@
 						<h2>운영 중</h2>
 					</c:if>
 
-					<c:if test="${room.roomstatus == 0 }">
+					<c:if test="${room.roomstatus != 1 }">
 						<h2>운영 중지</h2>
 					</c:if>
 					<div class="panel panel-default">

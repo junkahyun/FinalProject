@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSCService;
 
@@ -31,8 +32,12 @@ public class SCController {
 	public String hostroomList(HttpServletRequest req) {
 		List<RoomVO> roomList = null;
 		String userid = null;
+		HttpSession session = req.getSession(); 
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser"); 
 		
-		userid = "leess";
+		if(loginuser != null) { 
+			userid = loginuser.getUserid(); 
+		}
 		roomList = service.getRoomList(userid);
 		
 		req.setAttribute("roomList", roomList);
@@ -46,29 +51,56 @@ public class SCController {
 		String roomcode = req.getParameter("roomcode");
 		//System.out.println("roomcode1 : " + roomcode);
 
-		/*
-		 * HttpSession session = req.getSession(); MemberVO loginuser =
-		 * (MemberVO)session.getAttribute("loginuser"); String userid = null;
-		 * if(loginuser != null) { userid = loginuser.getUserid(); }
-		 */
+		HttpSession session = req.getSession(); 
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser"); 
 		String userid = null;
-		userid = "leess";
-
+		if(loginuser != null) { 
+			userid = loginuser.getUserid(); 
+		}
+		
 		roomList = service.getRoomList(userid);
 		RoomVO roomvo = (RoomVO) service.getRoomInfo(roomcode);
-
-		/*
-		 * List<String> roomimgList = new ArrayList<String>(); roomimgList =
-		 * service.getRoomImg(roomcode);
-		 * 
-		 * List<String> optionList = new ArrayList<String>(); optionList =
-		 * service.getOption(roomcode);
-		 */
 
 		req.setAttribute("roomList", roomList);
 		req.setAttribute("roomvo", roomvo);
 
 		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
+	}
+	
+	// 숙소 수정페이지에서 검색 
+	@RequestMapping(value = "/roomnameSearch.air", method = { RequestMethod.POST })
+	public String roomnameSearch(HttpServletRequest req) {
+		List<RoomVO> roomList = null;
+		String searchWord = req.getParameter("searchWord");
+		System.out.println("searchWord:"+searchWord);
+		
+		HttpSession session = req.getSession(); 
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser"); 
+		String userid = null;
+		if(loginuser != null) { 
+			userid = loginuser.getUserid(); 
+		}
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("searchWord", searchWord);
+		
+		roomList = service.roomnameSearch(paraMap); 
+		
+		JSONArray jsonArr = new JSONArray(); // [] null이 아니다.
+		
+		for(int i=0; i<roomList.size(); i++) {
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("roomcode", roomList.get(i).getRoomcode());
+			jsonobj.put("roomName", roomList.get(i).getRoomName());
+			jsonobj.put("roomstatus", roomList.get(i).getRoomstatus());
+			jsonobj.put("roomMainImg", roomList.get(i).getRoomMainImg());
+			System.out.println(jsonobj);
+			jsonArr.put(jsonobj);
+		}
+		String str_json = jsonArr.toString();
+		System.out.println(str_json);
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 
 	// 호스트 숙소사진 수정
@@ -234,13 +266,6 @@ public class SCController {
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
-	
-	// 호스트 숙소세부사진 수정
-	@RequestMapping(value = "/hrDetailPhotoEdit.air", method = { RequestMethod.GET })
-	public String hrDetailPhotoEdit() {
-		return "hostRoomEdit/hrDetailPhotoEdit.hosttiles_nofooter";
-	}
-
 	// 호스트 숙소 제목 수정
 	@RequestMapping(value = "/hrTitleEdit.air", method = { RequestMethod.GET })
 	public String hrTitleEdit() {
@@ -261,7 +286,16 @@ public class SCController {
 
 	// 숙소 평점, 수입, 성취도 페이지
 	@RequestMapping(value = "/hostroomMark.air", method = { RequestMethod.GET })
-	public String hostroomMark() {
+	public String hostroomMark(HttpServletRequest req) {
+		List<RoomVO> roomList = null;
+		HttpSession session = req.getSession(); 
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser"); 
+		String userid = null;
+		if(loginuser != null) { 
+			userid = loginuser.getUserid(); 
+		}
+		roomList = service.getRoomList(userid);
+		req.setAttribute("roomList", roomList);
 		return "host/hostroomMark.hosttiles";
 	}
 	
