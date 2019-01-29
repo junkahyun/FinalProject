@@ -6,21 +6,6 @@
 <mapper namespace="kh">
 
 
-	<resultMap type="HashMap" id="ruleMap">
-		<result column="rule_name" property="rule_name" javaType="String" />
-		<result column="rule_status" property="rule_status" javaType="String" />	
-		<result column="rule_idx" property="rule_idx" javaType="String" />	
-	</resultMap>
-
-	<select id="getRoomRule" resultMap="ruleMap">
-		select rule_name,rule_icon
-		from roomrule A
-		join room B
-		on A.fk_roomcode = B.roomcode
-		join allrule c
-		on c.rule_idx = A.roomrule_idx
-	</select>
-	
 	<select id="getOneRoomInfo" resultType="com.spring.bnb.model.RoomVO" parameterType="HashMap">
 		select *
 		from room A 
