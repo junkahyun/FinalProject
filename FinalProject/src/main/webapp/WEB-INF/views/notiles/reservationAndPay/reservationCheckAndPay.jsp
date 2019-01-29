@@ -38,8 +38,6 @@ input{outline: none;
 
 	$(document).ready(function(){
 		
-		
-		
 		$("#btnsubmit").click(function(){
 			
 			var total = $("#totalprice").text();
@@ -62,7 +60,49 @@ input{outline: none;
 
 </head>
 <body>
-
+<!-- Channel Plugin Scripts -->
+<script>
+  ;window.channelPluginSettings = {
+    "pluginKey": "6f3362e0-0256-424f-9493-b4dc969bc2d0" //please fill with your plugin key
+  };
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var d = window.document;
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+</script>
+<!-- End Channel Plugin -->
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
@@ -82,17 +122,17 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-4" >
 			<span class="myinfomation" >이름</span><br><br>
-			<input class="reservationInfo" type="text" value="${my_userid}" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${loginuser.username}" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="01064262641" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="${loginuser.phone}" readonly="readonly" />
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="rkgus3575@naver.com" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${loginuser.email}" readonly="readonly"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -116,10 +156,10 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" /><br><br>
+			<input class="reservationInfo" type="text" value="${day2-day1}박" /><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일 " /><br><br>
+			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일 " /><br><br>
 			
 			<span class="myinfomation">총인원</span><br>
 			<input class="reservationInfo" type="text" value="${sessionScope.totalpeople}명" /><br><br>
@@ -130,7 +170,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일 " /><br><br>
+			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일 " /><br><br>
 		</div>
 	</div>
 	
@@ -152,9 +192,9 @@ input{outline: none;
 </div>
 
 <form name="finalRev">
-	<input type="hidden" value="콩길동" name="username"/>
-	<input type="hidden" value="rkgus3575@naver.com" name="email"/>
-	<input type="hidden" value="01064262641" name="phone"/>
+	<input type="hidden" value="${loginuser.username}" name="username"/>
+	<input type="hidden" value="${loginuser.email}" name="email"/>
+	<input type="hidden" value="${loginuser.phone}" name="phone"/>
 	<input type="hidden" value="" name="totalprice"/>
 </form>
 

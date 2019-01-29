@@ -16,12 +16,6 @@ public class KHService implements InterKHService {
 	@Autowired
 	private InterKHDAO dao;
 	
-	// ** 이용규칙 가져오는 메소드 ** //
-	@Override
-	public List<HashMap<String,String>> getRoomRule() {
-		List<HashMap<String,String>> roomRule = dao.getRoomRule();
-		return roomRule;
-	}
 	
 	// *** 숙소 정보 가져오기 *** //
 	@Override
