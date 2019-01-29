@@ -30,7 +30,9 @@
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-   chart();
+	$("#listingSelector").change(function(){
+		chart();
+	});
 });
 
 function chart(){
@@ -87,114 +89,137 @@ function chart(){
 }
 </script>
 <div class="container" style="width: 100%;">
-<div class="col-md-2"></div>
-<div class="col-md-8" style="margin-bottom: 10%; margin-top: 5%; ">
-   <div class="_uy08umt">
-      <div id="dashboard-content">
-         <div class="container" style="float:left; width: 70%">
-            <ul class="nav nav-tabs">
-               <li class="active"><a data-toggle="tab" href="#avgScore">평점</a></li>
-               <li><a data-toggle="tab" href="#income">수입</a></li>
-               <li><a data-toggle="tab" href="#hits">조회수</a></li>
-            </ul>
-         </div>
-      <!-- 평점 시작 -->
-       <div class="tab-content "  style="padding: 3%;">
-        <div class="tab-pane tab-panel active" id="avgScore">
-         <div style="margin-top: 5%;">
-          
-            <div class="row">
-               <div class="col-lg-8">               
-                  <div style="margin-bottom: 1px;">
-                     <div class="_9hxttoo" style="border: 0px solid red;" >
-                        <div style="margin-bottom: 8px;">
-                           <label class="_rin72m" for="listingSelector" ><div class="_6mxuijo" style="border: 0px solid #008489;" >숙소 선택</div></label>
-                        </div>
-                        <div style="border: margin-bottom : 5%; padding: 0;" >   
-                              <div style="margin: 0; border: 0px solid red; padding: 0;"><select id="listingSelector" name="selected_listing" class="_bwyiq2l">
-                                 <option value="all">모든 숙소</option><option value="31077617">ㄴㅇㄹ</option>
-                                 <option value="31027844">ㄴㅇㄹ (미등록)</option>
-                              </select></div>
-                        </div>
-                     </div>
-                  </div>
-         <!--  표시할 내용이 없을떄 나타나야함 -->
-               <div class="_15lzjb6">
-                  <div class="_1rlifxji">
-                     <div style="margin: 5%;">
-                        <div class="_19odbsb1">표시할 내용이 없습니다</div>
-                           <div class="_1r804a6o">첫 번째 후기를 참고해 숙소를 재단장하거나 <a href="/rooms">숙소를 업데이트</a>해서 게스트의 관심을 끌어보세요.</div>
-                     </div>
-                  </div>
-               </div>
-         <!--  표시할 내용이 없을떄 나타나야함  끝-->      
-               <div class="_1dl27thl" style="margin-top: 10%;"><h5>평점 (0개) : 평점갯수 표시</h5></div>
-               
-               <!--  차트 시작 -->
-               <div id="charts" style=" border: 0px soild red; min-width: 310px; height: 70%; max-width: 80%; margin: 0 auto"></div>
-               <!--  차트 끝 -->
-                  
-                  <div class="_1p75mxn1" style="border: 0px solid red; margin-top: 10%;" >
-                     <div class="_1dl27thl" style="border: 0px solid red"><h5>후기(0개)</h5></div>
-                     <div>
-                       <h5>해당 숙소의 후기 리스트 보여주기</h5>
-                       <ul class="list-group">
-                         <li class="list-group-item reviewlist">후기내용 <span class="badge">평점</span></li>
-                         <li class="list-group-item reviewlist">Deleted <span class="badge">5</span></li>
-                         <li class="list-group-item reviewlist">Warnings <span class="badge">3</span></li>
-                       </ul>
-                     </div>
-                     <div style="margin-top: 32px; margin-bottom: 32px;">
-                        <div class="_9hxttoo">
-                           <div style="margin-bottom: 8px;">
-                              <label class="_rin72m" for="reviewRatingFilter">
-                                 <div class="_6mxuijo">전체 평점으로 필터링</div>
-                              </label>
-                           </div>
-                           <div class="_wlf6154">
-                              <div class="_y9ev9r">
-                                 <select id="reviewRatingFilter" name="review_rating_filter" class="_bwyiq2l">
-                                    <option value="all">평점이 있는 숙소</option>
-                                    <option value="5">별 5개</option>
-                                    <option value="4">별 4개</option>
-                                    <option value="3">별 3개</option>
-                                    <option value="2">별 2개</option>
-                                    <option value="1">별 1개</option>
-                                 </select>
-                              </div>                              
-                           </div>
-                        </div>                     
-                     </div>
-                  </div>
-               </div>
-            </div>
-   
-         <div class="container" style="margin: 0; border: 0px solid blue; padding: 0;" >
-            <div>
-              <h5>평점에 해당하는 숙소리스트 보여주는 리스트</h5>
-              <ul class="list-group">
-                <li class="list-group-item reviewlist" style="width: 53%;">숙소이름 리스트 <span class="badge">평점</span></li>
-                <li class="list-group-item reviewlist" style="width: 53%;">Deleted <span class="badge">5</span></li>
-                <li class="list-group-item reviewlist" style="width: 53%;">Warnings <span class="badge">3</span></li>
-              </ul>
-            </div>
-         </div>   
-         </div>
-        </div>
-      <!-- 평점 끝 -->
-      <!-- 수입 시작 -->
-        <div class="tab-pane tab-panel" id="income">
-         수입 내용 넣기
-        </div>
-      <!-- 수입 끝 -->
-      <!-- 조회수 시작 -->
-        <div class="tab-pane tab-panel" id="hits">
-         조회수 넣기ㅣ 
-        </div>
-      <!-- 조회수 끝 -->
-      </div>
-      </div>
-   </div>
-</div>
+	<div class="col-md-2"></div>
+	<div class="col-md-8" style="margin-bottom: 10%; margin-top: 5%;">
+		<div class="_uy08umt">
+			<div id="dashboard-content">
+				<div class="container" style="float: left; width: 70%">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#avgScore">평점</a></li>
+						<li><a data-toggle="tab" href="#income">수입</a></li>
+						<li><a data-toggle="tab" href="#hits">조회수</a></li>
+					</ul>
+				</div>
+				<!-- 평점 시작 -->
+				<div class="tab-content " style="padding: 3%;">
+					<div class="tab-pane tab-panel active" id="avgScore">
+						<div style="margin-top: 5%;">
+
+							<div class="row">
+								<div class="col-lg-8">
+									<div style="margin-bottom: 1px;">
+										<div class="_9hxttoo" style="border: 0px solid red;">
+											<div style="margin-bottom: 8px;">
+												<label class="_rin72m" for="listingSelector"><div
+														class="_6mxuijo" style="border: 0px solid #008489;">숙소
+														선택</div></label>
+											</div>
+											<div style="border: margin-bottom: 5%; padding: 0;">
+												<div style="margin: 0; border: 0px solid red; padding: 0;">
+													<select id="listingSelector" name="selected_listing"
+														class="_bwyiq2l">
+														<option value="all">숙소 삭제</option>
+														<c:forEach var="room" items="${roomList }">
+															<option value="${room.roomName }">${room.roomName }</option>
+														</c:forEach>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--  표시할 내용이 없을떄 나타나야함 -->
+									<div class="_15lzjb6">
+										<div class="_1rlifxji">
+											<div style="margin: 5%;">
+												<div class="_19odbsb1">표시할 내용이 없습니다</div>
+												<div class="_1r804a6o">
+													첫 번째 후기를 참고해 숙소를 재단장하거나 <a href="/rooms">숙소를 업데이트</a>해서
+													게스트의 관심을 끌어보세요.
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--  표시할 내용이 없을떄 나타나야함  끝-->
+									<div class="_1dl27thl" style="margin-top: 10%;">
+										<h5>평점 (0개) : 평점갯수 표시</h5>
+									</div>
+
+									<!--  차트 시작 -->
+									<div id="charts"
+										style="border: 0px soild red; min-width: 310px; height: 70%; max-width: 80%; margin: 0 auto"></div>
+									<!--  차트 끝 -->
+
+									<div class="_1p75mxn1"
+										style="border: 0px solid red; margin-top: 10%;">
+										<div class="_1dl27thl" style="border: 0px solid red">
+											<h5>후기(0개)</h5>
+										</div>
+										<div>
+											<h5>해당 숙소의 후기 리스트 보여주기</h5>
+											<ul class="list-group">
+												<li class="list-group-item reviewlist">후기내용 <span
+													class="badge">평점</span></li>
+												<li class="list-group-item reviewlist">Deleted <span
+													class="badge">5</span></li>
+												<li class="list-group-item reviewlist">Warnings <span
+													class="badge">3</span></li>
+											</ul>
+										</div>
+										<div style="margin-top: 32px; margin-bottom: 32px;">
+											<div class="_9hxttoo">
+												<div style="margin-bottom: 8px;">
+													<label class="_rin72m" for="reviewRatingFilter">
+														<div class="_6mxuijo">전체 평점으로 필터링</div>
+													</label>
+												</div>
+												<div class="_wlf6154">
+													<div class="_y9ev9r">
+														<select id="reviewRatingFilter"
+															name="review_rating_filter" class="_bwyiq2l">
+															<option value="all">평점이 있는 숙소</option>
+															<option value="5">별 5개</option>
+															<option value="4">별 4개</option>
+															<option value="3">별 3개</option>
+															<option value="2">별 2개</option>
+															<option value="1">별 1개</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="container"
+								style="margin: 0; border: 0px solid blue; padding: 0;">
+								<div>
+									<h5>평점에 해당하는 숙소리스트 보여주는 리스트</h5>
+									<ul class="list-group">
+										<li class="list-group-item reviewlist" style="width: 53%;">숙소이름
+											리스트 <span class="badge">평점</span>
+										</li>
+										<li class="list-group-item reviewlist" style="width: 53%;">Deleted
+											<span class="badge">5</span>
+										</li>
+										<li class="list-group-item reviewlist" style="width: 53%;">Warnings
+											<span class="badge">3</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 평점 끝 -->
+					<!-- 수입 시작 -->
+					<div class="tab-pane tab-panel" id="income">수입 내용 넣기</div>
+					<!-- 수입 끝 -->
+					<!-- 조회수 시작 -->
+					<div class="tab-pane tab-panel" id="hits">조회수 넣기ㅣ</div>
+					<!-- 조회수 끝 -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
