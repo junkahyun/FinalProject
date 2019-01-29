@@ -57,14 +57,14 @@
 					    html += "<tr>"+
 								"<td>"+entry.rno+"</td>"+
 							    "<td>"+entry.fk_userid+"</td>"+
-							    "<td><a onClick='goDetail();'>"+entry.report_subject+"</a></td>"+
+							    "<td><a href='adminVanDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a></td>"+
 							    "<td style='text-align: center;'>"+entry.report_date+"</td>"+
 							    status+
 							    "</tr>";
 								   
 						$("#result").html(html);
 						
-						// makePageBar(currentShowPageNo);
+						makePageBar(currentShowPageNo);
 						
 					});
 				}
@@ -76,6 +76,93 @@
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 		});
+	}
+	
+	function makePageBar(currentShowPageNo) {
+		
+		var searchWord = $("#searchWord").val().trim();
+		var searchType = $("#searchType").val().trim();
+		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
+		
+		$.ajax({
+			url:"<%=request.getContextPath()%>/getTotalPagess.air",
+			type:"GET",
+			data:data_form,
+			dataType:"JSON",
+			success:function(json){
+				
+				var totalPage = json.totalPage;
+				
+				if(totalPage > 0) {
+					// 댓글이 있는 경우
+					
+					var pageBarHTML = "";
+
+					var blockSize = 10;
+					// blockSize는 1개 블럭(토막)당 보여지는 페이지 번호의 갯수이다.
+					
+					var loop = 1;
+					/*
+						loop는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 갯수이다.
+						증가하는 용도이다
+					*/
+					
+					var pageNo = Math.floor((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+					
+					
+					// **** [이전] 만들기 ***** //
+					if( pageNo != 1 ) {
+						
+						pageBarHTML += "&nbsp;<a href='javascript:goSearch(\""+(pageNo-1)+"\");'>[이전]</a>&nbsp;";
+						
+					}
+					
+					//--------------------------------//
+					while(! (loop > blockSize || pageNo > totalPage) ) {
+						
+						if(pageNo == currentShowPageNo) {
+							// 현재 내가 보는 페이지와 똑같다면
+							pageBarHTML += "&nbsp;<span style='color:red; font-weight: bold; text-decoration:underline;'>"+pageNo+"</span>&nbsp;";
+						}
+						else {
+							pageBarHTML += "&nbsp;<a href='javascript:goSearch(\""+pageNo+"\");'>"+pageNo+"</a>&nbsp;";
+						}
+						
+						loop++;
+						pageNo++;
+						
+					}// end of while()----------------
+					
+					//--------------------------------//
+					
+					// **** [다음] 만들기 ***** //
+					if( !(pageNo > totalPage) ) {
+						
+						pageBarHTML += "&nbsp;<a href='javascript:goSearch(\""+pageNo+"\");'>[다음]</a>&nbsp;";
+						
+					}
+					
+					//////////////////////////////
+					$("#pageBar").empty().html(pageBarHTML);
+					pageBarHTML = "";
+				}
+				else {
+					// 댓글이 없는 경우(안해도 괜찮음)
+					$("#pageBar").empty();
+				}
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+		}); 
+		
+	} // end of makeCommentPageBar ---------------
+	
+	function goDetail(report_idx) {
+		
+		
+		
 	}
 	
 </script>
@@ -124,7 +211,7 @@
     </div>
 </form>
 
-<div class="pageBar" style="text-align: center; margin: 2%;">
-	[이전]    1    2    3    4    5		6		7		8		9    [다음]
+<div class="pageBar" id="pageBar" style="text-align: center; margin: 2%;">
+	
 </div>
    

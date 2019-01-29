@@ -3,7 +3,6 @@ package com.spring.bnb.controller;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +46,10 @@ public class SHController {
 	// 관리자 회원관리 페이지(페이징처리 전)
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
+		
+		String gobackURL = MyUtil.getCurrentURL(req);
+		
+		req.setAttribute("gobackURL", gobackURL);
 
 		return "admin/adminMember.admintiles";
 	}
@@ -120,7 +123,7 @@ public class SHController {
 	}
 	
 	
-	@RequestMapping(value="/getTotalPage.air", method={RequestMethod.GET})
+	@RequestMapping(value="/getTotalPages.air", method={RequestMethod.GET})
 	public String getCommentTotalPage(HttpServletRequest req) {
 		
 		HashMap<String, String> paraMap = null;
@@ -216,6 +219,7 @@ public class SHController {
 		String userid = req.getParameter("useridDel");
 		
 		int n = service.adminDeleteMember(userid);
+		// System.out.println(userid);
 		
 		return "admin/adminMember.admintiles";
 	}
@@ -235,7 +239,8 @@ public class SHController {
 		String currentShowPageNo = req.getParameter("currentShowPageNo");
 		String searchWord = req.getParameter("searchWord");
 		String searchType = req.getParameter("searchType");
-		
+		/*System.out.println(searchWord);
+		System.out.println(searchType);*/
 		if(searchWord == null) {
 			searchWord = "";
 		}
@@ -292,6 +297,62 @@ public class SHController {
 		req.setAttribute("str_json", str_json);
 
 		return "JSON";
+	}
+	
+	@RequestMapping(value="/getTotalPagess.air", method={RequestMethod.GET})
+	public String getCommentTotalPages(HttpServletRequest req) {
+		
+		HashMap<String, String> paraMap = null;
+		
+		String currentShowPageNo = req.getParameter("currentShowPageNo");
+		String sizePerPage = "10";
+		
+		if(currentShowPageNo == null || "".equals(currentShowPageNo)) {
+			currentShowPageNo = "1";
+		}
+		
+		paraMap = new HashMap<String, String>();
+		
+		String searchWord = req.getParameter("searchWord");
+		String searchType = req.getParameter("searchType");
+
+		if(searchWord== null) {
+			searchWord = "";
+		}
+		
+		if(!"rno".equals(searchType) &&
+		   !"fk_userid".equals(searchType) &&
+		   searchType == null) {
+			searchType = "rno";
+		}
+		
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("searchType", searchType);
+		paraMap.put("sizePerPage", sizePerPage);
+		// System.out.println(searchWord);
+		// System.out.println(searchType);
+		
+		
+		int totalCount = service.getTotalCounts(paraMap);
+		// 원글 글번호에 해당하는 댓글의 총 갯수를 알아온다.
+		System.out.println(totalCount);
+		// System.out.println(sizePerPage);
+		// 총 페이지 수 구하기
+		int totalPage = (int)Math.ceil((double)totalCount/Integer.parseInt(sizePerPage));
+		/*
+		 	57.0(행갯수)/10(sizePerPage) ==> 5.7 ==> 6.0 ==> 6
+		 	57.0(행갯수)/5(sizePerPage) ==> 11.4 ==> 12.0 ==> 12
+		 	57.0(행갯수)/3(sizePerPage) ==> 19.0 ==> 19.0 ==> 19
+		*/
+		// System.out.println("총페이지 보여주세요:"+totalPage);
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("totalPage", totalPage);
+		
+		String totalPageJSON = jsonObj.toString();
+		
+		req.setAttribute("totalPage", totalPageJSON);
+		return "totalPageJSON";
+		
 	}
 	
 	// 신고 글쓰기 페이지 요청
@@ -384,6 +445,14 @@ public class SHController {
 		req.setAttribute("loc", loc);
 		
 		return "admin/couponRegsEnd.admintiles";
+	}
+	
+	@RequestMapping(value="/adminVanDetail.air", method= {RequestMethod.GET}) 
+	public String adminVanDetail(HttpServletRequest req) {
+		
+		
+		
+		return "";
 	}
 	
 	

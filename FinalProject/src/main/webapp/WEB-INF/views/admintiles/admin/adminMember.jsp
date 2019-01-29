@@ -85,7 +85,7 @@
 		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
 		
 		$.ajax({
-			url:"<%=request.getContextPath()%>/getTotalPage.air",
+			url:"<%=request.getContextPath()%>/getTotalPages.air",
 			type:"GET",
 			data:data_form,
 			dataType:"JSON",
@@ -240,4 +240,7 @@
 		
 	</div>
 	
+	<form name="goViewFrm">
+		<input type="hidden" name="gobackURL">
+	</form>
 

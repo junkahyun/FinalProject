@@ -11,14 +11,6 @@
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
 
-<style data-aphrodite="data-aphrodite">
-._1k01n3v1 {
-		color:#008489 !important;font:inherit !important;font-family:Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;text-decoration:none !important;-webkit-appearance:none !important;-moz-appearance:none !important;appearance:none !important;background:transparent !important;border:0px !important;cursor:pointer !important;margin:0px !important;padding:0px !important;-webkit-user-select:auto !important;-moz-user-select:auto !important;-ms-user-select:auto !important;user-select:auto !important;text-align:left !important;
-	}	
-	._1k01n3v1:hover{
-		text-decoration:underline !important;color:#008489 !important;}._1k01n3v1:focus{text-decoration:underline !important;}@supports(--custom: properties){._1k01n3v1{color:var(--color-text-link, #008489) !important;font-family:var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;
-	}
-	._1k01n3v1:hover{color:var(--color-text-link-hover, #008489) !important;}._1k01n3v1:active{color:var(--color-text-link-active, #006C70) !important;}}._1k01n3v1:active{color:#006C70 !important;outline:0px !important;}</style>
 <style type="text/css">
 ._1k01n3v1 {
     color: var(--color-text-link, #008489) !important;
@@ -56,11 +48,12 @@ thead>tr>th{
 		color:#008489;
 		font-weight: bold;
 }
-#pagebar{
+#pageBar , #usePagebar{
 	vertical-align: center;
 	text-align: center;
 }
 </style>
+<script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -68,65 +61,106 @@ thead>tr>th{
 			var url ="/bnb/couponReg.air";
 			window.open(url,"쿠폰등록","width=400,height=300");			  
 		});
+	
+		// 보유쿠폰 리스트 가져오기
 		
-		makeCommentPageBar();
+		$("#goMenu1").click(function () {
+			$(".pageBar").html("");
+			makePossessionPageBar("1");
+		});
+		
+		goUseCoupon("1");	
+		goPossessionCoupon("1");		
 		
 	
 	});
-	
-	function goViewComment(currentShowPageNo) {
-		var form_data={"currentShowPageNo":currentShowPageNo} 
+
+	// 보유쿠폰 리스트 가져오기	
+	function goPossessionCoupon(currentShowPageNo) {
 		
+		var form_data={"currentShowPageNo":currentShowPageNo}; 
+	
 		$.ajax({
-			url:"<%= request.getContextPath() %>/myCoupon.action",
+			url:"<%= request.getContextPath() %>/possessionCoupon.air",
 			data:form_data,
-			type:"GET",
+			type:"POST",
 			dataType:"JSON",
 			success: function(json) {
-/* 	            var resultHTML = "";
-	            $.each(json,function(entryIndex,entry){	               
-	               resultHTML += "<tr>"+
-	                          "<td style='text-align: center;'>"+entry.NAME+"</td>"+
-	                          "<td>"+entry.CONTENT+"</td>"+
-	                          "<td style='text-align: center;'>"+entry.REGDATE+"</td>"+
-	                          "</tr>";
-	                          
+	            var resultHTML = "";
+	            $.each(json,function(entryIndex,entry){	  
+	            	
+	            	 resultHTML += "<tr class='first'>"+
+	             		 		   "<td class='first'><p>"+entry.cpname+"</p></td>"+
+	            	 			   "<td><p>"+entry.cpcode+"</p></td>"+
+	            	 			   "<td><p>"+entry.dcmoney+"원</p></td>"+
+	            	 			   "<td><p>"+entry.cpexpire+"</p></td>"+
+	            	 			   "<tr>";		                          
 	            });// end of each-----------------
 	            
-	            $("#commentDisplay").empty().html(resultHTML); */
-	            
-	            
-	            // 페이지바 함수 호출
-				//page 넘길 때 기존의 값을 없앤 후 위의 html로 채운다
+	            $("#showPossessionCoupon").empty().html(resultHTML); 
 				
 				// ==== 댓글 내용 페이지바 AJAX로 만들기 ====
-	            makeCommentPageBar(currentShowPageNo);
+	           makePossessionPageBar(currentShowPageNo);
 			
 			},error: function(request, status, error){
 			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 						
 		});
-	}// end of goViewComment(currentShowPageNo) 
-
-function makeCommentPageBar(currentShowPageNo) {
-		var form_data = {sizePerPage:"10"};
+	}// end of goPossessionCoupon(currentShowPageNo) 
+	
+	// 사용쿠폰 리스트 가져오기
+	function goUseCoupon(currentShowPageNo) {
+		
+		var form_data={"currentShowPageNo":currentShowPageNo};
 		
 		$.ajax({
-			url:"<%=request.getContextPath() %>/myCoupon.air", 
+			url:"<%= request.getContextPath() %>/useCoupon.air",
+			data:form_data,
+			type:"POST",
+			dataType:"JSON",
+			success: function(json) {
+	            var resultHTML = "";
+	            $.each(json,function(entryIndex,entry){	  
+	            	 resultHTML += "<tr class='first'>"+
+			            		 	"<td class='first'>"+
+			            	 		"<p>"+entry.cpname+"</p></td>"+
+			            	 		"<td><p>"+entry.cpcode+"</p></td>"+
+			            	 		"<td><p>"+entry.dcmoney+"</p></td>"+
+			            	 		"<td><p>"+entry.usedate+"</p></td></tr>";	            				                          
+	            });// end of each-----------------
+	            
+	            $("#useCoupon").empty().html(resultHTML); 
+				
+				// ==== 댓글 내용 페이지바 AJAX로 만들기 ====
+	            makeUsePageBar(currentShowPageNo);
+			
+			},error: function(request, status, error){
+			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+						
+		});
+	}// end of goPossessionCoupon(currentShowPageNo) 
+
+function makePossessionPageBar(currentShowPageNo) {
+		var form_data = {"sizePerPage":10,
+						"page":1};
+		
+		$.ajax({
+			
+			url:"<%=request.getContextPath() %>/getTotalPage.air", 
 			data:form_data,
 			type:"GET",
 			dataType:"JSON",
 			success:function(json){
-				var req_totalPage = ${totalPage};
-				if(req_totalPage > 0) {
-
+				var req_totalPage =json.totalPage;
+				
+				 if(req_totalPage > 1) { 
 					var totalPage = req_totalPage;
 					var pageBarHTML = "";
 					
-					/////////////////////////////////
 					var blockSize = 10;
-					// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 갯수이다. 
+					// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 갯수이다.
 					
 					var loop = 1;
 					/*
@@ -139,7 +173,7 @@ function makeCommentPageBar(currentShowPageNo) {
 					// -----------------------------------------
 					// 					[이전] 만들기
 						if(pageNo != 1){
-							pageBarHTML += "&nbsp;<a href='javascript:goViewComment(\""+(pageNo-1)+"\");'>[이전]</a>";	
+							pageBarHTML += "&nbsp;<a href='javascript:goPossessionCoupon(\""+(pageNo-1)+"\");'>[이전]</a>";	
 						}		
 						
 					// -----------------------------------------
@@ -148,7 +182,7 @@ function makeCommentPageBar(currentShowPageNo) {
 							if(pageNo == currentShowPageNo) {// 보고 있는 페이지가 현재 페이지일 경우
 								pageBarHTML += "&nbsp;<span style='color:red; font-size:12pt; font-weight:bold; text-decoration:underline;'>"+pageNo+"</span>";	
 							}else{
-								pageBarHTML += "&nbsp;<a href='javascript:goViewComment(\""+pageNo+"\");'>"+pageNo+"</a>";	
+								pageBarHTML += "&nbsp;<a href='javascript:goPossessionCoupon(\""+pageNo+"\");'>"+pageNo+"</a>";	
 							}						
 							
 							loop++;
@@ -159,19 +193,66 @@ function makeCommentPageBar(currentShowPageNo) {
 					// -----------------------------------------					
 								   // [다음] 만들기
 					if(!(pageNo > totalPage)){
-							pageBarHTML += "&nbsp;<a href='javascript:goViewComment(\""+pageNo+"\");'>[다음]</a>";	
-						}							
+							pageBarHTML += "&nbsp;<a href='javascript:goPossessionCoupon(\""+pageNo+"\");'>[다음]</a>";	
+						}
 						$("#pageBar").empty().html(pageBarHTML);					
 						pageBarHTML = "";//초기화		
 						
-					}else{
-						// 댓글이 없는경우
-						$("#pageBar").empty();
-					}
+				}else{
+					$("#pageBar").empty();
 				}
-				else {
-					// 댓글이 없는 경우 
-					$(".pageBar").empty();
+
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+	}// end of function makeCommentPageBar(currentShowPageNo)------------- 
+	function makeUsePageBar(currentShowPageNo) {
+		var form_data = {"sizePerPage":10,
+						"page":2};
+		
+		$.ajax({
+			
+			url:"<%=request.getContextPath() %>/getTotalPage.air", 
+			data:form_data,
+			type:"GET",
+			dataType:"JSON",
+			success:function(json){
+				var req_totalPage =json.totalPage;
+				
+				 if(req_totalPage > 1) { // page 가 1page 이상일 때  
+					var totalPage = req_totalPage;
+					var pageBarHTML = "";
+					
+					var blockSize = 10;// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 갯수이다.					
+					var loop = 1;					
+					var pageNo = Math.floor((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+						if(pageNo != 1){
+							pageBarHTML += "&nbsp;<a href='javascript:goUseCoupon(\""+(pageNo-1)+"\");'>[이전]</a>";	
+						}		
+					// 현재페이지
+						while(!(loop > blockSize || pageNo > totalPage)){
+							if(pageNo == currentShowPageNo) {// 보고 있는 페이지가 현재 페이지일 경우
+								pageBarHTML += "&nbsp;<span style='color:red; font-size:12pt; font-weight:bold; text-decoration:underline;'>"+pageNo+"</span>";	
+							}else{
+								pageBarHTML += "&nbsp;<a href='javascript:goUseCoupon(\""+pageNo+"\");'>"+pageNo+"</a>";	
+							}						
+							
+							loop++;
+							pageNo++;
+						}
+											
+				   // [다음] 만들기
+					if(!(pageNo > totalPage)){
+							pageBarHTML += "&nbsp;<a href='javascript:goUseCoupon(\""+pageNo+"\");'>[다음]</a>";	
+						}
+						$("#usePagebar").empty().html(pageBarHTML);					
+						pageBarHTML = "";//초기화		
+						
+				}else{ // page 가 1page 일 때 
+					$("#usePagebar").empty();
 				}
 			},
 			error: function(request, status, error){
@@ -216,17 +297,16 @@ function makeCommentPageBar(currentShowPageNo) {
      <div class="menutab"> 
       <ul class="nav nav-tabs">
 	    <li class="active"><a data-toggle="tab" href="#home">보유쿠폰</a></li>
-	    <li><a data-toggle="tab" href="#menu1">사용내역</a></li>
+	    <li><a data-toggle="tab" href="#menu1"><span id="goMenu1">사용내역</span></a></li>
 	  </ul>
 	 </div>
 <!--  상단 바 -->
 	  <div class="tab-content margin_top">	    
-<!--  보유쿠폰 목록 -->	
-	
-	    <div id="home" class="tab-pane fade in active " style="padding:1%;">
+<!--  보유쿠폰 목록 -->		
+	  <div id="home" class="tab-pane fade in active " style="padding:1%;">
 		<div align="center">
 		<input type="hidden" name="menu1" class="menu1" value="1"/>		
-		<table class="table table-hover">						
+ 		<table class="table table-hover">						
 				<colgroup>
 					<col width="150pt">
 					<col width="150pt">
@@ -236,28 +316,22 @@ function makeCommentPageBar(currentShowPageNo) {
 						  <thead>	
 									
 						    <tr id="table_header">
+						    
+						    
 						    	<th class="first couponTop" scope="col">쿠폰</th>
 								<th class="couponTop" scope="col">쿠폰코드</th>
 								<th class="couponTop" scope="col">할인금액</th>
 								<th class="couponTop" scope="col">유효기간</th>
 						    </tr>							    
 						  </thead>	
-				<tbody>	
-					<c:forEach items="${myCoupon}" var="coupon">						
-						<tr class="first">
-							<td class="first"><p>${coupon.cpname}</p></td>
-							<td><p>${coupon.cpcode}</p></td>
-							<td><p><fmt:formatNumber value="${coupon.dcmoney}" pattern="#,###"/>원</p></td>
-							<td><p>${coupon.cpexpire}</p></td>
-						</tr>					
-							
-					</c:forEach>
+				<tbody id="showPossessionCoupon">	
 				</tbody>
-			</table>	
+			</table> 	
 		</div>   
-		<c:if test="${totalCount > 10}">
-			<div class=".pagebar" name="pagebar" style="border : 1px solid red">${pagebar}</div>
-		</c:if>
+	
+			<div id="pageBar" class="pageBar" name="pagebar"></div>
+			
+		
       </div> 
 	<!--  보유쿠폰 목록 -->	
 	<!-- 사용한 쿠폰 리스트 -->
@@ -278,23 +352,14 @@ function makeCommentPageBar(currentShowPageNo) {
 							<th class="couponTop" scope="col">할인 금액</th>
 							<th class="couponTop" scope="col">사용한날짜</th>
 						</tr>							    
-					  </thead>		
-					<tbody>
-					
-						<c:forEach items="${myUseCoupon}" var="coupon">
-								<tr class="first">
-									<td class="first"><p>${coupon.cpname}</p></td>
-									<td><p>${coupon.cpcode}</p></td>
-									<td><p>${coupon.dcmoney}</p></td>
-									<td><p>${coupon.usedate}</p></td>
-								</tr>					
-						</c:forEach>				
-					</tbody>
-				</table>
+					  </thead>	
+				<tbody id="useCoupon">
+										  </tbody>	
+			</table>
 			</div>
-			<c:if test="${totalCount > 10}">
-			<div class=".pagebar" name="pagebar" style="border : 0px solid red">${pagebar}</div>
-		</c:if>
+			
+			<div id="usePagebar" class="usePagebar" name="usePagebar"></div>
+		
 	 </div>
 	 
 	<!-- 사용한 쿠폰 리스트 -->

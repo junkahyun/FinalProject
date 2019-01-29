@@ -124,15 +124,17 @@
 	      <tr>
 	        <th>자기소개</th>
 	        <td style="text-align: left;">
-	        <textarea rows="8" cols="40" style="width:100%;">${membervo.introduction}</textarea>
+	        <textarea rows="8" cols="40" style="width:100%; border:none;" readonly >${membervo.introduction}</textarea>
 	        </td>
 	      </tr>
 	  </table>
 	  
 	  <div style="text-align: center;">
-	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="">뒤로가기</button>
+	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="javascript:location.href='${gobackURL}'">뒤로가기</button>
 	  </div>
-  </div>
+    </div>
+  
+	
 
 
   

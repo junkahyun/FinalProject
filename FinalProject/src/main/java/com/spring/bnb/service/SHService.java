@@ -125,10 +125,20 @@ public class SHService implements InterSHService {
 		return n;
 	}
 
+	// 회원삭제하기
 	@Override
 	public int adminDeleteMember(String userid) {
 		
 		int n = dao.adminDeleteMember(userid);
+		
+		return n;
+	}
+
+	// 신고게시판의 글 총 갯수 알아오기
+	@Override
+	public int getTotalCounts(HashMap<String, String> paraMap) {
+		
+		int n = dao.getTotalCounts(paraMap);
 		
 		return n;
 	}

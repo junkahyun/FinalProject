@@ -3,21 +3,9 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
-
-<!DOCTYPE html>
-<html>
-<head>
-
-<title>:::HOMEPAGE:::</title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+ 
 <link href="https://a0.muscache.com/airbnb/static/packages/dls/common_o2.1_cereal-b820ae7d16d76b0900accdef6c28185e.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
@@ -51,7 +39,6 @@ thead>tr>th{
 	border: 1px solid lightgray;
 }
 </style>
-<script type="text/javascript" src="<%= ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 
 <script type="text/javascript">
 </script>
@@ -66,10 +53,10 @@ thead>tr>th{
 			      <a href="<%= ctxPath %>/myEdit.air" aria-selected="false" class="sidenav-item"><h4>프로필 수정</h4></a>
 			    </li>
 			    <li>
-			      <a href="<%= ctxPath %>/review.air" aria-selected="false" class="sidenav-item"><h4>후기</h4></a>
+			      <a href="<%= ctxPath %>/review.air" aria-selected="true" class="sidenav-item"><h4>후기</h4></a>
 			    </li>
 			    <li>
-			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="true" class="sidenav-item"><h4>예약 관리</h4></a>
+			      <a href="<%= ctxPath %>/myReservation.air" aria-selected="false" class="sidenav-item"><h4>예약 관리</h4></a>
 			    </li>
 			    <li>
 			      <a href="<%= ctxPath %>/myCoupon.air" aria-selected="false" class="sidenav-item"><h4>나의 쿠폰</h4></a>
@@ -99,7 +86,7 @@ thead>tr>th{
 
 	      <div class="panel-header" style="margin-top: 3%;border: 1px solid lightgray">
 
-	     	 <h3 class="edit-profile-section-heading">지난 후기</h3>
+	     	 <h3 class="edit-profile-section-heading">나에대한 후기</h3>
 
 	      </div>
 
@@ -213,7 +200,6 @@ thead>tr>th{
 					</table>
 		 	</c:if>
 		 </c:forEach>
-			<!-- <div>[이전]  1 2 3 4 5 [이후]</div> -->
 	     </div> 
 	   <!-- 작성해야 할 후기 --> 		 
 <!-- -----------------------------------------------------------  -->
@@ -262,7 +248,6 @@ thead>tr>th{
 					      <td>${wirteReview.review_writedate}</td>
 						</tr>
 					</table>
-					1 2 3 4 5
 				 </c:if>	
 			  </c:forEach>	
 		   </div>
