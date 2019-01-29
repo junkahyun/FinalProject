@@ -122,6 +122,9 @@ public class SWController {
 		String startprice = req.getParameter("startprice");
 		String endprice = req.getParameter("endprice");
 		String city = req.getParameter("city");
+		/*String adult = req.getParameter("adult");
+		
+		int adultcount = Integer.parseInt(adult);*/
 		
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("BUILDNAME2", buildName2);
@@ -130,6 +133,7 @@ public class SWController {
 		paraMap.put("STARTPRICE", startprice);
 		paraMap.put("ENDPRICE", endprice);
 		paraMap.put("CITY", city);
+		/*paraMap.put("ADULT", adult);*/
 		
 		System.out.println(paraMap);
 		JSONArray jsonArr = new JSONArray();
@@ -184,7 +188,7 @@ public class SWController {
 		String[] rulename = req.getParameterValues("rulename");
 		String[] roomtype_name = req.getParameterValues("roomtype_name");
 		String[] optionname = req.getParameterValues("optionname");
-		String city = req.getParameter("city");
+		String[] city = req.getParameterValues("city");
 			
 		String rulenameStr = "";
 		String roomtype_nameStr = "";
@@ -195,7 +199,7 @@ public class SWController {
 			for(int i=0; i<rulename.length; i++) {
 				String rule = rulename[i];				
 				if(rulename.length > i+1) {
-					rulenameStr += rule+", ";					
+					rulenameStr += rule+",";					
 				}
 				else {
 					rulenameStr += rule;
@@ -209,7 +213,7 @@ public class SWController {
 			for(int i=0; i<roomtype_name.length; i++) {
 				String roomtype = roomtype_name[i];				
 				if(roomtype_name.length > i+1) {
-					roomtype_nameStr += roomtype+", ";
+					roomtype_nameStr += roomtype+",";
 				}
 				else {
 					roomtype_nameStr += roomtype;
@@ -223,7 +227,7 @@ public class SWController {
 			for(int i=0; i<optionname.length; i++) {
 				String option = optionname[i];				
 				if(optionname.length > i+1) {
-					optionnameStr += option+", ";
+					optionnameStr += option+",";
 				}
 				else {
 					optionnameStr += option;
@@ -232,17 +236,17 @@ public class SWController {
 		//	System.out.println(optionnameStr);
 		}		
 		
-		System.out.println(rulenameStr);
+		/*System.out.println(rulenameStr);
 		System.out.println(roomtype_nameStr);
-		System.out.println(optionnameStr);
+		System.out.println(optionnameStr);*/
 		
-		HashMap<String,String> paraMap = new HashMap<String,String>();
+		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
 		paraMap.put("CITY", city);
 				
-		System.out.println("1 :"+paraMap);
+		/*System.out.println("1 :"+paraMap);*/
 		
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
@@ -255,7 +259,7 @@ public class SWController {
 			
 			mapList.add(map);
 		}
-		System.out.println("2 :"+mapList);
+		/*System.out.println("2 :"+mapList);*/
 		
 		JSONArray jsonArr = new JSONArray();  		
 				
@@ -272,7 +276,7 @@ public class SWController {
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);		
 		
-		System.out.println("3 : " +str_json);
+		/*System.out.println("3 : " +str_json);*/
 		
 		return "JSON";
 	}	

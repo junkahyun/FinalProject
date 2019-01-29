@@ -22,7 +22,7 @@ public interface InterSWDAO {
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황 보기
 	
-	List<RoomVO> getSWOptionList(HashMap<String,String> paraMap);
+	List<RoomVO> getSWOptionList(HashMap<String,Object> paraMap);
 
 	List<RoomVO> getHomeListByOption(HashMap<String, String> paraMap);  // 옵션에 따른 숙소리스트 받아오기
 

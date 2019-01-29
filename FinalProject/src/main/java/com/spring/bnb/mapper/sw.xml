@@ -38,55 +38,35 @@
 	</select> 
 	
 	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
-		<!-- select *
-		from room
-		where roomcode in (select distinct roomcode
-						   from room A JOIN buildtype_detail B
-						   ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
-						   JOIN reservation C
-						   ON A.roomcode = C.fk_roomcode
-						   where 1=1
-						   <if test='CHECKIN != "" and CHECKOUT != "" and BUILDNAME2 != "" and STARTPRICE != "" and ENDPRICE != ""'>
-						   <if test='BUILDNAME2 != ""'> 
-						   and buildtype_detail_name = #{BUILDNAME2}
-						   </if>
-						   <if test='CHECKIN != "" and CHECKOUT != ""'>
-						   and not to_char(C.rsv_checkindate, 'yyyy-mm-dd') between #{CHECKIN} and #{CHECKOUT}
-						   and not to_char(C.rsv_checkoutdate, 'yyyy-mm-dd') between #{CHECKIN} and #{CHECKOUT}
-						   </if>
-						   <if test='STARTPRICE != "" and ENDPRICE != ""'>
-						   and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
-						   </if>
-						   </if>
-						   ) -->
-						   
-						   
-						  	select *
-							from room A JOIN buildtype_detail B
-                            ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
-							where 1=1 
-							<if test='CHECKIN != "" and CHECKOUT != ""'>
-							and roomcode in (
-							select roomcode
-							from room							
-							minus
-							select roomcode
-							from room A JOIN reservation B
-							ON A.roomcode = B.fk_roomcode
-							JOIN buildtype_detail C
-							ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
-							where #{CHECKIN} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
-							and #{CHECKOUT} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))
-							</if>							
-							<if test='BUILDNAME2 != ""'> 
-						   and buildtype_detail_name = #{BUILDNAME2}
-						   </if>
-						   <if test='STARTPRICE != "" and ENDPRICE != ""'>
-						   and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
-						   </if>
-							<if test='CITY != ""'>
-							and roomsigungu = #{CITY}
-							</if>
+	  	select *
+		from room A JOIN buildtype_detail B
+                       ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		where 1=1
+		<!-- <if test='ADULT != 0'>
+		and max_person > to_number(#{ADULT})
+		</if>  -->
+		<if test='CHECKIN != "" and CHECKOUT != ""'>
+		and roomcode in (
+		select roomcode
+		from room							
+		minus
+		select roomcode
+		from room A JOIN reservation B
+		ON A.roomcode = B.fk_roomcode
+		JOIN buildtype_detail C
+		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+		where #{CHECKIN} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+		and #{CHECKOUT} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))
+		</if>							
+		<if test='BUILDNAME2 != ""'> 
+	    and buildtype_detail_name = #{BUILDNAME2}
+	    </if>
+	    <if test='STARTPRICE != "" and ENDPRICE != ""'>
+	    and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
+	    </if>
+		<if test='CITY != ""'>
+		and roomsigungu = #{CITY}
+		</if>
 							
 						   
 	</select>
@@ -135,38 +115,44 @@
 	<select id="getSWOptionList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
 		select *  
 		from room
-		where roomsigungu = #{CITY}
+		where roomsigungu = '${CITY[0]}'
 		<if test="RULENAME != ''">
 			and not exists(select rule_idx
 							from allrule
 							where rule_name in 
-							<foreach collection="RULENAME" open="('" separator="','" close="')" item="rname">
-							#{rname}
+							<foreach collection="RULENAME" index="i" open="(" separator="," close=")">
+							'${RULENAME[i]}'
 							</foreach>
 							minus                  
 							select fk_rule_idx
 							from room A JOIN roomrule B
 							ON A.roomcode = B.fk_roomcode
-							where roomsigungu = #{CITY})
+							where roomsigungu = '${CITY[0]}')
 		</if>
 		<if test="OPTIONNAME != ''">		                                   
 			and not exists (select option_idx
 							from options
-							where optionname in (#{OPTIONNAME})
+							where optionname in 
+							<foreach collection="OPTIONNAME" index="i" open="(" separator="," close=")">
+							'${OPTIONNAME[i]}'
+							</foreach>
 							minus
 							select fk_option_idx
 							from room A JOIN roomoption B
 							ON A.roomcode = B.fk_roomcode
-							where roomsigungu = #{CITY})
+							where roomsigungu = '${CITY[0]}')
 		 </if>
 		 <if test="ROOMTYPE_NAME != ''">                                   
 			and not exists (select roomtype_idx
-							from roomtype
-							where roomtype_name in (#{ROOMTYPE_NAME})
+							from roomtype							
+							where roomtype_name in 
+							<foreach collection="ROOMTYPE_NAME" index="i" open="(" separator="," close=")">
+							'${ROOMTYPE_NAME[i]}'
+							</foreach>
 							minus
 							select fk_roomtype_idx
 							from room 
-							where roomsigungu = #{CITY}) 
+							where roomsigungu = '${CITY[0]}') 
 		  </if>                                  
 		  
 	</select>

@@ -253,8 +253,34 @@
                $(this).spinner("value", 0);
                return false;
             }
+            
          }
       }); // end of $("#spinnerPqty").spinner();---------------  
+      
+      $("#adult").spinner({
+    	 spin:function(event,ui1){
+    		// alert(ui1.value);
+    		 var adult = $("#adult").val();
+    		 adult = ui1.value;		 
+    		 
+    	 } 
+      });
+      $("#student").spinner({
+     	 spin:function(event,ui2){
+     		 //alert(ui2.value);
+     		var student = $("#student").val();
+     		student = ui2.value;
+   		 	alert(student);
+     	 } 
+       });
+      $("#baby").spinner({
+     	 spin:function(event,ui3){
+     		//alert(ui3.value);
+     		var baby = $("#baby").val();
+     		baby = ui3.value;
+   		 	alert(baby);
+     	 }
+       });
       
       // 건물유형 대/소분류 Ajax 처리
       $("#buildName1").change(function(){
@@ -475,9 +501,9 @@
            
            	<div class="optionbox">
             	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>
-            	<span style="margin-right: 6%;">성인&nbsp;<input class="person" name="pqty" value="0" height="48"/></span>
-            	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input class="person" name="pqty" value="0"/></span>
-            	<span>유아(2세 미만)&nbsp;<input class="person" name="pqty" value="0"/></span>       	
+            	<span style="margin-right: 6%;">성인&nbsp;<input id="adult" class="person" name="pqty" value="0" height="48"/></span>
+            	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input id="student" class="person" name="pqty" value="0"/></span>
+            	<span>유아(2세 미만)&nbsp;<input id="baby" class="person" name="pqty" value="0"/></span>       	
             </div>  
             
             <div id="rulename" class="optionbox rulename">

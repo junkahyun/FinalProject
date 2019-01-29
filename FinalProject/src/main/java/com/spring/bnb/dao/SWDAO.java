@@ -80,8 +80,20 @@ public class SWDAO implements InterSWDAO {
 	}
 	
 	@Override
-	public List<RoomVO> getSWOptionList(HashMap<String,String> paraMap) {
+	public List<RoomVO> getSWOptionList(HashMap<String,Object> paraMap) {
 
+		String rulename = (String)paraMap.get("RULENAME");
+		String roomtype_name = (String)paraMap.get("ROOMTYPE_NAME");
+		String optionname = (String)paraMap.get("OPTIONNAME");
+				
+		String[] rulenameArr = rulename.split(",");
+		String[] roomtypenameArr = roomtype_name.split(",");
+		String[] optionnameArr = optionname.split(",");
+		
+		paraMap.put("RULENAME", rulenameArr);
+		paraMap.put("ROOMTYPE_NAME", roomtypenameArr);
+		paraMap.put("OPTIONNAME", optionnameArr);		
+		
 		List<RoomVO> optionByHomeList = sqlsession.selectList("sw.getSWOptionList", paraMap);
 		
 		return optionByHomeList;
