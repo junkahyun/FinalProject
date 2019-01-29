@@ -44,35 +44,23 @@
 				var html = "";
 				if(json.length > 0) {
 					$.each(json, function(entryIndex, entry){
-						var genderTD = "";
+						var status = "";
 						
-						if(entry.GENDER == "1"){
-							genderTD = "<td>남자</td>";
-						}else{
-							genderTD = "<td>여자</td>";
+						if(entry.report_status == 1) {
+							status = "<td style='text-align: center;'>처리</td>";
 						}
-						html += "<tr>"+
-								   "<td><a href='memberDetail.air?userid="+entry.USERID+"'>"+entry.USERNAME+"</a></td>"+
-								   "<td>"+entry.USERID+"</td>"+
-								   "<td>"+entry.BIRTHDAY+"</td>"+
-								   genderTD+
-								   "<td>"+entry.PHONE+"</td>"+
-								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
-								   "<td><button type='button' class='btn btn-danger' onClick='goDelete(\""+entry.USERID+"\");'>삭제</button></td>"+
-								   "</tr>";
-								   
+						else if(entry.report_status == 0) {
+							status = "<td style='text-align: center;'><button type='button' class='btn btn-info' name=''>미처리</button></td>";
+						}
+					
+						
 					    html += "<tr>"+
-									<td>${reportvo.rno}</td>
-							        <td>${reportvo.fk_userid}</td>
-							        <td><a onClick="goDetail();">${reportvo.report_subject}</a></td>
-							        <td style="text-align: center;">${reportvo.report_date}</td>
-							        <c:if test="${reportvo.report_status == 1}">
-							        	<td style="text-align: center;">처리</td>
-							        </c:if>
-							        <c:if test="${reportvo.report_status == 0}">
-							        	<td style="text-align: center;"><button type="button" class="btn btn-info" name="">미처리</button></td>
-							        </c:if>
-							    </tr>
+								"<td>"+entry.rno+"</td>"+
+							    "<td>"+entry.fk_userid+"</td>"+
+							    "<td><a onClick='goDetail();'>"+entry.report_subject+"</a></td>"+
+							    "<td style='text-align: center;'>"+entry.report_date+"</td>"+
+							    status+
+							    "</tr>";
 								   
 						$("#result").html(html);
 						

@@ -91,7 +91,7 @@
 		    from report
 		)v
 		where ${searchType} like '%'|| #{searchWord} ||'%' 
-		and RNO between #{STARTRNO} and #{ENDRNO}
+		and rno between #{RNO1} and #{RNO2}
 	</select>
 	
 	<select id="getTotalCountNoSearch" resultType="int">

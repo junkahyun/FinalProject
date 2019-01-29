@@ -254,9 +254,9 @@ public class SHController {
 		
 		int rno1 = Integer.parseInt(currentShowPageNo)*sizePerPage - (sizePerPage-1);	// 공식!!!
 		int rno2 = Integer.parseInt(currentShowPageNo)*sizePerPage;	
-		// System.out.println(sizePerPage);
-		// System.out.println(rno1);
-		// System.out.println(rno2);
+		/*System.out.println(sizePerPage);
+		System.out.println(rno1);
+		System.out.println(rno2);*/
 		
 		
 		paraMap = new HashMap<String, String>();
@@ -267,7 +267,7 @@ public class SHController {
 		paraMap.put("searchType", searchType);
 		
 		List<ReportVO> reportvo = service.getReport(paraMap);
-		System.out.println(reportvo);
+		// System.out.println(reportvo);
 		
 		JSONArray jsonArr = new JSONArray();
 			
