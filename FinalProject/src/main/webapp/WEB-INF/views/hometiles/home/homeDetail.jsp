@@ -7,9 +7,42 @@
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/homeDetail.css" /> 
 <script>
+	// 기본 예약인원 설정
 	var adultCount = 1;
 	var babyCount = 0;
 	$(document).ready(function(){
+		// 별점설정
+		var starhalf = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/half-star-shape.png' style='weight:20px;height:20px;margin-right:1%;'>";
+		var starOne = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/bookmark-star.png' style='weight:20px;height:20px;margin-right:1%;'>";
+		$(".starPointval").val(6);
+		$(".starPoint").html(starOne+starOne+starOne);
+
+		$(".starPointUp").click(function(){
+			// 현재 별점을 가져와서 값을 올리고 별을 올린다.
+			var changeval = parseInt($(this).parent().parent().find(".starPointval").val())+1;
+			if(changeval>10){
+				alert("별점은 5개 이상 선택이 불가능 합니다.");
+				return;
+			}
+			$(this).parent().parent().find(".starPointval").val(changeval);
+			var html = "";
+			for(var i=1;i<changeval;i+=2) html += starOne;
+			if(changeval%2==1) html += starhalf;
+			$(this).parent().parent().find(".starPoint").html(html);
+		});
+		$(".starPointDown").click(function(){
+			var changeval = parseInt($(this).parent().parent().find(".starPointval").val())-1;
+			$(this).parent().parent().find(".starPointval").val(changeval);
+			if(changeval<0){
+				alert("별점은 0개 이하로 선택 불가능 합니다.");
+				return;
+			}
+			var html = "";
+			for(var i=1;i<changeval;i+=2) html += starOne;
+			if(changeval%2==1) html += starhalf;
+			$(this).parent().parent().find(".starPoint").html(html);
+		});
+		// 예약 날짜 datepicker설정
 		$('.input-daterange').datepicker({
 		    autoclose: true
 		});
@@ -17,26 +50,13 @@
 			format: 'yyyy/mm/dd',
 		    startDate: '-3d'
 		});
+		
+		// 예약인원수 설정
+		$("#adultTotal").text(adultCount);
 		$("#adultCount").val(adultCount);
 		$("#babyCount").val(babyCount);
 		$("#babyhide").hide();
-    	var obj = $("#followHY").offset();
-    	var objEnd = $("#followEndHY").offset();
-       	$(window).scroll(function(event){
-        	if($( document ).scrollTop() > obj.top){
-           		$("#followHY").addClass("followDiv");
-			}
-        	else{
-        		$("#followHY").removeClass("followDiv");
-        	}
-       	});
-
-       	$("#reviewSearchWord").keydown(function(event){
-       		if(event.keyCode==13){
-       			reviewSearch();
-       		}
-       	});
-       	$(".adultCnt").click(function(){
+		$(".adultCnt").click(function(){
        		var thistext = $(this).text();
         	if(thistext=="+") adultCount ++;
         	else{
@@ -70,6 +90,32 @@
         	}
     		$("#babyCount").val(babyCount);
     		$("#babyTotal").text(babyCount);
+       	});
+       	// 예약창 따라오게 하는 함수
+    	var obj = $("#followHY").offset();
+    	var objEnd = $("#followEndHY").offset();
+       	$(window).scroll(function(event){
+        	if($( document ).scrollTop() > obj.top) $("#followHY").addClass("followDiv");
+        	else $("#followHY").removeClass("followDiv");
+       	});
+       	
+       	// 후기 검색 설정
+       	$("#reviewSearchWord").keydown(function(event){
+       		if(event.keyCode==13) reviewSearch();
+       	});
+       	// 리뷰 작성 ajax
+       	$("#reviewInsertBtn").click(function(){
+       		$.ajax({
+       			url:"reviewInsert.air",
+       			type:"POST",
+       			data:"JSON",
+       			success:function(json){
+       				
+       			},
+       			error:function(){
+       				
+       			}
+       		});
        	});
 	});   
 	function reviewSearch(){
@@ -316,10 +362,12 @@
                <c:forEach items="${room.reviewList }" var="review">
                <div class="row noSpace homeDetailComment">
                   <div class="col-md-1">
-                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"><img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;"></div>
+                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;">
+                     	<img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;">
+                     </div>
                   </div>
                   <div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
-                  <div class="col-md-1">icon</div>
+                  <div class="col-md-1"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/flag.png" /></div>
                   <div class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
                </div>
                </c:forEach>
@@ -337,6 +385,7 @@
                </div> -->
                <div class="row" style="margin:3%;">${pagebar}</div>
                </c:if>
+               <button data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal">댓글달기</button>
             </div>
          </div>
          <div class="infoDiv">
@@ -470,4 +519,78 @@
          <button type="button" onClick="likeRoom();" style="width:100%;background-color: #fd5a61;border:none; color:white;margin-top:3%;height:40px;font-weight:bold;border-radius:5px;">관심 숙소 등록하기</button>
       </div>
    </div>
+</div>
+<%-- 댓글작성 modal --%>
+<div class="modal fade" id="reviewRegist" role="dialog">
+	<div class="modal-doalog" style="width:800px; margin: 10% auto;padding:0;">
+		<div class="modal-content" style="width:100%;padding:5%;">
+			<!-- <div>나의 예약정보</div> -->
+			<div style="margin-bottom:5%;">
+            	<div class="row noSpace" style="width:100%;margin-bottom:2%;">
+            		<div class="col-md-6">
+	            		<input type="hidden" id="correct" class="starPointval" name="correct">
+	                  	<div class="col-md-3" style="font-weight:bold;">정확성</div>
+	                  	<div class="col-md-9">
+	                  		<img class='col-md-1 starPointDown' src='<%=request.getContextPath() %>/resources/images/homeDetail/left-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  		<div class="col-md-8 col-md-offset-1 starPoint" style="padding:0;"></div>
+	                  		<img class='col-md-1 starPointUp' src='<%=request.getContextPath() %>/resources/images/homeDetail/right-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  	</div>
+                  	</div>
+                  	<div class="col-md-6">
+	                  	<input type="hidden" id="position" class="starPointval" name="position">
+	                  	<div class="col-md-3" style="font-weight:bold;">위치</div>
+	                  	<div class="col-md-9">
+	                  		<img class='col-md-1 starPointDown' src='<%=request.getContextPath() %>/resources/images/homeDetail/left-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  		<div class="col-md-8 col-md-offset-1 starPoint" style="padding:0;"></div>
+	                  		<img class='col-md-1 starPointUp' src='<%=request.getContextPath() %>/resources/images/homeDetail/right-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  	</div>
+                  	</div>
+               </div>
+               <div class="row noSpace" style="width:100%;margin-bottom:2%;">
+               		<div class="col-md-6">
+	               		<input type="hidden" id="communicate" class="starPointval" name="communicate">
+	                  	<div class="col-md-3" style="font-weight:bold;font-size:0.9em;">의사소통</div>
+	                  	<div class="col-md-9">
+	                  		<img class='col-md-1 starPointDown' src='<%=request.getContextPath() %>/resources/images/homeDetail/left-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  		<div class="col-md-8 col-md-offset-1 starPoint" style="padding:0;"></div>
+	                  		<img class='col-md-1 starPointUp' src='<%=request.getContextPath() %>/resources/images/homeDetail/right-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  	</div>
+	                </div>
+                  	<div class="col-md-6">
+	                  	<input type="hidden" id="checkin" class="starPointval" name="checkin">
+	                  	<div class="col-md-3" style="font-weight:bold;">체크인</div>
+	                  	<div class="col-md-9">
+	                  		<img class='col-md-1 starPointDown' src='<%=request.getContextPath() %>/resources/images/homeDetail/left-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  		<div class="col-md-8 col-md-offset-1 starPoint" style="padding:0;"></div>
+	                  		<img class='col-md-1 starPointUp' src='<%=request.getContextPath() %>/resources/images/homeDetail/right-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  	</div>
+                  	</div>
+               </div>
+               <div class="row noSpace" style="width:100%;margin-bottom:2%;">
+               		<div class="col-md-6">
+	               		<input type="hidden" id="clean" class="starPointval" name="clean">
+	                  	<div class="col-md-3" style="font-weight:bold;">청결도</div>
+	                  	<div class="col-md-9">
+	                  		<img class='col-md-1 starPointDown' src='<%=request.getContextPath() %>/resources/images/homeDetail/left-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  		<div class="col-md-8 col-md-offset-1 starPoint" style="padding:0;"></div>
+	                  		<img class='col-md-1 starPointUp' src='<%=request.getContextPath() %>/resources/images/homeDetail/right-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  	</div>
+                  	</div>
+                  	<div class="col-md-6">
+	                  	<input type="hidden" id="value" class="starPointval" name="value">
+	                  	<div class="col-md-3" style="font-weight:bold;">가치</div>
+	                  	<div class="col-md-9">
+	                  		<img class='col-md-1 starPointDown' src='<%=request.getContextPath() %>/resources/images/homeDetail/left-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  		<div class="col-md-8 col-md-offset-1 starPoint" style="padding:0;"></div>
+	                  		<img class='col-md-1 starPointUp' src='<%=request.getContextPath() %>/resources/images/homeDetail/right-arrow.png' style='height:18px;cursor:pointer;padding:0;'>
+	                  	</div>
+               		</div>
+               </div>
+            </div>
+            <div class="container" style="width:100%;">
+				<textarea id="review_content" class="form-control input-data" style="width:88%;float:left;height:80px;"></textarea>
+				<button id="reviewInsertBtn" style="width:11%;float:left;margin-left:1%;border:none;background-color: #148487;color:white;height:80px;border-radius:3px;padding:1.5%;font-size:0.9em;">댓글달기</button>
+			</div>
+		</div>
+	</div>	
 </div>
