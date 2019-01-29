@@ -40,11 +40,11 @@
 	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
 	  	select *
 		from room A JOIN buildtype_detail B
-                       ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+                    ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
 		where 1=1
-		<!-- <if test='ADULT != 0'>
-		and max_person > to_number(#{ADULT})
-		</if>  -->
+		<if test='ALLPERSON != ""'>
+		and max_person >= to_number(#{ALLPERSON})
+		</if>
 		<if test='CHECKIN != "" and CHECKOUT != ""'>
 		and roomcode in (
 		select roomcode

@@ -122,10 +122,8 @@ public class SWController {
 		String startprice = req.getParameter("startprice");
 		String endprice = req.getParameter("endprice");
 		String city = req.getParameter("city");
-		/*String adult = req.getParameter("adult");
-		
-		int adultcount = Integer.parseInt(adult);*/
-		
+		String allperson = req.getParameter("allperson");
+						
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("BUILDNAME2", buildName2);
 		paraMap.put("CHECKIN", checkin);
@@ -133,9 +131,9 @@ public class SWController {
 		paraMap.put("STARTPRICE", startprice);
 		paraMap.put("ENDPRICE", endprice);
 		paraMap.put("CITY", city);
-		/*paraMap.put("ADULT", adult);*/
+		paraMap.put("ALLPERSON", allperson);
 		
-		System.out.println(paraMap);
+		/*System.out.println(paraMap);*/
 		JSONArray jsonArr = new JSONArray();
 		
 		List<RoomVO> homeListByOption = service.getHomeListByOption(paraMap);
@@ -159,8 +157,8 @@ public class SWController {
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
-		System.out.println(str_json);
-		System.out.println(jsonArr.length());
+		/*System.out.println(str_json);
+		System.out.println(jsonArr.length());*/
 		
 		return "JSON";		
 	}
@@ -266,7 +264,12 @@ public class SWController {
 		for(RoomVO test : optionList) {
 			
 			JSONObject jsonObj = new JSONObject();			
-			jsonObj.put("ROOMNAME", test.getRoomName());
+			if(test.getRoomName().length() >= 25) {
+				jsonObj.put("ROOMNAME", test.getRoomName().substring(0, 25)+"....");
+			}
+			else {
+				jsonObj.put("ROOMNAME", test.getRoomName());
+			}
 			jsonObj.put("ROOMPRICE", test.getRoomPrice());
 			jsonObj.put("ROOMMAINIMG", test.getRoomMainImg());
 			

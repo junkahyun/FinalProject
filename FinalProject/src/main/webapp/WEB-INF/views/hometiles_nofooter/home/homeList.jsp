@@ -39,13 +39,13 @@
      
 	 $(".option").click(function(){
 		 var thisText = $(this).text()
-		 var $target = $(event.target);	 
+		 var $target = $(event.target);	 		
 		
 		 // 폰트 색깔 바꾸기
 		 if(!$target.hasClass("subjectstyle")){			
 			 $target.addClass("subjectstyle"); 
         	  result1 += thisText + ",";	
-		 }
+		 }		 
 		 else{			
 			 $target.removeClass("subjectstyle");
         	  result1 = result1.replace($(this).text()+",","");
@@ -62,8 +62,7 @@
 	      if($(this).parent().hasClass("rulename")){
 	    	if(rulenameArr.includes($(this).text())){
 	    		var sindex = rulenameArr.indexOf($(this).text()); 
-	    		rulenameArr.splice(sindex,1);
-	    		
+	    		rulenameArr.splice(sindex,1);	    		
 	    	}else{
      			rulenameArr.push($(this).text());
 	    	}
@@ -145,7 +144,8 @@
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
-				 		 city : $("#city").val()};
+				 		 city : $("#city").val(),
+				 		 allperson : $("#allperson").val()};
 		var html = "";
 		 
 		 $.ajax({
@@ -201,7 +201,8 @@
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
-				 		 city : $("#city").val()};
+				 		 city : $("#city").val(),
+				 		 allperson : $("#allperson").val()};
 		var html = "";
 		$.ajax({			
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
@@ -241,47 +242,127 @@
 		});
 		
 	 });
-	 
+	
 	 // 인원 수 스피너
-	 $(".person").spinner({
+	 $("#adult").spinner({				 
          spin : function(event, ui) {
             if (ui.value > 100) {
                $(this).spinner("value", 100);
                return false;
             }
-            else if (ui.value < 0) {
+            else if (ui.value < 0) { 
                $(this).spinner("value", 0);
                return false;
-            }
-            
+            }                    
+          var adult = ui.value;                  
+          $("#adult").val(adult);
+          
+          var adult = $("#adult").val();
+          var student = $("#student").val(); 
+          var baby = $("#baby").val();
+          
+          var allperson = parseInt(adult)+parseInt(student)+parseInt(baby);
+          $("#allperson").val(allperson);
+          fun_personcount();                           
          }
-      }); // end of $("#spinnerPqty").spinner();---------------  
-      
-      $("#adult").spinner({
-    	 spin:function(event,ui1){
-    		// alert(ui1.value);
-    		 var adult = $("#adult").val();
-    		 adult = ui1.value;		 
-    		 
-    	 } 
-      });
-      $("#student").spinner({
-     	 spin:function(event,ui2){
-     		 //alert(ui2.value);
-     		var student = $("#student").val();
-     		student = ui2.value;
-   		 	alert(student);
-     	 } 
-       });
-      $("#baby").spinner({
-     	 spin:function(event,ui3){
-     		//alert(ui3.value);
-     		var baby = $("#baby").val();
-     		baby = ui3.value;
-   		 	alert(baby);
-     	 }
-       });
-      
+	 
+      }); // end of $(".person").spinner();---------------  
+     
+      $("#student").spinner({				 
+          spin : function(event, ui) {
+             if (ui.value > 100) {
+                $(this).spinner("value", 100);
+                return false;
+             }
+             else if (ui.value < 0) { 
+                $(this).spinner("value", 0);
+                return false;
+             }                    
+           var student = ui.value;                   
+           $("#student").val(student);
+
+           var adult = $("#adult").val();
+           var student = $("#student").val();
+           var baby = $("#baby").val();
+           
+           var allperson = parseInt(adult)+parseInt(student)+parseInt(baby);
+           $("#allperson").val(allperson);
+           fun_personcount();
+          }
+       }); // end of $(".person").spinner();---------------  
+       
+       $("#baby").spinner({				 
+           spin : function(event, ui) {
+              if (ui.value > 100) {
+                 $(this).spinner("value", 100);
+                 return false;
+              }
+              else if (ui.value < 0) { 
+                 $(this).spinner("value", 0);
+                 return false;
+              }                    
+            var baby = ui.value;                    
+            $("#baby").val(baby);
+            
+            var adult = $("#adult").val();
+            var student = $("#student").val();
+            var baby = $("#baby").val();
+            
+            var allperson = parseInt(adult)+parseInt(student)+parseInt(baby);
+            $("#allperson").val(allperson);
+            fun_personcount();
+           }
+        }); // end of $(".person").spinner();---------------  
+        
+        <%-- $("#allperson").change(function(){
+        	alert("여기오니?");        	
+        	var form_data = {checkin : $("#checkin").val(),
+					 		 checkout : $("#checkout").val(),
+					 		 buildName2 : $("#buildName2").val(),
+					 		 startprice : $(".startprice").val(),
+					 		 endprice : $(".endprice").val(),
+					 		 city : $("#city").val(),
+					 		 allperson : $("#allperson").val()};
+			var html = "";
+			
+			$.ajax({
+				url : "<%=request.getContextPath()%>/homeListByOption.air",
+				type : "GET",
+				data : form_data,
+				dataType : "JSON",
+				success : function(json){
+					$("#allList").empty();
+					 
+					 $.each(json, function(entryIndex, entry){
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value=''/>" 
+							  + "</div>"
+							  + "</div>";
+					});// end of $.each()-------------  
+					 
+					$("#allList").append(html); 	  
+				},
+		       error: function(request, status, error){
+		           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		       }	
+			});
+        	
+        }); --%>
+                 
       // 건물유형 대/소분류 Ajax 처리
       $("#buildName1").change(function(){
     	  
@@ -318,7 +399,8 @@
 				 		   buildName2 : $("#buildName2").val(),
 				 		   startprice : $(".startprice").val(),
 				 		   endprice : $(".endprice").val(),
-					 		 city : $("#city").val()};
+				 		   city : $("#city").val(),
+				 		   allperson : $("#allperson").val()};
     	  var html = "";
     	  
     	  $.ajax({
@@ -362,6 +444,57 @@
       });
       
  });
+ 
+ 
+    function fun_personcount() {
+    	
+     //	alert("여기오니?");        	
+       	var form_data = {checkin : $("#checkin").val(),
+				 		 checkout : $("#checkout").val(),
+				 		 buildName2 : $("#buildName2").val(),
+				 		 startprice : $(".startprice").val(),
+				 		 endprice : $(".endprice").val(),
+				 		 city : $("#city").val(),
+				 		 allperson : $("#allperson").val()};
+		var html = "";
+		
+		$.ajax({
+			url : "<%=request.getContextPath()%>/homeListByOption.air",
+			type : "GET",
+			data : form_data,
+			dataType : "JSON",
+			success : function(json){
+				$("#allList").empty();
+				 
+				 $.each(json, function(entryIndex, entry){
+					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<input type='hidden' name='roomcode' value=''/>" 
+						  + "</div>"
+						  + "</div>";
+				});// end of $.each()-------------  
+				 
+				$("#allList").append(html); 	  
+			},
+	       error: function(request, status, error){
+	           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	       }	
+		});    
+    	
+    }// end of fun_personcount()-----------------------------
  
     var height;
     var force_height = null;
@@ -414,12 +547,13 @@
         			$("#slider1").val(startPrice);
 	            	$("#slider2").val(endPrice); 
 	            	
-           	  var form_data = {checkin : $("#checkin").val(),
-  				 		       checkout : $("#checkout").val(),
-  				 		       buildName2 : $("#buildName2").val(),
-  				 		       startprice : $("#slider1").val(),
-  				 		       endprice : $("#slider2").val(),
-  					 		 city : $("#city").val()};
+           	var form_data = {checkin : $("#checkin").val(),
+			 				 checkout : $("#checkout").val(),
+					 		 buildName2 : $("#buildName2").val(),
+					 		 startprice : $(".startprice").val(),
+					 		 endprice : $(".endprice").val(),
+					 		 city : $("#city").val(),
+					 		 allperson : $("#allperson").val()};
 	       	         	 
 	       	  var html = "";
 	       	  
@@ -500,10 +634,11 @@
             </div>
            
            	<div class="optionbox">
-            	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>
-            	<span style="margin-right: 6%;">성인&nbsp;<input id="adult" class="person" name="pqty" value="0" height="48"/></span>
-            	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input id="student" class="person" name="pqty" value="0"/></span>
-            	<span>유아(2세 미만)&nbsp;<input id="baby" class="person" name="pqty" value="0"/></span>       	
+            	<span class="optionname" style="margin-right: 6.5%;">인원 (명)</span>            
+            	<span style="margin-right: 6%;">성인&nbsp;<input id="adult" class="person" value="0" name="pqty" height="48"/></span>
+            	<span style="margin-right: 6%;">어린이(2~12세)&nbsp;<input id="student" class="person" value="0" name="pqty"/></span>
+            	<span>유아(2세 미만)&nbsp;<input id="baby" class="person" value="0" name="pqty"/></span>            	  
+            	<input type="hidden" id="allperson" name="allperson" />            	
             </div>  
             
             <div id="rulename" class="optionbox rulename">
