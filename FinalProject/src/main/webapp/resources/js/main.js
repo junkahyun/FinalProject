@@ -1,4 +1,29 @@
 $(document).ready(function(){
+	
+			// 윈도우 일정 스크롤 내려갈 시 퀵메뉴 보이기
+			$(window).scroll(function(){
+				if ($(this).scrollTop() > 200) {
+		          $('#quick').fadeIn(); 
+				}else {
+		    	  $('#quick').fadeOut(); 
+				}
+			}); 
+			
+			// toUp Click function
+			$("#toUp").click(function(){
+				$('html, body').animate({
+			      scrollTop: 0
+			    }, 400);
+			    return false;
+			});
+			
+			$("#toDown").click(function(){
+				$('html, body').animate({
+			      scrollTop: $(document).height()
+			    }, 400);
+			    return false;
+			});
+			
 			$("#startdate").datepicker({
 				dateFormat: "yy-mm-dd", 
 				minDate: 0, 
@@ -110,240 +135,262 @@ $(document).ready(function(){
 				} 
 			});
 			
-			$("#searchAddrBtn").click(function() {
-			    new daum.Postcode({
-			         oncomplete: function(data) {
-			        	 $("#addr").val(data.address);
-			             $("#post").val(data.zonecode);
-			         }
-			     }).open();
-			});
-		    $(".error").hide();
-		    $("#error_passwd").hide();
-		    $("#name").focus();
-		 	$("#userid").each(function(){
-		       $(this).blur(function(){
-		          var data = $(this).val().trim();
-		          if(data == "") {// 입력하지 않거나 공백만 입력했을 경우
-		             $(this).parent().find(".error").show();
-		             $(this).focus();
-		          }
-		          else {// 공백이 아닌 글자를 입력했을 경우
-		             $(this).parent().find(".error").hide();
-		          }
-		       });
-		    }); // end of $(".requiredInfo").each()-------
-		    $("#username").each(function(){
-		       $(this).blur(function(){
-		          var data = $(this).val().trim();
-		          if(data == "") {
-		             // 입력하지 않거나 공백만 입력했을 경우
-		             $(this).parent().find(".error").show();
-		             $(this).focus();
-		          }
-		          else {
-		             // 공백이 아닌 글자를 입력했을 경우
-		             $(this).parent().find(".error").hide();
-		          }
-		       });
-		    }); // end of $(".requiredInfo").each()-------
-		    
-		    $("#pwd").blur(function(){
-		       var passwd = $(this).val();
-		       var regExp_PW = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g); 
-		       var bool = regExp_PW.test(passwd);
-		       if(!bool) {
-		          $("#error_passwd").show();
-		          $(":input").attr("disabled",true).addClass("bgcol"); 
-		          $(this).attr("disabled",false).removeClass("bgcol");
-		          $(this).focus();
-		       }
-		       else {
-		          $("#error_passwd").hide();
-		          $(":input").attr("disabled",false).removeClass("bgcol"); 
-		          $("#pwdcheck").focus();
-		       } 
-		    }); // end of $("#pwd").blur()---------------
-		    $("#pwdcheck").blur(function(){
-		       var passwd = $("#pwd").val();
-		       var passwdCheck = $(this).val();
-		       
-		       if(passwd != passwdCheck) {
-		          $(this).parent().find(".error").show();
-		          $(":input").attr("disabled",true).addClass("bgcol");
-		          $(this).attr("disabled",false).removeClass("bgcol");
-		          $("#pwd").attr("disabled",false).removeClass("bgcol");
-		          $("#pwd").focus();
-		       }
-		       else {
-		          $(this).parent().find(".error").hide();
-		          $(":input").attr("disabled",false).removeClass("bgcol");
-		       }
-		    });// end of $("#pwdcheck").blur()--------------
-		    $("#email").blur(function(){
-		       var email = $(this).val();
-		       var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;  
-		       var bool = regExp_EMAIL.test(email);
-		       if(!bool) {
-		          $(this).parent().find(".error").show();
-		          $(":input").attr("disabled",true).addClass("bgcol");
-		          $(this).attr("disabled",false).removeClass("bgcol"); 
-		          $(this).focus();
-		       }
-		       else {
-		          $(this).parent().find(".error").hide();
-		          $(":input").attr("disabled",false).removeClass("bgcol");
-		       }
-		    });// end of $("#email").blur()--------------
-		    $("#hp2").blur(function(){
-		       var hp2 = $(this).val();
-		       var bool1 = false;
-		       var regExp_HP2a = /[1-9][0-9][0-9]/g;
-		       var bool1 = (hp2.length == 3) && regExp_HP2a.test(hp2);
-		       var bool2 = false;
-		       var regExp_HP2b = /[0-9][0-9][0-9][0-9]/g;
-		       var bool2 = (hp2.length == 4) && regExp_HP2b.test(hp2);
-		       if( !(bool1 || bool2) ) {
-		          $(this).parent().find(".error").show();
-		          $(":input").attr("disabled", true).addClass("bgcol");
-		          $(this).attr("disabled", false).removeClass("bgcol");
-		       }
-		       else {
-		          $(this).parent().find(".error").hide();
-		          $(":input").attr("disabled", false).removeClass("bgcol");
-		       }
-		    });// end of $("#hp2").blur()-------------
-		    $("#hp3").blur(function(){
-		       var hp3 = $(this).val();
-		       var regExp_HP3 = /\d{4}/g;
-		       var bool = regExp_HP3.test(hp3);
-		       if(!bool) {
-		          $(this).parent().find(".error").show();
-		          $(":input").attr("disabled", true).addClass("bgcol");
-		          $(this).attr("disabled", false).removeClass("bgcol");
-		       }
-		       else {
-		          $(this).parent().find(".error").hide();
-		          $(":input").attr("disabled", false).removeClass("bgcol");
-		       }         
-		    });// end of $("#hp3").blur()-------------
-		    $("#zipcodeSearch").click(function(){
-		       new daum.Postcode({
-		          oncomplete: function(data) {
-		              $("#post1").val(data.postcode1);  // 우편번호의 첫번째 값     예> 151
-		              $("#post2").val(data.postcode2);  // 우편번호의 두번째 값     예> 019
-		              $("#addr1").val(data.address);    // 큰주소                        예> 서울특별시 종로구 인사로 17 
-		              $("#addr2").focus();
-		          }
-		       }).open();
-		    });
-		    $(".address").blur(function(){
-		       var address = $(this).val().trim();
-		       if(address == "") {
-		          $(this).parent().find(".error").show();
-		          $(":input").attr("disabled", true).addClass("bgcol");
-		          $(this).attr("disabled", false).removeClass("bgcol");
-		       }
-		       else {
-		          $(this).parent().find(".error").hide();
-		          $(":input").attr("disabled", false).removeClass("bgcol");
-		       }
-		    });
-		    $("#imgInput").change(function(){
-			    readURL(this);
-			    $("#blah").hide();
-			});
-		    $("#fileInputBtn").click(function(){
-		    	$("#imgInput").click();
-		    });	
+			// 회원가입 , 로그인, 비밀번호찾기
+			$(".passIcon").addClass("passIconHide");
+			$(".error").hide();
+	   		$("#loginpwd").keydown(function(event){
+	         	if(event.target==13) goLogin();
+	      	});
+	      	$("#searchAddrBtn").click(function() {
+	          	new daum.Postcode({
+	               	oncomplete: function(data) {
+	                  	$("#addr").val(data.address);
+	                   	$("#post").val(data.zonecode);
+	               	}
+	           	}).open();
+	          	$("#detailaddr").focus();
+	      	});
+	       	$("#userid").blur(function(){
+	       		var userid = $("#userid").val().trim();
+	       		if(userid==""){
+	   				$("#userid").parent().find(".error").text("아이디를 입력해 주세요.");
+	   				$("#userid").parent().find(".passIcon").addClass("passIconHide");
+	   				$("#userid").parent().find(".error").show();
+	       			return;
+	       		}
+	           	var form_data = {"userid":userid};
+	       		$.ajax({
+	           		url:"idDuplicateCheck.air",
+	           		type:"POST",
+	           		data:form_data,
+	           		dataType:"json",
+	           		success:function(json){
+	           			var n = json.n;
+	           			if(n=="1"){
+	           				$("#userid").parent().find(".error").text("이미 사용중인 아이디 입니다.");
+	           				$("#userid").parent().find(".passIcon").addClass("passIconHide");
+	           				$("#userid").parent().find(".error").show();
+	           			}
+	           			else{
+	           				$("#userid").parent().find(".passIcon").removeClass("passIconHide");
+	           				$("#userid").parent().find(".error").hide();
+	           			}
+	           		},
+	           		error: function(request, status, error){
+	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                }
+	           	});
+	       	}); // end of $(".requiredInfo").each()-------
+	       	$("#username").blur(function(){
+	           	var data = $(this).val().trim();
+	           	if(data == "") { // 입력하지 않거나 공백만 입력했을 경우
+	   				$("#username").parent().find(".passIcon").addClass("passIconHide");
+	           	}
+	           	else{
+	   				$("#username").parent().find(".passIcon").removeClass("passIconHide");
+	           	}
+	       	}); // end of $(".requiredInfo").each()-------
+	       
+	       	$("#pwd").blur(function(){
+	          	var passwd = $("#pwd").val();
+	          	var regExp_PW = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g); 
+	          	var bool = regExp_PW.test(passwd);
+	          	if(!bool) {
+	   				$("#pwd").parent().parent().find(".error").text("암호는 영문,숫자,특수문자가 혼합된 10글자 이상이어야합니다.");
+	   				$("#pwd").parent().parent().find(".passIcon").addClass("passIconHide");
+	   				$("#pwd").parent().parent().find(".error").show();
+	   				$("#pwd").focus();
+	          	}
+	          	else{
+	          		$("#pwd").parent().parent().find(".error").hide();
+	          	}
+	       	}); // end of $("#pwd").blur()---------------
+	       	$("#pwdcheck").blur(function(){
+	          	var passwd = $("#pwd").val();
+	          	var passwdCheck = $("#pwdcheck").val();
+	          	if(passwd != passwdCheck) {
+	   				$("#pwdcheck").parent().parent().find(".error").text("암호를 동일하게 입력해 주세요");
+	   				$("#pwdcheck").parent().parent().find(".passIcon").addClass("passIconHide");
+	   				$("#pwdcheck").parent().parent().find(".error").show();
+	          	}
+	          	else{
+	   				$("#pwdcheck").parent().parent().find(".passIcon").removeClass("passIconHide");
+	   				$("#pwdcheck").parent().parent().find(".error").hide();
+	          	}
+	       	});// end of $("#pwdcheck").blur()--------------
+	       	$("#email").blur(function(){
+	          	var email = $(this).val();
+	          	var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;  
+	          	var bool = regExp_EMAIL.test(email);
+	          	if(!bool) {
+	   				$("#email").parent().find(".error").text("이메일 형식에 맞게 입력해 주세요.");
+	   				$("#email").parent().find(".passIcon").addClass("passIconHide");
+	   				$("#email").parent().find(".error").show();
+	          	}
+	          	else{
+	   				$("#email").parent().find(".passIcon").removeClass("passIconHide");
+	   				$("#email").parent().find(".error").hide();
+	          	}
+	       	});// end of $("#email").blur()--------------
+	       	$("#phone").blur(function(){
+	          	var phone = $("#phone").val();
+	          	var regExp_PHONE = /^\d{3}\d{3,4}\d{4}$/;
+	          	var bool = regExp_PHONE.test(phone);
+	          	if(!bool) {
+	          		$("#phone").parent().find(".error").text("핸드폰 형식에 맞게 입력해 주세요.");
+	   				$("#phone").parent().find(".passIcon").addClass("passIconHide");
+	   				$("#phone").parent().find(".error").show();
+	          	}
+	          	else{
+	   				$("#phone").parent().find(".passIcon").removeClass("passIconHide");
+	   				$("#phone").parent().find(".error").hide();
+	          	}
+	       	});// end of $("#hp2").blur()-------------
+			$("#detailaddr").blur(function(){
+				var addr = $("#addr").val();
+				var detailaddr = $("#detailaddr").val().trim();
+	       		if(addr==""){
+	     			$("#addr").parent().find(".passIcon").addClass("passIconHide");
+	           	}
+	       		else{
+	       			$("#addr").parent().find(".passIcon").removeClass("passIconHide");
+	       		}
+				if(detailaddr==""){
+	    			$("#detailaddr").parent().find(".passIcon").addClass("passIconHide");
+	       		}
+				else{
+	    			$("#detailaddr").parent().find(".passIcon").removeClass("passIconHide");
+				}
+	       	});
+	       	$("#imgInput").change(function(){
+	          	readURL(this);
+	          	$("#blah").hide();
+	      	});
+	       	$("#fileInputBtn").click(function(){
+	          	$("#imgInput").click();
+	       	});
+	       	$("#registBtn").click(function(){
+	       		var flag = false;
+	       		$(".birth").each(function(){
+	       			var thisval = $(this).val();
+	       			if(thisval == -1){
+	       				flag = true;
+	       			}
+	       		});
+	       		if(flag == true){
+	       			alert("생년월일을 입력해주세요.");
+	       			return;
+	       		}
+	       		var checkCnt = 0;
+	       		$(".registInput").each(function(){
+	           		var hidden = $(this).parent().find(".passIcon").css("display") == "none";
+	       			if(hidden){
+	       				checkCnt++;
+	       			}
+	       		});
+	       		if(checkCnt==0){
+	       			$("#joinFrm").ajaxForm({
+	       				url:"joinEnd.air",
+	       				type:"POST",
+	       				//data:form_data, 
+	       				dataType:"JSON",
+	       				success:function(json){
+	       					var n = json.n;
+	       					if(n=="1"){
+	       						alert("회원가입 되었습니다.");
+	       						location.reload();
+	       					}
+	       				},
+	       				error: function(request, status, error){
+	                        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                    }
+	       			})
+	       			$("#joinFrm").submit();
+	       		}
+	       	});
 });
 
-function join(event) {
-	
-    var frm = document.joinFrm;
-    frm.method = "POST";
-    frm.action = "/bnb/join.air";
-    frm.submit();
-}// end of function goRegister(event)----------
-
 function goLogin(){
-	form_data = $("#loginFrm").serialize();
-	$.ajax({
-		url: "login.air",
-		type: "POST",
-		data: form_data,
-		dataType:"json",
-		success:function(json){
-			var logincheck = json.logincheck;
-			if(logincheck=="true"){
-				alert("로그인 되었습니다.");
-				location.reload();
-			} 
-			else{
-				alert("아이디와 비밀번호를 확인해주세요.");
-			}
-		},
-		error: function(request, status, error){
-		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	});
-}
-function goLogout(){
-	$.ajax({
-		url: "logout.air",
-		type: "POST",
-		dataType:"json",
-		success:function(json){
-			alert(json.msg);
-			location.reload();
-		},
-		error: function(request, status, error){
-		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	});
-}
-function goRegistHost(){
-	location.href="roomstap1.air";
-}
-function goMypage(){
-	location.href="myEdit.air";
-}
-function goHostMain(){
-	location.href="hostMain.air";
-}
-function myLikeRoomList(){
-	var form_data = {"userid":"${loginuser.userid}"};
-	$.ajax({
-		url:"myLikeRoomList.air",
-		type:"GET",
-		data:form_data,
-		dataType:"JSON",
-		success:function(json){
-			if(json.length<1){
-				alert("저장 된 숙소가 없습니다.");
-				return;
-			}
-			var html = "";
-			$.each(json, function(entryIndex,entry){
-				html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
-			      	+ "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
-			});
-			$("#myLikeRoomList").html(html);
-		},
-		error: function(request, status, error){
-		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	}); 
-}
-function readURL(input) {
-	 
-   if (input.files && input.files[0]) {
-       var reader = new FileReader();
-
-       reader.onload = function (e) {
-           $('#profilePreview').attr('src', e.target.result);
-       }
-
-       reader.readAsDataURL(input.files[0]);
-   }
-} 
+    form_data = $("#loginFrm").serialize();
+    $.ajax({
+       url: "login.air",
+       type: "POST",
+       data: form_data,
+       dataType:"json",
+       success:function(json){
+          var logincheck = json.logincheck;
+          if(logincheck=="true"){
+             alert("로그인 되었습니다.");
+             location.reload();
+          } 
+          else{
+             alert("아이디와 비밀번호를 확인해주세요.");
+          }
+       },
+       error: function(request, status, error){
+            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        }
+    });
+ }
+ function goLogout(){
+    $.ajax({
+       url: "logout.air",
+       type: "POST",
+       dataType:"json",
+       success:function(json){
+          alert(json.msg);
+          location.reload();
+       },
+       error: function(request, status, error){
+            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        }
+    });
+ }
+ function goRegistHost(){
+    location.href="roomstep1.air";
+ }
+ function goMypage(){
+    location.href="myEdit.air";
+ }
+ function goHostMain(){
+    location.href="hostMain.air";
+ }
+ function myLikeRoomList(){
+    var form_data = {"userid":"${loginuser.userid}"};
+    $.ajax({
+       url:"myLikeRoomList.air",
+       type:"GET",
+       data:form_data,
+       dataType:"JSON",
+       success:function(json){
+          if(json.length<1){
+             alert("저장 된 숙소가 없습니다.");
+             return;
+          }
+          var html = "";
+          $.each(json, function(entryIndex,entry){
+             html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
+                   + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
+          });
+          $("#myLikeRoomList").html(html);
+       },
+       error: function(request, status, error){
+            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        }
+    });
+ }
+ function readURL(input) {
+     if (input.files && input.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+             $('#profilePreview').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(input.files[0]);
+     }
+ }
+ 
+ function goRoomDetail(roomcode){
+	 var roomcode = roomcode;
+	 location.href="homeDetail.air?roomcode="+roomcode;
+ }
+ 

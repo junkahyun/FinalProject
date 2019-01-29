@@ -45,12 +45,14 @@
 	</style> 
 	<!-- Link JS -->   
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/bootstrap.min.js"></script>	
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/main.js"></script>
 </head>
-<body>
+<body ondragstart="return false;" ondrop="return false;">
 	<header>
 		<div class="navigation">
 			<div class="col-md-6">
@@ -164,8 +166,8 @@
 			<div class="row not-rowStyle">
 				<ul id="rooms_show_ul"> 
 					<c:forEach items="${roomList}" var="rvo" varStatus="status">
-						<c:if test="${status.index == 4 || status.index == 7 }">
-							<li>     
+						<c:if test="${status.count == 4 || status.count == 7 }">
+							<li onClick="goRoomDetail('${rvo.roomcode}')">      
 								<img class="img_room" src="${rvo.roomMainImg }" width="770" height="326" /> 
 			   				 	<div class="rooms_intro city_big">
 				        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg}" />
@@ -176,16 +178,16 @@
 					    		</div> 
 							</li>   
 						</c:if>
-						<li>     
+						<c:if test="${status.count != 4 && status.count != 7 }">
+						<li onClick="goRoomDetail('${rvo.roomcode}')">     
 							<img class="img_room" src="${rvo.roomMainImg}" width="380" height="326" /> 
 		   				 	<div class="rooms_intro">
 			        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg }" />
-						        <span class="room_name">${rvo.roomName }</span>
+						        <span class="room_name">${rvo.roomName}</span>
 						        <span class="index_price"><em class="bigFont">￦</em>&nbsp;<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></span>
-						        
 				    		</div> 
-						</li>      
-						
+						</li>     
+						</c:if> 
 					</c:forEach>
 				</ul>
 			</div>
@@ -236,7 +238,7 @@
 					            <span><img src="<%=ctxPath%>/resources/images/${reviewLeft.user.profileimg}"></span>
 					            <span>${reviewLeft.room.roomName }</span>
 					            <span>${reviewLeft.review_writedate}</span>
-					            <span class="comment_W"><a href="#" >${reviewLeft.review_content}</a></span>
+					            <span class="comment_W">${reviewLeft.review_content}</span>
 					        </div>
 		                
 	  		  			</div>  
@@ -330,76 +332,103 @@
 	
 <%-- ****** 로그인 Modal ****** --%>
 <div class="modal fade" id="login" role="dialog">
-   <div class="modal-dialog" style="margin-top: 10%;">
-       <form id="loginFrm" name="loginFrm">
-       <!-- Modal content-->
-       <div class="modal-content" style="width: 100%; height: 400px; margin-top:5%;">
-          <div>
-              <div style="margin-top: 3%;">
-                   <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 3%; background-color: white; border: 0px;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
-              </div>
-              <div style="padding:0;margin:0;width:90%;margin: 5%;">
-                 <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid #999; height: 46px; border-radius: 10px;" />
-                 <input placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid #999; height: 46px; border-radius: 10px;" /> 
-                 <input id="a" type="checkbox" style="cursor: pointer;vertical-align: middle;"  />
-                 <label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">비밀번호 저장</label>
-                 <div style="margin-top: 3%;">
-                    <a type="text" style="border: 0px solid; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
-                 </div>
-                <button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid #999; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
-              </div>
-          </div>
-         <div class="modal-footer" style="margin-top: 2%;">
-             <div class="join" style=" text-align: center;" onClick="" >에어비엔비 계정이 없으세요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></div>  
-          </div> 
-      </div>
-       <!-- Modal content End -->
-       </form>
-   </div>
+	<div class="modal-dialog" style="margin-top: 10%;">
+	    <form id="loginFrm" name="loginFrm">
+	    <!-- Modal content-->
+	    <div class="modal-content" style="width: 100%; height: 400px; margin-top:5%;">
+	    	<div>
+		        <div style="margin-top: 3%;">
+		       		<button type="button" class="myclose" data-dismiss="modal" style=" width:auto; margin-left: 3%; background-color: white; border: 0px;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+		        </div>
+		        <div style="padding:0;margin:0;width:90%;margin: 5%;">
+			        <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid rightgray; height: 46px; border-radius: 10px;" />
+			        <input id="loginpwd" placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid rightgray; height: 46px; border-radius: 10px;" /> 
+		        	<input id="a" type="checkbox" style="cursor: pointer;vertical-align: middle;"  />
+		        	<label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">비밀번호 저장</label>
+		        	<div style="margin-top: 3%;">
+		        		<a type="text" style="border: 0px solid; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
+		        	</div>
+		    		<button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
+		        </div>
+		    </div>
+			<div class="modal-footer" style="margin-top: 2%;">
+		    	<div class="join" style=" text-align: center;" onClick="" >에어비엔비 계정이 없으세요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></div>  
+		    </div> 
+		</div>
+	    <!-- Modal content End -->
+	    </form>
+	</div>
 </div>   
 <%-- ****** 회원가입 Modal ****** --%>
 <div class="modal fade" id="join" role="dialog">
     <div class="modal-dialog">
-
-       <form name="joinFrm" enctype="multipart/form-data">
+    	<form id="joinFrm" name="joinFrm" enctype="multipart/form-data">
         <!-- Modal content-->
-  			<div class="modal-content" style="width: 100%;padding:0;">
-	       		<button type="button" class="myclose" data-dismiss="modal" style="margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+        	<div class="modal-content" style="width: 100%;padding:0;">
+	       		<button type="button" class="myclose" data-dismiss="modal" style="width:auto; background-color: white; border: 0px;margin-top:2%; margin-left:3%;">
+	       			<img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;">
+	       		</button>
             	<span  style="text-align:center; margin-left:21%; font-weight: bold; color: #008489;" >페이스북</span><span  style="text-align:center; font-weight: bold; " >&nbsp;또는</span>&nbsp;<span  style="text-align:center;  font-weight: bold; color: #008489;" >구글</span><span  style="text-align:center; font-weight: bold; " >로 회원 가입하세요.</span>
           		<div style="padding:0;margin:0;">
-	                <div style="border-bottom: 1px solid #999; margin-top: 1%;padding:0;"></div>
-			        <div class="filebox"  style="border: 1px solid #999;margin:2% auto;width:100px;height:100px;border-radius:100%;">
-			        	<div id="blah" style="margin-top: 35%; width:90px; height:50px;text-align:center;margin-left:5%;">이미지를 등록해 주세요</div>
-			        	<input id="imgInp" type="file" style="margin-left:10%;">
+	                <div style="border-bottom: 1px solid lightgray; margin-top: 1%;padding:0;"></div>
+			        <div style="border: 1px solid lightgray;overflow:hidden; margin:2% auto;width:100px;margin-bottom:3%; height:100px;border-radius:100%;">
+			        	<img id="profilePreview" style="width:100%;"/>
 			        </div>
-			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:1.5%;">ID</label>
-			        <input name="userid" id="userid" placeholder="아이디" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
-			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">NAME</label>
-			        <input name="username" id="username" placeholder="이름" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        <div style="position:absolute; top:15%;left:30%;">
+			         	<input type="file" id="imgInput" name="file" style="display:none;position:absolute;height:30px;z-index:2;width:150px;margin-left:28%;">
+				        <button id="fileInputBtn" type="button" style="width:150px; height:30px;background-color:lightgray;border:none;font-weight:bold;color:white;border-radius:3px;margin-left:30%;">프로필 이미지 선택</button>
+			        </div>
+			        <div style="padding:0;">
+				        <label style="position:fixed; left:7%;font-weight:bold;margin-top:1.5%;">ID</label>
+				        <img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top:1%;width:24px;height:24px; z-index:3;" />
+				        <input name="userid" id="userid" placeholder="아이디" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        	<div class="error" style="margin-left:5%; color:red;"></div>
+			        </div>
+			        <div style="padding:0;">
+				        <label style="position:fixed; left:7%;font-weight:bold;margin-top:1.5%;">NAME</label>
+					    <img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top: 1%; width:24px;height:24px; z-index:3;" />
+				        <input name="username" id="username" placeholder="이름" class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        </div>
 			        <div class="row" style="padding:0;margin-left: 2.5%;margin-top:1%;">
 				        <div class="col-md-6" style="padding:0;">
 				        	<label style="position:fixed;z-index:1; left:7%;font-weight:bold;margin-top:2.5%;">PW</label>
-				        	<input name="pwd" id="pwd" placeholder="비밀번호" class="col-md-6 input-data form-control registInput" type="text" style="width: 100%;padding-left: 30%;"/>
+				        	<img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top: 2%; width:24px;height:24px; z-index:3;" />
+				        	<input name="pwd" id="pwd" placeholder="비밀번호" class="col-md-6 input-data form-control registInput" type="password" style="width: 100%;padding-left: 30%;"/>
 				        </div>
 				        <div class="col-md-5" style="padding:0;margin-left: 2%;">
-				        	<input name="pwd" id="pwd" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="text" style="width: 92%;"/>
+				        	<input id="pwdcheck" placeholder="비밀번호 확인" class="col-md-6 input-data form-control registInput" type="password" style="width: 92%;"/>
 			        	</div>
+			        	<div class="col-md-11 error" style="color:red;"></div>
 			        </div>
-			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">EMAIL</label>
-			        <input name="email" id="email" placeholder="이메일" class="input-data form-control registInput" type="email" style="padding-left: 15%;"/>
-			        <label style="position:fixed; left:7%;font-weight:bold;margin-top:3.5%;">PHONE</label>
-			        <input name="phone" id="phone" placeholder='"-"없이 입력해주세요' class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        <div style="padding:0;">
+				        <label style="position:fixed; left:7%;font-weight:bold;margin-top:1.5%;">EMAIL</label>
+				        <img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top: 1%; width:24px;height:24px; z-index:3;" />
+				        <input name="email" id="email" placeholder="이메일" class="input-data form-control registInput" type="email" style="padding-left: 15%;"/>
+			        	<div class="error" style="margin-left:5%; color:red;"></div>
+			        </div>
+			        <div style="padding:0;">
+				        <label style="position:fixed; left:7%; font-weight:bold;margin-top:1.5%;">PHONE</label>
+				        <img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top: 1%; width:24px;height:24px; z-index:3;" />
+				        <input name="phone" id="phone" placeholder='"-"없이 입력해주세요' class="input-data form-control registInput" type="text" style="padding-left: 15%;"/>
+			        	<div class="error" style="margin-left:5%; color:red;"></div>
+			        </div>
 			        <div class="row" style="padding:0;margin-top:1%;">
 				        <div class="col-md-6" style="padding:0;margin-left:4.5%;">
 				        	<label style="position:fixed; left:7%;font-weight:bold;margin-top:2.5%;z-index:1;">POST</label>
-			        		<input name="post" id="post" placeholder="우편번호" class="input-data form-control registInput" type="text"  style="width:100%;padding-left: 28%;"/>
+			        		<input name="post" id="post" placeholder="우편번호" class="input-data form-control registInput" type="text"  style="width:100%;padding-left: 28%;" readonly/>
 				        </div>
 				        <div class="col-md-5" style="margin-left:3%;margin-top:1%;">
-				        	<button id="searchAddrBtn" type="button" style="height:40px;width:88%;border:none;background-color: #999;color:white;font-weight:bold;border-radius:5px;">주소찾기</button>
+				        	<button id="searchAddrBtn" type="button" style="height:40px;width:88%;border:none;background-color: lightgray;color:white;font-weight:bold;border-radius:5px;">주소찾기</button>
 				        </div>
 			        </div>
-			        <input name="addr" id="addr" placeholder="주소" class="input-data form-control registInput" type="text" />
-			        <input name="detailaddr" id="addrDetail" placeholder="상세주소" class="input-data form-control registInput" type="text"/>
+			        <div style="padding:0;">
+			        	<img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top: 1%; width:24px;height:24px; z-index:3;" />
+			        	<input name="addr" id="addr" onchange="checkAddr()" placeholder="주소" class="input-data form-control registInput" type="text" readonly/>
+			        </div>
+			        <div style="padding:0;">
+			        	<img class="passIcon" src="<%= request.getContextPath() %>/resources/images/header/checked_green.png" style="position: fixed; right: 7%; margin-top: 1%; width:24px;height:24px; z-index:3;" />
+			        	<input name="detailAddr" id="detailaddr" placeholder="상세주소" class="input-data form-control registInput" type="text"/>
+			        </div>
 			        <textarea name="introduction" id="introduction" placeholder="자기소개" class="input-data form-control registInput" style="height: 90px;"></textarea>
  					<div style="margin-top:2%;">
 	 					<input type="radio" id="male" name="gender" value="1" style="margin-left: 5%;" checked/><label for="male" style="margin-left: 2%;">남자</label>
@@ -408,7 +437,7 @@
 	  				<div class="row noSpace" style="width:100%;padding:0;margin-top:2%;font-size: 12pt;margin-left:5%;" >
 		         		<div class="col-md-4">
 		           			<c:set var="year" value="2019"></c:set>
-		           			<select name="year" class="birth registBirthInput">
+		           			<select name="year" class="birth registBirthInput birth">
 		          				<option value="-1">년</option>
 		          				<c:forEach var="i" begin="1900" end="${year}" step="1" >
 		             			<option value="${year - i + 1900}" style="width:100px;">${year - i + 1900}</option>
@@ -416,7 +445,7 @@
 		           			</select>
 		    			</div>
 		         		<div class="col-md-3">
-		       				<select name="month" class="birth registBirthInput">
+		       				<select name="month" class="birth registBirthInput birth">
 						        <option value="-1">월</option>
 						        <c:forEach var="month" begin="1" end="12">
 						        <option value="${month}">${month}</option>
@@ -424,7 +453,7 @@
 		        			</select>
 						</div>          
 		    			<div class="col-md-3">
-			         		<select name="day" class="birth registBirthInput">
+			         		<select name="day" class="birth registBirthInput birth">
 			          			<option value="-1">일</option>
 						        <c:forEach var="day" begin="1" end="31" >
 						        <option value="${day}">${day}</option>
@@ -432,7 +461,7 @@
 			           		</select>
 						</div>
 					</div>
-		         	<button type="button" class="login" onClick="join();"style="width: 90%;height: 40px; border: 1px solid #999; border: none; font-weight:bold;background-color: #fd5a61; color: white; border-radius: 10px;margin-left: 5%; margin-top: 2%;padding:0;">가입하기</button>
+		         	<button id="registBtn" type="button" class="login" style="width: 90%;height: 40px; border: 1px solid rightgray; border: none; font-weight:bold;background-color: #fd5a61; color: white; border-radius: 10px;margin-left: 5%; margin-top: 2%;padding:0;">가입하기</button>
 			        <div class="modal-footer" style="margin-top: 2%;">
 		            	<div class="join" style="font-size: 12pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
 		        	</div>
@@ -440,48 +469,42 @@
 			</div>
     	</form>
 	</div>
- 
 </div> 
-
-
 <%-- ****** 비밀번호찾기 Modal ****** --%>
 <div class="modal fade" id="pwdfind" role="dialog">
-   <div class="modal-dialog">
-       <!-- Modal content-->
-       <div class="modal-content" style="width: 568px; height: 372px;">   
-          <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 5%; background-color: white;  margin-top: 2%; margin-bottom: 5%; border: 0px;"><img src="<%=request.getContextPath() %>/resources/ymimg/cancel.png" alt="X"></button>
-           <span style="font-size: 15pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">비밀번호 재설정</span>
-            <span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
-            <span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
-            <span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
-             <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid #999;  width: 504px; height: 46px; border-radius: 10px;" />
-             <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
-         </div>
+	<div class="modal-dialog">
+	<!-- Modal content-->
+		<div class="modal-content" style="width: 100%; height: 350px;">   
+			<button type="button" class="myclose" data-dismiss="modal" style="width:auto; margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+           	<div style="padding: 3% 5%;">
+	           	<div style="font-size: 15pt;border-top:1px solid lightgray; padding-top:2%; font-weight: bold; margin-bottom: 5%;">비밀번호 재설정</div>
+	            <div style="margin-top:5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</div>
+	            <div style=" font-size: 12pt; ">전송해 드립니다.</div>
+	            <div style="font-size: 11pt; font-weight: bold; margin-bottom: 5%;">이메일 주소</div>
+	            <input  class="input-data form-control" type="text" style="font-size: 13pt; margin: 2% 0; border: 1px solid rightgray;  width: 100%; height: 46px; border-radius: 10px;" />
+	            <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
+        	</div>
+        </div>
     </div>
-    <div class="col-md-3 calc"  style="margin-left: 7%;">
-
-      <c:set var="year" value="2019"></c:set>
-        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
-           <option>년</option>
-           <c:forEach var="i" begin="1900" end="${year}" step="1" >
-           <option value="${year - i + 1900}">${year - i + 1900}</option>
-            </c:forEach>
-        </select>
-
-    </div>
-
-    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid #999; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
-    <div class="modal-footer" style="margin-top: 2%;">
-       <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
-    </div>    
 </div>
+
 <%-- Right Fixed Menues --%>
-<div id="fixed_hide_menues">
-	<ul>
+<div id="quick">
+	<ul id="quick_menues"> 
+		<li> 
+			<a href="#" id="toUp">
+	    		<img src="<%=ctxPath%>/resources/images/main/up.png"/>
+	  		</a>
+		</li>
+		<li> 
+		  <a href="" id="toDown">
+		 	 <img src="<%=ctxPath%>/resources/images/main/down.png"/>
+		  </a>
+		</li>  
 		<li> 
 		  <a href="javascript:void plusFriendChat()">
 		  <img src="https://developers.kakao.com/assets/img/about/logos/plusfriend/consult_small_yellow_pc.png"/>
-		</a>
+		  </a>
 		</li>
 	</ul>
 	<script type="text/javascript">
