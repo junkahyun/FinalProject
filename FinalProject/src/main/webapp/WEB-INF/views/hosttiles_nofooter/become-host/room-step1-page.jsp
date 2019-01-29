@@ -161,9 +161,7 @@
 		}	
 		addbed = "<div class='bedroomEach bedroom_1'>"+addbed+"</div>";
 
-		console.log(addbed);
 		$("#bedhtmladdHY").html(addbed);
-		console.log(html);
 		$("#addarea").html(html);
 		for(var i=2;i<=50;i++){
 			$(".bedroom_"+i+"").children(".gochild").children(".gochild").find(".bedroomNum").text(""+i+"번 침실");
@@ -189,6 +187,7 @@
 				var sofaupdown = $(this).parent().parent().parent().find(".sofaupdown").val();
 				var allCount = parseInt(doubleCount) + parseInt(queenupdown) + parseInt(singleupdown) + parseInt(sofaupdown);
 				$(this).parent().parent().parent().parent().children().children(".gochild").children(".gochild").find(".bedCountinFor").text("침대 "+allCount+"개");
+				$(this).parent().parent().parent().parent().children().children(".gochild").children(".gochild").find(".bedQtyCount").val(allCount);
 			}
 		});
 		var bedroom = 1;
@@ -276,18 +275,37 @@
 		 	var testalertString = "";
 	 		var bedroomCount = $("#bedroom").val();
 	 		for(var i=1;i<=bedroomCount;i++){
-	 			if(parseInt(doubleTotal)!=0||parseInt(queenTotal)!=0||parseInt(singleTotal)!=0||parseInt(sofabedTotal)!=0){
-		 			testalertString += "{";
+	 			if(parseInt(doubleTotal)==0&&parseInt(queenTotal)==0&&parseInt(singleTotal)==0&&parseInt(sofabedTotal)==0){
+		 			continue;
+	 			}
+	 			else {
+	 				var bedCount = $(".bedroom_"+i+"").find(".bedQtyCount").val();
+	 				testalertString += "{";
+	 				
 		 			var doubleTotal = $(".bedroom_"+i+"").find(".doubleupdown").val();
-		 			if(parseInt(doubleTotal)!=0) testalertString += ", doublebedCount : "+doubleTotal;
 		 			var queenTotal = $(".bedroom_"+i+"").find(".queenupdown").val();
-		 			if(parseInt(queenTotal)!=0) testalertString += ", queenbedCount : "+queenTotal;
 		 			var singleTotal = $(".bedroom_"+i+"").find(".singleupdown").val();
-		 			if(parseInt(singleTotal)!=0) testalertString += ", singlebedCount : "+singleTotal;
 		 			var sofabedTotal = $(".bedroom_"+i+"").find(".sofaupdown").val();
-		 			if(parseInt(sofabedTotal)!=0) testalertString += ", sofabedCount : "+sofabedTotal;
-		 			//resultbedArr.push("{bedroomNo:"+i+", doublebedCount : "+doubleTotal+", queenbedCount : "+queenTotal+", singlebedCount : "+singleTotal+", sofabedCount : "+sofabedTotal+"}");
-		 			testalertString += "}/";
+		 			
+		 			if(parseInt(doubleTotal)!=0) testalertString += "doublebedCount : "+doubleTotal;
+		 			if(parseInt(queenTotal)!=0&&bedCount>1){
+		 				testalertString+= ",";
+		 				bedCount-=queenTotal;
+		 			}
+		 			if(parseInt(queenTotal)!=0) testalertString += "queenbedCount : "+queenTotal;
+		 			if(parseInt(singleTotal)!=0&&bedCount>1){
+		 				testalertString+= ",";
+		 				bedCount-=singleTotal;
+		 			}
+		 			if(parseInt(singleTotal)!=0) testalertString += "singlebedCount : "+singleTotal;
+		 			if(parseInt(sofabedTotal)!=0&&bedCount>1){
+		 				testalertString+= ",";
+		 				bedCount-=sofabedTotal;
+		 			}
+		 			if(parseInt(sofabedTotal)!=0) testalertString += "sofabedCount : "+sofabedTotal;
+		 			
+		 			testalertString += "}";
+		 			if(i!=bedroomCount)testalertString += "/";
 	 			}
 	 		}
 	 		alert(testalertString);
@@ -645,6 +663,7 @@
 					    	<div class="col-md-6 gochild" style="border: 0px solid blue">
 					        	<div class="bedroomNum" style="font-size: 19px;">1 번 침실</div>
 					         	<div class="bedCountinFor" style="font-size: 19px; color: #767676;">침대 0개</div>
+					         	<input type="hidden" class="bedQtyCount">
 					        </div>
 					        <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;">
 					        	<button type="button" class="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>

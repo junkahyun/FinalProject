@@ -110,11 +110,11 @@
 		values(#{userid},#{username},#{pwd},#{email},#{phone},#{post},#{addr},#{detailAddr},#{gender},#{birthday},#{introduction},default,#{profileimg},default,default)
 	</insert>
 	
-	<select id="getRecommendRoomList" parameterType="String" resultType="com.spring.bnb.model.ReviewVO">
+	<select id="getRecommendRoomList" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select * from room where roomsigungu=#{sigungu}
 	</select>
 	
-	<!-- <insert id="insertbedroom" parameterType="HashMap">
+	<insert id="insertbedroom" parameterType="String">
 		insert into bedroom(bedroom_idx,fk_roomcode) values(bedroom_idx_seq.nextval,#{rooomcode})
 	</insert>
 	
@@ -123,7 +123,18 @@
 	</select>
 	
 	<insert id="insertbed" parameterType="HashMap">
-		insert into bed(bed_idx,bedCount,fk_bedroom_idx,fk_bedobj_idx) values(bed_idx_seq.nextval,#{bedCount},#{bedroom_idx},#{bedobj_idx})
-	</insert> -->
+		insert into bed(bed_idx,bedCount,fk_bedroom_idx,fk_bedobj_idx) values(bed_idx_seq.nextval,#{BEDCOUNT},#{BEDROOMIDX},#{BEDOBJIDX})
+	</insert>
+	
+	<select id="getAllReviewList" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
+		select*
+		from(
+		    select rownum as rno,REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,REVIEW_WRITEDATE 
+		    from review
+		    where fk_roomcode=#{ROOMCODE}
+		    )
+		where rno between #{STARTRNO} and #{ENDRNO}
+	</select>
+	
 </mapper>
 

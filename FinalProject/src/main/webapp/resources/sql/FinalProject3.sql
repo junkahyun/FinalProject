@@ -1,4 +1,3 @@
-
 /* 내 테이블1 */
 CREATE TABLE my_db.my_table1 (
 	my_pk1 INTEGER NOT NULL, /* 내 기본 키 컬럼1 */

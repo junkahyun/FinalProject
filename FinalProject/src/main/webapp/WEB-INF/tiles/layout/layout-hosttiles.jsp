@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%-- ======= #22. tiles 를 사용하는 레이아웃1 페이지 만들기  ======= --%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"  %>    
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"  %>  
 <% String ctxPath = request.getContextPath(); %>    
 <!DOCTYPE html>
 <html>
