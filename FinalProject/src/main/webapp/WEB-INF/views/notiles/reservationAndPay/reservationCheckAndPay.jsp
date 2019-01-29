@@ -127,12 +127,12 @@ input{outline: none;
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="${loginuser.phone}" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="${phone}" readonly="readonly" />
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="${loginuser.email}" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${email}" readonly="readonly"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -156,7 +156,7 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="${day2-day1}박" /><br><br>
+			<input class="reservationInfo" type="text" value="<%-- ${day2-day1} --%>2박" /><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
 			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일 " /><br><br>
@@ -192,9 +192,6 @@ input{outline: none;
 </div>
 
 <form name="finalRev">
-	<input type="hidden" value="${loginuser.username}" name="username"/>
-	<input type="hidden" value="${loginuser.email}" name="email"/>
-	<input type="hidden" value="${loginuser.phone}" name="phone"/>
 	<input type="hidden" value="" name="totalprice"/>
 </form>
 

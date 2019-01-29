@@ -12,8 +12,6 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
  <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -101,11 +99,11 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
-		getDatebetween();
-		
 		getTotal();
 		
 		getChekinOut();
+		
+		getdateBetween();
 		
 		$(".minus").hide();
 		$("#plusRole").hide();
@@ -163,18 +161,24 @@ h3{font-size: 14pt;
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
 	}
 	
-	function getDatebetween(){
+	function getdateBetween(){ //두 날짜사이의 차이 구하기
 		
+		var checkin = "${checkin}";
+		var checkout = "${checkout}";
 		
+		var date1 = new Date(checkin);
+	    var date2 = new Date(checkout);
+	      
+	    var time1 = date1.getTime();
+	    var time2 = date2.getTime();
+	      
+	    console.log((time2-time1)/(1000*60*60*24));
+	      
 	}
 	
 	function gonextCheck(){ // 다음페이지로 보내기
-		var frm = document.datecheck;
-		frm.method="get";
-		frm.action="reservationCheckPeople.air";
-		frm.submit();
 		
-		<%-- location.href="<%=ctxPath%>/reservationCheckPeople.air" --%>
+		location.href="<%=ctxPath%>/reservationCheckPeople.air";
 	}
 	
 
@@ -411,7 +415,7 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
-				 </span> x <span id="day_between"></span>박
+				 </span> x <span id="day_between">2</span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
 				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*2}" pattern="#,###"/></span>

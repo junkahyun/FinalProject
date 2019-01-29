@@ -67,26 +67,8 @@
 		PAYDATE,TOTALPRICE,RSV_MSG,DCPRICE,RSV_CANCLEDATE)
 		values(#{revcode},#{roomcode},#{my_userid},#{guestCount},#{babyCount}
 		,#{username},#{phone},#{email},
-		(#{year1}||#{mon1}||#{day1}),
-		(#{year2}||#{mon2}||#{day2}),sysdate,#{totalprice},#{message},'','')
+		#{checkin},#{checkout},sysdate,#{totalprice},#{message},'','')
 	</insert>
-	
-	<!-- <insert id="insertReservation" statementType="CALLABLE" parameterType="HashMap">
-		{call pcd_reservation_insert(#{revcode,mode=in}
-								    ,#{roomcode,mode=in}
-								    ,#{my_userid,mode=in}
-								    ,#{guestCount,mode=in}
-								    ,#{babyCount,mode=in}
-								    ,#{phone,mode=in}
-								    ,#{email,mode=in}
-								    ,#{revcode,mode=in}
-								    ,#{year1||mon1||day1,mode=in}
-								    ,#{year2||mon2||day2,mode=in}
-								    ,#{message,mode=in}
-								    ,#{totalprice,mode=in}) 
-		}
-	</insert> -->
-	
 	
 	<select id="getOneReserve" parameterType="HashMap" resultType="com.spring.bnb.model.ReservationVO">
 		select*
