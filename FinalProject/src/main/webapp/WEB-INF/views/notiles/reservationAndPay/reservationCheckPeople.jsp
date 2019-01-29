@@ -186,6 +186,8 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
+		getTotal();
+		
 		$("#host_error_message2").hide();
 
 		$("#people").click(function(){
@@ -254,7 +256,10 @@ h3{font-size: 14pt;
 		});
 		
 		
-		
+	});//end of $(document).ready------------
+
+	
+	function getTotal(){
 		// 총금액 구하기
 		var stayday = $("#Price").text();cleanpay
 		var cleanpay = $("#cleanpay").text();
@@ -268,9 +273,7 @@ h3{font-size: 14pt;
 		
 		
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
-		
-	});//end of $(document).ready------------
-
+	}
 	
 </script>
 
@@ -278,7 +281,49 @@ h3{font-size: 14pt;
 
 </head>
 <body>
-
+<!-- Channel Plugin Scripts -->
+<script>
+  ;window.channelPluginSettings = {
+    "pluginKey": "6f3362e0-0256-424f-9493-b4dc969bc2d0" //please fill with your plugin key
+  };
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var d = window.document;
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+</script>
+<!-- End Channel Plugin -->
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
@@ -307,10 +352,10 @@ h3{font-size: 14pt;
 				    </div>
 				</c:if>
 				
-					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+					<%-- <div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
-				    </div> 
+				    </div>  --%>
 			    
 			</div>
 		</div>
@@ -321,7 +366,7 @@ h3{font-size: 14pt;
 		 <div class="dropdown" style="margin-bottom: 10%;">
 			 <div  class="panel panel-default people" >
 				<div class="panel-body" id="people"  data-toggle="dropdown">
-					<div class="col-md-10" >게스트<span class="pannelCount">${guestcount}명</span></div>
+					<div class="col-md-10" >게스트<span class="pannelCount">${guestCount}명</span></div>
 					<div class="col-md-2"> <i class="fas fa-chevron-down fa-lg"></i></div>
 				</div>
 				<ul class="dropdown-menu col-md-12" style="width: 45%; ">
@@ -333,7 +378,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info adultm" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="${guestcount}" min="1" max="${(sessionScope.oneRoom).max_person}"  id="guestcount"/>
+						<input type="text" class="form-control text-center" value="${guestCount}" min="1" max="${(sessionScope.oneRoom).max_person}"  id="guestcount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info adultp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -447,12 +492,12 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;" >게스트</span><span class="totaladCount"> ${guestcount}</span>명
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;" >게스트</span><span class="totaladCount"> ${guestCount}</span>명
 				<span class="totalbbCount"></span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				${year}년 ${checkmonth1}월 ${checkday1}일 <i class="fas fa-arrow-right"></i>${year}년 ${checkmonth2}월 ${checkday2}일
+				${year1}년 ${mon1}월 ${day1}일 <i class="fas fa-arrow-right"></i>${year2}년 ${mon2}월 ${day2}일
 				</span>
 			</div>
 			</div>
@@ -464,10 +509,10 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${(sessionScope.oneRoom).roomPrice}" pattern="#,###"/>
-				 </span> x <span id="stayday">${(day+7)-day}</span>박
+				 </span> x <span id="day_between"></span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${((sessionScope.oneRoom).roomPrice)*((day+7)-day)}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${((sessionScope.oneRoom).roomPrice)*(day2-day1)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->

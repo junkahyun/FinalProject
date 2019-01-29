@@ -27,7 +27,7 @@ public class WCController {
 		// 메인페이지 요청 시 모든 숙소 리스트 가져오기
 		List<RoomVO> roomList = service.getRecommandRoomList();
 		
-		List<ReviewVO> reviewList = service.getBestReviewList();
+		List<ReviewVO> reviewList = service.getBestReviewList(); 
 		
 		req.setAttribute("roomList", roomList);
 		req.setAttribute("reviewLeft", reviewList.get(0));
