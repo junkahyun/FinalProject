@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
@@ -49,7 +51,7 @@ public class boboController {
 		RoomVO roomvo = new RoomVO();
 		session.setAttribute("roomvo", roomvo);*/
 		
-		return "become-host/room-step1.hosttiles_nofooter";
+		return "become-host/room-step1";
 	}
 	
 	@RequestMapping(value="/roomstep1page.air", method={RequestMethod.GET})
@@ -67,7 +69,7 @@ public class boboController {
 		List<String> rule = service.selectrule();// 이용규칙 가져오기
 		req.setAttribute("rule", rule);
 		
-		return "become-host/room-step1-page.hosttiles_nofooter";
+		return "become-host/room-step1-page";
 	}
 	
 	@RequestMapping(value="/roomtypeJSON.air", method={RequestMethod.GET})
@@ -100,6 +102,22 @@ public class boboController {
 		return "JSON";		
 	}	
 	
+	// 침실과 침대 갯수 가져오기
+	@RequestMapping(value = "/bedroom.air", method = RequestMethod.POST)
+	public String bedroom(HttpServletRequest req) {
+		
+		String bedroomInfo = req.getParameter("bedroomInfo");
+		String[] bedroomInfoArr = bedroomInfo.split("/");
+		
+		HttpSession session = req.getSession();
+		session.setAttribute("bedroomInfoArr", bedroomInfoArr);
+	
+		JSONObject json = new JSONObject();
+		//json.put("n", n);
+		req.setAttribute("str_json", json.toString()); 
+		return "JSON";
+	}
+	
 	// 주소를 받아와서 지도에 값을 넣기위해서 씀
 	@RequestMapping(value="/mapJSON.air", method={RequestMethod.GET})
 	public String mapJSON(HttpServletRequest req) {
@@ -119,36 +137,37 @@ public class boboController {
 	public String roomstep2(RoomVO roomvo, HttpServletRequest req) {
 		
 		HttpSession session = req.getSession();	
+		String[] optionArr = req.getParameterValues("optionchk");
+		
+		if(optionArr != null) {
+			// 배열형태의 옵션들을 리스트형태로 바꿈
+			List<String> optionchk = new ArrayList<>(Arrays.asList(optionArr));	
+			roomvo.setMyoption(optionchk);
+/*			for(String val : optionchk) {
+				System.out.println(val);
+			}*/
+		}
+		
+		String[] ruleArr = req.getParameterValues("rulechk");
+		if(ruleArr != null) {
+			// 배열형태의 옵션들을 리스트형태로 바꿈
+			List<String> rulechk = new ArrayList<>(Arrays.asList(ruleArr));
+			roomvo.setMyrule(rulechk);
+/*			for(String val : rulechk) {
+				System.out.println(val);
+			}*/
+		}
 		
 		// roomvo에 들어간 값들을 세션에 저장한다 
 		session.setAttribute("roomvo", roomvo);
-		
-		String[] optionchk = req.getParameterValues("optionchk");
-		String[] rulechk = req.getParameterValues("rulechk");
-		
-		// 체크된 옵션들 세션에 저장하고 마지막에 insert작업
-		if(optionchk != null) {
-			session.setAttribute("optionchk", optionchk);
-			/*for (String val : optionchk) {
-			System.out.println(val);
-		}*/
-		}
-		
-		// 체크된 이용규칙들 세션에 저장하고 마지막에 insert작업
-		if(rulechk != null) {
-			session.setAttribute("rulechk", rulechk);
-			/*for(String val : rulechk) {
-			System.out.println(val);
-		}*/
-		}
 				
-		return "become-host/room-step2.hosttiles_nofooter";
+		return "become-host/room-step2";
 	}
 	
 	@RequestMapping(value="/roomstep2page.air", method={RequestMethod.GET})
 	public String roomstep2page(HttpServletRequest req) {
 		
-		return "become-host/room-step2-page.hosttiles_nofooter";
+		return "become-host/room-step2-page";
 	}
 	
 	// 이미지 파일 가져오기
@@ -192,9 +211,6 @@ public class boboController {
 			roomvo.setRoomimgList(imgList);
 			
 		}// end of if---------------------------------------
-
-
-		
 		
 		//System.out.println(roomMainImg);
 		
@@ -236,13 +252,13 @@ public class boboController {
 		// roomvo에 들어간 값들을 세션에 저장한다 
 		session.setAttribute("roomvo", roomvo);
 		
-		return "become-host/room-step3.hosttiles_nofooter";
+		return "become-host/room-step3";
 	}
 	
 	@RequestMapping(value="/roomstep3page.air", method={RequestMethod.GET})
 	public String roomstep3page(HttpServletRequest req) {
 		
-		return "become-host/room-step3-page.hosttiles_nofooter";
+		return "become-host/room-step3-page";
 	}
 	
 	@RequestMapping(value="/roomlaststep.air", method={RequestMethod.GET})
@@ -269,7 +285,7 @@ public class boboController {
 		// roomvo에 들어간 값들을 세션에 저장한다 
 		session.setAttribute("roomvo", roomvo);
 		
-		return "become-host/room-lastStep.hosttiles_nofooter";
+		return "become-host/room-lastStep";
 	}
 	
 	@RequestMapping(value="/roomfinish.air", method={RequestMethod.GET})
@@ -280,14 +296,39 @@ public class boboController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		roomvo.setHost(loginuser);
-		System.out.println(roomvo.getHost().getUserid());
+		//System.out.println(roomvo.getHost().getUserid());
 		
-		int n = service.becomehost(roomvo);
-		//int m = service.imgList(roomvo);
+		int n = service.becomehost(roomvo); // 숙소 insert
+		service.imgList(roomvo);  // 이미지 insert
+		
+		List<String> option = roomvo.getMyoption();
+		if(option != null) {
+			service.myoption(roomvo); // 옵션 insert
+		}
+		
+		List<String> rule = roomvo.getMyrule();
+		if(rule != null) {
+			service.myrule(roomvo);   // 규칙 insert
+		}
+		
+		String[] bedroomInfoArr = (String[]) session.getAttribute("bedroomInfoArr");
+
+		// for문을돌리면 하나의 침실정보가 String 형태로 나옴
+	/*	for(String str : bedroomInfoArr) {
+			System.out.println(str);
+			HashMap<String,String> paraMap = new HashMap<String,String>();
+			JSONObject jsonbedinfo = new JSONObject(str); // 가져온 String 형태를 JSON으로 변환
+			Set<String> jsonkeys = jsonbedinfo.keySet(); // JSON으로 변환된 객체의 key들을 가져옴
+			paraMap.put("buildType_detail_idx",roomvo.getFk_buildType_detail_idx());
+			paraMap.put("roomType_idx",roomvo.getFk_roomType_idx());
+			for(String key :jsonkeys) paraMap.put(key, (String) jsonbedinfo.get(key)); // key값만큼 for문을 돌려서 hash맵 형태로 저장
+			service.insertbedroom(paraMap);
+		}*/
+		
 		if(n ==1) {
 			return "host/hostroomList.hosttiles";
 		}
-		else return "become-host/error.hosttiles_nofooter";
+		else return "become-host/error";
 
 		
 	}

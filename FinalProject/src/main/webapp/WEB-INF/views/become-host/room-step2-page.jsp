@@ -244,6 +244,14 @@
 
 </script>
 
+<div class="row">
+	<div class="col-md-1">
+		<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+	</div>
+	<div class="col-md-6" style="font-size: 18px; margin-top: 20px; padding-left: 0">2단계: 상세정보를 제공해 주세요</div>
+</div>
+<hr/>
+
 <form name="roomtitle" enctype="multipart/form-data">
 	<div>
 	   <div class="row" id="firstdiv">
@@ -252,12 +260,12 @@
        <div class="row">
        
        		<!-- 진행상태바 -->
-		    <div class="container col-md-12" style="border: 0px solid red;">
+<!-- 		    <div class="container col-md-12" style="border: 0px solid red;">
 			   <div class="progress" style="height: 13px;"> 
 			     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
 			     </div>
 			   </div>
-		    </div>
+		    </div> -->
 		    
        		<div class="col-md-5" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">	    		
 	         	<div class="title">게스트에게 숙소의 모습을 보여 주세요</div>        
@@ -291,12 +299,12 @@
 	   <div class="row" id="seconddiv" style="border: 0px solid green;">
 	   
 	   <!-- 진행상태바 -->
-	   <div class="container col-md-12" style="border: 0px solid red;">
+<!-- 	   <div class="container col-md-12" style="border: 0px solid red;">
 		  <div class="progress" style="height: 13px;"> 
 		    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
 		    </div>
 		  </div>
-	   </div>
+	   </div> -->
 	    
 	    <!-- 입력창 반복되는 div 시작 -->
 	    <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">

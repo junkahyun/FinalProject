@@ -59,9 +59,32 @@ public class boboService implements InterBOService{
 
 	//이미지 테이블 insert
 	@Override
-	public int imgList(RoomVO roomvo) {
-		int n = dao.imgList(roomvo);
-		return n;
+	public void imgList(RoomVO roomvo) {
+		dao.imgList(roomvo);
 	}
+
+	//옵션 테이블 insert
+	@Override
+	public void myoption(RoomVO roomvo) {
+		dao.myoption(roomvo);
+		
+	}
+
+	//규칙 테이블 insert
+	@Override
+	public void myrule(RoomVO roomvo) {
+		dao.myrule(roomvo);
+		
+	}
+
+	// 침실, 침대 insert
+	@Override
+	public void insertbedroom(HashMap<String, String> paraMap) {
+		dao.insertbedroom(paraMap);
+		
+	}
+
+	
+
 
 }

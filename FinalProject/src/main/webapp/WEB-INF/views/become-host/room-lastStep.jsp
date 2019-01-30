@@ -46,7 +46,7 @@
 </script>
 
 <form name="roomstep3">
-<div class="row">
+<div class="row" style="margin-left: 6%; margin-top: 5%;">
 
 	<div class="col-md-6" style="margin-left: 20%; margin-top: 3%; border:0px solid gray;">
 		<h2 style="font-weight: normal;">모든 단계의 작성을 완료했습니다!</h2>

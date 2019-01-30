@@ -26,5 +26,14 @@ public interface InterBODAO {
 	int becomehost(RoomVO roomvo);
 	
 	//이미지테이블 insert
-	int imgList(RoomVO roomvo);
+	void imgList(RoomVO roomvo);
+	
+	//옵션테이블 insert
+	void myoption(RoomVO roomvo);
+	
+	//규칙테이블 insert
+	void myrule(RoomVO roomvo);
+	
+	//침실,침대 insert
+	void insertbedroom(HashMap<String, String> paraMap);
 }
