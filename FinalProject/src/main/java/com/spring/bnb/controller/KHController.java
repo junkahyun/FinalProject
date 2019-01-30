@@ -41,8 +41,6 @@ public class KHController {
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
 		HttpSession session = req.getSession();
-		String my_userid = "kongkd2"; //(테스트용)
-		session.setAttribute("my_userid", my_userid);
 		//===================================================
 		/*String roomcode = req.getParameter("roomcode");
 		String guestCount = req.getParameter("guestCount");
@@ -50,18 +48,9 @@ public class KHController {
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");*/
 	
-		String roomcode = "24";
+		String roomcode = "25";
 		String guestCount = "2";
 		String babyCount = "1";
-		
-		// *** 날짜 쪼개기 *** //
-		/*String year1 = rsv_checkInDate.substring(0, 4);
-		String mon1 = rsv_checkInDate.substring(5, 7);
-		String day1 = rsv_checkInDate.substring(8);
-		
-		String year2 = rsv_checkOutDate.substring(0, 4);
-		String mon2 = rsv_checkOutDate.substring(5, 7);
-		String day2 = rsv_checkOutDate.substring(8);*/
 		
 		String checkin = "2019-01-31";
 		String checkout = "2019-02-02";

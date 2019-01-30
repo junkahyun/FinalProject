@@ -171,7 +171,7 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" id="datebetween" /><br><br>
+			<input class="reservationInfo" type="text" id="datebetween" value="2박"/><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
 			<input class="reservationInfo" type="text" value="${checkin} " /><br><br>

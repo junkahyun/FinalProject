@@ -56,6 +56,7 @@
 		from room
 	</select>
 	
+	<!-- 예약코드 생성을 위해 시퀀스 번호 채번해오기  -->
 	<select id="getReservCode" resultType="int">
 		select rsvcode_seq.nextval as seq
 		from dual	
@@ -93,6 +94,19 @@
 		select*
 		from reservation
 		where rsvcode= #{revcode} and fk_userid=#{my_userid}
+	</select>
+	
+	<!-- room 규칙 뽑기 -->
+	<resultMap type="HashMap" id="ruleMap">
+		<result column="rule_name" property="rule_name" javaType="String" />
+	</resultMap>
+	
+	<select id="getruleList" parameterType="HashMap" resultMap="ruleMap">
+		select distinct(rule_name)as rule_name
+		from allrule A
+		join roomrule B
+		on a.rule_idx = b.fk_rule_idx
+		where FK_ROOMCODE = #{roomcode}
 	</select>
 
 </mapper>

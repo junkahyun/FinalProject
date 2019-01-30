@@ -279,12 +279,13 @@ h3{font-size: 14pt;
 					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
 				    </div>
 				</c:if>
+				<c:if test="${oneRoom.roomPrice > avgPrice }">
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+				    </div>
+				</c:if>
 				
-				<%-- <div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
-				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-				     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
-			    </div> --%>
-			    
 			</div>
 		</div>
 		<br>
@@ -335,10 +336,14 @@ h3{font-size: 14pt;
 		<div id="plusRole" style="-webkit-font-smoothing: antialiased;">
 			<div style="font-size:12pt;">
 			<span style="font-weight:bold;">이용규칙</span><br><br>
-            <i class="fas fa-check"></i> 2인 숙박만 허용함(3인 이상 체크인 시 추가요금 있음)<br>
-            <i class="fas fa-check"></i> 주변을 배려해서 조용하게 머물러 주세요.<br>
-            <i class="fas fa-check"></i> 삼겹살 등 냄새나는 음식은 조리 불가능합니다.<br>
-            <i class="fas fa-check"></i> 임의로 체크아웃시간 지키지 않을 시 추가 요금있습니다.
+				<c:if test="${(oneRoom.ruleList).size() > 0}" >
+					<c:forEach var="rule" items="${oneRoom.ruleList}">
+					 <i class="fas fa-check"></i> ${rule.rule_name}<br>
+					</c:forEach>
+				</c:if>
+				<c:if test="${(oneRoom.ruleList).size() < 0}" >
+					이용규칙 없음
+				</c:if>
             </div><br>
 		</div>
 		<div class="minuscontext minus" style="">숨기기 <i class="fas fa-chevron-down" ></i></div>
