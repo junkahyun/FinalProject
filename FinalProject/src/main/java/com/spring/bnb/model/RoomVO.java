@@ -3,6 +3,8 @@ package com.spring.bnb.model;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class RoomVO {
 	private String roomcode;
 	private String fk_userid; 
@@ -32,9 +34,15 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+
+	private String bedtype;	
 	
-	private String roomMainImg;		// 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
-	private String roomImgfilename;     // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
+	private MultipartFile file;       // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
+	private String roomMainImg;		  // 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
+	private String roomImgfilename;   // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
+	
+	private List<String> myoption; // 보유옵션
+	private List<String> myrule;   //보유규칙
 	
 	//add(getter,setter 아직 안넣음)
 	private String roomType_name;
@@ -91,6 +99,15 @@ public class RoomVO {
 	}
 	
 	///////////////////////////////////////////////////////////
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	
 	public String getRoomMainImg() {
 		return roomMainImg;
 	}
@@ -106,7 +123,22 @@ public class RoomVO {
 		this.roomImgfilename = roomImgfilename;
 	}
 	
-	////////////////
+	public List<String> getMyoption() {
+		return myoption;
+	}
+
+	public void setMyoption(List<String> myoption) {
+		this.myoption = myoption;
+	}
+
+	public List<String> getMyrule() {
+		return myrule;
+	}
+
+	public void setMyrule(List<String> myrule) {
+		this.myrule = myrule;
+	}
+	///////////////////////////////////////////////////////////
 
 	public String getRoomTel() {
 		return roomTel;
@@ -243,8 +275,13 @@ public class RoomVO {
 	}
 	public void setRoom_warnCount(String room_warnCount) {
 		this.room_warnCount = room_warnCount;
+	}	
+	public String getBedtype() {
+		return bedtype;
 	}
-	
+	public void setBedtype(String bedtype) {
+		this.bedtype = bedtype;
+	}	
 	public String getRuleType_name() {
 		return roomType_name;
 	}

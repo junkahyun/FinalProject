@@ -5,8 +5,11 @@
 		$(".passIcon").addClass("passIconHide");
 		$(".error").hide();
    		$("#loginpwd").keydown(function(event){
-         	if(event.target==13) goLogin();
+         	if(event.keyCode==13) goLogin();
       	});
+   		$("#goLoginBtn").click(function(){
+   			goLogin();
+   		});
       	$("#searchAddrBtn").click(function() {
           	new daum.Postcode({
                	oncomplete: function(data) {
@@ -329,7 +332,7 @@
 		        	<div style="margin-top: 3%;">
 		        		<a type="text" style="border: 0px solid; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
 		        	</div>
-		    		<button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
+		    		<button type="button" id="goLoginBtn" class="login" style="width: 100%; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
 		        </div>
 		    </div>
 			<div class="modal-footer" style="margin-top: 2%;">

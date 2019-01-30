@@ -91,7 +91,7 @@
 				</div>
 			</div>
 			<div  class="col-md-12">			
-				<div class="col-md-3"><img src="//pix6.agoda.net/hotelImages/108/108308/108308_16120714230049506378.jpg?s=450x302" width="200px"></div>					
+				<div class="col-md-3"><img src="<%= ctxPath%>/resources/images/boimg/${resDetail.roommainimg}" height="200px"; width="200px"></div>					
 				<div class="col-md-9 push_left">
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
 						<div class="col-md-5" style="float:left; padding-left: 4%;"><h5>예약 번호</h5></div>
@@ -146,7 +146,7 @@
 					<div class="col-md-12" style="padding: 3%;">
 						<div class="col-md-5"  style="float:left;"><h5>결제 금액</h5></div>
 						<div class="col-md-6 row" style="padding: 1%;">
-							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : ${resDetail.servicePrice}</div>
+							<div style="margin: 1%" class="roomTitle"><h6>서비스 세금 : ${resDetail.servicePrice}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>청소비 : ${resDetail.cleanpay}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>할인금액 :${resDetail.dcprice}</h6></div>
 							<div style="margin: 1%;" class="roomTitle"><h6>총 결제금액: ${resDetail.totalprice}</h6></div>

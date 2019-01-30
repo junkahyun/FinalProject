@@ -78,57 +78,35 @@ public class SWDAO implements InterSWDAO {
 		
 		return reservationList;
 	}
-
-	/*@Override
-	public List<RoomVO> getSWOptionList(HashMap<String, String> paraMap) {
-
-		List<RoomVO> resultList = new ArrayList<RoomVO>();
-		
-		// 해당 조건을 갖춘 숙소의 ROOMCODE 리스트 받아오기
-		List<RoomVO> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
-		
-		for(RoomVO room : optionList) { // roomcode들을 반복
-			room = sqlsession.selectOne("sw.getHomeList", room.getRoomcode());
-			
-			List<HashMap<String,String>> option = sqlsession.selectList("sw.getRoomOptionList",room.getRoomcode());
-			room.setOptionList(option);
-			List<HashMap<String,String>> ruleList = sqlsession.selectList("sw.getRuleList",room.getRoomcode());
-			room.setRuleList(ruleList);
-			
-			resultList.add(room);
-		}		
-		 
-		return resultList;
-	}*/
-
-	/*@Override
-	public List<RoomVO> getSWOptionList(HashMap<String, Object> paraMap) {
-		List<RoomVO> resultList = new ArrayList<RoomVO>();
-		
-		// 해당 조건을 갖춘 숙소의 ROOMCODE 리스트 받아오기
-		List<RoomVO> optionList = sqlsession.selectList("sw.getSWOptionList", paraMap);
-		
-		for(RoomVO room : optionList) { // roomcode들을 반복
-			room = sqlsession.selectOne("sw.getHomeList", room.getRoomcode());
-			
-			List<HashMap<String,String>> option = sqlsession.selectList("sw.getRoomOptionList",room.getRoomcode());
-			room.setOptionList(option);
-			List<HashMap<String,String>> ruleList = sqlsession.selectList("sw.getRuleList",room.getRoomcode());
-			room.setRuleList(ruleList);
-			
-			resultList.add(room);
-		}		
-		 
-		return optionList;
-	}*/
 	
 	@Override
-	public List<RoomVO> getSWOptionList(HashMap<String,String> paraMap) {
+	public List<RoomVO> getSWOptionList(HashMap<String,Object> paraMap) {
 
+		String rulename = (String)paraMap.get("RULENAME");
+		String roomtype_name = (String)paraMap.get("ROOMTYPE_NAME");
+		String optionname = (String)paraMap.get("OPTIONNAME");
+				
+		String[] rulenameArr = rulename.split(",");
+		String[] roomtypenameArr = roomtype_name.split(",");
+		String[] optionnameArr = optionname.split(",");
+		
+		paraMap.put("RULENAME", rulenameArr);
+		paraMap.put("ROOMTYPE_NAME", roomtypenameArr);
+		paraMap.put("OPTIONNAME", optionnameArr);		
+		
 		List<RoomVO> optionByHomeList = sqlsession.selectList("sw.getSWOptionList", paraMap);
 		
 		return optionByHomeList;
 	}
+
+	@Override
+	public List<RoomVO> getHomeListByOption(HashMap<String, String> paraMap) {
+
+		List<RoomVO> homeListByOption = sqlsession.selectList("sw.getHomeListByOption", paraMap);
+		
+		return homeListByOption;
+	}
+
 	
 	
 }

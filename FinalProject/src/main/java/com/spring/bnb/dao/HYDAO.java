@@ -53,8 +53,8 @@ public class HYDAO implements InterHYDAO {
 	@Override
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
-		System.out.println("check : "+loginuser.getUserid());
 		if(loginuser!=null) {
+			//System.out.println("check : "+loginuser.getUserid());
 			List<RoomVO> myroom = sqlsession.selectList("hy.checkHostUser",member);
 			if(myroom != null) {
 				loginuser.setMyroomList(myroom);
@@ -99,6 +99,7 @@ public class HYDAO implements InterHYDAO {
 		return recommendRoomList;
 	}
 	
+	@Override
 	public int insertBedroomInfo(HashMap<String,Object> paraMap) {
 		sqlsession.insert("hy.insertbedroom", paraMap.get("roomcode"));
 		int bedroom_idx = sqlsession.selectOne("hy.getBedroomIdx");
