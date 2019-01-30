@@ -3,6 +3,8 @@ package com.spring.bnb.controller;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,9 +48,6 @@ public class SHController {
 	// 관리자 회원관리 페이지(페이징처리 전)
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
-		
-		String gobackURL = MyUtil.getCurrentURL(req);
-		req.setAttribute("gobackURL", gobackURL);
 		
 		return "admin/adminMember.admintiles";
 	}
@@ -96,6 +95,14 @@ public class SHController {
 		paraMap.put("searchType", searchType);
 		
 		List<MemberVO> searchMember = service.getSearchMember(paraMap);
+		
+		for(int i=0; i<searchMember.size(); i++) {
+			try {
+				searchMember.get(i).setPhone(aes.decrypt(searchMember.get(i).getPhone()));
+			} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+				e.printStackTrace();
+			}
+		} 
 		
 		JSONArray jsonArr = new JSONArray();
 			
@@ -190,9 +197,14 @@ public class SHController {
 			MemberVO membervo = service.getMemberDetail(userid);
 			// System.out.println("membervo : "+membervo);
 			// System.out.println(membervo.getProfileimg());
+			try {
+				membervo.setPhone(aes.decrypt(membervo.getPhone()));
+				membervo.setEmail(aes.decrypt(membervo.getEmail()));
+			} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+				e.printStackTrace();
+			}
 		
 			List<HashMap<String, String>> reservation = service.getReservation(userid);
-			
 			// System.out.println("reservation : "+reservation);
 			
 			List<HashMap<String, String>> mycoupon = service.getMycoupon(userid);			
@@ -223,14 +235,14 @@ public class SHController {
 		return "admin/adminMember.admintiles";
 	}
 	
-	@RequestMapping(value="/adminVan.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/board_report.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
 
-		return "admin/adminVan.admintiles";
+		return "admin/board_report.admintiles";
 	}
 	
 	// 관리자 신고관리 페이지
-	@RequestMapping(value="/adminVanJSON.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/board_reportJSON.air", method= {RequestMethod.GET})
 	public String adminVanJSON(HttpServletRequest req) {
 		
 		HashMap<String, String> paraMap = null;
@@ -254,7 +266,7 @@ public class SHController {
 			currentShowPageNo = "1";
 		}
 		
-		int sizePerPage = 10;	// 한 페이지당 보여줄 갯수
+		int sizePerPage = 5;	// 한 페이지당 보여줄 갯수
 		
 		int rno1 = Integer.parseInt(currentShowPageNo)*sizePerPage - (sizePerPage-1);	// 공식!!!
 		int rno2 = Integer.parseInt(currentShowPageNo)*sizePerPage;	
@@ -304,7 +316,7 @@ public class SHController {
 		HashMap<String, String> paraMap = null;
 		
 		String currentShowPageNo = req.getParameter("currentShowPageNo");
-		String sizePerPage = "10";
+		String sizePerPage = "5";
 		
 		if(currentShowPageNo == null || "".equals(currentShowPageNo)) {
 			currentShowPageNo = "1";
@@ -334,7 +346,7 @@ public class SHController {
 		
 		int totalCount = service.getTotalCounts(paraMap);
 		// 원글 글번호에 해당하는 댓글의 총 갯수를 알아온다.
-		System.out.println(totalCount);
+		// System.out.println(totalCount);
 		// System.out.println(sizePerPage);
 		// 총 페이지 수 구하기
 		int totalPage = (int)Math.ceil((double)totalCount/Integer.parseInt(sizePerPage));
@@ -446,12 +458,10 @@ public class SHController {
 		return "admin/couponRegsEnd.admintiles";
 	}
 	
-	@RequestMapping(value="/adminVanDetail.air", method= {RequestMethod.GET}) 
+	@RequestMapping(value="/reportDetail.air", method= {RequestMethod.GET}) 
 	public String adminVanDetail(HttpServletRequest req) {
-		
-		
-		
-		return "";
+
+		return "admin/reportDetail.admintiles";
 	}
 	
 	

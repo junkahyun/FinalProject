@@ -229,6 +229,10 @@
 		</div>
 	</div>
 	
+	<div class="pageBar" id="pageBar"style="text-align: center; margin: 2%;">
+		
+	</div>
+	
 	<form name="memberFrm">
 		<input type="hidden" id="useriddel" name="useriddel"/>
 		<div id="searchbar" style="text-align: center;">
@@ -246,11 +250,6 @@
 	    </div>
 	</form>
 	
-	<div class="pageBar" id="pageBar"style="text-align: center; margin: 2%;">
-		
-	</div>
 	
-	<form name="goViewFrm">
-		<input type="hidden" name="gobackURL">
-	</form>
+
 

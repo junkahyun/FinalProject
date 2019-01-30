@@ -41,6 +41,8 @@
   
   <div class="col-md-12" style="padding: 2%; float: center; padding-left: 8%;">
 	  <table class="table table-bordered" style="width: 80%; padding-left: 8%;">
+	  	<col width="8%"/>
+	  	<col width="50%;"/>
 	      <tr>
 	        <th>이름</th>
 	        <td style="text-align: left;">${membervo.username}</td>
@@ -130,7 +132,7 @@
 	  </table>
 	  
 	  <div style="text-align: center;">
-	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="javascript:location.href='${gobackURL}'">뒤로가기</button>
+	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="javascript:location.href='<%= request.getContextPath()%>/adminMember.air'">목록보기</button>
 	  </div>
     </div>
   

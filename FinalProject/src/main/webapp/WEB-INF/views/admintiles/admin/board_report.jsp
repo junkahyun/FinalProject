@@ -36,7 +36,7 @@
 		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
 		
 		$.ajax({
-			url:"<%=request.getContextPath()%>/adminVanJSON.air",
+			url:"<%=request.getContextPath()%>/board_reportJSON.air",
 			type:"GET",
 			data:data_form,
 			dataType:"JSON",
@@ -47,10 +47,10 @@
 						var status = "";
 						
 						if(entry.report_status == 1) {
-							status = "<td style='text-align: center;'>처리</td>";
+							status = "<td style='text-align: center; font-weight: bold;'>해결</td>";
 						}
 						else if(entry.report_status == 0) {
-							status = "<td style='text-align: center;'><button type='button' class='btn btn-info' name=''>미처리</button></td>";
+							status = "<td style='text-align: center; font-weight: bold;'>미해결</td>";
 						}
 					
 						
