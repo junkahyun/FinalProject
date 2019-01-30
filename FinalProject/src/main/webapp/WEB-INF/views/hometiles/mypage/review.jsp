@@ -38,9 +38,17 @@ thead>tr>th{
 
 	border: 1px solid lightgray;
 }
+
 </style>
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+	
+	
+	
+	
+});
 </script>
 
 <div class="row firstDIV">
@@ -154,6 +162,7 @@ thead>tr>th{
 				 </table>
 			  </c:if>	
 			</c:forEach> 
+			<c:if test="${totalCount > 10}"><div align="center" style="width: 70% ;">${pageBar}</div></c:if>			
          </div>
 	   </div>
 	   <!-- 작성해야 할 후기 -->
@@ -241,9 +250,9 @@ thead>tr>th{
 						  </thead>
 					 	 </c:if>							 
 					  <tbody>					  
-					    <tr id="tbody_td ">
+					    <tr id="tbody_td">
 					      <td>${wirteReview.review_idx}</td>
-					      <td><a href="">${wirteReview.room.roomName}</a></td>
+					      <td><a href="<%= ctxPath %>/homeDetail.air?roomcode=${rsvCode.roomcode}">${wirteReview.room.roomName}</a></td>
 					      <td>${wirteReview.review_content}</td>
 					      <td>${wirteReview.review_writedate}</td>
 						</tr>
