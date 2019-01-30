@@ -36,9 +36,9 @@
 
 <script>
 
-	function start(){
+	function next(){
 		var frm = document.roomstep3;
-		frm.action = "roomstep3page.air";
+		frm.action = "roomfinish.air";
 		frm.method = "GET";
 		frm.submit();
 	}
@@ -65,7 +65,7 @@
 		
 		<div class="col-md-4 complete" style="border: 0px solid red; padding: 0; float: right;">
 			숙소등록을 완료하시겠습니까?<br/>
-			<button id="" type="button" style="margin-top:25px; width: 250px; height: 50px; font-size:18px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; ">완료하기</button>
+			<button onclick="next();" type="button" style="margin-top:25px; width: 250px; height: 50px; font-size:18px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; ">완료하기</button>
 		</div>
 	</div>
 

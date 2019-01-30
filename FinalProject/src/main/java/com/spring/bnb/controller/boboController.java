@@ -1,12 +1,16 @@
 package com.spring.bnb.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +37,9 @@ public class boboController {
 	
 	@Autowired
 	private boboService service;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	@RequestMapping(value="/roomstep1.air", method={RequestMethod.GET})
 	public String roomstep1(HttpServletRequest req) {
@@ -113,6 +120,9 @@ public class boboController {
 		
 		HttpSession session = req.getSession();	
 		
+		// roomvo에 들어간 값들을 세션에 저장한다 
+		session.setAttribute("roomvo", roomvo);
+		
 		String[] optionchk = req.getParameterValues("optionchk");
 		String[] rulechk = req.getParameterValues("rulechk");
 		
@@ -141,19 +151,67 @@ public class boboController {
 		return "become-host/room-step2-page.hosttiles_nofooter";
 	}
 	
-	// 이미지 파일명 가져오기
+	// 이미지 파일 가져오기
 	@RequestMapping(value="/fileListJOSN.air", method={RequestMethod.POST})
-	public String fileListJOSN(HttpServletRequest req,  @RequestParam("fileList") List<MultipartFile> fileArr) {
+	public String fileListJOSN(MultipartHttpServletRequest req) throws Exception {
 		
-		String[] fileList = req.getParameterValues("fileList");
-		JSONArray jsonArr = new JSONArray();
+		List<MultipartFile> fileList = req.getFiles("file");
 		
-		System.out.println(fileList);
+		HttpSession session = req.getSession();
+		RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
+		if(fileList != null) {  // 이미지첨부 다중파일을 받아왔다라면 
+			// 이미지첨부 다중파일을 업로드할 WAS 의 webapp 의 절대경로를 알아와야 한다. 
+			String root = req.getServletContext().getRealPath("/");
+	        //System.out.println(root);
+	        String realPath = root+"resources"+File.separator+"images"+File.separator+"becomehost";
+	        //System.out.println(realPath);
+			// path 가 첨부파일들을 저장할 WAS(톰캣)의 폴더가 된다. 
+			
+			String roomImgfilename = ""; // WAS(톰캣) 디스크에 저장할 파일명 
+			
+			byte[] bytes = null;    // 첨부파일을 WAS(톰캣) 디스크에 저장할때 사용되는 용도 
+			
+			List<String> imgList = new ArrayList<String>();
+			
+			for(int i=1; i<fileList.size(); i++) { 
+				 bytes = fileList.get(i).getBytes(); // 첨부파일의 내용물(byte)을 읽어옴.
+				 
+				 // 파일업로드 한 후 업로드되어진 파일명  가져오기
+				 roomImgfilename = fileManager.doFileUpload(bytes, fileList.get(i).getOriginalFilename(), realPath);
+				 // 예를들어 newFileName 에는  2019012519592316420706146795.png 와 같은 것이 들어옴.
+
+				 imgList.add(roomImgfilename);
+
+			}// end of for------------------------------------------------
+
+			// file의 첫번째를 메인이미지로 한다.
+			String roomMainImg = fileManager.doFileUpload(bytes, fileList.get(0).getOriginalFilename(), realPath);
+			roomvo.setRoomMainImg(roomMainImg);
+			
+			// 나머지 이미지들을 set
+			roomvo.setRoomimgList(imgList);
+			
+		}// end of if---------------------------------------
+
+
 		
-/*		for(String val : fileList) {
-			System.out.println(val);
+		
+		//System.out.println(roomMainImg);
+		
+		/*List<String> roomimgList = new ArrayList<String>(); 
+		
+		for(int i=1; i<roomimgList.size(); i++) {
+			String roomimgname = fileList.get(i).getOriginalFilename();
+			roomimgList.add(roomimgname);
 		}
-*/
+		roomvo.setRoomimgList(roomimgList);
+		*/
+		
+		// roomvo에 들어간 값들을 세션에 저장한다 
+		session.setAttribute("roomvo", roomvo);
+		
+		JSONArray jsonArr = new JSONArray();
+
 		jsonArr.put(fileList);
 		
 		String str_json = jsonArr.toString();
@@ -162,15 +220,22 @@ public class boboController {
 		return "JSON";
 	}
 	
-	@RequestMapping(value="/roomstep3.air", method={RequestMethod.POST})
-	public String roomstep3(RoomVO roomvo, HttpServletRequest req,  @RequestParam("file") List<MultipartFile> fileList) {	
-			HttpSession session = req.getSession();
-			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			loginuser.setUserid("leess");
-			for(MultipartFile val : fileList) {
-				System.out.println(val.getOriginalFilename());
-			}
-
+	@RequestMapping(value="/roomstep3.air", method={RequestMethod.GET})
+	public String roomstep3(HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
+		RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
+		
+		// 파라미터 값에 RoomVO 안들어가서 이렇게 했다 
+		String roomInfo = req.getParameter("roomInfo");
+		String roomName = req.getParameter("roomName");
+		
+		roomvo.setRoomInfo(roomInfo);
+		roomvo.setRoomName(roomName);
+		
+		// roomvo에 들어간 값들을 세션에 저장한다 
+		session.setAttribute("roomvo", roomvo);
+		
 		return "become-host/room-step3.hosttiles_nofooter";
 	}
 	
@@ -183,27 +248,51 @@ public class boboController {
 	@RequestMapping(value="/roomlaststep.air", method={RequestMethod.GET})
 	public String roomlaststep(HttpServletRequest req) {
 		
+		HttpSession session = req.getSession();
+		RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
+		
+		String checkInTime = req.getParameter("checkInTime");
+		String checkOutTime = req.getParameter("checkOutTime");
+		String roomPrice = req.getParameter("roomPrice");
+		String peakper = req.getParameter("peakper");
+		String person_addpay = req.getParameter("person_addpay");
+		String cleanPay = req.getParameter("cleanPay");
+		String roomTel = req.getParameter("roomTel");
+		
+		roomvo.setCheckInTime(checkInTime);
+		roomvo.setCheckOutTime(checkOutTime);
+		roomvo.setRoomPrice(roomPrice);
+		roomvo.setPeakper(peakper);
+		roomvo.setPerson_addpay(person_addpay);
+		roomvo.setCleanPay(cleanPay);
+		roomvo.setRoomTel(roomTel);
+		// roomvo에 들어간 값들을 세션에 저장한다 
+		session.setAttribute("roomvo", roomvo);
+		
 		return "become-host/room-lastStep.hosttiles_nofooter";
 	}
 	
-	@RequestMapping(value="/test5.air", method={RequestMethod.GET})
-	public String test5(HttpServletRequest req) {
+	@RequestMapping(value="/roomfinish.air", method={RequestMethod.GET})
+	public String roomfinish(HttpServletRequest req) {
 		
-		return "become-host/test5.hosttiles_nofooter";
+		HttpSession session = req.getSession();		
+		RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		roomvo.setHost(loginuser);
+		System.out.println(roomvo.getHost().getUserid());
+		
+		int n = service.becomehost(roomvo);
+		//int m = service.imgList(roomvo);
+		if(n ==1) {
+			return "host/hostroomList.hosttiles";
+		}
+		else return "become-host/error.hosttiles_nofooter";
+
+		
 	}
 	
-	@RequestMapping(value="/roomimage.air", method={RequestMethod.GET})
-	public String roomimage(HttpServletRequest req) {
-		
-		return "become-host/roomimage2.hosttiles_nofooter";
-	}
-	
-	@RequestMapping(value="/roomimage3.air", method={RequestMethod.GET})
-	public String roomimage3(HttpServletRequest req) {
-		
-		return "become-host/roomimage3.hosttiles_nofooter";
-	}
-	
+
 	
 }
  

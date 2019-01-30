@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.bnb.model.RoomVO;
+
 @Repository
 public class boboDAO implements InterBODAO{
 	
@@ -46,6 +48,20 @@ public class boboDAO implements InterBODAO{
 	public List<String> selectrule() {
 		List<String> rule = sqlsession.selectList("bobo.selectrule");
 		return rule;
+	}
+
+	// 숙소 insert
+	@Override
+	public int becomehost(RoomVO roomvo) {
+		int n = sqlsession.insert("bobo.becomehost", roomvo);
+		return n;
+	}
+
+	// 이미지 테이블 insert
+	@Override
+	public int imgList(RoomVO roomvo) {
+		int n = sqlsession.insert("bobo.imgList", roomvo);
+		return n;
 	}
 
 }

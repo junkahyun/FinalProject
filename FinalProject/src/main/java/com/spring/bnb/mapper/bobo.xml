@@ -64,6 +64,22 @@
 		from allrule
 		order by rule_idx
 	</select>
+	
+	<!-- 숙소 insert -->
+	<insert id="becomehost" parameterType="com.spring.bnb.model.RoomVO"> 
+   	  	insert into room(roomcode, fk_userid, fk_buildType_detail_idx, fk_roomType_idx, roomName, roomMainImg, roomTel, roomInfo, roomPost
+                ,roomSigungu, roomSido, roomBname, roomdetailAddr, roomPrice, peakper, cleanPay, basic_person, max_person
+                ,person_addpay ,roomcount, bathCount, checkInTime, checkOutTime, latitude, longitude, viewcount, roomstatus, room_warnCount) 
+		values('R'||#{fk_roomType_idx}||#{fk_buildType_detail_idx}||roomcode_seq.nextval, #{host.userid}, #{fk_buildType_detail_idx}, #{fk_roomType_idx}
+		       ,#{roomName}, #{roomMainImg}, #{roomTel}, #{roomInfo}, #{roomPost}, #{roomSigungu}, #{roomSido}, #{roomBname}, #{roomDetailAddr}, #{roomPrice}
+		       ,#{peakper}, #{cleanPay}, #{basic_person}, #{max_person}, #{person_addpay}, #{roomCount}, #{bathCount}, #{checkInTime}, #{checkOutTime}, #{latitude}
+		       ,#{longitude}, default, default, default)
+    </insert>
+    
+    <insert id="becomehost" parameterType="com.spring.bnb.model.RoomVO"> 	
+   	  	insert into roomimg(roomimg_idx, fk_roomcode, img)
+		values(roomimg_idx_seq.nextval(), 'R'||#{fk_roomType_idx}||#{fk_buildType_detail_idx}||roomcode_seq.nextval(), #{roomimgList})
+    </insert>
 
  
 	

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.boboDAO;
+import com.spring.bnb.model.RoomVO;
 
 @Service
 public class boboService implements InterBOService{
@@ -47,6 +48,20 @@ public class boboService implements InterBOService{
 	public List<String> selectrule() {
 		List<String> rule = dao.selectrule();
 		return rule;
+	}
+
+	// 숙소 insert
+	@Override
+	public int becomehost(RoomVO roomvo) {
+		int n = dao.becomehost(roomvo);
+		return n;
+	}
+
+	//이미지 테이블 insert
+	@Override
+	public int imgList(RoomVO roomvo) {
+		int n = dao.imgList(roomvo);
+		return n;
 	}
 
 }

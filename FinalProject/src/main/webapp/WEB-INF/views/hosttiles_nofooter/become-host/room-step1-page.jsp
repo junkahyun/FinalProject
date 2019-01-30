@@ -875,7 +875,7 @@
 		            <div class="col-md-10" style="margin-top: 25px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">상세주소(필수)</div>  
 						<div class="col-md-12" style="border: 0px solid blue; padding-right: 0;">
-							<input type="text" id="addrDetail" name="roomdetailAddr" style="margin: 0; padding: 25px" class="input-data form-control error4" placeholder="예) 35동 3층 301호"/>
+							<input type="text" id="addrDetail" name="roomDetailAddr" style="margin: 0; padding: 25px" class="input-data form-control error4" placeholder="예) 35동 3층 301호"/>
 							<div class="error4_text">상세주소를 입력하세요.</div>
 						</div>
 		            </div>

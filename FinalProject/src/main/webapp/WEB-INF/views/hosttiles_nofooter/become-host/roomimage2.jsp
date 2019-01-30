@@ -80,8 +80,8 @@
               	   for(var i=0; i<10; i++){
               		   
               		 var html = "";
-                     html += "<div id='fileTr_" + fileIndex + "'>";
-                     html +=         filesArr[i].name + " / " + filesArr[i].size + "MB "  + "<a href='#' onclick='deleteFile(" + fileIndex + "); return false;' class='btn small bg_02'>삭제</a>"
+                     html += "<div id='fileTr_" + fileIndex + "'>"
+                     html += filesArr[i].name + " / " + filesArr[i].size + "MB "  + "<a href='#' onclick='deleteFile(" + fileIndex + "); return false;' class='btn small bg_02'>삭제</a>"
                      html += "</div>"
 
                    	$("#imgname").append(html);   
