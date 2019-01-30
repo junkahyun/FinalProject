@@ -61,14 +61,26 @@
 		from dual	
 	</select>
 	
-	<insert id="insertReservation" parameterType="HashMap">
+	<!-- <insert id="insertReservation" parameterType="HashMap">
 		insert into RESERVATION (RSVCODE,FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT
 		,RSV_NAME,RSV_PHONE,RSV_EMAIL,RSV_CHECKINDATE,RSV_CHECKOUTDATE,
 		PAYDATE,TOTALPRICE,RSV_MSG,DCPRICE,RSV_CANCLEDATE)
 		values(#{revcode},#{roomcode},#{my_userid},#{guestCount},#{babyCount}
 		,#{username},#{phone},#{email},
 		#{checkin},#{checkout},sysdate,#{totalprice},#{message},'','')
-	</insert>
+	</insert> -->
+	
+	<!-- <insert id="insertReservation" statementType="CALLABLE" parameterType="HashMap">
+		{call pcd_reservation_insert (
+		
+		
+		
+		
+										)
+		
+		}
+	</insert> -->
+	
 	
 	<select id="getOneReserve" parameterType="HashMap" resultType="com.spring.bnb.model.ReservationVO">
 		select*
