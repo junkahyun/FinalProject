@@ -6,41 +6,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-import javax.mail.PasswordAuthentication;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.SynthSeparatorUI;
-import javax.swing.plaf.synth.SynthSplitPaneUI;
-
-import org.apache.commons.digester.Substitutor;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.bnb.model.MemberVO;
-import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.service.InterSOService;
 import com.spring.common.AES256;
 import com.spring.common.FileManager;
 import com.spring.common.GoogleMail;
 import com.spring.common.MyUtil;
-import com.sun.org.apache.bcel.internal.generic.CPInstruction;
 
 @Controller
 public class SOController {
@@ -74,7 +63,8 @@ public class SOController {
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
 		String userid = mvoUser.getUserid();
-
+		
+		
 		String currentShowPageNo = req.getParameter("currentShowPageNo");
 		
 		int sizePerPage =10; 
@@ -159,7 +149,6 @@ public class SOController {
 		String sizePerPage = req.getParameter("sizePerPage");
 		String page = req.getParameter("page");
 		
-		System.out.println("page"+page);
 		JSONObject jobj = new JSONObject();
 		int totalPage = 0;
 		if("1".equals(page)) {
@@ -188,43 +177,49 @@ public class SOController {
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
 	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		
 
+		
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		try {	
-
-			loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
-			loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
-			int gender = loginMember.getGender();
-			String str_gender = "";
-			switch (gender) {
-			case 1:
-				str_gender = "Male";
-				break;
-			case 2:
-				str_gender = "Female";
-				break;
-
-			default: str_gender = "Other";
-				break;
-			}
-			String birthday= loginMember.getBirthday();
-			
-			ServletContext application = req.getServletContext();
-			String realPath = application.getRealPath("/resources/images/profile");
-			
-			String birthdayYY = birthday.substring(0, 4);
-			String birthdayMM = birthday.substring(5,7);
-			String birthdayDD = birthday.substring(8,10);
-			req.setAttribute("realPath", realPath);
-			req.setAttribute("birthdayYY", birthdayYY);
-			req.setAttribute("birthdayMM", birthdayMM);
-			req.setAttribute("birthdayDD", birthdayDD);
-			req.setAttribute("str_gender", str_gender);
-			req.setAttribute("loginMember", loginMember);
 				
-		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
-			System.out.println("email 복호화 실패 !");
-		}
+			if(loginMember != null) {
+				try {
+					loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
+					loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
+				} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+					loginMember.setEmail(loginMember.getEmail());
+					loginMember.setPhone(loginMember.getPhone());
+				}
+				int gender = loginMember.getGender();
+				String str_gender = "";
+				switch (gender) {
+				case 1:
+					str_gender = "Male";
+					break;
+				case 2:
+					str_gender = "Female";
+					break;
+
+				default: str_gender = "Other";
+					break;
+				}
+				String birthday= loginMember.getBirthday();
+				ServletContext application = req.getServletContext();
+				String realPath = application.getRealPath("/resources/images/profile");
+				
+				String birthdayYY = birthday.substring(0, 4);
+				String birthdayMM = birthday.substring(5,7);
+				String birthdayDD = birthday.substring(8,10);
+				req.setAttribute("realPath", realPath);
+				req.setAttribute("birthdayYY", birthdayYY);
+				req.setAttribute("birthdayMM", birthdayMM);
+				req.setAttribute("birthdayDD", birthdayDD);
+				req.setAttribute("str_gender", str_gender);
+				req.setAttribute("loginMember", loginMember);
+					
+			} 
+			
+			
+		
 		
 		return "mypage/myEdit.hometiles";		
 	}
@@ -233,34 +228,27 @@ public class SOController {
 	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)		
 	public String verifyCertification(HttpServletRequest req,HttpServletResponse res) {
 		
-	//String userid = req.getParameter("userid");
-	String userid = "leess";
+	HttpSession session = req.getSession();
+	MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+	String userid = loginMember.getUserid();
+	
 	String userCertificationCode = req.getParameter("userCertificationCode");
-	System.out.println("verifyCerrificationAction userid : " +userid);
-	//유저가 입력한 값과 세션에 입력한 값을 비교해본다
-	HttpSession session =  req.getSession();
 	String certificationCode = (String)session.getAttribute("certificationCode");
 	String msg ="";
 	String loc ="";
 	
-	
-	System.out.println(userCertificationCode +"//////" + certificationCode);
-	
 	if(certificationCode.equalsIgnoreCase(userCertificationCode)) {
 		session.setAttribute("userid", userid);
-		/*req.setAttribute("userid", userid);*/
+		
 		System.out.println("인증 성공 ! : "+userid);
-		//사용자가 입력한 값과 인증코드가 동일하다면
+		
 		msg = "인증에 성공하였습니다";
 		loc = req.getContextPath()+"/myEidt.air";
-		//인증에 성공하였을 경우 데이테베이스에 저장해 주어야 하는데 데이터 베이스에 넘길때 pwd 뿐만 아니라 userid도 넘겨야한다.
-		//pwdConfirm.do 에 넘어갈때 POST 방식으로 넘어가며 userid 값이 필요하다.
-		
+
 	}else {
 		msg = "발급된 인증코드를 입력하세요";
 		
 		loc = req.getContextPath()+"/myEidt.air";
-		//인증코드를 잘못 받았다면 다시 처음부터 해라 =>pwdFind.do
 	}
 	session.setAttribute("userid", userid);
 
@@ -268,7 +256,7 @@ public class SOController {
 	req.setAttribute("loc",loc);
 	
 	session.removeAttribute("certificationCode");
-	//sesseion 의 저장된어진 인증코드를 삭제한다
+
 	JSONObject jobj = new JSONObject();
 	
 	jobj.put("ok", "ok");
@@ -282,30 +270,23 @@ public class SOController {
 	public String sendCode(HttpServletRequest req,HttpServletResponse res) {
 		
 		String method = req.getMethod();
-		// GET or POST
-		//처음에는 겟방식으로 보여짐
-		String userid ="leess";
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
 		String email = req.getParameter("changeEmail");
-		//if("POST".equalsIgnoreCase(method)) {
 
-		//회원 으로 존재하는 경우
 		GoogleMail gmail = new GoogleMail();
-		//인증키를 랜덤하게 생성하도록 한다.
+
 		Random rnd = new Random();
 		
 		String certificationCode="";
-		// certificationCode = "ewrfs0003483"
-		
+				
 		char randchar=' ';
 		
 		for(int i=0;i<5;i++) {
-			// min 부터 max 사이의 값으로 랜덤한 정수를 얻으려면
-			// int rndnum = rnd.nextInt(max-min +1)+min
-			// 영문 소문자 'a'부터 'z'까지 중 랜덤하게 1개를 만든다.
-			
-			
+	
 			randchar = (char)(rnd.nextInt('z'-'a'+1)+'a');
-			//(char)97;
+			
 			certificationCode +=randchar;					
 		}				
 		int randint=0;
@@ -314,12 +295,9 @@ public class SOController {
 			certificationCode +=randint;
 		}
 					
-		//랜덤하게 생성한 인증코드를 비밀번호 찾기를 하고자하는 사용자의 email 로 전송시킨다 
 			try {			
 					gmail.sendmail(email, certificationCode);
-					//req.setAttribute("certificationCode", certificationCode);
-					HttpSession session =  req.getSession();
-					//자바에서 발급한 인증코드를 세션에 저장
+								
 					session.setAttribute("certificationCode", certificationCode);
 			} catch (Exception e) {
 					e.printStackTrace();
@@ -330,7 +308,6 @@ public class SOController {
 			req.setAttribute("userid", userid);
 			req.setAttribute("email", email);
 
-	//}
 			JSONObject jobj = new JSONObject();
 			jobj.put("ok", "ok");
 			String str_json = jobj.toString();
@@ -374,7 +351,7 @@ public class SOController {
 							ServletContext application = req.getServletContext();
 							String realPath = application.getRealPath("/resources/images/profile");
 							
-							//realPath = req.getContextPath()+"/resources/images/profile";
+							realPath = req.getContextPath()+"/resources/images/profile";
 							
 							filename = multipartFile.getOriginalFilename();
 							
@@ -385,18 +362,13 @@ public class SOController {
 							if(file.exists()) {
 								filename = System.currentTimeMillis()+"_"+filename;
 								file = new File(realPath,filename);
-							}
-							System.out.println("업로드 경로 "+realPath);
-							System.out.println("업로드 파일명"+filename);
-							
+							}						
 							
 								IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
-								member.setProfileimg(filename);
-								System.out.println("11"+filename);
+								member.setProfileimg(filename);								
 							
 						}else {
 							filename = req.getParameter("profileimg");
-							System.out.println(filename);
 							member.setProfileimg(filename);
 							System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
 						}				
@@ -413,7 +385,7 @@ public class SOController {
 						service.memberUpdate(member);
 					}
 			}catch (GeneralSecurityException e) {
-						System.out.println("암호화 실패 !");
+				System.out.println("암호화 실패 !");
 					}				
 			String msg="회원정보 수정 성공!";
 			String loc="/bnb/myEdit.air";
@@ -434,7 +406,6 @@ public class SOController {
 
 		List<HashMap<String,String>> memberResList = service.getMemberReservationList(userid);
 		//회원 예약 내용 가져오기
-		System.out.println(memberResList.get(1).get("rsvcode"));
 		req.setAttribute("memberResList", memberResList);
 		req.setAttribute("userid", userid);
 		
@@ -466,17 +437,19 @@ public class SOController {
 			
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
 		HashMap<String,String> buildtype = service.getBuildType(roomcode);
+				
+		String email="";
+		String phone="";
+		try {
+			email = aes.decrypt(resDetail.get("email"));
+			phone = aes.decrypt(resDetail.get("phone"));
+		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			System.out.println("예약 상세보기  이메일/전화번호 복호화 실패!");
+		}		 
 		
+		resDetail.put("email", email);
+		resDetail.put("phone", phone);
 		
-		/*
-		System.out.println("email : " + myReservationScheduleDetail.get("email"));
-		 
-		String email = aes.decrypt(myReservationScheduleDetail.get("email"));
-		 
-		System.out.println("복호화  email : "+email);
-		myReservationScheduleDetail.put("email", email);
-		System.out.println(myReservationScheduleDetail.get("email"));
-		*/
 		req.setAttribute("buildtype",buildtype);
 		req.setAttribute("bedtype", bedtype);		
 		req.setAttribute("resDetail", resDetail);
@@ -504,15 +477,18 @@ public class SOController {
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
 		HashMap<String,String> buildtype = service.getBuildType(roomcode);
 				
-		/*
-		System.out.println("email : " + myReservationScheduleDetail.get("email"));
-		 
-		String email = aes.decrypt(myReservationScheduleDetail.get("email"));
-		 
-		System.out.println("복호화  email : "+email);
+		String email="";
+		String phone="";
+		try {
+			email = aes.decrypt(myReservationScheduleDetail.get("email") );
+			phone = aes.decrypt(myReservationScheduleDetail.get("phone"));
+		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			System.out.println("예약 상세보기  이메일/전화번호 복호화 실패!");
+		}		 
+		
 		myReservationScheduleDetail.put("email", email);
-		System.out.println(myReservationScheduleDetail.get("email"));
-		*/
+		myReservationScheduleDetail.put("phone", phone);
+		
 		req.setAttribute("buildtype", buildtype);
 		req.setAttribute("bedtype", bedtype);
 		req.setAttribute("myRsvDetail", myReservationScheduleDetail);
@@ -555,10 +531,9 @@ public class SOController {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
-		///////////////////////////////////////////////////////////////////////////		
-		
-		// *** 나에게 쓴 후기 ***
 				
+		// *** 나에게 쓴 후기 ***
+		
 		String str_currnetShowPageNo = req.getParameter("currnetShowPageNo");
 		
 		int totalCount = 0; // 조건에 맞는 총 게시물 건수
@@ -572,12 +547,12 @@ public class SOController {
 		totalCount = service.getTotalHostReviewCount(userid); // 총 게시물 갯수 
 		totalPage = (int)Math.ceil((double)totalCount/sizePerPage); // 총 페이지 수 
 			
-		if(str_currnetShowPageNo == null) { // 게시판 초기화면 일 경우
+		if(str_currnetShowPageNo == null) { 
 			currentShowPageNo =1;
-		}else { // 특정 페이지를 조회한 경우
-			try {// 유저가 currnetShowPageNo 에 문자를 입력 했을 경우 
+		}else { 
+			try {
 					currentShowPageNo = Integer.parseInt(str_currnetShowPageNo);
-					if(currentShowPageNo <1 || currentShowPageNo>totalPage) {// 유저가 임의의 값을 넣었을 경우
+					if(currentShowPageNo <1 || currentShowPageNo>totalPage) {
 						currentShowPageNo =1;	
 					}
 					
@@ -595,14 +570,10 @@ public class SOController {
 		
 		List<HashMap<String,String>> myReadReview = service.getHostReview(paraMap);
 		
-		// ==== #120. 페이지 바 만들기 ====
 		String pageBar = "<ul>";
 		pageBar += MyUtil.getPageBar(sizePerPage, blockSize, totalPage, currentShowPageNo, "review.air");
 		pageBar += "</ul>";
-		
-		
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+				
 		//	*** 내가 쓴 후기 ***
 		List<ReviewVO> myWriteReview = service.getMyReview(userid);
 
@@ -617,7 +588,7 @@ public class SOController {
 		return "mypage/review.hometiles";
 	}
 	
-	
+	// 나의 쿠폰 등록하기 
 	@RequestMapping(value = "/couponReg.air", method = {RequestMethod.GET,RequestMethod.POST})
 	public String couponReg(HttpServletRequest req, HttpServletResponse res) {
 		
@@ -633,7 +604,7 @@ public class SOController {
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
 		String coupon = req.getParameter("coupon");
-		System.out.println(coupon);
+		
 		//*** 쿠폰 정보 존재 확인 ***	
 		
 		if(coupon == null || ("").equals(coupon.trim())) {
@@ -647,8 +618,7 @@ public class SOController {
 		}else {
 			
 			int n= service.getCoupon(coupon);
-			System.out.println("쿠폰 정보 존재 확인 : "+n);
-		
+					
 			if(n==1) {
 				n = 1;
 				
@@ -668,7 +638,7 @@ public class SOController {
 				
 	}
 	
-	
+	// 나의 예약 지도 보기 
 	@RequestMapping(value = "/myReservationMAP.air", method = RequestMethod.GET)
 	public String myReservationMAP(HttpServletRequest req, HttpServletResponse res) {
 		HttpSession session = req.getSession();
@@ -686,7 +656,7 @@ public class SOController {
 		return "mypage/myReservationMAP.notiles";
 	}
 	
-	@RequestMapping(value = "/ddd.air", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/ddd.air", method = RequestMethod.GET)
 	public String ddd(HttpServletRequest req, HttpServletResponse res) {
 
 		return "hostAd/ddd.hosttiles";
@@ -696,7 +666,7 @@ public class SOController {
 	public String dddd(HttpServletRequest req, HttpServletResponse res) {
 
 		return "mypage/dddd.hometiles";
-	}
+	}*/
 	
 	
 }
