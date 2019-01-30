@@ -112,7 +112,9 @@ $(document).ready(function(){
 				var city = $("#searchcity").val();
 				var checkin = $("#startdate").val();
 				var checkout = $("#enddate").val();
-				
+				console.log(city);
+				console.log(checkin);
+				console.log(checkout);
 				var flag = false;
 				
 				if(city == "도시"){
@@ -131,7 +133,10 @@ $(document).ready(function(){
 					return;
 				}
 				if(!flag){
-					location.href="list.air?city="+city+"checkin="+checkin+"checkout="+checkout;	
+					var frm = document.goListFrm;
+					frm.method = "GET";
+					frm.action = "list.air";
+					frm.submit();	
 				} 
 			});
 			

@@ -28,17 +28,19 @@ public class SWController {
 	private InterSWService service;
 	
 	@RequestMapping(value = "/list.air", method = RequestMethod.GET)
-	public String index(HttpServletRequest req) {
-		/*List<Integer> testList = new ArrayList<Integer>();
-		for(int i=0; i<9; i++) {
-			testList.add(i);
-			
-		}*/
-		req.getParameter("city");
-		req.getParameter("checkin");
-		req.getParameter("checkout");
+	public String list(HttpServletRequest req) {
 		
-		/*req.setAttribute("testList", testList);*/
+		String city = req.getParameter("sido");
+		String checkin = req.getParameter("checkin");
+		String checkout = req.getParameter("checkout"); 
+		
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("CITY", city);
+		paraMap.put("CHECKIN", checkin);
+		paraMap.put("CHECKOUT", checkout);
+		
+		/*System.out.println(paraMap);*/
+		
 		// 숙소유형(대)
 		List<String> buildList = service.getBuildList();		
 		// 옵션종류
@@ -47,41 +49,20 @@ public class SWController {
 		List<String> roomType = service.getRoomType();
 		// 이용규칙
 		List<String> roomRule = service.getRoomRule();
-		// 숙소유형(소)
-		List<RoomVO> roomList = service.getRoomList();
+		// 전체 숙소리스트
+		List<RoomVO> roomList = service.getRoomList(paraMap);
 			
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
 		req.setAttribute("roomRule", roomRule);
 		req.setAttribute("roomList", roomList);
+		req.setAttribute("city", city);
+		req.setAttribute("checkin", checkin);
+		req.setAttribute("checkout", checkout);
 		
 		return "home/homeList.hometiles_nofooter";
-	}
-	
-/*	
-	@RequestMapping(value = "/homeName.air", method = {RequestMethod.GET})
-	@ResponseBody
-	public List<HashMap<String, Object>> buildDetailName(HttpServletRequest req, HttpServletResponse res) {
-		
-		String buildName1 = req.getParameter("buildName1");
-		
-		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
-		
-		List<String> buildDetailName = service.getBuildDetailList(buildName1);;
-		
-		for(String test : buildDetailName) {
-			System.out.println(test);
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			
-			map.put("buildDetailName", test);
-			
-			mapList.add(map);
-		}
-		
-		return mapList;
-	}
-*/	
+	}	
 	
 	@RequestMapping(value = "/homeName.air", method = {RequestMethod.GET})
 	public String buildDetailName(HttpServletRequest req, HttpServletResponse res) {
@@ -100,8 +81,6 @@ public class SWController {
 			
 			jsonArr.put(jsonObj);
 		}
-		
-		
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
@@ -150,6 +129,8 @@ public class SWController {
 			else {
 				jsonObj.put("ROOMNAME", roomvo.getRoomName());
 			}
+			jsonObj.put("LATITUDE", roomvo.getLatitude());
+			jsonObj.put("LONGITUDE", roomvo.getLongitude());
 			
 			jsonArr.put(jsonObj);
 		}
@@ -186,13 +167,12 @@ public class SWController {
 		String[] rulename = req.getParameterValues("rulename");
 		String[] roomtype_name = req.getParameterValues("roomtype_name");
 		String[] optionname = req.getParameterValues("optionname");
-		String[] city = req.getParameterValues("city");
+		String city = req.getParameter("city");
 			
 		String rulenameStr = "";
 		String roomtype_nameStr = "";
 		String optionnameStr = "";
-	
-		List<String> rulenameList = new ArrayList<String>();
+		
 		if(rulename != null) {
 			for(int i=0; i<rulename.length; i++) {
 				String rule = rulename[i];				
@@ -203,10 +183,9 @@ public class SWController {
 					rulenameStr += rule;
 				}				
 			}
-		//	System.out.println(rulenameStr);
+			System.out.println(rulenameStr);
 		}
 		
-		List<String> roomtype_nameList = new ArrayList<String>();
 		if(roomtype_name != null) {
 			for(int i=0; i<roomtype_name.length; i++) {
 				String roomtype = roomtype_name[i];				
@@ -217,10 +196,9 @@ public class SWController {
 					roomtype_nameStr += roomtype;
 				}				
 			}
-		//	System.out.println(roomtype_nameStr);
+			System.out.println(roomtype_nameStr);
 		}
 		
-		List<String> optionnameList = new ArrayList<String>();
 		if(optionname != null) {
 			for(int i=0; i<optionname.length; i++) {
 				String option = optionname[i];				
@@ -231,21 +209,16 @@ public class SWController {
 					optionnameStr += option;
 				}				
 			}
-		//	System.out.println(optionnameStr);
-		}		
-		
-		/*System.out.println(rulenameStr);
-		System.out.println(roomtype_nameStr);
-		System.out.println(optionnameStr);*/
-		
+			System.out.println(optionnameStr);
+		}	
+				
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
-		paraMap.put("CITY", city);
-				
-		/*System.out.println("1 :"+paraMap);*/
-		
+		paraMap.put("CITY", city);				
+	
+		System.out.println(paraMap);
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
 		
@@ -257,7 +230,6 @@ public class SWController {
 			
 			mapList.add(map);
 		}
-		/*System.out.println("2 :"+mapList);*/
 		
 		JSONArray jsonArr = new JSONArray();  		
 				
@@ -277,9 +249,8 @@ public class SWController {
 		}
 		
 		String str_json = jsonArr.toString();
-		req.setAttribute("str_json", str_json);		
-		
-		/*System.out.println("3 : " +str_json);*/
+		req.setAttribute("str_json", str_json);	
+		System.out.println(str_json);
 		
 		return "JSON";
 	}	

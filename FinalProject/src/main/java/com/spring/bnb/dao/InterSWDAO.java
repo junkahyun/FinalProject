@@ -18,7 +18,7 @@ public interface InterSWDAO {
 
 	List<String> getBuildDetailList(String buildName1);  // 숙소유형(소)
 		
-	List<RoomVO> getRoomList();  // 숙소 리스트보기
+	List<RoomVO> getRoomList(HashMap<String,String> paraMap);  // 숙소 리스트보기
 
 	List<ReservationVO> getReservationList(String userid);  // 예약자 현황 보기
 	

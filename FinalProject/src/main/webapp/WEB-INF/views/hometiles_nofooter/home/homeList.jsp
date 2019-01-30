@@ -29,36 +29,52 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-	//alert($(".roomcode").val());
+	//alert($("#city").val());
 	
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
      var optionnameArr = new Array();
      var roomtypenameArr = new Array();
      var roomcodeArr = new Array();
-     
+    
+     var len = $(".buildType").length;
+	 
+	 
 	 $(".option").click(function(){
 		 var thisText = $(this).text()
-		 var $target = $(event.target);	 		
+		 var $target = $(event.target);	 		 
 		
 		 // 폰트 색깔 바꾸기
 		 if(!$target.hasClass("subjectstyle")){			
 			 $target.addClass("subjectstyle"); 
         	  result1 += thisText + ",";	
-		 }		 
+		 } 
 		 else{			
 			 $target.removeClass("subjectstyle");
         	  result1 = result1.replace($(this).text()+",","");
-		 }		  
-		//	alert(result1);
-	 	$("#data1").val(result1);
+		 }
+		 
+		 if($(this).hasClass("buildType")){
+			  $(".buildType").each(function(){
+				  if($(this).hasClass("subjectstyle") && thisText!=$(this).text()){					
+					  $(this).removeClass("subjectstyle");
+					  result1 = result1.replace($(this).text()+",",""); 					  
+				  }
+				  else if($(this).hasClass("subjectstyle") && thisText==$(this).text()){
+					  $target.parent().removeClass("subjectstyle");					  
+				  }
+			  });
+		  }
 		
+		 var a = "";
+		 
+	 	$("#data1").val(result1);
+		console.log($("#data1").val());
 		 // 문자열 자르기
 	      var jbString = result1;
 	      var jbSplit = jbString.split(','); 
-	      var resultArr = new Array();
-	      
-	      
+	      var resultArr = new Array();	      
+	
 	      if($(this).parent().hasClass("rulename")){
 	    	if(rulenameArr.includes($(this).text())){
 	    		var sindex = rulenameArr.indexOf($(this).text()); 
@@ -66,30 +82,24 @@
 	    	}else{
      			rulenameArr.push($(this).text());
 	    	}
-	      }else if($(this).parent().hasClass("roomtype_name")){
-      		if(roomtypenameArr.includes($(this).text())){
-      			var sindex = roomtypenameArr.indexOf($(this).text()); 
-      			roomtypenameArr.splice(sindex,1);
-	    	}else{
-	    		roomtypenameArr.push($(this).text());
-	    	}
-	      }else{
-      		if(optionnameArr.includes($(this).text())){
+	      }else if($(this).parent().hasClass("service")){
+    	    if(optionnameArr.includes($(this).text())){
       			var sindex = optionnameArr.indexOf($(this).text()); 
       			optionnameArr.splice(sindex,1);
 	    	}else{
 	    		optionnameArr.push($(this).text());
+	    	}    	
+	      }else if($(this).parent().hasClass("roomtype_name")){
+      		if(roomtypenameArr.includes($(this).text())){
+      			roomtypenameArr = [];
+	    	}else{
+	    		roomtypenameArr = [];
+	    		roomtypenameArr.push($(this).text());
 	    	}
-	      }   
-	       
-	      //alert("rulenameArr : " + rulenameArr);
-	      //alert("roomtypenameArr : " + roomtypenameArr);
-	      //alert("optionnameArr : " + optionnameArr);
-	      
+	      }
+	  		
 	      jQuery.ajaxSettings.traditional = true;
-	      /* ,
- 		   "roomcode" : roomcodeArr */
-	//    alert(typeof rulenameArr);
+	     
 	      var form_data = {"rulename" : rulenameArr,
 	    		  		   "roomtype_name" : roomtypenameArr,
 	    		  		   "optionname" : optionnameArr,
@@ -108,6 +118,8 @@
 						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 							  + "</div>"
 							  + "<div>"
 							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -123,6 +135,7 @@
 							  + "<input type='hidden' name='roomcode' value=''/>" 
 							  + "</div>"
 							  + "</div>";
+							 							 
 					});// end of $.each()-------------  
 					 
 					$("#allList").append(html); 	  
@@ -137,17 +150,22 @@
 	  
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#city").change(function(){
-		//  alert($("#city").val());
+	//	alert($(".lat").val());
+	//	alert($(".lng").val());
 		
+	 $(".option").removeClass("subjectstyle");	
+	
 		 var form_data = {checkin : $("#checkin").val(),
 				 		 checkout : $("#checkout").val(),
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
 				 		 city : $("#city").val(),
-				 		 allperson : $("#allperson").val()};
-		var html = "";
-		 
+				 		 allperson : $("#allperson").val(),
+				 		 latitude : $(".lat").val(),
+				 		 longitude : $(".lng").val()};
+		 var html = "";
+		 var html2 = ""; 
 		 $.ajax({
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
 	   		type : "GET",
@@ -155,11 +173,13 @@
 			dataType : "JSON",
 			success : function(json){ 
 				$("#allList").empty();
-				 
+				$("#latlng").empty(); 
 				 $.each(json, function(entryIndex, entry){
 					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 						  + "</div>"
 						  + "<div>"
 						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -174,10 +194,11 @@
 						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
 						  + "<input type='hidden' name='roomcode' value=''/>" 
 						  + "</div>"
-						  + "</div>";
+						  + "</div>"; 				
+						  
 				});// end of $.each()-------------  
 				 
-				$("#allList").append(html); 	  
+				$("#allList").append(html); 				
 			},
             error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -202,7 +223,9 @@
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
 				 		 city : $("#city").val(),
-				 		 allperson : $("#allperson").val()};
+				 		 allperson : $("#allperson").val(),
+				 		 latitude : $(".lat").val(),
+				 		 longitude : $(".lng").val()};
 		var html = "";
 		$.ajax({			
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
@@ -216,6 +239,8 @@
 					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 						  + "</div>"
 						  + "<div>"
 						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -312,56 +337,7 @@
             $("#allperson").val(allperson);
             fun_personcount();
            }
-        }); // end of $(".person").spinner();---------------  
-        
-        <%-- $("#allperson").change(function(){
-        	alert("여기오니?");        	
-        	var form_data = {checkin : $("#checkin").val(),
-					 		 checkout : $("#checkout").val(),
-					 		 buildName2 : $("#buildName2").val(),
-					 		 startprice : $(".startprice").val(),
-					 		 endprice : $(".endprice").val(),
-					 		 city : $("#city").val(),
-					 		 allperson : $("#allperson").val()};
-			var html = "";
-			
-			$.ajax({
-				url : "<%=request.getContextPath()%>/homeListByOption.air",
-				type : "GET",
-				data : form_data,
-				dataType : "JSON",
-				success : function(json){
-					$("#allList").empty();
-					 
-					 $.each(json, function(entryIndex, entry){
-						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-							  + "</div>"
-							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
-							  + "</div>"
-							  + "<div>"
-							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
-							  + "</div>"
-							  + "<div>"
-							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
-							  + "</div>"
-							  + "<div>"
-							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-							  + "<input type='hidden' name='roomcode' value=''/>" 
-							  + "</div>"
-							  + "</div>";
-					});// end of $.each()-------------  
-					 
-					$("#allList").append(html); 	  
-				},
-		       error: function(request, status, error){
-		           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		       }	
-			});
-        	
-        }); --%>
+        }); // end of $(".person").spinner();---------------          
                  
       // 건물유형 대/소분류 Ajax 처리
       $("#buildName1").change(function(){
@@ -400,7 +376,9 @@
 				 		   startprice : $(".startprice").val(),
 				 		   endprice : $(".endprice").val(),
 				 		   city : $("#city").val(),
-				 		   allperson : $("#allperson").val()};
+				 		   allperson : $("#allperson").val(),
+				 		   latitude : $(".lat").val(),
+				 		   longitude : $(".lng").val()};
     	  var html = "";
     	  
     	  $.ajax({
@@ -414,6 +392,8 @@
     				  html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 						  + "</div>"
 						  + "<div>"
 						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -455,7 +435,9 @@
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
 				 		 city : $("#city").val(),
-				 		 allperson : $("#allperson").val()};
+				 		 allperson : $("#allperson").val(),
+				 		 latitude : $(".lat").val(),
+				 		 longitude : $(".lng").val()};
 		var html = "";
 		
 		$.ajax({
@@ -470,6 +452,8 @@
 					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 						  + "</div>"
 						  + "<div>"
 						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -568,6 +552,8 @@
 	       				  html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 	   						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
 	   						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+	   						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 	   						  + "</div>"
 	   						  + "<div>"
 	   						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
@@ -599,6 +585,7 @@
         window.onload = init;
     });
 	
+	
 	function goHomeDetail() {
 		
 		var frm = document.homeListFrm;
@@ -617,20 +604,35 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id="city" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;">
-            		<c:forEach items="${roomList }" var="RList">
-            		<option value="${RList.roomSigungu }">${RList.roomSigungu }</option>
-            		</c:forEach>            		         		
+            	<select id="city" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >
+            		<option value="${city}">${city}</option>            		
+            		<option>서울특별시</option>
+            		<option>인천광역시</option>
+            		<option>대전광역시</option>
+            		<option>광주광역시</option>
+            		<option>대구광역시</option>
+            		<option>부산광역시</option>
+            		<option>울산광역시</option>
+            		<option>경기도</option>
+            		<option>강원도</option>
+            		<option>충청북도</option>
+            		<option>충청남도</option>
+            		<option>전라북도</option>            		
+            		<option>전라남도</option>
+            		<option>경상북도</option>
+            		<option>경상남도</option>
+            		<option>제주도</option>            		            		            		         		
             	</select>            
             	
             	<span class="optionname">날짜</span>
-            	<input type="text" id="checkin" class="datepicker" name="checkin" placeholder="체크인 날짜" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;" />~
-            	<input type="text" id="checkout" class="datepicker" name="checkout" placeholder="체크아웃 날짜" style="width: 15%; height: 80%; margin-left: 2%;" />   
-            	<c:forEach items="${roomList }" var="RList" varStatus="status">
-            		<input type="hidden" id="cnt${status.index}" class="cnt" value="${status.index}" />
-            		<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
-            		<input type="hidden" id="lng${status.index}" class="lng" name="lat" value="${RList.longitude }" />
-            	</c:forEach>       	
+            	<input type="text" id="checkin" class="datepicker" name="checkin" value="${checkin}" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;" />~
+            	<input type="text" id="checkout" class="datepicker" name="checkout" value="${checkout}" style="width: 15%; height: 80%; margin-left: 2%;" />   
+            	<%-- <div id="latlng">
+	            	<c:forEach items="${roomList }" var="RList" varStatus="status">	            		
+	            		<input type="text" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
+	            		<input type="text" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
+	            	</c:forEach>
+            	</div>       	 --%>
             </div>
            
            	<div class="optionbox">
@@ -646,8 +648,7 @@
             	<c:forEach items="${roomRule}" var="rule">
             		<span class="rule option" style="margin-left: 6%; cursor: pointer;">${rule}</span>&nbsp;            		
             	</c:forEach>
-            	<input type="hidden" id="data1" name="rulename"/>
-            	
+            	<input type="hidden" id="data1" name="rulename"/>            	
             </div>        
            
         </div>
@@ -670,13 +671,13 @@
             
             <div id="roomtype_name" class="optionbox roomtype_name">            	
             	<span class="optionname" style="margin-right: 9%;">임대 유형</span>
-            	<c:forEach items="${roomType}" var="room">
-            		<span class="buildType option" style="margin-right: 11.5%; cursor: pointer;">${room}</span>&nbsp;
+            	<c:forEach items="${roomType}" var="room" varStatus="status">
+            		<span id="buildType${status.index}" class="buildType option" style="margin-right: 11.5%; cursor: pointer;">${room}</span>&nbsp;
             	</c:forEach>              
             	<input type="hidden" id="data2" name="roomtype_name"/>	                  	
             </div>
             
-            <div class="optionbox row" id="service" style="padding:0; margin:0;width:100%;">
+            <div class="optionbox row service" id="service" style="padding:0; margin:0;width:100%;">
             	<div class="optionname col-md-2">고객 편의</div>
            		<c:forEach items="${optionList}" var="option" varStatus="status">  			
            		<c:if test="${status.index==5 }"><div class="col-md-2"></div></c:if>		
@@ -709,6 +710,7 @@
 	  
 	   
 	   function markOnMap(){
+		   
 		   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	       mapOption = {
 	           center: new daum.maps.LatLng(0,0), // 지도의 중심좌표33.450701, 126.570667
@@ -729,16 +731,18 @@
 		        if (status === daum.maps.services.Status.OK) {
 		   
 		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-		           	           		           
+		           var citylength = $("#city").length;	           		           
 		           // 마커가 표시될 위치입니다 
 		           var markerPosition = "";
+		           
 		           for(var i=0; i<20; i++ ){
 		        	    var latid = 'lat' +i;
 		        	    var lngid = 'lng' +i;
 		        	    
 		        	    var latitude = $('#'+latid).val();
 		        	    var longitude = $("#"+lngid).val();
-		        	    // alert(latitude);
+		        	   /*  console.log(latitude);
+		        	    console.log(longitude); */
 			        	//alert((document.getElementById(latid)).value);
 			        	//alert((document.getElementById(lngid)).value); 
 		        	   
@@ -746,15 +750,8 @@
 		           	   var marker = new daum.maps.Marker({
 			               map: map,
 			               position: markerPosition
-			           });
+			           });           	   
 		           	   
-		           	   var rnid = 'roomName' + i;
-		           	   var rn = $('#'+rnid).text();
-		           	   
-		           	   if(rn.length >= 30){
-		           		   rn = rn.substr(0,30)+'...';
-		           		  $("#"+rnid).html(rn);
-		           	   }		           	  
 		           }
 		           
 		           /* document.getElementById('lat').value, document.getElementById('lng').value */
@@ -785,6 +782,8 @@
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
                     	<input type="hidden" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
+                    	<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
+	            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
                     </div>
                     <div>
                         <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 <%-- ${RList.roomCount} --%>개 · 침대 <%-- ${RList.bedtype} --%> </span>
@@ -794,7 +793,7 @@
                         <span id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;">${RList.roomName }</span>
                     </div>
                     <div>
-                        <span>₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
+                        <span id="money" class="money">₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
                         <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
                         	<input type="hidden" name="optionname" value="${oplist.OPTIONNAME }" />
                         </c:forEach>
@@ -805,7 +804,7 @@
                         
                     </div>
                     <div>
-                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                       
+                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                                   
                     </div>                
                 </div>
             </c:forEach>
