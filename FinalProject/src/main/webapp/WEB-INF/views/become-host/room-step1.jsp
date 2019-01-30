@@ -31,6 +31,11 @@
 	
 </script>
 
+<div>
+	<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+	<hr/>
+</div>
+
 <form name="roomstart">
 	<div>
 		<div class="row">

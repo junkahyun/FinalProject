@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 /* 내 테이블1 */
 CREATE TABLE my_db.my_table1 (
 	my_pk1 INTEGER NOT NULL, /* 내 기본 키 컬럼1 */
@@ -746,3 +743,4 @@ and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-20' and '2019-02-
 
 
 select * from reservation B
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git

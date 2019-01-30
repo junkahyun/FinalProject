@@ -34,7 +34,7 @@ public interface InterSODAO {
 	List<ReviewVO> getMyReview(String userid);
 
 	//나에게 작성한 후기
-	List<HashMap<String,String>> getHostReview(String userid);
+	List<HashMap<String,String>> getHostReview(HashMap<String,String> paraMap);
 	
 	// 후기없는 예약코드 가져오기
 	List<HashMap<String,String>> getMyRsvCode(String userid);
@@ -57,6 +57,9 @@ public interface InterSODAO {
 
 	//*** 나의 예약 빌딩 타입 ***
 	HashMap<String, String> getBuildType(String roomcode);
+
+	// *** 호스트 리뷰 갯수 가져오기  
+	int getTotalHostReviewCount(String userid);
 
 
 

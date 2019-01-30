@@ -122,8 +122,8 @@ public class SODAO implements InterSODAO {
 
 	// 나에게 작성한 후기
 	@Override
-	public List<HashMap<String,String>> getHostReview(String userid) {
-		List<HashMap<String,String>> hostReview = sqlsession.selectList("cso.hostReview",userid);
+	public List<HashMap<String,String>> getHostReview(HashMap<String,String> paraMap) {
+		List<HashMap<String,String>> hostReview = sqlsession.selectList("cso.hostReview",paraMap);
 		
 		return hostReview;
 	}
@@ -185,6 +185,13 @@ public class SODAO implements InterSODAO {
 	public HashMap<String, String> getBuildType(String roomcode) {
 		HashMap<String, String> buildtype = sqlsession.selectOne("cso.getBuildType", roomcode);
 		return buildtype;
+	}
+
+	// *** 호스트 리뷰 갯수 가져오기 ***
+	@Override
+	public int getTotalHostReviewCount(String userid) {
+		int count = sqlsession.selectOne("cso.getTotalHostReviewCount", userid);	
+		return count;
 	}
 
 
