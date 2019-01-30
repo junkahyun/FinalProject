@@ -85,61 +85,64 @@
 	    <div class="panel-body" style="border: 1px solid #dbdfdf;">
 	      
 	      <!--  for 문 시작 --> 
-	 <c:if test="${empty memberResList}">
-	 	현재 투숙 예정인 숙소가 없습니다! 새로운 여행을 떠나세요!
-	 </c:if>
-	  <c:forEach var="reservationInfo" items="${memberResList}" varStatus="status">	
-	  <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 1}" >
-	        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
-	        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
-	        		<%-- <img src="<%= request.getContextPath() %>/resources/image/${reservationInfo.roommainimg}" width="100%" height="90%"/> --%>
-	        		<img src="${reservationInfo.roommainimg}" style=" display: block; max-width: 100%; width: 100% \9;height: auto; }"/>
-	        	</div>
-	     	 
-	     	 	<div  class="col-md-8" class="row">
-		     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일:${reservationInfo.paydate}</div>
-		     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
-					      <div><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
-					      <div><ul class="list-layout reviews-list">
-					       	<li class="reviews-list-item">${reservationInfo.roomsido}${reservationInfo.roomsigungu}${reservationInfo.roombname}${reservationInfo.roomdetailaddr} &nbsp;</li>	  
-							  <li>예약번호 : ${reservationInfo.rsvcode}&nbsp;</li>
-							  <li>${reservationInfo.roomtype_name}&nbsp;</li>
-					        </ul>
-					       </div>
-					  </div> 
-					  <div  class="col-md-4" style="border: 0px solid red; margin-bottom: 20%; padding: 0;">
-						  <div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
-							<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
-								<div style="font-size: 8pt; text-align: left;">체크인</div>
-								<div style="text-align: left; font-size: 20pt">${reservationInfo.checkInDD}</div>
-							</div>
-							<div class="col-md-6" style="padding: 0;border-right : 1px dashed gray">
-								<ul class="list-layout reviews-list">
-							       	<li class="reviews-list-item"><br/></li>	  
-									<li>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월&nbsp;${reservationInfo.checkInDay}</li>
-							    </ul>
-						    </div>   
-						  </div>
-						  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin-left: 1px">							 
+		<c:if test="${memberResList != null }">
+		<c:forEach var="reservationInfo" items="${memberResList}" varStatus="status">
+		 <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 2 && status.count == 1}" >
+		 	현재 투숙 예정인 숙소가 없습니다! 새로운 여행을 떠나세요!  
+		 </c:if>
+		  <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 1}" >
+		        <div style="border: 1px solid #dbdfdf; margin-top: 5%;" class="row box"> 
+		        	<div class="col-md-4" style="border: 0px solid blue; padding: 0" align="left" >
+		        		<%-- <img src="<%= request.getContextPath() %>/resources/image/${reservationInfo.roommainimg}" width="100%" height="90%"/> --%>
+		        		<img src="${reservationInfo.roommainimg}" style=" display: block; max-width: 100%; width: 100% \9;height: auto; }"/>
+		        	</div>
+		     	 
+		     	 	<div  class="col-md-8" class="row">
+			     	  <div  style="border: 0px solid red; padding: 0; margin-bottom: 3%;" align="right">예약일:${reservationInfo.paydate}</div>
+			     	  	<div class="col-md-8" style="border: 0px solid blue;" align="left">	 
+						      <div><ul class="list-layout reviews-list"><li class="reviews-list-item"><h4>${reservationInfo.roomname}</h4></li></ul></div>
+						      <div><ul class="list-layout reviews-list">
+						       	<li class="reviews-list-item">${reservationInfo.roomsido}${reservationInfo.roomsigungu}${reservationInfo.roombname}${reservationInfo.roomdetailaddr} &nbsp;</li>	  
+								  <li>예약번호 : ${reservationInfo.rsvcode}&nbsp;</li>
+								  <li>${reservationInfo.roomtype_name}&nbsp;</li>
+						        </ul>
+						       </div>
+						  </div> 
+						  <div  class="col-md-4" style="border: 0px solid red; margin-bottom: 20%; padding: 0;">
+							  <div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
 								<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
-									<div style="font-size: 8pt; padding-left:1px;">체크아웃</div>
-									<div style="padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
+									<div style="font-size: 8pt; text-align: left;">체크인</div>
+									<div style="text-align: left; font-size: 20pt">${reservationInfo.checkInDD}</div>
 								</div>
-								<div class="col-md-6" style= "padding: 0; margin: 0;">
-										<ul class="list-layout reviews-list">
-									       	<li class="reviews-list-item"><br/></li>	  
-											  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp;${reservationInfo.checkOutDay}</li>
-									    </ul>
-							    </div> 
-							
-						     
-						  </div>					   
-					  </div>
-					  <div style="margin-bottom : 1%;" align="right"><a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${userid}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
-		      </div> 	           	   	       
-	        </div> 	
-	       </c:if> 
-	    </c:forEach>
+								<div class="col-md-6" style="padding: 0;border-right : 1px dashed gray">
+									<ul class="list-layout reviews-list">
+								       	<li class="reviews-list-item"><br/></li>	  
+										<li>${reservationInfo.checkInYY}년${reservationInfo.checkInMM}월&nbsp;${reservationInfo.checkInDay}</li>
+								    </ul>
+							    </div>   
+							  </div>
+							  <div class="col-md-6 row" style="border: 0px solid orange; padding: 0; margin-left: 1px">							 
+									<div class="col-md-6" style="border: 0px solid blue; padding: 0; margin: 0;">
+										<div style="font-size: 8pt; padding-left:1px;">체크아웃</div>
+										<div style="padding-left:3px; font-size: 20pt">${reservationInfo.checkOutDD}</div>
+									</div>
+									<div class="col-md-6" style= "padding: 0; margin: 0;">
+											<ul class="list-layout reviews-list">
+										       	<li class="reviews-list-item"><br/></li>	  
+												  <li>${reservationInfo.checkOutYY}년${reservationInfo.checkOutMM}월&nbsp;${reservationInfo.checkOutDay}</li>
+										    </ul>
+								    </div> 
+								
+							     
+							  </div>					   
+						  </div>
+						  <div style="margin-bottom : 1%;" align="right"><a href="<%= ctxPath %>/myReservationScheduleDetail.air?userid=${userid}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a></div>  				  
+			      </div> 	           	   	       
+		        </div> 	
+		       </c:if> 
+	    	</c:forEach>
+		 </c:if>
+	  
 	
 	            <!--  for 문 끝 --> 		         
          </div>

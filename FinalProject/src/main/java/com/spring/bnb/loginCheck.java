@@ -42,11 +42,8 @@ public class loginCheck {
 	            String msg = "먼저 로그인 하세요 ";
 	            String loc = request.getContextPath()+"/index.air";
 	            
-	            // === 로그인 성공 후 로그인 하기전  페이지로 돌아가는 작업하기 ===
-	            // === 현재 페이지 주소 URL 주소 알아내기 ===
-	            
-	            String url = MyUtil.getCurrentURL(request);
-	            session.setAttribute("gobackURL", url);
+	           /* String url = MyUtil.getCurrentURL(request);
+	            session.setAttribute("gobackURL", url);*/
 	             request.setAttribute("msg", msg);
 	             request.setAttribute("loc", loc);
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
