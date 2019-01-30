@@ -186,53 +186,53 @@ public class SOController {
 	
 	
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
-	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		
+	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		 
+	      
+	      HttpSession session = req.getSession();
+	      MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+	      System.out.println(loginMember.getUserid());
+	      
+	      try {   
+	         if(loginMember != null) {
+	            System.out.println(loginMember.getEmail());
+	            System.out.println(loginMember.getPhone());
+	            loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
+	            loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
+	            int gender = loginMember.getGender();
+	            String str_gender = "";
+	            switch (gender) {
+	            case 1:
+	               str_gender = "Male";
+	               break;
+	            case 2:
+	               str_gender = "Female";
+	               break;
 
-		HttpSession session = req.getSession();
-		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();
-		/*try {*/
-			//나의 개인정보 가져오기
-			MemberVO myInfo = new MemberVO();
-			myInfo = service.getMyInfo(userid);
-			
-			int gender = myInfo.getGender();
-			String str_gender = "";
-			switch (gender) {
-			case 1:
-				str_gender = "Male";
-				break;
-			case 2:
-				str_gender = "Female";
-				break;
-
-			default: str_gender = "Other";
-				break;
-			}
-			String birthday= myInfo.getBirthday();
-			Date date = new Date();
-			
-		/*	String email = aes.decrypt(myInfo.getEmail());
-			myInfo.setEmail(email);*/
-			ServletContext application = req.getServletContext();
-			String realPath = application.getRealPath("/resources/images/profile");
-			
-			
-			String birthdayYY = birthday.substring(0, 4);
-			String birthdayMM = birthday.substring(5,7);
-			String birthdayDD = birthday.substring(8,10);
-			
-			req.setAttribute("realPath", realPath);
-			req.setAttribute("birthdayYY", birthdayYY);
-			req.setAttribute("birthdayMM", birthdayMM);
-			req.setAttribute("birthdayDD", birthdayDD);
-			req.setAttribute("str_gender", str_gender);
-			req.setAttribute("myInfo", myInfo);
-	/*		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			return "mypage/myEdit.hometiles";		
+	            default: str_gender = "Other";
+	               break;
+	            }
+	            String birthday= loginMember.getBirthday();
+	            System.out.println("session 주소 : "+loginMember.getAddr());
+	            System.out.println("session 주소 : "+loginMember.getGender());
+	            ServletContext application = req.getServletContext();
+	            String realPath = application.getRealPath("/resources/images/profile");
+	            
+	            String birthdayYY = birthday.substring(0, 4);
+	            String birthdayMM = birthday.substring(5,7);
+	            String birthdayDD = birthday.substring(8,10);
+	            req.setAttribute("realPath", realPath);
+	            req.setAttribute("birthdayYY", birthdayYY);
+	            req.setAttribute("birthdayMM", birthdayMM);
+	            req.setAttribute("birthdayDD", birthdayDD);
+	            req.setAttribute("str_gender", str_gender);
+	            req.setAttribute("loginMember", loginMember);
+	               
+	         }  
+	      } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+	         System.out.println("email 복호화 실패 !");
+	      }
+	      
+	      return "mypage/myEdit.hometiles";      
 	}
 
 	

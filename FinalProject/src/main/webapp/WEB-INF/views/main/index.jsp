@@ -248,7 +248,7 @@
 						    <div class="cmt_con cmt_R">
 						        <span class="comment_user">${reviewRight.fk_userid}</span>
 						        <div>
-							        <span><img src="<%=ctxPath%>/resources/images/${reviewRight.user.profileimg}"></span>
+							        <span><img src="<%=request.getServletContext().getRealPath("/resources/images/profile")%>/${reviewRight.user.profileimg}"></span>
 							        <span>${reviewRight.room.roomName }</span>
 							        <span>${reviewRight.review_writedate}</span>
 							        <span class="comment_W"><a href="#">${reviewRight.review_content}</a></span>

@@ -138,9 +138,13 @@ $(document).ready(function(){
 			// 회원가입 , 로그인, 비밀번호찾기
 			$(".passIcon").addClass("passIconHide");
 			$(".error").hide();
+			
 	   		$("#loginpwd").keydown(function(event){
-	         	if(event.target==13) goLogin();
+	         	if(event.keyCode==13) {
+	         		goLogin();
+	         	}
 	      	});
+	   		
 	      	$("#searchAddrBtn").click(function() {
 	          	new daum.Postcode({
 	               	oncomplete: function(data) {
