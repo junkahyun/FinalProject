@@ -13,6 +13,7 @@
 	</select>
 	
 	<!-- 로그인 한 유저가 등록 한 숙소가 있을경우 MemberVO의 myroom에 해당 RoomVO 저장 -->
+	
 	<select id="checkHostUser" parameterType="com.spring.bnb.model.MemberVO" resultType="com.spring.bnb.model.RoomVO">
 		select * from member M join room R on M.userid = R.fk_userid
 		where R.fk_userid = #{userid}
@@ -20,9 +21,8 @@
 	
 	<!-- roomcode를 통해 숙소정보 가져오기 -->
 	<select id="getRoomByCode" parameterType="String" resultType="com.spring.bnb.model.RoomVO">	
-		select*
-		from room R join roomtype T on R.fk_roomType_idx = T.roomType_idx
-		            join buildType_detail B on R.fk_buildType_detail_idx = B.buildType_detail_idx
+		select*from room R join roomtype T on R.fk_roomType_idx = T.roomType_idx
+		            	   join buildType_detail B on R.fk_buildType_detail_idx = B.buildType_detail_idx
 		where roomcode=#{roomcode}
 	</select>
 	
@@ -127,12 +127,10 @@
 	</insert>
 	
 	<select id="getAllReviewList" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
-		select*
-		from(
+		select*from(
 		    select rownum as rno,REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,REVIEW_WRITEDATE 
 		    from review
-		    where fk_roomcode=#{ROOMCODE}
-		    )
+		    where fk_roomcode=#{ROOMCODE})
 		where rno between #{STARTRNO} and #{ENDRNO}
 	</select>
 	
