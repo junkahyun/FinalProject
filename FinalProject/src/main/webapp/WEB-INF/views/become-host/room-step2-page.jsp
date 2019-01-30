@@ -36,8 +36,21 @@
    				color:#d93900;
    				font-weight: bold;}
 
-   .dragAndDropDiv {
-             border: 2px dashed #92AAB0;
+    .my_button {
+        display: inline-block;
+        width: 200px;
+        text-align: center;
+        padding: 10px;
+        background-color: #fd5a61;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+
+
+    .imgs_wrap {
+ 			 border: 2px dashed #92AAB0;
              width: 1000px;
              height: 400px;
              color: #92AAB0;
@@ -47,13 +60,23 @@
              font-size:200%;
              display: table-cell;
              border-radius: 5px;
-         }
+
+    }
+    .imgs_wrap img {
+        max-width: 150px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 
 </style>
 
  
 
 <script type="text/javascript">
+
+	// 파일 리스트 번호
+	var fileIndex = 0;			
+	var sel_files = [];
 
    $(document).ready(function(){
 	
@@ -68,117 +91,30 @@
 	   $(".error2_text").hide();
 	   
 	   //첫번째 페이지 스크립트 시작 ------------------------------------------------------------------------------------------------
-       // 파일 리스트 번호
-       var fileIndex = 0;
-       // 파일 리스트
-       var fileList = new Array();
+	   // 사진추가하기 버튼 누르면 type="file" 버튼 누르기
+     	$("#addfile").click(function(){
+     		$("#input_imgs").click();
+     		$("#imgname").empty();
+     	});
+        	
+       	// file 추가되면
+        $("#input_imgs").change(function(e){
+           var files = e.target.files;
+      	   var filesArr = Array.prototype.slice.call(files);
+      	   for(var i=0; i<10; i++){
+      		   
+      		 var html = "";
+             html += "<div id='fileTr_" + fileIndex + "'>"
+             html += filesArr[i].name + " / " + filesArr[i].size + "MB "
+             html += "</div>"
 
-       $(".dragAndDropDiv")
-	   	  .on("dragover", dragOver)
-	   	  .on("dragleave", dragOver)
-	   	  .on("drop", uploadFiles);
-   	 
-	   function dragOver(e){
-	   	  e.stopPropagation();
-	   	  e.preventDefault();
-	   }
-	   	 
-	   function uploadFiles(e){
-	   	  e.stopPropagation();
-	   	  e.preventDefault();
-	   }
-	   	
-	   function dragOver(e) {
-	   	    e.stopPropagation();
-	   	    e.preventDefault();
-	   	    if (e.type == "dragover") {
-	   	        $(e.target).css({
-	   	        	"border": "2px dashed #0B85A1",
-	   	        	"background-color" : "#EAEAEA",
-	   	        	"outline-offset": "-20px"
-	   	        });
-	   	    } else {
-	   	        $(e.target).css({
-	   	        	"border": "2px dashed #92AAB0",
-	   	        	"background-color" : "white",
-	   	        	"outline-offset": "-10px"
-	   	        });
-	   	    }
-	    }
-	
-	   	function uploadFiles(e) {
-	   	    e.stopPropagation();
-	   	    e.preventDefault();
-	   	    dragOver(e); //1
-	   	    e.dataTransfer = e.originalEvent.dataTransfer; //2
-	   	    var files = e.target.files || e.dataTransfer.files;           	    
-	   	    
-	   	    var reader = new FileReader();
-	           reader.onload = function (e) {
-	           	for(var i=0;i<files.length;i++){
-	    	    	   console.log(e.target.result);
-	          	   }	
-	           }
-	   	    
-	   	 
-	   	    if (files.length > 1) {
-	   	        return;
-	   	    }
-	   	    
-	   	    for(var i=0; i<100; i++){
-		   	    fileList[i] = files[i]
-		   	    
-		   	    if (files[i].type.match(/image.*/)) {
-		   	        
-		   	    }else{
-		   	        alert('이미지가 아닙니다.');
-		   	        return;
-		   	    }
-	
-		   	    if (files[i].type.match(/image.*/)) {
-		   	        $(e.target).css({
-		   	            "background-image": "url(" + window.URL.createObjectURL(files[i]) + ")",
-		   	            "outline": "none",
-		   	            "background-size": "100% 100%"
-		   	        });
-		   	    }else{
-		   	      alert('이미지가 아닙니다.');
-		   	      return;
-		   	    }
-		
-	           // 업로드 파일 목록 생성
-	           addFileList(files, fileIndex, files[i].name, files[i].size);
-	           // 파일 번호 증가
-	           fileIndex++;     
-	   	   } 	    
-	   }
-	   	
-	   // 업로드 파일 목록 생성
-	   function addFileList(files, fIndex, fileName, fileSize){
-	   		 
-	   	  var form_data = {"fileName":fileName};   
-	   	  
-  		  $.ajax({
-	 		 url:"dropJOSN.air",
-	 		 type:"GET",
-	 		 dataType:"JSON",
-	 		 data:form_data,
-	 		 success:function(json) {
-	 			var html = "";
-               html += "<div id='fileTr_" + fIndex + "'>";
-               html +=         fileName + " / " + fileSize + "MB "  + "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>"
-               html += "</div>"
-        
-               $("#list").append(html);
-	 		 },
-	 		 error: function(request, status, error){
-	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	 		 }
-	 	 });// end of $.ajax({ ---             		 
-	
-	   } 
-	   //첫번째 페이지 스크립트 끝 ------------------------------------------------------------------------------------------------
-	   
+           	$("#imgname").append(html);   
+           	
+           	// 파일 번호 증가
+           fileIndex++;
+      	   }
+       });	
+       //첫번째 페이지 스크립트 끝 ------------------------------------------------------------------------------------------------
 	   //두번째 페이지 스크립트 시작 ------------------------------------------------------------------------------------------------
 	    $("#roomInfo").click(function(){
 	    	 $("#roomInfo").removeClass("error1");
@@ -239,9 +175,33 @@
 	}
    
    function next1(){
-	   $("#firstdiv").hide();
-	   $("#seconddiv").show();
-	   $("#second").show();
+	   
+       var imgname = $("#imgname").html();
+	   if(imgname == ""){
+		   alert("사진을 추가해주세요");
+		   return;
+	   }
+	  
+	   var form = $('form')[0];
+       var formData = new FormData(form);
+
+	    $.ajax({
+	 		 url:"fileListJOSN.air",
+	 		 type:"POST",
+	 		 dataType:"JSON",
+	 		 data:formData,
+	 		 processData: false,
+             contentType: false,
+	 		 success:function(json) {	 			  
+	 			 $("#firstdiv").hide();
+	 			 $("#seconddiv").show();
+	 			 $("#second").show(); 
+	 	 	 },
+	 		 error: function(request, status, error){
+	 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 		 }
+	 	 });// end of $.ajax({ --- 	   
+ 
 	}
    
 	// second ---------------------------------------------------------
@@ -284,33 +244,41 @@
 
 </script>
 
-<form name="roomtitle">
+<div class="row">
+	<div class="col-md-1">
+		<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+	</div>
+	<div class="col-md-6" style="font-size: 18px; margin-top: 20px; padding-left: 0">2단계: 상세정보를 제공해 주세요</div>
+</div>
+<hr/>
+
+<form name="roomtitle" enctype="multipart/form-data">
 	<div>
 	   <div class="row" id="firstdiv">
-	   
+	    
    	   <!-- 첫번째 입력창 시작-->
        <div class="row">
        
        		<!-- 진행상태바 -->
-		    <div class="container col-md-12" style="border: 0px solid red;">
+<!-- 		    <div class="container col-md-12" style="border: 0px solid red;">
 			   <div class="progress" style="height: 13px;"> 
 			     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
 			     </div>
 			   </div>
-		    </div>
+		    </div> -->
 		    
        		<div class="col-md-5" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">	    		
 	         	<div class="title">게스트에게 숙소의 모습을 보여 주세요</div>        
-		        <div class="row" style="border: 0px solid red; margin-top: 20px;">
-		        	<div class="col-md-12" style="margin-bottom: 20px;">
-		        		 <div class="dragAndDropDiv">	        		
-			        		 </br>Drag & Drop Files Here
-			        		 <INPUT type="hidden" id="roomMainImg" name="roomMainImg"/>
-			        		 <INPUT type="file" id="file" name="file" style="display:none;"/>
+			    <div class="row" style="border: 0px solid red; margin-top: 20px;">
+		        	<div class="col-md-12" style="margin-bottom: 20px;"> 
+		        	 	<div class="imgs_wrap">       		
+			        		 <IMG id="img"/>
+			        		 <INPUT type="file" id="input_imgs" name="file" multiple="multiple" style="display: none;"/>
 		        		 </div>
-		        		 <div id="list"></div>
+		        		 <button id="addfile" type="button" style="width: 150px; height: 50px; font-size:16px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; float: top; margin-top: 10px;">사진추가하기</button>	        		
+		        		<div id="imgname"></div>
 		        	</div>
-		        </div>
+		        </div> 
 		         	 
 		        <div class="col-md-6" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
 		         	 <hr/>
@@ -331,12 +299,12 @@
 	   <div class="row" id="seconddiv" style="border: 0px solid green;">
 	   
 	   <!-- 진행상태바 -->
-	   <div class="container col-md-12" style="border: 0px solid red;">
+<!-- 	   <div class="container col-md-12" style="border: 0px solid red;">
 		  <div class="progress" style="height: 13px;"> 
 		    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
 		    </div>
 		  </div>
-	   </div>
+	   </div> -->
 	    
 	    <!-- 입력창 반복되는 div 시작 -->
 	    <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">

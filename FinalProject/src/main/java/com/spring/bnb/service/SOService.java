@@ -68,7 +68,7 @@ public class SOService implements InterSOService{
 	
 	// *** 나에게 쓴 후기 ***
 	@Override
-	public List<HashMap<String,String>> getHostReview(String userid) {
+	public List<HashMap<String,String>> getHostReview(HashMap<String,String> userid) {
 		List<HashMap<String,String>> hostReview = dao.getHostReview(userid); 
 		return hostReview;
 	}
@@ -130,6 +130,13 @@ public class SOService implements InterSOService{
 	public HashMap<String, String> getBuildType(String roomcode) {
 		 HashMap<String, String> buildType = dao.getBuildType(roomcode);
 		return buildType;
+	}
+	
+	// *** 호스트 리뷰 가져오기
+	@Override
+	public int getTotalHostReviewCount(String userid) {
+		int count = dao.getTotalHostReviewCount(userid); 
+		return count;
 	}
 
 
