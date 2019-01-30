@@ -48,7 +48,7 @@ public class WCController {
 			
 			return "msg";
 			
-		}else if(!"관리자".equalsIgnoreCase(loginuser.getUsername())) {
+		}else if(!"admin".equalsIgnoreCase(loginuser.getUserid())) {
 			String msg = "관리자만 이용가능한 페이지입니다.";
 			String loc = "index.air";
 			
