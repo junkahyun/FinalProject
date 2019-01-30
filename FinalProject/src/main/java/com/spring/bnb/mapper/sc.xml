@@ -7,12 +7,14 @@
 		select roomcode, roomName, roomMainImg, roomstatus, roomInfo 
 		from member M join room R on m.userid = r.fk_userid
 		where userid= #{userid}
+		order by roomcode
 	</select>
 	
 	<select id="getRoomInfo" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person, fk_roomType_idx, fk_buildType_detail_idx
 		from room
 		where roomcode = #{roomcode}
+		
 	</select>
 
 	<select id="getBuildType_detail" parameterType="String" resultType="String" >
@@ -59,4 +61,11 @@
 		update room set roommainImg = #{changeImg}
 		where roomcode = #{roomcode}
 	</update>
+	
+	<select id="roomnameSearch" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">
+		select roomcode, roomName, roomMainImg, roomstatus, roomInfo 
+		from member M join room R on m.userid = r.fk_userid
+		where userid= #{userid} and roomName like '%'||#{searchWord}||'%'
+		order by roomcode
+	</select>
 </mapper>

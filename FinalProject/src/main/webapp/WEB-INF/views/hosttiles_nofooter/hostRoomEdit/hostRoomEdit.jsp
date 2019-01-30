@@ -53,9 +53,9 @@ div{border: /* 1px solid gray;  */
 }
 
 /* Create an active/current tablink class */
-/* .tab button.active {
+.tab button.active {
   border-bottom-color: #008489;
-} */
+} 
 .tablinks{border-bottom: 1px solid #008489;
 }
 /* Style the tab content */
@@ -91,10 +91,46 @@ div{border: /* 1px solid gray;  */
 			$(this).addClass("changeColor");
 		});
 		
-		$("#searchInput").keydown(function(event){
+		$("#roomnameSearch").keydown(function(event){
 			if(event.keyCode == 13){
-				alert("");
-			}	
+				var searchWord = $("#roomnameSearch").val().trim();
+				
+				if(searchWord != null && searchWord.trim() != ""){
+					var form_data = {searchWord:searchWord};
+					console.log(form_data);
+					$.ajax({
+						url:"roomnameSearch.air",
+						data:form_data,
+						type:"POST",
+						dataType:"JSON",
+						success:function(json){
+							if(json.length<1){
+								alert("검색 된 숙소가 없습니다.");
+								return;
+							}
+							
+							$(".roomList").empty();
+							var html = "";
+							$.each(json, function(entryIndex,entry){
+								var roomstatus = "";
+								if(entry.roomstatus == "1"){
+									roomstatus = "운영중";
+								} else {
+									roomstatus = "운영중지";
+								}
+								html += "<li style='padding: 1%;' onclick='goRoomEdit("+entry.roomcode+")'>"+
+							      		"<a><span style='font-weight: bold; font-size: 12pt; '>"+entry.roomName+"</span><br>"+
+							      		"<span style='font-size: 11pt;'>"+roomstatus+"</span>"+
+							      		"<img src='resources/images/"+entry.roomMainImg+"' style='width: 20%; margin-left:70%; margin-bottom: 5%;'/></a></li>";
+							});
+							$("#roomList").html(html);
+						},
+						error:function(){
+							
+						}
+					});
+				}	
+			}	 
 		});
 		
 	});
@@ -154,21 +190,25 @@ div{border: /* 1px solid gray;  */
 	      <li style="padding-bottom: 1%;padding:0;margin:0;" >
              <div class="row" style="width: auto;margin:2% 5%;">
                <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="position:absolute;z-index:1;margin-top:5px;margin-left:2%; opacity:0.7;">
-               <input id="reviewSearchWord" type="text" class="col-md-4 form-control input-data" style="width:50%; padding-left: 8%; font-weight:bold;" placeholder="숙소검색">
+               <input id="roomnameSearch" type="text" class="col-md-4 form-control input-data" style="width:50%; padding-left: 8%; font-weight:bold;" placeholder="숙소검색">
             </div>
 	      </li>
-	      <c:forEach var="room" items="${roomList }">
-		      <li style=" padding: 1%;" onclick="goRoomEdit('${room.roomcode}')">
-			      <a ><span style="font-weight: bold; font-size: 12pt; ">${room.roomName }</span><br>
-			      <c:if test="${room.roomstatus == 1 }">
-			      	<span style="font-size: 11pt;">운영중</span>
-			      </c:if>
-			      <c:if test="${room.roomstatus == 0 }">
-			      	<span style="font-size: 11pt;">운영중지</span>
-			      </c:if>
-			      <img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:70%; margin-bottom: 5%;"/></a>
-		      </li>
-	      </c:forEach>
+	      <a  id="roomList">
+		      <c:forEach var="room" items="${roomList }">
+			      <li class="roomList" style= padding: 1%;" onclick="goRoomEdit('${room.roomcode}')">
+				      <a><span style="font-weight: bold; font-size: 12pt;">${room.roomName }</span><br>
+				      <c:if test="${room.roomstatus == 1 }">
+				      	<span style="font-size: 11pt;">운영중</span>
+				      	<img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:70%; margin-bottom: 5%;"/>
+				      </c:if>
+				      
+				      <c:if test="${room.roomstatus != 1 }">
+				      	<span style="font-size: 11pt;">운영중지</span>
+				      	<img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:68%; margin-bottom: 5%;"/>
+				      </c:if></a>
+			      </li>
+		      </c:forEach>
+	      </a>
 	    </ul>
 	</div>
 	<!-- 드롭다운 -->
