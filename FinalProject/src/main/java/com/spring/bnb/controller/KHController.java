@@ -63,16 +63,8 @@ public class KHController {
 		String mon2 = rsv_checkOutDate.substring(5, 7);
 		String day2 = rsv_checkOutDate.substring(8);*/
 		
-		String year1 = "2019";
-		String mon1 = "1";
-		String day1 = "23";
-		
-		String year2 = "2019";
-		String mon2 = "2";
-		String day2 = "2";
-		
 		String checkin = "2019-01-31";
-		String checkout = "2019-02-06";
+		String checkout = "2019-02-02";
 		//************************
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -92,12 +84,6 @@ public class KHController {
 		
 		session.setAttribute("guestCount", guestCount);
 		session.setAttribute("babyCount", babyCount);
-		session.setAttribute("year1", year1);
-		session.setAttribute("mon1", mon1);
-		session.setAttribute("day1", day1);
-		session.setAttribute("year2", year2);
-		session.setAttribute("mon2", mon2);
-		session.setAttribute("day2", day2);
 		session.setAttribute("reviewCount", reviewCount);
 		session.setAttribute("oneRoom", oneRoom);
 		session.setAttribute("avgPrice", avgPrice);
@@ -181,27 +167,10 @@ public class KHController {
 		String username = loginuser.getUsername();
 		String phone = loginuser.getPhone();
 		String email = loginuser.getEmail();
-		String year1 = (String)session.getAttribute("year1");
-		String year2 = (String)session.getAttribute("year2");
-		String mon1 = (String)session.getAttribute("mon1");
-		String mon2 = (String)session.getAttribute("mon2");
-		String day1 = (String)session.getAttribute("day1");
-		String day2 = (String)session.getAttribute("day2");
 		String totalprice = (String)session.getAttribute("totalprice");
 		String message = (String)session.getAttribute("message");
-		
-		String checkin = "2019-01-31";
-		String checkout = "2019-02-03";
-		
-		
-		if(Integer.parseInt(mon1) < 10 || Integer.parseInt(mon2) < 10) {
-			mon1 = "0"+mon1;
-			mon2 = "0"+mon2;
-		}
-		if(Integer.parseInt(day1) < 10 || Integer.parseInt(day2) < 10) {
-			day1 = "0"+day1;
-			day2 = "0"+day2;
-		}
+		String checkin = (String)session.getAttribute("checkin");
+		String checkout = (String)session.getAttribute("checkout");
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		
@@ -215,12 +184,6 @@ public class KHController {
 		map.put("email", aes.encrypt(email));
 		map.put("checkin", checkin);
 		map.put("checkout", checkout);
-		map.put("year1", year1);
-		map.put("year2", year2);
-		map.put("mon1", mon1);
-		map.put("mon2", mon2);
-		map.put("day1", day1);
-		map.put("day2", day2);
 		map.put("totalprice", Integer.parseInt(totalprice));
 		map.put("message", message);
 		
@@ -241,9 +204,9 @@ public class KHController {
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>"+oneroom.getRoomSigungu()+"</h1><br>");
 				sb.append("<img src='"+oneroom.getRoomMainImg()+"' style='width:150px;'/><br>");
-				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+(Integer.parseInt(day2)-Integer.parseInt(day1))+"박 </span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 박 </span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
-				sb.append("<span style='font-size:12pt;'>"+year1+"년"+mon1+"월"+day1+"일 → "+year2+"년"+mon2+"월"+day2+"일</span><br>");
+				sb.append("<span style='font-size:12pt;'>"+checkin+"  → "+checkout+"</span><br>");
 				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestCount)+Integer.parseInt(babyCount))+""+"명</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>요금내역</h1>");

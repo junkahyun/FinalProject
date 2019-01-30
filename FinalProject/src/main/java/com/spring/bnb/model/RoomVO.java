@@ -3,6 +3,8 @@ package com.spring.bnb.model;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class RoomVO {
 	private String roomcode;
 	private String fk_userid; 
@@ -32,6 +34,14 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
+
+	private String bedtype;	
+	
+	private MultipartFile attach; // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
+ 	// !!!!!! MultipartFile attach 는 오라클 데이터베이스 tblBoard 테이블의 컬럼이 아니다.!!!!!!  
+ 	// /Board/src/main/webapp/WEB-INF/views/tiles1/board/add.jsp 파일에서 input type="file" 인 name 의 이름(attach)과 
+ 	// 동일해야만 파일첨부가 가능해진다.!!!!
+
 	
 	private String roomMainImg;		// 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
 	private String roomImgfilename;     // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
@@ -243,8 +253,13 @@ public class RoomVO {
 	}
 	public void setRoom_warnCount(String room_warnCount) {
 		this.room_warnCount = room_warnCount;
+	}	
+	public String getBedtype() {
+		return bedtype;
 	}
-	
+	public void setBedtype(String bedtype) {
+		this.bedtype = bedtype;
+	}	
 	public String getRuleType_name() {
 		return roomType_name;
 	}

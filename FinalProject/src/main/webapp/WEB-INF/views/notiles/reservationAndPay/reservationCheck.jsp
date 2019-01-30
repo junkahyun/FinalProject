@@ -99,11 +99,11 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
-		getTotal();
-		
-		getChekinOut();
+		getChekinOutTime();
 		
 		getdateBetween();
+		
+		getdayTotal();
 		
 		$(".minus").hide();
 		$("#plusRole").hide();
@@ -133,7 +133,7 @@ h3{font-size: 14pt;
 		
 	});//end of $(document).ready------------
 
-	function getChekinOut(){
+	function getChekinOutTime(){
 		// *** 날짜 시간만 가져오기 ***//
 		var check1 = $("#checkin1").text();
 		$("#checkin1").text(check1.substring(11,13));
@@ -146,10 +146,15 @@ h3{font-size: 14pt;
 		
 	}
 	
-	
-	function getTotal(){
-		// 총금액 구하기
-		var stayday = $("#Price").text();cleanpay
+	function getdayTotal(){//1박금액*숙박일수 && 총금액
+		
+		var stayday = $("#Price").text();
+		var stay = stayday.split(",");
+		var daybetween = $("#day_between").text();
+		
+		$("#Price").text(Number(daybetween*stay.join("")).toLocaleString());
+		
+		stayday = $("#Price").text();
 		var cleanpay = $("#cleanpay").text();
 		var peakpay = $("#peakpay").text();
 		
@@ -159,6 +164,7 @@ h3{font-size: 14pt;
 		
 		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
+		
 	}
 	
 	function getdateBetween(){ //두 날짜사이의 차이 구하기
@@ -171,8 +177,23 @@ h3{font-size: 14pt;
 	      
 	    var time1 = date1.getTime();
 	    var time2 = date2.getTime();
-	      
-	    console.log((time2-time1)/(1000*60*60*24));
+	    
+	    var datebetween = (time2-time1)/(1000*60*60*24);//날짜 차이 구하기
+	    
+	    $("#day_between").text(datebetween);
+	    $("#day_between1").text(datebetween);
+	    
+	    $("#mon1").text(checkin.substring(5,7));
+	    $("#day1").text(checkin.substring(8));
+	    
+	    $("#mon2").text(checkout.substring(5,7));
+	    $("#day2").text(checkout.substring(8));
+	    
+	    var chin = checkin.substring(0,4)+"년 "+checkin.substring(5,7)+"월 "+checkin.substring(8)+"일";
+	    var chout = checkout.substring(0,4)+"년 "+checkout.substring(5,7)+"월 "+checkout.substring(8)+"일";
+	    
+	    $("#in").text(chin);
+	    $("#out").text(chout);
 	      
 	}
 	
@@ -271,13 +292,13 @@ h3{font-size: 14pt;
 		<h3 >${oneRoom.roomSigungu} <span id="day_between"></span>박</h3>
 		<br>
 		<div class="col-md-5 rev" >
-			<div class="col-md-3 date" align="center">${mon1}월<br>${day1}일</div>
+			<div class="col-md-3 date" align="center"><span id="mon1"></span>월<br><span id="day1"></span>일</div>
 			<div class="chekdate">체크인:수요일 <br>
 			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
-			<div class="col-md-3 date"  align="center">${mon2}월<br>${day2}일</div>
+			<div class="col-md-3 date"  align="center"><span id="mon2"></span>월<br><span id="day2"></span>일</div>
 			<div class="chekdate">체크아웃:수요일 <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
 					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
@@ -403,7 +424,7 @@ h3{font-size: 14pt;
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				${year1}년 ${mon1}월 ${day1}일 <i class="fas fa-arrow-right"></i>${year2}년 ${mon2}월 ${day2}일
+				<span id="in"></span><i class="fas fa-arrow-right"></i><span id="out"></span>
 				</span>
 			</div>
 			</div>
@@ -415,10 +436,10 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
-				 </span> x <span id="day_between">2</span>박
+				 </span> x <span id="day_between1"></span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*2}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
