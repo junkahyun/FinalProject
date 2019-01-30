@@ -6,17 +6,6 @@
 <mapper namespace="kh">
 
 
-	<resultMap type="HashMap" id="ruleMap">
-		<result column="rule_name" property="rule_name" javaType="String" />
-		<result column="rule_status" property="rule_status" javaType="String" />	
-		<result column="rule_idx" property="rule_idx" javaType="String" />	
-	</resultMap>
-
-	<select id="getRoomRule" resultMap="ruleMap">
-		select rule_name,rule_status,rule_idx
-		from roomrule
-	</select>
-	
 	<select id="getOneRoomInfo" resultType="com.spring.bnb.model.RoomVO" parameterType="HashMap">
 		select *
 		from room A 
@@ -28,10 +17,10 @@
 	</select>
 	
 	
-	<select id="getOneHost" parameterType="com.spring.bnb.model.RoomVO" resultType="com.spring.bnb.model.MemberVO">
+	<select id="getOneHost" parameterType="String" resultType="com.spring.bnb.model.MemberVO">
 		select*
 		from member 
-		where userid = #{host_userid}
+		where userid = #{fk_userid}
 	</select>
 	
 	
@@ -76,11 +65,27 @@
 		insert into RESERVATION (RSVCODE,FK_ROOMCODE,FK_USERID,GUESTCOUNT,BABYCOUNT
 		,RSV_NAME,RSV_PHONE,RSV_EMAIL,RSV_CHECKINDATE,RSV_CHECKOUTDATE,
 		PAYDATE,TOTALPRICE,RSV_MSG,DCPRICE,RSV_CANCLEDATE)
-		values(#{revcode},#{roomcode},#{my_userid},#{guestcount},#{babycount}
+		values(#{revcode},#{roomcode},#{my_userid},#{guestCount},#{babyCount}
 		,#{username},#{phone},#{email},
-		(#{year}||#{checkmonth1}||#{checkday1}),
-		(#{year}||#{checkmonth2}||#{checkday2}),sysdate,#{totalprice},#{message},'','')
+		(#{year1}||#{mon1}||#{day1}),
+		(#{year2}||#{mon2}||#{day2}),sysdate,#{totalprice},#{message},'','')
 	</insert>
+	
+	<!-- <insert id="insertReservation" statementType="CALLABLE" parameterType="HashMap">
+		{call pcd_reservation_insert(#{revcode,mode=in}
+								    ,#{roomcode,mode=in}
+								    ,#{my_userid,mode=in}
+								    ,#{guestCount,mode=in}
+								    ,#{babyCount,mode=in}
+								    ,#{phone,mode=in}
+								    ,#{email,mode=in}
+								    ,#{revcode,mode=in}
+								    ,#{year1||mon1||day1,mode=in}
+								    ,#{year2||mon2||day2,mode=in}
+								    ,#{message,mode=in}
+								    ,#{totalprice,mode=in}) 
+		}
+	</insert> -->
 	
 	
 	<select id="getOneReserve" parameterType="HashMap" resultType="com.spring.bnb.model.ReservationVO">

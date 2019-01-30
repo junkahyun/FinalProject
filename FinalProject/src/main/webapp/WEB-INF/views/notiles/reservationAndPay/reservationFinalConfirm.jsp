@@ -41,8 +41,8 @@ input{outline: none;
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
 		$("#btnsubmit").click(function(){
-			
 			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		
@@ -53,7 +53,49 @@ input{outline: none;
 
 </head>
 <body>
-
+<!-- Channel Plugin Scripts -->
+<script>
+  ;window.channelPluginSettings = {
+    "pluginKey": "6f3362e0-0256-424f-9493-b4dc969bc2d0" //please fill with your plugin key
+  };
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var d = window.document;
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+</script>
+<!-- End Channel Plugin -->
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
@@ -72,7 +114,7 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-3" >
 			<span class="myinfomation" >이름</span><br>
-			<input class="reservationInfo" type="text" value="${username}" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${loginuser.username}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">숙소주소</span><br>
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomName}"  readonly="readonly"/><br>
@@ -97,7 +139,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth1}월 ${checkday1}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -106,7 +148,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year}년 ${checkmonth2}월 ${checkday2}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -119,8 +161,8 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${checkday2-checkday1}박</td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(checkday2-checkday1)}" pattern="#,###"/></td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${day2-day1}박</td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(day2-day1)}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr>

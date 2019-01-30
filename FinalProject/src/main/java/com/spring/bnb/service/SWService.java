@@ -55,7 +55,7 @@ public class SWService implements InterSWService {
 		
 		return buildDetailList;
 	}
-
+	
 	@Override
 	public List<RoomVO> getRoomList() {
 
@@ -72,30 +72,22 @@ public class SWService implements InterSWService {
 		return reservationList;
 	}
 
-	
-
-	/*@Override
-	public List<RoomVO> getSWOptionList(HashMap<String, String> paraMap) {
-
-		List<RoomVO> optionList = dao.getSWOptionList(paraMap);
-			
-		return optionList;
-	}*/
-
-	/*@Override
-	public List<RoomVO> getSWOptionList(HashMap<String, Object> paraMap) {
-
-		List<RoomVO> optionList = dao.getSWOptionList(paraMap);
-		
-		return optionList;
-	}*/
-
 	@Override
-	public List<RoomVO> getSWOptionList(HashMap<String,String> paraMap) {
+	public List<RoomVO> getSWOptionList(HashMap<String,Object> paraMap) {
 
 		List<RoomVO> optionByHomeList = dao.getSWOptionList(paraMap);
 		
 		return optionByHomeList;
+	}	
+
+	@Override
+	public List<RoomVO> getHomeListByOption(HashMap<String, String> paraMap) {
+
+		List<RoomVO> homeListByOption = dao.getHomeListByOption(paraMap);
+		
+		return homeListByOption;
 	}
+
+	
 	
 }

@@ -287,7 +287,24 @@ select *
 from room
 order by roomcode desc;
 
+select *
+from review;
+
 update room set ROOMSTATUS = 99
 where ROOMCODE in (24,25,26);
 commit;
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+
+select ROOMCODE, PROFILEIMG, ROOMMAINIMG, ROOMNAME, PROFILEIMG, ROOMPRICE, RNO 
+from(
+    select distinct(roomcode) AS ROOMCODE, avg((correct+communicate+clean+position+checkin+value)) AS SCORE, roomMainImg, roomname, C.profileImg as profileImg, roomprice, rownum as RNO
+    from room A JOIN review B
+    on A.roomcode = B.fk_roomcode
+    join member C
+    on B.fk_userid = C.userid 
+    group by roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
+    rownum
+    order by roomcode asc
+)V
+where RNO between 1 and 7
+
+

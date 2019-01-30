@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+
+=======
+>>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
 /* 내 테이블1 */
 CREATE TABLE my_db.my_table1 (
 	my_pk1 INTEGER NOT NULL, /* 내 기본 키 컬럼1 */
@@ -613,6 +617,8 @@ where roomcode = 10 and not exists(select rule_idx
                                     select fk_roomtype_idx 
                                     from room
                                     where roomcode = 10)
+ 
+
                          
 select*from allrule;
 select*from roomrule;
@@ -695,4 +701,48 @@ where fk_rule_idx in (2)
 select roomcode
 from room
 where rule
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+
+select roomcode, roomname, roommainimg, roomtel, roompost, roomsigungu, roomsido, roombname, roomprice 
+from room A JOIN buildtype_detail B
+ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+where B.buildtype_detail_name = '주택'
+
+select * from buildtype_detail
+select * from buildtype
+select * from room
+
+select * from bedroom
+select * 
+from bed A JOIN bedobj B
+ON A.fk_bedobj_idx = B.bedobj_idx
+JOIN bedroom C
+ON A.fk_bedroom_idx = C.bedroom_idx
+
+select * 
+from room A join roomType B 
+on A.fk_roomtype_idx = B.roomtype_idx
+JOIN bedroom C
+ON A.roomcode = C.fk_roomcode
+JOIN bed D
+ON C.bedroom_idx = D.fk_bedroom_idx
+JOIN bedobj E
+ON D.fk_bedobj_idx = E.bedobj_idx
+
+
+select to_char(checkintime, 'yyyy-mm-dd') AS checkintime
+     , to_char(checkouttime, 'yyyy-mm-dd') AS checkouttime
+from room
+where to_char(checkintime, 'yyyy-mm-dd') >= '2019-01-18'
+and to_char(checkouttime, 'yyyy-mm-dd') <= '2019-01-31'
+
+select *
+from room A JOIN reservation B
+ON A.roomcode = B.fk_roomcode
+where not to_char(B.rsv_checkindate, 'yyyy-mm-dd')  between '2019-01-20' and '2019-02-30'
+and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-20' and '2019-02-30';
+
+
+
+
+
+select * from reservation B

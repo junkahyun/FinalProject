@@ -63,6 +63,13 @@ public class SCDAO implements InterSCDAO {
 		int n = sqlsession.update("sc.updateCoverImg", paraMap);
 		return n;
 	}
+	
+	
+	@Override
+	public List<RoomVO> roomnameSearch(HashMap<String, String> paraMap) {
+		List<RoomVO> roomList = sqlsession.selectList("sc.roomnameSearch", paraMap);
+		return roomList;
+	}
 
 	
 

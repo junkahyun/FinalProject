@@ -9,14 +9,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
-
-
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+ <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d69349d952e3fb841042681c3ba35f75&libraries=services"></script>
 
 <style type="text/css">
 
@@ -99,6 +101,12 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
+		getDatebetween();
+		
+		getTotal();
+		
+		getChekinOut();
+		
 		$(".minus").hide();
 		$("#plusRole").hide();
 		
@@ -124,6 +132,10 @@ h3{font-size: 14pt;
 			
 		});
 		
+		
+	});//end of $(document).ready------------
+
+	function getChekinOut(){
 		// *** 날짜 시간만 가져오기 ***//
 		var check1 = $("#checkin1").text();
 		$("#checkin1").text(check1.substring(11,13));
@@ -134,8 +146,10 @@ h3{font-size: 14pt;
 		var checkout2 = $("#checkout2").text();
 		$("#checkout2").text(checkout2.substring(11,13));
 		
-		//------------------------------------------------
-		
+	}
+	
+	
+	function getTotal(){
 		// 총금액 구하기
 		var stayday = $("#Price").text();cleanpay
 		var cleanpay = $("#cleanpay").text();
@@ -147,21 +161,72 @@ h3{font-size: 14pt;
 		
 		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
-	});//end of $(document).ready------------
-
-
-	function gonextCheck(){
-		var frm = document.revCheckFrm;
-		frm.method="GET";
-		frm.action="<%=ctxPath%>/reservationCheckPeople.air"
-		frm.submit();
 	}
+	
+	function getDatebetween(){
+		
+		
+	}
+	
+	function gonextCheck(){ // 다음페이지로 보내기
+		var frm = document.datecheck;
+		frm.method="get";
+		frm.action="reservationCheckPeople.air";
+		frm.submit();
+		
+		<%-- location.href="<%=ctxPath%>/reservationCheckPeople.air" --%>
+	}
+	
 
 </script>
 
 </head>
 <body>
+<!-- Channel Plugin Scripts -->
+<script>
+  ;window.channelPluginSettings = {
+    "pluginKey": "6f3362e0-0256-424f-9493-b4dc969bc2d0" //please fill with your plugin key
+  };
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var d = window.document;
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+</script>
 
+ 
+<!-- End Channel Plugin -->
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
     	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
@@ -190,25 +255,25 @@ h3{font-size: 14pt;
 				    </div>
 				</c:if>
 				
-					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
-					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
-				    </div> 
+				<%-- <div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+				<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
+				     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
+			    </div> --%>
 			    
 			</div>
 		</div>
 		<br>
 		<!-- 숙박지역, 숙박일수  -->
-		<h3 >${oneRoom.roomSigungu} ${(day+7)-day}박</h3>
+		<h3 >${oneRoom.roomSigungu} <span id="day_between"></span>박</h3>
 		<br>
 		<div class="col-md-5 rev" >
-			<div class="col-md-3 date" align="center">${month}월<br>${day}일</div>
+			<div class="col-md-3 date" align="center">${mon1}월<br>${day1}일</div>
 			<div class="chekdate">체크인:수요일 <br>
 			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
-			<div class="col-md-3 date"  align="center">${month}월<br>${day+7}일</div>
+			<div class="col-md-3 date"  align="center">${mon2}월<br>${day2}일</div>
 			<div class="chekdate">체크아웃:수요일 <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
 					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
@@ -321,11 +386,20 @@ h3{font-size: 14pt;
 			<div class="panel-body memberinfo">
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
-				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;">게스트 ${guestcount}명</span>
+				<i class="fas fa-users fa-lg" style="color: #008489;"></i>
+				<span style="margin-left: 3%;">게스트 ${guestCount}명
+				<c:if test="${babyCount == 0}">
+				</c:if>
+				
+				<c:if test="${babyCount != 0}">
+				, 유아 ${babyCount}명
+				</c:if>
+				
+				</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				${year}년 ${month}월 ${day}일 <i class="fas fa-arrow-right"></i>${year}년 ${month}월 ${day+7}일
+				${year1}년 ${mon1}월 ${day1}일 <i class="fas fa-arrow-right"></i>${year2}년 ${mon2}월 ${day2}일
 				</span>
 			</div>
 			</div>
@@ -337,10 +411,10 @@ h3{font-size: 14pt;
 				<div class="col-md-9" >
 				 ₩<span >
 				 <fmt:formatNumber value="${oneRoom.roomPrice}" pattern="#,###"/>
-				 </span> x <span id="stayday">${(day+7)-day}</span>박
+				 </span> x <span id="day_between"></span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*((day+7)-day)}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)*2}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
@@ -378,12 +452,7 @@ h3{font-size: 14pt;
 		</div>
 	</div>
 </div>
-<form name="revCheckFrm">
-<input type="hidden" value="${month}" name="checkmonth1"/>
-<input type="hidden" value="${month}" name="checkmonth2"/>
-<input type="hidden" value="${day}" name="checkday1"/>
-<input type="hidden" value="${(day+7)}" name="checkday2"/>
-</form>
+
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>
