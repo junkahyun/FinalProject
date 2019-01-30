@@ -36,9 +36,9 @@
 
 <script>
 
-	function start(){
+	function next(){
 		var frm = document.roomstep3;
-		frm.action = "roomstep3page.air";
+		frm.action = "roomfinish.air";
 		frm.method = "GET";
 		frm.submit();
 	}
@@ -46,7 +46,7 @@
 </script>
 
 <form name="roomstep3">
-<div class="row">
+<div class="row" style="margin-left: 6%; margin-top: 5%;">
 
 	<div class="col-md-6" style="margin-left: 20%; margin-top: 3%; border:0px solid gray;">
 		<h2 style="font-weight: normal;">모든 단계의 작성을 완료했습니다!</h2>
@@ -65,7 +65,7 @@
 		
 		<div class="col-md-4 complete" style="border: 0px solid red; padding: 0; float: right;">
 			숙소등록을 완료하시겠습니까?<br/>
-			<button id="" type="button" style="margin-top:25px; width: 250px; height: 50px; font-size:18px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; ">완료하기</button>
+			<button onclick="next();" type="button" style="margin-top:25px; width: 250px; height: 50px; font-size:18px; background-color: #fd5a61; border: none; border-radius: 3px; color: white; ">완료하기</button>
 		</div>
 	</div>
 
