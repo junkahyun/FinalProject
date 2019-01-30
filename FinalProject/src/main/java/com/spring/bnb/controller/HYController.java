@@ -137,12 +137,11 @@ public class HYController {
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
 	public String login(HttpServletRequest req ,MemberVO member) {
 		member.setPwd(SHA256.encrypt(member.getPwd()));
+		System.out.println("userid : "+member.getUserid()+"/ pwd : "+member.getPwd());
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
-		if(loginuser==null) {
-			logincheck = "false";
-		}
+		if(loginuser==null) logincheck = "false";
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
 			logincheck = "true";
@@ -174,7 +173,7 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
-		//System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
+		System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);
@@ -193,9 +192,7 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		List<HashMap<String,Object>> resultMap = service.getMyLikeRoomList(userid);
 		JSONArray jsonArr = new JSONArray();
-		for(HashMap<String,Object> result :resultMap) {
-			jsonArr.put(result);
-		}
+		for(HashMap<String,Object> result :resultMap) jsonArr.put(result);
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
 		return "JSON";
@@ -288,6 +285,13 @@ public class HYController {
 		json.put("n", n);
 		req.setAttribute("str_json", json.toString());
 		return "JSON";
+	}
+	
+	// 작성한 리뷰 DB에 insert하기
+	@RequestMapping(value="reviewInsert.air",method=RequestMethod.POST)
+	public String reviewInsert(ReviewVO review, HttpServletRequest req) {
+		
+		return "";
 	}
 }
 

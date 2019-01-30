@@ -270,9 +270,9 @@
 			   $(this).parent().parent().find(".sofaupdown").val(plus);
 		});
 	 	
-	 	$("#checkBtn").click(function(){
+	 	$("#next2").click(function(){
 		 	//var resultbedArr = [];
-		 	var testalertString = "";
+		 	var bedroominfo = "";
 	 		var bedroomCount = $("#bedroom").val();
 	 		for(var i=1;i<=bedroomCount;i++){
 	 			if(parseInt(doubleTotal)==0&&parseInt(queenTotal)==0&&parseInt(singleTotal)==0&&parseInt(sofabedTotal)==0){
@@ -280,43 +280,44 @@
 	 			}
 	 			else {
 	 				var bedCount = $(".bedroom_"+i+"").find(".bedQtyCount").val();
-	 				testalertString += "{";
+	 				bedroominfo += "{";
 	 				
 		 			var doubleTotal = $(".bedroom_"+i+"").find(".doubleupdown").val();
 		 			var queenTotal = $(".bedroom_"+i+"").find(".queenupdown").val();
 		 			var singleTotal = $(".bedroom_"+i+"").find(".singleupdown").val();
 		 			var sofabedTotal = $(".bedroom_"+i+"").find(".sofaupdown").val();
 		 			
-		 			if(parseInt(doubleTotal)!=0) testalertString += "doublebedCount : "+doubleTotal;
+		 			if(parseInt(doubleTotal)!=0) bedroominfo += "doublebedCount : "+doubleTotal;
+		 			if(parseInt(doubleTotal)!=0&&bedCount>1){
+		 				bedroominfo+= ",";
+		 				bedCount-=doubleTotal;
+		 			}
+		 			if(parseInt(queenTotal)!=0) bedroominfo += "queenbedCount : "+queenTotal;
 		 			if(parseInt(queenTotal)!=0&&bedCount>1){
-		 				testalertString+= ",";
+		 				bedroominfo+= ",";
 		 				bedCount-=queenTotal;
 		 			}
-		 			if(parseInt(queenTotal)!=0) testalertString += "queenbedCount : "+queenTotal;
+		 			if(parseInt(singleTotal)!=0) bedroominfo += "singlebedCount : "+singleTotal;
 		 			if(parseInt(singleTotal)!=0&&bedCount>1){
-		 				testalertString+= ",";
+		 				bedroominfo+= ",";
 		 				bedCount-=singleTotal;
 		 			}
-		 			if(parseInt(singleTotal)!=0) testalertString += "singlebedCount : "+singleTotal;
-		 			if(parseInt(sofabedTotal)!=0&&bedCount>1){
-		 				testalertString+= ",";
-		 				bedCount-=sofabedTotal;
-		 			}
-		 			if(parseInt(sofabedTotal)!=0) testalertString += "sofabedCount : "+sofabedTotal;
+		 			if(parseInt(sofabedTotal)!=0) bedroominfo += "sofabedCount : "+sofabedTotal;
 		 			
-		 			testalertString += "}";
-		 			if(i!=bedroomCount)testalertString += "/";
+		 			bedroominfo += "}";
+		 			if(i!=bedroomCount)bedroominfo += "/";
 	 			}
 	 		}
-	 		alert(testalertString);
-	 		var form_data = {"bedroomInfo":testalertString};
+	 		//alert(bedroominfo);
+	 		var form_data = {"bedroomInfo":bedroominfo};
 	 		$.ajax({
-	 			url:"checkbedroom.air",
+	 			url:"bedroom.air",
 	 			type:"POST",
 	 			data:form_data,
 	 			dataType:"JSON",
-	 			success:function(json){
-	 				alert();
+	 			success:function(json){ 
+	 				$("#second").hide();
+	 				$("#third").show();
 	 			},
 	 			error:function(){
 	 			}
@@ -426,11 +427,6 @@
 	function back2(){
 	   $("#first").show();
 	   $("#second").hide();
-	}
-	
-	function next2(){
-		$("#second").hide();
-		$("#third").show();
 	}
 	
 	// third ---------------------------------------------------------
@@ -550,20 +546,20 @@
 
 </script>
 
+<div class="row">
+	<div class="col-md-1">
+		<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+	</div>
+	<div class="col-md-6" style="font-size: 18px; margin-top: 20px; padding-left: 0">1단계: 기본사항을 입력하세요</div>
+</div>
+<hr/>
+
 <form name="roomtype">
 	<div>
 	   <div class="row" style="border: 0px solid green;">
-	   
-	   <!-- 진행상태바 -->
-	   <div class="container col-md-12" style="border: 0px solid red;">
-		  <div class="progress" style="height: 13px;"> 
-		    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width:5%; background-color: #148487;">
-		    </div>
-		  </div>
-		</div>
 	    
 	    <!-- 입력창 반복되는 div -->
-	    <div class="col-md-3" style="margin-left: 27%; margin-top: 3%; border: 0px solid red;">
+	    <div class="col-md-3" style="margin-left: 25%; margin-top: 3%; border: 0px solid red;">
 	      
 	        <!-- 첫번째 입력창 시작-->
 	      	<div class="row" id="first">
@@ -656,16 +652,16 @@
 		         </div>
 		         
 				<h3> 침대 유형 </h3>
-				<div style="margin-bottom: 25%;">
+				<div style="margin-bottom: 27%;">
 				<div class="row" style="border: 0px solid black;padding:0;" id="addbed">
 					<div id="bedhtmladdHY" class="bedroomEach bedroom_1">
 	 		        	<div class="col-md-12 gochild">
-					    	<div class="col-md-6 gochild" style="border: 0px solid blue">
+					    	<div class="col-md-5 gochild" style="border: 0px solid blue">
 					        	<div class="bedroomNum" style="font-size: 19px;">1 번 침실</div>
 					         	<div class="bedCountinFor" style="font-size: 19px; color: #767676;">침대 0개</div>
 					         	<input type="hidden" class="bedQtyCount">
 					        </div>
-					        <div class="col-md-6" style="border: 0px solid red; height: 56px; padding-right: 0;">
+					        <div class="col-md-7" style="border: 0px solid red; height: 56px; padding-right: 0;">
 					        	<button type="button" class="bedAdd" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em">침대 추가하기</button>
 					        </div>
 				        </div>
@@ -732,7 +728,7 @@
 			         </div>
 			         <div class="col-md-6" style="border: 0px solid red;"></div>
 			         <div class="col-md-3" style="border: 0px solid red; padding-right: 0;">
-			            <button type="button" onclick="next2();" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
+			            <button type="button" id="next2" style="width: 80px; height: 48px; background-color: #148487; border: none; border-radius: 3px; color: white; font-weight: bold; font-size: 1.2em; float: right;">다음</button>		          
 			         </div>
 		        </div> 
 	        
@@ -875,7 +871,7 @@
 		            <div class="col-md-10" style="margin-top: 25px; border: 0px solid red;">
 		                <div class="col-md-12" style="font-size: 20px;">상세주소(필수)</div>  
 						<div class="col-md-12" style="border: 0px solid blue; padding-right: 0;">
-							<input type="text" id="addrDetail" name="roomdetailAddr" style="margin: 0; padding: 25px" class="input-data form-control error4" placeholder="예) 35동 3층 301호"/>
+							<input type="text" id="addrDetail" name="roomDetailAddr" style="margin: 0; padding: 25px" class="input-data form-control error4" placeholder="예) 35동 3층 301호"/>
 							<div class="error4_text">상세주소를 입력하세요.</div>
 						</div>
 		            </div>

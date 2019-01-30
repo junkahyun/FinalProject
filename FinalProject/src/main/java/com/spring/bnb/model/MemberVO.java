@@ -14,7 +14,7 @@ public class MemberVO {
 	private String addr;
 	private String detailAddr; 
 	private int gender;
-	private String birthday; 
+	private String birthday;  
 	private String introduction; 
 	private int memberStatus;
 	private int warnCount;

@@ -49,6 +49,7 @@ public class SWController {
 		List<String> roomRule = service.getRoomRule();
 		// 숙소유형(소)
 		List<RoomVO> roomList = service.getRoomList();
+			
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
@@ -90,7 +91,7 @@ public class SWController {
 		JSONArray jsonArr = new JSONArray();  
 		
 		List<String> buildDetailName = service.getBuildDetailList(buildName1);
-		
+				
 		for(String test : buildDetailName) {
 			
 			JSONObject jsonObj = new JSONObject();
@@ -100,6 +101,8 @@ public class SWController {
 			jsonArr.put(jsonObj);
 		}
 		
+		
+		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
 		
@@ -108,6 +111,56 @@ public class SWController {
 		System.out.println(jsonArr);*/
 		
 		return "JSON";
+	}
+	
+	@RequestMapping(value = "/homeListByOption.air", method = {RequestMethod.GET})
+	public String homeListByOption(HttpServletRequest req, HttpServletResponse res) {
+		
+		String buildName2 = req.getParameter("buildName2");
+		String checkin = req.getParameter("checkin");
+		String checkout = req.getParameter("checkout");
+		String startprice = req.getParameter("startprice");
+		String endprice = req.getParameter("endprice");
+		String city = req.getParameter("city");
+		String allperson = req.getParameter("allperson");
+						
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("BUILDNAME2", buildName2);
+		paraMap.put("CHECKIN", checkin);
+		paraMap.put("CHECKOUT", checkout);
+		paraMap.put("STARTPRICE", startprice);
+		paraMap.put("ENDPRICE", endprice);
+		paraMap.put("CITY", city);
+		paraMap.put("ALLPERSON", allperson);
+		
+		/*System.out.println(paraMap);*/
+		JSONArray jsonArr = new JSONArray();
+		
+		List<RoomVO> homeListByOption = service.getHomeListByOption(paraMap);
+		
+		for(RoomVO roomvo : homeListByOption) {
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+			jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+			
+			if(roomvo.getRoomName().length() >= 25) {
+				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+			}
+			else {
+				jsonObj.put("ROOMNAME", roomvo.getRoomName());
+			}
+			
+			jsonArr.put(jsonObj);
+		}
+		
+		
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		/*System.out.println(str_json);
+		System.out.println(jsonArr.length());*/
+		
+		return "JSON";		
 	}
 	
 	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
@@ -133,9 +186,8 @@ public class SWController {
 		String[] rulename = req.getParameterValues("rulename");
 		String[] roomtype_name = req.getParameterValues("roomtype_name");
 		String[] optionname = req.getParameterValues("optionname");
-				
-		int roomcode = 10;
-		
+		String[] city = req.getParameterValues("city");
+			
 		String rulenameStr = "";
 		String roomtype_nameStr = "";
 		String optionnameStr = "";
@@ -145,7 +197,7 @@ public class SWController {
 			for(int i=0; i<rulename.length; i++) {
 				String rule = rulename[i];				
 				if(rulename.length > i+1) {
-					rulenameStr += rule+", ";					
+					rulenameStr += rule+",";					
 				}
 				else {
 					rulenameStr += rule;
@@ -159,7 +211,7 @@ public class SWController {
 			for(int i=0; i<roomtype_name.length; i++) {
 				String roomtype = roomtype_name[i];				
 				if(roomtype_name.length > i+1) {
-					roomtype_nameStr += roomtype+", ";
+					roomtype_nameStr += roomtype+",";
 				}
 				else {
 					roomtype_nameStr += roomtype;
@@ -173,7 +225,7 @@ public class SWController {
 			for(int i=0; i<optionname.length; i++) {
 				String option = optionname[i];				
 				if(optionname.length > i+1) {
-					optionnameStr += option+", ";
+					optionnameStr += option+",";
 				}
 				else {
 					optionnameStr += option;
@@ -182,16 +234,17 @@ public class SWController {
 		//	System.out.println(optionnameStr);
 		}		
 		
-		System.out.println(rulenameStr);
+		/*System.out.println(rulenameStr);
 		System.out.println(roomtype_nameStr);
-		System.out.println(optionnameStr);
+		System.out.println(optionnameStr);*/
 		
-		HashMap<String,String> paraMap = new HashMap<String,String>();
+		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
+		paraMap.put("CITY", city);
 				
-		System.out.println("1 :"+paraMap);
+		/*System.out.println("1 :"+paraMap);*/
 		
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
@@ -204,14 +257,19 @@ public class SWController {
 			
 			mapList.add(map);
 		}
-		System.out.println("2 :"+mapList);
+		/*System.out.println("2 :"+mapList);*/
 		
 		JSONArray jsonArr = new JSONArray();  		
 				
 		for(RoomVO test : optionList) {
 			
 			JSONObject jsonObj = new JSONObject();			
-			jsonObj.put("ROOMNAME", test.getRoomName());
+			if(test.getRoomName().length() >= 25) {
+				jsonObj.put("ROOMNAME", test.getRoomName().substring(0, 25)+"....");
+			}
+			else {
+				jsonObj.put("ROOMNAME", test.getRoomName());
+			}
 			jsonObj.put("ROOMPRICE", test.getRoomPrice());
 			jsonObj.put("ROOMMAINIMG", test.getRoomMainImg());
 			
@@ -221,9 +279,10 @@ public class SWController {
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);		
 		
-		System.out.println("3 : " +str_json);
+		/*System.out.println("3 : " +str_json);*/
 		
 		return "JSON";
-	}
+	}	
+	
 	
 }

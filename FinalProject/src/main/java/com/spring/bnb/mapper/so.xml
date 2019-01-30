@@ -86,7 +86,12 @@
 	from member
 	where memberstatus =1 and userid = #{loginuser}
 </select>
-
+<select id="getTotalHostReviewCount" parameterType="String" resultType="int">
+	select count(*)
+    from review A join room B
+    on A.fk_roomcode = B.roomcode
+    where B.fk_userid=#{userid}
+</select>
 <resultMap type="HashMap" id="resList">
 	<result column="rsvcode" property="rsvcode" javaType="String"/>
 	<result column="username" property="username" javaType="String"/>
@@ -147,7 +152,6 @@
          left join BUILDTYPE F
           on F.BUILDTYPE_IDX = E.FK_BUILDTYPE_IDX 
     where A.userid = #{loginuser}
-
 </select> 
 
 
@@ -198,38 +202,6 @@
 </resultMap>
 
 <select id="getMemberReservationDetail" parameterType="HashMap" resultMap="resDetail">
-<!-- 
-select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomcode AS roomcode
-		   ,basic_person, guestcount ,babycount,rsv_name,rsv_phone,rsv_email,		   
-           to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate,
-           to_char(rsv_checkindate, 'DAY' ) AS checkInDay,
-	       to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate,
-	       to_char(rsv_checkoutdate, 'DAY' ) AS checkOutDay,
-	       to_char(paydate,'yyyy-mm-dd') as paydate,
-	       to_char(rsv_cancledate,'yyyy-mm-dd') AS rsv_cancledate
-	       ,totalprice, dcprice, cleanpay,roomprice, fk_roomtype_idx,roomname ,roommainimg, roomtel
-	       ,roompost, roomsigungu, roomsido, roombname,roomdetailaddr,latitude,longitude
-	       ,rsv_msg,roomcount,bathcount
-           ,roomtype_name,buildtype_detail_name,buildtype
-           ,nvl(bedcount,0) AS bedcount,nvl(bedtype,'없음') AS bedtype
-           ,case when rsv_checkindate > sysdate then 1 else 2 end AS flag
-           ,(to_date(rsv_checkoutdate,'yyyy-mm-dd') - to_date(rsv_checkindate,'yyyy-mm-dd')) AS dat
-	from member A join reservation B
-	      on A.userid = B.fk_userid
-	      join room C
-          on B.fk_roomcode = C.roomcode
-         left join roomtype D
-          on C.fk_roomtype_idx = D.roomtype_idx
-          left join BUILDTYPE_DETAIL E
-          on C.fk_buildType_detail_idx = e.buildtype_detail_idx
-         left join BUILDTYPE F
-          on F.BUILDTYPE_IDX = E.FK_BUILDTYPE_IDX 
-         left join bedroom G
-          on G.fk_roomcode = C.roomcode
-         left join bed H
-          on G.bedroom_idx = H.fk_bedroom_idx
-         left join BEDOBJ I
-          on I.bedobj_idx = H.fk_bedobj_idx -->
           
   select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomcode AS roomcode
 		   ,basic_person, guestcount ,babycount,rsv_name,rsv_phone,rsv_email,		   
@@ -321,7 +293,11 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 	<result column="AVG" property="AVG" javaType="String"/>
 </resultMap>
 <select id="hostReview" parameterType="String" resultMap="hostReviewMap">
-		select review_idx,roomname,roomcode,host_userid,write_userid,correct,communicate,clean,position,checkin,value
+    select rnum,review_idx,roomname,roomcode,host_userid,write_userid,correct,communicate,clean,position,checkin,value
+		,review_content,hostanswer,review_writedate,AVG
+    from
+    (
+    select rownum AS rnum,review_idx,roomname,roomcode,host_userid,write_userid,correct,communicate,clean,position,checkin,value
 		,review_content,hostanswer,review_writedate,AVG
 		from
 		(
@@ -331,9 +307,12 @@ select A.userid AS userid, username, email, phone, B.rsvcode AS rsvcode, C.roomc
 			, trunc((correct+communicate+clean+position+checkin+value)/6,1) as AVG
 			from review A join room B
 			on B.roomcode = A.fk_roomcode
-		)
-		where host_userid = #{userid}
-		order by review_idx
+            order by review_idx desc
+		)V
+		where host_userid = #{userid}		
+    )
+    where rnum between #{startRno} and #{endRno}
+    order by rnum asc
 </select>
 
 <!-- 나의 정보 수정 -->
