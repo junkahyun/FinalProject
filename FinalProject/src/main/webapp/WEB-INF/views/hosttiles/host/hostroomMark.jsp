@@ -80,12 +80,18 @@ supports (--custom: properties ){ .
 $(document).ready(function(){
 	
 	$("#charts").hide();
+	
 	$("#listingSelector").change(function(){
 		if($("#listingSelector").val() == "all"){
+			
 			$("#charts").hide();
+			$("._15lzjb6").show();
+			
 		} else{
+			
 			$("#charts").show();
 			$("._15lzjb6").hide();
+			
 			chart();
 		}
 	});
@@ -103,12 +109,21 @@ function chart(){
 		type:"POST",
 		dataType:"JSON",
 		success:function(json){
-			
+
 			var resultArr = [];
+			var totalCount = 0;
 			for(var i=0; i<json.length; i++) {
-				var subArr = [json[i].avgGrade, Number(json[i].gradeCount)];
+				var subArr = [Number(json[i].gradeCount)];
+				totalCount += Number(json[i].gradeCount);
 				resultArr.push(subArr); // 배열속에 값을 넣기
 			}
+			
+			console.log(totalCount);
+			
+			$("#PointCount").empty();
+			var html = "<h5 id='PointCount'>평점 ("+totalCount+"개)</h5>"
+			$("#PointCount").empty().html(html);
+			
 			Highcharts.chart('charts', {
 				  chart: {
 				    type: 'bar'
@@ -122,7 +137,7 @@ function chart(){
 				  yAxis: {
 				    min: 0,
 				    title: {
-				      text: 'Total fruit consumption'
+				      text: 'Total Point consumption'
 				    }
 				  },
 				  tooltip: {
@@ -210,7 +225,7 @@ function showreview() {
 									</div>
 									<!--  표시할 내용이 없을떄 나타나야함  끝-->
 									<div class="_1dl27thl" style="margin-top: 10%;">
-										<h5>평점 (0개) : 평점갯수 표시</h5>
+										<h5 id="PointCount">평점 (0개)</h5>
 									</div>
 
 									<!--  차트 시작 -->
