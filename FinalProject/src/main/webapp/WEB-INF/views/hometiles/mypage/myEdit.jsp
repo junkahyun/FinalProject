@@ -39,8 +39,9 @@
  }
  .filebox .upload-display img {
   /* 추가될 이미지 */ 
+
   display: block;
-   max-width: 100%;
+   width: 100%;
    width: 100% \9;
 height: auto; 
 
@@ -251,11 +252,11 @@ function codeCheckFun() {
 		 <div class="panel-body">
 		  <div class="col-md-12" style="padding:0;">
 			  <!-- 사용자 이미지 DIV 시작 -->
-			   <div class="col-md-2" style="margin:0; align-items: center;">
+			   <div class="col-md-2" style="margin:0; text-align: center;">
 				   <!--  user 이미지 보이기 -->
-				     <input type="hidden" name="profileimg" id="profileimgorg" value="${loginMember.profileimg}">
-				     <img src="${realPath}/resources/images/${loginMember.profileimg}" id="img" style="border-radius:100%; border: 1px solid lightgray; background-color: lightgray;" width="80%"/>
-					<!--  user 이미지 보이기 끝-->
+				   <input type="hidden" name="profileimg" id="profileimgorg" value="${loginMember.profileimg}">
+				    <img src="<%= ctxPath %>/resources/images/profile/${loginMember.profileimg}" id="img" style="border-radius:100px; border: 1px solid lightgray; width:80px; height:80px; background-color: lightgray;"/> 
+				   	<!--  user 이미지 보이기 끝-->
 					<!--  유저 이미지 변경 -->
 					 <div class="filebox preview-image" id="filebox">
 				 		 <input type="file" id="profileimg" name="file" accept="image/*" />
