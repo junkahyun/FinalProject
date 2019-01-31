@@ -85,6 +85,7 @@ $(document).ready(function(){
 			$("#charts").hide();
 		} else{
 			$("#charts").show();
+			$("._15lzjb6").hide();
 			chart();
 		}
 	});
@@ -95,14 +96,19 @@ $(document).ready(function(){
 function chart(){
 	var form_data = {roomcode:$("#listingSelector").val()};
 	
-	console.log(form_data);
+	//console.log(form_data);
 	$.ajax({
 		url:"rankShowJSON.air",
 		data:form_data,
 		type:"POST",
 		dataType:"JSON",
 		success:function(json){
-			alert(json);
+			
+			var resultArr = [];
+			for(var i=0; i<json.length; i++) {
+				var subArr = [json[i].avgGrade, Number(json[i].gradeCount)];
+				resultArr.push(subArr); // 배열속에 값을 넣기
+			}
 			Highcharts.chart('charts', {
 				  chart: {
 				    type: 'bar'
@@ -129,8 +135,8 @@ function chart(){
 				    }
 				  },
 				  series: [{
-				    name: json,
-				    data: [5,4,1,2,4]
+				    name: json.roomname,
+				    data: resultArr
 				  }]
 				});
 		},
@@ -181,8 +187,8 @@ function showreview() {
 													<select id="listingSelector" name="selected_listing"
 														class="_bwyiq2l">
 														<option value="all">숙소 선택</option>
-														<c:forEach var="room" items="${roomList }">
-															<option value="${room.roomcode }">${room.roomName }</option>
+														<c:forEach var="room" items="${roomList}">
+															<option value="${room.roomcode}">${room.roomName}</option>
 														</c:forEach>
 													</select>
 												</form>

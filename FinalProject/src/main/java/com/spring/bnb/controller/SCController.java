@@ -2,6 +2,7 @@ package com.spring.bnb.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSCService;
 
@@ -302,14 +304,26 @@ public class SCController {
 	}
 	
 	@RequestMapping(value = "/rankShowJSON.air", method = { RequestMethod.POST })
-	@ResponseBody
+	
 	public String rankShowJSON(HttpServletRequest req, HttpServletResponse res) {
 		
 		String roomcode = req.getParameter("roomcode");
 		System.out.println("char roomcode:"+roomcode);
+		RoomVO roomvo = service.getRoomInfo(roomcode);
+		List<HashMap<String, String>> countList = service.getReview(roomcode);
 		
-		
-		return roomcode;
+		JSONArray jsonArr = new JSONArray();
+		for(int i=0; i<countList.size(); i++) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("roomname", roomvo.getRoomName());
+			jsonObj.put("avgGrade", countList.get(i).get("avgGrade"));
+			jsonObj.put("gradeCount", countList.get(i).get("gradeCount"));
+			System.out.println(jsonObj);
+			jsonArr.put(jsonObj);
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////
