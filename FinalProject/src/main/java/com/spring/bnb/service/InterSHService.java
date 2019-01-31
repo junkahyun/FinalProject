@@ -49,5 +49,11 @@ public interface InterSHService {
 
 	// 신고게시글의 총 갯수를 알아오기(검색)
 	int getTotalCounts(HashMap<String, String> paraMap);
+
+	// 신고게시글 상세보기 => 조회수 증가 없이
+	ReportVO getReportDetailNo(String report_idx);
+
+	// 신고게시글 상세보기 => 조회수 증가
+	ReportVO getReportDetail(String report_idx, String userid);
 	
 }

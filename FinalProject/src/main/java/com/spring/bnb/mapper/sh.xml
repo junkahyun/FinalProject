@@ -159,5 +159,9 @@
 		where userid = #{userid}
 	</delete>
 	
+	<select id="getReportDetail" parameterType="String">
+		
+	</select>
+	
 	
 </mapper>

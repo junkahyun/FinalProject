@@ -73,7 +73,7 @@
 	  
 	  <form name="addWriteFrm" style="text-align: left;">     
 		      <input type="hidden" name="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
-		성명 : <input type="text" name="name" value="${sessionScope.loginuser.name}" class="short" readonly/>
+		성명 : <input type="text" name="name" value="${sessionScope.loginuser.username}" class="short" readonly/>
 	       댓글내용 : <input type="text" name="content" class="long" />
 	    
 	    <!-- 댓글에 달리는 원게시물 글번호(즉, 댓글의 부모글 글번호) -->
@@ -96,5 +96,5 @@
 		</tbody>
 	</table>
 
-	
+	<div id="pageBar" style="height: 50px; margin-left: 30%;"></div>
 </div>

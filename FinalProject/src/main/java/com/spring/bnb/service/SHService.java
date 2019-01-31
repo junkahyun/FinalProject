@@ -142,5 +142,28 @@ public class SHService implements InterSHService {
 		
 		return n;
 	}
+
+	// 신고게시글 상세보기 -> 조회수 증가 없이
+	@Override
+	public ReportVO getReportDetailNo(String report_idx) {
+
+		ReportVO reportvo = dao.getReportDetail(report_idx);
+		
+		return reportvo;
+	}
+
+	// 신고게시글 상세보기 -> 조회수 증가
+	@Override
+	public ReportVO getReportDetail(String report_idx, String userid) {
+		
+		ReportVO reportvo = dao.getReportDetail(report_idx);
+		
+		if(userid != null && !(reportvo.getFk_userid().equals(userid))) {
+			dao.upCount(report_idx);
+			reportvo = dao.getReportDetail(report_idx);
+		}
+		
+		return reportvo;
+	}
 	
 }

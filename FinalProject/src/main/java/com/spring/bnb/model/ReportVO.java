@@ -10,11 +10,13 @@ public class ReportVO {
 	private int report_status;
 	private String report_subject;
 	private int rno;
+	private int view_cnt;
 	
-	public ReportVO() {}
 
+	public ReportVO() {}
+	
 	public ReportVO(int report_idx, String fk_userid, String reporttype, String report_content, String report_date,
-			int report_status, String report_subject, int rno) {
+			int report_status, String report_subject, int rno, int view_cnt) {
 		super();
 		this.report_idx = report_idx;
 		this.fk_userid = fk_userid;
@@ -24,6 +26,7 @@ public class ReportVO {
 		this.report_status = report_status;
 		this.report_subject = report_subject;
 		this.rno = rno;
+		this.view_cnt = view_cnt;
 	}
 
 	public int getRno() {
@@ -90,4 +93,13 @@ public class ReportVO {
 		this.report_subject = report_subject;
 	}
 
+	public int getView_cnt() {
+		return view_cnt;
+	}
+
+	public void setView_cnt(int view_cnt) {
+		this.view_cnt = view_cnt;
+	}
+
+	
 }

@@ -85,9 +85,6 @@
 	    <div class="panel-body" style="border: 1px solid #dbdfdf;">
 	      
 	      <!--  for 문 시작 --> 
- 		<c:if test="${memberResList == null}">
-		 	현재 투숙 예정인 숙소가 없습니다! 새로운 여행을 떠나세요! 
-		</c:if>	
 		<c:if test="${memberResList != null }">
 		<c:forEach var="reservationInfo" items="${memberResList}" varStatus="status">
 		 <c:if test="${reservationInfo.rsv_cancledate == null && reservationInfo.flag == 2 && status.count == 1}" >

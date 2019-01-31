@@ -57,7 +57,7 @@
 					    html += "<tr>"+
 								"<td>"+entry.rno+"</td>"+
 							    "<td>"+entry.fk_userid+"</td>"+
-							    "<td><a href='adminVanDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a></td>"+
+							    "<td><a href='reportDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a></td>"+
 							    "<td style='text-align: center;'>"+entry.report_date+"</td>"+
 							    status+
 							    "</tr>";
@@ -159,21 +159,25 @@
 		
 	} // end of makeCommentPageBar ---------------
 	
-	function goDetail(report_idx) {
-		
-		
-		
-	}
-	
 </script>
 
-<div class="col-md-10">
+<div>
 
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-		<h1>신고관리</h1>
-	</div>
+		<h2>신고게시판</h2>
+	</div> 
 	
 	<div class="container">	
+		<form name="memberFrm" style="">
+			<div id="searchbar" style="padding-top: 1%; text-align: right; border:none; box-shadow : none; width: 100%;">
+				<select id="searchType" name="searchType" style="">
+					<option value="rno">번호</option>
+					<option value="fk_userid">아이디</option>
+				</select>
+		        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style=""><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch('1');"/></input>
+		    </div>
+		</form>
+	
 		<div class="row">
 			<div class="col-md-12" style="border: 0px solid gray;">
 				<table class="table table-hover">
@@ -200,16 +204,8 @@
 	</div>
 </div>
 
-<form name="memberFrm">
-	<div id="searchbar" style="text-align: center;">
-		<select id="searchType" name="searchType">
-			<option value="rno">번호</option>
-			<option value="fk_userid">아이디</option>
-		</select>
-        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style="" />
-        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch('1');"/></span>
-    </div>
-</form>
+
+
 
 <div class="pageBar" id="pageBar" style="text-align: center; margin: 2%;">
 	

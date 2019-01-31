@@ -238,12 +238,12 @@ public class SHController {
 	@RequestMapping(value="/board_report.air", method= {RequestMethod.GET})
 	public String adminVan(HttpServletRequest req) {
 
-		return "admin/board_report.admintiles";
+		return "home/board_report.hometiles";
 	}
 	
 	// 관리자 신고관리 페이지
 	@RequestMapping(value="/board_reportJSON.air", method= {RequestMethod.GET})
-	public String adminVanJSON(HttpServletRequest req) {
+	public String board_reportJSON(HttpServletRequest req) {
 		
 		HashMap<String, String> paraMap = null;
 		
@@ -303,6 +303,9 @@ public class SHController {
 			jsonArr.put(jsonObj);			
 			
 		}
+		
+		HttpSession session = req.getSession();
+		session.setAttribute("readCountPermission", "yes");
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
@@ -459,9 +462,39 @@ public class SHController {
 	}
 	
 	@RequestMapping(value="/reportDetail.air", method= {RequestMethod.GET}) 
-	public String adminVanDetail(HttpServletRequest req) {
-
-		return "admin/reportDetail.admintiles";
+	public String reportDetail(HttpServletRequest req) {
+		
+		String report_idx = req.getParameter("report_idx");
+		// System.out.println(report_idx);
+		
+		ReportVO reportvo = null;
+		
+		HttpSession session = req.getSession();
+		// MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		// System.out.println(loginuser+"1");
+		
+		String readCountPermission = (String)session.getAttribute("readCountPermission");
+		System.out.println(readCountPermission+"2");
+		
+		String userid = null;
+		
+		/*if(readCountPermission != null && "yes".equals(readCountPermission)) {
+			
+			if(loginuser != null) {
+				userid = loginuser.getUserid();
+			}
+			
+			reportvo = service.getReportDetail(report_idx, userid);
+			
+			session.removeAttribute("readCountPermission");
+		}
+		else {
+			reportvo = service.getReportDetailNo(report_idx);
+		}
+		
+		req.setAttribute("reportvo", reportvo);*/
+		
+		return "home/reportDetail.hometiles";
 	}
 	
 	
