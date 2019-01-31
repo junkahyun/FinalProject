@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -36,7 +37,7 @@ public class KHController {
 	// ***** 숙소이용규칙 확인하기 (예약)<aop처리해야댐> ***** //
 	
 	@RequestMapping(value="/reservationCheck.air", method= {RequestMethod.GET})
-	public String reservationCheck (HttpServletRequest req) throws ParseException {
+	public String requireLogin_reservationCheck (HttpServletRequest req,HttpServletResponse  res) throws ParseException {
 		
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
@@ -48,6 +49,10 @@ public class KHController {
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");
 	
+		
+		System.out.println(babyCount);
+		
+		babyCount = "0";
 		/*String roomcode = "R1752";
 		String guestCount = "2";
 		String babyCount = "1";
@@ -55,7 +60,8 @@ public class KHController {
 		String checkin = "2019-01-31";
 		String checkout = "2019-02-02";*/
 		//************************
-		
+		System.out.println(rsv_checkInDate);
+		System.out.println(rsv_checkOutDate);
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
 		
@@ -87,6 +93,10 @@ public class KHController {
 	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.GET})
 	public String reservationCheckPeople (HttpServletRequest req,HttpSession session)  {
 		
+		String day_between = req.getParameter("day_between");
+		System.out.println(day_between);
+		
+		session.setAttribute("day_between", day_between);
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
 
@@ -151,8 +161,8 @@ public class KHController {
 		String revcode = getOdrCode();//예약 코드 
 		String roomcode = oneroom.getRoomcode();//룸 코드
 		String my_userid = loginuser.getUserid();
-		String guestCount = (String)session.getAttribute("guestCount");
-		String babyCount = (String)session.getAttribute("babyCount");
+		String guestcount = (String)session.getAttribute("guestcount");
+		String babycount = (String)session.getAttribute("babycount");
 		String username = loginuser.getUsername();
 		String phone = loginuser.getPhone();
 		String email = loginuser.getEmail();
@@ -166,8 +176,8 @@ public class KHController {
 		map.put("revcode", revcode);
 		map.put("roomcode", roomcode);
 		map.put("my_userid", my_userid);
-		map.put("guestCount", Integer.parseInt(guestCount));
-		map.put("babyCount", Integer.parseInt(babyCount));
+		map.put("guestCount", Integer.parseInt(guestcount));
+		map.put("babyCount", Integer.parseInt(babycount));
 		map.put("username", username);
 		map.put("phone", aes.encrypt(phone));
 		map.put("email", aes.encrypt(email));
@@ -196,7 +206,7 @@ public class KHController {
 				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 박 </span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<span style='font-size:12pt;'>"+checkin+"  → "+checkout+"</span><br>");
-				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestCount)+Integer.parseInt(babyCount))+""+"명</span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestcount)+Integer.parseInt(babycount))+""+"명</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>요금내역</h1>");
 				sb.append("<h2>총 금액 (KRW) </h2>"+"<span style='font-size:12pt;'>₩"+totalprice+"</span><br>");
@@ -218,6 +228,15 @@ public class KHController {
 			}
 		}
 		
+		Calendar cal = Calendar.getInstance();
+	      
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		
+		req.setAttribute("year", year);
+		req.setAttribute("month", month);
+		req.setAttribute("day", day);
 		req.setAttribute("revcode", revcode);
 		
 		return "reservationAndPay/reservationFinalConfirm.notiles";
