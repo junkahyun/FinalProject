@@ -162,7 +162,7 @@ input{outline: none;
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×<span id="day_between1">${day_between}</span></td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)}" pattern="#,###"/></td>
+					<td >₩${price}</td>
 				</tr>
 				
 				<tr>
@@ -177,7 +177,7 @@ input{outline: none;
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">추가 인원 요금</td>
-					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/></td>
+					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/>(해당하는 경우만)</td>
 				</tr>
 				
 				<tr >

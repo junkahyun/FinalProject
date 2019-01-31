@@ -53,15 +53,11 @@ public class KHController {
 		System.out.println(babyCount);
 		
 		babyCount = "0";
-		/*String roomcode = "R1752";
-		String guestCount = "2";
-		String babyCount = "1";
 		
-		String checkin = "2019-01-31";
-		String checkout = "2019-02-02";*/
 		//************************
 		System.out.println(rsv_checkInDate);
 		System.out.println(rsv_checkOutDate);
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("roomcode", roomcode);
 		
@@ -111,7 +107,7 @@ public class KHController {
 		String totalprice = req.getParameter("totalprice");
 		String message = req.getParameter("message");
 		String totalpeople = req.getParameter("totalpeople");
-		
+		String price = req.getParameter("price");
 		
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
@@ -125,6 +121,7 @@ public class KHController {
 		session.setAttribute("totalprice", totalprice);
 		session.setAttribute("message", message);
 		session.setAttribute("totalpeople", totalpeople);
+		session.setAttribute("price", price);
 		
 		return "reservationAndPay/reservationCheckAndPay.notiles";
 	}
@@ -170,6 +167,7 @@ public class KHController {
 		String message = (String)session.getAttribute("message");
 		String checkin = (String)session.getAttribute("checkin");
 		String checkout = (String)session.getAttribute("checkout");
+		String day_between = (String)session.getAttribute("day_between");
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		
@@ -181,8 +179,8 @@ public class KHController {
 		map.put("username", username);
 		map.put("phone", aes.encrypt(phone));
 		map.put("email", aes.encrypt(email));
-		map.put("checkin", checkin);
-		map.put("checkout", checkout);
+		map.put("checkin", "2019-01-31");
+		map.put("checkout", "2019-02-22");
 		map.put("totalprice", Integer.parseInt(totalprice));
 		map.put("message", message);
 		
@@ -203,7 +201,7 @@ public class KHController {
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>"+oneroom.getRoomSigungu()+"</h1><br>");
 				sb.append("<img src='"+oneroom.getRoomMainImg()+"' style='width:150px;'/><br>");
-				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 박 </span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+day_between+"박 </span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<span style='font-size:12pt;'>"+checkin+"  → "+checkout+"</span><br>");
 				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestcount)+Integer.parseInt(babycount))+""+"명</span><br>");

@@ -158,11 +158,16 @@ h3{font-size: 14pt;
 		var checkin = "${checkin}";
 		var checkout = "${checkout}";
 		
+		var week = ["일","월","화","수","목","금","토"]; //요일 구하기
+		
 		var date1 = new Date(checkin);
 	    var date2 = new Date(checkout);
-	      
-	    var time1 = date1.getTime();
-	    var time2 = date2.getTime();
+	    
+	    var dayofweek1 = week[date1.getDay()];//해당 날짜의 요일구하기
+	    var dayofweek2 = week[date2.getDay()];//해당 날짜의 요일구하기
+	    
+	    var time1 = date1.getTime();//해당 날짜의 시간구하기
+	    var time2 = date2.getTime();//해당 날짜의 시간구하기
 	    
 	    var datebetween = (time2-time1)/(1000*60*60*24);
 	    //날짜 차이 구하기
@@ -170,11 +175,14 @@ h3{font-size: 14pt;
 	    $("#day_between").text(datebetween);
 	    $("#day_between1").text(datebetween);
 	    
-	    $("#mon1").text(checkin.substring(0,2));
-	    $("#day1").text(checkin.substring(3,5));
+	    $("#mon1").text(checkin.substring(0,2));//월
+	    $("#day1").text(checkin.substring(3,5));//일
 	    
-	    $("#mon2").text(checkout.substring(0,2));
-	    $("#day2").text(checkout.substring(3,5));
+	    $("#mon2").text(checkout.substring(0,2));//월
+	    $("#day2").text(checkout.substring(3,5));//일
+	    
+	    $("#yoil1").text(dayofweek1+"요일");//요일
+	    $("#yoil2").text(dayofweek2+"요일");//요일
 	    
 	    var chin = checkin.substring(6)+"년 "+checkin.substring(0,2)+"월 "+checkin.substring(3,5)+"일";
 	    var chout = checkout.substring(6)+"년 "+checkout.substring(0,2)+"월 "+checkout.substring(3,5)+"일";
@@ -285,18 +293,15 @@ h3{font-size: 14pt;
 		<br>
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center"><span id="mon1"></span>월<br><span id="day1"></span>일</div>
-			<div class="chekdate">체크인:수요일 <br>
+			<div class="chekdate"> 체크인:<span id="yoil1"></span> <br>
 			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
 			<div class="col-md-3 date"  align="center"><span id="mon2"></span>월<br><span id="day2"></span>일</div>
-			<div class="chekdate">체크아웃:수요일 <br>
+			<div class="chekdate">체크아웃: <span id="yoil2"></span> <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
 					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
-				</c:if>
-				<c:if test="${oneRoom.checkOutTime == '00'}">
-				 	<span id="checkout2">24:00</span>시 까지 
 				</c:if>
 			</div>
 		</div>

@@ -216,6 +216,7 @@ h3{font-size: 14pt;
 				frm.totalprice.value = $("#roomtotalPrice").text();
 				frm.message.value = $("#host_error_message").val();
 				frm.totalpeople.value = $("#finalPeople").val();
+				frm.price.value=$("#Price").text();
 				frm.method="GET";
 				frm.action = "<%=ctxPath%>/reservationCheckAndPay.air";
 				frm.submit();
@@ -597,6 +598,7 @@ h3{font-size: 14pt;
 	<input type="hidden" value="" name="totalprice" />
 	<input type="hidden" value="" name="message" />
 	<input type="hidden" value="" name="totalpeople" />
+	<input type="hidden" value="" name="price" />
 </form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
