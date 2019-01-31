@@ -107,6 +107,14 @@ public class SWDAO implements InterSWDAO {
 		return homeListByOption;
 	}
 
+	@Override
+	public List<RoomVO> getAllHomeList() {
+		
+		List<RoomVO> allHomeList = sqlsession.selectList("sw.getAllHomeList");
+		
+		return allHomeList;
+	}
+
 	
 	
 }

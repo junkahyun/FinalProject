@@ -88,6 +88,14 @@ public class SWService implements InterSWService {
 		return homeListByOption;
 	}
 
+	@Override
+	public List<RoomVO> getAllHomeList() {
+
+		List<RoomVO> allHomeList = dao.getAllHomeList();
+		
+		return allHomeList;
+	}
+
 	
 	
 }

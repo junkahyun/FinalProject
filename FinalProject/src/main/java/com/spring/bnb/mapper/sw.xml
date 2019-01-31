@@ -40,7 +40,15 @@
 	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		   
 	  	select *
 		from room A JOIN buildtype_detail B
-                       ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          JOIN bedroom C
+		          ON A.roomcode = C.fk_roomcode
+		          JOIN bed D
+		          ON C.bedroom_idx = D.fk_bedroom_idx
+		          JOIN bedobj E
+		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
 		where 1=1 
 		<if test='CHECKIN != "" and CHECKOUT != ""'>
 		and roomcode in (
@@ -63,6 +71,9 @@
 	    </if>
 		<if test='CITY != ""'>
 		and roomsido like '%'||#{CITY}||'%'
+		</if>
+		<if test='ALLPERSON != ""'>
+		and max_person >= #{ALLPERSON}
 		</if>					   
 	</select>
 	
@@ -118,8 +129,17 @@
 	</select>	
 	
 	<select id="getSWOptionList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
-		select *  
-		from room
+		select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          JOIN bedroom C
+		          ON A.roomcode = C.fk_roomcode
+		          JOIN bed D
+		          ON C.bedroom_idx = D.fk_bedroom_idx
+		          JOIN bedobj E
+		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
 		where roomsido = '${CITY}'
 		<if test="RULENAME != ''">
 			and not exists(select rule_idx
@@ -165,6 +185,10 @@
 	<select id="getHomeList" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
 		where roomcode = #{roomcode}
+	</select>
+	
+	<select id="getAllHomeList" resultType="com.spring.bnb.model.RoomVO">
+		select * from room
 	</select>
 
 </mapper>

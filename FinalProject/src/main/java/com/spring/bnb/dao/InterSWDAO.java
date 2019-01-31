@@ -26,6 +26,8 @@ public interface InterSWDAO {
 
 	List<RoomVO> getHomeListByOption(HashMap<String, String> paraMap);  // 옵션에 따른 숙소리스트 받아오기
 
+	List<RoomVO> getAllHomeList();  // 검색조건 초기화시 예약되어있는 숙소를 제외한 모든 숙소리스트
+
 	
 
 	

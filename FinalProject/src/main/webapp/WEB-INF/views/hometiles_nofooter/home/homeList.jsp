@@ -105,6 +105,7 @@
 	    		  		   "optionname" : optionnameArr,
 	    		  		   city : $("#city").val()};
 	      var html = "";
+	      var html2 = "";
 	      
 		  $.ajax({
 			    url: "<%=request.getContextPath()%>/optionJSON.air",
@@ -113,33 +114,52 @@
 				dataType: "JSON",
 				success: function(json){ 					
 					 $("#allList").empty();
-													 
-					 $.each(json, function(entryIndex, entry){
-						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
-							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
-							  + "</div>"
-							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
-							  + "</div>"
-							  + "<div>"
-							  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
-							  + "</div>"
-							  + "<div>"
-							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
-							  + "</div>"
-							  + "<div>"
-							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-							  + "<input type='hidden' name='roomcode' value=''/>" 
-							  + "</div>"
-							  + "</div>";
-							 							 
-					});// end of $.each()-------------  
-					 
-					$("#allList").append(html); 	  
+					 								 
+					 if(json.OPTIONCHECK == 0){					
+							html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
+								  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
+								  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+								  + "</div>"
+								  + "<div style='text-align: center;'>"
+								  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
+								  + "</div>"
+								  + "<div style='text-align: center;'>"
+								  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>검색조건을 다시 선택해주세요!</span>"
+								  + "</div>"
+								  + "<div style='text-align: center;'>"
+								  + "<span style='font-size: 10pt; font-weight: bold; color: blue; '>(오른쪽 상단의 <img src='resources/images/reload.png' style='width: 1.5%; height:1.5%;' /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>"
+								  + "</div>"
+								  + "</div>"
+								  + "</div>";	   
+							$("#allList").html(html2);
+						 }  
+						else {			
+							$.each(json, function(entryIndex, entry){									
+								html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+									  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+									  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+									  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+									  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+									  + "</div>"
+									  + "<div>"
+									  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+									  + "</div>"
+									  + "<div>"
+									  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+									  + "</div>"
+									  + "<div>"
+									  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+									  + "</div>"
+									  + "<div>"
+									  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+									  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+									  + "</div>"
+									  + "</div>";
+								$("#allList").html(html); 
+							});// end of $.each()-------------
 						
+						}
+					
 				},
 				error: function(request, status, error){
 				    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -154,7 +174,9 @@
 	//	alert($(".lng").val());
 		
 	 $(".option").removeClass("subjectstyle");	
-	
+	 $("#adult").val("0");
+	 $("#student").val("0");
+	 $("#baby").val("0");
 		 var form_data = {checkin : $("#checkin").val(),
 				 		 checkout : $("#checkout").val(),
 				 		 buildName2 : $("#buildName2").val(),
@@ -166,6 +188,7 @@
 				 		 longitude : $(".lng").val()};
 		 var html = "";
 		 var html2 = ""; 
+		 
 		 $.ajax({
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
 	   		type : "GET",
@@ -174,31 +197,51 @@
 			success : function(json){ 
 				$("#allList").empty();
 				$("#latlng").empty(); 
-				 $.each(json, function(entryIndex, entry){
-					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
-						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+				
+				if(json.LISTCHECK == 0){					
+					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
+						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>검색조건을 다시 선택해주세요!</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 10pt; font-weight: bold; color: blue; '>(오른쪽 상단의 <img src='resources/images/reload.png' style='width: 1.5%; height:1.5%;' /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-						  + "<input type='hidden' name='roomcode' value=''/>" 
 						  + "</div>"
-						  + "</div>"; 				
-						  
-				});// end of $.each()-------------  
-				 
-				$("#allList").append(html); 				
+						  + "</div>";	   
+					$("#allList").html(html2);
+				 }  
+				else {			
+					$.each(json, function(entryIndex, entry){									
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+							  + "</div>"
+							  + "</div>";
+						$("#allList").html(html); 
+					});// end of $.each()-------------
+				
+				}
 			},
             error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -227,6 +270,8 @@
 				 		 latitude : $(".lat").val(),
 				 		 longitude : $(".lng").val()};
 		var html = "";
+		var html2 = "";
+		
 		$.ajax({			
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
 			type : "GET",
@@ -235,30 +280,50 @@
 			success : function(json){
 				$("#allList").empty();
 				 
-				 $.each(json, function(entryIndex, entry){
-					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
-						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+				if(json.LISTCHECK == 0){					
+					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
+						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>검색조건을 다시 선택해주세요!</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 10pt; font-weight: bold; color: blue; '>(오른쪽 상단의 <img src='resources/images/reload.png' style='width: 1.5%; height:1.5%;' /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-						  + "<input type='hidden' name='roomcode' value=''/>" 
 						  + "</div>"
-						  + "</div>";
-				});// end of $.each()-------------  
-				 
-				$("#allList").append(html); 	  
+						  + "</div>";	   
+					$("#allList").html(html2);
+				 }  
+				else {			
+					$.each(json, function(entryIndex, entry){									
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+							  + "</div>"
+							  + "</div>";
+						$("#allList").html(html); 
+					});// end of $.each()-------------
+				
+				}
 			},
             error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -380,6 +445,7 @@
 				 		   latitude : $(".lat").val(),
 				 		   longitude : $(".lng").val()};
     	  var html = "";
+    	  var html2 = "";
     	  
     	  $.ajax({
     		  url : "<%=request.getContextPath()%>/homeListByOption.air",
@@ -388,33 +454,50 @@
     		  dataType : "JSON",
     		  success : function(json){
     			  $("#allList").empty();
-    			  $.each(json, function(entryIndex, entry){
-    				  html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
-						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+    			  if(json.LISTCHECK == 0){					
+  					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
+  						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
+  						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+  						  + "</div>"
+  						  + "<div style='text-align: center;'>"
+  						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
+  						  + "</div>"
+  						  + "<div style='text-align: center;'>"
+  						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>검색조건을 다시 선택해주세요!</span>"
+  						  + "</div>"
+  						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 10pt; font-weight: bold; color: blue; '>(오른쪽 상단의 <img src='resources/images/reload.png' style='width: 1.5%; height:1.5%;' /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
-						  + "</div>"
-						  + "<div>"
-						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
-						  + "</div>"
-						  + "<div>"
-						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
-						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-						  + "<input type='hidden' name='roomcode' value=''/>" 
-						  + "</div>"
-						  + "</div>";
-  				  });// end of $.each()-------------
-  				  
-  				  
-    			  
-    			  $("#allList").html(html); 
-  				  
+  						  + "</div>"
+  						  + "</div>";	   
+  					$("#allList").html(html2);
+  				 }  
+  				 else {			
+  					$.each(json, function(entryIndex, entry){									
+  						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+  							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+  							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+  							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+  							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+  							  + "</div>"
+  							  + "<div>"
+  							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+  							  + "</div>"
+  							  + "<div>"
+  							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+  							  + "</div>"
+  							  + "<div>"
+  							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+  							  + "</div>"
+  							  + "<div>"
+  							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+  							  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+  							  + "</div>"
+  							  + "</div>";
+  						$("#allList").html(html); 
+  					});// end of $.each()-------------
+  				
+  				}
     		  },
               error: function(request, status, error){
                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -422,10 +505,61 @@
     	  });
     	  
       });
+    
+   // 모든 옵션 초기화하기
+   $(".reset").click(function(){
+	  $("#city").val("");
+	  $("#checkin").val("체크인 날짜");
+	  $("#checkout").val("체크아웃 날짜");
+	  $(".option").removeClass("subjectstyle");	
+	  $("#adult").val("0");
+	  $("#student").val("0");
+	  $("#baby").val("0");
+	  $("#buildName1").val("");
+	  $("#buildName2").val("");
+	  
+	  var html = "";
+	  
+	  $.ajax({
+		 
+		  url : "<%=request.getContextPath()%>/allHomeList.air",
+		  type : "GET",
+		  dataType : "JSON",
+		  success : function(json){
+			  $("#allList").empty();  
+			  
+			  $.each(json, function(entryIndex, entry){									
+					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+						 
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>ddd</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "</div>"
+						  + "<div>"
+						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "</div>"
+						  + "<div>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+						  + "</div>"
+						  + "</div>";
+					$("#allList").html(html); 
+				});// end of $.each()-------------
+		  },
+		  error: function(request, status, error){
+	           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	      }	
+		  
+	  });
+	  
+   });
       
  });
- 
- 
     function fun_personcount() {
     	
      //	alert("여기오니?");        	
@@ -439,39 +573,59 @@
 				 		 latitude : $(".lat").val(),
 				 		 longitude : $(".lng").val()};
 		var html = "";
-		
+		var html2 = "";
 		$.ajax({
 			url : "<%=request.getContextPath()%>/homeListByOption.air",
 			type : "GET",
 			data : form_data,
 			dataType : "JSON",
 			success : function(json){
-				$("#allList").empty();
-				 
-				 $.each(json, function(entryIndex, entry){
-					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
-						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+				$("#allList").empty();  
+				//console.log(json.LISTCHECK)
+				if(json.LISTCHECK == 0){					
+					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
+						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
+						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
+						  + "<div style='text-align: center; margin-bottom: 1%;'>"
+						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+						  + "<div style='text-align: center; margin-bottom: 2%;'>"
+						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>검색조건을 다시 선택해주세요!</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+						  + "<div style='text-align: center;'>"
+						  + "<span style='font-size: 10pt; font-weight: bold; color: blue; '>(오른쪽 상단의 <img src='resources/images/reload.png' style='width: 1.5%; height:1.5%;' /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>"
 						  + "</div>"
-						  + "<div>"
-						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-						  + "<input type='hidden' name='roomcode' value=''/>" 
 						  + "</div>"
-						  + "</div>";
-				});// end of $.each()-------------  
-				 
-				$("#allList").append(html); 	  
+						  + "</div>";	   
+					$("#allList").html(html2);
+				 }  
+				 else {			
+					$.each(json, function(entryIndex, entry){									
+						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+							  + "</div>"
+							  + "<div>"
+							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+							  + "</div>"
+							  + "<div>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+							  + "</div>"
+							  + "</div>";
+						$("#allList").html(html); 
+					});// end of $.each()-------------
+				
+				}
 			},
 	       error: function(request, status, error){
 	           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -531,15 +685,16 @@
         			$("#slider1").val(startPrice);
 	            	$("#slider2").val(endPrice); 
 	            	
-           	var form_data = {checkin : $("#checkin").val(),
-			 				 checkout : $("#checkout").val(),
-					 		 buildName2 : $("#buildName2").val(),
-					 		 startprice : $(".startprice").val(),
-					 		 endprice : $(".endprice").val(),
-					 		 city : $("#city").val(),
-					 		 allperson : $("#allperson").val()};
+           	 var form_data = {checkin : $("#checkin").val(),
+			 				  checkout : $("#checkout").val(),
+					 		  buildName2 : $("#buildName2").val(),
+					 		  startprice : $(".startprice").val(),
+					 		  endprice : $(".endprice").val(),
+					 		  city : $("#city").val(),
+					 		  allperson : $("#allperson").val()};
 	       	         	 
 	       	  var html = "";
+	       	  var html2 = "";
 	       	  
 	       	  $.ajax({
 	       		  url : "<%=request.getContextPath()%>/homeListByOption.air",
@@ -547,36 +702,56 @@
 	       		  data : form_data,
 	       		  dataType : "JSON",
 	       		  success : function(json){
-	       			  $("#allList").empty();
-	       			  $.each(json, function(entryIndex, entry){
-	       				  html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
-	   						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-	   						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-	   						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
-							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
-	   						  + "</div>"
-	   						  + "<div>"
-	   						  + "<span style='font-size: 0.8em; font-weight: bold;'>개인실 · 침대 2개</span>"
-	   						  + "</div>"
-	   						  + "<div>"
-	   						  + "<span id='roomName${status.index}' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
-	   						  + "</div>"
-	   						  + "<div>"
-	   						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
-	   						  + "</div>"
-	   						  + "<div>"
-	   						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-	   						  + "<input type='hidden' name='roomcode' value=''/>" 
-	   						  + "</div>"
-	   						  + "</div>";
-	     				  });// end of $.each()-------------
+	       			$("#allList").empty();
 	       			  
-	       			  $("#allList").html(html); 
+	       			if(json.LISTCHECK == 0){					
+						html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
+							  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
+							  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+							  + "</div>"
+							  + "<div style='text-align: center;'>"
+							  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
+							  + "</div>"
+							  + "<div style='text-align: center;'>"
+							  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>검색조건을 다시 선택해주세요!</span>"
+							  + "</div>"
+							  + "<div style='text-align: center;'>"
+							  + "<span style='font-size: 10pt; font-weight: bold; color: blue; '>(오른쪽 상단의 <img src='resources/images/reload.png' style='width: 1.5%; height:1.5%;' /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>"
+							  + "</div>"
+							  + "</div>"
+							  + "</div>";	   
+						$("#allList").html(html2);
+					 }  
+					 else {			
+						$.each(json, function(entryIndex, entry){									
+							html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
+								  + "<div id='homeImg' style='margin-bottom: 3%;'>"
+								  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+								  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+								  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
+								  + "</div>"
+								  + "<div>"
+								  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+								  + "</div>"
+								  + "<div>"
+								  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
+								  + "</div>"
+								  + "<div>"
+								  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
+								  + "</div>"
+								  + "<div>"
+								  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+								  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+								  + "</div>"
+								  + "</div>";
+							$("#allList").html(html); 
+						});// end of $.each()-------------					
+					}
 	     				  
-	       		  	 },
-	                 error: function(request, status, error){
-	                     alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	                 }
+       		  	 },
+                 error: function(request, status, error){
+                     alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+                 }
 	           });  
             				
                 }
@@ -621,7 +796,7 @@
             		<option>전라남도</option>
             		<option>경상북도</option>
             		<option>경상남도</option>
-            		<option>제주도</option>            		            		            		         		
+            		<option>제주특별자치도</option>            		            		            		         		
             	</select>            
             	
             	<span class="optionname">날짜</span>
@@ -656,6 +831,7 @@
         <div id="optionRight" class="col-md-7">
         
         	<div class="optionbox">
+        	<div style="display: inline-block;">
         		<span class="optionname" style="margin-right: 4%;">건물 유형</span>
         		<select id=buildName1 name="buildName1" style="border-right: 1px solid gray; margin-left: 5%; height: 80%;">
             		<option value="">:::선택하세요:::</option>
@@ -664,9 +840,12 @@
             		</c:forEach>                	
         		</select>
         		<select id="buildName2" name="buildName2" style="border-right: 1px solid gray; margin-left: 5%; margin-right: 15%; height: 80%;">
-        			<option value=''>:::선택하세요:::</option>
-        				
-        		</select>
+        			<option value=''>:::선택하세요:::</option>        				
+        		</select>        		
+	        		<span class="reset" style="font-weight: bold; color: red; text-decoration: underline; cursor: pointer;">
+	        		 옵션 초기화&nbsp;<img class="reset" src="resources/images/reload.png" style="cursor: pointer; width: 3%; height: 90%;'" />
+	        		</span>
+        		</div>
         	</div>
             
             <div id="roomtype_name" class="optionbox roomtype_name">            	
@@ -776,8 +955,8 @@
         </div>
         
         <div class="col-md-8" style="height:100vh; padding: 1%;">
-            <div id="allList" class="row">
-            <c:forEach items="${roomList}" var="RList" varStatus="status">
+            <div id="allList" class="row" style="overflow: auto; height: 100%;">
+            <%-- <c:forEach items="${roomList}" var="RList" varStatus="status">
                 <div  class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
@@ -786,10 +965,10 @@
 	            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
                     </div>
                     <div>
-                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 <%-- ${RList.roomCount} --%>개 · 침대 <%-- ${RList.bedtype} --%> </span>
+                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 ${RList.roomCount}개 · 침대 ${RList.bedtype}</span>
                     </div>
                     <div>
-                        <%-- <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/> --%>
+                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>
                         <span id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;">${RList.roomName }</span>
                     </div>
                     <div>
@@ -807,7 +986,7 @@
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                                   
                     </div>                
                 </div>
-            </c:forEach>
+            </c:forEach> --%>
             </div> 
         </div>
       

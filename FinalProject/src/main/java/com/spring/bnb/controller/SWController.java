@@ -116,29 +116,48 @@ public class SWController {
 		JSONArray jsonArr = new JSONArray();
 		
 		List<RoomVO> homeListByOption = service.getHomeListByOption(paraMap);
-		
-		for(RoomVO roomvo : homeListByOption) {
-			JSONObject jsonObj = new JSONObject();
-			
-			jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
-			jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
-			
-			if(roomvo.getRoomName().length() >= 25) {
-				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
-			}
-			else {
-				jsonObj.put("ROOMNAME", roomvo.getRoomName());
-			}
-			jsonObj.put("LATITUDE", roomvo.getLatitude());
-			jsonObj.put("LONGITUDE", roomvo.getLongitude());
-			
-			jsonArr.put(jsonObj);
+		/*System.out.println(homeListByOption.size());*/
+		if(homeListByOption.size() <1) {
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("LISTCHECK", homeListByOption.size()); 
+			jsonArr.put(jsonobj);
+			req.setAttribute("str_json", jsonobj.toString()); 
+			return "JSON";
 		}
+		else {
+			for(RoomVO roomvo : homeListByOption) {
+				JSONObject jsonObj = new JSONObject();
+				
+				jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+				jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+				
+				if(roomvo.getRoomName().length() >= 25) {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+				}
+				else {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName());
+				}
+				jsonObj.put("LATITUDE", roomvo.getLatitude());
+				jsonObj.put("LONGITUDE", roomvo.getLongitude());
+				jsonObj.put("ROOMCODE", roomvo.getRoomcode());
+				jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+				jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+				jsonObj.put("BEDCOUNT", roomvo.getBedCount());
+				jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+				jsonObj.put("BEDTYPE", roomvo.getBedtype());
+				
+				jsonArr.put(jsonObj);
+			}
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("LISTCHECK", homeListByOption.size());
+			req.setAttribute("str_json", jsonArr.toString());
+		}
+		/*
 		
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
-		/*System.out.println(str_json);
+		System.out.println(str_json);
 		System.out.println(jsonArr.length());*/
 		
 		return "JSON";		
@@ -147,7 +166,7 @@ public class SWController {
 	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
 	public String reservation(HttpServletRequest req) {
 		
-		String userid = "leess";
+		String userid = "kongkd2";
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
 		
@@ -183,7 +202,7 @@ public class SWController {
 					rulenameStr += rule;
 				}				
 			}
-			System.out.println(rulenameStr);
+		//	System.out.println(rulenameStr);
 		}
 		
 		if(roomtype_name != null) {
@@ -196,7 +215,7 @@ public class SWController {
 					roomtype_nameStr += roomtype;
 				}				
 			}
-			System.out.println(roomtype_nameStr);
+		//	System.out.println(roomtype_nameStr);
 		}
 		
 		if(optionname != null) {
@@ -209,7 +228,7 @@ public class SWController {
 					optionnameStr += option;
 				}				
 			}
-			System.out.println(optionnameStr);
+		//	System.out.println(optionnameStr);
 		}	
 				
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
@@ -218,42 +237,89 @@ public class SWController {
 		paraMap.put("OPTIONNAME", optionnameStr);
 		paraMap.put("CITY", city);				
 	
-		System.out.println(paraMap);
+		//System.out.println(paraMap);
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
 		
-		for(RoomVO roomvo : optionList) {
+		/*for(RoomVO roomvo : optionList) {
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			map.put("ROOMNAME", roomvo.getRoomName());
 			map.put("ROOMPRICE", roomvo.getRoomPrice());
 			map.put("ROOMMAINIMG", roomvo.getRoomMainImg());
 			
 			mapList.add(map);
-		}
+		}*/
+		JSONArray jsonArr = new JSONArray();
 		
-		JSONArray jsonArr = new JSONArray();  		
+		if(optionList.size() < 1) {
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("OPTIONCHECK", optionList.size());
+			req.setAttribute("str_json", jsonobj.toString());
+			jsonArr.put(jsonobj);
+			return "JSON";
+		}
+		else {
+			for(RoomVO roomvo : optionList) {
 				
-		for(RoomVO test : optionList) {
-			
-			JSONObject jsonObj = new JSONObject();			
-			if(test.getRoomName().length() >= 25) {
-				jsonObj.put("ROOMNAME", test.getRoomName().substring(0, 25)+"....");
+				JSONObject jsonObj = new JSONObject();			
+				if(roomvo.getRoomName().length() >= 25) {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+				}
+				else {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName());
+				}
+				jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+				jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+				jsonObj.put("ROOMCODE", roomvo.getRoomcode());
+				jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+				jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+				jsonObj.put("BEDCOUNT", roomvo.getBedCount());
+				jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+				jsonObj.put("BEDTYPE", roomvo.getBedtype());
+				
+				jsonArr.put(jsonObj);
 			}
-			else {
-				jsonObj.put("ROOMNAME", test.getRoomName());
-			}
-			jsonObj.put("ROOMPRICE", test.getRoomPrice());
-			jsonObj.put("ROOMMAINIMG", test.getRoomMainImg());
-			
-			jsonArr.put(jsonObj);
+			req.setAttribute("str_json", jsonArr.toString());
 		}
-		
-		String str_json = jsonArr.toString();
-		req.setAttribute("str_json", str_json);	
-		System.out.println(str_json);
-		
 		return "JSON";
 	}	
 	
-	
+	@RequestMapping(value = "/allHomeList.air", method = {RequestMethod.GET})	
+	public String allHome(HttpServletRequest req, HttpServletResponse res) {
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		List<RoomVO> allHomeList = service.getAllHomeList();
+		
+		
+		for(RoomVO roomvo : allHomeList) {
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+			jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+			
+			if(roomvo.getRoomName().length() >= 25) {
+				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+			}
+			else {
+				jsonObj.put("ROOMNAME", roomvo.getRoomName());
+			}
+			/*jsonObj.put("LATITUDE", roomvo.getLatitude());
+			jsonObj.put("LONGITUDE", roomvo.getLongitude());*/
+			jsonObj.put("ROOMCODE", roomvo.getRoomcode());
+			/*jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+			jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+			jsonObj.put("BEDCOUNT", roomvo.getBedCount());
+			jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+			jsonObj.put("BEDTYPE", roomvo.getBedtype());*/
+			
+			jsonArr.put(jsonObj);
+		}
+		/*JSONObject jsonObj = new JSONObject();
+		jsonObj.put("LISTCHECK", allHomeList.size());*/
+		req.setAttribute("str_json", jsonArr.toString());
+		
+		
+		return "JSON";		
+	}
 }
