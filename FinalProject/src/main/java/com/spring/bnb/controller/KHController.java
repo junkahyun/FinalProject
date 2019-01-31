@@ -48,7 +48,6 @@ public class KHController {
 		String babyCount = req.getParameter("babyCount");
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");
-	
 		
 		System.out.println(babyCount);
 		
@@ -90,9 +89,16 @@ public class KHController {
 	public String reservationCheckPeople (HttpServletRequest req,HttpSession session)  {
 		
 		String day_between = req.getParameter("day_between");
-		System.out.println(day_between);
+		String chekin = req.getParameter("chekin");
+		String chekout = req.getParameter("chekout");
+		
+		System.out.println(chekin);
+		System.out.println(chekout);
 		
 		session.setAttribute("day_between", day_between);
+		session.setAttribute("chekin", chekin);
+		session.setAttribute("chekout", chekout);
+		
 		return "reservationAndPay/reservationCheckPeople.notiles";
 	}
 
@@ -165,8 +171,8 @@ public class KHController {
 		String email = loginuser.getEmail();
 		String totalprice = (String)session.getAttribute("totalprice");
 		String message = (String)session.getAttribute("message");
-		String checkin = (String)session.getAttribute("checkin");
-		String checkout = (String)session.getAttribute("checkout");
+		String chekin = (String)session.getAttribute("chekin");
+		String chekout = (String)session.getAttribute("chekout");
 		String day_between = (String)session.getAttribute("day_between");
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -179,8 +185,8 @@ public class KHController {
 		map.put("username", username);
 		map.put("phone", aes.encrypt(phone));
 		map.put("email", aes.encrypt(email));
-		map.put("checkin", "2019-01-31");
-		map.put("checkout", "2019-02-22");
+		map.put("checkin", chekin);
+		map.put("checkout", chekout);
 		map.put("totalprice", Integer.parseInt(totalprice));
 		map.put("message", message);
 		
@@ -203,7 +209,7 @@ public class KHController {
 				sb.append("<img src='"+oneroom.getRoomMainImg()+"' style='width:150px;'/><br>");
 				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+day_between+"박 </span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
-				sb.append("<span style='font-size:12pt;'>"+checkin+"  → "+checkout+"</span><br>");
+				sb.append("<span style='font-size:12pt;'>"+chekin+"  → "+chekout+"</span><br>");
 				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestcount)+Integer.parseInt(babycount))+""+"명</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>요금내역</h1>");

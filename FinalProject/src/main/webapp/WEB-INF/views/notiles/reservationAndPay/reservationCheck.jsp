@@ -194,8 +194,17 @@ h3{font-size: 14pt;
 	
 	function gonextCheck(){ // 다음페이지로 보내기
 		
+		var checkin = "${checkin}";
+		var checkout = "${checkout}";
+		
+		var date1 = new Date(checkin);
+	    var date2 = new Date(checkout);
+		
 	 	var frm = document.datebetween;
+	 	
 	    frm.day_between.value = $("#day_between").text();
+	    frm.chekin.value = (date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate());
+	    frm.chekout.value = (date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate());
 		frm.method="get";
 	    frm.action="<%=ctxPath%>/reservationCheckPeople.air";
 		frm.submit();
@@ -483,6 +492,8 @@ h3{font-size: 14pt;
 
 <form name="datebetween">
 <input name="day_between" value="" type="hidden"/>
+<input name="chekin" value="" type="hidden"/>
+<input name="chekout" value="" type="hidden"/>
 </form>
 
 
