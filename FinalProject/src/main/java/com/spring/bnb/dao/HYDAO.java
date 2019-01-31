@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
@@ -49,7 +50,8 @@ public class HYDAO implements InterHYDAO {
 		
 		return roomvo;
 	}
-
+	
+	// 로그인
 	@Override
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
@@ -135,6 +137,22 @@ public class HYDAO implements InterHYDAO {
 	@Override
 	public List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap) {
 		List<ReviewVO> reviewList = sqlsession.selectList("hy.getAllReviewList", paraMap);
+		for(ReviewVO review : reviewList) {
+			MemberVO reviewer = sqlsession.selectOne("hy.getReviewer",review.getFk_userid());
+			review.setUser(reviewer);
+		}
 		return reviewList;
+	}
+
+	@Override
+	public int insertReview(ReviewVO review) {
+		int n = sqlsession.insert("hy.insertReview", review);
+		return n;
+	}
+
+	@Override
+	public List<ReservationVO> reservationCheck(String roomcode) {
+		List<ReservationVO> rsvList = sqlsession.selectList("hy.reservationCheck", roomcode);
+		return rsvList;
 	}
 }
