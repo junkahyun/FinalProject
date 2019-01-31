@@ -34,4 +34,8 @@ public interface InterHYDAO {
 
 	List<ReservationVO> reservationCheck(String roomcode);
 
+	HashMap<String, Object> getStarPoint(String roomcode);
+
+	void roomViewCountUp(String roomcode);
+
 }

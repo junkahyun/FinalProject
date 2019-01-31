@@ -155,4 +155,15 @@ public class HYDAO implements InterHYDAO {
 		List<ReservationVO> rsvList = sqlsession.selectList("hy.reservationCheck", roomcode);
 		return rsvList;
 	}
+
+	@Override
+	public HashMap<String, Object> getStarPoint(String roomcode) {
+		HashMap<String, Object> starPoint = sqlsession.selectOne("hy.getStarPoint",roomcode);
+		return starPoint;
+	}
+
+	@Override
+	public void roomViewCountUp(String roomcode) {
+		sqlsession.update("hy.roomViewCountUp",roomcode);
+	}
 }
