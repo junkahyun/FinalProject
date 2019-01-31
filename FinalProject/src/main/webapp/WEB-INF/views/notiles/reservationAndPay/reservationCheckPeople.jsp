@@ -185,8 +185,8 @@ h3{font-size: 14pt;
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		
-		getTotal();
+		getdateBetween();
+		getdayTotal();
 		
 		$("#host_error_message2").hide();
 
@@ -259,9 +259,15 @@ h3{font-size: 14pt;
 	});//end of $(document).ready------------
 
 	
-	function getTotal(){
-		// 총금액 구하기
-		var stayday = $("#Price").text();cleanpay
+	function getdayTotal(){//1박금액*숙박일수 && 총금액
+		
+		var stayday = $("#Price").text();
+		var stay = stayday.split(",");
+		var daybetween = $("#day_between").text();
+		
+		$("#Price").text(Number(daybetween*stay.join("")).toLocaleString());
+		
+		stayday = $("#Price").text();
 		var cleanpay = $("#cleanpay").text();
 		var peakpay = $("#peakpay").text();
 		
@@ -270,9 +276,32 @@ h3{font-size: 14pt;
 		var peak = peakpay.split(",");
 		
 		var totalprice = parseInt(stay.join(""))+parseInt(clean.join(""))+parseInt(peak.join(""));
-		
-		
 		$("#roomtotalPrice").text(Number(totalprice).toLocaleString());
+		
+	}
+	
+	function getdateBetween(){ //두 날짜사이의 차이 구하기
+		
+		var checkin = "${checkin}";
+		var checkout = "${checkout}";
+		
+		var date1 = new Date(checkin);
+	    var date2 = new Date(checkout);
+	      
+	    var time1 = date1.getTime();
+	    var time2 = date2.getTime();
+	    
+	    var datebetween = (time2-time1)/(1000*60*60*24);
+	    //날짜 차이 구하기
+	    
+	    $("#day_between").text(datebetween);
+	    
+	    var chin = checkin.substring(0,4)+"년 "+checkin.substring(5,7)+"월 "+checkin.substring(8)+"일";
+	    var chout = checkout.substring(0,4)+"년 "+checkout.substring(5,7)+"월 "+checkout.substring(8)+"일";
+	    
+	    $("#in").text(chin);
+	    $("#out").text(chout);
+	      
 	}
 	
 </script>
@@ -415,7 +444,7 @@ h3{font-size: 14pt;
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
 		<div class="col-md-3" style="margin-bottom: 5%;">
-		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
+		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
@@ -497,7 +526,7 @@ h3{font-size: 14pt;
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
-				${year1}년 ${mon1}월 ${day1}일 <i class="fas fa-arrow-right"></i>${year2}년 ${mon2}월 ${day2}일
+				<span id="in"></span><i class="fas fa-arrow-right"></i><span id="out"></span>
 				</span>
 			</div>
 			</div>
@@ -512,7 +541,7 @@ h3{font-size: 14pt;
 				 </span> x <span id="day_between"></span>박
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;" >
-				 ₩<span id="Price"><fmt:formatNumber value="${((sessionScope.oneRoom).roomPrice)*(day2-day1)}" pattern="#,###"/></span>
+				 ₩<span id="Price"><fmt:formatNumber value="${(oneRoom.roomPrice)}" pattern="#,###"/></span>
 				</div>
 			</div>
 				<!-- 각종 수수료  -->
