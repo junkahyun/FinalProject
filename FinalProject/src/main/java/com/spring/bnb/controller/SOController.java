@@ -175,47 +175,47 @@ public class SOController {
 	
 	
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
-	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {
+	public String requireLogin_myEditShowInfo(HttpServletRequest req, HttpServletResponse res) {
 		
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 				
-			if(loginMember != null) {
-				try {
-					loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
-					loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
-				} catch (UnsupportedEncodingException | GeneralSecurityException e) {
-					loginMember.setEmail(loginMember.getEmail());
-					loginMember.setPhone(loginMember.getPhone());
-				}
-				int gender = loginMember.getGender();
-				String str_gender = "";
-				switch (gender) {
-				case 1:
-					str_gender = "Male";
-					break;
-				case 2:
-					str_gender = "Female";
-					break;
+		if(loginMember != null) {
+			try {
+				loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
+				loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
+			} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+				loginMember.setEmail(loginMember.getEmail());
+				loginMember.setPhone(loginMember.getPhone());
+			}
+			int gender = loginMember.getGender();
+			String str_gender = "";
+			switch (gender) {
+			case 1:
+				str_gender = "Male";
+				break;
+			case 2:
+				str_gender = "Female";
+				break;
 
-				default: str_gender = "Other";
-					break;
-				}
-				String birthday= loginMember.getBirthday();
-				ServletContext application = req.getServletContext();
-				String realPath = application.getRealPath("/resources/images/profile");
+			default: str_gender = "Other";
+				break;
+			}
+			String birthday= loginMember.getBirthday();
+			ServletContext application = req.getServletContext();
+			String realPath = application.getRealPath("/resources/images/profile");
+			
+			String birthdayYY = birthday.substring(0, 4);
+			String birthdayMM = birthday.substring(5,7);
+			String birthdayDD = birthday.substring(8,10);
+			req.setAttribute("realPath", realPath);
+			req.setAttribute("birthdayYY", birthdayYY);
+			req.setAttribute("birthdayMM", birthdayMM);
+			req.setAttribute("birthdayDD", birthdayDD);
+			req.setAttribute("str_gender", str_gender);
+			req.setAttribute("loginMember", loginMember);
 				
-				String birthdayYY = birthday.substring(0, 4);
-				String birthdayMM = birthday.substring(5,7);
-				String birthdayDD = birthday.substring(8,10);
-				req.setAttribute("realPath", realPath);
-				req.setAttribute("birthdayYY", birthdayYY);
-				req.setAttribute("birthdayMM", birthdayMM);
-				req.setAttribute("birthdayDD", birthdayDD);
-				req.setAttribute("str_gender", str_gender);
-				req.setAttribute("loginMember", loginMember);
-					
-			} 
+		} 
 			
 			
 		
@@ -318,7 +318,7 @@ public class SOController {
 	
 	// 나의 정보 수정
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
-	public String requireLogin_myEditEnd(HttpServletRequest req,@RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
+	public String myEditEnd(HttpServletRequest req, @RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
 		String method = req.getMethod();
 		
 		HttpSession session = req.getSession();
@@ -327,14 +327,12 @@ public class SOController {
 		
 		try {
 			String email = req.getParameter("email");
-			String phone = req.getParameter("phone");			
+			String phone = req.getParameter("phoneEdit");			
 			String introduction = req.getParameter("introduction");
 			String str_post = req.getParameter("post");
 			int post = Integer.parseInt(str_post);
 			String addr = req.getParameter("addr");
 			String detailAddr = req.getParameter("detailAddr");
-			
-			MemberVO member = new MemberVO();
 			
 			if(!"POST".equals(method)) {
 				String msg="비정상적인 경로입니다.";
@@ -345,47 +343,47 @@ public class SOController {
 				return "msg";
 			}else {
 				
-						String filename = "";
-						if(!multipartFile.isEmpty()) {
-							ServletContext application = req.getServletContext();
-							String realPath = application.getRealPath("/resources/images/profile");
-							
-							realPath = req.getContextPath()+"/resources/images/profile";
-							
-							filename = multipartFile.getOriginalFilename();
-							
-							int index = filename.lastIndexOf("\\");
-							filename = filename.substring(index +1);
-							
-							File file = new File(realPath,filename);
-							if(file.exists()) {
-								filename = System.currentTimeMillis()+"_"+filename;
-								file = new File(realPath,filename);
-							}						
-							
-								IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
-								member.setProfileimg(filename);								
-							
-						}else {
-							filename = req.getParameter("profileimg");
-							member.setProfileimg(filename);
-							System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
-						}				
-						member.setEmail(aes.encrypt(email));
-						member.setPhone(aes.encrypt(phone));
-						member.setEmail(email);
-						member.setPhone(phone);
-						member.setIntroduction(introduction);
-						member.setPost(post);
-						member.setAddr(addr);
-						member.setDetailAddr(detailAddr);
-						member.setUserid(userid);
+					String filename = "";
+					if(!multipartFile.isEmpty()) {
+						ServletContext application = req.getServletContext();
+						String realPath = application.getRealPath("/resources/images/profile"); 
+						System.out.println("realPath : " + realPath);
+						filename = multipartFile.getOriginalFilename(); 
 						
-						service.memberUpdate(member);
-					}
+						int index = filename.lastIndexOf("\\");
+						filename = filename.substring(index +1);
+						  
+						File file = new File(realPath,filename);
+						if(file.exists()) {
+							filename = System.currentTimeMillis()+"_"+filename;
+							file = new File(realPath,filename);
+						}						
+						
+						IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+						loginMember.setProfileimg(filename);								
+						
+					}else {
+						filename = req.getParameter("profileimg");
+						loginMember.setProfileimg(filename);
+						System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
+					}		
+					System.out.println("email : " +loginMember.getEmail());
+					System.out.println("phone : " +loginMember.getPhone());
+					loginMember.setEmail(aes.encrypt(email));
+					loginMember.setPhone(aes.encrypt(phone));
+					loginMember.setEmail(email);
+					loginMember.setPhone(phone);
+					loginMember.setIntroduction(introduction);
+					loginMember.setPost(post);
+					loginMember.setAddr(addr);
+					loginMember.setDetailAddr(detailAddr);
+					loginMember.setUserid(userid);
+					
+					service.memberUpdate(loginMember);
+				}
 			}catch (GeneralSecurityException e) {
 				System.out.println("암호화 실패 !");
-					}				
+			}				
 			String msg="회원정보 수정 성공!";
 			String loc="/bnb/myEdit.air";
 			
