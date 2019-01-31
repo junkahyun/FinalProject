@@ -90,4 +90,15 @@ public class HYService implements InterHYService {
 		return rsvList;
 	}
 
+	@Override
+	public HashMap<String, Object> getStarPoint(String roomcode) {
+		HashMap<String, Object> starPoint = dao.getStarPoint(roomcode);
+		return starPoint;
+	}
+
+	@Override
+	public void roomViewCountUp(String roomcode) {
+		dao.roomViewCountUp(roomcode);
+	}
+
 }

@@ -26,7 +26,52 @@
 		var starOne = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/bookmark-star.png' style='weight:20px;height:20px;margin-right:1%;'>";
 		$(".starPointval").val(6);
 		$(".starPoint").html(starOne+starOne+starOne);
-
+		var starAllAvg = 0;
+		$(".starAvg").each(function(){
+			var thisText = $(this).parent().find(".col-md-2").text();
+			var html = ""
+			if(thisText=="정확성"){
+				var correct = parseInt("${starMap.correct}");
+				starAllAvg += correct;
+				for(var i=0;i<correct/2;i++) html += starOne;
+				if(correct%2==1) html += starhalf;
+			}
+			else if(thisText=="의사소통"){
+				var communicate = parseInt("${starMap.communicate}");
+				starAllAvg += communicate;
+				for(var i=0;i<communicate/2;i++) html += starOne;
+				if(communicate%2==1) html += starhalf;
+			}
+			else if(thisText=="청결도"){
+				var clean = parseInt("${starMap.clean}");
+				starAllAvg += clean;
+				for(var i=0;i<clean/2;i++) html += starOne;
+				if(clean%2==1) html += starhalf;
+			}
+			else if(thisText=="위치"){
+				var position = parseInt("${starMap.position}");
+				starAllAvg += position;
+				for(var i=0;i<position/2;i++) html += starOne;
+				if(position%2==1) html += starhalf;
+			}
+			else if(thisText=="체크인"){
+				var checkin = parseInt("${starMap.checkin}");
+				starAllAvg += checkin;
+				for(var i=0;i<checkin/2;i++) html += starOne;
+				if(checkin%2==1) html += starhalf;
+			}
+			else{
+				var value = parseInt("${starMap.value}");
+				starAllAvg += value;
+				for(var i=0;i<value/2;i++) html += starOne;
+				if(value%2==1) html += starhalf;
+			}
+			$(this).html(html);
+		});
+		var starAllhtml = "";
+		for(var i=0;i<starAllAvg/(6*2);i++) starAllhtml += starOne;
+		if(starAllAvg/(6*2)%2>=1) starAllhtml += starhalf;
+		$("#starAll").html(starAllhtml);
 		$(".starPointUp").click(function(){
 			// 현재 별점을 가져와서 값을 올리고 별을 올린다.
 			var changeval = parseInt($(this).parent().parent().find(".starPointval").val())+1;
@@ -135,6 +180,7 @@
            			}
        			} 
        		}
+       		alert();
        		goReserve();
        	});
 	});
@@ -288,6 +334,7 @@
   		frm.babyCount.value=babyCount;
   		frm.action="reservationCheck.air";
   		frm.method="GET";
+  		frm.submit();
   	}
   	
 </script>
@@ -390,7 +437,7 @@
          <div class="infoDiv">
             <div class="infoSubjectHY" style="font-weight:bold;">예약 가능 여부</div>
             <div class="row noSpace" style="margin-top:3%;">
-               <div id='calendar' style="width:100%;;"></div>
+               <div id='calendar' style="width:98%;margin-left:2%;"></div>
             </div>
          </div>
          <%-- 후기 --%>
@@ -398,30 +445,48 @@
 		<input type=hidden name="roomcode" value="${room.roomcode}"/>
          <div class="infoDiv" style="padding-bottom:0;">
             <div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
-               <div class="col-md-8 infoSubjectHYBig">후기 <span id="reviewSize">${room.reviewList.size()}</span>개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
+               <div class="col-md-8 infoSubjectHYBig">후기 <span id="reviewSize">${room.reviewList.size()}</span>개<span id="starAll" style="color:#148487;margin-left:3%;">★★★★★</span></div>
                <div class="col-md-4"><input id="reviewSearchWord" name="reviewSearchWord" type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
                   <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
                </div>
             </div>
-            <%-- 별점 평균 --%>
+			<%-- 별점 평균 --%>
             <div style="margin-bottom:5%;">
-               <div class="row noSpace" style="width:100%;">
-                  <div class="col-md-2">정확성</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-                  <div class="col-md-2">위치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-               </div>
-               <div class="row noSpace" style="width:100%;">
-                  <div class="col-md-2">의사소통</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-                  <div class="col-md-2">체크인</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-               </div>
-               <div class="row noSpace" style="width:100%;">
-                  <div class="col-md-2">청결도</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-                  <div class="col-md-2">가치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-               </div>
+            	<div class="row noSpace" style="width:100%;">
+               		<div class="correct">
+		            	<div class="col-md-2">정확성</div>
+		            	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+                  	</div>
+                  	<div class="position">
+	                	<div class="col-md-2">위치</div>
+	                	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+               		</div>
+               	</div>
+               	<div class="row noSpace" style="width:100%;">
+               		<div class="communicate">
+	               		<div class="col-md-2">의사소통</div>
+	                	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+                	</div>
+                	<div class="checkin">
+	                	<div class="col-md-2">체크인</div>
+	                	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+               		</div>
+               	</div>
+               	<div class="row noSpace" style="width:100%;">
+               		<div class="clean">
+	                  	<div class="col-md-2">청결도</div>
+	                  	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+                  	</div>
+                  	<div class="value">
+	                  	<div class="col-md-2">가치</div>
+	                  	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+               		</div>
+               	</div>
             </div>
             <%-- 후기들 --%>
             <div id="reviewArea" class="noSpace"></div>
             <div id="pagebar" style="margin: 2% 5%;"></div>
-            <!-- <button data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal">댓글달기</button> -->
+            <button data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal">댓글달기</button>
          </div>
          </form>
          <div class="infoDiv">

@@ -27,6 +27,10 @@ public class KHDAO implements InterKHDAO {
 		MemberVO host = sqlsession.selectOne("kh.getOneHost",oneRoom.getFk_userid());// 호스트 정보 가져오기
 		oneRoom.setHost(host);
 		
+		// *** 룸 규칙 *** //
+		List<HashMap<String,String>> ruleList = sqlsession.selectList("kh.getruleList",map);
+		oneRoom.setRuleList(ruleList);
+		
 		// *** 룸 옵션 *** //
 		List<HashMap<String,String>> optionList = sqlsession.selectList("kh.roomOptionList", map);
 		oneRoom.setOptionList(optionList);

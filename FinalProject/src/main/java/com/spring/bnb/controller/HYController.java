@@ -50,13 +50,12 @@ public class HYController {
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		int totalReviewCount = roomvo.getReviewList().size();
-		
-		HttpSession session = req.getSession();
-		session.setAttribute("readCountPermission", "yes");
-		
+		HashMap<String,Object> starMap = service.getStarPoint(roomcode);
+		service.roomViewCountUp(roomcode);
 		req.setAttribute("room", roomvo);
 		req.setAttribute("recommendRoomList", recommendRoomList);
 		req.setAttribute("totalReviewCount", totalReviewCount);
+		req.setAttribute("starMap", starMap);
 		return "home/homeDetail.hometiles";
 	}
 	

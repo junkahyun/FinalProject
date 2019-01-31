@@ -133,7 +133,7 @@
 	<!-- 해당 숙소의 리뷰 가져오기(페이징 및 검색) -->
 	<select id="getAllReviewList" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
 		select*from(
-		    select rownum as rno,REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,to_char(REVIEW_WRITEDATE,'yyyy-mm-dd') 
+		    select rownum as rno,REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,to_char(REVIEW_WRITEDATE,'yyyy-mm-dd') as REVIEW_WRITEDATE 
 		    from review
 		    where fk_roomcode=#{ROOMCODE} and review_content=#{REVIEWSEARCHWORD})
 		where rno between #{STARTRNO} and #{ENDRNO}
@@ -155,6 +155,26 @@
 		select to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate, to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate
 		from reservation where fk_roomcode = #{roomcode}
 	</select>
+	
+	<resultMap type="HashMap" id="StarPointMap">
+		<result property="correct" column="correct" javaType="Double" />
+		<result property="communicate" column="communicate" javaType="Double" />
+		<result property="clean" column="clean" javaType="Double" />
+		<result property="position" column="position" javaType="Double" />
+		<result property="checkin" column="checkin" javaType="Double" />
+		<result property="value" column="value" javaType="Double" />
+	</resultMap>
+	<!-- 숙소 별 별점 알아오기 -->
+	<select id="getStarPoint" parameterType="String" resultMap="StarPointMap">
+		select avg(correct) as correct, avg(communicate) as communicate, avg(clean) as clean,
+			   avg(position) as position, avg(checkin) as checkin, avg(value) as value 
+		from review where fk_roomcode=#{roomcode}
+	</select>
+	
+	<!-- 숙소 상세페이지에 들어갈때 마다 viewCount증가시키기 -->
+	<update id="roomViewCountUp" parameterType="String">
+		update room set viewCount=viewCount+1 where roomcode=#{roomcode}
+	</update>
 	
 </mapper>
 
