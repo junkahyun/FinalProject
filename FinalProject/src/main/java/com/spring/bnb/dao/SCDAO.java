@@ -2,8 +2,10 @@ package com.spring.bnb.dao;
 
 import org.springframework.stereotype.Repository;
 
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,6 +71,27 @@ public class SCDAO implements InterSCDAO {
 	public List<RoomVO> roomnameSearch(HashMap<String, String> paraMap) {
 		List<RoomVO> roomList = sqlsession.selectList("sc.roomnameSearch", paraMap);
 		return roomList;
+	}
+
+	@Override
+	public List<HashMap<String, String>> getReview(String roomcode) {
+	
+		List<HashMap<String, String>> countList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=1; i<6; i++) {
+			HashMap<String,String> paraMap = new HashMap<String, String>();
+			paraMap.put("roomcode", roomcode);
+			paraMap.put("garde", Integer.toString(i));
+			
+			//System.out.println(paraMap.get("roomcode"));
+			//System.out.println(i);
+			
+			HashMap<String,String> countMap = sqlsession.selectOne("sc.getGradecount", paraMap);
+			countMap.put("avgGrade", Integer.toString(i));
+			countList.add(countMap);
+		}
+			
+		return countList;
 	}
 
 	

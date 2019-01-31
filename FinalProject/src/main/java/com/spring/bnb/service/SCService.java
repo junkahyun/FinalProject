@@ -53,4 +53,10 @@ public class SCService implements InterSCService {
 		List<RoomVO> roomList = dao.roomnameSearch(paraMap);
 		return roomList;
 	}
+	
+	@Override
+	public List<HashMap<String, String>> getReview(String roomcode) {
+		List<HashMap<String, String>> countList = dao.getReview(roomcode);
+		return countList;
+	}
 }
