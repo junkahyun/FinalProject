@@ -180,7 +180,7 @@
            			}
        			} 
        		}
-       		alert();
+       		alert(babyCount);
        		goReserve();
        	});
 	});
