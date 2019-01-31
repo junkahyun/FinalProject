@@ -76,7 +76,6 @@ public class SODAO implements InterSODAO {
 	public List<ReviewVO>  getMyReview(String userid) {
 		List<HashMap<String, Object>> myWriteReview= sqlsession.selectList("cso.getMyReview", userid);
 		
-
 		List<ReviewVO> myReviewVO = new ArrayList<ReviewVO>();
 		for(HashMap<String,Object> map : myWriteReview) {
 			int review_idx = (int)map.get("review_idx");

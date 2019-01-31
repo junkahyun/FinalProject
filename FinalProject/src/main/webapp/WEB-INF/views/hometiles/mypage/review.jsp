@@ -210,9 +210,7 @@ $(document).ready(function(){
 		 	</c:if>
 		 </c:forEach>
 	     </div> 
-	   <!-- 작성해야 할 후기 --> 		 
-<!-- -----------------------------------------------------------  -->
-        	
+	   <!-- 작성해야 할 후기 --> 	        	
 
           <div class="panel-header" style="margin-top: 3%;">	     
 
@@ -223,14 +221,10 @@ $(document).ready(function(){
 		      <div class="panel-body" align="center">
 		      <c:if test="${empty myWriteReview}">		       
 			        <ul class="list-layout reviews-list">
-			             <li class="reviews-list-item">
-		
-			                               아직 후기를 남기지 않으셨습니다.
-		
+			             <li class="reviews-list-item">		
+			                               아직 후기를 남기지 않으셨습니다.		
 						 </li>	
-					</ul>	
-				
-					
+					</ul>						
 				</c:if>
 			 <c:forEach items="${myWriteReview}" var="wirteReview" varStatus="status">
 				<c:if test="${wirteReview != null}">					
@@ -252,7 +246,7 @@ $(document).ready(function(){
 					  <tbody>					  
 					    <tr id="tbody_td">
 					      <td>${wirteReview.review_idx}</td>
-					      <td><a href="<%= ctxPath %>/homeDetail.air?roomcode=${rsvCode.roomcode}">${wirteReview.room.roomName}</a></td>
+					      <td><a href="<%= ctxPath %>/homeDetail.air?roomcode=${wirteReview.room.roomcode}">${wirteReview.room.roomName}</a></td>
 					      <td>${wirteReview.review_content}</td>
 					      <td>${wirteReview.review_writedate}</td>
 						</tr>

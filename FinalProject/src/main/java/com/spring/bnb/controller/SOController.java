@@ -318,14 +318,13 @@ public class SOController {
 	
 	// 나의 정보 수정
 	@RequestMapping(value = "/myEditEnd.air", method = RequestMethod.POST)
-	public String myEditEnd(HttpServletRequest req, @RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
-		String method = req.getMethod();
+	public String myEditEnd(HttpServletRequest req,HttpServletResponse res,@RequestParam("file") MultipartFile multipartFile, MultipartRequest mtreq) throws FileNotFoundException, IOException {
+			String method = req.getMethod();
+			
+			HttpSession session = req.getSession();
+			MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+			String userid = loginMember.getUserid();		
 		
-		HttpSession session = req.getSession();
-		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
-		String userid = loginMember.getUserid();		
-		
-		try {
 			String email = req.getParameter("email");
 			String phone = req.getParameter("phoneEdit");			
 			String introduction = req.getParameter("introduction");
@@ -341,58 +340,56 @@ public class SOController {
 				req.setAttribute("msg", msg);
 				req.setAttribute("loc", loc);
 				return "msg";
-			}else {
-				
-					String filename = "";
-					if(!multipartFile.isEmpty()) {
-						ServletContext application = req.getServletContext();
-						String realPath = application.getRealPath("/resources/images/profile"); 
-						System.out.println("realPath : " + realPath);
-						filename = multipartFile.getOriginalFilename(); 
+			}else {				
+						String filename = "";
+						if(!multipartFile.isEmpty()) {
+							ServletContext application = req.getServletContext();
+							String realPath = application.getRealPath("/resources/images/profile");
+							System.out.println(realPath);
+							filename = multipartFile.getOriginalFilename();
+							
+							int index = filename.lastIndexOf("\\");
+							filename = filename.substring(index +1);
+							
+							File file = new File(realPath,filename);
+							if(file.exists()) {
+								filename = System.currentTimeMillis()+"_"+filename;
+								file = new File(realPath,filename);
+							}						
+							
+								IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+								loginMember.setProfileimg(filename);
+								
+								req.setAttribute("realPath",realPath);
+						}else {
+							filename = req.getParameter("profileimg");
+							
+							loginMember.setProfileimg(filename);
+							System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
+						}				
+						try {
+							loginMember.setEmail(aes.encrypt(email));
+							loginMember.setPhone(aes.encrypt(phone));
+						} catch (GeneralSecurityException e) {
+							System.out.println("암호화 실패!");
+						}					
+		
+						loginMember.setIntroduction(introduction);
+						loginMember.setPost(post);
+						loginMember.setAddr(addr);
+						loginMember.setDetailAddr(detailAddr);
+						loginMember.setUserid(userid);
 						
-						int index = filename.lastIndexOf("\\");
-						filename = filename.substring(index +1);
-						  
-						File file = new File(realPath,filename);
-						if(file.exists()) {
-							filename = System.currentTimeMillis()+"_"+filename;
-							file = new File(realPath,filename);
-						}						
-						
-						IOUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
-						loginMember.setProfileimg(filename);								
-						
-					}else {
-						filename = req.getParameter("profileimg");
-						loginMember.setProfileimg(filename);
-						System.out.println("파일이 존재하지 않거나 파일 크기가 0입니다.");
+						service.memberUpdate(loginMember);
 					}		
-					System.out.println("email : " +loginMember.getEmail());
-					System.out.println("phone : " +loginMember.getPhone());
-					loginMember.setEmail(aes.encrypt(email));
-					loginMember.setPhone(aes.encrypt(phone));
-					loginMember.setEmail(email);
-					loginMember.setPhone(phone);
-					loginMember.setIntroduction(introduction);
-					loginMember.setPost(post);
-					loginMember.setAddr(addr);
-					loginMember.setDetailAddr(detailAddr);
-					loginMember.setUserid(userid);
 					
-					service.memberUpdate(loginMember);
-				}
-			}catch (GeneralSecurityException e) {
-				System.out.println("암호화 실패 !");
-			}				
-			String msg="회원정보 수정 성공!";
-			String loc="/bnb/myEdit.air";
-			
-			req.setAttribute("msg", msg);
-			req.setAttribute("loc", loc);
-	
-		return"msg"; 
-	}
-
+				String msg="회원정보 수정 성공!";
+				String loc="/bnb/myEdit.air";
+				req.setAttribute("msg", msg);
+				req.setAttribute("loc", loc);
+				
+			return "msg"; 
+		}
 
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
 	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
@@ -446,7 +443,7 @@ public class SOController {
 		
 		resDetail.put("email", email);
 		resDetail.put("phone", phone);
-		
+		System.out.println(resDetail.get("rsvcode"));
 		req.setAttribute("buildtype",buildtype);
 		req.setAttribute("bedtype", bedtype);		
 		req.setAttribute("resDetail", resDetail);
@@ -473,19 +470,18 @@ public class SOController {
 		
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
 		HashMap<String,String> buildtype = service.getBuildType(roomcode);
-				
+		System.out.println(myReservationScheduleDetail.get("email"));		
+		System.out.println(myReservationScheduleDetail.get("phone"));
 		String email="";
 		String phone="";
 		try {
 			email = aes.decrypt(myReservationScheduleDetail.get("email") );
 			phone = aes.decrypt(myReservationScheduleDetail.get("phone"));
+			myReservationScheduleDetail.put("email", email);
+			myReservationScheduleDetail.put("phone", phone);
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
 			System.out.println("예약 상세보기  이메일/전화번호 복호화 실패!");
-		}		 
-		
-		myReservationScheduleDetail.put("email", email);
-		myReservationScheduleDetail.put("phone", phone);
-		
+		}		 		
 		req.setAttribute("buildtype", buildtype);
 		req.setAttribute("bedtype", bedtype);
 		req.setAttribute("myRsvDetail", myReservationScheduleDetail);
@@ -573,10 +569,11 @@ public class SOController {
 				
 		//	*** 내가 쓴 후기 ***
 		List<ReviewVO> myWriteReview = service.getMyReview(userid);
-
+		
 		// *** 작성해야 할 후기 ***
 		// *** 후기 없는 나의 예약 코드 받아오기 ***
 		List<HashMap<String,String>> myRsvList= service.getMyRsvCode(userid);
+		
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("pageBar", pageBar);
 		req.setAttribute("myRsvList", myRsvList);
