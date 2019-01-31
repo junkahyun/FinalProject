@@ -42,18 +42,18 @@ public class KHController {
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
 		HttpSession session = req.getSession();
 		//===================================================
-		/*String roomcode = req.getParameter("roomcode");
+		String roomcode = req.getParameter("roomcode");
 		String guestCount = req.getParameter("guestCount");
 		String babyCount = req.getParameter("babyCount");
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
-		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");*/
+		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");
 	
-		String roomcode = "R1752";
+		/*String roomcode = "R1752";
 		String guestCount = "2";
 		String babyCount = "1";
 		
 		String checkin = "2019-01-31";
-		String checkout = "2019-02-02";
+		String checkout = "2019-02-02";*/
 		//************************
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -68,8 +68,8 @@ public class KHController {
 		// *** 평균 요금 구하는 메소드 *** //
 		int avgPrice = service.getAvgPrice();
 		
-		session.setAttribute("checkin", checkin);
-		session.setAttribute("checkout", checkout);
+		session.setAttribute("checkin", rsv_checkInDate);
+		session.setAttribute("checkout", rsv_checkOutDate);
 		
 		session.setAttribute("guestCount", guestCount);
 		session.setAttribute("babyCount", babyCount);
