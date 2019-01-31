@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -50,13 +51,12 @@ public class HYController {
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		int totalReviewCount = roomvo.getReviewList().size();
-		
-		HttpSession session = req.getSession();
-		session.setAttribute("readCountPermission", "yes");
-		
+		HashMap<String,Object> starMap = service.getStarPoint(roomcode);
+		service.roomViewCountUp(roomcode);
 		req.setAttribute("room", roomvo);
 		req.setAttribute("recommendRoomList", recommendRoomList);
 		req.setAttribute("totalReviewCount", totalReviewCount);
+		req.setAttribute("starMap", starMap);
 		return "home/homeDetail.hometiles";
 	}
 	
@@ -102,6 +102,7 @@ public class HYController {
 			jobj.put("fk_userid",review.getFk_userid());
 			jobj.put("review_content",review.getReview_content());
 			jobj.put("review_wrtitedate",review.getReview_writedate());
+			jobj.put("userProfileImg",review.getUser().getProfileimg());
 			jsonArr.put(jobj);
 		}
 		String str_json = jsonArr.toString();
@@ -278,6 +279,7 @@ public class HYController {
 		req.setAttribute("str_json", json.toString());
 		return "JSON";
 	}
+	
 	// 작성한 리뷰 DB에 insert하기
 	@RequestMapping(value="reservationCheck.air",method=RequestMethod.POST)
 	public String reservationCheck(HttpServletRequest req) {
@@ -298,6 +300,22 @@ public class HYController {
 			}
 			req.setAttribute("str_json", jsonarr.toString());
 		}
+		return "JSON";
+	}
+	
+	// header에서 숙소 검색하기
+	@RequestMapping(value="searchRoomInHeader.air",method=RequestMethod.GET)
+	public String searchRoomInHeader(HttpServletRequest req) {
+		String searchword = req.getParameter("searchword");
+		System.out.println(searchword);
+		List<String> searchList = service.getSearchSido(searchword);
+		JSONArray jsonArr = new JSONArray();
+		for(String str : searchList) {
+			JSONObject jobj = new JSONObject();
+			jobj.put("sido", str);
+			jsonArr.put(jobj);
+		}
+		req.setAttribute("str_json", jsonArr.toString());
 		return "JSON";
 	}
 }

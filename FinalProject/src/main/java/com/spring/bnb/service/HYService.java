@@ -73,12 +73,6 @@ public class HYService implements InterHYService {
 	}
 
 	@Override
-	public List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap) {
-		List<ReviewVO> reviewList = dao.getAllReviewList(paraMap);
-		return reviewList;
-	}
-
-	@Override
 	public int insertReview(ReviewVO review) {
 		int n = dao.insertReview(review);
 		return n;
@@ -88,6 +82,23 @@ public class HYService implements InterHYService {
 	public List<ReservationVO> reservationCheck(String roomcode) {
 		List<ReservationVO> rsvList = dao.reservationCheck(roomcode); 
 		return rsvList;
+	}
+
+	@Override
+	public HashMap<String, Object> getStarPoint(String roomcode) {
+		HashMap<String, Object> starPoint = dao.getStarPoint(roomcode);
+		return starPoint;
+	}
+
+	@Override
+	public void roomViewCountUp(String roomcode) {
+		dao.roomViewCountUp(roomcode);
+	}
+
+	@Override
+	public List<String> getSearchSido(String searchword) {
+		List<String> searchList = dao.getSearchSido(searchword);
+		return searchList;
 	}
 
 }

@@ -121,7 +121,7 @@ div{border: /* 1px solid gray;  */
 								html += "<li style='padding: 1%;' onclick='goRoomEdit("+entry.roomcode+")'>"+
 							      		"<a><span style='font-weight: bold; font-size: 12pt; '>"+entry.roomName+"</span><br>"+
 							      		"<span style='font-size: 11pt;'>"+roomstatus+"</span>"+
-							      		"<img src='resources/images/"+entry.roomMainImg+"' style='width: 20%; margin-left:70%; margin-bottom: 5%;'/></a></li>";
+							      		"<img src='resources/images/becomehost/"+entry.roomMainImg+"' style='width: 20%; margin-left:70%; margin-bottom: 5%;'/></a></li>";
 							});
 							$("#roomList").html(html);
 						},
@@ -199,12 +199,12 @@ div{border: /* 1px solid gray;  */
 				      <a><span style="font-weight: bold; font-size: 12pt;">${room.roomName }</span><br>
 				      <c:if test="${room.roomstatus == 1 }">
 				      	<span style="font-size: 11pt;">운영중</span>
-				      	<img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:70%; margin-bottom: 5%;"/>
+				      	<img src="resources/images/becomehost/${room.roomMainImg }" style="width: 20%; margin-left:70%; margin-bottom: 5%;"/>
 				      </c:if>
 				      
 				      <c:if test="${room.roomstatus != 1 }">
 				      	<span style="font-size: 11pt;">운영중지</span>
-				      	<img src="resources/images/${room.roomMainImg }" style="width: 20%; margin-left:68%; margin-bottom: 5%;"/>
+				      	<img src="resources/images/becomehost/${room.roomMainImg }" style="width: 20%; margin-left:68%; margin-bottom: 5%;"/>
 				      </c:if></a>
 			      </li>
 		      </c:forEach>
@@ -227,7 +227,7 @@ div{border: /* 1px solid gray;  */
 		<div class="col-md-12" >
 		<div class="col-md-9" align="left" id="detail" class="tabcontent">
 			<h4 style="font-weight: bold; margin-bottom: 5%; margin-top: 5%;">사진</h4>
-			<img src="resources/images/${roomvo.roomMainImg }" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
+			<img src="resources/images/becomehost/${roomvo.roomMainImg }" alt="숙소사진" style="width: 30%; margin-bottom: 6%;"/>
 		</div>
 		
 		<div class="col-md-2" style="margin-top: 3%; ">
