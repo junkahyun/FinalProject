@@ -86,12 +86,10 @@ $(document).ready(function(){
 			
 			$("#charts").hide();
 			$("._15lzjb6").show();
-			
-		} else{
-			
+			$("#PointCount").empty();
+		} else {
 			$("#charts").show();
 			$("._15lzjb6").hide();
-			
 			chart();
 		}
 	});
@@ -165,10 +163,20 @@ function chart(){
 }
 
 function showreview() {
-	var frm = document.selectRoomcode;
-	frm.action = "showreview.air";
-	frm.method = "GET";
-	frm.submit();
+	var form_data = {roomcode:$("#listingSelector").val()};
+	
+	$.ajax({
+		url:"showreview.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+
+		},
+		error:function(){
+			
+		}
+	});
 }
 </script>
 <div class="container" style="width: 100%;">
@@ -259,7 +267,7 @@ function showreview() {
 								               </c:if>
 									         </div>
 										</div>
-										<div style="margin-top: 32px; margin-bottom: 32px;">
+										<!-- <div style="margin-top: 32px; margin-bottom: 32px;">
 											<div class="_9hxttoo">
 												<div style="margin-bottom: 8px;">
 													<label class="_rin72m" for="reviewRatingFilter">
@@ -280,12 +288,12 @@ function showreview() {
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 							</div>
 
-							<div class="container"
+							<!-- <div class="container"
 								style="margin: 0; border: 0px solid blue; padding: 0;">
 								<div>
 									<h5>평점에 해당하는 숙소리스트 보여주는 리스트</h5>
@@ -301,7 +309,7 @@ function showreview() {
 										</li>
 									</ul>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<!-- 평점 끝 -->
