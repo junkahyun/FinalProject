@@ -99,7 +99,6 @@ h3{font-size: 14pt;
 
 	$(document).ready(function(){
 		
-		getChekinOutTime();
 		
 		getdateBetween();
 		
@@ -133,19 +132,6 @@ h3{font-size: 14pt;
 		
 	});//end of $(document).ready------------
 
-	function getChekinOutTime(){
-		// *** 날짜 시간만 가져오기 ***//
-		var check1 = $("#checkin1").text();
-		$("#checkin1").text(check1.substring(11,13));
-		
-		var checkout1 = $("#checkout1").text();
-		$("#checkout1").text(checkout1.substring(11,13));
-		
-		var checkout2 = $("#checkout2").text();
-		$("#checkout2").text(checkout2.substring(11,13));
-		
-	}
-	
 	function getdayTotal(){//1박금액*숙박일수 && 총금액
 		
 		var stayday = $("#Price").text();
