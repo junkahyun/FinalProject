@@ -390,7 +390,17 @@ public class SOController {
 				
 			return "msg"; 
 		}
-
+	
+	@RequestMapping(value = "/phoneCheck.air", method = RequestMethod.GET)
+	public String phoneCheck (HttpServletRequest req) {
+		
+		String phone = req.getParameter("phone");
+		
+		int check = service.getCheckPhone(phone);
+		
+		return "JSON";
+	}
+	
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
 	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
 

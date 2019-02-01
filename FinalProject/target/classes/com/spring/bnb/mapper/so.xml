@@ -413,4 +413,7 @@ order by rsvcode desc
     
 </select>
 
+<select id="getCheckPhone" parameterType="String" resultType="int">
+
+</select>
 </mapper>	

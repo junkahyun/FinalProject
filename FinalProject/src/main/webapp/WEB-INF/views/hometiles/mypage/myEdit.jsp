@@ -228,7 +228,12 @@ function phoneCheck(phone) {
 		url:"/phoneCheckJSON.air",
 		data:form_data,
 		dataType:"JSON",
-		success:
+		success: function (JSON) {
+			
+		},error:function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    	
+	    }
 			
 	});
 } 
