@@ -176,5 +176,10 @@
 		update room set viewCount=viewCount+1 where roomcode=#{roomcode}
 	</update>
 	
+	<!-- header의 검색을 위한 시도 데이터들 가져오기 -->
+	<select id="getSearchSido" resultType="String">
+		select distinct roomsido from room where roomsido like '%'||#{searchword}||'%'
+	</select>
+	
 </mapper>
 
