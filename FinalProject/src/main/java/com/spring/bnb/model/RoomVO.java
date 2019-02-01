@@ -49,7 +49,7 @@ public class RoomVO {
 	private String buildType;
 	private String buildType_detail_name;
 	private int likeCount;
-	private List<String> roomimgList;
+	private List<String> roomimgList ;
 	private List<ReviewVO> reviewList;
 	private List<ReservationVO> reservationList;
 	private List<HashMap<String,String>> optionList;

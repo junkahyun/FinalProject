@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 @Service
 public interface InterSCService {
@@ -21,5 +22,7 @@ public interface InterSCService {
 
 	List<RoomVO> roomnameSearch(HashMap<String, String> paraMap);// 숙소이름 검색하기 
 
-	List<HashMap<String, String>> getReview(String roomcode);
+	List<HashMap<String, String>> getPoint(String roomcode);
+
+	List<ReviewVO> getReview(String roomcode);
 }

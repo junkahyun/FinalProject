@@ -31,16 +31,23 @@
 	function hostroomMark() {
 		location.href="hostroomMark.air";
 	}
+	function reservationList() {
+		location.href="reservationList.air";
+	}
+	function hostMain() {
+		location.href="hostMain.air";
+	}
+
 </script>
 <div id="header">
 	<div class="row height_maxPer">
-		<div id="headerlogo" >
-			<img src="<%=request.getContextPath() %>/resources/images/호스트아이콘.JPG " onclick=""/>
+		<div id="headerlogo">
+			<img src="<%=request.getContextPath() %>/resources/images/호스트아이콘.JPG " onclick="hostMain()" style="padding:0;" />
 		</div>
-		<div class="hostheadermenus" style="margin-left:1%;">
-			<div class="headermenu" onClick="">홈</div>
+		<div class="hostheadermenus" style="margin-left: 1%;">
+			<div class="headermenu" onClick="hostMain()">홈</div>
 			<div class="headermenu" onClick="">메시지</div>
-			<div class="headermenu" onClick="">예약</div>
+			<div class="headermenu" onClick="reservationList()">예약현황</div>
 			<div class="headermenu" onClick="hostroomList()">숙소</div>
 			<div class="headermenu" onClick="hostroomMark()">성취도</div>
 		</div>
@@ -62,5 +69,5 @@
 			</div>
 		</div>
 	</div>
-
 </div>
+

@@ -45,7 +45,7 @@ input{outline: none;
 
 	$(document).ready(function(){
 		
-		$("#textToHost").hide();
+		$("#binkan").hide();
 		
 		$("#btnsubmit").click(function(){
 			location.href = "<%=ctxPath%>/index.air"; 
@@ -54,17 +54,20 @@ input{outline: none;
 		//취소 사유 선택
 		$("#cancelReason").bind("change",function(){
 			var option = $(this).val();
-			//goCancelRev(option);
-			
+			if(option == 1 || option == 3 ||option == 4){
+				$("#textToHost").focus();
+				$("#h4text").show();
+				$("#textToHost").show();
+			}
+			else{
+				$("#textToHost").hide();
+				$("#h4text").hide();
+			}
 		});
 		
 	});//end of $(document).ready------------
 
-	/* function goCancelRev(option){
-		if(option == 1 || option == 3 ||option == 4){
-			$("#textToHost").show();
-		}
-	} */
+	
 	
 </script>
 
@@ -129,7 +132,7 @@ input{outline: none;
 		<br>
 		<!-- 주문자 정보  -->
 		
-		<h3 >예약코드 : ${revcode}<span style="padding-left: 50%; color: tomato;" id="QuestionToHost">호스트와 1:1채팅하기</span></h3>
+		<h3 >예약코드 : ${revcode}<span style="padding-left: 50%; color: tomato;" id="QuestionToHost"><!-- 호스트와 1:1채팅하기 --></span></h3>
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-3" >
 			<span class="myinfomation" >이름</span><br>
@@ -234,21 +237,22 @@ input{outline: none;
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title" style="font-weight: bold;">예약을 취소하시겠습니까?</h4>
         </div>
-        <div class="modal-body" style="margin-bottom: 3%;">
+        <div class="modal-body" style="margin-bottom: 3%;" >
 			<h3>예약을 취소하시려는 이유를 선택해주세요.</h3>
-			<select id="cancelReason">
+			<select id="cancelReason" style="font-size: 13pt; ">
 				<option selected="selected">==== 취소 사유 선택 ====</option>
 				<option value="1">그냥 갑자기 취소하고 싶어요.</option>
 				<option value="2">잘못눌렀어요.</option>
 				<option value="3">가기 싫어졌습니다.</option>
 				<option value="4">잘못예약했습니다.</option>
-			</select> <br>
-			취소 사유 <input type="text" id="textToHost" placeholder="호스트에게 사죄의 말씀을 남기세요." maxlength="30"/>        	
-        	<hr>
-        	<p>호스트의 환불규정을 확인해주세요.<img  src="<%=request.getContextPath() %>/resources/images/unnamed (7).png"/></p>
+			</select><br><br>
+			<h4 id="h4text" style="font-weight: bold;">to 호스트에게...</h4>
+			<input type="text" id="textToHost" name="textToHost" placeholder="호스트에게 사죄의 말씀을 짧고 간결하게 남기세요." style="width: 70%; height: 4%; font-size: 13pt;"/>
+        	<br><span id="binkan" style="font-size: 13pt; color: red;">빈칸을 입력해주세요.</span>
+        	
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelModal">확인</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelModal" onclick="goCancel()">확인</button>
         </div>
       </div>
       
