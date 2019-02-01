@@ -111,7 +111,7 @@ $(document).ready(function(){
 			
       	}
       	else{
-      		
+      		phoneCheck(phone);
 			$("#phoneEdit").parent().find(".errorPhone").hide();
       	}
    	});// end of $("#hp2").blur()-------------
@@ -229,7 +229,7 @@ function phoneCheck(phone) {
 		data:form_data,
 		dataType:"JSON",
 		success: function (JSON) {
-			
+			alert("11");
 			
 		},error:function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
