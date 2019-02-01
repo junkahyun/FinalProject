@@ -6,12 +6,33 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-
+<style type="text/css">
+	div.modal div#sido{
+	margin:2%;
+} 
+div.modal button.myclose{
+	width:100%;
+}
+div.modal button > span{
+	float:right;
+}
+div.modal select{
+	width:33.33333333333333%;
+	float:left;
+	margin-top:10%;
+}
+div.modal button.finish_sido{
+	width:50%;
+	display:block;
+	margin:30% auto;
+}
+</style>
 <link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Inconsolata" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/css/rSlider.min.css">
  
+<script src="<%=ctxPath%>/resources/js/sojaeji.js"></script> 
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
@@ -35,7 +56,7 @@
 		$("select#sido").find("option[value='${city}']").attr("selected",true);
 	}
 	
-	
+	 
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
      var optionnameArr = new Array();
@@ -172,6 +193,8 @@
 	      });
 	      
 	 });
+	 
+	
 	  
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
 	 $("#sido").change(function(){
@@ -775,8 +798,7 @@
 		frm.submit();
 	}
     
-</script>
-<body>
+</script> 
 	<form name=homeListFrm>
 	<div id="optionSection" class="row menu">
 	
@@ -784,7 +806,16 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id="sido" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >  
+            					             
+				<input class="ipt_search_l r_border" type="text" id="sido" name="city" value="${ADDRESS}" size="100" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" data-toggle = "modal" data-target="#selectsido" data-dismiss = "modal" readonly > 
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$('#selectsido').on('hidden.bs.modal', function () {
+							  window.alert('hidden event fired!');
+						});
+					});
+				</script>            	 
+            	<!-- <select id="sido" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >  
             		<option value="서울">서울</option>
             		<option value="부산">부산</option>
             		<option value="대구">대구</option>
@@ -801,7 +832,7 @@
             		<option value="제주">제주</option>
             		<option value="충남">충남</option>
             		<option value="충북">충북</option>  		            			            		         		
-            	</select>  
+            	</select>   -->
             	<span class="optionname">날짜</span>
             	<input type="text" id="checkin" class="datepicker" name="checkin" value="${checkin}" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;" />~
             	<input type="text" id="checkout" class="datepicker" name="checkout" value="${checkout}" style="width: 15%; height: 80%; margin-left: 2%;" />   
@@ -907,7 +938,7 @@
 		   
 		   // 주소로 좌표를 검색합니다
 	//	   alert(document.getElementById('city').value);
-		   var address = "${ADRRESS}";
+		   var address = "${ADDRESS}";
 		   geocoder.addressSearch(address, function(result, status) {
 		   
 		       // 정상적으로 검색이 완료됐으면 
@@ -994,6 +1025,28 @@
             </div> 
         </div>
       
-    </div>
+    </div> 
+     <%-- 시/도 선택 모달 --%>
+	<div class="modal fade" id="selectsido" role="dialog">
+	    <div class="modal-dialog">	    
+	      <!-- Modal content-->
+	      <div class="modal-content" style="width: 568px; height: 372px;"> 
+	        <button type="button" class="myclose" data-dismiss="modal" style="background-color: white;  margin-top: 2%; border: 0px; float:right;"><span style="font-size:24px">X</span></button>
+	        <div id="selectCity">
+	        	<h4>시/군/구 선택하기</h4>
+	        	<select class="form-control" name="sido2" id="sido2">
+	        	</select>
+				<select class="form-control" name="gugun2" id="gugun2"> 
+				</select>
+				<select class="form-control" name="dong2" id="dong2"> 
+				</select>
+				<script type="text/javascript"> 
+					new sojaeji('sido2', 'gugun2', 'dong2');
+				</script> 
+	        </div>
+	        <button type="button" class="btn btn-primary finish_sido"  data-dismiss="modal" >확인</button>
+	      </div> 
+	     </div>
+  	 </div>  
     </form>	
-</body>
+   
