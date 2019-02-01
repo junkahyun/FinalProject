@@ -51,22 +51,20 @@ input{outline: none;
 			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		
-		
 		//취소 사유 선택
 		$("#cancelReason").bind("change",function(){
 			var option = $(this).val();
-			goCancelRev(option);
+			//goCancelRev(option);
 			
 		});
 		
 	});//end of $(document).ready------------
 
-	
-	function goCancelRev(option){
-		if(option == 1){
+	/* function goCancelRev(option){
+		if(option == 1 || option == 3 ||option == 4){
 			$("#textToHost").show();
 		}
-	}
+	} */
 	
 </script>
 
@@ -239,13 +237,15 @@ input{outline: none;
         <div class="modal-body" style="margin-bottom: 3%;">
 			<h3>예약을 취소하시려는 이유를 선택해주세요.</h3>
 			<select id="cancelReason">
-				<option value="0" selected="selected">==== 취소 사유 선택 ====</option>
+				<option selected="selected">==== 취소 사유 선택 ====</option>
 				<option value="1">그냥 갑자기 취소하고 싶어요.</option>
 				<option value="2">잘못눌렀어요.</option>
 				<option value="3">가기 싫어졌습니다.</option>
 				<option value="4">잘못예약했습니다.</option>
-			</select>  
-			<input type="text" id="textToHost" />        	
+			</select> <br>
+			취소 사유 <input type="text" id="textToHost" placeholder="호스트에게 사죄의 말씀을 남기세요." maxlength="30"/>        	
+        	<hr>
+        	<p>호스트의 환불규정을 확인해주세요.<img  src="<%=request.getContextPath() %>/resources/images/unnamed (7).png"/></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelModal">확인</button>
@@ -255,10 +255,10 @@ input{outline: none;
     </div>
   </div>
 
-
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>
+
 
 </body>
 </html>
