@@ -244,7 +244,7 @@ public class SWController {
 		paraMap.put("OPTIONNAME", optionnameStr);
 		paraMap.put("CITY", city);
 				
-		/*System.out.println("1 :"+paraMap);*/
+		//System.out.println("1 :"+paraMap);
 		
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	

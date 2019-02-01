@@ -271,58 +271,58 @@
 		});
 	 	
 	 	$("#next2").click(function(){
-		 	//var resultbedArr = [];
-		 	var bedroominfo = "";
-	 		var bedroomCount = $("#bedroom").val();
-	 		for(var i=1;i<=bedroomCount;i++){
-	 			if(parseInt(doubleTotal)==0&&parseInt(queenTotal)==0&&parseInt(singleTotal)==0&&parseInt(sofabedTotal)==0){
-		 			continue;
-	 			}
-	 			else {
-	 				var bedCount = $(".bedroom_"+i+"").find(".bedQtyCount").val();
-	 				bedroominfo += "{";
-	 				
-		 			var doubleTotal = $(".bedroom_"+i+"").find(".doubleupdown").val();
-		 			var queenTotal = $(".bedroom_"+i+"").find(".queenupdown").val();
-		 			var singleTotal = $(".bedroom_"+i+"").find(".singleupdown").val();
-		 			var sofabedTotal = $(".bedroom_"+i+"").find(".sofaupdown").val();
-		 			
-		 			if(parseInt(doubleTotal)!=0) bedroominfo += "doublebedCount : "+doubleTotal;
-		 			if(parseInt(doubleTotal)!=0&&bedCount>1){
-		 				bedroominfo+= ",";
-		 				bedCount-=doubleTotal;
-		 			}
-		 			if(parseInt(queenTotal)!=0) bedroominfo += "queenbedCount : "+queenTotal;
-		 			if(parseInt(queenTotal)!=0&&bedCount>1){
-		 				bedroominfo+= ",";
-		 				bedCount-=queenTotal;
-		 			}
-		 			if(parseInt(singleTotal)!=0) bedroominfo += "singlebedCount : "+singleTotal;
-		 			if(parseInt(singleTotal)!=0&&bedCount>1){
-		 				bedroominfo+= ",";
-		 				bedCount-=singleTotal;
-		 			}
-		 			if(parseInt(sofabedTotal)!=0) bedroominfo += "sofabedCount : "+sofabedTotal;
-		 			
-		 			bedroominfo += "}";
-		 			if(i!=bedroomCount)bedroominfo += "/";
-	 			}
-	 		}
-	 		//alert(bedroominfo);
-	 		var form_data = {"bedroomInfo":bedroominfo};
-	 		$.ajax({
-	 			url:"bedroom.air",
-	 			type:"POST",
-	 			data:form_data,
-	 			dataType:"JSON",
-	 			success:function(json){ 
-	 				$("#second").hide();
-	 				$("#third").show();
-	 			},
-	 			error:function(){
-	 			}
-	 		});
-	 	});
+	          //var resultbedArr = [];
+	          var bedroominfo = "";
+	          var bedroomCount = $("#bedroom").val();
+	          for(var i=1;i<=bedroomCount;i++){
+	             if(parseInt(doubleTotal)==0&&parseInt(queenTotal)==0&&parseInt(singleTotal)==0&&parseInt(sofabedTotal)==0){
+	                continue;
+	             }
+	             else {
+	                var bedCount = $(".bedroom_"+i+"").find(".bedQtyCount").val();
+	                bedroominfo += "{";
+	                
+	                var doubleTotal = $(".bedroom_"+i+"").find(".doubleupdown").val();
+	                var queenTotal = $(".bedroom_"+i+"").find(".queenupdown").val();
+	                var singleTotal = $(".bedroom_"+i+"").find(".singleupdown").val();
+	                var sofabedTotal = $(".bedroom_"+i+"").find(".sofaupdown").val();
+	                
+	                if(parseInt(doubleTotal)!=0) bedroominfo += "doublebedCount : "+doubleTotal;
+	                if(parseInt(doubleTotal)!=0&&bedCount>1){
+	                   bedroominfo+= ",";
+	                   bedCount-=doubleTotal;
+	                }
+	                if(parseInt(queenTotal)!=0) bedroominfo += "queenbedCount : "+queenTotal;
+	                if(parseInt(queenTotal)!=0&&bedCount>1){
+	                   bedroominfo+= ",";
+	                   bedCount-=queenTotal;
+	                }
+	                if(parseInt(singleTotal)!=0) bedroominfo += "singlebedCount : "+singleTotal;
+	                if(parseInt(singleTotal)!=0&&bedCount>1){
+	                   bedroominfo+= ",";
+	                   bedCount-=singleTotal;
+	                }
+	                if(parseInt(sofabedTotal)!=0) bedroominfo += "sofabedCount : "+sofabedTotal;
+	                
+	                bedroominfo += "}";
+	                if(i!=bedroomCount)bedroominfo += "/";
+	             }
+	          }
+	          //alert(bedroominfo);
+	          var form_data = {"bedroomInfo":bedroominfo};
+	          $.ajax({
+	             url:"bedroom.air",
+	             type:"POST",
+	             data:form_data,
+	             dataType:"JSON",
+	             success:function(json){ 
+	                $("#second").hide();
+	                $("#third").show();
+	             },
+	             error:function(){
+	             }
+	          });
+	       });
       //두번째 입력창 스크립트 끝 -----------------------------------------------------------------------------------------------------------
 
 	  //네번째 입력창 스크립트 시작 -----------------------------------------------------------------------------------------------------------
