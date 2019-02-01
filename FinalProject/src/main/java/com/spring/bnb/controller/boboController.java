@@ -205,6 +205,7 @@ public class boboController {
 
 			// file의 첫번째를 메인이미지로 한다.
 			String roomMainImg = fileManager.doFileUpload(bytes, fileList.get(0).getOriginalFilename(), realPath);
+			System.out.println(roomMainImg);
 			roomvo.setRoomMainImg(roomMainImg);
 			
 			// 나머지 이미지들을 set
@@ -314,8 +315,7 @@ public class boboController {
 		String[] bedroomInfoArr = (String[]) session.getAttribute("bedroomInfoArr");
 
 		// for문을돌리면 하나의 침실정보가 String 형태로 나옴
-	/*	for(String str : bedroomInfoArr) {
-			System.out.println(str);
+		/*for(String str : bedroomInfoArr) {
 			HashMap<String,String> paraMap = new HashMap<String,String>();
 			JSONObject jsonbedinfo = new JSONObject(str); // 가져온 String 형태를 JSON으로 변환
 			Set<String> jsonkeys = jsonbedinfo.keySet(); // JSON으로 변환된 객체의 key들을 가져옴

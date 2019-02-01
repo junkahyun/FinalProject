@@ -100,7 +100,7 @@
        	// file 추가되면
         $("#input_imgs").change(function(e){
            var files = e.target.files;
-      	   var filesArr = Array.prototype.slice.call(files);
+      	   var filesArr = Array.prototype.slice.call(files); 
       	   for(var i=0; i<10; i++){
       		   
       		 var html = "";

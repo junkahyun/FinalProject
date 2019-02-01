@@ -647,8 +647,7 @@
 		                   </c:forEach>
 		                </select>
 		                </div>  
-		            </div>     
-		            <button type="button" id="checkBtn">check</button>         			            
+		            </div>         			            
 		         </div>
 		         
 				<h3> 침대 유형 </h3>
