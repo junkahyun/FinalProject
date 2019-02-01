@@ -42,13 +42,31 @@ input{outline: none;
 
 	$(document).ready(function(){
 		
+		getdateBetween();
+		
 		$("#btnsubmit").click(function(){
 			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		
 	});//end of $(document).ready------------
 
-	
+	function getdateBetween(){ //두 날짜사이의 차이 구하기
+		
+		var checkin = "${checkin}";
+		var checkout = "${checkout}";
+		
+		var date1 = new Date(checkin);
+	    var date2 = new Date(checkout);
+	      
+	    var time1 = date1.getTime();
+	    var time2 = date2.getTime();
+	    
+	    var datebetween = (time2-time1)/(1000*60*60*24);
+	    //날짜 차이 구하기
+	    
+	    $("#day_between1").text(datebetween);
+	    
+	}
 </script>
 
 </head>
@@ -121,8 +139,8 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSido}&nbsp;${(sessionScope.oneRoom).roomBname}"  readonly="readonly"/><br><br>
 			
 			<span class="myinfomation">총 인원</span><br>
-			<input class="plusfee" type="text" value="게스트 : ${guestcount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/><br>
-			<input class="plusfee" type="text" value="유아 : ${babycount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/>
+			<input class="plusfee" type="text" value="게스트 : ${guestCount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/><br>
+			<input class="plusfee" type="text" value="유아 : ${babyCount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-3" >
@@ -136,10 +154,10 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text"  readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${checkin}" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -148,7 +166,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${checkout}" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -161,8 +179,8 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${day2-day1}박</td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(day2-day1)}" pattern="#,###"/></td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×<span id="day_between1"></span></td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)}" pattern="#,###"/></td>
 				</tr>
 				
 				<tr>

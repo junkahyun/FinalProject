@@ -1,9 +1,11 @@
 package com.spring.bnb.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,7 @@ import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterKHService;
+import com.spring.common.AES256;
 import com.spring.common.KHGoogleMail;
 
 
@@ -26,6 +29,9 @@ public class KHController {
 	
 	@Autowired
 	private InterKHService service;
+	
+	@Autowired
+	private AES256 aes;
 
 	// ***** 숙소이용규칙 확인하기 (예약)<aop처리해야댐> ***** //
 	
@@ -35,35 +41,19 @@ public class KHController {
 		// where절에 숙소 코드,호스트아이디넣고  
 		// 예약날짜, 예약인원, 예약하는 사람 아이디 넣어서 가져오기(homedetail 에서 getparameter로)
 		HttpSession session = req.getSession();
-		String my_userid = "kongkd2"; //(테스트용)
-		session.setAttribute("my_userid", my_userid);
 		//===================================================
-		/*String roomcode = req.getParameter("roomcode");
+		String roomcode = req.getParameter("roomcode");
 		String guestCount = req.getParameter("guestCount");
 		String babyCount = req.getParameter("babyCount");
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");
-		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");*/
+		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");
 	
-		String roomcode = "24";
+		/*String roomcode = "R1752";
 		String guestCount = "2";
 		String babyCount = "1";
 		
-		// *** 날짜 쪼개기 *** //
-		/*String year1 = rsv_checkInDate.substring(0, 4);
-		String mon1 = rsv_checkInDate.substring(5, 7);
-		String day1 = rsv_checkInDate.substring(8);
-		
-		String year2 = rsv_checkOutDate.substring(0, 4);
-		String mon2 = rsv_checkOutDate.substring(5, 7);
-		String day2 = rsv_checkOutDate.substring(8);*/
-		
-		String year1 = "2019";
-		String mon1 = "1";
-		String day1 = "23";
-		
-		String year2 = "2019";
-		String mon2 = "2";
-		String day2 = "2";
+		String checkin = "2019-01-31";
+		String checkout = "2019-02-02";*/
 		//************************
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -78,15 +68,11 @@ public class KHController {
 		// *** 평균 요금 구하는 메소드 *** //
 		int avgPrice = service.getAvgPrice();
 		
-				
+		session.setAttribute("checkin", rsv_checkInDate);
+		session.setAttribute("checkout", rsv_checkOutDate);
+		
 		session.setAttribute("guestCount", guestCount);
 		session.setAttribute("babyCount", babyCount);
-		session.setAttribute("year1", Integer.parseInt(year1));
-		session.setAttribute("mon1", Integer.parseInt(mon1));
-		session.setAttribute("day1", Integer.parseInt(day1));
-		session.setAttribute("year2", Integer.parseInt(year2));
-		session.setAttribute("mon2", Integer.parseInt(mon2));
-		session.setAttribute("day2", Integer.parseInt(day2));
 		session.setAttribute("reviewCount", reviewCount);
 		session.setAttribute("oneRoom", oneRoom);
 		session.setAttribute("avgPrice", avgPrice);
@@ -108,7 +94,7 @@ public class KHController {
 	
 	// ***** 예약 확인 및 결제하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.GET})
-	public String reservationCheckAndPay (HttpServletRequest req,HttpSession session) throws Exception {
+	public String reservationCheckAndPay (HttpServletRequest req,HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException{
 		
 		String babycount = req.getParameter("babycount");
 		String guestcount = req.getParameter("guestcount");
@@ -116,6 +102,14 @@ public class KHController {
 		String message = req.getParameter("message");
 		String totalpeople = req.getParameter("totalpeople");
 		
+		
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		String email = aes.decrypt(loginuser.getEmail());
+		String phone = aes.decrypt(loginuser.getPhone());
+		
+		session.setAttribute("phone", phone);
+		session.setAttribute("email", email);
 		session.setAttribute("babycount", babycount);
 		session.setAttribute("guestcount", guestcount);
 		session.setAttribute("totalprice", totalprice);
@@ -148,7 +142,7 @@ public class KHController {
 	
 	// ***** 예약 확인 및 결제하기 (결제성공) ***** //
 	@RequestMapping(value="/reservationFinalConfirm.air", method= {RequestMethod.GET})
-	public String reservationFinalConfirm (HttpServletRequest req,HttpSession session) {
+	public String reservationFinalConfirm (HttpServletRequest req,HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
 		
 		RoomVO oneroom = (RoomVO)session.getAttribute("oneRoom");
 		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
@@ -162,23 +156,10 @@ public class KHController {
 		String username = loginuser.getUsername();
 		String phone = loginuser.getPhone();
 		String email = loginuser.getEmail();
-		String year1 = (String)session.getAttribute("year1");
-		String year2 = (String)session.getAttribute("year2");
-		String mon1 = (String)session.getAttribute("mon1");
-		String mon2 = (String)session.getAttribute("mon2");
-		String day1 = (String)session.getAttribute("checkday1");
-		String day2 = (String)session.getAttribute("checkday2");
 		String totalprice = (String)session.getAttribute("totalprice");
 		String message = (String)session.getAttribute("message");
-		
-		if(Integer.parseInt(mon1) < 10 || Integer.parseInt(mon2) < 10) {
-			mon1 = "0"+mon1;
-			mon2 = "0"+mon2;
-		}
-		if(Integer.parseInt(day1) < 10 || Integer.parseInt(day2) < 10) {
-			day1 = "0"+day1;
-			day2 = "0"+day2;
-		}
+		String checkin = (String)session.getAttribute("checkin");
+		String checkout = (String)session.getAttribute("checkout");
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		
@@ -188,14 +169,10 @@ public class KHController {
 		map.put("guestCount", Integer.parseInt(guestCount));
 		map.put("babyCount", Integer.parseInt(babyCount));
 		map.put("username", username);
-		map.put("phone", phone);
-		map.put("email", email);
-		map.put("year1", year1);
-		map.put("year2", year2);
-		map.put("mon1", mon1);
-		map.put("mon2", mon2);
-		map.put("day1", day1);
-		map.put("day2", day2);
+		map.put("phone", aes.encrypt(phone));
+		map.put("email", aes.encrypt(email));
+		map.put("checkin", checkin);
+		map.put("checkout", checkout);
 		map.put("totalprice", Integer.parseInt(totalprice));
 		map.put("message", message);
 		
@@ -216,9 +193,9 @@ public class KHController {
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>"+oneroom.getRoomSigungu()+"</h1><br>");
 				sb.append("<img src='"+oneroom.getRoomMainImg()+"' style='width:150px;'/><br>");
-				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 "+(Integer.parseInt(day2)-Integer.parseInt(day1))+"박 </span><br>");
+				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomSigungu()+"에서 박 </span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
-				sb.append("<span style='font-size:12pt;'>"+year1+"년"+mon1+"월"+day1+"일 → "+year2+"년"+mon2+"월"+day2+"일</span><br>");
+				sb.append("<span style='font-size:12pt;'>"+checkin+"  → "+checkout+"</span><br>");
 				sb.append("<span style='font-size:12pt; margin-bottom:5%;'>"+oneroom.getRoomType_name()+". 게스트 "+(Integer.parseInt(guestCount)+Integer.parseInt(babyCount))+""+"명</span><br>");
 				sb.append("<hr style='border: 1px solid lightgray;'><br>");
 				sb.append("<h1>요금내역</h1>");
@@ -261,6 +238,5 @@ public class KHController {
 	      return "O"+year+month+day+"-"+ordcode;
    }
 	
-
 
 }

@@ -735,7 +735,7 @@ and to_char(checkouttime, 'yyyy-mm-dd') <= '2019-01-31'
 select *
 from room A JOIN reservation B
 ON A.roomcode = B.fk_roomcode
-where not to_char(B.rsv_checkindate, 'yyyy-mm-dd')  between '2019-01-20' and '2019-02-30'
+where not to_char(B.rsv_checkindate, 'yyyy-mm-dd')  between '2019-01-2tn0' and '2019-02-30'
 and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-20' and '2019-02-30';
 
 
