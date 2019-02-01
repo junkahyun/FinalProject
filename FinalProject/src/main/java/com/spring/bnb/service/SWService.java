@@ -57,9 +57,9 @@ public class SWService implements InterSWService {
 	}
 	
 	@Override
-	public List<RoomVO> getRoomList() {
+	public List<RoomVO> getRoomList(HashMap<String,String> paraMap) {
 
-		List<RoomVO> roomList = dao.getRoomList();
+		List<RoomVO> roomList = dao.getRoomList(paraMap);
 		
 		return roomList;
 	}
@@ -86,6 +86,14 @@ public class SWService implements InterSWService {
 		List<RoomVO> homeListByOption = dao.getHomeListByOption(paraMap);
 		
 		return homeListByOption;
+	}
+
+	@Override
+	public List<RoomVO> getAllHomeList() {
+
+		List<RoomVO> allHomeList = dao.getAllHomeList();
+		
+		return allHomeList;
 	}
 
 	

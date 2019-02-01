@@ -148,7 +148,7 @@ public class SOService implements InterSOService{
 		return count;
 	}
 	// ==== Spring Scheduler(스프링 스케줄러)를 사용한 email 발송하기 예제 ==== //
-	@Scheduled(cron="0 * * * * *")
+	@Scheduled(cron="0 0 12 * * *")
 	@Override
 	public void scheduleTestEmailSending() throws Exception {
 		// <<주의>> 스케줄러로 사용되어지는 메소드는 반드시 파라미터가 없어야 한다.!!!!
