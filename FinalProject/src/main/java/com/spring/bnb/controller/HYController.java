@@ -26,11 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterHYService;
 import com.spring.common.AES256;
-import com.spring.common.MyUtil;
 import com.spring.common.SHA256;
 
 @Controller
@@ -48,17 +48,32 @@ public class HYController {
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
 		if(roomcode==null) roomcode = "10";
-		roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		int totalReviewCount = roomvo.getReviewList().size();
+		HashMap<String,Object> starMap = service.getStarPoint(roomcode);
+		service.roomViewCountUp(roomcode);
+		req.setAttribute("room", roomvo);
+		req.setAttribute("recommendRoomList", recommendRoomList);
+		req.setAttribute("totalReviewCount", totalReviewCount);
+		req.setAttribute("starMap", starMap);
+		return "home/homeDetail.hometiles";
+	}
+	
+	// 페이징 처리한 리뷰 검색
+	@RequestMapping(value = "/reviewSearch.air", method = RequestMethod.GET)
+	public String reviewSearch(HttpServletRequest req) {
+		// 검색어와 숙소 코드 받아오기
+		String reviewSearchWord = req.getParameter("reviewSearchWord");
+		if(reviewSearchWord==null) reviewSearchWord="";
+		String roomcode = req.getParameter("roomcode");
 		// 리뷰 페이징 처리
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ROOMCODE", roomcode); // 해당 숙소번호의 모든 리뷰조회
 		
 		String str_currentShowPageNo = req.getParameter("currentShowPageNo"); 
 		int totalCount = 0,currentShowPageNo = 0,sizePerPage = 5,totalPage = 0;
-		int startRno = 0,endRno = 0,blockSize = 5; 
+		int startRno = 0,endRno = 0;
 		
 		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
 		if(str_currentShowPageNo == null) currentShowPageNo = 1;
@@ -70,36 +85,12 @@ public class HYController {
 		}
 		startRno = ((currentShowPageNo-1)*sizePerPage) + 1;
 		endRno = startRno + sizePerPage - 1;
-		
+
+		// 파라미터로 넘길 HashMap만들기
+		paraMap.put("REVIEWSEARCHWORD", reviewSearchWord);
 		paraMap.put("STARTRNO", String.valueOf(startRno));
 		paraMap.put("ENDRNO", String.valueOf(endRno));
 		
-		List<ReviewVO> reviewList = service.getAllReviewList(paraMap);
-		
-		String pagebar = "<ul>"+MyUtil.getPageBar(sizePerPage, blockSize, totalPage, currentShowPageNo, "homeDetail.air")+"</ul>";  
-		
-		HttpSession session = req.getSession();
-		session.setAttribute("readCountPermission", "yes");
-		System.out.println(pagebar);
-		req.setAttribute("room", roomvo);
-		req.setAttribute("recommendRoomList", recommendRoomList);
-		req.setAttribute("totalReviewCount", totalReviewCount);
-		req.setAttribute("pagebar", pagebar);
-		req.setAttribute("reviewList", reviewList);
-		return "home/homeDetail.hometiles";
-	}
-	
-	// 리뷰 검색
-	@ResponseBody
-	@RequestMapping(value = "/reviewSearch.air", method = RequestMethod.GET)
-	public String reviewSearch(HttpServletRequest req) {
-		// 검색어와 숙소 코드 받아오기
-		String reviewSearchWord = req.getParameter("reviewSearchWord");
-		String roomcode = req.getParameter("roomcode");
-		// 파라미터로 넘길 HashMap만들기
-		HashMap<String,String> paraMap = new HashMap<String,String>();
-		paraMap.put("REVIEWSEARCHWORD", reviewSearchWord);
-		paraMap.put("ROOMCODE",roomcode);
 		// DB에서 검색하여 결과 가져오기
 		List<ReviewVO> reviewList = service.getSearchReview(paraMap);
 		// 가져오기
@@ -111,19 +102,11 @@ public class HYController {
 			jobj.put("fk_userid",review.getFk_userid());
 			jobj.put("review_content",review.getReview_content());
 			jobj.put("review_wrtitedate",review.getReview_writedate());
+			jobj.put("userProfileImg",review.getUser().getProfileimg());
 			jsonArr.put(jobj);
 		}
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
-		/*List<HashMap<String,Object>> testMapList = new ArrayList<HashMap<String,Object>>();
-		for(ReviewVO review : reviewList) {
-			HashMap<String,Object> testMap = new HashMap<String,Object>();
-			testMap.put("fk_userid", review.getFk_userid());
-			testMap.put("review_writedate", review.getReview_writedate());
-			testMap.put("review_content", review.getReview_content());
-			testMapList.add(testMap);
-			testMapList.add(testMap);
-		}*/
 		return "JSON";
 	}
 	
@@ -290,8 +273,50 @@ public class HYController {
 	// 작성한 리뷰 DB에 insert하기
 	@RequestMapping(value="reviewInsert.air",method=RequestMethod.POST)
 	public String reviewInsert(ReviewVO review, HttpServletRequest req) {
-		
-		return "";
+		int n = service.insertReview(review);
+		JSONObject json = new JSONObject();
+		json.put("n", n);
+		req.setAttribute("str_json", json.toString());
+		return "JSON";
+	}
+	
+	// 작성한 리뷰 DB에 insert하기
+	@RequestMapping(value="reservationCheck.air",method=RequestMethod.POST)
+	public String reservationCheck(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		List<ReservationVO> rsvList= service.reservationCheck(roomcode);
+		if(rsvList==null||rsvList.size()<1) {
+			JSONObject jobj = new JSONObject();
+			jobj.put("rsvcheck", "true");
+			req.setAttribute("str_json", jobj.toString());
+		}
+		else {
+			JSONArray jsonarr = new JSONArray();
+			for(ReservationVO rsv : rsvList) {
+				JSONObject json = new JSONObject();
+				json.put("checkinDate", rsv.getRsv_checkInDate());
+				json.put("checkoutDate", rsv.getRsv_checkOutDate());
+				jsonarr.put(json);
+			}
+			req.setAttribute("str_json", jsonarr.toString());
+		}
+		return "JSON";
+	}
+	
+	// header에서 숙소 검색하기
+	@RequestMapping(value="searchRoomInHeader.air",method=RequestMethod.GET)
+	public String searchRoomInHeader(HttpServletRequest req) {
+		String searchword = req.getParameter("searchword");
+		System.out.println(searchword);
+		List<String> searchList = service.getSearchSido(searchword);
+		JSONArray jsonArr = new JSONArray();
+		for(String str : searchList) {
+			JSONObject jobj = new JSONObject();
+			jobj.put("sido", str);
+			jsonArr.put(jobj);
+		}
+		req.setAttribute("str_json", jsonArr.toString());
+		return "JSON";
 	}
 }
 

@@ -136,10 +136,10 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="${checkday2-checkday1}박" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text"  readonly="readonly" value="${day_between}박"/><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${checkin}" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -148,7 +148,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${checkout}" readonly="readonly"/><br>
 			
 		</div>
 		
@@ -161,8 +161,8 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×${day2-day1}박</td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)*(day2-day1)}" pattern="#,###"/></td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×<span id="day_between1">${day_between}</span></td>
+					<td >₩${price}</td>
 				</tr>
 				
 				<tr>
@@ -177,7 +177,7 @@ input{outline: none;
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">추가 인원 요금</td>
-					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/></td>
+					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/>(해당하는 경우만)</td>
 				</tr>
 				
 				<tr >
@@ -190,7 +190,7 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${checkmonth1}월 ${checkday1}일</td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${month}월 ${day}일</td>
 					<td >₩<fmt:formatNumber value="${totalprice}" pattern="#,###"/></td>
 				</tr>
 				

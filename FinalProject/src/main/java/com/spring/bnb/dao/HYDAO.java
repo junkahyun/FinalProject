@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
@@ -29,10 +30,6 @@ public class HYDAO implements InterHYDAO {
 		roomvo.setHost(host);
 		// 리뷰가져오기
 		List<ReviewVO> reviewList = sqlsession.selectList("hy.getReviewListDAO", roomcode);
-		for(ReviewVO review:reviewList){
-			MemberVO reviewer = sqlsession.selectOne("hy.getReviewer",review.getFk_userid());
-			review.setUser(reviewer);
-		}
 		roomvo.setReviewList(reviewList);
 		// 침실정보 가져오기
 		List<HashMap<String,String>> bedroomList = sqlsession.selectList("hy.getBedroomList", roomcode);
@@ -49,7 +46,8 @@ public class HYDAO implements InterHYDAO {
 		
 		return roomvo;
 	}
-
+	
+	// 로그인
 	@Override
 	public MemberVO logincheck(MemberVO member) {
 		MemberVO loginuser = sqlsession.selectOne("hy.logincheck",member); 
@@ -78,6 +76,10 @@ public class HYDAO implements InterHYDAO {
 	@Override
 	public List<ReviewVO> getSearchReview(HashMap<String, String> paraMap) {
 		List<ReviewVO> reviewList = sqlsession.selectList("hy.getSearchReview", paraMap);
+		for(ReviewVO review : reviewList) {
+			MemberVO reviewer = sqlsession.selectOne("hy.getReviewer", review.getFk_userid());
+			review.setUser(reviewer);
+		}
 		return reviewList;
 	}
 
@@ -133,8 +135,31 @@ public class HYDAO implements InterHYDAO {
 	}
 
 	@Override
-	public List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap) {
-		List<ReviewVO> reviewList = sqlsession.selectList("hy.getAllReviewList", paraMap);
-		return reviewList;
+	public int insertReview(ReviewVO review) {
+		int n = sqlsession.insert("hy.insertReview", review);
+		return n;
+	}
+
+	@Override
+	public List<ReservationVO> reservationCheck(String roomcode) {
+		List<ReservationVO> rsvList = sqlsession.selectList("hy.reservationCheck", roomcode);
+		return rsvList;
+	}
+
+	@Override
+	public HashMap<String, Object> getStarPoint(String roomcode) {
+		HashMap<String, Object> starPoint = sqlsession.selectOne("hy.getStarPoint",roomcode);
+		return starPoint;
+	}
+
+	@Override
+	public void roomViewCountUp(String roomcode) {
+		sqlsession.update("hy.roomViewCountUp",roomcode);
+	}
+
+	@Override
+	public List<String> getSearchSido(String searchword) {
+		List<String> searchList = sqlsession.selectList("hy.getSearchSido", searchword);
+		return searchList;
 	}
 }

@@ -64,6 +64,7 @@
 		<result property="OPTIONNAME" column="OPTIONNAME" javaType="String" />
 		<result property="OPTIONICON" column="OPTIONICON" javaType="String" />
 	</resultMap>
+	
 	<!-- 옵션정보 RoomVO에 입력하기 -->
 	<select id="getOptionList" parameterType="String" resultMap="optionMap">
 		select * from roomoption R join options O on R.fk_option_idx=O.option_idx 
@@ -91,47 +92,93 @@
 		<result property="saveTitle" column="SAVETITLE" javaType="String"/>
 		<result property="roomMainImg" column="ROOMMAINIMG" javaType="String"/>
 	</resultMap>
+	
 	<!-- 로그인 한 유저의 관심 숙소 불러오기 -->
 	<select id="getMyLikeRoomList" parameterType="String" resultMap="LikeRoom">
 		select*from likeroom L join Room R on L.fk_roomcode=R.roomcode
 		where L.fk_userid=#{userid}
 	</select>
 	
-	<select id="getSearchReview" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
-		select*from review where fk_roomcode=#{ROOMCODE} and review_content like '%'||#{REVIEWSEARCHWORD}||'%'
-	</select>
-	
+	<!-- 아이디 중복검사 -->
 	<select id="checkDuplicateID" parameterType="String" resultType="Integer">
 		select count(*) from member where userid=#{userid}
 	</select>
 
+	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="com.spring.bnb.model.MemberVO">
 		insert into member(USERID,USERNAME,PWD,EMAIL,PHONE,POST,ADDR,DETAILADDR,GENDER,BIRTHDAY,INTRODUCTION,MEMBERSTATUS,PROFILEIMG,WARNCOUNT,REGDATE) 
 		values(#{userid},#{username},#{pwd},#{email},#{phone},#{post},#{addr},#{detailAddr},#{gender},#{birthday},#{introduction},default,#{profileimg},default,default)
 	</insert>
 	
+	<!-- 주변 숙소 불러오기 -->
 	<select id="getRecommendRoomList" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select * from room where roomsigungu=#{sigungu}
 	</select>
 	
+	<!-- 침실 정보 저장하기 -->
 	<insert id="insertbedroom" parameterType="String">
 		insert into bedroom(bedroom_idx,fk_roomcode) values(bedroom_idx_seq.nextval,#{rooomcode})
 	</insert>
 	
+	<!-- 침실번호 채번하기 -->
 	<select id="getBedroomIdx" resultType="Integer">
 		select bedroom_idx_seq.currval from dual
 	</select>
 	
+	<!-- 침대정보 저장하기 -->
 	<insert id="insertbed" parameterType="HashMap">
 		insert into bed(bed_idx,bedCount,fk_bedroom_idx,fk_bedobj_idx) values(bed_idx_seq.nextval,#{BEDCOUNT},#{BEDROOMIDX},#{BEDOBJIDX})
 	</insert>
 	
+	<!-- 해당 숙소의 리뷰 가져오기(페이징 및 검색) -->
 	<select id="getAllReviewList" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
 		select*from(
-		    select rownum as rno,REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,REVIEW_WRITEDATE 
+		    select rownum as rno,REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,to_char(REVIEW_WRITEDATE,'yyyy-mm-dd') as REVIEW_WRITEDATE 
 		    from review
-		    where fk_roomcode=#{ROOMCODE})
+		    where fk_roomcode=#{ROOMCODE} and review_content=#{REVIEWSEARCHWORD})
 		where rno between #{STARTRNO} and #{ENDRNO}
+	</select>
+	
+	<!-- 해당 숙소의 리뷰 검색하기 -->
+	<select id="getSearchReview" parameterType="HashMap" resultType="com.spring.bnb.model.ReviewVO">
+		select*from review where fk_roomcode=#{ROOMCODE} and review_content like '%'||#{REVIEWSEARCHWORD}||'%'
+	</select>
+	
+	<!-- 작성된 리뷰 저장하기 -->
+	<insert id="insertReview" parameterType="com.spring.bnb.model.ReviewVO">
+		insert into review(REVIEW_IDX,FK_ROOMCODE,FK_USERID,CORRECT,COMMUNICATE,CLEAN,POSITION,CHECKIN,VALUE,REVIEW_CONTENT,HOSTANSWER,REVIEW_WRITEDATE) 
+		values(REVIEW_IDX_seq.nextval,#{fk_roomcode},#{fk_userid},#{correct},#{communicate},#{clean},#{position},#{checkin},#{value},#{review_content},null,default)
+	</insert>
+	
+	<!-- 숙소상세 예약현황 가져오기 -->
+	<select id="reservationCheck" parameterType="String" resultType="com.spring.bnb.model.ReservationVO">
+		select to_char(rsv_checkindate,'yyyy-mm-dd') as rsv_checkindate, to_char(rsv_checkoutdate,'yyyy-mm-dd') as rsv_checkoutdate
+		from reservation where fk_roomcode = #{roomcode}
+	</select>
+	
+	<resultMap type="HashMap" id="StarPointMap">
+		<result property="correct" column="correct" javaType="Double" />
+		<result property="communicate" column="communicate" javaType="Double" />
+		<result property="clean" column="clean" javaType="Double" />
+		<result property="position" column="position" javaType="Double" />
+		<result property="checkin" column="checkin" javaType="Double" />
+		<result property="value" column="value" javaType="Double" />
+	</resultMap>
+	<!-- 숙소 별 별점 알아오기 -->
+	<select id="getStarPoint" parameterType="String" resultMap="StarPointMap">
+		select avg(correct) as correct, avg(communicate) as communicate, avg(clean) as clean,
+			   avg(position) as position, avg(checkin) as checkin, avg(value) as value 
+		from review where fk_roomcode=#{roomcode}
+	</select>
+	
+	<!-- 숙소 상세페이지에 들어갈때 마다 viewCount증가시키기 -->
+	<update id="roomViewCountUp" parameterType="String">
+		update room set viewCount=viewCount+1 where roomcode=#{roomcode}
+	</update>
+	
+	<!-- header의 검색을 위한 시도 데이터들 가져오기 -->
+	<select id="getSearchSido" resultType="String">
+		select distinct roomsido from room where roomsido like '%'||#{searchword}||'%'
 	</select>
 	
 </mapper>

@@ -2,11 +2,13 @@ package com.spring.bnb.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -15,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSCService;
 
@@ -124,7 +128,7 @@ public class SCController {
 		// 저장 경로 설정
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "resources" + File.separator+ "images";		
+		String path = root + "resources" + File.separator+ "images" +File.separator+"becomehost";		
 		//System.out.println("root"+root);
 		//System.out.println(path);
 		File dir = new File(path);
@@ -188,7 +192,7 @@ public class SCController {
 		
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "resources" + File.separator+ "images";	
+		String path = root + "resources" + File.separator+ "images"+File.separator+"becomehost";	
 		File file = new File(path+File.separator+deleteFilename);
 		System.out.println(file);
 		
@@ -299,6 +303,29 @@ public class SCController {
 		return "host/hostroomMark.hosttiles";
 	}
 	
+	@RequestMapping(value = "/rankShowJSON.air", method = { RequestMethod.POST })
+	
+	public String rankShowJSON(HttpServletRequest req, HttpServletResponse res) {
+		
+		String roomcode = req.getParameter("roomcode");
+		System.out.println("char roomcode:"+roomcode);
+		RoomVO roomvo = service.getRoomInfo(roomcode);
+		List<HashMap<String, String>> countList = service.getReview(roomcode);
+		
+		JSONArray jsonArr = new JSONArray();
+		for(int i=0; i<countList.size(); i++) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("roomname", roomvo.getRoomName());
+			jsonObj.put("avgGrade", countList.get(i).get("avgGrade"));
+			jsonObj.put("gradeCount", countList.get(i).get("gradeCount"));
+			System.out.println(jsonObj);
+			jsonArr.put(jsonObj);
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////
 	
 	// ***** 호스트 등록된 숙소 수정하기(기본요금 수정) ***** //

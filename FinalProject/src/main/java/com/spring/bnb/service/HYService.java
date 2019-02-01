@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterHYDAO;
 import com.spring.bnb.model.MemberVO;
+import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
@@ -72,9 +73,32 @@ public class HYService implements InterHYService {
 	}
 
 	@Override
-	public List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap) {
-		List<ReviewVO> reviewList = dao.getAllReviewList(paraMap);
-		return reviewList;
+	public int insertReview(ReviewVO review) {
+		int n = dao.insertReview(review);
+		return n;
+	}
+
+	@Override
+	public List<ReservationVO> reservationCheck(String roomcode) {
+		List<ReservationVO> rsvList = dao.reservationCheck(roomcode); 
+		return rsvList;
+	}
+
+	@Override
+	public HashMap<String, Object> getStarPoint(String roomcode) {
+		HashMap<String, Object> starPoint = dao.getStarPoint(roomcode);
+		return starPoint;
+	}
+
+	@Override
+	public void roomViewCountUp(String roomcode) {
+		dao.roomViewCountUp(roomcode);
+	}
+
+	@Override
+	public List<String> getSearchSido(String searchword) {
+		List<String> searchList = dao.getSearchSido(searchword);
+		return searchList;
 	}
 
 }

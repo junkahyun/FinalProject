@@ -743,4 +743,4 @@ and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-20' and '2019-02-
 
 
 select * from reservation B
->>>>>>> branch 'master' of https://github.com/Hyun0JAM/FinalProject.git
+
