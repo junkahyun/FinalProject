@@ -131,6 +131,7 @@
 	                     <i class="fa fa-angle-right"></i>
 	                  </a>
 	               </div> 
+	               <form name="goListFrm">
 	               <div class="choose_A">
 			         	<div class="col-md-2 domestic">
 			         		<img id="nation_flag" alt=" " src="<%=ctxPath%>/resources/images/main/nation_flag_icon.png" width="20%"/>
@@ -152,6 +153,7 @@
 			         		검색
 			         	</div>
 	         		</div>
+	         		</form>
 	            </div> 
 	         </div> 
 	   </section><!--/slider-->

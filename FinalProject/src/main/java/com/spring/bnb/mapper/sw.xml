@@ -37,14 +37,19 @@
 		where A.buildtype = #{buildName1}
 	</select> 
 	
-	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
+	<select id="getHomeListByOption" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		   
 	  	select *
 		from room A JOIN buildtype_detail B
-                    ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
-		where 1=1
-		<if test='ALLPERSON != ""'>
-		and max_person >= to_number(#{ALLPERSON})
-		</if>
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          JOIN bedroom C
+		          ON A.roomcode = C.fk_roomcode
+		          JOIN bed D
+		          ON C.bedroom_idx = D.fk_bedroom_idx
+		          JOIN bedobj E
+		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
+		where 1=1 
 		<if test='CHECKIN != "" and CHECKOUT != ""'>
 		and roomcode in (
 		select roomcode
@@ -65,24 +70,35 @@
 	    and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
 	    </if>
 		<if test='CITY != ""'>
-		and roomsigungu = #{CITY}
+		and roomsido like '%'||#{CITY}||'%'
 		</if>
-							
-						   
+		<if test='ALLPERSON != ""'>
+		and max_person >= #{ALLPERSON}
+		</if>					   
 	</select>
 	
-	<select id="getRoomList" resultType="com.spring.bnb.model.RoomVO">
-		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx	
-		<!-- 
-		select * 
-		from room A join roomType B 
-		on A.fk_roomtype_idx = B.roomtype_idx
-		JOIN bedroom C
-		ON A.roomcode = C.fk_roomcode
-		JOIN bed D
-		ON C.bedroom_idx = D.fk_bedroom_idx
-		JOIN bedobj E
-		ON D.fk_bedobj_idx = E.bedobj_idx	 -->			
+	<select id="getRoomList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">
+		select *
+		from room A JOIN buildtype_detail B
+                    ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		where 1=1		
+		<if test='CHECKIN != "" and CHECKOUT != ""'>
+		and roomcode in (
+		select roomcode
+		from room							
+		minus
+		select roomcode
+		from room A JOIN reservation B
+		ON A.roomcode = B.fk_roomcode
+		JOIN buildtype_detail C
+		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+		where #{CHECKIN} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+		and #{CHECKOUT} between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))
+		</if>						
+		<if test='CITY != ""'> 
+	    and roomsido like '%'||#{CITY}||'%'
+	    </if>
+		<!-- select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx -->		
 	</select>
 	
 	<resultMap type="HashMap" id="dataResultMap2">
@@ -113,9 +129,18 @@
 	</select>	
 	
 	<select id="getSWOptionList" parameterType="HashMap" resultType="com.spring.bnb.model.RoomVO">		
-		select *  
-		from room
-		where roomsigungu = '${CITY[0]}'
+		select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          JOIN bedroom C
+		          ON A.roomcode = C.fk_roomcode
+		          JOIN bed D
+		          ON C.bedroom_idx = D.fk_bedroom_idx
+		          JOIN bedobj E
+		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
+		where roomsido = '${CITY}'
 		<if test="RULENAME != ''">
 			and not exists(select rule_idx
 							from allrule
@@ -127,7 +152,7 @@
 							select fk_rule_idx
 							from room A JOIN roomrule B
 							ON A.roomcode = B.fk_roomcode
-							where roomsigungu = '${CITY[0]}')
+							where roomsido = '${CITY}')
 		</if>
 		<if test="OPTIONNAME != ''">		                                   
 			and not exists (select option_idx
@@ -140,7 +165,7 @@
 							select fk_option_idx
 							from room A JOIN roomoption B
 							ON A.roomcode = B.fk_roomcode
-							where roomsigungu = '${CITY[0]}')
+							where roomsido = '${CITY}')
 		 </if>
 		 <if test="ROOMTYPE_NAME != ''">                                   
 			and not exists (select roomtype_idx
@@ -152,7 +177,7 @@
 							minus
 							select fk_roomtype_idx
 							from room 
-							where roomsigungu = '${CITY[0]}') 
+							where roomsido = '${CITY}') 
 		  </if>                                  
 		  
 	</select>
@@ -160,6 +185,10 @@
 	<select id="getHomeList" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
 		where roomcode = #{roomcode}
+	</select>
+	
+	<select id="getAllHomeList" resultType="com.spring.bnb.model.RoomVO">
+		select * from room
 	</select>
 
 </mapper>
