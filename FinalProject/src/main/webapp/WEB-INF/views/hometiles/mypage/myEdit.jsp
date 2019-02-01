@@ -229,8 +229,9 @@ function phoneCheck(phone) {
 		data:form_data,
 		dataType:"JSON",
 		success:
+			
 	});
-}
+} 
 </script>
 
 
