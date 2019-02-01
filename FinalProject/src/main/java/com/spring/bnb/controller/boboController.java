@@ -193,31 +193,31 @@ public class boboController {
 
          }// end of for------------------------------------------------
 
-         // file의 첫번째를 메인이미지로 한다.
-         String roomMainImg = fileManager.doFileUpload(bytes, fileList.get(0).getOriginalFilename(), realPath);
-         roomvo.setRoomMainImg(roomMainImg);
-         
-         session.setAttribute("imgList", imgList); // 이미지를 한개만 넣었을경우를 위해
-         // 나머지 이미지들을 set
-         roomvo.setRoomimgList(imgList);
-         
-      }// end of if---------------------------------------
-      
-      //System.out.println(roomMainImg);
-      
-      /*List<String> roomimgList = new ArrayList<String>(); 
-      
-      for(int i=1; i<roomimgList.size(); i++) {
-         String roomimgname = fileList.get(i).getOriginalFilename();
-         roomimgList.add(roomimgname);
-      }
-      roomvo.setRoomimgList(roomimgList);
-      */
-      
+			// file의 첫번째를 메인이미지로 한다.
+			String roomMainImg = fileManager.doFileUpload(bytes, fileList.get(0).getOriginalFilename(), realPath);
+			roomvo.setRoomMainImg(roomMainImg);
+			
+			session.setAttribute("imgList", imgList);
+			// 나머지 이미지들을 set
+			roomvo.setRoomimgList(imgList);
+			
+		}// end of if---------------------------------------
+		
+		//System.out.println(roomMainImg);
+		
+		/*List<String> roomimgList = new ArrayList<String>(); 
+		
+		for(int i=1; i<roomimgList.size(); i++) {
+			String roomimgname = fileList.get(i).getOriginalFilename();
+			roomimgList.add(roomimgname);
+		}
+		roomvo.setRoomimgList(roomimgList);
+		*/
+		
       // roomvo에 들어간 값들을 세션에 저장한다 
       session.setAttribute("roomvo", roomvo);
-      
-      JSONArray jsonArr = new JSONArray();
+		
+	  JSONArray jsonArr = new JSONArray();
 
       jsonArr.put(fileList);
       
