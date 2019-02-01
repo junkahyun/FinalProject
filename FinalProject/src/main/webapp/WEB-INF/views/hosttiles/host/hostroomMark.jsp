@@ -86,11 +86,14 @@ $(document).ready(function(){
 			
 			$("#charts").hide();
 			$("._15lzjb6").show();
+			$("._1p75mxn1").hide();
 			$("#PointCount").empty();
 		} else {
 			$("#charts").show();
 			$("._15lzjb6").hide();
+			$("._1p75mxn1").show();
 			chart();
+			showreview();
 		}
 	});
 	
@@ -116,42 +119,48 @@ function chart(){
 				resultArr.push(subArr); // 배열속에 값을 넣기
 			}
 			
-			console.log(totalCount);
-			
+			//console.log(totalCount);
+		
 			$("#PointCount").empty();
 			var html = "<h5 id='PointCount'>평점 ("+totalCount+"개)</h5>"
 			$("#PointCount").empty().html(html);
 			
-			Highcharts.chart('charts', {
-				  chart: {
-				    type: 'bar'
-				  },
-				  title: {
-				    text: '숙소 이름'
-				  },
-				  xAxis: {
-				    categories: ['평점1점','평점2점','평점3점','평점4점','평점5점']
-				  },
-				  yAxis: {
-				    min: 0,
-				    title: {
-				      text: 'Total Point consumption'
-				    }
-				  },
-				  tooltip: {
-				    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}   </b> ({point.percentage:.0f}%)<br/>',
-				    shared: true
-				  },
-				  plotOptions: {
-				    series: {
-				      stacking: 'normal'
-				    }
-				  },
-				  series: [{
-				    name: json.roomname,
-				    data: resultArr
-				  }]
-				});
+			if(totalCount>0){
+				Highcharts.chart('charts', {
+					  chart: {
+					    type: 'bar'
+					  },
+					  title: {
+					    text: '숙소 이름'
+					  },
+					  xAxis: {
+					    categories: ['평점1점','평점2점','평점3점','평점4점','평점5점']
+					  },
+					  yAxis: {
+					    min: 0,
+					    title: {
+					      text: 'Total Point consumption'
+					    }
+					  },
+					  tooltip: {
+					    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}   </b> ({point.percentage:.0f}%)<br/>',
+					    shared: true
+					  },
+					  plotOptions: {
+					    series: {
+					      stacking: 'normal'
+					    }
+					  },
+					  series: [{
+					    name: json.roomname,
+					    data: resultArr
+					  }]
+					});
+			} else {
+				$("._15lzjb6").show();
+				$("#charts").hide();
+			}
+			
 		},
 		error:function(){
 			
@@ -171,7 +180,8 @@ function showreview() {
 		type:"POST",
 		dataType:"JSON",
 		success:function(json){
-
+			console.log(json);
+			var html = 	"<c:set var='room' value='"+json+"'/>";
 		},
 		error:function(){
 			
@@ -179,6 +189,7 @@ function showreview() {
 	});
 }
 </script>
+
 <div class="container" style="width: 100%;">
 	<div class="col-md-2"></div>
 	<div class="col-md-8" style="margin-bottom: 10%; margin-top: 5%;">
@@ -219,6 +230,11 @@ function showreview() {
 											</div>
 										</div>
 									</div>
+									
+									<!--  표시할 내용이 없을떄 나타나야함  끝-->
+									<div class="_1dl27thl" style="margin-top: 10%;">
+										<h5 id="PointCount">평점 (0개)</h5>
+									</div>
 									<!--  표시할 내용이 없을떄 나타나야함 -->
 									<div class="_15lzjb6">
 										<div class="_1rlifxji">
@@ -231,11 +247,6 @@ function showreview() {
 											</div>
 										</div>
 									</div>
-									<!--  표시할 내용이 없을떄 나타나야함  끝-->
-									<div class="_1dl27thl" style="margin-top: 10%;">
-										<h5 id="PointCount">평점 (0개)</h5>
-									</div>
-
 									<!--  차트 시작 -->
 									<div id="charts"
 										style="border: 0px soild red; min-width: 310px; height: 70%; max-width: 80%; margin: 0 auto"></div>

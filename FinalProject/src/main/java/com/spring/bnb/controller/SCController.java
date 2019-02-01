@@ -309,7 +309,7 @@ public class SCController {
 		String roomcode = req.getParameter("roomcode");
 		//System.out.println("char roomcode:"+roomcode);
 		RoomVO roomvo = service.getRoomInfo(roomcode);
-		List<HashMap<String, String>> countList = service.getReview(roomcode);
+		List<HashMap<String, String>> countList = service.getPoint(roomcode);
 		
 		JSONArray jsonArr = new JSONArray();
 		for(int i=0; i<countList.size(); i++) {
@@ -329,8 +329,17 @@ public class SCController {
 	public String showreview(HttpServletRequest req, HttpServletResponse res) {
 		
 		String roomcode = req.getParameter("roomcode");
+		System.out.println("roomcode:"+roomcode);
 		
-		
+		List<ReviewVO> reviewList = service.getReview(roomcode);
+		JSONArray jsonArr = new JSONArray();
+		for(ReviewVO reviewvo : reviewList) {
+			System.out.println("reviewvo:"+reviewvo.getFk_userid());
+			jsonArr.put(reviewvo);
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+
 		return "JSON";
 	}
 
