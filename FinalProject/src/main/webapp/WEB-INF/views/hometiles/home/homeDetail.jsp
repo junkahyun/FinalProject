@@ -1,22 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link href='<%=request.getContextPath()%>/resources/js/fullcalendar.min.css' rel='stylesheet' />
+<link href='<%=request.getContextPath()%>/resources/js/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/homeDetail.css" /> 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/homeDetail.css" /> 
+<script src='<%=request.getContextPath()%>/resources/js/moment.min.js'></script>
+<script src='<%=request.getContextPath()%>/resources/js/fullcalendar.min.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script>
 	// 기본 예약인원 설정
 	var adultCount = 1;
 	var babyCount = 0;
+	var disabledDays = [];
 	$(document).ready(function(){
+		// 예약 현황 가져오기
+		reservationCheck();
+		// 리뷰 가져오기
+		getReview("1");
 		// 별점설정
 		var starhalf = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/half-star-shape.png' style='weight:20px;height:20px;margin-right:1%;'>";
 		var starOne = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/bookmark-star.png' style='weight:20px;height:20px;margin-right:1%;'>";
 		$(".starPointval").val(6);
 		$(".starPoint").html(starOne+starOne+starOne);
-
+		var starAllAvg = 0;
+		$(".starAvg").each(function(){
+			var thisText = $(this).parent().find(".col-md-2").text();
+			var html = ""
+			if(thisText=="정확성"){
+				var correct = parseInt("${starMap.correct}");
+				starAllAvg += correct;
+				for(var i=0;i<correct/2;i++) html += starOne;
+				if(correct%2==1) html += starhalf;
+			}
+			else if(thisText=="의사소통"){
+				var communicate = parseInt("${starMap.communicate}");
+				starAllAvg += communicate;
+				for(var i=0;i<communicate/2;i++) html += starOne;
+				if(communicate%2==1) html += starhalf;
+			}
+			else if(thisText=="청결도"){
+				var clean = parseInt("${starMap.clean}");
+				starAllAvg += clean;
+				for(var i=0;i<clean/2;i++) html += starOne;
+				if(clean%2==1) html += starhalf;
+			}
+			else if(thisText=="위치"){
+				var position = parseInt("${starMap.position}");
+				starAllAvg += position;
+				for(var i=0;i<position/2;i++) html += starOne;
+				if(position%2==1) html += starhalf;
+			}
+			else if(thisText=="체크인"){
+				var checkin = parseInt("${starMap.checkin}");
+				starAllAvg += checkin;
+				for(var i=0;i<checkin/2;i++) html += starOne;
+				if(checkin%2==1) html += starhalf;
+			}
+			else{
+				var value = parseInt("${starMap.value}");
+				starAllAvg += value;
+				for(var i=0;i<value/2;i++) html += starOne;
+				if(value%2==1) html += starhalf;
+			}
+			$(this).html(html);
+		});
+		var starAllhtml = "";
+		for(var i=0;i<starAllAvg/(6*2);i++) starAllhtml += starOne;
+		if(starAllAvg/(6*2)%2>=1) starAllhtml += starhalf;
+		$("#starAll").html(starAllhtml);
 		$(".starPointUp").click(function(){
 			// 현재 별점을 가져와서 값을 올리고 별을 올린다.
 			var changeval = parseInt($(this).parent().parent().find(".starPointval").val())+1;
@@ -42,14 +97,8 @@
 			if(changeval%2==1) html += starhalf;
 			$(this).parent().parent().find(".starPoint").html(html);
 		});
-		// 예약 날짜 datepicker설정
-		$('.input-daterange').datepicker({
-		    autoclose: true
-		});
-		$('.datepicker').datepicker({
-			format: 'yyyy/mm/dd',
-		    startDate: '-3d'
-		});
+		
+		//$( ".input-daterange" ).datepicker( "option", "disabled", true );
 		
 		// 예약인원수 설정
 		$("#adultTotal").text(adultCount);
@@ -101,48 +150,154 @@
        	
        	// 후기 검색 설정
        	$("#reviewSearchWord").keydown(function(event){
-       		if(event.keyCode==13) reviewSearch();
+       		if(event.keyCode==13){
+       			getReview("1");
+       		}
        	});
        	// 리뷰 작성 ajax
        	$("#reviewInsertBtn").click(function(){
-       		$.ajax({
-       			url:"reviewInsert.air",
-       			type:"POST",
-       			data:"JSON",
-       			success:function(json){
-       				
-       			},
-       			error:function(){
-       				
-       			}
-       		});
+       		reviewInsert();
        	});
-	});   
-	function reviewSearch(){
-	   	var reviewSearchWord = $("#reviewSearchWord").val();
-	   	var roomcode = $("#roomcode").val();
-	   	var form_data = {"reviewSearchWord":reviewSearchWord,"roomcode":roomcode};
-       	$.ajax({
-    	  	url:"reviewSearch.air",
-    	  	type:"GET",
-    	  	data:form_data,
-    	  	dataType:"JSON",
-    	  	success:function(json){
-    		  	var html = "";
+       	$("#review_content").keydown(function(){
+       		if(event.keyCode==13){
+       			reviewInsert();
+       		}
+       	});
+       	$("#rsvBtn").click(function(){
+       		var checkinDate = new Date($("#checkInDate").val());
+       		var checkOutDate = new Date($("#checkOutDate").val());
+       		var diffrent = (checkOutDate-checkinDate)/(1000*60*60*24);
+       		if(checkinDate==""||checkOutDate==""){
+       			alert("예약날짜를 설정해 주세요.");
+       			return;
+       		}
+       		for(var i=0;i<diffrent;i++){
+       			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
+       			for(var j=0;j<disabledDays.length;j++){
+       				if(disabledDays[j].getTime()==temp.getTime()){
+           				alert("예약 할 수 없는 날짜 입니다.");
+           				return;
+           			}
+       			} 
+       		}
+       		alert();
+       		goReserve();
+       	});
+	});
+	function reservationCheck(){
+		// 예약현황 달력 설정
+		var form_data = {"roomcode":"${room.roomcode}"};
+		$.ajax({
+			url:"reservationCheck.air",
+			type:"POST",
+			data:form_data,
+			dataType:"JSON",
+			success:function(json){
+				var rsvArr = [];
+				if(json.rsvcheck!=null){
+					console.log("예약현황 없음");
+				}
+				else{
+					$.each(json,function(entryIndex,entry){
+						rsvArr.push({"title":"예약 불가", "start":entry.checkinDate, "end":entry.checkoutDate});
+					});	
+					for(var i=0;i<rsvArr.length;i++){
+						var startday = new Date(rsvArr[i].start);
+						var endday = new Date(rsvArr[i].end);
+						var diff = (endday-startday)/(1000*60*60*24);
+						for(var i=0;i<diff;i++){
+							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
+						}
+					}
+				}
+				$('#calendar').fullCalendar({
+				      header: {
+				        left: '',
+				        center: 'title',
+				      },
+				      defaultDate: '2019-01-12',
+				      events: rsvArr
+				});
+				// 예약 날짜 datepicker설정
+				$('.input-daterange').datepicker({
+					startDate: '-0d',
+					forceParse : 'yyyy/mm/dd',
+					datesDisabled: disabledDays
+				});
+				
+			},
+			error: function(request, status, error){
+            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        	}
+		});
+	}
+	function getReview(currentShowPageNo){
+		$("#reviewListFrm").ajaxForm({
+			url:"reviewSearch.air",
+			type:"GET",
+			dataType:"JSON",
+			success:function(json){
+				var html = "";
     		  	$.each(json,function(entryIndex,entry){
-    			 	html+="<div class='row noSpace homeDetailComment'>"
+    			 	html+="<div class='row noSpace homeDetailComment' style='margin-top:2%;'>"
                     	+"<div class='col-md-1'><div style='border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;'><img src='' style='width:50px;height:50px;'></div></div>"
                  		+"<div class='col-md-10' style='padding-top:0.5%;'><div style='font-weight:bold;'>"+entry.fk_userid+"</div><div>"+entry.review_writedate+"</div></div>"
                  		+"<div class='col-md-1'>icon</div>"
                  		+"<div class='col-md-12' style='margin-top:2%;'>"+entry.review_content+"</div></div>";
-    		  	});
+    		  	}); 
     		  	$("#reviewArea").html(html);
-    	  	},
-    	  	error: function(request, status, error){
+    		  	// 댓글이 있는경우
+    		  	if(json.length>0){
+    		  		var totalPage = Math.ceil(json.length/5);
+    		  		var pageBarHTML = "";
+                	var blockSize = 10;
+                	var loop = 1;
+                	
+                	var pageNo = Math.floor((currentShowPageNo-1)/blockSize) * blockSize + 1;
+                	if(pageNo!=1) pageBarHTML += "&nbsp;<a href='javascript:getReview("+(pageNo-1)+");'>[이전]</a>&nbsp;";
+                	while(!(loop>blockSize||pageNo>totalPage)){
+                		if(pageNo==currentShowPageNo) pageBarHTML += "&nbsp;<a href='javascript:getReview("+pageNo+");' style='color:#148487;font-weight:bold;text-decoration:underline;'>"+pageNo+"</a>&nbsp;";
+                		else pageBarHTML += "&nbsp;<a href='javascript:getReview("+pageNo+");'>"+pageNo+"</a>&nbsp;";
+                		loop++;
+                		pageNo++;
+                	}
+                	if(!(pageNo>totalPage)) pageBarHTML += "&nbsp;<a href='javascript:getReview("+pageNo+");'>[다음]</a>&nbsp;";
+                	$("#pagebar").empty().html(pageBarHTML);
+                	pageBarHTML = "";
+    		  	}
+    		  	else{
+    		  		$("#reviewArea").html("<div style='text-align:center;margin-bottom:3%;'>댓글이 존재하지 않습니다.</div>");
+    		  		$("#pagebar").empty().html("");
+    		  	}
+			},
+			error: function(request, status, error){
+            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        	}
+		})
+		$("#reviewListFrm").submit();
+	}
+	function reviewInsert(){
+		var reviewContent = $("#review_content").val();
+		if(reviewContent==""){
+			alert("리뷰내용을 작성해 주세요.");
+			return;
+		}
+		$("#reviewFrm").ajaxForm({
+				url:"reviewInsert.air",
+				type:"POST",
+				dataType:"JSON",
+				success:function(json){
+					if(json.n=="1"){
+						alert("리뷰가 작성되었습니다.");
+						location.reload();
+					}
+				},
+				error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
-       	});
-   	}
+			})
+			$("#reviewFrm").submit();
+	}
 	function likeRoom(){
     	var saveTitle = $("#saveTitle").val();
       	var roomcode = $("#roomcode").val();
@@ -177,11 +332,9 @@
   		var frm = document.reserveFrm;
   		frm.guestCount.value=adultCount;
   		frm.babyCount.value=babyCount;
-  		frm.rsv_checkInDate.value="2019-01-31";
-  		frm.rsv_checkOutDate.value="2019-02-02";
   		frm.action="reservationCheck.air";
   		frm.method="GET";
-  		//frm.submit();
+  		frm.submit();
   	}
   	
 </script>
@@ -234,7 +387,7 @@
                </div>
                <%-- 호스트 프로필 --%>
                <div class="col-md-2">
-                  <div style="border: 1px solid none; height:64px; width:64px; border-radius:40px; background-color:lightgray; overflow:hidden;margin-top: 10%;margin-left:5%;padding-top:3%;"><img src="<%=request.getContextPath() %>/resources/images/profile/${room.host.profileimg}" style="width:64px;height:64px;"/></div>
+                  <div style="border: 1px solid none; height:64px; width:64px; border-radius:40px; background-color:lightgray; overflow:hidden;margin-top: 10%;margin-left:5%;"><img src="<%=request.getContextPath() %>/resources/images/profile/${room.host.profileimg}" style="width:64px;height:64px;"/></div>
                   <div style="font-weight:bold;margin-left:12%;font-size:14pt; margin-top: 15%;">${room.host.userid }</div>
                </div>
             </div>
@@ -284,110 +437,58 @@
          <div class="infoDiv">
             <div class="infoSubjectHY" style="font-weight:bold;">예약 가능 여부</div>
             <div class="row noSpace" style="margin-top:3%;">
-               <table class="_p5jgym" role="presentation">
-                  <tbody>
-                  <%-- "_12fun97" : 예약가능 / "_z39f86g" : 예약불가 --%>
-                     <tr>
-                        <td></td>
-                        <td class="_z39f86g" role="button" aria-label="화요일, 2019년 1월 1일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">1</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="수요일, 2019년 1월 2일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">2</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="목요일, 2019년 1월 3일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">3</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="금요일, 2019년 1월 4일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">4</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="토요일, 2019년 1월 5일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">5</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="일요일, 2019년 1월 6일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">6</div></div></div></div></td>
-                     </tr>
-                     <tr>
-                        <td class="_z39f86g" role="button" aria-label="월요일, 2019년 1월 7일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">7</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="화요일, 2019년 1월 8일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">8</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="수요일, 2019년 1월 9일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">9</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="목요일, 2019년 1월 10일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">10</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="금요일, 2019년 1월 11일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">11</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="토요일, 2019년 1월 12일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">12</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="일요일, 2019년 1월 13일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">13</div></div></div></div></td>
-                     </tr>
-                     <tr>
-                        <td class="_z39f86g" role="button" aria-label="월요일, 2019년 1월 14일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">14</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="화요일, 2019년 1월 15일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">15</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="수요일, 2019년 1월 16일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">16</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="목요일, 2019년 1월 17일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">17</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="금요일, 2019년 1월 18일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">18</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="토요일, 2019년 1월 19일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">19</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="일요일, 2019년 1월 20일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">20</div></div></div></div></td>
-                     </tr>
-                     <tr>
-                        <td class="_12fun97" role="button" aria-label="월요일, 2019년 1월 21일을 체크인 날짜로 선택하세요. 예약 가능한 날짜입니다." tabindex="-1" style="width: 40px; height: 39px; background: rgb(237, 246, 246); color: rgb(0, 132, 137); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1tpncgrb">21</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="화요일, 2019년 1월 22일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">22</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="수요일, 2019년 1월 23일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">23</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="목요일, 2019년 1월 24일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">24</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="금요일, 2019년 1월 25일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">25</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="토요일, 2019년 1월 26일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">26</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="일요일, 2019년 1월 27일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">27</div></div></div></div></td>
-                     </tr>
-                     <tr>
-                        <td class="_z39f86g" role="button" aria-label="월요일, 2019년 1월 28일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">28</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="화요일, 2019년 1월 29일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">29</div></div></div></div></td>
-                        <td class="_z39f86g" role="button" aria-label="수요일, 2019년 1월 30일 예약 불가능" tabindex="-1" style="width: 40px; height: 39px; background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1rcgiovb">30</div></div></div></div></td>
-                        <td class="_12fun97" role="button" aria-label="목요일, 2019년 1월 31일을 체크인 날짜로 선택하세요. 예약 가능한 날짜입니다." tabindex="-1" style="width: 40px; height: 39px; background: rgb(237, 246, 246); color: rgb(0, 132, 137); border: 2px solid rgb(255, 255, 255); border-radius: 7px; padding: 0px;"><div class="_47fvp1"><div class="_nuqhpy"><div class="_1p2v1ny"><div class="_1tpncgrb">31</div></div></div></div></td><td></td><td></td><td></td>
-                     </tr>
-                  </tbody>
-               </table>
+               <div id='calendar' style="width:98%;margin-left:2%;"></div>
             </div>
          </div>
          <%-- 후기 --%>
+         <form id="reviewListFrm">
+		<input type=hidden name="roomcode" value="${room.roomcode}"/>
          <div class="infoDiv" style="padding-bottom:0;">
             <div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
-               <div class="col-md-8 infoSubjectHYBig">후기 ${room.reviewList.size()}개<span style="color:#148487;margin-left:3%;">★★★★★</span></div>
-               <div class="col-md-4"><input id="reviewSearchWord" type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
+               <div class="col-md-8 infoSubjectHYBig">후기 <span id="reviewSize">${room.reviewList.size()}</span>개<span id="starAll" style="color:#148487;margin-left:3%;">★★★★★</span></div>
+               <div class="col-md-4"><input id="reviewSearchWord" name="reviewSearchWord" type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
                   <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
                </div>
             </div>
-            <%-- 별점 평균 --%>
+			<%-- 별점 평균 --%>
             <div style="margin-bottom:5%;">
-               <div class="row noSpace" style="width:100%;">
-                  <div class="col-md-2">정확성</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-                  <div class="col-md-2">위치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-               </div>
-               <div class="row noSpace" style="width:100%;">
-                  <div class="col-md-2">의사소통</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-                  <div class="col-md-2">체크인</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-               </div>
-               <div class="row noSpace" style="width:100%;">
-                  <div class="col-md-2">청결도</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-                  <div class="col-md-2">가치</div><div class="col-md-4" style="color:#148487;">★★★★★</div>
-               </div>
+            	<div class="row noSpace" style="width:100%;">
+               		<div class="correct">
+		            	<div class="col-md-2">정확성</div>
+		            	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+                  	</div>
+                  	<div class="position">
+	                	<div class="col-md-2">위치</div>
+	                	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+               		</div>
+               	</div>
+               	<div class="row noSpace" style="width:100%;">
+               		<div class="communicate">
+	               		<div class="col-md-2">의사소통</div>
+	                	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+                	</div>
+                	<div class="checkin">
+	                	<div class="col-md-2">체크인</div>
+	                	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+               		</div>
+               	</div>
+               	<div class="row noSpace" style="width:100%;">
+               		<div class="clean">
+	                  	<div class="col-md-2">청결도</div>
+	                  	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+                  	</div>
+                  	<div class="value">
+	                  	<div class="col-md-2">가치</div>
+	                  	<div class="col-md-4 starAvg" style="color:#148487;">★★★★★</div>
+               		</div>
+               	</div>
             </div>
             <%-- 후기들 --%>
-            <div id="reviewArea" class="noSpace">
-               <c:if test="${room.reviewList.size() > 0 }">
-               <c:forEach items="${room.reviewList }" var="review">
-               <div class="row noSpace homeDetailComment">
-                  <div class="col-md-1">
-                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;">
-                     	<img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;">
-                     </div>
-                  </div>
-                  <div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
-                  <div class="col-md-1"><img src="<%=request.getContextPath() %>/resources/images/homeDetail/flag.png" /></div>
-                  <div class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
-               </div>
-               </c:forEach>
-               </c:if>
-               <c:if test="${room.reviewList.size() < 1 }">
-               <div class="row noSpace homeDetailComment" style="margin-left: 5%;text-align:center; margin-bottom:5%;font-weight:bold;">아직 등록된 Review가 없습니다.</div>
-               </c:if>
-               <%-- 후기 페이지바 --%>
-               <div class="row" style="margin:3%;">${pagebar}</div>
-               <c:if test="${room.reviewList.size() > 0 }">
-               <!-- <div class="row" style="margin:3%;color:white;">
-                  <div class="currpageCircle">1</div>
-                  <div class="pageBarCircle">2</div>
-                  <div class="pageBarCircle">3</div>
-               </div> -->
-               <div class="row" style="margin:3%;">${pagebar}</div>
-               </c:if>
-               <button data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal">댓글달기</button>
-            </div>
+            <div id="reviewArea" class="noSpace"></div>
+            <div id="pagebar" style="margin: 2% 5%;"></div>
+            <button data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal">댓글달기</button>
          </div>
+         </form>
          <div class="infoDiv">
             <%-- 지역정보 --%>
             <div class="infoSubjectHYBig">지역정보</div>
@@ -440,9 +541,9 @@
                   	<div style="height:240px;padding-top:5%;">
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>
 	                    <div class="input-daterange input-group datepicker" id="datepicker" style="width:100%;padding: 2% 5%;">
-						    <input type="text" class="input-sm form-control" name="rsv_checkInDate" placeholder="체크인" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;"/>
 						    <span class="input-group-addon">to</span>
-						    <input type="text" class="input-sm form-control" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;"/>
 						</div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
@@ -473,7 +574,7 @@
 	                            </div>
                         	</div>
                      	</div>
-                     	<button type="button" id="rsvBtn" onClick="goReserve();">예약하기</button>
+                     	<button type="button" id="rsvBtn" >예약하기</button>
                      	<div style="text-align:center; font-size:0.9em; font-weight:bold; margin-top: 2%;">예약 확정전에는 요금이 청구되지 않습니다.</div>
                   	</div>
                	</div>
@@ -522,6 +623,9 @@
 </div>
 <%-- 댓글작성 modal --%>
 <div class="modal fade" id="reviewRegist" role="dialog">
+	<form id="reviewFrm">
+	<input type="hidden" name="fk_roomcode" value="${room.roomcode }">
+	<input type="hidden" name="fk_userid" value="${loginuser.userid }">
 	<div class="modal-doalog" style="width:800px; margin: 10% auto;padding:0;">
 		<div class="modal-content" style="width:100%;padding:5%;">
 			<!-- <div>나의 예약정보</div> -->
@@ -588,9 +692,10 @@
                </div>
             </div>
             <div class="container" style="width:100%;">
-				<textarea id="review_content" class="form-control input-data" style="width:88%;float:left;height:80px;"></textarea>
-				<button id="reviewInsertBtn" style="width:11%;float:left;margin-left:1%;border:none;background-color: #148487;color:white;height:80px;border-radius:3px;padding:1.5%;font-size:0.9em;">댓글달기</button>
+				<textarea id="review_content" name="review_content" class="form-control input-data" style="width:88%;float:left;height:80px;"></textarea>
+				<button type="button" id="reviewInsertBtn" style="width:11%;float:left;margin-left:1%;border:none;background-color: #148487;color:white;height:80px;border-radius:3px;padding:1.5%;font-size:0.9em;">댓글달기</button>
 			</div>
 		</div>
 	</div>	
+	</form>
 </div>

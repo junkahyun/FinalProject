@@ -16,6 +16,7 @@
 		
 		
 	});
+	
 </script>
 
 
@@ -31,45 +32,52 @@
 	  	<col width="50%;"/>
 	  	  <tr>
 	        <th>신고유형</th>
-	        <td style="text-align: left;">호스트신고</td>
+		        <c:if test="${reportvo.reporttype == 0}">
+		        	<td style="text-align: left;">투숙객신고</td>
+		        </c:if>
+		        <c:if test="${reportvo.reporttype == 1}">
+		        	<td style="text-align: left;">호스트신고</td>
+		        </c:if>
 	      </tr>
 	      <tr>
-	        <th>글번호</th>
-	        <td style="text-align: left;">1</td>
-	      </tr>
-	      <tr>
-	        <th>이름</th>
-	        <td style="text-align: left;">홍길동</td>
+	        <th>아이디</th>
+	        <td style="text-align: left;">${reportvo.fk_userid}</td>
 	      </tr>
 	      <tr>
 	        <th>제목</th>
-	        <td style="text-align: left;">백승철 신고합니다.</td>
+	        <td style="text-align: left;">${reportvo.report_subject}</td>
 	      </tr>
 	      <tr>
 	        <th>내용</th>
 	        <td style="text-align: left;">
-	        <textarea rows="8" cols="40" style="width:100%; border:none;" readonly ><p><img src="/bnb/resources/photo_upload/20190130110606179769607476562.jpg" title="20190130110606179769607476562.jpg"><br style="clear:both;">마우스가 무섭게 생겼어요</p></textarea>
+	        ${reportvo.report_content}
 	        </td>
 	      </tr>
 	      <tr>
 	        <th>조회수</th>
-	        <td style="text-align: left;">3</td>
+	        <td style="text-align: left;">${reportvo.viewcnt}</td>
 	      </tr>
 	      <tr>
 	        <th>날짜</th>
-	        <td style="text-align: left;">2018-12-31 11:42:11</td>
+	        <td style="text-align: left;">${reportvo.report_date}</td>
 	      </tr>
 	  </table>
 	  
-	  <div style="text-align: left; margin-bottom: 5%;">
-		  <div style="margin-bottom: 1%;">이전글 :<span class="move" onClick="javascript:location.href='view.action?seq=${boardvo.previousseq}'">누구세요?</span></div>
-		  <div style="margin-bottom: 5%;">다음글 :<span class="move" onClick="javascript:location.href='view.action?seq=${boardvo.nextseq}'">재밌어요!</span></div>
-	  	
-	  	  <button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">목록보기</button>
-		  <button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/edit.action?seq=${boardvo.seq}'">수정</button>
-		  <button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/del.action?seq=${boardvo.seq}'">삭제</button>
-	  </div>
-	  
+	  <form name="editFrm">
+		  <div style="text-align: left; margin-bottom: 5%;">
+			  <div style="margin-bottom: 1%;">이전글 :<span class="move" style="cursor: pointer;" onClick="javascript:location.href='reportDetail.air?report_idx=${reportvo.previousseq}'">${reportvo.previoustitle}</span></div>
+			  <div style="margin-bottom: 5%;">다음글 :<span class="move" style="cursor: pointer;" onClick="javascript:location.href='reportDetail.air?report_idx=${reportvo.nextseq}'">${reportvo.nexttitle}</span></div>
+		  	
+		  	  <button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">목록보기</button>
+			  <c:if test="${sessionScope.loginuser.userid == 'admin' || sessionScope.loginuser.userid == reportvo.fk_userid}">
+			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/deleteReport.air?report_idx=${report_idx}'">삭제</button>
+			  </c:if>
+			  <c:if test="${sessionScope.loginuser.userid == reportvo.fk_userid}">
+			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/#'">수정</button>
+			  </c:if>
+		  </div>
+		  <input type="text" name="report_idx" value="${report_idx}"/>
+	  </form>
 	  
 	  <form name="addWriteFrm" style="text-align: left;">     
 		      <input type="hidden" name="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
@@ -77,9 +85,9 @@
 	       댓글내용 : <input type="text" name="content" class="long" />
 	    
 	    <!-- 댓글에 달리는 원게시물 글번호(즉, 댓글의 부모글 글번호) -->
-	    <input type="hidden" name="parentSeq" value="${boardvo.seq}" />  
+	    <input type="hidden" name="parentSeq" value="${report_idx}" />  
 	    
-	    <button type="button" onClick="goAddWrite();" >쓰기</button>    
+	    <button type="button" onClick="goAddWrite();" >쓰기</button>
 	  </form>
 	  
     </div>

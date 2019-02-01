@@ -145,7 +145,7 @@ public class SHService implements InterSHService {
 
 	// 신고게시글 상세보기 -> 조회수 증가 없이
 	@Override
-	public ReportVO getReportDetailNo(String report_idx) {
+	public ReportVO getReportDetailNo(int report_idx) {
 
 		ReportVO reportvo = dao.getReportDetail(report_idx);
 		
@@ -154,16 +154,28 @@ public class SHService implements InterSHService {
 
 	// 신고게시글 상세보기 -> 조회수 증가
 	@Override
-	public ReportVO getReportDetail(String report_idx, String userid) {
+	public ReportVO getReportDetail(int report_idx, String userid) {
 		
-		ReportVO reportvo = dao.getReportDetail(report_idx);
+		ReportVO reportvo = new ReportVO();
 		
-		if(userid != null && !(reportvo.getFk_userid().equals(userid))) {
+		if(userid != null) {
 			dao.upCount(report_idx);
+			reportvo = dao.getReportDetail(report_idx);
+		}
+		else {
 			reportvo = dao.getReportDetail(report_idx);
 		}
 		
 		return reportvo;
+	}
+
+	// 신고게시글 삭제하기
+	@Override
+	public int deleteReport(int report_idx) {
+		
+		int n = dao.deleteReport(report_idx);
+		
+		return n;
 	}
 	
 }

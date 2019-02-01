@@ -464,37 +464,50 @@ public class SHController {
 	@RequestMapping(value="/reportDetail.air", method= {RequestMethod.GET}) 
 	public String reportDetail(HttpServletRequest req) {
 		
-		String report_idx = req.getParameter("report_idx");
-		// System.out.println(report_idx);
+		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
+		System.out.println(report_idx);
 		
-		ReportVO reportvo = null;
+		ReportVO reportvo = new ReportVO();
 		
 		HttpSession session = req.getSession();
-		// MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		// System.out.println(loginuser+"1");
 		
 		String readCountPermission = (String)session.getAttribute("readCountPermission");
-		System.out.println(readCountPermission+"2");
+		// System.out.println(readCountPermission+"2");
 		
 		String userid = null;
 		
-		/*if(readCountPermission != null && "yes".equals(readCountPermission)) {
+		if(readCountPermission != null && "yes".equals(readCountPermission)) {
 			
 			if(loginuser != null) {
 				userid = loginuser.getUserid();
 			}
-			
+			// System.out.println(userid+"3");
 			reportvo = service.getReportDetail(report_idx, userid);
-			
 			session.removeAttribute("readCountPermission");
 		}
 		else {
 			reportvo = service.getReportDetailNo(report_idx);
+			// System.out.println("4");
 		}
-		
-		req.setAttribute("reportvo", reportvo);*/
+		// System.out.println(reportvo+"5");
+		req.setAttribute("reportvo", reportvo);	
+		req.setAttribute("report_idx", report_idx);
 		
 		return "home/reportDetail.hometiles";
+	}
+	
+	@RequestMapping(value="/deleteReport.air", method= {RequestMethod.GET})
+	public String deleteReport(HttpServletRequest req) {
+		
+		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
+		System.out.println(report_idx+"1");
+		
+		int n = service.deleteReport(report_idx);
+		// System.out.println(userid);
+		
+		return "home/board_report.hometiles";
 	}
 	
 	

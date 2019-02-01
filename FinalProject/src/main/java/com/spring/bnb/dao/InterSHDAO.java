@@ -54,8 +54,11 @@ public interface InterSHDAO {
 	int getTotalCounts(HashMap<String, String> paraMap);
 
 	// 신고게시글 상세보기 -> 조회수 증가(x 도 포함)
-	ReportVO getReportDetail(String report_idx);
+	ReportVO getReportDetail(int report_idx);
 
 	// 조회수 증가시켜주기
-	void upCount(String report_idx);
+	void upCount(int report_idx);
+
+	// 신고게시글 삭제하기
+	int deleteReport(int report_idx);
 }

@@ -153,7 +153,7 @@ public class SHDAO implements InterSHDAO {
 
 	// 신고게시글 상세보기 -> 조회수 증가(x도 포함)
 	@Override
-	public ReportVO getReportDetail(String report_idx) {
+	public ReportVO getReportDetail(int report_idx) {
 
 		ReportVO reportvo = sqlsession.selectOne("sh.getReportDetail", report_idx);
 		
@@ -162,9 +162,18 @@ public class SHDAO implements InterSHDAO {
 
 	// 조회수 증가시켜주기
 	@Override
-	public void upCount(String report_idx) {
+	public void upCount(int report_idx) {
 		
 		sqlsession.update("sh.upCount", report_idx);
 		
+	}
+
+	// 신고게시글 삭제하기
+	@Override
+	public int deleteReport(int report_idx) {
+
+		int n = sqlsession.delete("sh.deleteReport", report_idx);
+		
+		return n;
 	}
 }

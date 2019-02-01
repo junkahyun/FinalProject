@@ -55,6 +55,21 @@ input{outline: none;
 		
 	});//end of $(document).ready------------
 
+	function getbetweenDate(){
+		var checkin = "${checkin}";
+		var checkout = "${checkout}";
+		
+		var date1 = new Date(checkin);
+	    var date2 = new Date(checkout);
+	      
+	    var time1 = date1.getTime();
+	    var time2 = date2.getTime();
+	    
+	    var datebetween = (time2-time1)/(1000*60*60*24);
+	    //날짜 차이 구하기
+	    
+	    $("#datebetween").val(datebetween);
+	}
 	
 </script>
 
@@ -127,12 +142,12 @@ input{outline: none;
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="${loginuser.phone}" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="${phone}" readonly="readonly" />
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="${loginuser.email}" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${email}" readonly="readonly"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -156,10 +171,10 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text" value="${day2-day1}박" /><br><br>
+			<input class="reservationInfo" type="text" id="datebetween" value="2박"/><br><br>
 			
 			<span class="myinfomation">체크인</span><br>
-			<input class="reservationInfo" type="text" value="${year1}년 ${mon1}월 ${day1}일 " /><br><br>
+			<input class="reservationInfo" type="text" value="${checkin} " /><br><br>
 			
 			<span class="myinfomation">총인원</span><br>
 			<input class="reservationInfo" type="text" value="${sessionScope.totalpeople}명" /><br><br>
@@ -170,7 +185,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${year2}년 ${mon2}월 ${day2}일 " /><br><br>
+			<input class="reservationInfo" type="text" value="${checkout} " /><br><br>
 		</div>
 	</div>
 	
@@ -192,9 +207,6 @@ input{outline: none;
 </div>
 
 <form name="finalRev">
-	<input type="hidden" value="${loginuser.username}" name="username"/>
-	<input type="hidden" value="${loginuser.email}" name="email"/>
-	<input type="hidden" value="${loginuser.phone}" name="phone"/>
 	<input type="hidden" value="" name="totalprice"/>
 </form>
 

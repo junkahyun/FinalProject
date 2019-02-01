@@ -10,13 +10,22 @@ public class ReportVO {
 	private int report_status;
 	private String report_subject;
 	private int rno;
-	private int view_cnt;
+
+	private int viewcnt;
 	
+	private String previousseq;      // 이전글번호
+ 	private String previoussubject;  // 이전글제목
+ 	private String nextseq;          // 다음글번호
+ 	private String nextsubject;
+ 	private String previoustitle; 
+ 	private String nexttitle;
+
 
 	public ReportVO() {}
 	
 	public ReportVO(int report_idx, String fk_userid, String reporttype, String report_content, String report_date,
-			int report_status, String report_subject, int rno, int view_cnt) {
+			int report_status, String report_subject, int rno, int viewcnt, String previousseq, String previoussubject,
+			String nextseq, String nextsubject, String previoustitle, String nexttitle) {
 		super();
 		this.report_idx = report_idx;
 		this.fk_userid = fk_userid;
@@ -26,7 +35,13 @@ public class ReportVO {
 		this.report_status = report_status;
 		this.report_subject = report_subject;
 		this.rno = rno;
-		this.view_cnt = view_cnt;
+		this.viewcnt = viewcnt;
+		this.previousseq = previousseq;
+		this.previoussubject = previoussubject;
+		this.nextseq = nextseq;
+		this.nextsubject = nextsubject;
+		this.previoustitle = previoustitle;
+		this.nexttitle = nexttitle;
 	}
 
 	public int getRno() {
@@ -93,13 +108,63 @@ public class ReportVO {
 		this.report_subject = report_subject;
 	}
 
-	public int getView_cnt() {
-		return view_cnt;
+	public int getViewcnt() {
+		return viewcnt;
 	}
 
-	public void setView_cnt(int view_cnt) {
-		this.view_cnt = view_cnt;
+	public void setViewcnt(int viewcnt) {
+		this.viewcnt = viewcnt;
 	}
 
+	public String getPreviousseq() {
+		return previousseq;
+	}
+
+	public void setPreviousseq(String previousseq) {
+		this.previousseq = previousseq;
+	}
+
+	public String getPrevioussubject() {
+		return previoussubject;
+	}
+
+	public void setPrevioussubject(String previoussubject) {
+		this.previoussubject = previoussubject;
+	}
+
+	public String getNextseq() {
+		return nextseq;
+	}
+
+	public void setNextseq(String nextseq) {
+		this.nextseq = nextseq;
+	}
+
+	public String getNextsubject() {
+		return nextsubject;
+	}
+
+	public void setNextsubject(String nextsubject) {
+		this.nextsubject = nextsubject;
+	}
+	
+	public String getPrevioustitle() {
+		return previoustitle;
+	}
+
+
+	public void setPrevioustitle(String previoustitle) {
+		this.previoustitle = previoustitle;
+	}
+
+
+	public String getNexttitle() {
+		return nexttitle;
+	}
+
+
+	public void setNexttitle(String nexttitle) {
+		this.nexttitle = nexttitle;
+	}
 	
 }

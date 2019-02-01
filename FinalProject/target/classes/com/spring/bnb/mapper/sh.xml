@@ -92,7 +92,7 @@
 		    (
 		        select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject
 		        from report
-		        order by report_date desc
+		        order by to_number(report_idx) desc
 		    )v
 		)t
 		where ${searchType} like '%'|| #{searchWord} ||'%' 
@@ -159,9 +159,37 @@
 		where userid = #{userid}
 	</delete>
 	
-	<select id="getReportDetail" parameterType="String">
-		
+	<select id="getReportDetail" parameterType="int" resultType="com.spring.bnb.model.ReportVO">
+		select previousseq, PreviousTitle, Seq, report_subject, username, report_content, nextSeq, nextTitle, fk_userid, viewcnt, report_date, reporttype
+		from
+		(
+		   select lag(r.report_idx) over(order by r.report_idx desc) as previousseq
+		        , lag(r.report_subject) over(order by r.report_idx desc) as PreviousTitle
+		        , r.report_idx as Seq
+		        , r.report_subject
+		        , m.username
+		        , r.fk_userid
+		        , r.viewcnt
+		        , r.report_date
+		        , r.report_content
+		        , r.reporttype
+		        , lead(r.report_idx) over(order by r.report_idx desc) as nextSeq
+		        , lead(r.report_subject) over(order by r.report_idx desc) as nextTitle
+		   from report r join member m
+		   on r.fk_userid = m.userid
+		)v
+		where v.seq = #{report_idx}
 	</select>
+	
+	<update id="upCount">
+		update report set viewcnt = viewcnt + 1
+		where report_idx = #{report_idx}
+	</update>
+	
+	<delete id="deleteReport">
+		delete from report
+		where report_idx = #{report_idx}
+	</delete>
 	
 	
 </mapper>
