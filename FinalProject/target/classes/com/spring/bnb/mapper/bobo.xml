@@ -100,7 +100,7 @@
     </insert> 
     
     <!-- 침실 insert -->
-    <insert id="insertbedroom" parameterType="String">
+ <!--    <insert id="insertbedroom" parameterType="String">
 		insert into bedroom(bedroom_idx,fk_roomcode) 
 		values(bedroom_idx_seq.nextval,'R'||#{roomType_idx}||#{buildType_detail_idx}||#{roomseq})
 	</insert>
@@ -112,7 +112,7 @@
 	<insert id="insertbed" parameterType="HashMap">
 		insert into bed(bed_idx,bedCount,fk_bedroom_idx,fk_bedobj_idx) 
 		values(bed_idx_seq.nextval,#{BEDCOUNT},#{BEDROOMIDX},#{BEDOBJIDX})
-	</insert>
+	</insert> -->
 
  
 	
