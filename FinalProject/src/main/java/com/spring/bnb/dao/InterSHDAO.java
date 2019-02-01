@@ -3,6 +3,7 @@ package com.spring.bnb.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.spring.bnb.model.CommentVO;
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReportVO;
 
@@ -61,4 +62,10 @@ public interface InterSHDAO {
 
 	// 신고게시글 삭제하기
 	int deleteReport(int report_idx);
+
+	// 댓글 등록하기
+	int insertComment(CommentVO commentvo);
+
+	// 회원 경고주기
+	void adminWarnMember(String userid);
 }

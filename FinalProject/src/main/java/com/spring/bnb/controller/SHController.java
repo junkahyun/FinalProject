@@ -19,7 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.bnb.model.CommentVO;
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.PhotoVO;
 import com.spring.bnb.model.ReportVO;
@@ -117,6 +119,7 @@ public class SHController {
 			jsonObj.put("PHONE", searchMember.get(i).getPhone());
 			jsonObj.put("ADDR", searchMember.get(i).getAddr());
 			jsonObj.put("DETAILADDR", searchMember.get(i).getDetailAddr());
+			jsonObj.put("WARNCOUNT", searchMember.get(i).getWarnCount());
 			
 			jsonArr.put(jsonObj);			
 			
@@ -231,6 +234,17 @@ public class SHController {
 		
 		int n = service.adminDeleteMember(userid);
 		// System.out.println(userid);
+		
+		return "admin/adminMember.admintiles";
+	}
+	
+	@RequestMapping(value="/adminMemberWarn.air", method= {RequestMethod.GET})
+	public String adminMemberWarn(HttpServletRequest req) {
+		
+		String userid = req.getParameter("useridDel");
+		
+		service.adminWarnMember(userid);
+		System.out.println(userid+"1");
 		
 		return "admin/adminMember.admintiles";
 	}
@@ -406,7 +420,7 @@ public class SHController {
 
 		String loc = "";
 		if(n==1) {	
-			loc = req.getContextPath()+"/index.air";
+			loc = req.getContextPath()+"/board_report.air";
 			// getContextPath() => /board
 		}
 		else {		
@@ -655,5 +669,18 @@ public class SHController {
 		
 	}// end of void multiplePhotoUpload(HttpServletRequest req, HttpServletResponse res)---------------- 
 	
-	
+	/*@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
+	public HashMap<String, String> insertComment(HttpServletRequest req) {
+
+		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
+		req.getParameter("")
+		
+		
+		// 댓글쓰기(ajax로 처리)
+		int n = service.insertComment(report_idx);
+
+		if(n == 1) {
+			
+		}
+	}*/
 }

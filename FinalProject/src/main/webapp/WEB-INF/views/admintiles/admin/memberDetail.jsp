@@ -87,10 +87,6 @@
 	        <th>가입일</th>
 	        <td style="text-align: left;">${membervo.regDate}</td>
 	      </tr>
-	      <tr>
-	        <th>경고횟수</th>
-	        <td style="text-align: left;">${membervo.warnCount}</td>
-	      </tr>
 	      <c:if test='${mycoupon == "[]"}'>
 	      <tr>
 	        <th>보유쿠폰</th>
@@ -131,8 +127,8 @@
 	      </tr>
 	  </table>
 	  
-	  <div style="text-align: center;">
-	  	<button type="button" class="btn btn-primary" style="height: 4%;" onClick="javascript:location.href='<%= request.getContextPath()%>/adminMember.air'">목록보기</button>
+	  <div style="margin-right: 55%;">
+	  	<button type="button" class="btn" style="margin-right: 5%;" onClick="javascript:location.href='<%= request.getContextPath()%>/adminMember.air'">목록보기</button>
 	  </div>
     </div>
   

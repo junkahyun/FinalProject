@@ -22,7 +22,7 @@
 		// 리뷰 가져오기
 		getReview("1");
 		// 별점설정
-		var starhalf = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/half-star-shape.png' style='weight:20px;height:20px;margin-right:1%;'>";
+		var starhalf = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/half-star-shape.png' style='weight:10px;height:20px;margin-right:1%;'>";
 		var starOne = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/bookmark-star.png' style='weight:20px;height:20px;margin-right:1%;'>";
 		$(".starPointval").val(6);
 		$(".starPoint").html(starOne+starOne+starOne);
@@ -180,7 +180,7 @@
            			}
        			} 
        		}
-       		alert();
+       		alert(babyCount);
        		goReserve();
        	});
 	});
@@ -240,7 +240,7 @@
 				var html = "";
     		  	$.each(json,function(entryIndex,entry){
     			 	html+="<div class='row noSpace homeDetailComment' style='margin-top:2%;'>"
-                    	+"<div class='col-md-1'><div style='border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;'><img src='' style='width:50px;height:50px;'></div></div>"
+                    	+"<div class='col-md-1'><div style='border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;'><img src='<%=request.getContextPath()%>/resources/images/profile/"+entry.userProfileImg+"' style='width:50px;height:50px;'></div></div>"
                  		+"<div class='col-md-10' style='padding-top:0.5%;'><div style='font-weight:bold;'>"+entry.fk_userid+"</div><div>"+entry.review_writedate+"</div></div>"
                  		+"<div class='col-md-1'>icon</div>"
                  		+"<div class='col-md-12' style='margin-top:2%;'>"+entry.review_content+"</div></div>";
@@ -266,7 +266,7 @@
                 	pageBarHTML = "";
     		  	}
     		  	else{
-    		  		$("#reviewArea").html("<div style='text-align:center;margin-bottom:3%;'>댓글이 존재하지 않습니다.</div>");
+    		  		$("#reviewArea").html("<div style='text-align:center;margin-bottom:3%;'>리뷰가 존재하지 않습니다.</div>");
     		  		$("#pagebar").empty().html("");
     		  	}
 			},

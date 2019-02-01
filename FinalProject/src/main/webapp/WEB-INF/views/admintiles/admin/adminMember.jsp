@@ -45,6 +45,17 @@
 				if(json.length > 0) {
 					$.each(json, function(entryIndex, entry){
 						var genderTD = "";
+						var warnCnt = "";
+						
+						if(entry.WARNCOUNT == 2) {
+							warnCnt = "<td style='color: orange;'>"+entry.USERID+"</td>";
+						}
+						else if (entry.WARNCOUNT >= 3){
+							warnCnt = "<td style='color: red;'>"+entry.USERID+"</td>";
+						}
+						else {
+							warnCnt = "<td>"+entry.USERID+"</td>";
+						}
 						
 						if(entry.GENDER == "1"){
 							genderTD = "<td>남자</td>";
@@ -53,11 +64,12 @@
 						}
 						 html += "<tr>"+
 								   "<td><a href='memberDetail.air?userid="+entry.USERID+"'>"+entry.USERNAME+"</a></td>"+
-								   "<td>"+entry.USERID+"</td>"+
+								   warnCnt+
 								   "<td>"+entry.BIRTHDAY+"</td>"+
 								   genderTD+
 								   "<td>"+entry.PHONE+"</td>"+
 								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
+								   "<td><button type='button' class='btn btn-warning' onClick='addWanr(\""+entry.USERID+"\");'>경고</button></td>"+
 								   "<td><button type='button' class='btn btn-danger' onClick='goDelete(\""+entry.USERID+"\");'>삭제</button></td>"+
 								   "</tr>"; 
 								   
@@ -158,6 +170,16 @@
 		}); 
 		
 	} // end of makeCommentPageBar ---------------
+	
+	function addWarn(userid) {
+		
+		var delFrm = document.delFrm;
+		delFrm.useridDel.value = userid;
+		delFrm.method = "GET";
+		delFrm.action = "<%=request.getContextPath()%>/adminMemberWarn.air"
+		delFrm.submit();
+		
+	}
 
 	function goDelete(userid) {
 
@@ -199,14 +221,15 @@
 		<div class="row">
 			<div class="col-md-12" style="border: 0px solid gray;">
 				<form name="delFrm">
+				
 					<table class="memberList table table-hover">
 							<col width="10%;"/>
 							<col width="10%;"/>
 							<col width="10%;"/> 
+							<col width="7%"/>
 							<col width="10%"/>
-							<col width="10%"/>
-							<col width="20%"/>
-							<col width="15%"/>
+							<col width="25%"/>
+							<col width="5%"/>
 							<col width="5%"/>
 						  <thead>
 						    <tr>
@@ -216,15 +239,16 @@
 						      <th>성별</th>
 						      <th>전화</th>
 						      <th>주소</th>
-						      <th>회원삭제</th>
+						      <th></th>
+						      <th></th>
 						    </tr>
 						  </thead>
 						  <tbody id="result">
 						  	
 						  </tbody>
 					</table>
-					<input type="hidden" name="useridDel"/>
-				</form>	
+					<input type="text" name="useridDel" value=""/>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -249,7 +273,6 @@
 	    	</div>
 	    </div>
 	</form>
-	
 	
 
 

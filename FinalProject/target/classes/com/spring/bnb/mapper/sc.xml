@@ -68,4 +68,33 @@
 		where userid= #{userid} and roomName like '%'||#{searchWord}||'%'
 		order by roomcode
 	</select>
+	
+	<select id="getReview" parameterType="String" resultType="com.spring.bnb.model.ReviewVO">
+		select review_idx, fk_roomcode,  fk_userid,  correct,  communicate,  clean, position,  checkin,  value,  review_content,  review_writedate,  hostAnswer
+		from review
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	<resultMap type="HashMap" id="gradeCount">
+		<result property="gradeCount" column="grade" javaType="String"/>
+	</resultMap>
+	<select id="getGradecount" parameterType="HashMap" resultMap="gradeCount">
+		select count(*) as grade
+		from(
+			select trunc(sum(correct+communicate+clean+position+checkin+value)/(6*2)) as sumReview ,fk_roomcode
+			from review 
+			group by grouping sets((review_idx,fk_roomcode))
+		)
+		where fk_roomcode=#{roomcode} 
+		<choose>
+			<when test='grade == "1"'>
+				and sumReview <![CDATA[<=]]> #{garde}	
+			</when>
+			<otherwise>
+				and sumReview = #{garde}	
+			</otherwise>
+		</choose>
+		
+		
+	</select>
 </mapper>

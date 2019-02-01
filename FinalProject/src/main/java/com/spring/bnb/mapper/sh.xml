@@ -191,5 +191,10 @@
 		where report_idx = #{report_idx}
 	</delete>
 	
+	<update id="adminWarnMember" parameterType="String">
+		update member set warncount = warncount + 1
+		where userid = #{userid}
+	</update>
+	
 	
 </mapper>

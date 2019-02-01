@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.bnb.model.CommentVO;
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReportVO;
 
@@ -175,5 +176,22 @@ public class SHDAO implements InterSHDAO {
 		int n = sqlsession.delete("sh.deleteReport", report_idx);
 		
 		return n;
+	}
+
+	// 댓글 등록하기
+	@Override
+	public int insertComment(CommentVO commentvo) {
+		
+		int n = sqlsession.insert("sh.insertComment", commentvo);
+		
+		return 0;
+	}
+
+	// 회원 경고주기
+	@Override
+	public void adminWarnMember(String userid) {
+		
+		sqlsession.update("sh.adminWarnMember", userid);
+		
 	}
 }

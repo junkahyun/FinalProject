@@ -13,9 +13,56 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		
+		if(reportvo.commentCount > 0) {
+			goViewComment("1");
+		}
 		
 	});
+	
+	function goAddWrite() {
+		
+		var frm = document.addWriteFrm;
+		var nameval = frm.name.value.trim();
+		
+		if(nameval == "") {	// 로그인을 안했다면
+			alert("먼저 로그인 하세요!");
+			return;
+		}
+		
+		var contentval = frm.content.value.trim();
+		
+		if(contentval == "") {
+			alert("내용을 입력해주세요!");
+			frm.content.value="";
+			frm.content.focus();
+			return;
+		}
+		
+		var queryString = $("form[name=addWriteFrm]").serialize();
+		// console.log(queryString);
+		// fk_userid=leess&name=(%EC%9D%B4%EC%88%9C%EC%8B%A0 이순신임)&content=Hello%20&parentSeq=2
+		
+		$.ajax({
+			url:"<%=request.getContextPath()%>/insertComment.air",
+			data:queryString,
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				var html = "<tr>"+
+						   "<td style='text-align: center;'>"+json.NAME+"</td>"+
+						   "<td>"+json.CONTENT+"</td>"+
+						   "<td style='text-align: center;'>"+json.REGDATE+"</td>"+
+						   "</tr>";
+				
+				$("#commentDisplay").prepend(html);
+				frm.content.value="";
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	
+	} // end of function goAddWrite()--------------------------------
 	
 </script>
 
@@ -65,8 +112,8 @@
 	  
 	  <form name="editFrm">
 		  <div style="text-align: left; margin-bottom: 5%;">
-			  <div style="margin-bottom: 1%;">이전글 :<span class="move" style="cursor: pointer;" onClick="javascript:location.href='reportDetail.air?report_idx=${reportvo.previousseq}'">${reportvo.previoustitle}</span></div>
-			  <div style="margin-bottom: 5%;">다음글 :<span class="move" style="cursor: pointer;" onClick="javascript:location.href='reportDetail.air?report_idx=${reportvo.nextseq}'">${reportvo.nexttitle}</span></div>
+			  <div style="margin-bottom: 1%;">이전글 :<a><span class="move" style="cursor: pointer;" onClick="javascript:location.href='reportDetail.air?report_idx=${reportvo.previousseq}'">${reportvo.previoustitle}</span></a></div>
+			  <div style="margin-bottom: 5%;">다음글 :<a><span class="move" style="cursor: pointer;" onClick="javascript:location.href='reportDetail.air?report_idx=${reportvo.nextseq}'">${reportvo.nexttitle}</span></a></div>
 		  	
 		  	  <button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">목록보기</button>
 			  <c:if test="${sessionScope.loginuser.userid == 'admin' || sessionScope.loginuser.userid == reportvo.fk_userid}">
@@ -76,9 +123,10 @@
 			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/#'">수정</button>
 			  </c:if>
 		  </div>
-		  <input type="text" name="report_idx" value="${report_idx}"/>
+		  <input type="hidden" name="report_idx" value="${report_idx}"/>
 	  </form>
 	  
+	  <!-- 댓글쓰기 폼 -->
 	  <form name="addWriteFrm" style="text-align: left;">     
 		      <input type="hidden" name="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
 		성명 : <input type="text" name="name" value="${sessionScope.loginuser.username}" class="short" readonly/>
@@ -87,7 +135,7 @@
 	    <!-- 댓글에 달리는 원게시물 글번호(즉, 댓글의 부모글 글번호) -->
 	    <input type="hidden" name="parentSeq" value="${report_idx}" />  
 	    
-	    <button type="button" onClick="goAddWrite();" >쓰기</button>
+	    <button type="button" class="btn" onClick="goAddWrite();" >쓰기</button>
 	  </form>
 	  
     </div>

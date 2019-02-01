@@ -106,7 +106,7 @@
 									<br /> <span style="font-size: 9pt;">최종업데이트 날짜:</span>
 								</div>
 								<div class="col-md-4 ">
-									<img class="img-thumbnail" alt="" src="resources/images/${room.roomMainImg }" >
+									<img class="img-thumbnail" alt="" src="resources/images/becomehost/${room.roomMainImg }" >
 								</div>
 							</div>
 						</div>

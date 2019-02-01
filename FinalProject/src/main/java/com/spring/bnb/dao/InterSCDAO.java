@@ -22,4 +22,6 @@ public interface InterSCDAO {
 
 	List<RoomVO> roomnameSearch(HashMap<String, String> paraMap);
 
+	List<HashMap<String, String>> getReview(String roomcode);
+
 }

@@ -123,7 +123,7 @@
 		
 		<div style="display:inline; text-align: center;">
 			<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
-			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onclick="javascript:history.back();">취소</button></div>
+			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:history.back();">취소</button></div>
 		</div>
 	</form>
 	

@@ -19,13 +19,15 @@ public class ReportVO {
  	private String nextsubject;
  	private String previoustitle; 
  	private String nexttitle;
+ 	
+ 	private int commentCount;
 
-
+ 	
 	public ReportVO() {}
 	
 	public ReportVO(int report_idx, String fk_userid, String reporttype, String report_content, String report_date,
 			int report_status, String report_subject, int rno, int viewcnt, String previousseq, String previoussubject,
-			String nextseq, String nextsubject, String previoustitle, String nexttitle) {
+			String nextseq, String nextsubject, String previoustitle, String nexttitle, int commentCount) {
 		super();
 		this.report_idx = report_idx;
 		this.fk_userid = fk_userid;
@@ -42,6 +44,7 @@ public class ReportVO {
 		this.nextsubject = nextsubject;
 		this.previoustitle = previoustitle;
 		this.nexttitle = nexttitle;
+		this.commentCount = commentCount;
 	}
 
 	public int getRno() {
@@ -167,4 +170,11 @@ public class ReportVO {
 		this.nexttitle = nexttitle;
 	}
 	
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
 }

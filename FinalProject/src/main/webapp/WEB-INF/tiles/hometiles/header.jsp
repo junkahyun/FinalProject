@@ -19,6 +19,36 @@
            	}).open();
           	$("#detailaddr").focus();
       	});
+      	$("#autoComplete").hide();
+      	$("#searchInput").focus(function(){
+      		$("#searchInput").keydown(function(e){
+       			var searchword = $("#searchInput").val().trim();
+       			if(searchword==""){
+       				return;
+       			}
+       			else{
+       				var form_data = {"searchword":searchword};
+       				$.ajax({
+       					url:"searchRoomInHeader.air",
+       					type:"GET",
+       					data:form_data,
+       					dataType:"JSON",
+       					success:function(json){
+       						var html = "<ul style='list-style:none;padding-top:5%;'>";
+       						$.each(json,function(entryIndex,entry){
+       							html += "<li class='searchSido' style='height:40px;font-size:1.2em;'>"+entry.sido+"</li>";
+       						});
+       						html += "</ul>";
+       						$("#autoComplete").html(html);
+       						$("#autoComplete").show();
+       					},
+       					error: function(request, status, error){
+       	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+       	                }
+       				});
+       			}
+      		});
+      	});
        	$("#userid").blur(function(){
        		var userid = $("#userid").val().trim();
        		if(userid==""){
@@ -267,7 +297,8 @@
          <div id="searchbarDiv">
             <div id="searchbar">
                <div id="logoDiv"><img src="<%= request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px"></div>
-               <input type="text" name="birthday" id="searchInput" placeholder="검색" style="">
+               <input type="text" name="birthday" id="searchInput" placeholder="검색">
+               <div id="autoComplete" style="background-color: white;position: absolute;z-index:1;width: 479px;top:64px;border-bottom-left-radius:2px;border-bottom-right-radius:2px;box-shadow: 2px 2px 3px lightgray;"></div>
             </div>
          </div>
          <c:if test="${loginuser==null }">
@@ -300,8 +331,8 @@
             <div class="headermenu" onClick="">도움말</div>
 
             <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
-               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
-                  <img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
+               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 2px solid lightgray;background-color:gray; width:30px;height:30px; border-radius:100%;overflow:hidden;padding:0;">
+                  <img src="<%=request.getContextPath() %>/resources/images/profile/${loginuser.profileimg}" style="width:26px;height:26px;padding-top:0;margin:0;'">
                </div>
                <ul class="dropdown-menu dropdown-menu-right" style="padding:0;text-align:right;text-weight:500;">
                <li style="padding:0; width:50px; margin:0 auto;margin-top:5%;padding-bottom:2%; font-size:12pt;">${loginuser.userid }</li>

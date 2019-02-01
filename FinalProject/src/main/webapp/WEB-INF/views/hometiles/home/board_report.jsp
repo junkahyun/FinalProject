@@ -202,10 +202,12 @@
 			</div>
 		</div>
 	</div>
+	
+	<div style="text-align: left; width: 80%; margin-left: 20%;">
+		<button class="btn btn-info" type="button" onClick="javascript:location.href='<%= request.getContextPath()%>/vanWrite.air'">글쓰기</button>
+	</div>
+	
 </div>
-
-
-
 
 <div class="pageBar" id="pageBar" style="text-align: center; margin: 2%;">
 	

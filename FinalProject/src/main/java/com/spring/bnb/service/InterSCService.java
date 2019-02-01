@@ -20,4 +20,6 @@ public interface InterSCService {
 	int updateCoverImg(HashMap<String, String> paraMap); // 룸메인이미지 업데이트
 
 	List<RoomVO> roomnameSearch(HashMap<String, String> paraMap);// 숙소이름 검색하기 
+
+	List<HashMap<String, String>> getReview(String roomcode);
 }

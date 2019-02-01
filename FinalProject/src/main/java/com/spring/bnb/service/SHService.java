@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSHDAO;
+import com.spring.bnb.model.CommentVO;
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReportVO;
 
@@ -176,6 +177,23 @@ public class SHService implements InterSHService {
 		int n = dao.deleteReport(report_idx);
 		
 		return n;
+	}
+
+	// 댓글 등록하기
+	@Override
+	public int insertComment(CommentVO commentvo) {
+
+		int n = dao.insertComment(commentvo);
+		
+		return n;
+	}
+
+	// 회원 경고주기
+	@Override
+	public void adminWarnMember(String userid) {
+
+		dao.adminWarnMember(userid);
+
 	}
 	
 }
