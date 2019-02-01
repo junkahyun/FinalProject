@@ -215,7 +215,7 @@
 				        left: '',
 				        center: 'title',
 				      },
-				      defaultDate: '2019-01-12',
+				      defaultDate: new Date(),
 				      events: rsvArr
 				});
 				// 예약 날짜 datepicker설정

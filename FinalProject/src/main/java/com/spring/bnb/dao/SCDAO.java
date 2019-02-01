@@ -74,7 +74,7 @@ public class SCDAO implements InterSCDAO {
 	}
 
 	@Override
-	public List<HashMap<String, String>> getReview(String roomcode) {
+	public List<HashMap<String, String>> getPoint(String roomcode) {
 	
 		List<HashMap<String, String>> countList = new ArrayList<HashMap<String,String>>();
 		
@@ -92,6 +92,12 @@ public class SCDAO implements InterSCDAO {
 		}
 			
 		return countList;
+	}
+
+	@Override
+	public List<ReviewVO> getReview(String roomcode) {
+		 List<ReviewVO> reviewList = sqlsession.selectList("sc.getReview", roomcode);
+		return reviewList;
 	}
 
 	

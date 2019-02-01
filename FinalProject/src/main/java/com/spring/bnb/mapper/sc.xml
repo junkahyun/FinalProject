@@ -94,7 +94,6 @@
 				and sumReview = #{garde}	
 			</otherwise>
 		</choose>
-		
-		
 	</select>
+	
 </mapper>
