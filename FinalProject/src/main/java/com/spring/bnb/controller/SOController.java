@@ -175,53 +175,52 @@ public class SOController {
 	
 	
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
-	public String requireLogin_myEditShowInfo(HttpServletRequest req,HttpServletResponse res) {		
-
+	public String requireLogin_myEditShowInfo(HttpServletRequest req, HttpServletResponse res) {
 		
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 				
-			if(loginMember != null) {
-				try {
-					loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
-					loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
-				} catch (UnsupportedEncodingException | GeneralSecurityException e) {
-					loginMember.setEmail(loginMember.getEmail());
-					loginMember.setPhone(loginMember.getPhone());
-				}
-				int gender = loginMember.getGender();
-				String str_gender = "";
-				switch (gender) {
-				case 1:
-					str_gender = "Male";
-					break;
-				case 2:
-					str_gender = "Female";
-					break;
+		if(loginMember != null) {
+			try {
+				loginMember.setEmail(aes.decrypt(loginMember.getEmail()));
+				loginMember.setPhone(aes.decrypt(loginMember.getPhone()));
+			} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+				loginMember.setEmail(loginMember.getEmail());
+				loginMember.setPhone(loginMember.getPhone());
+			}
+			int gender = loginMember.getGender();
+			String str_gender = "";
+			switch (gender) {
+			case 1:
+				str_gender = "Male";
+				break;
+			case 2:
+				str_gender = "Female";
+				break;
 
-				default: str_gender = "Other";
-					break;
-				}
-				String birthday= loginMember.getBirthday();
-				ServletContext application = req.getServletContext();
-				String realPath = application.getRealPath("/resources/images/profile");
+			default: str_gender = "Other";
+				break;
+			}
+			String birthday= loginMember.getBirthday();
+			ServletContext application = req.getServletContext();
+			String realPath = application.getRealPath("/resources/images/profile");
+			
+			String birthdayYY = birthday.substring(0, 4);
+			String birthdayMM = birthday.substring(5,7);
+			String birthdayDD = birthday.substring(8,10);
+			req.setAttribute("realPath", realPath);
+			req.setAttribute("birthdayYY", birthdayYY);
+			req.setAttribute("birthdayMM", birthdayMM);
+			req.setAttribute("birthdayDD", birthdayDD);
+			req.setAttribute("str_gender", str_gender);
+			req.setAttribute("loginMember", loginMember);
 				
-				String birthdayYY = birthday.substring(0, 4);
-				String birthdayMM = birthday.substring(5,7);
-				String birthdayDD = birthday.substring(8,10);
-				req.setAttribute("realPath", realPath);
-				req.setAttribute("birthdayYY", birthdayYY);
-				req.setAttribute("birthdayMM", birthdayMM);
-				req.setAttribute("birthdayDD", birthdayDD);
-				req.setAttribute("str_gender", str_gender);
-				req.setAttribute("loginMember", loginMember);
-					
-			} 
+		} 
 			
 			
 		
 		
-		return "mypage/myEdit.hometiles";		
+		return "mypage/myEdit.hometiles";		  
 	}
 
 	
@@ -374,8 +373,7 @@ public class SOController {
 						} catch (GeneralSecurityException e) {
 							System.out.println("암호화 실패!");
 						}					
-									
-						
+		
 						loginMember.setIntroduction(introduction);
 						loginMember.setPost(post);
 						loginMember.setAddr(addr);
@@ -392,7 +390,6 @@ public class SOController {
 				
 			return "msg"; 
 		}
-
 
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
 	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
@@ -460,8 +457,7 @@ public class SOController {
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
 		
-		String rsvcode = req.getParameter("rsvcode");
-		
+		String rsvcode = req.getParameter("rsvcode");		
 			
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("userid", userid);
@@ -473,8 +469,7 @@ public class SOController {
 		
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
 		HashMap<String,String> buildtype = service.getBuildType(roomcode);
-		System.out.println(myReservationScheduleDetail.get("email"));		
-		System.out.println(myReservationScheduleDetail.get("phone"));
+
 		String email="";
 		String phone="";
 		try {
@@ -482,6 +477,7 @@ public class SOController {
 			phone = aes.decrypt(myReservationScheduleDetail.get("phone"));
 			myReservationScheduleDetail.put("email", email);
 			myReservationScheduleDetail.put("phone", phone);
+		
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
 			System.out.println("예약 상세보기  이메일/전화번호 복호화 실패!");
 		}		 		

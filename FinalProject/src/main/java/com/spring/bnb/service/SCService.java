@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.bnb.dao.InterSCDAO;
+import com.spring.bnb.model.ReviewVO;
 import com.spring.bnb.model.RoomVO;
 
 @Service
@@ -55,8 +56,14 @@ public class SCService implements InterSCService {
 	}
 	
 	@Override
-	public List<HashMap<String, String>> getReview(String roomcode) {
-		List<HashMap<String, String>> countList = dao.getReview(roomcode);
+	public List<HashMap<String, String>> getPoint(String roomcode) {
+		List<HashMap<String, String>> countList = dao.getPoint(roomcode);
 		return countList;
+	}
+	
+	@Override
+	public List<ReviewVO> getReview(String roomcode) {
+		List<ReviewVO> reviewList = dao.getReview(roomcode);
+		return reviewList;
 	}
 }

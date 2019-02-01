@@ -28,17 +28,19 @@ public class SWController {
 	private InterSWService service;
 	
 	@RequestMapping(value = "/list.air", method = RequestMethod.GET)
-	public String index(HttpServletRequest req) {
-		/*List<Integer> testList = new ArrayList<Integer>();
-		for(int i=0; i<9; i++) {
-			testList.add(i);
-			
-		}*/
-		req.getParameter("city");
-		req.getParameter("checkin");
-		req.getParameter("checkout");
+	public String list(HttpServletRequest req) {
 		
-		/*req.setAttribute("testList", testList);*/
+		String city = req.getParameter("sido");
+		String checkin = req.getParameter("checkin");
+		String checkout = req.getParameter("checkout"); 
+		
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("CITY", city);
+		paraMap.put("CHECKIN", checkin);
+		paraMap.put("CHECKOUT", checkout);
+		
+		/*System.out.println(paraMap);*/
+		
 		// 숙소유형(대)
 		List<String> buildList = service.getBuildList();		
 		// 옵션종류
@@ -47,41 +49,20 @@ public class SWController {
 		List<String> roomType = service.getRoomType();
 		// 이용규칙
 		List<String> roomRule = service.getRoomRule();
-		// 숙소유형(소)
-		List<RoomVO> roomList = service.getRoomList();
+		// 전체 숙소리스트
+		List<RoomVO> roomList = service.getRoomList(paraMap);
 			
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
 		req.setAttribute("roomRule", roomRule);
 		req.setAttribute("roomList", roomList);
+		req.setAttribute("city", city);
+		req.setAttribute("checkin", checkin);
+		req.setAttribute("checkout", checkout);
 		
 		return "home/homeList.hometiles_nofooter";
-	}
-	
-/*	
-	@RequestMapping(value = "/homeName.air", method = {RequestMethod.GET})
-	@ResponseBody
-	public List<HashMap<String, Object>> buildDetailName(HttpServletRequest req, HttpServletResponse res) {
-		
-		String buildName1 = req.getParameter("buildName1");
-		
-		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
-		
-		List<String> buildDetailName = service.getBuildDetailList(buildName1);;
-		
-		for(String test : buildDetailName) {
-			System.out.println(test);
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			
-			map.put("buildDetailName", test);
-			
-			mapList.add(map);
-		}
-		
-		return mapList;
-	}
-*/	
+	}	
 	
 	@RequestMapping(value = "/homeName.air", method = {RequestMethod.GET})
 	public String buildDetailName(HttpServletRequest req, HttpServletResponse res) {
@@ -100,8 +81,6 @@ public class SWController {
 			
 			jsonArr.put(jsonObj);
 		}
-		
-		
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
@@ -137,27 +116,48 @@ public class SWController {
 		JSONArray jsonArr = new JSONArray();
 		
 		List<RoomVO> homeListByOption = service.getHomeListByOption(paraMap);
-		
-		for(RoomVO roomvo : homeListByOption) {
-			JSONObject jsonObj = new JSONObject();
-			
-			jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
-			jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
-			
-			if(roomvo.getRoomName().length() >= 25) {
-				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
-			}
-			else {
-				jsonObj.put("ROOMNAME", roomvo.getRoomName());
-			}
-			
-			jsonArr.put(jsonObj);
+		/*System.out.println(homeListByOption.size());*/
+		if(homeListByOption.size() <1) {
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("LISTCHECK", homeListByOption.size()); 
+			jsonArr.put(jsonobj);
+			req.setAttribute("str_json", jsonobj.toString()); 
+			return "JSON";
 		}
+		else {
+			for(RoomVO roomvo : homeListByOption) {
+				JSONObject jsonObj = new JSONObject();
+				
+				jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+				jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+				
+				if(roomvo.getRoomName().length() >= 25) {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+				}
+				else {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName());
+				}
+				jsonObj.put("LATITUDE", roomvo.getLatitude());
+				jsonObj.put("LONGITUDE", roomvo.getLongitude());
+				jsonObj.put("ROOMCODE", roomvo.getRoomcode());
+				jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+				jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+				jsonObj.put("BEDCOUNT", roomvo.getBedCount());
+				jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+				jsonObj.put("BEDTYPE", roomvo.getBedtype());
+				
+				jsonArr.put(jsonObj);
+			}
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("LISTCHECK", homeListByOption.size());
+			req.setAttribute("str_json", jsonArr.toString());
+		}
+		/*
 		
 		
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
-		/*System.out.println(str_json);
+		System.out.println(str_json);
 		System.out.println(jsonArr.length());*/
 		
 		return "JSON";		
@@ -166,7 +166,7 @@ public class SWController {
 	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
 	public String reservation(HttpServletRequest req) {
 		
-		String userid = "leess";
+		String userid = "kongkd2";
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
 		
@@ -186,13 +186,12 @@ public class SWController {
 		String[] rulename = req.getParameterValues("rulename");
 		String[] roomtype_name = req.getParameterValues("roomtype_name");
 		String[] optionname = req.getParameterValues("optionname");
-		String[] city = req.getParameterValues("city");
+		String city = req.getParameter("city");
 			
 		String rulenameStr = "";
 		String roomtype_nameStr = "";
 		String optionnameStr = "";
-	
-		List<String> rulenameList = new ArrayList<String>();
+		
 		if(rulename != null) {
 			for(int i=0; i<rulename.length; i++) {
 				String rule = rulename[i];				
@@ -206,7 +205,6 @@ public class SWController {
 		//	System.out.println(rulenameStr);
 		}
 		
-		List<String> roomtype_nameList = new ArrayList<String>();
 		if(roomtype_name != null) {
 			for(int i=0; i<roomtype_name.length; i++) {
 				String roomtype = roomtype_name[i];				
@@ -220,7 +218,6 @@ public class SWController {
 		//	System.out.println(roomtype_nameStr);
 		}
 		
-		List<String> optionnameList = new ArrayList<String>();
 		if(optionname != null) {
 			for(int i=0; i<optionname.length; i++) {
 				String option = optionname[i];				
@@ -232,57 +229,97 @@ public class SWController {
 				}				
 			}
 		//	System.out.println(optionnameStr);
-		}		
-		
-		/*System.out.println(rulenameStr);
-		System.out.println(roomtype_nameStr);
-		System.out.println(optionnameStr);*/
-		
+		}	
+				
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
-		paraMap.put("CITY", city);
-				
-		/*System.out.println("1 :"+paraMap);*/
-		
+		paraMap.put("CITY", city);				
+	
+		//System.out.println(paraMap);
 		
 		List<RoomVO> optionList = service.getSWOptionList(paraMap);	
 		
-		for(RoomVO roomvo : optionList) {
+		/*for(RoomVO roomvo : optionList) {
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			map.put("ROOMNAME", roomvo.getRoomName());
 			map.put("ROOMPRICE", roomvo.getRoomPrice());
 			map.put("ROOMMAINIMG", roomvo.getRoomMainImg());
 			
 			mapList.add(map);
-		}
-		/*System.out.println("2 :"+mapList);*/
+		}*/
+		JSONArray jsonArr = new JSONArray();
 		
-		JSONArray jsonArr = new JSONArray();  		
+		if(optionList.size() < 1) {
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("OPTIONCHECK", optionList.size());
+			req.setAttribute("str_json", jsonobj.toString());
+			jsonArr.put(jsonobj);
+			return "JSON";
+		}
+		else {
+			for(RoomVO roomvo : optionList) {
 				
-		for(RoomVO test : optionList) {
-			
-			JSONObject jsonObj = new JSONObject();			
-			if(test.getRoomName().length() >= 25) {
-				jsonObj.put("ROOMNAME", test.getRoomName().substring(0, 25)+"....");
+				JSONObject jsonObj = new JSONObject();			
+				if(roomvo.getRoomName().length() >= 25) {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+				}
+				else {
+					jsonObj.put("ROOMNAME", roomvo.getRoomName());
+				}
+				jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+				jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+				jsonObj.put("ROOMCODE", roomvo.getRoomcode());
+				jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+				jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+				jsonObj.put("BEDCOUNT", roomvo.getBedCount());
+				jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+				jsonObj.put("BEDTYPE", roomvo.getBedtype());
+				
+				jsonArr.put(jsonObj);
 			}
-			else {
-				jsonObj.put("ROOMNAME", test.getRoomName());
-			}
-			jsonObj.put("ROOMPRICE", test.getRoomPrice());
-			jsonObj.put("ROOMMAINIMG", test.getRoomMainImg());
-			
-			jsonArr.put(jsonObj);
+			req.setAttribute("str_json", jsonArr.toString());
 		}
-		
-		String str_json = jsonArr.toString();
-		req.setAttribute("str_json", str_json);		
-		
-		/*System.out.println("3 : " +str_json);*/
-		
 		return "JSON";
 	}	
 	
-	
+	@RequestMapping(value = "/allHomeList.air", method = {RequestMethod.GET})	
+	public String allHome(HttpServletRequest req, HttpServletResponse res) {
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		List<RoomVO> allHomeList = service.getAllHomeList();
+		
+		
+		for(RoomVO roomvo : allHomeList) {
+			JSONObject jsonObj = new JSONObject();
+			
+			jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
+			jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+			
+			if(roomvo.getRoomName().length() >= 25) {
+				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
+			}
+			else {
+				jsonObj.put("ROOMNAME", roomvo.getRoomName());
+			}
+			/*jsonObj.put("LATITUDE", roomvo.getLatitude());
+			jsonObj.put("LONGITUDE", roomvo.getLongitude());*/
+			jsonObj.put("ROOMCODE", roomvo.getRoomcode());
+			/*jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+			jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+			jsonObj.put("BEDCOUNT", roomvo.getBedCount());
+			jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+			jsonObj.put("BEDTYPE", roomvo.getBedtype());*/
+			
+			jsonArr.put(jsonObj);
+		}
+		/*JSONObject jsonObj = new JSONObject();
+		jsonObj.put("LISTCHECK", allHomeList.size());*/
+		req.setAttribute("str_json", jsonArr.toString());
+		
+		
+		return "JSON";		
+	}
 }
