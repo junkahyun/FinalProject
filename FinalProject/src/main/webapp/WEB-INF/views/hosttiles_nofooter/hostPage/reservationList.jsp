@@ -17,7 +17,7 @@
 <script>
 
   $(document).ready(function() {
-
+	
 	$("#showRsver").hide();
 	  
     $('#calendar').fullCalendar({
@@ -92,13 +92,6 @@
 </script>
 <style>
 
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    font-size: 14px;
-  }
-
   #calendar {
     max-width: 900px;
     margin: 0 auto;
@@ -143,7 +136,7 @@
 </style>
 
 <body>
-
+${reservationList.get(0).rsv_email}
   <div id='calendar' style="margin-top: 3%;">
   	<c:forEach items="${reservationList}" var="rsv">
 	  	<input type="hidden" id="client" class="client" value="${rsv.rsv_name}"/>
