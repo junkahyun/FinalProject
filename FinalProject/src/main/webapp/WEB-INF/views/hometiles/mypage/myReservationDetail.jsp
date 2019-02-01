@@ -81,7 +81,7 @@
 		
 			<div style="margin-left: 2%; margin-top: 5%" >
 				<div class="property-info">
-					<h3><a href="#">${resDetail.roomname}</a></h3>
+					<h3><a href="<%= ctxPath %>/homeDetail.air?roomcode=${resDetail.roomcode}">${resDetail.roomname}</a></h3>
 					<p><span data-selenium="hotel-address-map">${resDetail.roomsido}${resDetail.roomsigungu}${resDetail.roombname}${resDetail.roomdetailaddr} <br/>
 					<img src="<%= ctxPath %>/resources/images/mypage/phone-call.png" height="20pt"/>
 					<c:set value="${resDetail.roomtel}" var="phone"/>
