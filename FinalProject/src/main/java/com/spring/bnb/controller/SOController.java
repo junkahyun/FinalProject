@@ -398,6 +398,12 @@ public class SOController {
 		
 		int check = service.getCheckPhone(phone);
 		
+		JSONObject jobj = new JSONObject();
+		jobj.put("check",check);
+		
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
+		req.setAttribute("check", check);
 		return "JSON";
 	}
 	

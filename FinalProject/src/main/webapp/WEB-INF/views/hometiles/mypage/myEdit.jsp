@@ -230,6 +230,7 @@ function phoneCheck(phone) {
 		dataType:"JSON",
 		success: function (JSON) {
 			
+			
 		},error:function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	    	
