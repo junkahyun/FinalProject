@@ -199,6 +199,7 @@
 	<result column="cleanpay" property="cleanpay" javaType="String"/>
 	<result column="flag" property="flag" javaType="String"/>
 	<result column="servicePrice" property="servicePrice" javaType="String"/>
+	<result column="daysRemaining" property="daysRemaining" javaType="String"/>
 </resultMap>
 
 <select id="getMemberReservationDetail" parameterType="HashMap" resultMap="resDetail">
@@ -223,6 +224,7 @@
            ,roomtype_name
            ,case when rsv_checkindate > sysdate then 1 else 2 end AS flag
            ,(to_date(rsv_checkoutdate,'yyyy-mm-dd') - to_date(rsv_checkindate,'yyyy-mm-dd')) AS dat
+           ,trunc(rsv_checkindate - sysdate) as daysRemaining 
 	from member A join reservation B
 	      on A.userid = B.fk_userid
 	      join room C

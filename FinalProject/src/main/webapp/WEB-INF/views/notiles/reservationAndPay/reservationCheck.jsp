@@ -422,13 +422,7 @@ h3{font-size: 14pt;
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
 				<i class="fas fa-users fa-lg" style="color: #008489;"></i>
-				<span style="margin-left: 3%;">게스트 ${guestCount}명
-				
-				<c:if test="${babyCount != '0' || babyCount ne null}">
-				, 유아 ${babyCount}명
-				</c:if>
-				
-				</span>
+				<span style="margin-left: 3%;">게스트 ${guestCount}명, 유아 ${babyCount}명</span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">

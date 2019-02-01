@@ -421,3 +421,7 @@ function codeCheckFun() {
 <form name="sendCode">
 	<input type="hidden" name="changeEmail" />
 </form> 
+<div>
+
+	
+	</div>
