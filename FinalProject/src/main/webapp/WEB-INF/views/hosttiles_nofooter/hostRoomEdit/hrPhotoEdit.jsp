@@ -207,7 +207,7 @@ div {
 	        	var resultHTML = "";	
 	        	$.each(json,function(entryIndex, entry){
 					resultHTML += "<div class='col-md-2'>"+
-								"<img class='img-thumbnail' alt='' src='resources/images/"+entry.roomImgList+"'/><a onclick='deletePhoto('"+entry.roomImgList+"');'>삭제하기</a>"+
+								"<img class='img-thumbnail' alt='' src='resources/images/becomehost/"+entry.roomImgList+"'/><a onclick='deletePhoto('"+entry.roomImgList+"');'>삭제하기</a>"+
 								"</div><br>";
 				});// end of each
 				
@@ -234,7 +234,7 @@ div {
 	        	var resultHTML = "";	
 	        	$.each(json,function(entryIndex, entry){
 					resultHTML += "<div class='col-md-2'>"+
-								"<img class='img-thumbnail' alt='' src='resources/images/"+entry.roomImgList+"'/><a onclick='deletePhoto('"+entry.roomImgList+"');'>삭제하기</a>"+
+								"<img class='img-thumbnail' alt='' src='resources/images/becomehost/"+entry.roomImgList+"'/><a onclick='deletePhoto('"+entry.roomImgList+"');'>삭제하기</a>"+
 								"</div><br>";
 				});// end of each
 	        	$("#imgs").empty().html(resultHTML);
@@ -259,7 +259,7 @@ div {
 				alert("커버사진 변경");
 				console.log(json.imgFilename);
 				$("#cover").empty();
-				var html = "<img id='cover' class='img-thumbnail' src='resources/images/"+json.imgFilename+"'>";
+				var html = "<img id='cover' class='img-thumbnail' src='resources/images/becomehost/"+json.imgFilename+"'>";
 				$("#cover").html(html);
 				var frm = document.coverChangeForm;
 				frm.changeImg.value = json.imgFilename;	
@@ -305,7 +305,7 @@ div {
 			<div id="imgs" class="row">
 				<c:forEach var="room" items="${roomvo.roomimgList }">
 					<div class="col-md-2">
-						<img class='img-thumbnail' alt="" src="resources/images/${room.roomImgList}"/><a onclick="deletePhoto('${room.roomImgList}','${roomvo.roomMainImg}');">삭제하기</a>
+						<img class='img-thumbnail' alt="" src="resources/images/becomehost/${room.roomImgList}"/><a onclick="deletePhoto('${room.roomImgList}','${roomvo.roomMainImg}');">삭제하기</a>
 					</div>
 				</c:forEach>
 			</div>
@@ -330,14 +330,14 @@ div {
 			<div class="modal-body" style=" width: auto;">
 				<div>
 					<div id="cover">
-						<img class="img-thumbnail" alt="" src="resources/images/${roomvo.roomMainImg }">
+						<img class="img-thumbnail" alt="" src="resources/images/becomehost/${roomvo.roomMainImg }">
 					</div>
 					<hr align="center" style="width: 100%;">
 					<h3 align="left" style="font-weight: bold;">사진선택</h3>
 					<div id="imgs" class="row">
 						<c:forEach var="room" items="${roomvo.roomimgList }">
 							<div class="col-md-3" style="margin-bottom: 1%;">
-								<img class='img-thumbnail changeImg' alt="" src="resources/images/${room.roomImgList}" style="cursor: pointer;" onclick="changeCover('${room.roomImgList}');"/>
+								<img class='img-thumbnail changeImg' alt="" src="resources/images/becomehost/${room.roomImgList}" style="cursor: pointer;" onclick="changeCover('${room.roomImgList}');"/>
 							</div>
 						</c:forEach>
 					</div>

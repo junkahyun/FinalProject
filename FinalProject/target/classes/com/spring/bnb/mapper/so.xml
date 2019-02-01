@@ -384,4 +384,31 @@ order by rsvcode desc
     where roomcode = #{roomcode}
 </select>
 
+<resultMap type="HashMap" id="reservationListMap">
+	<result column="rsvcode" property="rsvcode" javaType="String"/>
+	<result column="fk_roomcode" property="fk_roomcode" javaType="String"/>
+	<result column="rsv_cancledate" property="rsv_cancledate" javaType="String"/>
+	<result column="flag" property="flag" javaType="String"/>
+	<result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
+	<result column="rsv_name" property="rsv_name" javaType="String"/>
+	<result column="rsv_email" property="rsv_email" javaType="String"/>
+</resultMap>
+<select id="getReservationList" resultMap="reservationListMap">
+  select rsvcode,rsv_name,fk_roomcode,rsv_email,rsv_cancledate,fk_userid,flag
+           ,rsv_checkindate
+    from
+    (
+    select rsvcode,rsv_name,fk_roomcode,rsv_email,rsv_cancledate,fk_userid,case when flag = 5 then 1 else 0 end AS flag
+               ,rsv_checkindate
+    from 
+    (
+        select rsvcode,rsv_name,rsv_email,fk_roomcode,nvl(to_char(rsv_cancledate,'yyyy-mm-dd'),-9999) AS rsv_cancledate,fk_userid,trunc(to_date(rsv_checkindate)-sysdate) AS flag
+               ,rsv_checkindate
+        from reservation
+    )where rsv_cancledate = '-9999' 
+    )
+    where flag = 1
+    
+</select>
+
 </mapper>	

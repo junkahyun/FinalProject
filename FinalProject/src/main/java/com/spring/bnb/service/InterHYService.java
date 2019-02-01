@@ -28,8 +28,6 @@ public interface InterHYService {
 
 	int insertbedroom(HashMap<String, Object> hash);
 
-	List<ReviewVO> getAllReviewList(HashMap<String, String> paraMap);
-
 	int insertReview(ReviewVO review);
 
 	List<ReservationVO> reservationCheck(String roomcode);
@@ -37,5 +35,7 @@ public interface InterHYService {
 	HashMap<String, Object> getStarPoint(String roomcode);
 
 	void roomViewCountUp(String roomcode);
+
+	List<String> getSearchSido(String searchword);
 
 }

@@ -42,31 +42,13 @@ input{outline: none;
 
 	$(document).ready(function(){
 		
-		getdateBetween();
-		
 		$("#btnsubmit").click(function(){
 			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		
 	});//end of $(document).ready------------
 
-	function getdateBetween(){ //두 날짜사이의 차이 구하기
-		
-		var checkin = "${checkin}";
-		var checkout = "${checkout}";
-		
-		var date1 = new Date(checkin);
-	    var date2 = new Date(checkout);
-	      
-	    var time1 = date1.getTime();
-	    var time2 = date2.getTime();
-	    
-	    var datebetween = (time2-time1)/(1000*60*60*24);
-	    //날짜 차이 구하기
-	    
-	    $("#day_between1").text(datebetween);
-	    
-	}
+	
 </script>
 
 </head>
@@ -139,8 +121,8 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomSido}&nbsp;${(sessionScope.oneRoom).roomBname}"  readonly="readonly"/><br><br>
 			
 			<span class="myinfomation">총 인원</span><br>
-			<input class="plusfee" type="text" value="게스트 : ${guestCount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/><br>
-			<input class="plusfee" type="text" value="유아 : ${babyCount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/>
+			<input class="plusfee" type="text" value="게스트 : ${guestcount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/><br>
+			<input class="plusfee" type="text" value="유아 : ${babycount}명" style="border: 0px; font-size: 12pt;" readonly="readonly"/>
 		</div>
 		
 		<div class="col-md-3" >
@@ -154,7 +136,7 @@ input{outline: none;
 		
 		<div class="col-md-3">
 			<span class="myinfomation">기간</span><br>
-			<input class="reservationInfo" type="text"  readonly="readonly"/><br>
+			<input class="reservationInfo" type="text"  readonly="readonly" value="${day_between}박"/><br>
 			
 			<span class="myinfomation">체크인</span><br>
 			<input class="reservationInfo" type="text" value="${checkin}" readonly="readonly"/><br>
@@ -179,8 +161,8 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×<span id="day_between1"></span></td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice)}" pattern="#,###"/></td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">₩1박요금×<span id="day_between1">${day_between}</span></td>
+					<td >₩${price}</td>
 				</tr>
 				
 				<tr>
@@ -195,7 +177,7 @@ input{outline: none;
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">추가 인원 요금</td>
-					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/></td>
+					<td >₩<fmt:formatNumber value="${oneRoom.person_addpay}" pattern="#,###"/>(해당하는 경우만)</td>
 				</tr>
 				
 				<tr >
@@ -208,7 +190,7 @@ input{outline: none;
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
 			<%-- <c:forEach begin="1" end="3"> --%>
 				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${checkmonth1}월 ${checkday1}일</td>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${month}월 ${day}일</td>
 					<td >₩<fmt:formatNumber value="${totalprice}" pattern="#,###"/></td>
 				</tr>
 				

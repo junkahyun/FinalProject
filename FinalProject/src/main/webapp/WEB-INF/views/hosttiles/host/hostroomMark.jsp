@@ -6,16 +6,63 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://a0.muscache.com/airbnb/static/packages/dls/common_o2.1_cereal-b820ae7d16d76b0900accdef6c28185e.css" media="all" rel="stylesheet" type="text/css" />
 <link href="https://a0.muscache.com/airbnb/static/packages/common-c2d2e28a641516ec0a21bccaae33f2ea.css" media="all" rel="stylesheet" type="text/css" />
-<link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" /><link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="https://a0.muscache.com/airbnb/static/packages/address_widget-4f18ee66a37930ce1c93c8f33690c7b0.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="https://a0.muscache.com/airbnb/static/packages/phonenumbers-7c1faf80765f8cab48b45693af597ea9.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="https://a0.muscache.com/airbnb/static/business_travel/quick_enroll-9fe44fac8aa94516d93764b9b4e57633.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style data-aphrodite="data-aphrodite">
-	._1k01n3v1 {
-      color:#008489 !important;font:inherit !important;font-family:Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;text-decoration:none !important;-webkit-appearance:none !important;-moz-appearance:none !important;appearance:none !important;background:transparent !important;border:1px !important;cursor:pointer !important;margin:1px !important;padding:1px !important;-webkit-user-select:auto !important;-moz-user-select:auto !important;-ms-user-select:auto !important;user-select:auto !important;text-align:left !important;
-   }   
-   ._1k01n3v1:hover{
-      text-decoration:underline !important;color:#008489 !important;}._1k01n3v1:focus{text-decoration:underline !important;}@supports(--custom: properties){._1k01n3v1{color:var(--color-text-link, #008489) !important;font-family:var(--font-font_family, Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif) !important;
-   }
-   ._1k01n3v1:hover{color:var(--color-text-link-hover, #008489) !important;}._1k01n3v1:active{color:var(--color-text-link-active, #006C70) !important;}}._1k01n3v1:active{color:#006C70 !important;outline:1px !important;}</style>
+._1k01n3v1 {
+	color: #008489 !important;
+	font: inherit !important;
+	font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+		Helvetica Neue, sans-serif !important;
+	text-decoration: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important;
+	background: transparent !important;
+	border: 1px !important;
+	cursor: pointer !important;
+	margin: 1px !important;
+	padding: 1px !important;
+	-webkit-user-select: auto !important;
+	-moz-user-select: auto !important;
+	-ms-user-select: auto !important;
+	user-select: auto !important;
+	text-align: left !important;
+}
+
+._1k01n3v1:hover {
+	text-decoration: underline !important;
+	color: #008489 !important;
+}
+
+._1k01n3v1:focus {
+	text-decoration: underline !important;
+}
+
+@
+supports (--custom: properties ){ .
+	_1k01n3v1 {color: var(- -color-text-link, #008489) !important;
+	font-family: var(- -font-font_family, Circular, -apple-system,
+		BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif) !important;
+}
+
+._1k01n3v1:hover {
+	color: var(- -color-text-link-hover, #008489) !important;
+}
+
+._1k01n3v1:active {
+	color: var(- -color-text-link-active, #006C70) !important;
+}
+
+}
+._1k01n3v1:active {
+	color: #006C70 !important;
+	outline: 1px !important;
+}
+</style>
 
 <style type="text/css"> 
 
@@ -29,64 +76,99 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	
+	$("#charts").hide();
+	
 	$("#listingSelector").change(function(){
-		chart();
+		if($("#listingSelector").val() == "all"){
+			
+			$("#charts").hide();
+			$("._15lzjb6").show();
+			
+		} else{
+			
+			$("#charts").show();
+			$("._15lzjb6").hide();
+			
+			chart();
+		}
 	});
+	
+	
 });
 
 function chart(){
-   Highcharts.chart('charts', {
-       chart: {
-           plotBackgroundColor: null,
-           plotBorderWidth: null,
-           plotShadow: false,
-           type: 'pie'
-       },
-       title: {
-           text: '평점, 2018'
-       },
-       tooltip: {
-           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-       },
-       plotOptions: {
-           pie: {
-               allowPointSelect: true,
-               cursor: 'pointer',
-               dataLabels: {
-                   enabled: true,
-                   format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                   style: {
-                       color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                   }
-               }
-           }
-       },
-       series: [{
-           name: 'Brands',
-           colorByPoint: true,
-           data: [{
-               name: '별점5',
-               y: 61.41,
-               sliced: true,
-               selected: true
-           }, {
-               name: '별점4',
-               y: 11.84
-           }, {
-               name: '별점3',
-               y: 10.85
-           }, {
-               name: '별점2',
-               y: 4.67
-           }, {
-               name: '별점1',
-               y: 4.18
-       
-           }]
-       }]
-   });
+	var form_data = {roomcode:$("#listingSelector").val()};
+	
+	//console.log(form_data);
+	$.ajax({
+		url:"rankShowJSON.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+
+			var resultArr = [];
+			var totalCount = 0;
+			for(var i=0; i<json.length; i++) {
+				var subArr = [Number(json[i].gradeCount)];
+				totalCount += Number(json[i].gradeCount);
+				resultArr.push(subArr); // 배열속에 값을 넣기
+			}
+			
+			console.log(totalCount);
+			
+			$("#PointCount").empty();
+			var html = "<h5 id='PointCount'>평점 ("+totalCount+"개)</h5>"
+			$("#PointCount").empty().html(html);
+			
+			Highcharts.chart('charts', {
+				  chart: {
+				    type: 'bar'
+				  },
+				  title: {
+				    text: '숙소 이름'
+				  },
+				  xAxis: {
+				    categories: ['평점1점','평점2점','평점3점','평점4점','평점5점']
+				  },
+				  yAxis: {
+				    min: 0,
+				    title: {
+				      text: 'Total Point consumption'
+				    }
+				  },
+				  tooltip: {
+				    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}   </b> ({point.percentage:.0f}%)<br/>',
+				    shared: true
+				  },
+				  plotOptions: {
+				    series: {
+				      stacking: 'normal'
+				    }
+				  },
+				  series: [{
+				    name: json.roomname,
+				    data: resultArr
+				  }]
+				});
+		},
+		error:function(){
+			
+		}
+	}); 
+	
+	
+	
+}
+
+function showreview() {
+	var frm = document.selectRoomcode;
+	frm.action = "showreview.air";
+	frm.method = "GET";
+	frm.submit();
 }
 </script>
 <div class="container" style="width: 100%;">
@@ -111,19 +193,20 @@ function chart(){
 									<div style="margin-bottom: 1px;">
 										<div class="_9hxttoo" style="border: 0px solid red;">
 											<div style="margin-bottom: 8px;">
-												<label class="_rin72m" for="listingSelector"><div
-														class="_6mxuijo" style="border: 0px solid #008489;">숙소
-														선택</div></label>
+												<label class="_rin72m" for="listingSelector">
+												<div class="_6mxuijo" style="border: 0px solid #008489;">숙소 선택</div></label>
 											</div>
 											<div style="border: margin-bottom: 5%; padding: 0;">
 												<div style="margin: 0; border: 0px solid red; padding: 0;">
+												<form name="selectRoomcode">
 													<select id="listingSelector" name="selected_listing"
 														class="_bwyiq2l">
 														<option value="all">숙소 선택</option>
-														<c:forEach var="room" items="${roomList }">
-															<option value="${room.roomName }">${room.roomName }</option>
+														<c:forEach var="room" items="${roomList}">
+															<option value="${room.roomcode}">${room.roomName}</option>
 														</c:forEach>
 													</select>
+												</form>
 												</div>
 											</div>
 										</div>
@@ -142,7 +225,7 @@ function chart(){
 									</div>
 									<!--  표시할 내용이 없을떄 나타나야함  끝-->
 									<div class="_1dl27thl" style="margin-top: 10%;">
-										<h5>평점 (0개) : 평점갯수 표시</h5>
+										<h5 id="PointCount">평점 (0개)</h5>
 									</div>
 
 									<!--  차트 시작 -->
@@ -154,17 +237,27 @@ function chart(){
 										style="border: 0px solid red; margin-top: 10%;">
 										<div class="_1dl27thl" style="border: 0px solid red">
 											<h5>후기(0개)</h5>
-										</div>
-										<div>
-											<h5>해당 숙소의 후기 리스트 보여주기</h5>
-											<ul class="list-group">
-												<li class="list-group-item reviewlist">후기내용 <span
-													class="badge">평점</span></li>
-												<li class="list-group-item reviewlist">Deleted <span
-													class="badge">5</span></li>
-												<li class="list-group-item reviewlist">Warnings <span
-													class="badge">3</span></li>
-											</ul>
+											  <div id="reviewArea" class="noSpace">
+									          
+								               <div class="row noSpace homeDetailComment">
+								                  <div class="col-md-1">
+								                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"><img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;"></div>
+								                  </div>
+								                  <div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
+								                  <div class="col-md-1">icon</div>
+								                  <div class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
+								               </div>
+									            
+									             
+								               <c:if test="${room.reviewList.size() < 1 }">
+								               	<div class="row noSpace homeDetailComment" style="margin-left: 5%;text-align:center; margin-bottom:5%;font-weight:bold;">아직 등록된 Review가 없습니다.</div>
+								               </c:if>
+								               <%-- 후기 페이지바 --%>
+								               <div class="row" style="margin:3%;">${pagebar}</div>
+								               <c:if test="${room.reviewList.size() > 0 }">
+								               	<div class="row" style="margin:3%;">${pagebar}</div>
+								               </c:if>
+									         </div>
 										</div>
 										<div style="margin-top: 32px; margin-bottom: 32px;">
 											<div class="_9hxttoo">

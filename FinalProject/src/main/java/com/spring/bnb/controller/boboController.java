@@ -205,6 +205,7 @@ public class boboController {
 
 			// file의 첫번째를 메인이미지로 한다.
 			String roomMainImg = fileManager.doFileUpload(bytes, fileList.get(0).getOriginalFilename(), realPath);
+			System.out.println(roomMainImg);
 			roomvo.setRoomMainImg(roomMainImg);
 			
 			// 나머지 이미지들을 set

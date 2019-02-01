@@ -158,25 +158,34 @@ h3{font-size: 14pt;
 		var checkin = "${checkin}";
 		var checkout = "${checkout}";
 		
+		var week = ["일","월","화","수","목","금","토"]; //요일 구하기
+		
 		var date1 = new Date(checkin);
 	    var date2 = new Date(checkout);
-	      
-	    var time1 = date1.getTime();
-	    var time2 = date2.getTime();
 	    
-	    var datebetween = (time2-time1)/(1000*60*60*24);//날짜 차이 구하기
+	    var dayofweek1 = week[date1.getDay()];//해당 날짜의 요일구하기
+	    var dayofweek2 = week[date2.getDay()];//해당 날짜의 요일구하기
+	    
+	    var time1 = date1.getTime();//해당 날짜의 시간구하기
+	    var time2 = date2.getTime();//해당 날짜의 시간구하기
+	    
+	    var datebetween = (time2-time1)/(1000*60*60*24);
+	    //날짜 차이 구하기
 	    
 	    $("#day_between").text(datebetween);
 	    $("#day_between1").text(datebetween);
 	    
-	    $("#mon1").text(checkin.substring(5,7));
-	    $("#day1").text(checkin.substring(8));
+	    $("#mon1").text(checkin.substring(0,2));//월
+	    $("#day1").text(checkin.substring(3,5));//일
 	    
-	    $("#mon2").text(checkout.substring(5,7));
-	    $("#day2").text(checkout.substring(8));
+	    $("#mon2").text(checkout.substring(0,2));//월
+	    $("#day2").text(checkout.substring(3,5));//일
 	    
-	    var chin = checkin.substring(0,4)+"년 "+checkin.substring(5,7)+"월 "+checkin.substring(8)+"일";
-	    var chout = checkout.substring(0,4)+"년 "+checkout.substring(5,7)+"월 "+checkout.substring(8)+"일";
+	    $("#yoil1").text(dayofweek1+"요일");//요일
+	    $("#yoil2").text(dayofweek2+"요일");//요일
+	    
+	    var chin = checkin.substring(6)+"년 "+checkin.substring(0,2)+"월 "+checkin.substring(3,5)+"일";
+	    var chout = checkout.substring(6)+"년 "+checkout.substring(0,2)+"월 "+checkout.substring(3,5)+"일";
 	    
 	    $("#in").text(chin);
 	    $("#out").text(chout);
@@ -185,7 +194,20 @@ h3{font-size: 14pt;
 	
 	function gonextCheck(){ // 다음페이지로 보내기
 		
-		location.href="<%=ctxPath%>/reservationCheckPeople.air";
+		var checkin = "${checkin}";
+		var checkout = "${checkout}";
+		
+		var date1 = new Date(checkin);
+	    var date2 = new Date(checkout);
+		
+	 	var frm = document.datebetween;
+	 	
+	    frm.day_between.value = $("#day_between").text();
+	    frm.chekin.value = (date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate());
+	    frm.chekout.value = (date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate());
+		frm.method="get";
+	    frm.action="<%=ctxPath%>/reservationCheckPeople.air";
+		frm.submit();
 	}
 	
 
@@ -253,7 +275,7 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<c:if test="${oneRoom.roomPrice < avgPrice }">
+				<%-- <c:if test="${oneRoom.roomPrice < avgPrice }">
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-oneRoom.roomPrice}" pattern="#,###" />저렴합니다.
@@ -265,12 +287,12 @@ h3{font-size: 14pt;
 					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
 				    </div>
 				</c:if>
-				<c:if test="${oneRoom.roomPrice > avgPrice }">
+				<c:if test="${oneRoom.roomPrice > avgPrice }"> --%>
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
 				    </div>
-				</c:if>
+				<%-- </c:if> --%>
 				
 			</div>
 		</div>
@@ -280,18 +302,15 @@ h3{font-size: 14pt;
 		<br>
 		<div class="col-md-5 rev" >
 			<div class="col-md-3 date" align="center"><span id="mon1"></span>월<br><span id="day1"></span>일</div>
-			<div class="chekdate">체크인:수요일 <br>
+			<div class="chekdate"> 체크인:<span id="yoil1"></span> <br>
 			<span id="checkin1">${oneRoom.checkInTime}</span>시 이후</div>
 		</div>
 		<div class="col-md-2 rev" style="padding: 5%;"></div>
 		<div class="col-md-5 rev" style="margin-bottom: 10%;">
 			<div class="col-md-3 date"  align="center"><span id="mon2"></span>월<br><span id="day2"></span>일</div>
-			<div class="chekdate">체크아웃:수요일 <br>
+			<div class="chekdate">체크아웃: <span id="yoil2"></span> <br>
 				<c:if test="${oneRoom.checkOutTime != '00'}">
 					<span id="checkout1">${oneRoom.checkOutTime}</span>시 까지
-				</c:if>
-				<c:if test="${oneRoom.checkOutTime == '00'}">
-				 	<span id="checkout2">24:00</span>시 까지 
 				</c:if>
 			</div>
 		</div>
@@ -404,10 +423,8 @@ h3{font-size: 14pt;
 			<div class="col-md-12" style="padding-top: 5%;">
 				<i class="fas fa-users fa-lg" style="color: #008489;"></i>
 				<span style="margin-left: 3%;">게스트 ${guestCount}명
-				<c:if test="${babyCount == 0}">
-				</c:if>
 				
-				<c:if test="${babyCount != 0}">
+				<c:if test="${babyCount != '0' || babyCount ne null}">
 				, 유아 ${babyCount}명
 				</c:if>
 				
@@ -472,6 +489,13 @@ h3{font-size: 14pt;
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
 </div>
+
+<form name="datebetween">
+<input name="day_between" value="" type="hidden"/>
+<input name="chekin" value="" type="hidden"/>
+<input name="chekout" value="" type="hidden"/>
+</form>
+
 
 </body>
 </html>

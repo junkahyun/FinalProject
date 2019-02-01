@@ -216,6 +216,7 @@ h3{font-size: 14pt;
 				frm.totalprice.value = $("#roomtotalPrice").text();
 				frm.message.value = $("#host_error_message").val();
 				frm.totalpeople.value = $("#finalPeople").val();
+				frm.price.value=$("#Price").text();
 				frm.method="GET";
 				frm.action = "<%=ctxPath%>/reservationCheckAndPay.air";
 				frm.submit();
@@ -296,8 +297,8 @@ h3{font-size: 14pt;
 	    
 	    $("#day_between").text(datebetween);
 	    
-	    var chin = checkin.substring(0,4)+"년 "+checkin.substring(5,7)+"월 "+checkin.substring(8)+"일";
-	    var chout = checkout.substring(0,4)+"년 "+checkout.substring(5,7)+"월 "+checkout.substring(8)+"일";
+	    var chin = checkin.substring(6)+"년 "+checkin.substring(0,2)+"월 "+checkin.substring(3,5)+"일";
+	    var chout = checkout.substring(6)+"년 "+checkout.substring(0,2)+"월 "+checkout.substring(3,5)+"일";
 	    
 	    $("#in").text(chin);
 	    $("#out").text(chout);
@@ -368,7 +369,7 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<c:if test="${(sessionScope.oneRoom).roomPrice < avgPrice}">
+				<%-- <c:if test="${(sessionScope.oneRoom).roomPrice < avgPrice}">
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-(sessionScope.oneRoom).roomPrice}" pattern="#,###" />저렴합니다.
@@ -379,12 +380,12 @@ h3{font-size: 14pt;
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					      <strong>흔치 않은 기회입니다.</strong>${(sessionScope.oneRoom).fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
 				    </div>
-				</c:if>
+				</c:if> --%>
 				
-					<%-- <div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
+					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
-				    </div>  --%>
+				    </div>
 			    
 			</div>
 		</div>
@@ -597,6 +598,7 @@ h3{font-size: 14pt;
 	<input type="hidden" value="" name="totalprice" />
 	<input type="hidden" value="" name="message" />
 	<input type="hidden" value="" name="totalpeople" />
+	<input type="hidden" value="" name="price" />
 </form>
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
