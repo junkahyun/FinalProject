@@ -1,31 +1,21 @@
 package com.spring.bnb.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -192,7 +182,7 @@ public class boboController {
          
          List<String> imgList = new ArrayList<String>();
          
-         for(int i=1; i<fileList.size(); i++) { 
+         for(int i=0; i<fileList.size(); i++) { 
              bytes = fileList.get(i).getBytes(); // 첨부파일의 내용물(byte)을 읽어옴.
              
              // 파일업로드 한 후 업로드되어진 파일명  가져오기
@@ -207,6 +197,7 @@ public class boboController {
          String roomMainImg = fileManager.doFileUpload(bytes, fileList.get(0).getOriginalFilename(), realPath);
          roomvo.setRoomMainImg(roomMainImg);
          
+         session.setAttribute("imgList", imgList); // 이미지를 한개만 넣었을경우를 위해
          // 나머지 이미지들을 set
          roomvo.setRoomimgList(imgList);
          
@@ -299,7 +290,13 @@ public class boboController {
       //System.out.println(roomvo.getHost().getUserid());
       
       int n = service.becomehost(roomvo); // 숙소 insert
-      service.imgList(roomvo);  // 이미지 insert
+      
+      List<String> imgList = (List<String>) session.getAttribute("imgList");
+      
+      //1번째 이미지 메인이미지로 들어감
+      if(imgList.size() > 1) {
+    	  service.imgList(roomvo);  // 이미지 insert
+      }
       
       List<String> option = roomvo.getMyoption();
       if(option != null) {
