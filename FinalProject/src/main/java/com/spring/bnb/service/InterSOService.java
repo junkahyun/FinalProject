@@ -62,6 +62,9 @@ public interface InterSOService {
 	HashMap<String, String> getBuildType(String roomcode);
 	// *** 호스트 리뷰 갯수 **
 	int getTotalHostReviewCount(String userid);
+	
+	// *** 예약 일주일전 예약 확인 메일 발송 ***
+	void scheduleTestEmailSending() throws Exception; // Spring Scheduler(스프링 스케줄러)를 사용한 email 발송하기 예제 
 
 	
 

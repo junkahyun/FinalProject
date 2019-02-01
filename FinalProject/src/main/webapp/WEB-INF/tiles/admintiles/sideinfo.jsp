@@ -37,7 +37,9 @@
 					<li><a href="#" class="inherits">1:1문의관리</a></li>
 					<li><a href="#" class="inherits">신고관리</a></li>
 					<li><a href="#" class="inherits">쿠폰등록</a></li>
+					<li><a href="https://center-pf.kakao.com/_qxnqxij/chats" class="inherits">1:1톡</a></li>
 					<li><a href="#" class="inherits">통계</a></li>   
+					
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</nav> 
