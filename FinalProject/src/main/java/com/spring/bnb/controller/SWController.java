@@ -1,11 +1,15 @@
 package com.spring.bnb.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,11 +18,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
 import com.spring.bnb.service.InterSWService;
+import com.spring.common.AES256;
 
 @Controller
 @Component
@@ -26,6 +31,9 @@ public class SWController {
 
 	@Autowired
 	private InterSWService service;
+	
+	@Autowired
+	private AES256 aes;
 	
 	@RequestMapping(value = "/list.air", method = RequestMethod.GET)
 	public String list(HttpServletRequest req) {
@@ -164,11 +172,20 @@ public class SWController {
 	}
 	
 	@RequestMapping(value = "/reservationList.air", method = RequestMethod.GET)
-	public String reservation(HttpServletRequest req) {
+	public String reservation(HttpServletRequest req) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+				
+		HttpSession session = req.getSession();
 		
-		String userid = "kongkd2";
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
+		System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
+		for(ReservationVO list : reservationList) {			
+			list.setRsv_email(aes.decrypt(list.getRsv_email()));
+			list.setRsv_phone(aes.decrypt(list.getRsv_phone()));			
+		}
 		
 		req.setAttribute("userid", userid);
 		req.setAttribute("reservationList", reservationList); 

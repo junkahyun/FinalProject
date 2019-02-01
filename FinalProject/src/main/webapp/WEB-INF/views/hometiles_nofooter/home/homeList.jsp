@@ -31,6 +31,11 @@
  $(document).ready(function(){
 	//alert($("#city").val());
 	
+	if("${city}" != ""){
+		$("select#city").find("option[value='${city}']").attr("selected",true);
+	}
+	
+	
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
      var optionnameArr = new Array();
@@ -779,24 +784,23 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id="city" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >
-            		<option value="${city}">${city}</option>            		
-            		<option>서울특별시</option>
-            		<option>인천광역시</option>
-            		<option>대전광역시</option>
-            		<option>광주광역시</option>
-            		<option>대구광역시</option>
-            		<option>부산광역시</option>
-            		<option>울산광역시</option>
-            		<option>경기도</option>
-            		<option>강원도</option>
-            		<option>충청북도</option>
-            		<option>충청남도</option>
-            		<option>전라북도</option>            		
-            		<option>전라남도</option>
-            		<option>경상북도</option>
-            		<option>경상남도</option>
-            		<option>제주특별자치도</option>            		            		            		         		
+            	<select id="city" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >  
+            		<option value="서울특별시">서울특별시</option>
+            		<option value="인천광역시">인천광역시</option>
+            		<option value="대전광역시">대전광역시</option>
+            		<option value="광주광역시">광주광역시</option>
+            		<option value="대구광역시">대구광역시</option>
+            		<option value="부산광역시">부산광역시</option>
+            		<option value="울산광역시">울산광역시</option>
+            		<option value="경기도">경기도</option>
+            		<option value="강원도">강원도</option>
+            		<option value="충청북도">충청북도</option>
+            		<option value="충청남도">충청남도</option>
+            		<option value="전라북도">전라북도</option>            		
+            		<option value="전라남도">전라남도</option>
+            		<option value="경상북도">경상북도</option>
+            		<option value="경상남도">경상남도</option>
+            		<option value="제주특별자치도">제주특별자치도</option>            		            		            		         		
             	</select>            
             	
             	<span class="optionname">날짜</span>
