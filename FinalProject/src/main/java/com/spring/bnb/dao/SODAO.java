@@ -201,6 +201,14 @@ public class SODAO implements InterSODAO {
 	}
 
 
+	// *** 회원정보 수정 전화번호 확인 ***
+	@Override
+	public int getCheckPhone(String phone) {
+		int check = sqlsession.selectOne("cso.getCheckPhone",phone);
+		return check;
+	}
+
+
 
 
 
