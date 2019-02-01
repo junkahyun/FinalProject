@@ -181,7 +181,16 @@ function showreview() {
 		dataType:"JSON",
 		success:function(json){
 			console.log(json);
-			var html = 	"<c:set var='room' value='"+json+"'/>";
+			
+			var reviewCount = "";
+			var reviewContent = "";
+			$.each(json,function(entryIndex, entry){
+				reviewCount = "<h5>후기("+entryIndex+"개)</h5>";
+				reviewContent += '<div id="reviewContent" class="col-md-12" style="margin-top:2%;">'+entry.review_content+'</div>'
+			});// end of each
+			
+			
+			$("#reviewCount").empty().html(reviewCount);
 		},
 		error:function(){
 			
@@ -255,7 +264,7 @@ function showreview() {
 									<div class="_1p75mxn1"
 										style="border: 0px solid red; margin-top: 10%;">
 										<div class="_1dl27thl" style="border: 0px solid red">
-											<h5>후기(0개)</h5>
+											<h5 id="reviewCount">후기(0개)</h5>
 											  <div id="reviewArea" class="noSpace">
 									          
 								               <div class="row noSpace homeDetailComment">
@@ -264,7 +273,7 @@ function showreview() {
 								                  </div>
 								                  <div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
 								                  <div class="col-md-1">icon</div>
-								                  <div class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
+								                  <div id="reviewContent" class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
 								               </div>
 									            
 									             

@@ -334,8 +334,13 @@ public class SCController {
 		List<ReviewVO> reviewList = service.getReview(roomcode);
 		JSONArray jsonArr = new JSONArray();
 		for(ReviewVO reviewvo : reviewList) {
+			JSONObject jsonObj = new JSONObject();
 			System.out.println("reviewvo:"+reviewvo.getFk_userid());
-			jsonArr.put(reviewvo);
+			jsonObj.put("userid", reviewvo.getFk_userid());
+			jsonObj.put("review_content", reviewvo.getReview_content());
+			jsonObj.put("review_writedate", reviewvo.getReview_writedate());
+			
+			jsonArr.put(jsonObj);
 		}
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);

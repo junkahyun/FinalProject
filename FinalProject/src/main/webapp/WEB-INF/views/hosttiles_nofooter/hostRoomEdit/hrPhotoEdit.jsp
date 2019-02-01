@@ -287,7 +287,7 @@ div {
 	<hr align="left">
 </div>
 <div class="col-md-4" style="margin-left: 22%;" align="center">
-	<img class="img-largeThumbnail" alt="" src="resources/images/${roomvo.roomMainImg }">
+	<img class="img-largeThumbnail" alt="" src="resources/images/becomehost/${roomvo.roomMainImg }">
 </div>
 
  <div class="col-md-3">
