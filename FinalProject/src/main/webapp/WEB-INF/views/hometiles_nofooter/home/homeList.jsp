@@ -118,7 +118,7 @@
 					 if(json.OPTIONCHECK == 0){					
 							html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
 								  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
-								  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+								  + "<img src='resources/images/warning.png' style='width: 30%; height:30%;' />"								 
 								  + "</div>"
 								  + "<div style='text-align: center;'>"
 								  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
@@ -201,7 +201,7 @@
 				if(json.LISTCHECK == 0){					
 					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
-						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+						  + "<img src='resources/images/warning.png' style='width: 30%; height:30%;' />"								 
 						  + "</div>"
 						  + "<div style='text-align: center;'>"
 						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
@@ -283,7 +283,7 @@
 				if(json.LISTCHECK == 0){					
 					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
-						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+						  + "<img src='resources/images/warning.png' style='width: 30%; height:30%;' />"								 
 						  + "</div>"
 						  + "<div style='text-align: center;'>"
 						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
@@ -457,7 +457,7 @@
     			  if(json.LISTCHECK == 0){					
   					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
   						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
-  						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+  						  + "<img src='resources/images/warning.png' style='width: 30%; height:30%;' />"								 
   						  + "</div>"
   						  + "<div style='text-align: center;'>"
   						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
@@ -585,7 +585,7 @@
 				if(json.LISTCHECK == 0){					
 					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
-						  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+						  + "<img src='resources/images/warning.png' style='width: 30%; height:30%;' />"								 
 						  + "</div>"
 						  + "<div style='text-align: center; margin-bottom: 1%;'>"
 						  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
@@ -707,7 +707,7 @@
 	       			if(json.LISTCHECK == 0){					
 						html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
-							  + "<img src='resources/images/danger.png' style='width: 30%; height:30%;' />"								 
+							  + "<img src='resources/images/warning.png' style='width: 30%; height:30%;' />"								 
 							  + "</div>"
 							  + "<div style='text-align: center;'>"
 							  + "<span style='font-size: 20pt; font-weight: bold; color: red; '>해당 조건에 만족하는 숙소가 없습니다.</span>"
@@ -831,17 +831,17 @@
         <div id="optionRight" class="col-md-7">
         
         	<div class="optionbox">
-        	<div style="display: inline-block;">
-        		<span class="optionname" style="margin-right: 4%;">건물 유형</span>
-        		<select id=buildName1 name="buildName1" style="border-right: 1px solid gray; margin-left: 5%; height: 80%;">
-            		<option value="">:::선택하세요:::</option>
-            		<c:forEach items="${buildList}" var="buildName">	            	
-	            		<option value="${buildName}">${buildName}</option>            		           		
-            		</c:forEach>                	
-        		</select>
-        		<select id="buildName2" name="buildName2" style="border-right: 1px solid gray; margin-left: 5%; margin-right: 15%; height: 80%;">
-        			<option value=''>:::선택하세요:::</option>        				
-        		</select>        		
+        		<div style="display: inline-block;">
+	        		<span class="optionname" style="margin-right: 4%;">건물 유형</span>
+	        		<select id=buildName1 name="buildName1" style="border-right: 1px solid gray; margin-left: 5%; height: 80%;">
+	            		<option value="">:::선택하세요:::</option>
+	            		<c:forEach items="${buildList}" var="buildName">	            	
+		            		<option value="${buildName}">${buildName}</option>            		           		
+	            		</c:forEach>                	
+	        		</select>
+	        		<select id="buildName2" name="buildName2" style="border-right: 1px solid gray; margin-left: 5%; margin-right: 15%; height: 80%;">
+	        			<option value=''>:::선택하세요:::</option>        				
+	        		</select>  		
 	        		<span class="reset" style="font-weight: bold; color: red; text-decoration: underline; cursor: pointer;">
 	        		 옵션 초기화&nbsp;<img class="reset" src="resources/images/reload.png" style="cursor: pointer; width: 3%; height: 90%;'" />
 	        		</span>
@@ -877,7 +877,7 @@
     </div> 
     
     <div class="row" style="width: 100%; margin-left: 0.1%;">        
-        <div class="col-md-4 " style="height:100vh; margin-top: 18px; padding: 0; border: solid;">
+        <div class="col-md-4 " style="height:100vh; margin-top: 18px; padding: 0; border:1px lightgray solid;">
             <div style="height: 100%; margin: 0; padding: 0;" id="map" class="optionbox map"></div>
 
 	<script type="text/javascript">	

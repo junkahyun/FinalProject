@@ -733,14 +733,245 @@ where to_char(checkintime, 'yyyy-mm-dd') >= '2019-01-18'
 and to_char(checkouttime, 'yyyy-mm-dd') <= '2019-01-31'
 
 select *
+from room
+where roomcode in (select distinct roomcode
 from room A JOIN reservation B
 ON A.roomcode = B.fk_roomcode
-where not to_char(B.rsv_checkindate, 'yyyy-mm-dd')  between '2019-01-20' and '2019-02-30'
-and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-20' and '2019-02-30';
+where not to_char(B.rsv_checkindate, 'yyyy-mm-dd') between '2019-01-29' and '2019-02-12'
+and not to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-29' and '2019-02-12');
+
+
+select *
+from room A JOIN reservation B
+ON A.roomcode = B.fk_roomcode
+where not B.rsv_checkindate between 2019-01-22 and 2019-01-29
+
+select *
+from room
+where roomcode in (
+select roomcode
+from room
+minus
+select distinct roomcode
+from room A JOIN buildtype_detail B
+ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+JOIN reservation C
+ON A.roomcode = C.fk_roomcode
+where roomprice between to_number('0') and to_number('500000'));
+
+
+select *
+from room
+where roomcode in (
+select roomcode
+from room)
+minus
+select roomcode
+from room A JOIN reservation B
+ON A.roomcode = B.fk_roomcode
+JOIN buildtype_detail C
+ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx
+where 1=1
+and to_char(B.rsv_checkindate,'yyyy-mm-dd') between '2019-01-26' and '2019-01-28'
+and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-26' and '2019-01-28'
+)
+and buildtype_detail_name = '주택'
+
+
+select *
+from room
+where roomcode in (select distinct roomcode
+from room A JOIN buildtype_detail B
+ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+JOIN reservation C
+ON A.roomcode = C.fk_roomcode
+where 1=1)
+
+select *
+		from room
+		where roomcode in (select distinct roomcode
+						   from room A JOIN buildtype_detail B
+						   ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+						   JOIN reservation C
+						   ON A.roomcode = C.fk_roomcode
+						   where 1=1)
+                           
+                           
+select * from buildtype_detail   
 
 
 
 
 
-select * from reservation B
 
+                            select *
+							from room
+							where roomcode in (
+							select roomcode
+							from room						
+							minus
+							select *
+							from room A JOIN reservation B
+							ON A.roomcode = B.fk_roomcode
+							JOIN buildtype_detail C
+							ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+							where 1=1							
+							and to_char(B.rsv_checkindate,'yyyy-mm-dd') between '2019-01-26' and '2019-01-29'
+							and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd') between '2019-01-26' and '2019-01-29'	)						
+						   and buildtype_detail_name = #{BUILDNAME2}						  
+						   and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
+						  
+							)
+
+
+                            select *
+							from room A JOIN buildtype_detail B
+                            ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+							where 1=1 
+                            and roomcode in (
+							select roomcode
+							from room						
+							minus
+							select roomcode
+							from room A JOIN reservation B
+							ON A.roomcode = B.fk_roomcode
+							JOIN buildtype_detail C
+							ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+							where '2019-01-29' between to_char(rsv_checkindate,'yyyy-mm-dd') and to_char(rsv_checkoutdate,'yyyy-mm-dd')
+							and '2019-01-30' between to_char(rsv_checkindate,'yyyy-mm-dd') and to_char(rsv_checkoutdate,'yyyy-mm-dd'))
+						   and buildtype_detail_name = '주택'						  
+						   and roomprice between to_number('10') and to_number('100000')
+                           and roomsigungu = '제주시'						
+                           
+                           select *from reservation
+                           
+                           
+                           select *  
+		from room
+		where roomcode in (10,20,30)
+		
+			and not exists(
+                           
+                           select rule_idx
+							from allrule
+							where rule_idx in (select rule_idx from allrule where rule_name in ('반려동물 입실가능','이벤트 및 행사가능'))
+							minus                  
+							select fk_rule_idx
+							from roomrule
+							where fk_roomcode = 10)
+
+select *  
+		from room
+		where roomsigungu = '제주시 '
+		
+			and not exists(select rule_idx
+							from allrule
+							where rule_name in ('흡연가능','반려동물 입실가능')
+							minus                  
+							select fk_rule_idx
+							from room A JOIN roomrule B
+							ON A.roomcode = B.fk_roomcode
+							where roomsigungu = '제주시 ')
+                            
+                            select *
+                            from room
+                            where max_person >= 2
+                            
+select *
+		from room A JOIN buildtype_detail B
+                       ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		where 1=1 		
+		and roomcode in (
+		select roomcode
+		from room							
+		minus
+		select roomcode
+		from room A JOIN reservation B
+		ON A.roomcode = B.fk_roomcode
+		JOIN buildtype_detail C
+		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+		where '2019-01-30' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+		and '2019-01-31' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))	
+		and roomsido like '%'||'대전'||'%'
+	    
+        select *
+        from room
+        
+        
+        select *
+		from room A JOIN buildtype_detail B
+                       ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		where 1=1 		
+		and roomcode in (
+		select roomcode
+		from room							
+		minus
+		select roomcode
+		from room A JOIN reservation B
+		ON A.roomcode = B.fk_roomcode
+		JOIN buildtype_detail C
+		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+		where '2019-01-30' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+		and '2019-01-31' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))    	    
+	    and roomprice between to_number('1') and to_number('1000000')	    
+		and roomsido like '%서울%'
+        and max_person >= 7
+        
+        
+        
+        select * from bed
+        select * 
+        from room A JOIN bedroom B
+        ON A.roomcode = B.fk_roomcode
+        JOIN bed C
+        ON B.bedroom_idx = C.fk_bedroom_idx
+        
+        select * from room
+        select * from bedobj
+        select * from roomtype
+        
+        select *
+		from room A JOIN buildtype_detail B
+        ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+        JOIN bedroom C
+        ON A.roomcode = C.fk_roomcode
+        JOIN bed D
+        ON C.bedroom_idx = D.fk_bedroom_idx
+        JOIN bedobj E
+        ON D.fk_bedobj_idx = E.bedobj_idx
+        JOIN roomtype F
+        ON A.fk_roomtype_idx = F.roomtype_idx
+      
+      
+      select * from member
+      
+      
+       select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          JOIN bedroom C
+		          ON A.roomcode = C.fk_roomcode
+		          JOIN bed D
+		          ON C.bedroom_idx = D.fk_bedroom_idx
+		          JOIN bedobj E
+		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
+		where 1=1 		
+		and roomcode in (
+		select roomcode
+		from room							
+		minus
+		select roomcode
+		from room A JOIN reservation B
+		ON A.roomcode = B.fk_roomcode
+		JOIN buildtype_detail C
+		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+		where '2019-01-31' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+		and  '2019-02-11' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))		
+	    and buildtype_detail_name = '펜션'	    
+	    and roomprice between to_number('1') and to_number('1000000')	   
+		and roomsido like '%서울%'		
+		and max_person >= 1
+        
+       select *from reservation
