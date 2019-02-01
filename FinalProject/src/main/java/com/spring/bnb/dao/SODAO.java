@@ -193,6 +193,13 @@ public class SODAO implements InterSODAO {
 		return count;
 	}
 
+	// *** 예약 확인 메일 발송하기 ***
+	@Override
+	public List<HashMap<String, String>> getReservationList() {
+		List<HashMap<String, String>> reservation = sqlsession.selectList("cso.getReservationList");
+		return reservation;
+	}
+
 
 
 

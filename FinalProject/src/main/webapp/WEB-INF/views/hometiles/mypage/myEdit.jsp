@@ -51,7 +51,7 @@ height: auto;
 	vertical-align: center;
 	padding: 20%;
 }
-.emailVeryfiBtn{
+.emailEditVeryfiBtn{
 	margin:5%;
 	text-align: center;
 	vertical-align: center;
@@ -83,14 +83,18 @@ $(document).ready(function(){
 		$(".emailChange").toggle();
 	});
 	
+	$("#emailEdit").click(function(){
+		
+		var html = "";
+		$("#emailEditComment").html("<br/><span style='color:red;'>이메일 변경하기를 선택 해 주세요 !</span><br/>");
+	})
 	<%-- 우편번호 --%>		
 	$("#zipcodeSearch").click(function(){	
 		
 		new daum.Postcode({
 			oncomplete: function(data) {
-			    $("#postnum").val(data.zonecode);  // 우편번호의 첫번째 값     예> 151
-			   // $("#post2").val(data.postcode2);  // 우편번호의 두번째 값     예> 019
-			    $("#addr").val(data.address);    // 큰주소                        예> 서울특별시 종로구 인사로 17 
+			    $("#postnum").val(data.zonecode);  
+			    $("#addr").val(data.address);   
 			    $("#detailAddr").focus();
 			}
 		}).open();
@@ -253,10 +257,10 @@ function codeCheckFun() {
 		  <div class="col-md-12" style="padding:0;">
 			  <!-- 사용자 이미지 DIV 시작 -->
 			   <div class="col-md-2" style="margin:0; text-align: center;">
-				   <!--  user 이미지 보이기 -->
+				   <!--  user 이미지 보이기 --> 
 				   <input type="hidden" name="profileimg" id="profileimgorg" value="${loginMember.profileimg}">
 				    <img src="<%= ctxPath %>/resources/images/profile/${loginMember.profileimg}" id="img" style="border-radius:100px; border: 1px solid lightgray; width:80px; height:80px; background-color: lightgray;"/> 
-				   	<!--  user 이미지 보이기 끝-->
+				   	<!--  user 이미지 보이기 끝--> 
 					<!--  유저 이미지 변경 -->
 					 <div class="filebox preview-image" id="filebox">
 				 		 <input type="file" id="profileimg" name="file" accept="image/*" />
@@ -310,8 +314,9 @@ function codeCheckFun() {
 		        </label>
 		        <div class="col-sm-9">
 		        	<div class="col-sm-12" style="bording : 1px solid red; padding-right: 30%;">
-		        		<input id="email" name="email" type="text" value="${loginMember.email}">
+		        		<input id="emailEdit" name="email" type="text" value="${loginMember.email}" readOnly/>
 		        	</div>
+		        	<div id="emailEditComment"></div>
 		        	<div style="margin-top:8px">
 		        		<button type="button" class="_1k01n3v1" aria-busy="false" id="emailChangeInput">이메일 변경하기</button>
 		        	</div>
@@ -334,7 +339,7 @@ function codeCheckFun() {
 				                						<input type="text" id="changeEmail" placeholder="이메일주소를 입력하세요">
 				                						<span class="error" style="color: blue; font-size: 12px;">이메일 형식에 맞게 입력하세요.</span>
 				                					</div>
-					                				<div class="emailVeryfiBtn">
+					                				<div class="emailVeryfiBtn" style="margin:3%;">
 					                					<button type="button" class="btn btn-primary" id="emailCheckCode" onClick="emailCodeCheck();">인증코드 보내기</button>
 					                				</div> 				                				
 				                					<div id="addCode">
@@ -416,3 +421,7 @@ function codeCheckFun() {
 <form name="sendCode">
 	<input type="hidden" name="changeEmail" />
 </form> 
+<div>
+
+	
+	</div>

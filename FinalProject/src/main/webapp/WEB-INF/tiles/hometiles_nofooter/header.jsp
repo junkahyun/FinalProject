@@ -8,7 +8,7 @@
 		$(".passIcon").addClass("passIconHide");
 		$(".error").hide();
    		$("#loginpwd").keydown(function(event){
-         	if(event.target==13) goLogin();
+         	if(event.keyCode==13) goLogin();
       	});
       	$("#searchAddrBtn").click(function() {
           	new daum.Postcode({

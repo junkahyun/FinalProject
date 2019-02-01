@@ -304,13 +304,12 @@ public class SCController {
 	}
 	
 	@RequestMapping(value = "/rankShowJSON.air", method = { RequestMethod.POST })
-	
 	public String rankShowJSON(HttpServletRequest req, HttpServletResponse res) {
 		
 		String roomcode = req.getParameter("roomcode");
-		System.out.println("char roomcode:"+roomcode);
+		//System.out.println("char roomcode:"+roomcode);
 		RoomVO roomvo = service.getRoomInfo(roomcode);
-		List<HashMap<String, String>> countList = service.getReview(roomcode);
+		List<HashMap<String, String>> countList = service.getPoint(roomcode);
 		
 		JSONArray jsonArr = new JSONArray();
 		for(int i=0; i<countList.size(); i++) {
@@ -318,11 +317,29 @@ public class SCController {
 			jsonObj.put("roomname", roomvo.getRoomName());
 			jsonObj.put("avgGrade", countList.get(i).get("avgGrade"));
 			jsonObj.put("gradeCount", countList.get(i).get("gradeCount"));
-			System.out.println(jsonObj);
+			//System.out.println(jsonObj);
 			jsonArr.put(jsonObj);
 		}
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	@RequestMapping(value = "/showreview.air", method = { RequestMethod.POST })
+	public String showreview(HttpServletRequest req, HttpServletResponse res) {
+		
+		String roomcode = req.getParameter("roomcode");
+		System.out.println("roomcode:"+roomcode);
+		
+		List<ReviewVO> reviewList = service.getReview(roomcode);
+		JSONArray jsonArr = new JSONArray();
+		for(ReviewVO reviewvo : reviewList) {
+			System.out.println("reviewvo:"+reviewvo.getFk_userid());
+			jsonArr.put(reviewvo);
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+
 		return "JSON";
 	}
 
