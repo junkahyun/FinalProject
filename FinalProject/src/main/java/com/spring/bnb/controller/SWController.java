@@ -70,7 +70,7 @@ public class SWController {
 		req.setAttribute("city", city);
 		req.setAttribute("checkin", checkin);
 		req.setAttribute("checkout", checkout);
-		req.setAttribute("ADRRESS", sido+gugun+dong);
+		req.setAttribute("ADDRESS", sido+" "+gugun+" "+dong);
 		
 		return "home/homeList.hometiles_nofooter";
 	}	
