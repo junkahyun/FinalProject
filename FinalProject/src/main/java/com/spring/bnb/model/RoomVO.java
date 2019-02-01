@@ -34,7 +34,7 @@ public class RoomVO {
 	private String viewcount; 
 	private String roomstatus;  
 	private String room_warnCount;
-
+	private String bedCount;	
 	private String bedtype;	
 	
 	private MultipartFile file;       // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
@@ -49,7 +49,7 @@ public class RoomVO {
 	private String buildType;
 	private String buildType_detail_name;
 	private int likeCount;
-	private List<String> roomimgList;
+	private List<String> roomimgList ;
 	private List<ReviewVO> reviewList;
 	private List<ReservationVO> reservationList;
 	private List<HashMap<String,String>> optionList;
@@ -275,7 +275,13 @@ public class RoomVO {
 	}
 	public void setRoom_warnCount(String room_warnCount) {
 		this.room_warnCount = room_warnCount;
-	}	
+	}
+	public String getBedCount() {
+		return bedCount;
+	}
+	public void setBedCount(String bedCount) {
+		this.bedCount = bedCount;
+	}
 	public String getBedtype() {
 		return bedtype;
 	}

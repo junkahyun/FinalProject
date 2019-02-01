@@ -1,16 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel='stylesheet' href='<%=request.getContextPath() %>/resources/css/fullcalendar.min.css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='<%=request.getContextPath() %>/resources/js/jquery.min.js'></script>
 <script src='<%=request.getContextPath() %>/resources/js/moment.min.js'></script>
 <script src='<%=request.getContextPath() %>/resources/js/fullcalendar.js'></script>
+<script class="cssdesk" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" type="text/javascript"></script> <!-- ë‚ ì§œí˜•ì‹ ë°”ê¾¸ëŠ”ê²ƒ -->
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script>
 
   $(document).ready(function() {
-
+	
 	$("#showRsver").hide();
 	  
     $('#calendar').fullCalendar({
@@ -26,9 +33,15 @@
       events: [
     	  <c:forEach items="${reservationList}" var="rsv" varStatus="status">
     	  	{
-              title: /*'¿¹¾àÀÚ ¼º¸í : '+*/'${rsv.rsv_name}',
+              title: /*'ì˜ˆì•½ì ì„±ëª… : '+*/'${rsv.rsv_name}',
               start: '${rsv.rsv_checkInDate}',
-              end : '${rsv.rsv_checkOutDate}'
+              end : '${rsv.rsv_checkOutDate}',
+              phone : '${rsv.rsv_phone}',
+              email : '${rsv.rsv_email}',
+              guest : '${rsv.guestCount}',
+              price : '${rsv.totalprice}',
+              paydate : '${rsv.paydate}',
+              rsv_msg : '${rsv.rsv_msg}'
             }, 
             {
 	           start: '${rsv.rsv_checkInDate}',
@@ -52,19 +65,24 @@
               }
             </c:if>
     	  </c:forEach>
-    	   
+    	 
       ], eventClick:function(event) {
-        /*   if(event.url) {
-              alert(event.title + "\n" + event.url, "wicked", "width=700,height=600");
-              window.open(event.url);
-              return false;
-          } */
-          alert(event.title);
-          var name = $(".name").text();
-          alert(name);
-          if(event.title == name){
-        	  $("#showRsver").show();
-          }
+        
+          var checkin = moment(event.start).format('YYYYë…„ MMì›” DDì¼');
+          var checkout = moment(event.end).format('YYYYë…„ MMì›” DDì¼');
+          var paycomplete = moment(event.paydate).format('YYYYë…„ MMì›” DDì¼');
+    	  $(".modal").modal("show");         
+          $(".modal").find("#name").text(event.title);
+          $(".modal").find("#rsvName").text(event.title);
+          $(".modal").find("#phone").text(event.phone);
+          $(".modal").find("#email").text(event.email);
+          $(".modal").find("#checkin").text(checkin);
+          $(".modal").find("#checkout").text(checkout);
+          $(".modal").find("#guest").text(event.guest);
+          $(".modal").find("#price").text(event.price);
+          $(".modal").find("#paydate").text(paycomplete);
+          $(".modal").find("#msg").text(event.rsv_msg);
+          
       }
 
     });
@@ -74,22 +92,51 @@
 </script>
 <style>
 
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    font-size: 14px;
-  }
-
   #calendar {
     max-width: 900px;
     margin: 0 auto;
   }
 
+	/* Modal */
+	.modal{
+		overflow:hidden;
+		z-index:9999;
+	}
+	div.modal div#memberInfo{
+		margin:2%;
+	} 
+	div.modal button.myclose{
+		width:100%;
+	}
+	div.modal button > span{
+		float:right;
+	}
+	div.modal select{
+		width:50%;
+		float:left;
+		margin-top:10%;
+	}
+	div.modal button.finish_sido{
+		width:50%;
+		display:block;
+		margin:30% auto;
+	}
+	#info{
+		font-weight: bold;
+		font-size: 12pt;
+	}
+	.rsvinfo{
+		font-size: 12pt;
+	}
+	#rsvName{
+		font-size: 20pt;
+		font-weight: bold;
+		color: blue;
+	}
 </style>
 
 <body>
-
+${reservationList.get(0).rsv_email}
   <div id='calendar' style="margin-top: 3%;">
   	<c:forEach items="${reservationList}" var="rsv">
 	  	<input type="hidden" id="client" class="client" value="${rsv.rsv_name}"/>
@@ -100,20 +147,55 @@
   </div>
   <ul id="showRsver">
   	<c:forEach items="${reservationList}" var="rsv">
-  		<li>¿¹¾àÀÚ ¼º¸í : </li>
+  		<li>ì˜ˆì•½ì ì„±ëª… : </li>
   		<li id="name" class="name" value="${rsv.rsv_name}">${rsv.rsv_name}</li><br/>
-  		<li id="phone" class="phone" value="">¿¹¾àÀÚ ÀüÈ­¹øÈ£ : ${rsv.rsv_phone}</li><br/>
-  		<li id="email" class="email" value="">¿¹¾àÀÚ ÀÌ¸ŞÀÏ : ${rsv.rsv_email}</li><br/>
-  		<li id="checkindate" class="checkindate" value="">Ã¼Å©ÀÎ ³¯Â¥ : ${rsv.rsv_checkInDate}</li><br/>
-  		<li id="checkoutdate" class="checkoutdate" value="">Ã¼Å©¾Æ¿ô ³¯Â¥ : ${rsv.rsv_checkOutDate}</li><br/>
-  		<li id="guestcount" class="guestcount" value="">ÃÑ ÀÎ¿ø ¼ö : ${rsv.guestCount}¸í</li><br/>
-  		<li id="babycount" class="babycount" value="">À¯¾Æ ÀÎ¿ø ¼ö : ${rsv.babyCount}¸í</li><br/>
-  		<li id="totalprice" class="totalprice" value="">ÃÑ ±İ¾× : <fmt:formatNumber value="${rsv.totalprice}" pattern="#,###"/>¿ø</li><br/>
-  		<li id="dcprice" class="dcprice" value="">ÇÒÀÎ ±İ¾× : <fmt:formatNumber value="${rsv.dcprice}" pattern="#,###"/>¿ø</li><br/>
-  		<li id="paydate" class="paydate" value="">°áÁ¦ ³¯Â¥ : ${rsv.paydate}</li><br/>
-  		<li id="rsv_msg" class="rsv_msg" value="">¿¹¾à ¸Ş¼¼Áö : ${rsv.rsv_msg}</li><br/>
+  		<li id="phone" class="phone" value="">ì˜ˆì•½ì ì „í™”ë²ˆí˜¸ : ${rsv.rsv_phone}</li><br/>
+  		<li id="email" class="email" value="">ì˜ˆì•½ì ì´ë©”ì¼ : ${rsv.rsv_email}</li><br/>
+  		<li id="checkindate" class="checkindate" value="">ì²´í¬ì¸ ë‚ ì§œ : ${rsv.rsv_checkInDate}</li><br/>
+  		<li id="checkoutdate" class="checkoutdate" value="">ì²´í¬ì•„ì›ƒ ë‚ ì§œ : ${rsv.rsv_checkOutDate}</li><br/>
+  		<li id="guestcount" class="guestcount" value="">ì´ ì¸ì› ìˆ˜ : ${rsv.guestCount}ëª…</li><br/>
+  		<li id="babycount" class="babycount" value="">ìœ ì•„ ì¸ì› ìˆ˜ : ${rsv.babyCount}ëª…</li><br/>
+  		<li id="totalprice" class="totalprice" value="">ì´ ê¸ˆì•¡ : <fmt:formatNumber value="${rsv.totalprice}" pattern="#,###"/>ì›</li><br/>
+  		<li id="dcprice" class="dcprice" value="">í• ì¸ ê¸ˆì•¡ : <fmt:formatNumber value="${rsv.dcprice}" pattern="#,###"/>ì›</li><br/>
+  		<li id="paydate" class="paydate" value="">ê²°ì œ ë‚ ì§œ : ${rsv.paydate}</li><br/>
+  		<li id="rsv_msg" class="rsv_msg" value="">ì˜ˆì•½ ë©”ì„¸ì§€ : ${rsv.rsv_msg}</li><br/>
   		
   	</c:forEach>
   </ul>
+
+	<!-- íšŒì›ì •ë³´ë³´ê¸° ëª¨ë‹¬ -->
+	
+ <div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">ì˜ˆì•½ì <span id="rsvName"></span>ë‹˜ì˜ ì •ë³´</h3>
+        </div>
+        <div class="modal-body">
+          	<span id="info">ì„±ëª… >> </span><span id="name" class="rsvinfo"></span><br/><br/>
+          	<span id="info">ì „í™”ë²ˆí˜¸ >> </span><span id="phone" class="rsvinfo"></span><br/><br/>
+          	<span id="info">ì´ë©”ì¼ >> </span><span id="email" class="rsvinfo"></span><br/><br/>
+          	<span id="info">ì…ì‹¤ì¼ >> </span><span id="checkin" class="rsvinfo"></span><br/><br/>
+          	<span id="info">í‡´ì‹¤ì¼ >> </span><span id="checkout" class="rsvinfo"></span><br/><br/>
+          	<span id="info">ì´ì¸ì› >> </span><span id="guest" class="rsvinfo"></span>ëª…<br/><br/>
+          	<span id="info">ì´ê°€ê²© >> </span><span id="price" class="rsvinfo">â‚©</span>ì›<br/><br/>
+          	<span id="info">ê²°ì œì¼ >> </span><span id="paydate" class="rsvinfo"></span><br/><br/>
+          	<span id="info">ì˜ˆì•½ë©”ì‹œì§€ >> </span><span id="msg" class="rsvinfo"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
 
 </body>
