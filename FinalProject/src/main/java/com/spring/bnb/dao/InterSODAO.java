@@ -60,6 +60,8 @@ public interface InterSODAO {
 
 	// *** 호스트 리뷰 갯수 가져오기  
 	int getTotalHostReviewCount(String userid);
+	// *** 예약 확인 메일 발송하기 ***
+	List<HashMap<String, String>> getReservationList();
 
 
 

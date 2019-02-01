@@ -199,6 +199,7 @@
 	<result column="cleanpay" property="cleanpay" javaType="String"/>
 	<result column="flag" property="flag" javaType="String"/>
 	<result column="servicePrice" property="servicePrice" javaType="String"/>
+	<result column="daysRemaining" property="daysRemaining" javaType="String"/>
 </resultMap>
 
 <select id="getMemberReservationDetail" parameterType="HashMap" resultMap="resDetail">
@@ -223,6 +224,7 @@
            ,roomtype_name
            ,case when rsv_checkindate > sysdate then 1 else 2 end AS flag
            ,(to_date(rsv_checkoutdate,'yyyy-mm-dd') - to_date(rsv_checkindate,'yyyy-mm-dd')) AS dat
+           ,trunc(rsv_checkindate - sysdate) as daysRemaining 
 	from member A join reservation B
 	      on A.userid = B.fk_userid
 	      join room C
@@ -382,6 +384,33 @@ order by rsvcode desc
     right join room C
     on C.FK_BUILDTYPE_DETAIL_IDX = A.BUILDTYPE_DETAIL_IDX
     where roomcode = #{roomcode}
+</select>
+
+<resultMap type="HashMap" id="reservationListMap">
+	<result column="rsvcode" property="rsvcode" javaType="String"/>
+	<result column="fk_roomcode" property="fk_roomcode" javaType="String"/>
+	<result column="rsv_cancledate" property="rsv_cancledate" javaType="String"/>
+	<result column="flag" property="flag" javaType="String"/>
+	<result column="rsv_checkindate" property="rsv_checkindate" javaType="String"/>
+	<result column="rsv_name" property="rsv_name" javaType="String"/>
+	<result column="rsv_email" property="rsv_email" javaType="String"/>
+</resultMap>
+<select id="getReservationList" resultMap="reservationListMap">
+  select rsvcode,rsv_name,fk_roomcode,rsv_email,rsv_cancledate,fk_userid,flag
+           ,rsv_checkindate
+    from
+    (
+    select rsvcode,rsv_name,fk_roomcode,rsv_email,rsv_cancledate,fk_userid,case when flag = 5 then 1 else 0 end AS flag
+               ,rsv_checkindate
+    from 
+    (
+        select rsvcode,rsv_name,rsv_email,fk_roomcode,nvl(to_char(rsv_cancledate,'yyyy-mm-dd'),-9999) AS rsv_cancledate,fk_userid,trunc(to_date(rsv_checkindate)-sysdate) AS flag
+               ,rsv_checkindate
+        from reservation
+    )where rsv_cancledate = '-9999' 
+    )
+    where flag = 1
+    
 </select>
 
 </mapper>	

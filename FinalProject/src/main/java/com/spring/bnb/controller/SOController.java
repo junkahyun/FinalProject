@@ -457,8 +457,7 @@ public class SOController {
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
 		
-		String rsvcode = req.getParameter("rsvcode");
-		
+		String rsvcode = req.getParameter("rsvcode");		
 			
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("userid", userid);
@@ -470,8 +469,7 @@ public class SOController {
 		
 		List<HashMap<String,String>> bedtype = service.getBedType(roomcode);
 		HashMap<String,String> buildtype = service.getBuildType(roomcode);
-		System.out.println(myReservationScheduleDetail.get("email"));		
-		System.out.println(myReservationScheduleDetail.get("phone"));
+
 		String email="";
 		String phone="";
 		try {
@@ -479,6 +477,7 @@ public class SOController {
 			phone = aes.decrypt(myReservationScheduleDetail.get("phone"));
 			myReservationScheduleDetail.put("email", email);
 			myReservationScheduleDetail.put("phone", phone);
+		
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
 			System.out.println("예약 상세보기  이메일/전화번호 복호화 실패!");
 		}		 		

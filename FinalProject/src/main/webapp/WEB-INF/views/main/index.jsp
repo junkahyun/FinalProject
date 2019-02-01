@@ -44,6 +44,7 @@
 		} 
 	</style> 
 	<!-- Link JS -->   
+	<script type="text/javascript" src="<%=ctxPath%>/resources/js/sojaeji.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/jquery-3.3.1.min.js"></script>
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
@@ -139,7 +140,7 @@
 			         	</div>
 			         	<div id="selectCity" class="col-md-2 search_column_l check_in" data-toggle = "modal" data-target="#sido" data-dismiss = "modal">
 				            <span class="icon_place" id="suggest_icon"></span> 
-				            <input class="ipt_search_l r_border" type="text" id="searchcity" name="sido" value="도시" size="10" readonly> 
+				            <input class="ipt_search_l r_border" type="text" id="searchcity" name="city" value="도시" size="10" readonly> 
 						</div> 
 			         	<div class="col-md-3 check_in search_column_r">
 	            			<span class="icon_date" id="calendar_btn_s"></span>
@@ -153,6 +154,9 @@
 			         		검색
 			         	</div>
 	         		</div>
+	         		<input type="hidden" name="sido" />
+	         		<input type="hidden" name="gugun" />
+	         		<input type="hidden" name="dong" />
 	         		</form>
 	            </div> 
 	         </div> 
@@ -269,8 +273,15 @@
 	        <button type="button" class="myclose" data-dismiss="modal" style="background-color: white;  margin-top: 2%; border: 0px; float:right;"><span style="font-size:24px">X</span></button>
 	        <div id="sido">
 	        	<h4>시/군/구 선택하기</h4>
-	        	<select class="form-control" name="sido1" id="sido1"></select>
-				<select class="form-control" name="gugun1" id="gugun1"></select> 
+	        	<select class="form-control" name="sido2" id="sido2">
+	        	</select>
+				<select class="form-control" name="gugun2" id="gugun2"> 
+				</select>
+				<select class="form-control" name="dong2" id="dong2"> 
+				</select>
+				<script type="text/javascript"> 
+					new sojaeji('sido2', 'gugun2', 'dong2');
+				</script> 
 	        </div>
 	        <button type="button" class="btn btn-primary finish_sido"  data-dismiss="modal" >확인</button>
 	      </div> 
