@@ -63,6 +63,9 @@ public interface InterSODAO {
 	// *** 예약 확인 메일 발송하기 ***
 	List<HashMap<String, String>> getReservationList();
 
+	// *** 회원정보 수정 전화번호 확인 *** 
+	int getCheckPhone(String phone);
+
 
 
 	

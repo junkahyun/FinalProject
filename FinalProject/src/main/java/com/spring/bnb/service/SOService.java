@@ -141,7 +141,7 @@ public class SOService implements InterSOService{
 		return buildType;
 	}
 	
-	// *** 호스트 리뷰 가져오기
+	// *** 호스트 리뷰 가져오기 ***
 	@Override
 	public int getTotalHostReviewCount(String userid) {
 		int count = dao.getTotalHostReviewCount(userid); 
@@ -183,5 +183,12 @@ public class SOService implements InterSOService{
 		}
 
 
+	}
+	
+	// *** 회원정보수정 전화번호 확인 ***
+	@Override
+	public int getCheckPhone(String phone) {
+		int check = dao.getCheckPhone(phone);
+		return check;
 	}
 }

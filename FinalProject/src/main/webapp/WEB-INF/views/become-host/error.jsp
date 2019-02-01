@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-didkdkdkdkd
+숙소등록실패
 </body>
 </html>
