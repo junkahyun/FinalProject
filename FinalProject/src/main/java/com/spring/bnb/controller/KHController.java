@@ -192,8 +192,8 @@ public class KHController {
 		map.put("babyCount", Integer.parseInt(babycount));
 		//데이터베이스에서 유아인원 타입이 number이기때문에 integer로 타입 변경
 		map.put("username", username);
-		map.put("phone", aes.encrypt(phone));
-		map.put("email", aes.encrypt(email));
+		map.put("phone", phone);
+		map.put("email", email);
 		map.put("checkin", chekin);
 		map.put("checkout", chekout);
 		map.put("totalprice", Integer.parseInt(totalprice));
