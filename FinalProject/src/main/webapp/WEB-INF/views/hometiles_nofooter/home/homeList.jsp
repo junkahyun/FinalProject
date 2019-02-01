@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/css/rSlider.min.css">
-
+ 
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
@@ -29,7 +29,12 @@
 <script type="text/javascript">
  
  $(document).ready(function(){
-	//alert($("#city").val());
+	//alert($("#sido").val());
+	
+	if("${city}" != ""){
+		$("select#sido").find("option[value='${city}']").attr("selected",true);
+	}
+	
 	
 	 var result1 = "";
 	 var rulenameArr = new Array();	      
@@ -103,7 +108,7 @@
 	      var form_data = {"rulename" : rulenameArr,
 	    		  		   "roomtype_name" : roomtypenameArr,
 	    		  		   "optionname" : optionnameArr,
-	    		  		   city : $("#city").val()};
+	    		  		   city : $("#sido").val()};
 	      var html = "";
 	      var html2 = "";
 	      
@@ -169,7 +174,7 @@
 	 });
 	  
 	 // 지역 선택 시 그 지역의 숙소 리스트  Ajax 처리
-	 $("#city").change(function(){
+	 $("#sido").change(function(){
 	//	alert($(".lat").val());
 	//	alert($(".lng").val());
 		
@@ -182,7 +187,7 @@
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
-				 		 city : $("#city").val(),
+				 		 city : $("#sido").val(),
 				 		 allperson : $("#allperson").val(),
 				 		 latitude : $(".lat").val(),
 				 		 longitude : $(".lng").val()};
@@ -265,7 +270,7 @@
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
-				 		 city : $("#city").val(),
+				 		 city : $("#sido").val(),
 				 		 allperson : $("#allperson").val(),
 				 		 latitude : $(".lat").val(),
 				 		 longitude : $(".lng").val()};
@@ -440,7 +445,7 @@
 				 		   buildName2 : $("#buildName2").val(),
 				 		   startprice : $(".startprice").val(),
 				 		   endprice : $(".endprice").val(),
-				 		   city : $("#city").val(),
+				 		   city : $("#sido").val(),
 				 		   allperson : $("#allperson").val(),
 				 		   latitude : $(".lat").val(),
 				 		   longitude : $(".lng").val()};
@@ -508,7 +513,7 @@
     
    // 모든 옵션 초기화하기
    $(".reset").click(function(){
-	  $("#city").val("");
+	  $("#sido").val("");
 	  $("#checkin").val("체크인 날짜");
 	  $("#checkout").val("체크아웃 날짜");
 	  $(".option").removeClass("subjectstyle");	
@@ -568,7 +573,7 @@
 				 		 buildName2 : $("#buildName2").val(),
 				 		 startprice : $(".startprice").val(),
 				 		 endprice : $(".endprice").val(),
-				 		 city : $("#city").val(),
+				 		 city : $("#sido").val(),
 				 		 allperson : $("#allperson").val(),
 				 		 latitude : $(".lat").val(),
 				 		 longitude : $(".lng").val()};
@@ -690,7 +695,7 @@
 					 		  buildName2 : $("#buildName2").val(),
 					 		  startprice : $(".startprice").val(),
 					 		  endprice : $(".endprice").val(),
-					 		  city : $("#city").val(),
+					 		  city : $("#sido").val(),
 					 		  allperson : $("#allperson").val()};
 	       	         	 
 	       	  var html = "";
@@ -779,26 +784,24 @@
         
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            	<select id="city" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >
-            		<option value="${city}">${city}</option>            		
-            		<option>서울특별시</option>
-            		<option>인천광역시</option>
-            		<option>대전광역시</option>
-            		<option>광주광역시</option>
-            		<option>대구광역시</option>
-            		<option>부산광역시</option>
-            		<option>울산광역시</option>
-            		<option>경기도</option>
-            		<option>강원도</option>
-            		<option>충청북도</option>
-            		<option>충청남도</option>
-            		<option>전라북도</option>            		
-            		<option>전라남도</option>
-            		<option>경상북도</option>
-            		<option>경상남도</option>
-            		<option>제주특별자치도</option>            		            		            		         		
-            	</select>            
-            	
+            	<select id="sido" name="city" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 15%; height: 80%;" >  
+            		<option value="서울">서울</option>
+            		<option value="부산">부산</option>
+            		<option value="대구">대구</option>
+            		<option value="인천">인천</option>
+            		<option value="광주">광주</option>
+            		<option value="대전">대전</option>
+            		<option value="울산">울산</option>
+            		<option value="강원">강원</option>
+            		<option value="경기">경기</option>
+            		<option value="경남">경남</option>
+            		<option value="경북">경북</option>
+            		<option value="전남">전남</option>
+            		<option value="전북">전북</option>
+            		<option value="제주">제주</option>
+            		<option value="충남">충남</option>
+            		<option value="충북">충북</option>  		            			            		         		
+            	</select>  
             	<span class="optionname">날짜</span>
             	<input type="text" id="checkin" class="datepicker" name="checkin" value="${checkin}" style="margin-left: 5%; width: 15%; height: 80%; margin-right: 2%;" />~
             	<input type="text" id="checkout" class="datepicker" name="checkout" value="${checkout}" style="width: 15%; height: 80%; margin-left: 2%;" />   
@@ -882,7 +885,7 @@
 
 	<script type="text/javascript">	
 	   markOnMap();
-	   $("select#city").bind("change", function(){
+	   $("select#sido").bind("change", function(){
 		   markOnMap();
 	   });
 
@@ -904,13 +907,14 @@
 		   
 		   // 주소로 좌표를 검색합니다
 	//	   alert(document.getElementById('city').value);
-		   geocoder.addressSearch(document.getElementById('city').value, function(result, status) {
+		   var address = "${ADRRESS}";
+		   geocoder.addressSearch(address, function(result, status) {
 		   
 		       // 정상적으로 검색이 완료됐으면 
 		        if (status === daum.maps.services.Status.OK) {
 		   
 		           var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-		           var citylength = $("#city").length;	           		           
+		           var citylength = $("#sido").length;	           		           
 		           // 마커가 표시될 위치입니다 
 		           var markerPosition = "";
 		           

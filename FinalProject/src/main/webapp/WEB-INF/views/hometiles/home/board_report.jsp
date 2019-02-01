@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
-    
+    pageEncoding="UTF-8"%>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -10,7 +10,7 @@
 %> 
 
 <script type="text/javascript">
-	
+
 	$(document).ready(function(){
 		
 		goSearch("1");
@@ -25,7 +25,7 @@
 				return false;
 			}
 			
-		});
+		 });
 
 	});
 	
@@ -36,7 +36,7 @@
 		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
 		
 		$.ajax({
-			url:"<%=request.getContextPath()%>/adminMemberJSON.air",
+			url:"<%=request.getContextPath()%>/board_reportJSON.air",
 			type:"GET",
 			data:data_form,
 			dataType:"JSON",
@@ -44,34 +44,23 @@
 				var html = "";
 				if(json.length > 0) {
 					$.each(json, function(entryIndex, entry){
-						var genderTD = "";
-						var warnCnt = "";
+						var status = "";
 						
-						if(entry.WARNCOUNT == 2) {
-							warnCnt = "<td style='color: orange;'>"+entry.USERID+"</td>";
+						if(entry.report_status == 1) {
+							status = "<td style='text-align: center; font-weight: bold;'>해결</td>";
 						}
-						else if (entry.WARNCOUNT >= 3){
-							warnCnt = "<td style='color: red;'>"+entry.USERID+"</td>";
+						else if(entry.report_status == 0) {
+							status = "<td style='text-align: center; font-weight: bold;'>미해결</td>";
 						}
-						else {
-							warnCnt = "<td>"+entry.USERID+"</td>";
-						}
+					
 						
-						if(entry.GENDER == "1"){
-							genderTD = "<td>남자</td>";
-						}else{
-							genderTD = "<td>여자</td>";
-						}
-						 html += "<tr>"+
-								   "<td><a href='memberDetail.air?userid="+entry.USERID+"'>"+entry.USERNAME+"</a></td>"+
-								   warnCnt+
-								   "<td>"+entry.BIRTHDAY+"</td>"+
-								   genderTD+
-								   "<td>"+entry.PHONE+"</td>"+
-								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
-								   "<td><button type='button' class='btn btn-warning' onClick='addWanr(\""+entry.USERID+"\");'>경고</button></td>"+
-								   "<td><button type='button' class='btn btn-danger' onClick='goDelete(\""+entry.USERID+"\");'>삭제</button></td>"+
-								   "</tr>"; 
+					    html += "<tr>"+
+								"<td>"+entry.rno+"</td>"+
+							    "<td>"+entry.fk_userid+"</td>"+
+							    "<td><a href='reportDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a></td>"+
+							    "<td style='text-align: center;'>"+entry.report_date+"</td>"+
+							    status+
+							    "</tr>";
 								   
 						$("#result").html(html);
 						
@@ -87,9 +76,8 @@
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 		});
-	}	
+	}
 	
-	// ==== 댓글내용 페이지바 Ajax로 만들기
 	function makePageBar(currentShowPageNo) {
 		
 		var searchWord = $("#searchWord").val().trim();
@@ -97,7 +85,7 @@
 		var data_form = {"searchWord":searchWord, "searchType" : searchType, "currentShowPageNo":currentShowPageNo};
 		
 		$.ajax({
-			url:"<%=request.getContextPath()%>/getTotalPages.air",
+			url:"<%=request.getContextPath()%>/getTotalPagess.air",
 			type:"GET",
 			data:data_form,
 			dataType:"JSON",
@@ -171,108 +159,57 @@
 		
 	} // end of makeCommentPageBar ---------------
 	
-	function addWarn(userid) {
-		
-		var delFrm = document.delFrm;
-		delFrm.useridDel.value = userid;
-		delFrm.method = "GET";
-		delFrm.action = "<%=request.getContextPath()%>/adminMemberWarn.air"
-		delFrm.submit();
-		
-	}
-
-	function goDelete(userid) {
-
-		var delFrm = document.delFrm;
-		delFrm.useridDel.value = userid;
-		delFrm.method = "GET";
-		delFrm.action = "<%=request.getContextPath()%>/adminMemberDel.air"
-		delFrm.submit();
-		
-	}
-	
-	function goView(gobackURL) {
-		
-		var frm = document.goViewFrm;
-		frm.gobackURL.value = gobackURL;
-		frm.method = "GET";
-		frm.action = "memberDetail.air";
-		frm.submit();
-		
-	}
-	
 </script>
-<style type="text/css">
-	table.memberList thead tr th,
-	table.memberList tbody tr td{
-		vertical-align: middle;
-	}
-</style> 
 
-	<div class="col-md-10">
-		<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-			<div class="">
-				<h1 class="home_title">회원관리</h1>	
-			</div>
-		</div>
-	</div>
+<div>
+
+	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
+		<h2>신고게시판</h2>
+	</div> 
 	
 	<div class="container">	
+		<form name="memberFrm" style="">
+			<div id="searchbar" style="padding-top: 1%; text-align: right; border:none; box-shadow : none; width: 100%;">
+				<select id="searchType" name="searchType" style="">
+					<option value="rno">번호</option>
+					<option value="fk_userid">아이디</option>
+				</select>
+		        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style=""><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch('1');"/></input>
+		    </div>
+		</form>
+	
 		<div class="row">
 			<div class="col-md-12" style="border: 0px solid gray;">
-				<form name="delFrm">
-				
-					<table class="memberList table table-hover">
-							<col width="10%;"/>
-							<col width="10%;"/>
-							<col width="10%;"/> 
-							<col width="7%"/>
-							<col width="10%"/>
-							<col width="25%"/>
-							<col width="5%"/>
-							<col width="5%"/>
-						  <thead>
-						    <tr>
-						      <th>이름</th>
-						      <th>아이디</th>
-						      <th>생년월일</th>
-						      <th>성별</th>
-						      <th>전화</th>
-						      <th>주소</th>
-						      <th></th>
-						      <th></th>
-						    </tr>
-						  </thead>
-						  <tbody id="result">
-						  	
-						  </tbody>
-					</table>
-					<input type="text" name="useridDel" value=""/>
-				</form>
+				<table class="table table-hover">
+					<col width="7%;"/>
+					<col width="13%;"/>
+					<col width="40%;"/>
+					<col width="10%"/>
+					<col width="10%"/>
+			    	<thead>
+						<tr>
+					      	<th>번호</th>
+					        <th>아이디</th>
+					        <th>제목</th>
+					        <th style="text-align: center;">날짜</th>
+					        <th style="text-align: center;">처리상태</th>
+						</tr>
+			    	</thead>
+					<tbody id="result">
+						
+				    </tbody>
+				</table>			
 			</div>
 		</div>
 	</div>
 	
-	<div class="pageBar" id="pageBar"style="text-align: center; margin: 2%;">
-		
+	<div style="text-align: left; width: 80%; margin-left: 20%;">
+		<button class="btn btn-info" type="button" onClick="javascript:location.href='<%= request.getContextPath()%>/vanWrite.air'">글쓰기</button>
 	</div>
 	
-	<form name="memberFrm">
-		<input type="hidden" id="useriddel" name="useriddel"/>
-		<div id="searchbar" style="text-align: center;">
-			<select id="searchType" name="searchType">
-				<option value="username">이름</option>
-				<option value="userid">아이디</option>
-				<option value="addr">주소</option>
-			</select>
-	        <input type="text" id="searchWord" name="searchWord" placeholder="검색" style="" />
-	        
-	        <span id="logoDiv"><img src="<%=request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px; height:20px; cursor: pointer;" onClick="goSearch('1');"/></span>
-	    	<div style="visibility:hidden;">
-	    		<input type="text" />
-	    	</div>
-	    </div>
-	</form>
+</div>
+
+<div class="pageBar" id="pageBar" style="text-align: center; margin: 2%;">
 	
-
-
+</div>
+   

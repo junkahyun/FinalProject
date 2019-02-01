@@ -371,7 +371,7 @@ h3{font-size: 14pt;
 				        후기${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%; height: 8%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
