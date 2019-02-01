@@ -36,18 +36,37 @@ h3{font-size: 14pt; color: #008489; font-weight: bold;
   
 input{outline: none;
 }
+
+#QuestionToHost:hover{cursor: pointer;
+}
 </style>
 
 <script type="text/javascript">
 
 	$(document).ready(function(){
 		
+		$("#textToHost").hide();
+		
 		$("#btnsubmit").click(function(){
 			location.href = "<%=ctxPath%>/index.air"; 
 		});//
 		
+		
+		//취소 사유 선택
+		$("#cancelReason").bind("change",function(){
+			var option = $(this).val();
+			goCancelRev(option);
+			
+		});
+		
 	});//end of $(document).ready------------
 
+	
+	function goCancelRev(option){
+		if(option == 1){
+			$("#textToHost").show();
+		}
+	}
 	
 </script>
 
@@ -108,9 +127,11 @@ input{outline: none;
 <div class="container-fluid" style="margin-top: 3%; width: 55%;">
 	<div class="col-md-12" style="margin-top: 3%; margin-bottom: 3%;">
 		<h2 >예약이 완료되었습니다!</h2>
+		<h3 >${loginuser.username}님의 이메일로 예약내역이 전송되었습니다!</h3>
 		<br>
 		<!-- 주문자 정보  -->
-		<h3 >${revcode}</h3>
+		
+		<h3 >예약코드 : ${revcode}<span style="padding-left: 50%; color: tomato;" id="QuestionToHost">호스트와 1:1채팅하기</span></h3>
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-3" >
 			<span class="myinfomation" >이름</span><br>
@@ -188,24 +209,52 @@ input{outline: none;
 		</table>
 		
 		<table class="table table-bordere" style="border: 1px solid gray; width: 80%;">
-			<%-- <c:forEach begin="1" end="3"> --%>
-				<tr style="border: 1px solid gray; ">
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${month}월 ${day}일</td>
-					<td >₩<fmt:formatNumber value="${totalprice}" pattern="#,###"/></td>
-				</tr>
-				
-				<tr>
-					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">잔액</td>
-					<td >0</td>
-				</tr>
-				
-			<%-- </c:forEach> --%>		
+			<tr style="border: 1px solid gray; ">
+				<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">결제금액 수령완료 : ${year}년 ${month}월 ${day}일</td>
+				<td >₩<fmt:formatNumber value="${totalprice}" pattern="#,###"/></td>
+			</tr>
+			
+			<tr>
+				<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">잔액</td>
+				<td >0</td>
+			</tr>
 		</table>
 	</div>
 	<div class="col-md-12">
 		<button type="button" class="btn btn-danger" id="btnsubmit"><span style="color: white; ">확인</span></button> 
+		<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelModal" id="btnCancel"  style="margin-left: 3%;"><span style="color: white; ">예약 취소하기</span></button> 
 	</div>	
 </div>
+
+ <!-- 예약취소 Modal -->
+  <div class="modal fade" id="cancelModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="font-weight: bold;">예약을 취소하시겠습니까?</h4>
+        </div>
+        <div class="modal-body" style="margin-bottom: 3%;">
+			<h3>예약을 취소하시려는 이유를 선택해주세요.</h3>
+			<select id="cancelReason">
+				<option value="0" selected="selected">==== 취소 사유 선택 ====</option>
+				<option value="1">그냥 갑자기 취소하고 싶어요.</option>
+				<option value="2">잘못눌렀어요.</option>
+				<option value="3">가기 싫어졌습니다.</option>
+				<option value="4">잘못예약했습니다.</option>
+			</select>  
+			<input type="text" id="textToHost" />        	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelModal">확인</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 
 <div class="container-fluid" style="margin-top: 3%; width: 62%;">
 <hr>
