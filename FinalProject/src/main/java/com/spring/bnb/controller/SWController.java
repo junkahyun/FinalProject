@@ -38,10 +38,12 @@ public class SWController {
 	@RequestMapping(value = "/list.air", method = RequestMethod.GET)
 	public String list(HttpServletRequest req) {
 		
-		String city = req.getParameter("sido");
+		String city = req.getParameter("city");
 		String checkin = req.getParameter("checkin");
 		String checkout = req.getParameter("checkout"); 
-		
+		String sido = req.getParameter("sido");
+		String gugun = req.getParameter("gugun");
+		String dong = req.getParameter("dong"); 
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("CITY", city);
 		paraMap.put("CHECKIN", checkin);
@@ -68,6 +70,7 @@ public class SWController {
 		req.setAttribute("city", city);
 		req.setAttribute("checkin", checkin);
 		req.setAttribute("checkout", checkout);
+		req.setAttribute("ADRRESS", sido+gugun+dong);
 		
 		return "home/homeList.hometiles_nofooter";
 	}	
