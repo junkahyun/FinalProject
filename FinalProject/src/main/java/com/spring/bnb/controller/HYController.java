@@ -47,7 +47,7 @@ public class HYController {
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
-		if(roomcode==null) roomcode = "10";
+		//if(roomcode==null) roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		int totalReviewCount = roomvo.getReviewList().size();

@@ -300,7 +300,8 @@
 	}
 	function likeRoom(){
     	var saveTitle = $("#saveTitle").val();
-      	var roomcode = $("#roomcode").val();
+      	var roomcode = "${room.roomcode}";
+      	alert(roomcode);
       	var loginuser = "${loginuser}";
       	if(loginuser == null){
          	alert("로그인이 필요합니다.");
