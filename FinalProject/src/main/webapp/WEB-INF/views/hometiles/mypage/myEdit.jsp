@@ -94,7 +94,7 @@ $(document).ready(function(){
 		new daum.Postcode({
 			oncomplete: function(data) {
 			    $("#postnum").val(data.zonecode);  
-			    $("#addr").val(data.address);   
+			    $("#address").val(data.address);   
 			    $("#detailAddr").focus();
 			}
 		}).open();
@@ -402,7 +402,7 @@ function phoneCheck(phone) {
 	                  <label for="address">주소</label>
 	               </div>
 	               <div class="text-right col-sm-9" style="padding-left: 2%; padding-right: 23%;">
-	                  <input type="text" id="addr" name="addr" class="form-control requiredinfo"value="${loginMember.addr}" placeholder="Enter Your Address" raeadOnly>
+	                  <input type="text" id="address" name="address" class="form-control requiredinfo"value="${loginMember.addr}" placeholder="Enter Your Address" raeadOnly>
 	               </div>
 	            </div>
 	            <div class="row row-condensed space-4">
