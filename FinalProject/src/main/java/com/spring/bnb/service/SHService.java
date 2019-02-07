@@ -128,11 +128,10 @@ public class SHService implements InterSHService {
 
 	// 회원삭제하기
 	@Override
-	public int adminDeleteMember(String userid) {
+	public void adminDeleteMember(String userid) {
 		
-		int n = dao.adminDeleteMember(userid);
-		
-		return n;
+		dao.adminDeleteMember(userid);
+
 	}
 
 	// 신고게시판의 글 총 갯수 알아오기

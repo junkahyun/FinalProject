@@ -38,30 +38,8 @@
 			return;
 		}
 		
-		var queryString = $("form[name=addWriteFrm]").serialize();
-		// console.log(queryString);
-		// fk_userid=leess&name=(%EC%9D%B4%EC%88%9C%EC%8B%A0 이순신임)&content=Hello%20&parentSeq=2
 		
-		$.ajax({
-			url:"<%=request.getContextPath()%>/insertComment.air",
-			data:queryString,
-			type:"POST",
-			dataType:"JSON",
-			success:function(json){
-				var html = "<tr>"+
-						   "<td style='text-align: center;'>"+json.NAME+"</td>"+
-						   "<td>"+json.CONTENT+"</td>"+
-						   "<td style='text-align: center;'>"+json.REGDATE+"</td>"+
-						   "</tr>";
-				
-				$("#commentDisplay").prepend(html);
-				frm.content.value="";
-			},
-			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-		});
-	
+		
 	} // end of function goAddWrite()--------------------------------
 	
 </script>

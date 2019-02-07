@@ -413,4 +413,9 @@ order by rsvcode desc
     
 </select>
 
+<select id="getCheckPhone" parameterType="String" resultType="int">
+	select count (*)
+    from member
+    where phone = #{phone}
+</select>
 </mapper>	

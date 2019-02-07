@@ -136,11 +136,10 @@ public class SHDAO implements InterSHDAO {
 
 	// 회원삭제하기
 	@Override
-	public int adminDeleteMember(String userid) {
+	public void adminDeleteMember(String userid) {
 		
-		int n = sqlsession.delete("sh.adminDeleteMember", userid);
+		sqlsession.update("sh.adminDeleteMember", userid);
 		
-		return n;
 	}
 
 	// 신고게시판의 글 총 갯수 알아오기

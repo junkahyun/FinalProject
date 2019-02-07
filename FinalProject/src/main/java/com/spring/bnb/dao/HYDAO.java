@@ -91,6 +91,9 @@ public class HYDAO implements InterHYDAO {
 
 	@Override
 	public int insertMember(MemberVO member) {
+		if(member.getIntroduction()==null) {
+			member.setIntroduction("");
+		}
 		int n = sqlsession.insert("hy.insertMember", member);
 		return n;
 	}

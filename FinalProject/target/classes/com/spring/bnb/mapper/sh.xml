@@ -26,7 +26,7 @@
 		    select userid, username, pwd, email, phone, post, addr, detailAddr, gender
 		         , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate, rownum as rno
 		    from member
-		    where 1=1
+		    where memberstatus = 1
 		    and ${searchType} like '%'|| #{searchWord} ||'%'
 		)v
 		where rno between #{RNO1} and #{RNO2}
@@ -141,7 +141,7 @@
 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*)
 		from member
-		where ${searchType} like '%'|| #{searchWord} ||'%'
+		where memberstatus = 1 and ${searchType} like '%'|| #{searchWord} ||'%'
 	</select>
 	
 	<select id="getTotalCounts" parameterType="HashMap" resultType="int">
@@ -154,10 +154,10 @@
 		where ${searchType} like '%'|| #{searchWord} ||'%'
 	</select>
 	
-	<delete id="adminDeleteMember" parameterType="String">
-		delete from member
+	<update id="adminDeleteMember" parameterType="String">
+		update member set memberstatus = 0
 		where userid = #{userid}
-	</delete>
+	</update>
 	
 	<select id="getReportDetail" parameterType="int" resultType="com.spring.bnb.model.ReportVO">
 		select previousseq, PreviousTitle, Seq, report_subject, username, report_content, nextSeq, nextTitle, fk_userid, viewcnt, report_date, reporttype
@@ -192,7 +192,16 @@
 	</delete>
 	
 	<update id="adminWarnMember" parameterType="String">
-		update member set warncount = warncount + 1
+		UPDATE member SET warncount = 
+		CASE 
+		    WHEN warncount = 0 
+		       THEN 1
+		    WHEN warncount = 1
+		       THEN 2
+		    WHEN warncount = 2
+		       THEN 3
+		  ELSE  3
+		END
 		where userid = #{userid}
 	</update>
 	

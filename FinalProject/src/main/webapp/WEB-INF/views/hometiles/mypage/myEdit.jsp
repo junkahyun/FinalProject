@@ -111,6 +111,7 @@ $(document).ready(function(){
 			
       	}
       	else{
+      		phoneCheck(phone);
 			$("#phoneEdit").parent().find(".errorPhone").hide();
       	}
    	});// end of $("#hp2").blur()-------------
@@ -220,6 +221,23 @@ function codeCheckFun() {
 		});
 	
 }
+
+function phoneCheck(phone) {
+	var form_data={"phone":phone};
+	$ajax({
+		url:"/phoneCheckJSON.air",
+		data:form_data,
+		dataType:"JSON",
+		success: function (JSON) {
+			alert("11");
+			
+		},error:function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    	
+	    }
+			
+	});
+} 
 </script>
 
 

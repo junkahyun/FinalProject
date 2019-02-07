@@ -69,7 +69,7 @@
 								   genderTD+
 								   "<td>"+entry.PHONE+"</td>"+
 								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
-								   "<td><button type='button' class='btn btn-warning' onClick='addWanr(\""+entry.USERID+"\");'>경고</button></td>"+
+								   "<td><button type='button' class='btn btn-warning' onClick='addWarn(\""+entry.USERID+"\");'>경고</button></td>"+
 								   "<td><button type='button' class='btn btn-danger' onClick='goDelete(\""+entry.USERID+"\");'>삭제</button></td>"+
 								   "</tr>"; 
 								   

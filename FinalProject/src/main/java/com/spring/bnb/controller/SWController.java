@@ -70,7 +70,7 @@ public class SWController {
 		req.setAttribute("city", city);
 		req.setAttribute("checkin", checkin);
 		req.setAttribute("checkout", checkout);
-		req.setAttribute("ADRRESS", sido+gugun+dong);
+		req.setAttribute("ADDRESS", sido+" "+gugun+" "+dong);
 		
 		return "home/homeList.hometiles_nofooter";
 	}	
@@ -184,8 +184,9 @@ public class SWController {
 		String userid = loginuser.getUserid();
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
-		System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
-		for(ReservationVO list : reservationList) {			
+		
+		for(ReservationVO list : reservationList) {	
+			System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
 			list.setRsv_email(aes.decrypt(list.getRsv_email()));
 			list.setRsv_phone(aes.decrypt(list.getRsv_phone()));			
 		}

@@ -46,7 +46,7 @@ public interface InterSHService {
 	int getTotalCount(HashMap<String, String> paraMap);
 
 	// memberList에서 회원 삭제하기
-	int adminDeleteMember(String userid);
+	void adminDeleteMember(String userid);
 
 	// 신고게시글의 총 갯수를 알아오기(검색)
 	int getTotalCounts(HashMap<String, String> paraMap);

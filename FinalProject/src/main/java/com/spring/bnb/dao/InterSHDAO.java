@@ -49,7 +49,7 @@ public interface InterSHDAO {
 	int getTotalCount(HashMap<String, String> paraMap);
 
 	// memberList에서 회원삭제하기
-	int adminDeleteMember(String userid);
+	void adminDeleteMember(String userid);
 
 	// 신고게시판의 글 총 갯수 알아오기
 	int getTotalCounts(HashMap<String, String> paraMap);

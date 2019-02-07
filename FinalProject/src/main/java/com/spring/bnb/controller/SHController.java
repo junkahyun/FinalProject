@@ -232,16 +232,13 @@ public class SHController {
 		
 		String userid = req.getParameter("useridDel");
 		
-		int n = service.adminDeleteMember(userid);
+		service.adminDeleteMember(userid);
 		
-		if(n == 1) {
-			String msg = "회원삭제 성공!";
-			String loc = "/adminMember.air";
-		}
-		else {
-			String msg = "회원삭제 실패..";
-			String loc = "/adminMember.air";
-		}
+		String msg = "삭제성공!";
+		String loc = req.getContextPath()+"/adminMember.air";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
 		
 		return "msg";
 	}
@@ -250,11 +247,17 @@ public class SHController {
 	public String adminMemberWarn(HttpServletRequest req) {
 		
 		String userid = req.getParameter("useridDel");
+		// System.out.println(userid);
 		
 		service.adminWarnMember(userid);
-		System.out.println(userid+"1");
 		
-		return "admin/adminMember.admintiles";
+		String msg = "경고 성공!";
+		String loc = req.getContextPath()+"/adminMember.air";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
 	}
 	
 	@RequestMapping(value="/board_report.air", method= {RequestMethod.GET})
@@ -485,7 +488,7 @@ public class SHController {
 	public String reportDetail(HttpServletRequest req) {
 		
 		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
-		System.out.println(report_idx);
+		// System.out.println(report_idx);
 		
 		ReportVO reportvo = new ReportVO();
 		
@@ -738,18 +741,13 @@ public class SHController {
 		return "home/board_report.hometiles";
 	}
 	
-	/*@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
-	public HashMap<String, String> insertComment(HttpServletRequest req) {
+	@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
+	public String insertComment(HttpServletRequest req) {
 
 		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
-		req.getParameter("")
+		System.out.println(report_idx);
 		
+		return "";
 		
-		// 댓글쓰기(ajax로 처리)
-		int n = service.insertComment(report_idx);
-
-		if(n == 1) {
-			
-		}
-	}*/
+	}
 }
