@@ -460,7 +460,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
