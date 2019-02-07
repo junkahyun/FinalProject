@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -97,10 +98,9 @@ public class boboController {
    public String bedroom(HttpServletRequest req) {
       
       String bedroomInfo = req.getParameter("bedroomInfo");
-      String[] bedroomInfoArr = bedroomInfo.split("/");
       
       HttpSession session = req.getSession();
-      session.setAttribute("bedroomInfoArr", bedroomInfoArr);
+      session.setAttribute("bedroomInfo", bedroomInfo);
    
       JSONObject json = new JSONObject();
       //json.put("n", n);
@@ -308,21 +308,27 @@ public class boboController {
          service.myrule(roomvo);   // 규칙 insert
       }
       
-      String[] bedroomInfoArr = (String[]) session.getAttribute("bedroomInfoArr");
+    /*  String bedroomInfo = (String) session.getAttribute("bedroomInfo");
+      String[] bedroomInfoArr = bedroomInfo.split("/");
 
       // for문을돌리면 하나의 침실정보가 String 형태로 나옴
-   /*   for(String str : bedroomInfoArr) {
+      for(String str : bedroomInfoArr) {
          System.out.println(str);
          HashMap<String,String> paraMap = new HashMap<String,String>();
          JSONObject jsonbedinfo = new JSONObject(str); // 가져온 String 형태를 JSON으로 변환
          Set<String> jsonkeys = jsonbedinfo.keySet(); // JSON으로 변환된 객체의 key들을 가져옴
          paraMap.put("buildType_detail_idx",roomvo.getFk_buildType_detail_idx());
          paraMap.put("roomType_idx",roomvo.getFk_roomType_idx());
-         for(String key :jsonkeys) paraMap.put(key, (String) jsonbedinfo.get(key)); // key값만큼 for문을 돌려서 hash맵 형태로 저장
+         for(String key :jsonkeys) {
+        	 paraMap.put(key, String.valueOf(jsonbedinfo.get(key))); // key값만큼 for문을 돌려서 hash맵 형태로 저장
+         }
          service.insertbedroom(paraMap);
-      }*/
-      
+      }
+      */
       if(n ==1) {
+    	  
+    	  
+    	  
          return "host/hostroomList.hosttiles";
       }
       else return "become-host/error";
