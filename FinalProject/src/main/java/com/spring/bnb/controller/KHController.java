@@ -147,6 +147,7 @@ public class KHController {
 		
 		String roomname1 = roomname.substring(0,2);
 		System.out.println(roomname1);
+		
 		session.setAttribute("reservationPermission", "yes");
 		//예약확인페이지에서 새로고침시 
 		//예약테이블에 계속 insert되는 것을 막기위한 session.
