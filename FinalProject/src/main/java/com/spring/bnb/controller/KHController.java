@@ -165,45 +165,47 @@ public class KHController {
 	@RequestMapping(value="/reservationFinalConfirm.air", method= {RequestMethod.GET})
 	public String reservationFinalConfirm (HttpServletRequest req,HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
 		
-		RoomVO oneroom = (RoomVO)session.getAttribute("oneRoom");
-		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
-		
-		String revcode = getOdrCode();//예약 코드 
-		String roomcode = oneroom.getRoomcode();//룸 코드
-		String my_userid = loginuser.getUserid();//예약자 아이디
-		String guestcount = (String)session.getAttribute("guestcount");//게스트인원
-		String babycount = (String)session.getAttribute("babycount");//유아인원
-		String username = loginuser.getUsername();//예약자 이름
-		String phone = loginuser.getPhone();//예약자 번호
-		String email = loginuser.getEmail();//예약자 이메일
-		String totalprice = (String)session.getAttribute("totalprice");//최종금액
-		String message = (String)session.getAttribute("message");//호스트에게 보내는 메시지
-		String chekin = (String)session.getAttribute("chekin");//체크인 날짜
-		String chekout = (String)session.getAttribute("chekout");//체크아웃 날짜
-		String day_between = (String)session.getAttribute("day_between");//숙박일수
-		
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		
-		map.put("revcode", revcode);
-		map.put("roomcode", roomcode);
-		map.put("my_userid", my_userid);
-		map.put("guestCount", Integer.parseInt(guestcount));
-		//데이터베이스에서 게스트인원 타입이 number이기때문에 integer로 타입 변경
-		map.put("babyCount", Integer.parseInt(babycount));
-		//데이터베이스에서 유아인원 타입이 number이기때문에 integer로 타입 변경
-		map.put("username", username);
-		map.put("phone", aes.encrypt(phone));
-		map.put("email", aes.encrypt(email));
-		map.put("checkin", chekin);
-		map.put("checkout", chekout);
-		map.put("totalprice", Integer.parseInt(totalprice));
-		map.put("message", message);
 		
 		//이전페이지에서 session에 저장한 reservationPermission을 가져온다.
 		String reservationPermission = (String)session.getAttribute("reservationPermission");
+		String revcode = "";
 		
 		if(reservationPermission != null && "yes".equals(reservationPermission)) {
+					
+			RoomVO oneroom = (RoomVO)session.getAttribute("oneRoom");
+			MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
 			
+			revcode = getOdrCode();//예약 코드 
+			String roomcode = oneroom.getRoomcode();//룸 코드
+			String my_userid = loginuser.getUserid();//예약자 아이디
+			String guestcount = (String)session.getAttribute("guestcount");//게스트인원
+			String babycount = (String)session.getAttribute("babycount");//유아인원
+			String username = loginuser.getUsername();//예약자 이름
+			String phone = loginuser.getPhone();//예약자 번호
+			String email = loginuser.getEmail();//예약자 이메일
+			String totalprice = (String)session.getAttribute("totalprice");//최종금액
+			String message = (String)session.getAttribute("message");//호스트에게 보내는 메시지
+			String chekin = (String)session.getAttribute("chekin");//체크인 날짜
+			String chekout = (String)session.getAttribute("chekout");//체크아웃 날짜
+			String day_between = (String)session.getAttribute("day_between");//숙박일수
+			
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			
+			map.put("revcode", revcode);
+			map.put("roomcode", roomcode);
+			map.put("my_userid", my_userid);
+			map.put("guestCount", Integer.parseInt(guestcount));
+			//데이터베이스에서 게스트인원 타입이 number이기때문에 integer로 타입 변경
+			map.put("babyCount", Integer.parseInt(babycount));
+			//데이터베이스에서 유아인원 타입이 number이기때문에 integer로 타입 변경
+			map.put("username", username);
+			map.put("phone", phone);
+			map.put("email", email);
+			map.put("checkin", chekin);
+			map.put("checkout", chekout);
+			map.put("totalprice", Integer.parseInt(totalprice));
+			map.put("message", message);
+		
 			// **** 예약테이블에 insert하는 메소드 **** //
 			int finalReservation = service.insertReservation(map);
 			
@@ -248,7 +250,8 @@ public class KHController {
 			session.removeAttribute("reservationPermission");
 			//insert를 하고 저장된 세션을 삭제한다.
 			//삭제가 되면 새로고침시 insert가 되지 않고, 해당 페이지만 보여준다.
-		}
+			
+		}//end of if-------------
 		
 		Calendar cal = Calendar.getInstance();
 	    //예약 완료한 오늘날짜를 Calendar객체를 사용해서 가져온다.

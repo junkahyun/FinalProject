@@ -205,9 +205,9 @@
 						var startday = new Date(rsvArr[i].start);
 						var endday = new Date(rsvArr[i].end);
 						var diff = (endday-startday)/(1000*60*60*24);
-						for(var i=0;i<diff;i++){
+						/* for(var i=0;i<diff;i++){
 							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
-						}
+						} */
 					}
 				}
 				$('#calendar').fullCalendar({
