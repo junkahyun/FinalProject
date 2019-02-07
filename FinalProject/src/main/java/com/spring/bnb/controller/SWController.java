@@ -70,6 +70,9 @@ public class SWController {
 		req.setAttribute("city", city);
 		req.setAttribute("checkin", checkin);
 		req.setAttribute("checkout", checkout);
+		req.setAttribute("SIDO", sido);
+		req.setAttribute("GUGUN", gugun);
+		req.setAttribute("DONG", dong);
 		req.setAttribute("ADDRESS", sido+" "+gugun+" "+dong);
 		
 		return "home/homeList.hometiles_nofooter";
@@ -111,8 +114,11 @@ public class SWController {
 		String checkout = req.getParameter("checkout");
 		String startprice = req.getParameter("startprice");
 		String endprice = req.getParameter("endprice");
-		String city = req.getParameter("city");
+		String sidogugundong = req.getParameter("sidogugundong");
 		String allperson = req.getParameter("allperson");
+		String sido = req.getParameter("sido");
+		String gugun = req.getParameter("gugun");
+		String dong = req.getParameter("dong");
 						
 		HashMap<String,String> paraMap = new HashMap<String,String>();
 		paraMap.put("BUILDNAME2", buildName2);
@@ -120,8 +126,11 @@ public class SWController {
 		paraMap.put("CHECKOUT", checkout);
 		paraMap.put("STARTPRICE", startprice);
 		paraMap.put("ENDPRICE", endprice);
-		paraMap.put("CITY", city);
+		paraMap.put("SIDOGUGUNDONG", sidogugundong);
 		paraMap.put("ALLPERSON", allperson);
+		paraMap.put("SIDO", sido);
+		paraMap.put("GUGUN", gugun);
+		paraMap.put("DONG", dong);
 		
 		/*System.out.println(paraMap);*/
 		JSONArray jsonArr = new JSONArray();
