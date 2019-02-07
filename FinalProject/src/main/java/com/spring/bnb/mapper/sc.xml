@@ -96,4 +96,16 @@
 		</choose> -->
 	</select>
 	
+	<select id="allReservation" parameterType="HashMap" resultType="int">
+		select sum(r.totalprice)
+		from room U join reservation R on roomcode = fk_roomcode
+		where U.fk_userid = #{userid} and to_char(paydate, 'yyyy') = #{year} 
+	</select>
+	
+	<select id="monthReservation" parameterType="HashMap" resultType="int">
+		select nvl(sum(r.totalprice),0) as sumReservation
+		from room U join reservation R on roomcode = fk_roomcode
+		where U.fk_userid = #{userid} and to_char(paydate, 'yyyy') = #{year} and to_char(paydate, 'mm') = to_number(#{month})
+	</select>
+	
 </mapper>

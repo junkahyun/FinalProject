@@ -12,6 +12,12 @@
 <link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style data-aphrodite="data-aphrodite">
+
+#sumReservation{
+	font-size: 15pt;
+	font-weight: bold;
+}
+
 ._1k01n3v1 {
 	color: #008489 !important;
 	font: inherit !important;
@@ -97,7 +103,10 @@ $(document).ready(function(){
 		}
 	});
 	
-	
+	$("#Monthselect").change(function(){
+		monthReservation();
+	});
+
 });
 
 function chart(){
@@ -199,6 +208,52 @@ function showreview() {
 		}
 	});
 }
+
+function reservation(){
+	var form_data = {userid:"${loginuser.userid}"};
+	//console.log(form_data);
+	$.ajax({
+		url:"allReservation.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			console.log(json);
+			var html = "";
+			html = '<div id="sumReservation"><span>'+json.year+'년 총 수입</sapn><br>'+json.sumReservation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</div>';
+			$("#sumReservation").empty().html(html);
+			$("#Monthselect").val("allmonth");
+		},
+		error:function(){
+			
+		}
+	});
+}
+
+function monthReservation(){
+	var form_data = {userid:"${loginuser.userid}",month:$("#Monthselect").val()};
+	console.log(form_data);
+	$.ajax({
+		url:"monthReservation.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			console.log(json);
+			var html = "";
+			if(json.month == "allmonth"){
+				html = '<div id="sumReservation"><span>'+json.year+'년 총 수입</sapn><br>'+json.sumReservation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</div>';
+			} else{
+				html = '<div id="sumReservation"><span>'+json.year+'년 '+json.month+'월 수입</sapn><br>'+json.sumReservation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</div>';
+			}
+			
+			$("#sumReservation").empty().html(html);
+		},
+		error:function(){
+			
+		}
+	});
+}
 </script>
 
 <div class="container" style="width: 100%;">
@@ -209,7 +264,7 @@ function showreview() {
 				<div class="container" style="float: left; width: 70%">
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#avgScore">평점</a></li>
-						<li><a data-toggle="tab" href="#income">수입</a></li>
+						<li><a data-toggle="tab" href="#income" onclick="reservation()">수입</a></li>
 						<li><a data-toggle="tab" href="#hits">조회수</a></li>
 					</ul>
 				</div>
@@ -336,8 +391,44 @@ function showreview() {
 					</div>
 					<!-- 평점 끝 -->
 					<!-- 수입 시작 -->
-					<div class="tab-pane tab-panel" id="income">수입 내용 넣기
-					
+					<div class="tab-pane tab-panel" id="income">
+					<div style="margin-top: 5%;">
+
+							<div class="row">
+								<div class="col-lg-8">
+									<div style="margin-bottom: 1px;">
+										<div class="_9hxttoo" style="border: 0px solid red;">
+											<div style="margin-bottom: 8px;">
+												<label class="_rin72m" for="Monthselect">
+												<div class="_6mxuijo" style="border: 0px solid #008489;">월 선택</div></label>
+											</div>
+											<div style="border: margin-bottom: 5%; padding: 0;">
+												<div style="margin: 0; border: 0px solid red; padding: 0;">
+												<form name="selectMonth">
+													<select id="Monthselect" name="selected_listing"
+														class="_bwyiq2l">
+														<option value="allmonth">월 선택</option>
+														<c:forEach var="month" begin="1" end="12">
+															<option value="${month}">${month}월</option>
+														</c:forEach>
+													</select>
+												</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<!--  표시할 내용이 없을떄 나타나야함  끝-->
+									<div class="_1dl27thl" style="margin-top: 10%;">
+										<div id="sumReservation"></div>
+										<h5 id="PointCount">예약 수입</h5>
+									</div>
+									<!--  표시할 내용이 없을떄 나타나야함 -->
+
+									<!--  차트 시작 -->
+									<div id="charts"
+										style="border: 0px soild red; min-width: 310px; height: 70%; max-width: 80%; margin: 0 auto"></div>
+									<!--  차트 끝 -->
 					
 					
 					

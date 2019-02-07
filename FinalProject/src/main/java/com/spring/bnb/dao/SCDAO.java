@@ -100,6 +100,18 @@ public class SCDAO implements InterSCDAO {
 		return reviewList;
 	}
 
+	@Override
+	public int allReservation(HashMap<String, String> paraMap) {
+		int sumReservation = sqlsession.selectOne("sc.allReservation", paraMap);
+		return sumReservation;
+	}
+
+	@Override
+	public int monthReservation(HashMap<String, String> paraMap) {
+		int sumReservation = sqlsession.selectOne("sc.monthReservation", paraMap);
+		return sumReservation;
+	}
+
 	
 
 }

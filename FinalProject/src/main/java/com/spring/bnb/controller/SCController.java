@@ -347,7 +347,54 @@ public class SCController {
 
 		return "JSON";
 	}
+	
 
+	@RequestMapping(value = "/allReservation.air", method = { RequestMethod.POST })
+	public String allReservation(HttpServletRequest req, HttpServletResponse res) {
+		String userid = req.getParameter("userid");
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("year", Integer.toString(year));
+		
+		int sumReservation = service.allReservation(paraMap);
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("sumReservation", sumReservation);
+		jsonObj.put("year", year);
+		String str_json = jsonObj.toString();
+		req.setAttribute("str_json", str_json);
+		
+		return "JSON";
+	}
+	
+	@RequestMapping(value = "/monthReservation.air", method = { RequestMethod.POST })
+	public String monthReservation(HttpServletRequest req, HttpServletResponse res) {
+		String userid = req.getParameter("userid");
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String month = req.getParameter("month");
+		int sumReservation =0;
+		
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("userid", userid);
+		paraMap.put("year", Integer.toString(year));
+		if(month.equals("allmonth")) {
+			System.out.println(paraMap);
+			sumReservation = service.allReservation(paraMap);
+		} else {
+			paraMap.put("month", month);
+			sumReservation = service.monthReservation(paraMap);
+		
+		}
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("sumReservation", sumReservation);
+		jsonObj.put("year", year);
+		jsonObj.put("month", month);
+		String str_json = jsonObj.toString();
+		req.setAttribute("str_json", str_json);
+		
+		return "JSON";
+	}
 	///////////////////////////////////////////////////////////////////////////////////
 	
 	// ***** 호스트 등록된 숙소 수정하기(기본요금 수정) ***** //

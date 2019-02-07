@@ -25,4 +25,8 @@ public interface InterSCService {
 	List<HashMap<String, String>> getPoint(String roomcode);
 
 	List<ReviewVO> getReview(String roomcode);
+
+	int allReservation(HashMap<String, String> paraMap); // 호스트이 총 수입 
+
+	int monthReservation(HashMap<String, String> paraMap);
 }
