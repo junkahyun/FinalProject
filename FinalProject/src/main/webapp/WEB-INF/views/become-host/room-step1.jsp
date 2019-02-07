@@ -36,6 +36,8 @@
 	<hr/>
 </div>
 
+<jsp:include page="header.jsp" />
+
 <form name="roomstart">
 	<div>
 		<div class="row">
