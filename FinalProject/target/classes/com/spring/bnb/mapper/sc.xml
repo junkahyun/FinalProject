@@ -81,19 +81,19 @@
 	<select id="getGradecount" parameterType="HashMap" resultMap="gradeCount">
 		select count(*) as grade
 		from(
-			select trunc(sum(correct+communicate+clean+position+checkin+value)/(6*2)) as sumReview ,fk_roomcode
+			select round(sum(correct+communicate+clean+position+checkin+value)/(6*2)) as sumReview ,fk_roomcode
 			from review 
 			group by grouping sets((review_idx,fk_roomcode))
 		)
-		where fk_roomcode=#{roomcode} 
-		<choose>
+		where fk_roomcode=#{roomcode} and sumReview = #{garde}	
+		<!-- <choose>
 			<when test='grade == "1"'>
 				and sumReview <![CDATA[<=]]> #{garde}	
 			</when>
 			<otherwise>
-				and sumReview = #{garde}	
+				
 			</otherwise>
-		</choose>
+		</choose> -->
 	</select>
 	
 </mapper>

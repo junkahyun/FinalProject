@@ -119,7 +119,7 @@ function chart(){
 				resultArr.push(subArr); // 배열속에 값을 넣기
 			}
 			
-			//console.log(totalCount);
+			console.log(totalCount);
 		
 			$("#PointCount").empty();
 			var html = "<h5 id='PointCount'>평점 ("+totalCount+"개)</h5>"
@@ -185,12 +185,14 @@ function showreview() {
 			var reviewCount = "";
 			var reviewContent = "";
 			$.each(json,function(entryIndex, entry){
-				reviewCount = "<h5>후기("+entryIndex+"개)</h5>";
-				reviewContent += '<div id="reviewContent" class="col-md-12" style="margin-top:2%;">'+entry.review_content+'</div>'
+				reviewCount = "<h5>후기("+json.length+"개)</h5>";
+				reviewContent += '<div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">'+entry.userid+'</div><div>'+entry.review_writedate+'</div></div>'
+								+'<div id="reviewContent" class="col-md-12" style="margin-top:2%;">'+entry.review_content+'</div>';
 			});// end of each
 			
 			
 			$("#reviewCount").empty().html(reviewCount);
+			$(".homeDetailComment").empty().html(reviewContent);
 		},
 		error:function(){
 			
@@ -334,7 +336,12 @@ function showreview() {
 					</div>
 					<!-- 평점 끝 -->
 					<!-- 수입 시작 -->
-					<div class="tab-pane tab-panel" id="income">수입 내용 넣기</div>
+					<div class="tab-pane tab-panel" id="income">수입 내용 넣기
+					
+					
+					
+					
+					</div>
 					<!-- 수입 끝 -->
 					<!-- 조회수 시작 -->
 					<div class="tab-pane tab-panel" id="hits">조회수 넣기ㅣ</div>

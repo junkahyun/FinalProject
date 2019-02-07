@@ -28,6 +28,7 @@ public class SCDAO implements InterSCDAO {
 	// 룸정보 가져오기
 	@Override
 	public RoomVO getRoomInfo(String roomcode) {
+		
 		RoomVO roomvo = sqlsession.selectOne("sc.getRoomInfo",roomcode);
 
 		String buildType_detail_idx = roomvo.getFk_buildType_detail_idx();
@@ -42,7 +43,6 @@ public class SCDAO implements InterSCDAO {
 		List<HashMap<String,String>> optionList = sqlsession.selectList("sc.getRoomOptionList", roomcode); // 숙소 옵션 리스트
 		roomvo.setOptionList(optionList);
 		
-
 		return roomvo;
 	}
 	
