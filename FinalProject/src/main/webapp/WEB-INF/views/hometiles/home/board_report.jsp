@@ -164,7 +164,7 @@
 <div>
 
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-		<h2>신고게시판</h2>
+		<h2>자유게시판</h2>
 	</div> 
 	
 	<div class="container">	

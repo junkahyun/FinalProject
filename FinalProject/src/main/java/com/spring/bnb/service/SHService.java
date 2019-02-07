@@ -62,7 +62,7 @@ public class SHService implements InterSHService {
 		return mycoupon;
 	}
 
-	// 신고글 가져오기
+	// 신고글 가져오기(List)
 	@Override
 	public List<ReportVO> getReport(HashMap<String, String> paraMap) {
 		
@@ -193,6 +193,14 @@ public class SHService implements InterSHService {
 	public void adminWarnMember(String userid) {
 
 		dao.adminWarnMember(userid);
+
+	}
+
+	// 글 수정하기
+	@Override
+	public void writeEdit(HashMap<String, String> paraMap) {
+		
+		dao.writeEdit(paraMap);
 
 	}
 	

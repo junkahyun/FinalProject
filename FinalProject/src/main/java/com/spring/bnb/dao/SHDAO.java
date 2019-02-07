@@ -194,4 +194,11 @@ public class SHDAO implements InterSHDAO {
 		sqlsession.update("sh.adminWarnMember", userid);
 		
 	}
+
+	@Override
+	public void writeEdit(HashMap<String, String> paraMap) {
+		
+		sqlsession.update("sh.writeEdit", paraMap);
+		
+	}
 }

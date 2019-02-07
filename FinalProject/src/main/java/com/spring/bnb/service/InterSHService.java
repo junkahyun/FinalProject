@@ -65,5 +65,9 @@ public interface InterSHService {
 
 	// 회원 경고주기
 	void adminWarnMember(String userid);
+
+	// 글 수정하기
+	void writeEdit(HashMap<String, String> paraMap);
+
 	
 }

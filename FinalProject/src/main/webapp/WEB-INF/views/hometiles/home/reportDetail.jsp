@@ -78,12 +78,15 @@
 	  	<col width="8%"/>
 	  	<col width="50%;"/>
 	  	  <tr>
-	        <th>신고유형</th>
+	        <th>글 유형</th>
 		        <c:if test="${reportvo.reporttype == 0}">
-		        	<td style="text-align: left;">투숙객신고</td>
+		        	<td style="text-align: left;">투숙객</td>
 		        </c:if>
 		        <c:if test="${reportvo.reporttype == 1}">
-		        	<td style="text-align: left;">호스트신고</td>
+		        	<td style="text-align: left;">호스트</td>
+		        </c:if>
+		        <c:if test="${reportvo.reporttype == 2}">
+		        	<td style="text-align: left;">자유 게시글</td>
 		        </c:if>
 	      </tr>
 	      <tr>
@@ -105,7 +108,7 @@
 	        <td style="text-align: left;">${reportvo.viewcnt}</td>
 	      </tr>
 	      <tr>
-	        <th>날짜</th>
+	        <th>등록일</th>
 	        <td style="text-align: left;">${reportvo.report_date}</td>
 	      </tr>
 	  </table>
@@ -120,7 +123,7 @@
 			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/deleteReport.air?report_idx=${report_idx}'">삭제</button>
 			  </c:if>
 			  <c:if test="${sessionScope.loginuser.userid == reportvo.fk_userid}">
-			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/#'">수정</button>
+			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/boardEdit.air?report_idx=${report_idx}'">수정</button>
 			  </c:if>
 		  </div>
 		  <input type="hidden" name="report_idx" value="${report_idx}"/>

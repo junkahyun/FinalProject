@@ -134,8 +134,8 @@
 	</insert>
 	
 	<insert id="vanAdd" parameterType="HashMap">
-		insert into report(report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, report_rsvcode)
-		values(REPORT_IDX_SEQ.nextval, #{fk_userid}, #{reporttype}, #{report_content}, sysdate, 0, #{report_subject}, #{report_rsvcode})
+		insert into report(report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject)
+		values(REPORT_IDX_SEQ.nextval, #{fk_userid}, #{reporttype}, #{report_content}, sysdate, 0, #{report_subject})
 	</insert>
 	
 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
@@ -194,6 +194,11 @@
 	<update id="adminWarnMember" parameterType="String">
 		update member set warncount = warncount + 1
 		where userid = #{userid}
+	</update>
+	
+	<update id="writeEdit" parameterType="HashMap">
+		update report set report_content = #{report_content}, report_subject = #{report_subject}, reporttype = #{reporttype}, report_date = sysdate
+		where report_idx = #{report_idx}
 	</update>
 	
 	
