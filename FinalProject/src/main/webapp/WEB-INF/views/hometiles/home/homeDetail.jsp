@@ -345,7 +345,7 @@
          <div class="row noSpace">
             <%-- 메인 이미지 --%>
             <div class="col-md-10" style="height:550px;padding:0;">
-               <img src="${room.roomMainImg}"  style="width:100%;height:100%;"/>
+               <img src="<%=request.getContextPath() %>/resources/images/becomehost/${room.roomMainImg}"  style="width:100%;height:100%;"/>
             </div>
             <%-- 서브 이미지 --%>
             <div class="col-md-2 noSpace" style="height:550px;overflow:hidden;">
@@ -395,7 +395,7 @@
          <%-- 침실/침대 --%>
          <div class="infoDiv" style="font-weight:bold;">
             <img src="<%=request.getContextPath()%>/resources/images/homeDetail/multiple-users-silhouette.png" />
-            <span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명</span>
+            <span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명(최대 ${room.max_person }명)</span>
             <span style="margin-right:5%;">침실갯수 ${room.bedroomList.size() }개</span>
             <span style="margin-right:5%;">침대갯수 ${room.bedroomList.size() }개</span>
             <span style="margin-right:5%;">단독사용욕실갯수 ${room.bathCount }</span>
