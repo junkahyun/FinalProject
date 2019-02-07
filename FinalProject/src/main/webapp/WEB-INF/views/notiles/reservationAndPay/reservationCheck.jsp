@@ -263,7 +263,7 @@ h3{font-size: 14pt;
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
     	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
-    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/index.air'"/>
     	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
@@ -460,7 +460,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>
