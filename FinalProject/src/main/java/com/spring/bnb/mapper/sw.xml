@@ -69,8 +69,8 @@
 	    <if test='STARTPRICE != "" and ENDPRICE != ""'>
 	    and roomprice between to_number(#{STARTPRICE}) and to_number(#{ENDPRICE})
 	    </if>
-		<if test='CITY != ""'>
-		and roomsido like '%'||#{CITY}||'%'
+		<if test='SIDOGUGUNDONG != ""'>
+		and roomsido||roomsigungu||roombname like #{SIDO}||#{GUGUN}||#{DONG}
 		</if>
 		<if test='ALLPERSON != ""'>
 		and max_person >= #{ALLPERSON}

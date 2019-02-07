@@ -53,10 +53,6 @@ public class KHController {
 			babyCount = "0";
 		}
 		
-		//************************
-		System.out.println(rsv_checkInDate);
-		System.out.println(rsv_checkOutDate);
-		
 		//받아온 숙소코드를 map에 넣어서 넘겨준다.
 		//HashMap으로 안해도 되지만 한번한거 변경하기 귀찮아서 안바꿈.
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -96,9 +92,6 @@ public class KHController {
 		String day_between = req.getParameter("day_between");//숙박일수
 		String chekin = req.getParameter("chekin");//체크인날짜
 		String chekout = req.getParameter("chekout");//체크아웃날짜
-		
-		System.out.println(chekin);
-		System.out.println(chekout);
 		
 		session.setAttribute("day_between", day_between);
 		session.setAttribute("chekin", chekin);
@@ -144,17 +137,27 @@ public class KHController {
 	public String paymentGateway(HttpServletRequest req,HttpSession session) {
 		
 		String totalprice = req.getParameter("totalprice");//총 결제금액
+		String reName = req.getParameter("name");
+		String rePhone = req.getParameter("phone");
+		String reEmail = req.getParameter("email");
 		
 		RoomVO oneroom = (RoomVO)session.getAttribute("oneRoom");
 		
 		String roomname = oneroom.getRoomName();//결제창에 예약하는 숙소이름을 보여주기 위해 RoomVO에서 가져옴
 		
+		String roomname1 = roomname.substring(0,2);
+		System.out.println(roomname1);
+		
 		session.setAttribute("reservationPermission", "yes");
 		//예약확인페이지에서 새로고침시 
 		//예약테이블에 계속 insert되는 것을 막기위한 session.
 		
+		session.setAttribute("reName", reName);
+		session.setAttribute("rePhone", rePhone);
+		session.setAttribute("reEmail", reEmail);
+		
 		session.setAttribute("totalprice", totalprice);
-		session.setAttribute("roomname", roomname);
+		session.setAttribute("roomname", roomname1);
 		
 		return "paymentGateway";
 	}
@@ -180,9 +183,11 @@ public class KHController {
 			String my_userid = loginuser.getUserid();//예약자 아이디
 			String guestcount = (String)session.getAttribute("guestcount");//게스트인원
 			String babycount = (String)session.getAttribute("babycount");//유아인원
-			String username = loginuser.getUsername();//예약자 이름
-			String phone = loginuser.getPhone();//예약자 번호
-			String email = loginuser.getEmail();//예약자 이메일
+			
+			String reName = (String)session.getAttribute("reName");//예약자 이름
+			String reEmail = (String)session.getAttribute("reEmail");//예약자 번호
+			String rePhone = (String)session.getAttribute("rePhone");//예약자 이메일
+			
 			String totalprice = (String)session.getAttribute("totalprice");//최종금액
 			String message = (String)session.getAttribute("message");//호스트에게 보내는 메시지
 			String chekin = (String)session.getAttribute("chekin");//체크인 날짜
@@ -198,9 +203,10 @@ public class KHController {
 			//데이터베이스에서 게스트인원 타입이 number이기때문에 integer로 타입 변경
 			map.put("babyCount", Integer.parseInt(babycount));
 			//데이터베이스에서 유아인원 타입이 number이기때문에 integer로 타입 변경
-			map.put("username", username);
-			map.put("phone", phone);
-			map.put("email", email);
+			map.put("username", reName);
+			map.put("phone", aes.encrypt(rePhone));
+			map.put("email", aes.encrypt(reEmail));
+			
 			map.put("checkin", chekin);
 			map.put("checkout", chekout);
 			map.put("totalprice", Integer.parseInt(totalprice));
@@ -216,7 +222,7 @@ public class KHController {
 					
 					// *** 예약자 정보 가져오기 *** //
 					ReservationVO rvo = service.getOneReserve(map);
-					
+
 					sb.append("<img src='https://ci4.googleusercontent.com/proxy/ycoe9yJWtDXnJKHImcia25D30dkyKMUWkev09437rXQjdXs46I5wDsuZuF7jS8OLh8gCCMZeK5PMFzSb8U-6RXj5c2zjwG0sD2DwMJeD2SrOGQzWpsfp52Qg3X29kLGdKZGDzG2YUO2UgNYqbNgRSwFJug=s0-d-e1-ft#https://a1.muscache.com/airbnb/rookery/dls/logo_standard_2x-c0ed1450d18490825bc37dd6cb23e5c5.png' onClick='javascript:location.href="+req.getContextPath()+"/index.air' style='cursor:pointer; width:100px;'/><br><br>");
 					sb.append("<h1>비앤비 에어 영수증</h1><br>");
 					sb.append("<span style='font-size:12pt; margin-bottom:5%; '><strong>영수증 ID</strong>: "+rvo.getRsvcode()+" , "+rvo.getPaydate()+"</span><br>");
@@ -241,7 +247,7 @@ public class KHController {
 					
 					String emailContents = sb.toString();
 				
-					gmail.sendmail_OrderFinish(aes.decrypt(email), username, emailContents);
+					gmail.sendmail_OrderFinish(reEmail, reName, emailContents);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

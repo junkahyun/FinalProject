@@ -119,7 +119,7 @@ input{outline: none;
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
-    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/index.air'"/>
     	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 >  2. 게스트 정보 입력 >  3. 확인 및 결제  >  4. 예약완료 </span></div>
   </div>
@@ -128,7 +128,7 @@ input{outline: none;
 <div class="container-fluid" style="margin-top: 3%; width: 55%;">
 	<div class="col-md-12" style="margin-top: 3%; margin-bottom: 3%;">
 		<h2 >예약이 완료되었습니다!</h2>
-		<h3 >${loginuser.username}님의 이메일로 예약내역이 전송되었습니다!</h3>
+		<h3 >${reName}님의 이메일로 예약내역이 전송되었습니다!</h3>
 		<br>
 		<!-- 주문자 정보  -->
 		
@@ -136,7 +136,7 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-3" >
 			<span class="myinfomation" >이름</span><br>
-			<input class="reservationInfo" type="text" value="${loginuser.username}" readonly="readonly"/><br>
+			<input class="reservationInfo" type="text" value="${reName}" readonly="readonly"/><br>
 			
 			<span class="myinfomation">숙소주소</span><br>
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomName}"  readonly="readonly"/><br>
