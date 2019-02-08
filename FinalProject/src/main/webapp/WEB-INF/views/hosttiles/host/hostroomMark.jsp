@@ -264,8 +264,8 @@ function monthReservation(){
 				<div class="container" style="float: left; width: 70%">
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#avgScore">평점</a></li>
-						<li><a data-toggle="tab" href="#income" onclick="reservation()">수입</a></li>
-						<li><a data-toggle="tab" href="#hits">조회수</a></li>
+						<li class="totalPays"><a data-toggle="tab" href="#income" onclick="reservation()">수입</a></li>
+						<li class="viewcount"><a data-toggle="tab" href="#hits">조회수</a></li>
 					</ul>
 				</div>
 				<!-- 평점 시작 -->
@@ -391,7 +391,7 @@ function monthReservation(){
 					</div>
 					<!-- 평점 끝 -->
 					<!-- 수입 시작 -->
-					<div class="tab-pane tab-panel" id="income">
+					<div class="tab-pane tab-panel totalPay" id="income">
 					<div style="margin-top: 5%;">
 
 							<div class="row">
@@ -429,17 +429,21 @@ function monthReservation(){
 									<div id="charts"
 										style="border: 0px soild red; min-width: 310px; height: 70%; max-width: 80%; margin: 0 auto"></div>
 									<!--  차트 끝 -->
-					
-					
-					
+								</div>
+							</div>
+						</div>
 					</div>
 					<!-- 수입 끝 -->
+					
+					
 					<!-- 조회수 시작 -->
-					<div class="tab-pane tab-panel" id="hits">조회수 넣기ㅣ</div>
+					<div class="tab-pane tab-panel viewcount" id="hits">
+						
+					
+					</div>
 					<!-- 조회수 끝 -->
 				</div>
 			</div>
 		</div>
 	</div>
-
 </div>
