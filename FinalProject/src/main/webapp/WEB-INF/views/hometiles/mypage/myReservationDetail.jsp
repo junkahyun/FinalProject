@@ -42,7 +42,8 @@
 		});		
 	});
 	function showLocation(){
-		var url = "/bnb/myReservationMAP.air?rsvcode="+${resDetail.rsvcode};
+		alert("!111");
+		var url = "/bnb/myReservationMAP.air?rsvcode=${resDetail.rsvcode}";
 		window.open(url,"숙소위치","width=500,height=350");
 		
 	}

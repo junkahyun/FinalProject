@@ -69,25 +69,25 @@ $(document).ready(function(){
  	$(".error").hide();	
  	$(".errorPhone").hide();
 	
-	//appendMonth();
+/* 	//appendMonth();
 	var selectMonthValue = ${birthdayMM};
 	var selectYearValue = ${birthdayYY};
 	var selectDayValue = ${birthdayDD};
 	$("#month option[value="+selectMonthValue+"]").attr("selected","selected");
 	$("#year option[value="+selectYearValue+"]").attr("selected","selected");
-	$("#day option[value="+selectDayValue+"]").attr("selected","selected");
+	$("#day option[value="+selectDayValue+"]").attr("selected","selected"); */
 	
 	$("#profileimg").on("change",handleImgFileSelect);
 	$(".emailChange").hide();
-	$("#emailChangeInput").click(function() {
-		$(".emailChange").toggle();
+	$("#emailChangeInput").click(function () {
+			emailCodeShow();
 	});
 	
 	$("#emailEdit").click(function(){
 		
 		var html = "";
 		$("#emailEditComment").html("<br/><span style='color:red;'>이메일 변경하기를 선택 해 주세요 !</span><br/>");
-	})
+	});
 	<%-- 우편번호 --%>		
 	$("#zipcodeSearch").click(function(){	
 		
@@ -116,7 +116,60 @@ $(document).ready(function(){
       	}
    	});// end of $("#hp2").blur()-------------
 });// end of $
+function emailCodeShow() {
+	/* $(".emailChange").toggle(); */
+	/* var userid = ${loginMember.userid}; */
 
+	$.ajax({			
+		url:"<%=request.getContextPath()%>/emailChange.air",
+		type:"POST",
+		dataType:"JSON",
+		success:function(json) {
+			
+			var html="";
+			html +=	"<div class='col-sm-3'></div>"+ 
+					"<div class='col-sm-9' id='showInputEmail'>"+
+					"<div data-hypernova-key='edit_profilephone_numbersbundlejs' data-hypernova-id='2bfcb4d3-787f-44ee-b8a5-8f3873c1a055'>"+
+					"<div dir='ltr' data-reactroot=''>"+
+					"<div style='margin-top:9px'>"+
+					"<div class='text-muted' style='margin-top:4px'>예약 요청, 미리 알림 및 기타 알림을 보내드립니다.</div>"+
+					"<div style='margin-top:8px'>"+
+					"<div class='phone-number-verify-widget'>"+
+					"<strong>이메일 변경하기</strong>"+ 
+					"<div>이 메일주소로 인증코드를 보내드립니다.</div>"+
+					"<div class='pniw-number-container emailVeryfiBtn'>"+
+					"<input type='text' id='changeEmail' placeholder='이메일주소를 입력하세요'>"+
+					"<span class='error' style='color: blue; font-size: 12px;'>이메일 형식에 맞게 입력하세요.</span>"+
+					"</div>"+
+					"<div class='emailVeryfiBtn' style='margin:3%;'>"+
+					"<button type='button' class='btn btn-primary' id='emailCheckCode' onClick='emailCodeCheck();'>인증코드 보내기</button>"+ 
+					"</div>"+ 
+					"<div id='addCode'>"+
+					"<div class='emailVeryfiBtn'>"+
+	                "<input type='text' name='input_confirmCode' id='input_confirmCode' placeholder='인증코드를 입력하세요'/>"+
+					"</div>"+
+	   				"<div class='emailVeryfiBtn'><button class='btn' id='codeCheckBtn' type='button' onClick='codeCheckFun();'>인증코드 확인하기</button></div>"+
+	   				"</div>"+				                				
+	                "<div id='addComment'></div>"+ 														
+					"</div>"+
+					"</div>"+
+					"</div>"+
+					"</div>"+
+					"</div>"+
+					"</div>";
+					
+					$("#emailHide").html(html);
+					$("#emailHide").show();
+					$(".error").hide();
+					$("#addCode").hide();
+					
+		},error:function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    	
+	    }
+		
+	});
+}
 function handleImgFileSelect(e){
 	var files = e.target.files;
 	var filesArr = Array.prototype.slice.call(files);
@@ -156,11 +209,24 @@ function handleImgFileSelect(e){
 	
 }   */
 
-function editInfo(){	
-	var frm = document.editFrm;
-	frm.method="POST";
-	frm.action="myEditEnd.air";
-	frm.submit();
+function editInfo(){
+	var codeCon = $("#input_confirmCode").val();
+	var emailTrim = $("#changeEmail").val();
+	var code = $.trim(codeCon);
+	var email = $.trim(emailTrim);
+
+	if(email != "" && code == ""){
+			alert("이메일 인증코드를 받으세요!");
+			$("#input_confirmCode").empty().focus();
+			return;
+		
+	}else{
+		var frm = document.editFrm;
+		frm.method="POST";
+		frm.action="myEditEnd.air";
+		frm.submit();
+	}
+	
 }
 function emailCodeCheck() {
 	var value = $("#changeEmail").val();
@@ -222,21 +288,20 @@ function codeCheckFun() {
 	
 }
 
-function phoneCheck(phone) {
+/* function phoneCheck(phone) {
 	var form_data={"phone":phone};
-	$ajax({
+	$.ajax({
 		url:"/phoneCheckJSON.air",
 		data:form_data,
 		dataType:"JSON",
 		success: function (JSON) {
-			alert("11");
-			
+				
 		},error:function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	    	
 	    }
 			
-	});
+	}); */
 } 
 </script>
 
@@ -341,8 +406,9 @@ function phoneCheck(phone) {
 		            <div class="text-muted space-top-1">이메일 주소는 다른 에어비앤비 회원에게 공개되지 않습니다.</div>
 		        </div>
 		    </div>
+		    <div class="row row-condensed space-4 emailChange" id="emailHide"></div>
 		    <!--  이메일 주소 인증받기 시작! -->
-		          	<div class="row row-condensed space-4 emailChange" id="emailHide">
+		  <!--         	<div class="row row-condensed space-4 emailChange" id="emailHide">
 		          		<div class="col-sm-3"></div>
 		          		 <div class="col-sm-9" id="showInputEmail">
 			                <div data-hypernova-key="edit_profilephone_numbersbundlejs" data-hypernova-id="2bfcb4d3-787f-44ee-b8a5-8f3873c1a055">
@@ -373,7 +439,7 @@ function phoneCheck(phone) {
 					                </div>
 				                </div>
 				            </div>
-				         </div>
+				         </div> -->
 				     </div>  
 				 <!--  이메일 주소 인증받기 끝! --> 
 			<!--  이메일 주소 DIV 끝 -->
@@ -381,7 +447,7 @@ function phoneCheck(phone) {
 		     <div class="row row-condensed space-4">
 	        	<label class="text-right col-sm-3" for="user_phone_numbers">전화번호</label>
 		        <div class="col-sm-9" style="padding-left:2%; padding-right: 23%;"><input id="phoneEdit" name="phoneEdit" type="text" width="30%;" value="${loginMember.phone}"></div>
-		        <span class="errorPhone" style=" padding-left:2%; color: blue; font-size: 12px;">올바른 전화번호를 적으세요!</span>
+		      <!--   <span class="errorPhone" style=" padding-left:2%; color: blue; font-size: 12px;">올바른 전화번호를 적으세요!</span> -->
 			</div>
 			    <!--  전화번호 DIV 끝 -->
 		        <!-- 우편번호 DIV 시작 -->		        	
@@ -425,7 +491,7 @@ function phoneCheck(phone) {
 		</div>
 		<div class="row row-condensed space-4">
 	       <div class="text-right col-sm-8"> </div>
-	       <div class="text-right col-sm-3"><button type="submit" class="btn btn-primary btn-large" onClick="editInfo();">저장하기</button></div>
+	       <div class="text-right col-sm-3"><button type="button" class="btn btn-primary btn-large" onClick="editInfo();">저장하기</button></div>
 	      
 	    </div>
 				

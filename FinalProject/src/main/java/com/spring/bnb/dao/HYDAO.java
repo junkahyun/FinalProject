@@ -63,8 +63,10 @@ public class HYDAO implements InterHYDAO {
 
 	@Override
 	public int insertLikeRoom(HashMap<String, Object> paraMap) {
-		int n = sqlsession.insert("hy.insertLikeRoom", paraMap);
-		return n;
+		int result = 0;
+		int n = sqlsession.selectOne("hy.checkLikeRoom", paraMap);
+		if(n==0) result = sqlsession.insert("hy.insertLikeRoom", paraMap);
+		return result;
 	}
 
 	@Override

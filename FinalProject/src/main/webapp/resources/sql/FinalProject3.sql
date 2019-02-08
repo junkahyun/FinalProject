@@ -943,9 +943,9 @@ select *
         ON A.fk_roomtype_idx = F.roomtype_idx
       
       
-      select * from member
+      select * from reservation
       
-      
+      select*from room;
        select *
 		from room A JOIN buildtype_detail B
 		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx

@@ -97,7 +97,11 @@
 			if(changeval%2==1) html += starhalf;
 			$(this).parent().parent().find(".starPoint").html(html);
 		});
-		
+		$("#saveTitle").keydown(function(e){
+			if(e.keyCode==13){
+				likeRoom();
+			}
+		});
 		//$( ".input-daterange" ).datepicker( "option", "disabled", true );
 		
 		// 예약인원수 설정
@@ -300,33 +304,27 @@
 	}
 	function likeRoom(){
     	var saveTitle = $("#saveTitle").val();
-      	var roomcode = $("#roomcode").val();
-      	var loginuser = "${loginuser}";
-      	if(loginuser == null){
-         	alert("로그인이 필요합니다.");
-         	location.reload();
-         	return;
-      	}
+      	var roomcode = "${room.roomcode}";
       	if(saveTitle==""){
          	alert("저장 될 이름을 입력해주세요");
          	return;
       	}
-      	var form_data = {"roomcode":roomcode,"userid":"${loginuser.userid}","saveTitle":saveTitle};
+      	var frm = document.likeroomFrm;
+      	frm.method="GET";
+      	frm.action="likeRoom.air";
+      	frm.submit();
+      	/* var form_data = {"roomcode":roomcode,"userid":"${loginuser.userid}","saveTitle":saveTitle};
       	$.ajax({
          	url:"likeRoom.air",
-         	type:"POST",
+         	type:"GET",
          	data:form_data,
-         	contentType:"application/json; charset=UTF-8",
          	dataType:"JSON",
          	success:function(json){
-            	var n = json.n;
-	            if(n=="1") alert("등록이 완료되었습니다.");
-	            location.reload();
          	},
          	error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
-      	});
+      	}); */
 	}
   	function goReserve(){
   		var frm = document.reserveFrm;
@@ -613,13 +611,17 @@
 </div>
 <%-- 관심숙소 등록 modal --%>
 <div class="modal fade" id="likeRoom" role="dialog" >
-   <div class="modal-dialog">
-      <div class="modal-content" style="padding:2%;">
-         <div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>
-         <div><input id="saveTitle" class="input-data form-control" name="saveTitle" type="text" /></div>  
-         <button type="button" onClick="likeRoom();" style="width:100%;background-color: #fd5a61;border:none; color:white;margin-top:3%;height:40px;font-weight:bold;border-radius:5px;">관심 숙소 등록하기</button>
-      </div>
+	<form name="likeroomFrm">
+	<input name="roomcode" value="${room.roomcode }">
+	<input name="userid" value="${loginuser.userid }">
+   	<div class="modal-dialog">
+      	<div class="modal-content" style="padding:2%;">
+         	<div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>
+         	<div><input id="saveTitle" class="input-data form-control" name="saveTitle" type="text" /></div>  
+         	<button type="button" onClick="likeRoom();" style="width:100%;background-color: #fd5a61;border:none; color:white;margin-top:3%;height:40px;font-weight:bold;border-radius:5px;">관심 숙소 등록하기</button>
+      	</div>
    </div>
+   </form>
 </div>
 <%-- 댓글작성 modal --%>
 <div class="modal fade" id="reviewRegist" role="dialog">
