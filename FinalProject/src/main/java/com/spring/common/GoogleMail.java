@@ -54,7 +54,7 @@ public class GoogleMail {
     	MimeMessage msg = new MimeMessage(ses);
 
     	// 제목 설정
-    	String subject = "예약 취소 메일입니다";
+    	String subject = "AirB에서 보낸 메일 입니다!";
     	msg.setSubject(subject);
     	        
     	// 보내는 사람의 메일주소
@@ -67,7 +67,7 @@ public class GoogleMail {
     	msg.addRecipient(Message.RecipientType.TO, toAddr);
     	        
     	// 메시지 본문의 내용과 형식, 캐릭터 셋 설정
-    	msg.setContent("발송된 인증코드 : <span style='font-size:14pt; color:red;'>"+certificationCode+"</span>", "text/html;charset=UTF-8");
+    	msg.setContent("나의 정보수정에서 이메일 변경을 시도하였습니다! <br/> 발송된 인증코드 : <span style='font-size:14pt; color:red;'>"+certificationCode+"</span>입니다", "text/html;charset=UTF-8");
     	        
     	// 메일 발송하기
     	Transport.send(msg);
