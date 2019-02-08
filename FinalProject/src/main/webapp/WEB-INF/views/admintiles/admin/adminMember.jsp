@@ -176,7 +176,7 @@
 		var delFrm = document.delFrm;
 		delFrm.useridDel.value = userid;
 		delFrm.method = "GET";
-		delFrm.action = "<%=request.getContextPath()%>/adminMemberWarn.air"
+		delFrm.action = "<%=request.getContextPath()%>/adminMemberWarn.air";
 		delFrm.submit();
 		
 	}
@@ -186,7 +186,7 @@
 		var delFrm = document.delFrm;
 		delFrm.useridDel.value = userid;
 		delFrm.method = "GET";
-		delFrm.action = "<%=request.getContextPath()%>/adminMemberDel.air"
+		delFrm.action = "<%=request.getContextPath()%>/adminMemberDel.air";
 		delFrm.submit();
 		
 	}

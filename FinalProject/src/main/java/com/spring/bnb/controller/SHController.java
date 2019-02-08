@@ -744,8 +744,12 @@ public class SHController {
 	@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
 	public String insertComment(HttpServletRequest req) {
 
-		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
+		int report_idx = Integer.parseInt(req.getParameter("reportidx"));
 		System.out.println(report_idx);
+		
+		String content = req.getParameter("contentval");
+		System.out.println(content);
+		
 		
 		return "";
 		

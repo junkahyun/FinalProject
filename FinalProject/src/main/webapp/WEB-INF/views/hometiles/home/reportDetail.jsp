@@ -23,7 +23,7 @@
 		
 		var frm = document.addWriteFrm;
 		var nameval = frm.name.value.trim();
-		
+
 		if(nameval == "") {	// 로그인을 안했다면
 			alert("먼저 로그인 하세요!");
 			return;
@@ -38,6 +38,10 @@
 			return;
 		}
 		
+		frm.reportidx.value = $("#reportidx").val();
+		frm.action = "<%= request.getContextPath() %>/insertComment.air";
+		frm.method = "POST";
+		frm.submit();
 		
 		
 	} // end of function goAddWrite()--------------------------------
@@ -48,7 +52,7 @@
 <div class="container" style="padding: 2%; border: solid 0px gray; width: 83%; float:right; text-align: right;">
   
   <div style="margin-left: 8%; margin-bottom: 3%;">
-  	<h2 style="text-align: left;">신고게시판</h2>
+  	<h2 style="text-align: left;">글 보기</h2>
   </div>
   
   <div class="col-md-12" style="padding: 2%; float: center; padding-left: 8%;">
@@ -114,7 +118,7 @@
 	       댓글내용 : <input type="text" name="content" class="long" />
 	    
 	    <!-- 댓글에 달리는 원게시물 글번호(즉, 댓글의 부모글 글번호) -->
-	    <input type="hidden" name="parentSeq" value="${report_idx}" />  
+	    <input type="hidden" name="reportidx" id="reportidx" value="${report_idx}" />  
 	    
 	    <button type="button" class="btn" onClick="goAddWrite();" >쓰기</button>
 	  </form>
