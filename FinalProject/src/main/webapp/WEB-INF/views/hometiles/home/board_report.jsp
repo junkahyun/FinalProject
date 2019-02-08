@@ -60,7 +60,7 @@
 					    html += "<tr>"+
 								"<td>"+entry.rno+"</td>"+
 							    "<td>"+entry.fk_userid+"</td>"+
-							    "<td><a href='reportDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a></td>"+
+							    "<td><a href='reportDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a><span style='font-weight: bold; color: red;'>["+entry.commentcount+"]</span></td>"+
 							    "<td style='text-align: center;'>"+entry.report_date+"</td>"+
 							    status+
 							    "</tr>";

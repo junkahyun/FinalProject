@@ -60,14 +60,20 @@ public interface InterSHService {
 	// 신고게시글 삭제하기
 	int deleteReport(int report_idx);
 
-	// 댓글 등록하기
-	int insertComment(CommentVO commentvo);
-
 	// 회원 경고주기
 	void adminWarnMember(String userid);
 
 	// 글 수정하기
 	void writeEdit(HashMap<String, String> paraMap);
+
+	// 댓글 등록하기
+	int insertComment(HashMap<String, String> paraMap);
+
+	// commentcount 올려주기
+	void addCommentCount(HashMap<String, String> paraMap);
+
+	// comment 가져오기
+	List<CommentVO> getComment(int report_idx);
 
 	
 }

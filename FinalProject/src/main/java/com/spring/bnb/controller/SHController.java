@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.CommentVO;
 import com.spring.bnb.model.MemberVO;
@@ -51,7 +51,20 @@ public class SHController {
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 		
-		return "admin/adminMember.admintiles";
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		if(loginuser == null) {
+			return "main/index";
+		} 
+		else {
+			if(!loginuser.getUserid().equals("admin")) {
+				return "main/index";
+			}
+			
+			return "admin/adminMember.admintiles";
+		}
+
 	}
 	
 	
@@ -324,6 +337,7 @@ public class SHController {
 			jsonObj.put("report_status", reportvo.get(i).getReport_status());
 			jsonObj.put("report_subject", reportvo.get(i).getReport_subject());
 			jsonObj.put("rno", reportvo.get(i).getRno());
+			jsonObj.put("commentcount", reportvo.get(i).getCommentCount());
 			
 			jsonArr.put(jsonObj);			
 			
@@ -491,6 +505,7 @@ public class SHController {
 		// System.out.println(report_idx);
 		
 		ReportVO reportvo = new ReportVO();
+		List<CommentVO> commentList = new ArrayList<CommentVO>();
 		
 		HttpSession session = req.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -501,22 +516,25 @@ public class SHController {
 		
 		String userid = null;
 		
+		commentList = service.getComment(report_idx);
+		
 		if(readCountPermission != null && "yes".equals(readCountPermission)) {
 			
 			if(loginuser != null) {
 				userid = loginuser.getUserid();
 			}
-			// System.out.println(userid+"3");
+			
 			reportvo = service.getReportDetail(report_idx, userid);
 			session.removeAttribute("readCountPermission");
 		}
 		else {
 			reportvo = service.getReportDetailNo(report_idx);
-			// System.out.println("4");
+			
 		}
-		// System.out.println(reportvo+"5");
+		
 		req.setAttribute("reportvo", reportvo);	
 		req.setAttribute("report_idx", report_idx);
+		req.setAttribute("commentList", commentList);
 		
 		return "home/reportDetail.hometiles";
 	}
@@ -741,17 +759,39 @@ public class SHController {
 		return "home/board_report.hometiles";
 	}
 	
+	// 댓글쓰기
 	@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
 	public String insertComment(HttpServletRequest req) {
 
-		int report_idx = Integer.parseInt(req.getParameter("reportidx"));
-		System.out.println(report_idx);
+		String report_idx = req.getParameter("reportidx");
+		String parentSeq = req.getParameter("reportidx");
+		String content = req.getParameter("content");
+		String name = req.getParameter("name");
+		String fk_userid = req.getParameter("fk_userid");
 		
-		String content = req.getParameter("contentval");
-		System.out.println(content);
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("parentSeq", parentSeq);
+		paraMap.put("report_idx", report_idx);
+		paraMap.put("content", content);
+		paraMap.put("name", name);
+		paraMap.put("fk_userid", fk_userid);
 		
+		int n = service.insertComment(paraMap);
 		
-		return "";
+		if(n == 1) {
+			service.addCommentCount(paraMap);
+		}
+		else {
+			String msg = "글쓰기에 실패했습니다.";
+			String loc = "javascript:history.back();";
+			
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
+
+			return "msg";
+		}
+		
+		return "home/board_report.hometiles";
 		
 	}
 }

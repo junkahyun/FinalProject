@@ -177,15 +177,6 @@ public class SHDAO implements InterSHDAO {
 		return n;
 	}
 
-	// 댓글 등록하기
-	@Override
-	public int insertComment(CommentVO commentvo) {
-		
-		int n = sqlsession.insert("sh.insertComment", commentvo);
-		
-		return 0;
-	}
-
 	// 회원 경고주기
 	@Override
 	public void adminWarnMember(String userid) {
@@ -194,10 +185,39 @@ public class SHDAO implements InterSHDAO {
 		
 	}
 
+	// 글 수정하기
 	@Override
 	public void writeEdit(HashMap<String, String> paraMap) {
 		
 		sqlsession.update("sh.writeEdit", paraMap);
 		
 	}
+
+	// 댓글쓰기
+	@Override
+	public int insertComment(HashMap<String, String> paraMap) {
+		
+		int n = sqlsession.insert("sh.insertComment", paraMap);
+		
+		return n;
+	}
+
+	// commentcount 올려주기
+	@Override
+	public void addCommentCount(HashMap<String, String> paraMap) {
+		
+		sqlsession.update("sh.addCommentCount", paraMap);
+		
+	}
+
+	// comment 가져오기
+	@Override
+	public List<CommentVO> getComment(int report_idx) {
+		
+		List<CommentVO> commentList = sqlsession.selectList("sh.getComment", report_idx);
+		
+		return commentList;
+	}
+
+
 }

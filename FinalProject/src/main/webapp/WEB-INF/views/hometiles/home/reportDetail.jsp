@@ -38,7 +38,6 @@
 			return;
 		}
 		
-		frm.reportidx.value = $("#reportidx").val();
 		frm.action = "<%= request.getContextPath() %>/insertComment.air";
 		frm.method = "POST";
 		frm.submit();
@@ -113,27 +112,40 @@
 	  
 	  <!-- 댓글쓰기 폼 -->
 	  <form name="addWriteFrm" style="text-align: left;">     
-		      <input type="hidden" name="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
-		성명 : <input type="text" name="name" value="${sessionScope.loginuser.username}" class="short" readonly/>
-	       댓글내용 : <input type="text" name="content" class="long" />
+		      <input type="hidden" name="fk_userid" id="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
+		성명 : <input type="text" name="name" id="name" value="${sessionScope.loginuser.username}" class="short" readonly/>
+	       댓글내용 : <input type="text" name="content" id="content" class="long" />
 	    
 	    <!-- 댓글에 달리는 원게시물 글번호(즉, 댓글의 부모글 글번호) -->
-	    <input type="hidden" name="reportidx" id="reportidx" value="${report_idx}" />  
+	    <input type="hidden" name="reportidx" id="reportidx" value="${report_idx}" /> 
 	    
 	    <button type="button" class="btn" onClick="goAddWrite();" >쓰기</button>
 	  </form>
 	  
     </div>
     
+    <!-- 댓글 보여주기 -->
     <table  class="table table-bordered" id="table2" style="width: 80%; margin-top: 2%; margin-bottom: 3%; margin-left: 8%;">
 		<thead>
-			<tr>
-				<th style="width: 18%; text-align: center;">댓글작성자</th>
-				<th style="width: 67%; text-align: center;">내용</th>
-				<th style="text-align: center;">작성일</th>
+			<tr style="width: 80%;">
+				<th style="width: 10%; text-align: center;">댓글작성자</th>
+				<th style="width: 55%; text-align: center;">내용</th>
+				<th style="text-align: center; width: 13%;">작성일</th>
 			</tr>
 		</thead>
-		<tbody id="commentDisplay">
+		<tbody>
+			<c:forEach var="commentList" items="${commentList}">
+				<c:if test="${commentList != null}">
+					<tr>
+						<td style="text-align: left;">${commentList.name}</td>
+						<td style="text-align: left;">${commentList.content}</td>
+						<td style="text-align: left;">${commentList.regDate}</td>
+					</tr>
+				</c:if>
+				<c:if test="${commentList == ''}">
+					
+				</c:if>
+			</c:forEach>
 		</tbody>
 	</table>
 

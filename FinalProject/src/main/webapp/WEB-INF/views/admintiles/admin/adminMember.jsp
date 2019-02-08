@@ -247,7 +247,7 @@
 						  	
 						  </tbody>
 					</table>
-					<input type="text" name="useridDel" value=""/>
+					<input type="hidden" name="useridDel" value=""/>
 				</form>
 			</div>
 		</div>
