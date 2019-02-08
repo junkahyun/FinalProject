@@ -184,7 +184,6 @@
            			}
        			} 
        		}
-       		alert(babyCount);
        		goReserve();
        	});
 	});
@@ -209,9 +208,9 @@
 						var startday = new Date(rsvArr[i].start);
 						var endday = new Date(rsvArr[i].end);
 						var diff = (endday-startday)/(1000*60*60*24);
-						/* for(var i=0;i<diff;i++){
+						for(var i=0;i<diff;i++){
 							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
-						} */
+						}
 					}
 				}
 				$('#calendar').fullCalendar({
@@ -313,18 +312,6 @@
       	frm.method="GET";
       	frm.action="likeRoom.air";
       	frm.submit();
-      	/* var form_data = {"roomcode":roomcode,"userid":"${loginuser.userid}","saveTitle":saveTitle};
-      	$.ajax({
-         	url:"likeRoom.air",
-         	type:"GET",
-         	data:form_data,
-         	dataType:"JSON",
-         	success:function(json){
-         	},
-         	error: function(request, status, error){
-                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-      	}); */
 	}
   	function goReserve(){
   		var frm = document.reserveFrm;
@@ -515,12 +502,10 @@
          <div class="infoDiv">
             <div class="infoSubjectHYBig">환불정책</div>
             <div class="row noSpace" style="margin-top:3%;">
-               숙소 이용규칙
-               <br/>흡연 금지
-               <br/>반려동물 동반 불가
-               <br/>체크인 시간: 16:00 이후 언제나, 체크아웃 시간: 11:00까지
-               <br/>키패드(으)로 셀프 체크인
-               <br/><br/>
+	               숙소 이용규칙
+		      <c:forEach items="${room.ruleList }" var="rule">
+		      	<br>${rule.RULENAME }
+		      </c:forEach>
                <a class="aTagBtnHY">숙소 이용규칙 모두 보기</a>
             </div>
          </div>
