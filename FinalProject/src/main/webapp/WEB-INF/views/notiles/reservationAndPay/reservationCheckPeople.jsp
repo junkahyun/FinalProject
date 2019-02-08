@@ -148,7 +148,7 @@ h3{font-size: 14pt;
 				$(".pannelCount").text(adultm+"명, 유아 "+babym+"명");
 			}
 			
-			$("#finalPeople").val(parseInt(babym)+parseInt(adultm));
+			$("#finalPeople").val(parseInt(adultm));
 			
 			var finalpeople = $("#finalPeople").val();//최종 인원수
 			var maxperson = ${oneRoom.max_person};//최대 인원수
@@ -357,7 +357,7 @@ h3{font-size: 14pt;
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
-    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/index.air'"/>
     	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 >  2. 게스트 정보 입력 > </span> 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
@@ -471,7 +471,7 @@ h3{font-size: 14pt;
 				         후기 ${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 100%; height: 8%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
@@ -561,7 +561,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<span id="peakpay"><fmt:formatNumber value="${((sessionScope.oneRoom).roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			
