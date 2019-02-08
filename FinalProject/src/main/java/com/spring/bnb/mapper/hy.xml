@@ -71,6 +71,17 @@
 		where R.fk_roomcode = #{roomcode}
 	</select>
 	
+	<resultMap type="HashMap" id="ruleMap">
+		<result property="RULENAME" column="RULE_NAME" javaType="String" />
+		<result property="RULEICON" column="RULE_ICON" javaType="String" />
+	</resultMap>
+	
+	<!-- 이용규칙정보 RoomVO에 입력하기 -->
+	<select id="getRuleList" parameterType="String" resultMap="ruleMap">
+		select*from roomrule R join allrule A on R.fk_rule_idx=A.rule_idx 
+		where R.fk_roomcode=#{roomcode}
+	</select>
+	
 	<!-- RoomVO에  likeCount 입력하기 -->
 	<select id="getRoomLikeCount" parameterType="String" resultType="Integer">
 		select count(*) from likeroom where fk_roomcode=#{roomcode}
@@ -157,12 +168,12 @@
 	</select>
 	
 	<resultMap type="HashMap" id="StarPointMap">
-		<result property="correct" column="correct" javaType="Double" />
-		<result property="communicate" column="communicate" javaType="Double" />
-		<result property="clean" column="clean" javaType="Double" />
-		<result property="position" column="position" javaType="Double" />
-		<result property="checkin" column="checkin" javaType="Double" />
-		<result property="value" column="value" javaType="Double" />
+		<result property="correct" column="correct" javaType="Integer" />
+		<result property="communicate" column="communicate" javaType="Integer" />
+		<result property="clean" column="clean" javaType="Integer" />
+		<result property="position" column="position" javaType="Integer" />
+		<result property="checkin" column="checkin" javaType="Integer" />
+		<result property="value" column="value" javaType="Integer" />
 	</resultMap>
 	<!-- 숙소 별 별점 알아오기 -->
 	<select id="getStarPoint" parameterType="String" resultMap="StarPointMap">
@@ -185,5 +196,12 @@
 	<select id="checkLikeRoom" parameterType="HashMap" resultType="Integer">
 		select count(*) from likeroom where fk_userid=#{USERID} and fk_roomcode=#{ROOMCODE}
 	</select>
+	
+	<!-- 호스트의 수입 가져오기 -->
+	<select id="getHostIncome" parameterType="HashMap" resultType="Integer">
+		select sum(totalPrice) from reservation where fk_userid=#{userid} and to_char(paydate,'mm') = #{month}
+	</select>
+	
+	<!--  -->
 </mapper>
 
