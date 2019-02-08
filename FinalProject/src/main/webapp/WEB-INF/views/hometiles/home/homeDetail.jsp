@@ -97,7 +97,11 @@
 			if(changeval%2==1) html += starhalf;
 			$(this).parent().parent().find(".starPoint").html(html);
 		});
-		
+		$("#saveTitle").keydown(function(e){
+			if(e.keyCode==13){
+				likeRoom();
+			}
+		});
 		//$( ".input-daterange" ).datepicker( "option", "disabled", true );
 		
 		// 예약인원수 설정
@@ -180,7 +184,6 @@
            			}
        			} 
        		}
-       		alert(babyCount);
        		goReserve();
        	});
 	});
@@ -205,9 +208,9 @@
 						var startday = new Date(rsvArr[i].start);
 						var endday = new Date(rsvArr[i].end);
 						var diff = (endday-startday)/(1000*60*60*24);
-						/* for(var i=0;i<diff;i++){
+						for(var i=0;i<diff;i++){
 							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
-						} */
+						}
 					}
 				}
 				$('#calendar').fullCalendar({
@@ -300,33 +303,15 @@
 	}
 	function likeRoom(){
     	var saveTitle = $("#saveTitle").val();
-      	var roomcode = $("#roomcode").val();
-      	var loginuser = "${loginuser}";
-      	if(loginuser == null){
-         	alert("로그인이 필요합니다.");
-         	location.reload();
-         	return;
-      	}
+      	var roomcode = "${room.roomcode}";
       	if(saveTitle==""){
          	alert("저장 될 이름을 입력해주세요");
          	return;
       	}
-      	var form_data = {"roomcode":roomcode,"userid":"${loginuser.userid}","saveTitle":saveTitle};
-      	$.ajax({
-         	url:"likeRoom.air",
-         	type:"POST",
-         	data:form_data,
-         	contentType:"application/json; charset=UTF-8",
-         	dataType:"JSON",
-         	success:function(json){
-            	var n = json.n;
-	            if(n=="1") alert("등록이 완료되었습니다.");
-	            location.reload();
-         	},
-         	error: function(request, status, error){
-                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-      	});
+      	var frm = document.likeroomFrm;
+      	frm.method="GET";
+      	frm.action="likeRoom.air";
+      	frm.submit();
 	}
   	function goReserve(){
   		var frm = document.reserveFrm;
@@ -517,12 +502,10 @@
          <div class="infoDiv">
             <div class="infoSubjectHYBig">환불정책</div>
             <div class="row noSpace" style="margin-top:3%;">
-               숙소 이용규칙
-               <br/>흡연 금지
-               <br/>반려동물 동반 불가
-               <br/>체크인 시간: 16:00 이후 언제나, 체크아웃 시간: 11:00까지
-               <br/>키패드(으)로 셀프 체크인
-               <br/><br/>
+	               숙소 이용규칙
+		      <c:forEach items="${room.ruleList }" var="rule">
+		      	<br>${rule.RULENAME }
+		      </c:forEach>
                <a class="aTagBtnHY">숙소 이용규칙 모두 보기</a>
             </div>
          </div>
@@ -613,13 +596,17 @@
 </div>
 <%-- 관심숙소 등록 modal --%>
 <div class="modal fade" id="likeRoom" role="dialog" >
-   <div class="modal-dialog">
-      <div class="modal-content" style="padding:2%;">
-         <div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>
-         <div><input id="saveTitle" class="input-data form-control" name="saveTitle" type="text" /></div>  
-         <button type="button" onClick="likeRoom();" style="width:100%;background-color: #fd5a61;border:none; color:white;margin-top:3%;height:40px;font-weight:bold;border-radius:5px;">관심 숙소 등록하기</button>
-      </div>
+	<form name="likeroomFrm">
+	<input name="roomcode" value="${room.roomcode }">
+	<input name="userid" value="${loginuser.userid }">
+   	<div class="modal-dialog">
+      	<div class="modal-content" style="padding:2%;">
+         	<div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>
+         	<div><input id="saveTitle" class="input-data form-control" name="saveTitle" type="text" /></div>  
+         	<button type="button" onClick="likeRoom();" style="width:100%;background-color: #fd5a61;border:none; color:white;margin-top:3%;height:40px;font-weight:bold;border-radius:5px;">관심 숙소 등록하기</button>
+      	</div>
    </div>
+   </form>
 </div>
 <%-- 댓글작성 modal --%>
 <div class="modal fade" id="reviewRegist" role="dialog">
