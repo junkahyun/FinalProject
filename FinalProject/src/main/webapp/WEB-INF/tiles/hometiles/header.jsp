@@ -268,7 +268,7 @@
             var html = "";
             $.each(json, function(entryIndex,entry){
                html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
-                     + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
+                     + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.roomMainImg+"' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
             });
             $("#myLikeRoomList").html(html);
          },

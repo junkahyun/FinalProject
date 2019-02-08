@@ -88,7 +88,7 @@
 	</insert>
 	
 	<resultMap type="HashMap" id="LikeRoom">
-		<result property="roomcode" column="ROOMCODE" javaType="int"/>
+		<result property="roomcode" column="ROOMCODE" javaType="String" />
 		<result property="saveTitle" column="SAVETITLE" javaType="String"/>
 		<result property="roomMainImg" column="ROOMMAINIMG" javaType="String"/>
 	</resultMap>
@@ -181,5 +181,9 @@
 		select distinct roomsido from room where roomsido like '%'||#{searchword}||'%'
 	</select>
 	
+	<!-- 관심 숙소 중복 검색 -->
+	<select id="checkLikeRoom" parameterType="HashMap" resultType="Integer">
+		select count(*) from likeroom where fk_userid=#{USERID} and fk_roomcode=#{ROOMCODE}
+	</select>
 </mapper>
 
