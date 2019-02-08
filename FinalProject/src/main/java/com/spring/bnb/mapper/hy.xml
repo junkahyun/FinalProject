@@ -71,6 +71,17 @@
 		where R.fk_roomcode = #{roomcode}
 	</select>
 	
+	<resultMap type="HashMap" id="ruleMap">
+		<result property="RULENAME" column="RULE_NAME" javaType="String" />
+		<result property="RULEICON" column="RULE_ICON" javaType="String" />
+	</resultMap>
+	
+	<!-- 이용규칙정보 RoomVO에 입력하기 -->
+	<select id="getRuleList" parameterType="String" resultMap="ruleMap">
+		select*from roomrule R join allrule A on R.fk_rule_idx=A.rule_idx 
+		where R.fk_roomcode=#{roomcode}
+	</select>
+	
 	<!-- RoomVO에  likeCount 입력하기 -->
 	<select id="getRoomLikeCount" parameterType="String" resultType="Integer">
 		select count(*) from likeroom where fk_roomcode=#{roomcode}
