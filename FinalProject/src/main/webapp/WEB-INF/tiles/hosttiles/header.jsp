@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
 	function goLogout(){
 		$.ajax({
@@ -53,6 +54,7 @@
 		</div>
 		<div class="row" style="padding-right:2.5%;">
 			<div class="headermenu dropdown resize2" onClick="" style="padding:0;float:right;padding-top:1%;">
+            	<c:if test="${loginuser!=null }">
             	<div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
             		<img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
             	</div>
@@ -61,6 +63,7 @@
 			      <li class="profileDrop" style="border-top:1px solid lightgray;" onClick="goLogout();">로그아웃</li>
 			      <li class="profileDrop" onClick="goMypage();">마이페이지</li>
 			    </ul>
+			    </c:if>
             </div>
 			<div class="headermenuButton" onClick="" style="float:right; padding:1% 1.5%;">
 				<button class="btn" style="background-color: #008489;">

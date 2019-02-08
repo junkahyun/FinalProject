@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -169,5 +170,23 @@ public class HYDAO implements InterHYDAO {
 	public List<String> getSearchSido(String searchword) {
 		List<String> searchList = sqlsession.selectList("hy.getSearchSido", searchword);
 		return searchList;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getHostIncome(String userid) {
+		List<HashMap<String, Object>> income = new ArrayList<HashMap<String,Object>>();
+		for(int i=1;i<=12;i++) {
+			HashMap<String,Object> paraMap = new HashMap<String,Object>();
+			if(i<10) paraMap.put("month", "0"+String.valueOf(i));
+			else paraMap.put("month", String.valueOf(i));
+			paraMap.put("userid", userid);
+
+			HashMap<String,Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("month", i);
+			if(sqlsession.selectOne("hy.getHostIncome",paraMap)==null) resultMap.put("sumTotalPrice", 0);
+			else resultMap.put("sumTotalPrice", sqlsession.selectOne("hy.getHostIncome",paraMap));
+			income.add(resultMap);
+		}
+		return income;
 	}
 }
