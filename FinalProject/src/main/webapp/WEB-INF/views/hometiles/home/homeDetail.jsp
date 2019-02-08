@@ -345,7 +345,7 @@
          <div class="row noSpace">
             <%-- 메인 이미지 --%>
             <div class="col-md-10" style="height:550px;padding:0;">
-               <img src="<%=request.getContextPath() %>/resources/images/becomehost/${room.roomMainImg}"  style="width:100%;height:100%;"/>
+               <img src="<%=request.getContextPath() %>/resources/images/becomehost/${room.roomMainImg}" style="width:100%;height:100%;"/>
             </div>
             <%-- 서브 이미지 --%>
             <div class="col-md-2 noSpace" style="height:550px;overflow:hidden;">
