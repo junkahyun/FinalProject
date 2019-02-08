@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -47,7 +48,7 @@ public class HYController {
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
-		if(roomcode==null) roomcode = "10";
+		//if(roomcode==null) roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		int totalReviewCount = roomvo.getReviewList().size();
@@ -151,8 +152,8 @@ public class HYController {
 	}
 
 	// 숙소 관심테이블에 저장하기
-	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.POST)
-	public String likeRoom(HttpServletRequest req ,MemberVO member) {
+	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.GET)
+	public String requireLogin_likeRoom(HttpServletRequest req,HttpServletResponse res ,MemberVO member) {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
@@ -162,11 +163,11 @@ public class HYController {
 		paraMap.put("ROOMCODE", roomcode);
 		paraMap.put("SAVETITLE", saveTitle);
 		int n = service.insertLikeRoom(paraMap);
-		JSONObject jobj = new JSONObject();
+		/*JSONObject jobj = new JSONObject();
 		jobj.put("n", n);
 		String str_json = jobj.toString();
-		req.setAttribute("str_json", str_json);
-		return "JSON";
+		req.setAttribute("str_json", str_json);*/
+		return "home/homeDetail.hometiles";
 	}
 	
 	// 로그인 유저의 관심 숙소 리스트 불러오기
@@ -175,6 +176,7 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		List<HashMap<String,Object>> resultMap = service.getMyLikeRoomList(userid);
 		JSONArray jsonArr = new JSONArray();
+		System.out.println(resultMap.get(0).get("roomMainImg"));
 		for(HashMap<String,Object> result :resultMap) jsonArr.put(result);
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);

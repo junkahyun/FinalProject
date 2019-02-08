@@ -40,6 +40,9 @@ public class HYDAO implements InterHYDAO {
 		// 관심 수 가져오기
 		int likeCount = sqlsession.selectOne("hy.getRoomLikeCount", roomcode);
 		roomvo.setLikeCount(likeCount);
+		// 이용규칙 리스트 가져오기
+		List<HashMap<String,String>> ruleList = sqlsession.selectList("hy.getRuleList", roomcode);
+		roomvo.setRuleList(ruleList);
 		// 숙소 이미지 리스트 가져오기
 		/*List<String> roomimgList = sqlsession.selectList("hy.getRoomImgList", roomcode);
 		roomvo.setRoomimgList(roomimgList);*/
@@ -63,8 +66,10 @@ public class HYDAO implements InterHYDAO {
 
 	@Override
 	public int insertLikeRoom(HashMap<String, Object> paraMap) {
-		int n = sqlsession.insert("hy.insertLikeRoom", paraMap);
-		return n;
+		int result = 0;
+		int n = sqlsession.selectOne("hy.checkLikeRoom", paraMap);
+		if(n==0) result = sqlsession.insert("hy.insertLikeRoom", paraMap);
+		return result;
 	}
 
 	@Override
