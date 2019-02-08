@@ -47,6 +47,11 @@ input{outline: none;
 			
 			var frm = document.finalRev;
 			frm.totalprice.value = price;
+			frm.name.value = $("#name").val();
+			frm.phone.value = $("#phone").val();
+			frm.email.value = $("#email").val();
+			
+			
 			frm.method="GET";//post로 바꿔야함
 			frm.action = "<%=ctxPath%>/paymentGateway.air";
 			frm.submit();
@@ -107,7 +112,7 @@ input{outline: none;
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
-    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/index.air'"/>
     	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 >  2. 게스트 정보 입력 >  3. 확인 및 결제  > </span> 4. 예약완료</div>
   </div>
@@ -119,21 +124,21 @@ input{outline: none;
 		<h2 >확인 및 결제</h2>
 		<br>
 		<!-- 주문자 정보  -->
-		<h3 >주문자 정보</h3>
+		<h3 >주문자 정보 <span style="font-size: 11pt;">(로그인한 유저와 주문자가 다를경우 정보를 다시 입력해주세요.)</span></h3>
 		<hr style="border: 0.5px solid gray; margin-bottom: 3%;">
 		<div class="col-md-4" >
 			<span class="myinfomation" >이름</span><br><br>
-			<input class="reservationInfo" type="text" value="${loginuser.username}" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${loginuser.username}" id="name"/>
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation" >전화번호</span><br><br>
-			<input class="reservationInfo" type="text" value="${phone}" readonly="readonly" />
+			<input class="reservationInfo" type="text" value="${phone}"  id="phone"/>
 		</div>
 		
 		<div class="col-md-4" >
 			<span class="myinfomation">이메일</span><br><br>
-			<input class="reservationInfo" type="text" value="${email}" readonly="readonly"/>
+			<input class="reservationInfo" type="text" value="${email}" id="email"/>
 		</div>
 	</div>
 	<div class="col-md-12" style="margin-bottom: 3%;">
@@ -141,7 +146,7 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray;">
 		<div class="col-md-3"  align="center">
 			<span class="myinfomation">숙소이미지</span><br><br>
-			<img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 80%;"/>
+			<img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 80%; height: 14%;"/>
 		</div>
 		
 		<div class="col-md-3" >
@@ -194,6 +199,9 @@ input{outline: none;
 
 <form name="finalRev">
 	<input type="hidden" value="" name="totalprice"/>
+	<input type="hidden" value="" name="name"/>
+	<input type="hidden" value="" name="phone"/>
+	<input type="hidden" value="" name="email"/>
 </form>
 
 </body>
