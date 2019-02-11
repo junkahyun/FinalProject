@@ -284,12 +284,12 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray;">
 		<div align="right" style="font-size: 14pt;">
 			<span style="margin-right: 20%;">총합계(KWR)</span>
-			₩<span id="totalprice">${totalprice}</span><br>
+			₩ <span id="totalprice">${totalprice}</span><br>
 			<span style="margin-right: 25.7%;" >할인금액(KWR)</span>
-			₩<span id="disprice"><fmt:formatNumber value="${disCountMoney}" pattern="#,###"/></span><br>
+			₩ <span id="disprice"><fmt:formatNumber value="${disCountMoney}" pattern="#,###"/></span><br>
 			<hr>
-			<span style="margin-right: 25.7%;">결제금액(KWR)</span>
-			₩<span id="finalprice"></span>
+			<span style="margin-right: 25.7%; color: tomato;">결제금액(KWR)</span>
+			₩ <span id="finalprice"></span>
 		</div>
 	</div>
 	<div class="col-md-12">

@@ -194,8 +194,15 @@ input{outline: none;
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">성수기 추가 요금</td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></td>
 				</tr>
+				
+				<c:if test="${disCountMoney != 0 }">
+				<tr>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">할인 요금</td>
+					<td >₩<fmt:formatNumber value="${disCountMoney}" pattern="#,###"/></td>
+				</tr>
+				</c:if>
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">추가 인원 요금</td>

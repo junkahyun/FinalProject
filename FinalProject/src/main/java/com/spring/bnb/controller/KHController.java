@@ -51,14 +51,10 @@ public class KHController {
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");//체크인날짜
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");//체크아웃날짜
 		
-		System.out.println("유아인원: "+babyCount);
-		System.out.println("게스트인원: "+guestCount);
-		
 		if(babyCount == null || "".equals(babyCount)) {
 			//넘어온 유아인원의 값이 null일 경우 기본으로 0값을 준다.
 			babyCount = "0";
 		}
-		
 		//받아온 숙소코드를 map에 넣어서 넘겨준다.
 		//HashMap으로 안해도 되지만 한번한거 변경하기 귀찮아서 안바꿈.
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -136,7 +132,6 @@ public class KHController {
 			disCountMoney = service.getUseMyCopon(map);
 			
 		}
-		
 		
 		//암호화된 이메일과 번호를 복호화 해서 보여줌.
 		String email = aes.decrypt(loginuser.getEmail());
@@ -312,7 +307,7 @@ public class KHController {
 	      
 	      return "O"+year+month+day+"-"+ordcode;
    }
-	
+	// *** 나의쿠폰 팝업창으로 띄어서 보기 *** //
 	@RequestMapping(value="/mycoupon.air", method = {RequestMethod.GET})
 	public String mycoupon (HttpServletRequest req, HttpSession session) {
 		
@@ -326,7 +321,7 @@ public class KHController {
 		return "reservationAndPay/mycoupon.notiles";
 	}
 	
-	// **쿠폰 사용하는 메소드 ** //
+	// *** 쿠폰 사용하는 메소드 *** //
 	@RequestMapping(value="/useMyCoupon.air", method = {RequestMethod.GET})
 	public String useCoupon(HttpServletRequest req,HttpSession session){
 		
