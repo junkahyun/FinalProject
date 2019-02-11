@@ -445,7 +445,7 @@ h3{font-size: 14pt;
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
 		<div class="col-md-3" style="margin-bottom: 5%;">
-		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
+		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; height:5%; margin-top: 3%;"/>
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>

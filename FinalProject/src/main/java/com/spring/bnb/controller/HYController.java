@@ -5,24 +5,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.tools.ant.types.resources.selectors.Date;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -113,7 +116,26 @@ public class HYController {
 	
 	// 호스트 메인페이지
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
-	public String hostMain() {
+	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
+		List<HashMap<String,Object>> income = null;
+		int thisMonthIcome = 0;
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		if(loginuser.getMyroomList().size()>0) {
+			income = service.getHostIncome(loginuser.getUserid());
+			Calendar cal = Calendar.getInstance();
+			int month = cal.get(Calendar.MONTH);
+			for(HashMap<String,Object> hash : income) {
+				if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
+			}
+		}
+		else{
+			req.setAttribute("msg", "호스트만 접근 가능합니다.");
+			req.setAttribute("loc", "index.air");
+			return "msg";
+		}
+		req.setAttribute("income", income);
+		req.setAttribute("thisMonthIcome", thisMonthIcome);
 		return "host/hostMain.hosttiles";
 	}
 	
@@ -162,7 +184,7 @@ public class HYController {
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);
 		paraMap.put("SAVETITLE", saveTitle);
-		int n = service.insertLikeRoom(paraMap);
+		service.insertLikeRoom(paraMap);
 		/*JSONObject jobj = new JSONObject();
 		jobj.put("n", n);
 		String str_json = jobj.toString();

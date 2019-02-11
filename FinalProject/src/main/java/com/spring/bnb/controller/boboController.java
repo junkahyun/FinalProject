@@ -37,6 +37,13 @@ public class boboController {
    @RequestMapping(value="/roomstep1.air", method={RequestMethod.GET})
    public String roomstep1(HttpServletRequest req) {
       
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+	   
       /*// 세션에 입력값을 넣어서 한번에 insert하려고 RoomVO를 세션값에 저장
       HttpSession session = req.getSession();      
       RoomVO roomvo = new RoomVO();
@@ -48,6 +55,13 @@ public class boboController {
    @RequestMapping(value="/roomstep1page.air", method={RequestMethod.GET})
    public String roomstep1page(HttpServletRequest req) {
       
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }	   
+	   
       List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
       req.setAttribute("buildTypeList", buildTypeList);      
 
@@ -127,6 +141,12 @@ public class boboController {
    public String roomstep2(RoomVO roomvo, HttpServletRequest req) {
       
       HttpSession session = req.getSession();   
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+      
       String[] optionArr = req.getParameterValues("optionchk");
       
       if(optionArr != null) {
@@ -157,6 +177,13 @@ public class boboController {
    @RequestMapping(value="/roomstep2page.air", method={RequestMethod.GET})
    public String roomstep2page(HttpServletRequest req) {
       
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+	   
       return "become-host/room-step2-page";
    }
    
@@ -229,8 +256,13 @@ public class boboController {
    
    @RequestMapping(value="/roomstep3.air", method={RequestMethod.GET})
    public String roomstep3(HttpServletRequest req) {
-      
+       
       HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
       RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
       
       // 파라미터 값에 RoomVO 안들어가서 이렇게 했다 
@@ -248,6 +280,13 @@ public class boboController {
    
    @RequestMapping(value="/roomstep3page.air", method={RequestMethod.GET})
    public String roomstep3page(HttpServletRequest req) {
+	   
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
       
       return "become-host/room-step3-page";
    }
@@ -256,6 +295,12 @@ public class boboController {
    public String roomlaststep(HttpServletRequest req) {
       
       HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+      
       RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
       
       String checkInTime = req.getParameter("checkInTime");
@@ -282,9 +327,14 @@ public class boboController {
    @RequestMapping(value="/roomfinish.air", method={RequestMethod.GET})
    public String roomfinish(HttpServletRequest req) {
       
-      HttpSession session = req.getSession();      
+      HttpSession session = req.getSession();  
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+      
       RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
-      MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
       
       roomvo.setHost(loginuser);
       //System.out.println(roomvo.getHost().getUserid());
