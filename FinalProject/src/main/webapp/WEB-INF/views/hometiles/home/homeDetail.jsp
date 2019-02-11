@@ -177,6 +177,7 @@
        		}
        		for(var i=0;i<diffrent;i++){
        			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
+       			//alert(temp);
        			for(var j=0;j<disabledDays.length;j++){
        				if(disabledDays[j].getTime()==temp.getTime()){
            				alert("예약 할 수 없는 날짜 입니다.");
@@ -208,8 +209,10 @@
 						var startday = new Date(rsvArr[i].start);
 						var endday = new Date(rsvArr[i].end);
 						var diff = (endday-startday)/(1000*60*60*24);
-						for(var i=0;i<diff;i++){
-							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
+						//alert("diff : "+diff+"/ startday :"+startday+"/ endday : "+endday);
+						for(var j=0;j<=diff;j++){
+							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+j));
+							//alert(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+j));
 						}
 					}
 				}
