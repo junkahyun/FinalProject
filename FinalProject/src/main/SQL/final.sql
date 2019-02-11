@@ -305,6 +305,8 @@ from(
     rownum
     order by roomcode asc
 )V
-where RNO between 1 and 7
+where RNO between 1 and 7;
 
+select *
+from room;
 
