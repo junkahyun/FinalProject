@@ -522,7 +522,16 @@ public class SOController {
 		
 	return "mypage/myReservationScheduleDetail.hometiles";
 }
-	
+	@RequestMapping(value="messageSend.air", method = RequestMethod.GET)
+	public String messageSend(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+		String rsvcode = req.getParameter("rsvcode");
+		String roomcode = req.getParameter("roomcode");
+		
+		return "mypage/messageSend.notiles";
+	}
 	// 투숙 예약 취소하기
 	@RequestMapping(value = "/goCancel.air", method = {RequestMethod.POST, RequestMethod.GET})
 	public String requireMyPageLogin_myReservationScheduleCancel(HttpServletRequest req, HttpServletResponse res) {

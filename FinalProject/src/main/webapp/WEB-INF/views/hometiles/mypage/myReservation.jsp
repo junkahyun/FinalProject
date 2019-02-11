@@ -36,6 +36,11 @@
 	$(document).ready(function(){
 
 	 	}); 
+	function goMessage(rsvcode,roomcode) {
+		var url ="/bnb/messageSend.air?rsvcode="+rsvcode+"&roomcode="+roomcode;
+		window.open(url,"호스트에게 메세지 보내기","width=500,height=700");
+	}
+
 </script>
 
 <div class="row firstDIV">
@@ -205,7 +210,14 @@
 					  </div>
 					  <div style="border: 0px solid blue; margin-bottom : 1%;" align="right">
 					  	<a href="<%= ctxPath %>/myReservationDetail.air?userid=${userid}&rsvcode=${reservationInfo.rsvcode}" class="btn btn-primary btn-default">예약 상세 보기</a>
-					  </div>  				  
+					  </div>  
+					 
+				<div class="col-md-12" style="margin-top:2%;">
+		   			<div class="col-md-10"></div>
+		   			<div class="col-md-2 row"><button type="button" class="btn btn-primary btn-default" onClick="goMessage('${reservationInfo.rsvcode},${reservationInfo.roomcode}');">호스트에게 메세지 보내기</button></div>
+	   			 </div>
+	   			 
+	   			 				  
 		      </div> 	           	   	       
 	        </div> 
 	        </c:if>
