@@ -12,6 +12,12 @@
 <link href="https://a0.muscache.com/airbnb/static/packages/edit_profile-57ea8223a84513da61b565fa5448d1c2.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style data-aphrodite="data-aphrodite">
+
+#sumReservation{
+	font-size: 15pt;
+	font-weight: bold;
+}
+
 ._1k01n3v1 {
 	color: #008489 !important;
 	font: inherit !important;
@@ -71,6 +77,11 @@ supports (--custom: properties ){ .
    width: 100%;
    border: 1px solid #d3d3d3;
 }
+
+.viewcountTab{
+	font-size: 20pt;
+	font-weight: bold;
+}
 </style> 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -97,7 +108,14 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#Monthselect").change(function(){
+		monthReservation();
+	});
 	
+	$("#roomSelect").change(function(){
+		roomViewCount();
+	});
+
 });
 
 function chart(){
@@ -119,7 +137,7 @@ function chart(){
 				resultArr.push(subArr); // 배열속에 값을 넣기
 			}
 			
-			//console.log(totalCount);
+			console.log(totalCount);
 		
 			$("#PointCount").empty();
 			var html = "<h5 id='PointCount'>평점 ("+totalCount+"개)</h5>"
@@ -181,13 +199,100 @@ function showreview() {
 		dataType:"JSON",
 		success:function(json){
 			console.log(json);
-			var html = 	"<c:set var='room' value='"+json+"'/>";
+			
+			var reviewCount = "";
+			var reviewContent = "";
+			$.each(json,function(entryIndex, entry){
+				reviewCount = "<h5>후기("+json.length+"개)</h5>";
+				reviewContent += '<div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">'+entry.userid+'</div><div>'+entry.review_writedate+'</div></div>'
+								+'<div id="reviewContent" class="col-md-12" style="margin-top:2%;">'+entry.review_content+'</div>';
+			});// end of each
+			
+			
+			$("#reviewCount").empty().html(reviewCount);
+			$(".homeDetailComment").empty().html(reviewContent);
 		},
 		error:function(){
 			
 		}
 	});
 }
+
+function reservation(){
+	var form_data = {userid:"${loginuser.userid}"};
+	//console.log(form_data);
+	$.ajax({
+		url:"allReservation.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			console.log(json);
+			var html = "";
+			html = '<div id="sumReservation"><span>'+json.year+'년 총 수입</sapn><br>'+json.sumReservation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</div>';
+			$("#sumReservation").empty().html(html);
+			$("#Monthselect").val("allmonth");
+		},
+		error:function(){
+			
+		}
+	});
+}
+
+function monthReservation(){
+	var form_data = {userid:"${loginuser.userid}",month:$("#Monthselect").val()};
+	//console.log(form_data);
+	$.ajax({
+		url:"monthReservation.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			console.log(json);
+			var html = "";
+			if(json.month == "allmonth"){
+				html = '<div id="sumReservation"><span>'+json.year+'년 총 수입</sapn><br>'+json.sumReservation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</div>';
+			} else{
+				html = '<div id="sumReservation"><span>'+json.year+'년 '+json.month+'월 수입</sapn><br>'+json.sumReservation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</div>';
+			}
+			
+			$("#sumReservation").empty().html(html);
+		},
+		error:function(){
+			
+		}
+	});
+}
+
+function roomViewCount(){
+	var form_data = {roomcode:$("#roomSelect").val()};
+	console.log(form_data);
+	$.ajax({
+		url:"roomViewCount.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			var html = "";
+			var html1 = "";
+			
+			if(json.roomcode == "selectRoom"){
+				html = '<span id="roomViewCount" class="viewcountTab">'+0+'</span>';
+				html1 = '<span id="roomViewCount" class="viewcountTab">'+0+'</span>';
+			} else {
+				html = '<span id="roomViewCount" class="viewcountTab">'+json.viewCount+'</span>';
+				html1 = '<span id="roomViewCount" class="viewcountTab">'+json.reservationCount+'</span>';
+			}
+			
+			$("#roomViewCount").empty().html(html);
+			$("#roomReservationCount").empty().html(html1);
+		},
+		error:function(){
+			
+		}
+	});
+}
+
 </script>
 
 <div class="container" style="width: 100%;">
@@ -198,8 +303,8 @@ function showreview() {
 				<div class="container" style="float: left; width: 70%">
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#avgScore">평점</a></li>
-						<li><a data-toggle="tab" href="#income">수입</a></li>
-						<li><a data-toggle="tab" href="#hits">조회수</a></li>
+						<li class="totalPays"><a data-toggle="tab" href="#income" onclick="reservation()">수입</a></li>
+						<li class="viewcount"><a data-toggle="tab" href="#hits">조회수</a></li>
 					</ul>
 				</div>
 				<!-- 평점 시작 -->
@@ -255,16 +360,16 @@ function showreview() {
 									<div class="_1p75mxn1"
 										style="border: 0px solid red; margin-top: 10%;">
 										<div class="_1dl27thl" style="border: 0px solid red">
-											<h5>후기(0개)</h5>
+											<h5 id="reviewCount"></h5>
 											  <div id="reviewArea" class="noSpace">
 									          
 								               <div class="row noSpace homeDetailComment">
 								                  <div class="col-md-1">
-								                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"><img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;"></div>
+								                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"></div>
 								                  </div>
 								                  <div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
-								                  <div class="col-md-1">icon</div>
-								                  <div class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
+								                  <div class="col-md-1"></div>
+								                  <div id="reviewContent" class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
 								               </div>
 									            
 									             
@@ -325,14 +430,95 @@ function showreview() {
 					</div>
 					<!-- 평점 끝 -->
 					<!-- 수입 시작 -->
-					<div class="tab-pane tab-panel" id="income">수입 내용 넣기</div>
+					<div class="tab-pane tab-panel totalPay" id="income">
+					<div style="margin-top: 5%;">
+
+							<div class="row">
+								<div class="col-lg-8">
+									<div style="margin-bottom: 1px;">
+										<div class="_9hxttoo" style="border: 0px solid red;">
+											<div style="margin-bottom: 8px;">
+												<label class="_rin72m" for="Monthselect">
+												<div class="_6mxuijo" style="border: 0px solid #008489;">월 선택</div></label>
+											</div>
+											<div style="border: margin-bottom: 5%; padding: 0;">
+												<div style="margin: 0; border: 0px solid red; padding: 0;">
+												<form name="selectMonth">
+													<select id="Monthselect" name="selected_listing"
+														class="_bwyiq2l">
+														<option value="allmonth">월 선택</option>
+														<c:forEach var="month" begin="1" end="12">
+															<option value="${month}">${month}월</option>
+														</c:forEach>
+													</select>
+												</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<!--  표시할 내용이 없을떄 나타나야함  끝-->
+									<div class="_1dl27thl" style="margin-top: 10%;">
+										<div id="sumReservation"></div>
+										<h5 id="PointCount">예약 수입</h5>
+									</div>
+									<!--  표시할 내용이 없을떄 나타나야함 -->
+
+									<!--  차트 시작 -->
+									<div id="charts"
+										style="border: 0px soild red; min-width: 310px; height: 70%; max-width: 80%; margin: 0 auto"></div>
+									<!--  차트 끝 -->
+								</div>
+							</div>
+						</div>
+					</div>
 					<!-- 수입 끝 -->
+					
+					
 					<!-- 조회수 시작 -->
-					<div class="tab-pane tab-panel" id="hits">조회수 넣기ㅣ</div>
+					<div class="tab-pane tab-panel viewcount" id="hits">
+						<div style="margin-top: 5%;">
+							<div class="row">
+								<div class="col-lg-8">
+									<div style="margin-bottom: 1px;">
+										<div class="_9hxttoo" style="border: 0px solid red;">
+											<div style="margin-bottom: 8px;">
+												<label class="_rin72m" for="listingSelector">
+												<div class="_6mxuijo" style="border: 0px solid #008489;">숙소 선택</div></label>
+											</div>
+											<div style="border: margin-bottom: 5%; padding: 0;">
+												<div style="margin: 0; border: 0px solid red; padding: 0;">
+												<form name="selectRoomcode">
+													<select id="roomSelect" name="selected_listing"
+														class="_bwyiq2l">
+														<option value="selectRoom">숙소 선택</option>
+														<c:forEach var="room" items="${roomList}">
+															<option value="${room.roomcode}">${room.roomName}</option>
+														</c:forEach>
+													</select>
+												</form>
+												</div>
+											</div>
+										</div>
+										<div class="_1dl27thl" style="margin-top: 10%;">
+											<div class="col-md-4">
+												<span id="roomViewCount" class="viewcountTab">0</span>
+												<h5>숙소에 대한 조회수</h5>
+											</div>
+											<div class="col-md-4">
+												<span id="roomReservationCount" class="viewcountTab">0</span>
+												<h5>지난 한달 동안 받은 예약</h5>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
 					<!-- 조회수 끝 -->
 				</div>
 			</div>
 		</div>
 	</div>
-
 </div>

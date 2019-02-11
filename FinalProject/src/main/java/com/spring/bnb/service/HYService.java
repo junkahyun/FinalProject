@@ -101,4 +101,10 @@ public class HYService implements InterHYService {
 		return searchList;
 	}
 
+	@Override
+	public List<HashMap<String, Object>> getHostIncome(String userid) {
+		List<HashMap<String, Object>> income = dao.getHostIncome(userid);
+		return income;
+	}
+
 }

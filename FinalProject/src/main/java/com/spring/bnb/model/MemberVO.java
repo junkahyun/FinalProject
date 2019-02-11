@@ -19,6 +19,7 @@ public class MemberVO {
 	private int memberStatus;
 	private int warnCount;
 	private String regDate;
+	private String lastLoginDate;
 	
 	//add
 	private List<RoomVO> myroomList;
@@ -143,7 +144,13 @@ public class MemberVO {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
-	
+
+	public String getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(String lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
 }
 

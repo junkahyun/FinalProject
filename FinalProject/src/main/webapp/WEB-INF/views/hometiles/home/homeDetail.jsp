@@ -22,8 +22,8 @@
 		// 리뷰 가져오기
 		getReview("1");
 		// 별점설정
-		var starhalf = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/half-star-shape.png' style='weight:10px;height:20px;margin-right:1%;'>";
-		var starOne = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/bookmark-star.png' style='weight:20px;height:20px;margin-right:1%;'>";
+		var starhalf = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/half-star-shape.png' style='weight:7px;height:14px;'>";
+		var starOne = "<img src='<%=request.getContextPath() %>/resources/images/homeDetail/bookmark-star.png' style='weight:14px;height:14px;'>";
 		$(".starPointval").val(6);
 		$(".starPoint").html(starOne+starOne+starOne);
 		var starAllAvg = 0;
@@ -33,37 +33,37 @@
 			if(thisText=="정확성"){
 				var correct = parseInt("${starMap.correct}");
 				starAllAvg += correct;
-				for(var i=0;i<correct/2;i++) html += starOne;
+				for(var i=0;i<Math.floor(correct/2);i++) html += starOne;
 				if(correct%2==1) html += starhalf;
 			}
 			else if(thisText=="의사소통"){
 				var communicate = parseInt("${starMap.communicate}");
 				starAllAvg += communicate;
-				for(var i=0;i<communicate/2;i++) html += starOne;
+				for(var i=0;i<Math.floor(communicate/2);i++) html += starOne;
 				if(communicate%2==1) html += starhalf;
 			}
 			else if(thisText=="청결도"){
 				var clean = parseInt("${starMap.clean}");
 				starAllAvg += clean;
-				for(var i=0;i<clean/2;i++) html += starOne;
+				for(var i=0;i<Math.floor(clean/2);i++) html += starOne;
 				if(clean%2==1) html += starhalf;
 			}
 			else if(thisText=="위치"){
 				var position = parseInt("${starMap.position}");
 				starAllAvg += position;
-				for(var i=0;i<position/2;i++) html += starOne;
+				for(var i=0;i<Math.floor(position/2);i++) html += starOne;
 				if(position%2==1) html += starhalf;
 			}
 			else if(thisText=="체크인"){
 				var checkin = parseInt("${starMap.checkin}");
 				starAllAvg += checkin;
-				for(var i=0;i<checkin/2;i++) html += starOne;
+				for(var i=0;i<Math.floor(checkin/2);i++) html += starOne;
 				if(checkin%2==1) html += starhalf;
 			}
 			else{
 				var value = parseInt("${starMap.value}");
 				starAllAvg += value;
-				for(var i=0;i<value/2;i++) html += starOne;
+				for(var i=0;i<Math.floor(value/2);i++) html += starOne;
 				if(value%2==1) html += starhalf;
 			}
 			$(this).html(html);
@@ -177,6 +177,7 @@
        		}
        		for(var i=0;i<diffrent;i++){
        			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
+       			//alert(temp);
        			for(var j=0;j<disabledDays.length;j++){
        				if(disabledDays[j].getTime()==temp.getTime()){
            				alert("예약 할 수 없는 날짜 입니다.");
@@ -208,8 +209,10 @@
 						var startday = new Date(rsvArr[i].start);
 						var endday = new Date(rsvArr[i].end);
 						var diff = (endday-startday)/(1000*60*60*24);
-						for(var i=0;i<diff;i++){
-							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
+						//alert("diff : "+diff+"/ startday :"+startday+"/ endday : "+endday);
+						for(var j=0;j<=diff;j++){
+							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+j));
+							//alert(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+j));
 						}
 					}
 				}
@@ -432,7 +435,7 @@
             <div class="row noSpace" style="width:100%;padding:0;margin-bottom:2%;">
                <div class="col-md-8 infoSubjectHYBig">후기 <span id="reviewSize">${room.reviewList.size()}</span>개<span id="starAll" style="color:#148487;margin-left:3%;">★★★★★</span></div>
                <div class="col-md-4"><input id="reviewSearchWord" name="reviewSearchWord" type="text" class="form-control input-data" style="width:100%; padding-left: 20%;font-weight:bold;" placeholder="후기검색">
-                  <img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;">
+                  <button type="button" onClick="getReview('1');" style="padding:0;border:none;background-color:none;"><img src="<%=request.getContextPath()%>/resources/images/musica-searcher.png" style="opacity:0.5;width:18px;height:18px;position:absolute; top:8px;left: 25px;"></button>
                </div>
             </div>
 			<%-- 별점 평균 --%>
@@ -470,8 +473,10 @@
             </div>
             <%-- 후기들 --%>
             <div id="reviewArea" class="noSpace"></div>
-            <div id="pagebar" style="margin: 2% 5%;"></div>
-            <button data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal">댓글달기</button>
+            <div id="pagebar" style="margin: 2% 5%; text-align:center;"></div>
+            <c:if test="${loginuser!=null }">
+            <button type="button" data-toggle = "modal" data-target="#reviewRegist" data-dismiss = "modal" style="padding: 1%;width:90%; border:none; background-color:#148487;color:white;font-weight:bold;margin: 2% 5%;border-radius:5px;">댓글달기</button>
+         	</c:if>
          </div>
          </form>
          <div class="infoDiv">
@@ -500,13 +505,14 @@
             </script>
          </div>
          <div class="infoDiv">
-            <div class="infoSubjectHYBig">환불정책</div>
-            <div class="row noSpace" style="margin-top:3%;">
-	               숙소 이용규칙
+            <div class="infoSubjectHYBig">숙소 이용규칙</div>
+            <div class="row noSpace" style="margin-top:3%;font-size:1.1em;">
+		      	<b><br/>체크인시간 : ${room.checkInTime }:00 / 
+		      	체크아웃 시간 : ${room.checkOutTime }:00</b>
 		      <c:forEach items="${room.ruleList }" var="rule">
 		      	<br>${rule.RULENAME }
 		      </c:forEach>
-               <a class="aTagBtnHY">숙소 이용규칙 모두 보기</a>
+               <br/><br/><a class="aTagBtnHY">숙소 이용규칙 모두 보기</a>
             </div>
          </div>
       </div>
@@ -524,9 +530,9 @@
                   	<div style="height:240px;padding-top:5%;">
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>
 	                    <div class="input-daterange input-group datepicker" id="datepicker" style="width:100%;padding: 2% 5%;">
-						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;" readonly/>
 						    <span class="input-group-addon">to</span>
-						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;" readonly/>
 						</div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
@@ -548,7 +554,7 @@
 	                                  	<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
+		                                     	<div class="col-md-4"><input id="babyCount" name="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >+</button></div>
                                   			</div>
 	                                  	</div>
@@ -685,4 +691,5 @@
 		</div>
 	</div>	
 	</form>
+	<%-- UML만들기, 숙박일수/인원별 가격, --%>
 </div>

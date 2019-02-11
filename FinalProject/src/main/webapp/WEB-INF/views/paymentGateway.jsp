@@ -70,7 +70,7 @@ $(document).ready(function() {
 			alert("결제 성공!");
 			
         } else {
-            location.href="<%=request.getContextPath() %>/reservationCheck.air";
+            location.href="<%=request.getContextPath() %>/reservationCheck.air?roomcode=${oneRoom.roomcode}&guestCount=1&babyCount=0&rsv_checkInDate=${checkin}&rsv_checkOutDate=${checkout}";
             alert("결제에 실패하였습니다.");
        }
 
