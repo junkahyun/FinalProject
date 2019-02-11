@@ -492,19 +492,32 @@
 		   alert("인원수는 1명 이상이여야 합니다.");
 		   minus = 1;
 	   }
+
 	   $("#basic_person").val(minus);
    }  
    
    //기본수용인원 증가 버튼
    function basicplus() {
+	   if($("#basic_person").val()+1>$("#peopleupdown").val()){
+		   alert("최대숙박인원을 늘려주세요.");
+		   return;
+	   }
+	   
 	   var start = $("#basic_person").val();
 	   var plus = parseInt(start);
+
 	   plus++;
+ 
 	   $("#basic_person").val(plus);
    }
 	
    //최대숙박인원 감소 버튼
    function peopleminus() {
+	   if($("#basic_person").val()+1>$("#peopleupdown").val()){
+		   alert("기본수용인원을 줄여주세요.");
+		   return;
+	   }
+	   
 	   var start = $("#peopleupdown").val();
 	   var minus = parseInt(start);
 	   minus--;
@@ -548,7 +561,7 @@
 
 <div class="row">
 	<div class="col-md-1">
-		<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+		<img onclick="javascript:location.href='index.air'" src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
 	</div>
 	<div class="col-md-6" style="font-size: 18px; margin-top: 20px; padding-left: 0">1단계: 기본사항을 입력하세요</div>
 </div>
