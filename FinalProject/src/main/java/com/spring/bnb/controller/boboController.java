@@ -209,7 +209,7 @@ public class boboController {
          
          List<String> imgList = new ArrayList<String>();
          
-         for(int i=0; i<fileList.size(); i++) { 
+         for(int i=1; i<fileList.size(); i++) { 
              bytes = fileList.get(i).getBytes(); // 첨부파일의 내용물(byte)을 읽어옴.
              
              // 파일업로드 한 후 업로드되어진 파일명  가져오기
