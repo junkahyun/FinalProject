@@ -43,6 +43,7 @@ public class KHController {
 	public String requireLogin_reservationCheck (HttpServletRequest req,HttpServletResponse res) throws ParseException {
 		
 		HttpSession session = req.getSession();
+		session.removeAttribute("code");
 		//===================================================
 		String roomcode = req.getParameter("roomcode");//숙소코드
 		String guestCount = req.getParameter("guestCount");//게스트인원
@@ -50,13 +51,10 @@ public class KHController {
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");//체크인날짜
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");//체크아웃날짜
 		
-		System.out.println(babyCount);
-		
 		if(babyCount == null || "".equals(babyCount)) {
 			//넘어온 유아인원의 값이 null일 경우 기본으로 0값을 준다.
 			babyCount = "0";
 		}
-		
 		//받아온 숙소코드를 map에 넣어서 넘겨준다.
 		//HashMap으로 안해도 되지만 한번한거 변경하기 귀찮아서 안바꿈.
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -118,11 +116,28 @@ public class KHController {
 		String price = req.getParameter("price");//숙박일수*1박숙소 금액
 		
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String code = (String)session.getAttribute("code");
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("userid", loginuser.getUserid());
+		map.put("code",code);
+		System.out.println(code);
+		
+		int disCountMoney = 0;
+		if(code == null || "".equals(code)) {
+			disCountMoney = 0;
+		}
+		else {
+			// *** 쿠폰 사용시 할인금액 가져오기 *** //
+			disCountMoney = service.getUseMyCopon(map);
+			
+		}
 		
 		//암호화된 이메일과 번호를 복호화 해서 보여줌.
 		String email = aes.decrypt(loginuser.getEmail());
 		String phone = aes.decrypt(loginuser.getPhone());
 		
+		session.setAttribute("disCountMoney", disCountMoney);//할인금액
 		session.setAttribute("phone", phone);
 		session.setAttribute("email", email);
 		session.setAttribute("babycount", babycount);
@@ -292,7 +307,7 @@ public class KHController {
 	      
 	      return "O"+year+month+day+"-"+ordcode;
    }
-	
+	// *** 나의쿠폰 팝업창으로 띄어서 보기 *** //
 	@RequestMapping(value="/mycoupon.air", method = {RequestMethod.GET})
 	public String mycoupon (HttpServletRequest req, HttpSession session) {
 		
@@ -305,15 +320,17 @@ public class KHController {
 		
 		return "reservationAndPay/mycoupon.notiles";
 	}
-	// **쿠폰 사용하는 메소드 ** //
 	
+	// *** 쿠폰 사용하는 메소드 *** //
 	@RequestMapping(value="/useMyCoupon.air", method = {RequestMethod.GET})
 	public String useCoupon(HttpServletRequest req,HttpSession session){
 		
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginuser.getUserid();
 		String code = req.getParameter("code");
-		System.out.println(userid);
+		session.setAttribute("code", code);
+		
+		//System.out.println(userid);
 		HashMap<String,String> cpmap = new HashMap<String,String>();
 		cpmap.put("userid", userid);
 		cpmap.put("code", code);
@@ -322,11 +339,10 @@ public class KHController {
 		int n = service.useMyCoupon(cpmap);
 		
 		JSONObject json = new JSONObject();
-
-		json.put("n", n);
-		String str_json = json.toString();
+		json.put("cinsert", n);
+		String s_json = json.toString();
 		
-		req.setAttribute("str_json", str_json);
+		req.setAttribute("s_json", s_json);
 		
 		return "reservationAndPay/couponJson.notiles";
 	}
