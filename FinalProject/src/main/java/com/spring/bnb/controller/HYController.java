@@ -225,23 +225,23 @@ public class HYController {
 		if (!profile.isEmpty()) { // 파일 있으면(업로드 했으면)
 			String root = req.getSession().getServletContext().getRealPath("/");
 			String realPath = root+File.separator+"resources"+File.separator+"images"+File.separator+"profile";
-			String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
+			//String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
 			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
 			// 엣지 브라우저 요청 파일이름 처리
 			int index = filename.lastIndexOf("\\");
 			filename = filename.substring(index + 1);
 	        File file = new File(realPath, filename);
-	        File gitfile = new File(gitrealPath, filename);
+	        //File gitfile = new File(gitrealPath, filename);
 	        if (file.exists()) { // 해당 경로에 동일한 파일명이 이미 존재하는 경우 파일명 앞에 업로드 시간 밀리초 붙여서 파일명 중복을 방지
 	        	filename = System.currentTimeMillis() + "_" + filename;
 	        	file = new File(realPath, filename);
-	        	gitfile = new File(gitrealPath, filename);
+	        	//gitfile = new File(gitrealPath, filename);
 	        }
 	        System.out.println("업로드 경로: " + realPath);
 	        System.out.println("업로드 파일명: " + filename);
 	        // 업로드 수행
 	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
-	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
+	        //IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
 			member.setProfileimg(filename);
 		} else {
 			System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
