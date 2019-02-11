@@ -83,50 +83,80 @@ div{border:  0px solid gray;
 </style>
 
 <script>
+	$(document).ready(function(){
+		$("#title").focus(function(){
+			$("#title").val("");
+		});
+		
+		$("#roomContent").focus(function(){
+			$("#roomContent").val("");
+		});
+		
+		$("#saveRoomInfo").click(function(){
+			var form_data = {"roomcode":"${roomvo.roomcode}",roomname:$("#title").val(), roomInfo:$("#roomContent").val()};
+			console.log(form_data);
+			$.ajax({
+				url:"changeRoomInfo.air",
+				data:form_data,
+				type:"POST",
+				dataType:"JSON",
+				success:function(json){
+					alert("저장하기 완료");
+					$("#title").val(json.roomname);
+					$("#roomContent").val(json.roomInfo);					
+				},
+				error:function(){
+					
+				}
+			}); 
+			
+		});	
+	});
 	
+
+	function savecancel(){
+		var form_data = {"roomcode":"${roomvo.roomcode}"};
+		console.log(form_data);
+		$.ajax({
+			url:"savecancel.air",
+			data:form_data,
+			type:"GET",
+			dataType:"JSON",
+			success:function(json){
+					//alert("취소");
+					$("#title").val(json.roomname);
+					$("#roomContent").val(json.roomInfo);					
+			},
+			error:function(){
+				
+			}
+		}); 
+	}
+	
+	function gohostRoomEdit(roomcode) {
+		location.href="hostRoomEdit.air?roomcode="+roomcode;
+	}
 </script>
 
-
+<form name="roomInfo">
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; margin-bottom: 5%;">
-	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit" href="<%=request.getContextPath()%>/hostRoomEdit.air">수정으로 돌아가기</a>
+	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit" onclick="gohostRoomEdit('${roomvo.roomcode}');">수정으로 돌아가기</a>
 	<h3 align="left" style="font-weight: bold;">제목과 설명</h3>
 	<p>게스트가 회원님의 숙소에 대해 쉽게 파악할 수 있도록 제목과 설명을 추가하세요.</p>
 	<h4>한국어</h4>
 	<p>제목</p>
 	<p>숙소 이름을 한국어로 입력하세요.</p>
-	<input type="text" class="form-control" id="title" name="title" style="width: 45%;">
-	
-	<p>요약</p>
-	<p>회원님의 언어 능력을 활용해 숙소에 대해 한국어로 설명해주세요.</p>
-	<textarea class="form-control" rows="6" style="width: 45%;"></textarea>
+	<input type="hidden" name="roomcode" value="${roomvo.roomcode }">
+	<input type="text" class="form-control" id="title" name="title" style="width: 45%;" value="${roomvo.roomName }">
 	<hr class="line" align="left">
 	
 	<p>숙소 설명</p>
 	<p>숙소의 특징을 한국어로 자세히 설명하세요.</p>
-	<textarea class="form-control" rows="6" style="width: 45%;"></textarea>
-	
-	<p>사용가능 공간/시설</p>
-	<p>게스트에게 사용할 수 있는 숙소 공간에 대해 알려주세요.</p>
-	<textarea class="form-control" rows="6" style="width: 45%;"></textarea>
-	
-	<p>기타 사항</p>
-	<p>게스트에게 숙박 중 고려해야 할 기타 세부정보를 알려주세요.</p>
-	<textarea class="form-control" rows="6" style="width: 45%;"></textarea>
-	<hr class="line" align="left">
-	<h4>지역정보</h4>
-	
-	<p>소개</p>
-	<p>숙소가 위치한 지역의 특생을 한국어로 게스트에게 알리세요.</p>
-	<textarea class="form-control" rows="6" style="width: 45%;"></textarea>
-	
-	<p>교통편</p>
-	<p>게스트에게 숙소가 대중교통과 가까운지 알려줄 수 있습니다.</p>
-	<p> 또한 주위의 주자공간에 대해서도 알려줄 수 있습니다.</p>
-	<textarea class="form-control" rows="6" style="width: 45%;"></textarea>
+	<textarea id="roomContent" name="roomContent" class="form-control" rows="6" style="width: 45%;">${roomvo.roomInfo}</textarea>
 	
 	<hr class="line" align="left">
 	
-	<button type="button" class="btn"><span class="editbtn">저장하기</span></button>
-	<button class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>
+	<button id="saveRoomInfo" type="button" class="btn"><span class="editbtn">저장하기</span></button>
+	<input type="button" id="cancel" class="btn" style="background-color:  #008489;color: white; font-weight: bold;" value="취소하기" onclick="savecancel();">
 </div>
-
+</form>

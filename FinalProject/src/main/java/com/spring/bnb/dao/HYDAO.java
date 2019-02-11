@@ -1,5 +1,6 @@
 package com.spring.bnb.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,9 @@ public class HYDAO implements InterHYDAO {
 		// 관심 수 가져오기
 		int likeCount = sqlsession.selectOne("hy.getRoomLikeCount", roomcode);
 		roomvo.setLikeCount(likeCount);
+		// 이용규칙 리스트 가져오기
+		List<HashMap<String,String>> ruleList = sqlsession.selectList("hy.getRuleList", roomcode);
+		roomvo.setRuleList(ruleList);
 		// 숙소 이미지 리스트 가져오기
 		/*List<String> roomimgList = sqlsession.selectList("hy.getRoomImgList", roomcode);
 		roomvo.setRoomimgList(roomimgList);*/
@@ -63,8 +67,10 @@ public class HYDAO implements InterHYDAO {
 
 	@Override
 	public int insertLikeRoom(HashMap<String, Object> paraMap) {
-		int n = sqlsession.insert("hy.insertLikeRoom", paraMap);
-		return n;
+		int result = 0;
+		int n = sqlsession.selectOne("hy.checkLikeRoom", paraMap);
+		if(n==0) result = sqlsession.insert("hy.insertLikeRoom", paraMap);
+		return result;
 	}
 
 	@Override
@@ -164,5 +170,23 @@ public class HYDAO implements InterHYDAO {
 	public List<String> getSearchSido(String searchword) {
 		List<String> searchList = sqlsession.selectList("hy.getSearchSido", searchword);
 		return searchList;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getHostIncome(String userid) {
+		List<HashMap<String, Object>> income = new ArrayList<HashMap<String,Object>>();
+		for(int i=1;i<=12;i++) {
+			HashMap<String,Object> paraMap = new HashMap<String,Object>();
+			if(i<10) paraMap.put("month", "0"+String.valueOf(i));
+			else paraMap.put("month", String.valueOf(i));
+			paraMap.put("userid", userid);
+
+			HashMap<String,Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("month", i);
+			if(sqlsession.selectOne("hy.getHostIncome",paraMap)==null) resultMap.put("sumTotalPrice", 0);
+			else resultMap.put("sumTotalPrice", sqlsession.selectOne("hy.getHostIncome",paraMap));
+			income.add(resultMap);
+		}
+		return income;
 	}
 }
