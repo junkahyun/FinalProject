@@ -16,7 +16,7 @@
 		});
 	}
 	function goRegistHost(){
-		location.href="roomstap1.air";
+		location.href="roomstep1.air";
 	}
 	function goMypage(){
 		location.href="myEdit.air";
@@ -65,8 +65,8 @@
 			    </ul>
 			    </c:if>
             </div>
-			<div class="headermenuButton" onClick="" style="float:right; padding:1% 1.5%;">
-				<button class="btn" style="background-color: #008489;">
+			<div class="headermenuButton" style="float:right; padding:1% 1.5%;">
+				<button class="btn" onClick="goRegistHost();" style="background-color: #008489;">
 					<span style="color: white; font-weight: bold;">숙소등록하기</span>
 				</button>
 			</div>
