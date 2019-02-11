@@ -110,7 +110,7 @@ function goCancel() {
 				</div>
 			</div>
 			<div  class="col-md-12">			
-				<div class="col-md-3"><img src="${myRsvDetail.roommainimg}" width="200px"></div>					
+				<div class="col-md-3"><img src="<%= ctxPath %>/resources/images/becomehost/${myRsvDetail.roommainimg}" width="200px"></div>					
 				<div class="col-md-9 push_left">
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
 						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 3%;"><h5>예약 번호</h5></div>
