@@ -39,4 +39,6 @@ public interface InterSCDAO {
 
 	List<String> selectroomtype();
 
+	List<HashMap<String, String>> selectbuildTypedetail(String buildType);
+
 }

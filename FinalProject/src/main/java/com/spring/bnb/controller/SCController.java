@@ -335,7 +335,28 @@ public class SCController {
 		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/bedroomEdit.hosttiles_nofooter";
 	}
-
+	
+	@RequestMapping(value="/getRoomtypeList.air", method={RequestMethod.GET})
+	public String roomtypeJSON(HttpServletRequest req) {
+      
+		String buildType = req.getParameter("buildType");
+		JSONArray jsonArr = new JSONArray();
+		if(buildType != null && !buildType.trim().isEmpty()) {
+			List<HashMap<String,String>> buildTypeList = service.selectbuildTypedetail(buildType);// 건물세부유형 가져오기
+			if(buildTypeList != null && buildTypeList.size() > 0) {
+				for(HashMap<String,String> map : buildTypeList) {
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("buildtype_detail_idx", map.get("buildtype_detail_idx")); // 키값, xml에서 읽어온 키값
+					jsonObj.put("buildtype_detail_name", map.get("buildtype_detail_name"));
+					jsonArr.put(jsonObj);
+				}// end of for
+			}// end of if
+		}
+		String str_json = jsonArr.toString();
+		req.setAttribute("str_json", str_json);
+	  
+		return "JSON";      
+	}   
 	// 숙소 페이지
 	@RequestMapping(value = "/hostroomPage.air", method = { RequestMethod.GET })
 	public String hostroomPage() {

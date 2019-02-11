@@ -37,4 +37,6 @@ public interface InterSCService {
 	List<HashMap<String, String>> selectbuildType();
 
 	List<String> selectroomtype();
+
+	List<HashMap<String, String>> selectbuildTypedetail(String buildType);
 }

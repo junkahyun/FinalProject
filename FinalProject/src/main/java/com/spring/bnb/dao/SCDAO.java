@@ -136,6 +136,12 @@ public class SCDAO implements InterSCDAO {
 		return roomtype;
 	}
 
+	@Override
+	public List<HashMap<String, String>> selectbuildTypedetail(String buildType) {
+		List<HashMap<String, String>> buildtypedetailList = sqlsession.selectList("sc.selectbuildTypedetail", buildType);
+		return buildtypedetailList;
+	}
+
 	
 
 }

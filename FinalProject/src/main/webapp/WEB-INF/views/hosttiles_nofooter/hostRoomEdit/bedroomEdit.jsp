@@ -101,7 +101,43 @@ div{border:  0px solid gray;
 <script>
 
 $(document).ready(function(){
-	
+    // 건물타입 (첫번째)셀랙박스 
+    $("#buildType").change(function(){ 
+
+  	 // 건물유형선택 셀랙박스 선택가능하게
+  	 $("#buildType_detail").attr("disabled", false);
+
+  	  var buildType = $("#buildType").val();   	 
+  	  var form_data = {"buildType":buildType};
+  	  
+		  $.ajax({
+	 		 url:"getRoomtypeList.air",
+	 		 type:"GET",
+	 		 dataType:"JSON",
+	 		 data:form_data,
+	 		 success:function(json){
+	 			 
+	 		 var result = "<option selected value='0' disabled>건물 유형 선택</option>";
+	 		 
+	 		 $.each(json, function(entryIndex, entry){
+	 			
+	 			 result += "<option value="+entry.buildtype_detail_idx+">"+entry.buildtype_detail_name+"</option>";
+	 		 });
+	 		 
+	 		 $("#buildType_detail").html(result); 
+
+	 		 },
+	 		 error: function(request, status, error){
+	 		 	//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 		 }
+	 	 });// end of $.ajax({ --- 	
+			 
+    });// $("#buildType").change(function()
+    		
+    $("#cancelbtn").click(function(){
+    	location.reload();	
+    });
+   
 });
 
 function goRoomEdit(roomcode){
@@ -143,6 +179,7 @@ function peopleminus() {
 //최대숙박인원 증가 버튼
 function peopleplus() {
 	   var start = $("#peopleupdown").val();
+	   var basic_person = $("#basic_person").val();
 	   var plus = parseInt(start);
 	   plus++;
 	   $("#peopleupdown").val(plus);
@@ -179,7 +216,7 @@ function bathroomsplus() {
 			<p>회원님의 숙소에 가장 적합한 유형을 선택하세요.</p>
 		    <div class="selecthead">우선 범위를 좁혀볼까요?</div>    
 		    <select id="buildType" class="select error1" name="buildType" style="width: 35%; padding: 9px;" >  
-		    	<option selected value="${roomvo.buildType}" disabled>${roomvo.buildType }</option>
+		    	<option selected value="${roomvo.buildtype_idx}" disabled>${roomvo.buildType }</option>
 		        <c:forEach items="${buildTypeList}" var="map">
 		       		<option value="${map.buildtype_idx}">${map.buildtype}</option>
 		        </c:forEach>  
@@ -189,7 +226,7 @@ function bathroomsplus() {
 		<div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 	    	<div class="selecthead">건물 유형을 선택하세요</div>    
 	    	<select id="buildType_detail" class="select error2" name="fk_buildType_detail_idx" style="width: 35%; padding: 9px;" disabled>  
-	      	<option value="0">${roomvo.buildType_detail_name }</option>
+	      	<option value="${roomvo.fk_buildType_detail_idx }">${roomvo.buildType_detail_name }</option>
 	    	</select> 
 	    <!-- <div class="error2_text">옵션을 선택하세요.</div> -->
 	</div>
@@ -198,7 +235,7 @@ function bathroomsplus() {
 		   <div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 		       	<div class="selecthead">게스트가 묵게 될 숙소 유형을 골라주세요.</div>    
 		       	<select  class="select" name="fk_roomType_idx" style="width: 35%; padding: 9px;">
-		       		<option selected value="${roomvo.roomType_name }" disabled>${roomvo.roomType_name }</option>
+		       		<option selected value="${roomvo.fk_roomType_idx }" disabled>${roomvo.roomType_name }</option>
 		        	<c:forEach items="${roomtype}" var="map">
 						<option value="${map.roomtype_idx}">${map.roomtype_name}</option> 
 					</c:forEach>
@@ -268,6 +305,6 @@ function bathroomsplus() {
 
 	<hr class="line" align="left">
 	<button type="button" class="btn"><span class="editbtn">저장하기</span></button>
-	<button class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>
+	<button id="cancelbtn" class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>
 </div>
 

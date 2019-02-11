@@ -12,7 +12,7 @@
 	
 	<select id="getRoomInfo" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
 		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person
-				, fk_roomType_idx, fk_buildType_detail_idx, roomType_name, buildType, buildType_detail_name, nvl(bedcount, 0) as bedCount, nvl(bedtype,'없음') as bedtype
+				, fk_roomType_idx, fk_buildType_detail_idx, roomType_name, buildType, buildType_detail_name, nvl(bedcount, 0) as bedCount, nvl(bedtype,'없음') as bedtype, buildtype_idx
 		from room R join roomtype RT on r.fk_roomtype_idx = rt.roomtype_idx 
 		            join buildtype_detail BD on r.fk_buildtype_detail_idx = BD.buildtype_detail_idx 
 		            join buildtype B on bd.fk_buildtype_idx = b.buildtype_idx
@@ -146,6 +146,18 @@
       order by buildType_idx
    </select>
 
+	<!-- 건물세부유형 가져오기 -->
+    <resultMap type="HashMap" id="buildType_detail">
+        <result property="buildtype_detail_idx" column="buildType_detail_idx" javaType="String" />
+        <result property="buildtype_detail_name" column="buildType_detail_name" javaType="String" /> 
+   </resultMap>
+   
+    <select id="selectbuildTypedetail" parameterType="String" resultMap="buildType_detail">
+      select buildType_detail_idx, buildType_detail_name
+      from buildType_detail
+      where fk_buildType_idx = #{buildType}
+      order by buildType_detail_idx
+   </select>
     <!-- 숙소유형 가져오기 -->
    <resultMap type="HashMap" id="roomType">
         <result property="roomtype_name" column="roomType_name" javaType="String" />
