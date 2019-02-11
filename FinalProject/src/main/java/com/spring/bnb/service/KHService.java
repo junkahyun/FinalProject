@@ -72,6 +72,13 @@ public class KHService implements InterKHService {
 		int n = dao.useMyCoupon(cpmap);
 		return n;
 	}
+	
+	// *** 쿠폰 사용시 금액가져오는 메소드 *** //
+	@Override
+	public int getUseMyCopon(HashMap<String, String> map) {
+		int dismoney = dao.getUseMyCopon(map);
+		return dismoney;
+	}
 
 	
 }
