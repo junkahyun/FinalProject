@@ -527,9 +527,9 @@
                   	<div style="height:240px;padding-top:5%;">
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>
 	                    <div class="input-daterange input-group datepicker" id="datepicker" style="width:100%;padding: 2% 5%;">
-						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;" readonly/>
 						    <span class="input-group-addon">to</span>
-						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;" readonly/>
 						</div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
@@ -551,7 +551,7 @@
 	                                  	<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
+		                                     	<div class="col-md-4"><input id="babyCount" name="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >+</button></div>
                                   			</div>
 	                                  	</div>
