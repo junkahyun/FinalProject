@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -44,6 +45,20 @@ input{outline: none;
 		
 		$("#name").focus();
 		
+		// 할인금액 있을시 할인금액 계산하기 // 
+		var total = "${totalprice}";
+		var tsplit = total.split(",");
+		var tjoin = tsplit.join("");
+		
+		var dis = "${disCountMoney}";
+		
+		if(dis != 0){
+			$("#finalprice").text(Number(parseInt(tjoin)-parseInt(dis)).toLocaleString());
+		}
+		else{
+			$("#finalprice").text("${totalprice}");
+		}
+		// 할인금액 계산하기
 		// 이름, 이메일, 전화번호 유효성검사 하기 
 		$("#name").blur(function(){//이름 유효성 검사
 			
@@ -120,9 +135,8 @@ input{outline: none;
 				return;
 			}
 			
-			var total = $("#totalprice").text();
+			var total = $("#finalprice").text();
 			var totalprice = total.split(",");
-			
 			var price = totalprice.join("");
 			
 			var frm = document.finalRev;
@@ -259,7 +273,7 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${(sessionScope.oneRoom).roomType_name}"/><br><br>
 			
 			<span class="myinfomation">체크아웃</span><br>
-			<input class="reservationInfo" type="text" value="${checkout} " /><br><br>
+			<input class="reservationInfo" type="text" value="${checkout}" /><br><br>
 		</div>
 	</div>
 	<div class="col-md-12" style="font-size: 13pt; font-weight: bold;">
@@ -268,10 +282,14 @@ input{outline: none;
 	
 	<div class="col-md-12">
 		<hr style="border: 0.5px solid gray;">
-		할인금액: ${disCountMoney}원
 		<div align="right" style="font-size: 14pt;">
-			<span style="margin-right: 20%;">총합계(KWR)(수수료포함)</span>
-			₩<span id="totalprice">${totalprice}</span>
+			<span style="margin-right: 20%;">총합계(KWR)</span>
+			₩<span id="totalprice">${totalprice}</span><br>
+			<span style="margin-right: 25.7%;" >할인금액(KWR)</span>
+			₩<span id="disprice"><fmt:formatNumber value="${disCountMoney}" pattern="#,###"/></span><br>
+			<hr>
+			<span style="margin-right: 25.7%;">결제금액(KWR)</span>
+			₩<span id="finalprice"></span>
 		</div>
 	</div>
 	<div class="col-md-12">

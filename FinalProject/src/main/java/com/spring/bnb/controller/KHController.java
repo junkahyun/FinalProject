@@ -43,6 +43,7 @@ public class KHController {
 	public String requireLogin_reservationCheck (HttpServletRequest req,HttpServletResponse res) throws ParseException {
 		
 		HttpSession session = req.getSession();
+		session.removeAttribute("code");
 		//===================================================
 		String roomcode = req.getParameter("roomcode");//숙소코드
 		String guestCount = req.getParameter("guestCount");//게스트인원
@@ -124,6 +125,7 @@ public class KHController {
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("userid", loginuser.getUserid());
 		map.put("code",code);
+		System.out.println(code);
 		
 		int disCountMoney = 0;
 		if(code == null || "".equals(code)) {
@@ -132,6 +134,7 @@ public class KHController {
 		else {
 			// *** 쿠폰 사용시 할인금액 가져오기 *** //
 			disCountMoney = service.getUseMyCopon(map);
+			
 		}
 		
 		
@@ -341,9 +344,7 @@ public class KHController {
 		int n = service.useMyCoupon(cpmap);
 		
 		JSONObject json = new JSONObject();
-		
 		json.put("cinsert", n);
-		
 		String s_json = json.toString();
 		
 		req.setAttribute("s_json", s_json);

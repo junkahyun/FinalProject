@@ -61,6 +61,7 @@ th{font-weight: bold; font-size: 13pt;
 		    }	
 		});
 	}
+	
 </script>
 
 </head>
@@ -120,7 +121,7 @@ th{font-weight: bold; font-size: 13pt;
 		</table>
 	</div>
 	<div class="col-md-12" align="center" style="margin-top: 5%; margin-bottom: 5%;">
-	<button class="btn btn-danger">닫기</button>
+	<button class="btn btn-danger" onclick="opener.parent.location.reload();window.close();">닫기</button>
 	</div>
 </body>
 </html>

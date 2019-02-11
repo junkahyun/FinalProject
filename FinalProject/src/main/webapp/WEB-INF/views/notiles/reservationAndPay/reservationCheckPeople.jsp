@@ -427,7 +427,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info babym" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="0" min="0" max="${(sessionScope.oneRoom).max_person}"  id="babycount"/>
+						<input type="text" class="form-control text-center" value="${babyCount}" min="0" max="${(sessionScope.oneRoom).max_person}"  id="babycount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info babyp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
