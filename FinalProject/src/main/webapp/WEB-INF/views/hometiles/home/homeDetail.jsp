@@ -177,12 +177,12 @@
        		}
        		for(var i=0;i<diffrent;i++){
        			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
-       			for(var j=0;j<disabledDays.length;j++){
+       			/* for(var j=0;j<disabledDays.length;j++){
        				if(disabledDays[j].getTime()==temp.getTime()){
            				alert("예약 할 수 없는 날짜 입니다.");
            				return;
            			}
-       			} 
+       			}  */
        		}
        		goReserve();
        	});

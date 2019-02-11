@@ -1,18 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<title>나의 쿠폰 보기</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-
-<style>
+<style type="text/css" >
 
 th,td{padding: 1%;
 }
@@ -21,18 +19,19 @@ th{font-weight: bold; font-size: 13pt;
 
 </style>
 
-<script>
-	$(document).ready(function(){
+<script type="text/javascript">
+
+	/* $(document).ready(function(){
 		
 	});//end of $(document)-------------
-
-	function useCoupon(code,cpname){
+ */
+	function useMyCoupon(code,cpname){
 		var sido = "${oneRoom.roomSido}";
 		
 		if('해운대' == cpname.match('해운대')){
 			var bool = confirm("해당숙소는 사용이 가능합니다. 쿠폰을 사용하시겠습니까?");
 			if(bool == true){
-				goUseCoupon(code);	
+				goMyCoupon(code);	
 			}
 		}
 		else{
@@ -40,22 +39,26 @@ th{font-weight: bold; font-size: 13pt;
 		}
 	}
 	
-	function goUseCoupon(code){
+	function goMyCoupon(code){
 		
 		var form_data = {"code":code};
+		
 		$.ajax({
-			url:"useMyCoupon.air",
-			type:"get",
+			url:"<%=request.getContextPath() %>/useMyCoupon.air",
+			type:"GET",
 			data:form_data,
-			dataType:"json",
+			dataType:"JSON",
 			success:function(json){
 				if(json.n == 1){
-					alert("쿠폰이 사용되었습니다.");
+					alert("성공");
+				}
+				else{
+					alert("실패");
 				}
 			},
 			error: function(request, status, error){
-            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-        	}
+		           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		    }	
 		});
 	}
 </script>
@@ -89,7 +92,7 @@ th{font-weight: bold; font-size: 13pt;
 						<td style="font-weight: bold; color: tomato;">${mycoupon.dcmoney}</td>
 						<c:if test="${mycoupon.USEDATE == null}">
 							<td>사용가능함</td>
-							<td><button class="btn btn-primary" id="useCoupon" onclick="useCoupon('${mycoupon.CPCODE}','${mycoupon.cpname}')">사용하기</button></td>			
+							<td><button class="btn btn-primary" id="useCoupon" onclick="useMyCoupon('${mycoupon.CPCODE}','${mycoupon.cpname}')">사용하기</button></td>			
 						</c:if>
 						<c:if test="${mycoupon.USEDATE != null}">
 							<td>${mycoupon.USEDATE}</td>

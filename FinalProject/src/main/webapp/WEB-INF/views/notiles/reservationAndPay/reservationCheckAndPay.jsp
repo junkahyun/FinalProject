@@ -105,7 +105,7 @@ input{outline: none;
 		});
 		
 		$("#coupon").click(function(){//쿠폰적용하기 클릭시 나의 쿠폰 리스트 불러오기
-			var url="mycoupon.air";
+			var url="<%=ctxPath%>/mycoupon.air";
 			window.open(url,"mycoupon","width=1000, height=600, left=500, top=200");
 			
 			
@@ -268,6 +268,7 @@ input{outline: none;
 	
 	<div class="col-md-12">
 		<hr style="border: 0.5px solid gray;">
+		할인금액: ${disCountMoney}원
 		<div align="right" style="font-size: 14pt;">
 			<span style="margin-right: 20%;">총합계(KWR)(수수료포함)</span>
 			₩<span id="totalprice">${totalprice}</span>
