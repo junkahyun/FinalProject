@@ -101,6 +101,8 @@ div{border:  0px solid gray;
 <script>
 
 $(document).ready(function(){
+	
+	$("#bedType").hide();
     // 건물타입 (첫번째)셀랙박스 
     $("#buildType").change(function(){ 
 
@@ -133,9 +135,50 @@ $(document).ready(function(){
 	 	 });// end of $.ajax({ --- 	
 			 
     });// $("#buildType").change(function()
-    		
+    
+	$("#bedroom").change(function(){
+		var bedroom = {bedroom:$("#bedroom").val()};
+		console.log(bedroom);
+		$.ajax({
+			url:"changebedroomcount.air",
+			type:"GET",
+			data:bedroom,
+			dataType:"JSON",
+			success:function(json){
+				
+				$(".bedroom").empty();
+				var html ="";
+	 			for(var i=0; i<parseInt(json.bedroom); i++){
+	 				html += 
+	 				'<div class="row bedroom" style="margin-top: 1%;">'+
+	 					'<div class="col-md-3" style="border: 0px solid blue">'+
+	 						'<div class="bedroomNum" style="font-size: 19px;">'+(i+1)+'번 침실</div>'+
+	 						'<div class="bedCountinFor" style="font-size: 19px; color: #767676;">침대 '+(i+1)+'개</div>'+
+	 					'</div>'+
+	 					'<div class="col-md-3" style="border: 0px solid red; height: 56px; padding-right: 0;">'+
+	 						'<input type="button" class="bedAdd" value="침대 추가하기" onclick="bedAdd('+(i+1)+');" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em"/>'+
+	 					'</div>'+
+	 					'<div id="bedroomCount'+(i+1)+'" class="col-md-12 bedoqty"></div>'+
+	 				'</div>';
+	 				$(".bedroom").append().html(html);
+	 			}
+		 	},
+		 	error: function(request, status, error){
+	 		 	//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 		}
+		});
+		
+	});
+			
     $("#cancelbtn").click(function(){
-    	location.reload();	
+    	location.href = "bedroomEdit.air?roomcode="+${roomvo.roomcode};
+    });
+    
+    $("#savebtn").click(function(){
+   		var frm = document.bedAndPersonEdit;
+       	frm.method = "POST";
+       	frm.action = "bedAndPersonEdit.air";
+   		frm.submit();
     });
    
 });
@@ -204,11 +247,37 @@ function bathroomsplus() {
 	   plus++;
 	   $("#bathroomsupdown").val(plus);
 }
+
+//방개수 증가
+function roomminus() {
+	   var start = $("#roomupdown").val();
+	   var minus = parseInt(start);
+	   minus--;
+	   if(minus<1){
+		   alert("방개수는 1개 이상이여야 합니다.");
+		   minus = 1;
+	   }
+	   $("#roomupdown").val(minus);
+}  
+
+//방개수 감소
+function roomplus() {
+	   var start = $("#roomupdown").val();
+	   var plus = parseInt(start);
+	   plus++;
+	   $("#roomupdown").val(plus);
+}
+
+/* //침대 추가 버튼
+function bedAdd(bedroomCount){
+	$("#bedroomCount"+bedroomCount).html($("#bedType").show());
+} */
 </script>
 
-
+<form name="bedAndPersonEdit">
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; margin-bottom: 5%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit" onclick="goRoomEdit('${roomvo.roomcode}')">수정으로 돌아가기</a>
+	<input name="roomcode" type="hidden" value="${roomvo.roomcode }">
 	<h3 align="left" style="font-weight: bold;">숙소</h3>
 	<div class="row" style="padding: 0; border: 0px solid green;" >
 		<div class="col-md-9" style="margin-top: 50px; border: 0px solid red;">
@@ -246,7 +315,7 @@ function bathroomsplus() {
 
 	<br>
 	
-	<div class="row" style="padding: 0; margin-bottom: 100px; border: 0px solid green;" >
+	<div class="row" style="padding: 0; margin-bottom: 2%; border: 0px solid green;" >
 		<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
 	   		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">기본 수용 인원</div>
 	   		<div class="col-md-1" style="border: 0px solid green;">
@@ -271,23 +340,107 @@ function bathroomsplus() {
 	   		 	<button type="button" onclick="peopleplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
 	   		</div>
 		</div>
+		<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
+	   		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">방 개수</div>
+	   		<div class="col-md-1" style="border: 0px solid green;">
+	   		 	<button type="button" onclick="roomminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+	   		</div>
+	   		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+	   			<input type="text" id="roomupdown" name="roomCount" value="${roomvo.roomCount }" style="border: 0; width: 20px; height: 20px;" readonly>   
+	   		</div>
+	   		<div class="col-md-1" style="border: 0px solid green;">
+	   		 	<button type="button" onclick="roomplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+	   		</div>
+		</div>
+		<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
+    		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">욕실</div>
+    		<div class="col-md-1" style="border: 0px solid green;">
+    		 	<button type="button" onclick="bathroomsminus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+    		</div>
+    		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+                 	<input type="text" id="bathroomsupdown" name="bathCount" value="1" style="border: 0; width: 20px; height: 20px;" readonly>   
+            </div>
+    		<div class="col-md-1" style="border: 0px solid green;">
+    		 	<button type="button" onclick="bathroomsplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+    		</div>
+    	</div>
 	</div>
-
-	<hr class="line" align="left">
-	<div class="row">
+<%-- 	<div class="row">
 	<div class="col-md-10" style="margin-top: 50px; border: 0px solid red;">
         <div class="selecthead">게스트가 사용할 수 있는 침실은 몇 개인가요?</div>  
         <div class="col-md-9" style="padding: 0">
         <select id="bedroom" class="select" name="roomCount" style="width: 35%; padding: 9px;">  
-        	<option value="${roomvo.bedCount }">${roomvo.bedCount }</option>	
+        	<option value="${roomvo.roomCount }">침실 ${roomvo.roomCount }개</option>	
            	<c:forEach var="i" begin="1" end="30" step="1">
-           	<option value="${i }">침실 ${i }개</option>
+           	<option value="${i}">침실 ${i}개</option>
            	</c:forEach>
 		</select>
         </div>  
     </div>
 	</div>
-	<hr class="line" align="left">
+	<div class="row bedroom" style="margin-top: 1%;">
+	<c:forEach items="${roomvo.roomCount }" var="roomCount" varStatus="status">
+		<div class="col-md-3" style="border: 0px solid blue">
+			<div class="bedroomNum" style="font-size: 19px;">${status.count }번 침실</div>
+			<div class="bedCountinFor" style="font-size: 19px; color: #767676;">침대 0개</div>
+		</div>
+		<div  class="col-md-3" style="border: 0px solid red; height: 56px; padding-right: 0;">
+			<input type="button" class="bedAdd" value="침대 추가하기" onclick="bedAdd('${status.count }');" style="padding-left: 30px; padding-right:30px; height: 48px; background-color: white; float: right; border: 1px solid gray; border-radius: 3px; font-weight: bold; font-size: 1.3em"/>
+		</div>
+		<div id="bedroomCount${status.count}" class="col-md-12 bedoqty"></div>
+	</c:forEach>
+	</div>
+	<div id="bedType" class="col-md-12" style="">
+    	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">더블</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="doubleminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+       		</div>
+       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;"> 
+				<input type="text" class="doubleupdown" name="doublebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+			</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="doubleplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+       		</div>
+       	</div>
+       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">퀸</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="queenminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+       		</div>
+       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+				<input type="text" class="queenupdown" name="queenubed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+			</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="queenplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+       		</div>
+       	</div>
+       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">싱글</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="singleminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+       		</div>
+       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+				<input type="text" class="singleupdown" name="singlebed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+			</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="singleplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+       		</div>
+       	</div>
+       	<div class="col-md-9" style="margin-top: 10px; border: 0px solid blue;">
+       		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">쇼파베드</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="sofabedminus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">-</button>
+       		</div>
+       		<div class="col-md-1" style="font-weight: bolder; font-size: 18px; margin-top: 6px;">
+				<input type="text" class="sofaupdown" name="sofabed" value="0" style="border: 0; width: 20px; height: 20px;" readonly>   
+			</div>
+       		<div class="col-md-2" style="border: 0px solid green;">
+       		 	<button class="sofabedplus" type="button" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
+       		</div>
+       	</div>
+	</div> --%>
+	<!-- <hr class="line" align="left">
     <div class="row" style="padding: 0; border: 0px solid green;" >
     	<div class="col-md-9" style="margin-top: 30px; border: 0px solid blue;">
     		<div class="col-md-6" style="font-size: 16px; font-weight: bolder; border: 0px solid red; margin-top: 6px; padding: 0">욕실</div>
@@ -301,10 +454,10 @@ function bathroomsplus() {
     		 	<button type="button" onclick="bathroomsplus();" style="width: 34px; height: 34px; background-color: white; border: 1px solid #148487; border-radius: 100px; color: #148487; font-size: 1.5em">+</button>
     		</div>
     	</div>                    			            
-    </div>
+    </div> -->
 
 	<hr class="line" align="left">
-	<button type="button" class="btn"><span class="editbtn">저장하기</span></button>
+	<button id="savebtn" type="button" class="btn"><span class="editbtn">저장하기</span></button>
 	<button id="cancelbtn" class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>
 </div>
-
+</form>

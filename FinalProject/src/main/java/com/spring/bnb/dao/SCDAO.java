@@ -142,6 +142,12 @@ public class SCDAO implements InterSCDAO {
 		return buildtypedetailList;
 	}
 
+	@Override
+	public int roomUpdate(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("sc.roomUpdate", paraMap);
+		return n;
+	}
+
 	
 
 }
