@@ -177,6 +177,7 @@
        		}
        		for(var i=0;i<diffrent;i++){
        			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
+       			//alert(temp);
        			for(var j=0;j<disabledDays.length;j++){
        				if(disabledDays[j].getTime()==temp.getTime()){
            				alert("예약 할 수 없는 날짜 입니다.");
@@ -208,8 +209,10 @@
 						var startday = new Date(rsvArr[i].start);
 						var endday = new Date(rsvArr[i].end);
 						var diff = (endday-startday)/(1000*60*60*24);
-						for(var i=0;i<diff;i++){
-							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+(i+1)));
+						//alert("diff : "+diff+"/ startday :"+startday+"/ endday : "+endday);
+						for(var j=0;j<=diff;j++){
+							disabledDays.push(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+j));
+							//alert(new Date(startday.getFullYear(),startday.getMonth(),startday.getDate()+j));
 						}
 					}
 				}
@@ -527,9 +530,9 @@
                   	<div style="height:240px;padding-top:5%;">
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">날짜</div>
 	                    <div class="input-daterange input-group datepicker" id="datepicker" style="width:100%;padding: 2% 5%;">
-						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkInDate" name="rsv_checkInDate" placeholder="체크인" style="height:40px;" readonly/>
 						    <span class="input-group-addon">to</span>
-						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;"/>
+						    <input type="text" class="input-sm form-control" id="checkOutDate" name="rsv_checkOutDate" placeholder="체크아웃" style="height:40px;" readonly/>
 						</div>
                      	<div style="margin-left:5%;font-weight:bold;font-size:0.9em;margin-top:3%;">인원</div>
                      	<div class="DetailsInput" style="padding:0;">
@@ -551,7 +554,7 @@
 	                                  	<div class="col-md-6 col-md-offset-1">
                                   			<div class="row">
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >-</button></div>
-		                                     	<div class="col-md-4"><input id="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
+		                                     	<div class="col-md-4"><input id="babyCount" name="babyCount" style="margin: 2% 13%;text-align:center;border:none;width:100%;" /></div>
 		                                     	<div class="col-md-4"><button type="button" class="dropUpDown babyCnt" >+</button></div>
                                   			</div>
 	                                  	</div>
