@@ -386,13 +386,16 @@ public class SCController {
 		paraMap.put("max_person", max_person);
 		paraMap.put("roomCount", roomCount);
 		paraMap.put("bathCount", bathCount);
-		
 		int n = service.roomUpdate(paraMap);
+		RoomVO roomvo = service.getRoomInfo(roomcode);;
 		System.out.println(n);
-		
-		RoomVO roomvo = service.getRoomInfo(roomcode);
-		req.setAttribute("roomvo", roomvo);
-		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("n",n);
+		jsonObj.put("roomcode",roomvo.getRoomcode());
+
+		String str_json = jsonObj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 	
 	// 숙소 페이지

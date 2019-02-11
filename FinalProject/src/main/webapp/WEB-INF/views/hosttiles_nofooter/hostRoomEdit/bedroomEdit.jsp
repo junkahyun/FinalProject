@@ -136,7 +136,7 @@ $(document).ready(function(){
 			 
     });// $("#buildType").change(function()
     
-	$("#bedroom").change(function(){
+/* 	$("#bedroom").change(function(){
 		var bedroom = {bedroom:$("#bedroom").val()};
 		console.log(bedroom);
 		$.ajax({
@@ -168,21 +168,49 @@ $(document).ready(function(){
 	 		}
 		});
 		
-	});
+	}); */
 			
     $("#cancelbtn").click(function(){
     	location.href = "bedroomEdit.air?roomcode="+${roomvo.roomcode};
     });
     
-    $("#savebtn").click(function(){
-   		var frm = document.bedAndPersonEdit;
-       	frm.method = "POST";
-       	frm.action = "bedAndPersonEdit.air";
-   		frm.submit();
-    });
    
 });
 
+function svaeBedRoomAndPerson(){
+	
+	if(parseInt($("#peopleupdown").val()) < parseInt($("#basic_person").val())){
+		alert("최대숙박 인원은 기본 수용 인원보다 작을 수 없습니다.");
+		location.reload();
+		return;
+	}
+	var form_data = {"fk_buildType_detail_idx":$("#buildType_detail").val()
+					, "fk_roomType_idx":$("#fk_roomType_idx").val()
+					, "basic_person":$("#basic_person").val()
+					, "max_person":$("#peopleupdown").val()
+					, "roomCount":$("#roomupdown").val()
+					, "bathCount":$("#bathroomsupdown").val()
+					, "roomcode":$("#roomcode").val()};
+
+	console.log(form_data);
+	$.ajax({
+		url:"bedAndPersonEdit.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			
+			if(json.n == "1"){
+				alert("저장완료");
+				location.href = "bedroomEdit.air?roomcode="+json.roomcode;
+			}
+	 	},
+	 	error: function(request, status, error){
+ 		 	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+ 		}
+	});
+}
+    
 function goRoomEdit(roomcode){
 	location.href="hostRoomEdit.air?roomcode="+roomcode;
 }
@@ -274,10 +302,10 @@ function bedAdd(bedroomCount){
 } */
 </script>
 
-<form name="bedAndPersonEdit">
+<form id="bedAndPersonEdit" name="bedAndPersonEdit">
 <div class="col-md-12" style="margin-top: 1%; width: 75%; margin-left: 22%; margin-bottom: 5%;">
 	<i class="fas fa-angle-left"></i>&nbsp;<a class="gohostroomEdit" onclick="goRoomEdit('${roomvo.roomcode}')">수정으로 돌아가기</a>
-	<input name="roomcode" type="hidden" value="${roomvo.roomcode }">
+	<input id="roomcode" name="roomcode" type="hidden" value="${roomvo.roomcode }">
 	<h3 align="left" style="font-weight: bold;">숙소</h3>
 	<div class="row" style="padding: 0; border: 0px solid green;" >
 		<div class="col-md-9" style="margin-top: 50px; border: 0px solid red;">
@@ -295,7 +323,7 @@ function bedAdd(bedroomCount){
 		<div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 	    	<div class="selecthead">건물 유형을 선택하세요</div>    
 	    	<select id="buildType_detail" class="select error2" name="fk_buildType_detail_idx" style="width: 35%; padding: 9px;" disabled>  
-	      	<option value="${roomvo.fk_buildType_detail_idx }">${roomvo.buildType_detail_name }</option>
+	      	<option selected value="${roomvo.fk_buildType_detail_idx }">${roomvo.buildType_detail_name }</option>
 	    	</select> 
 	    <!-- <div class="error2_text">옵션을 선택하세요.</div> -->
 	</div>
@@ -303,8 +331,8 @@ function bedAdd(bedroomCount){
 		<div id="guestroom" >	
 		   <div class="col-md-9" style="margin-top: 25px; border: 0px solid red;">
 		       	<div class="selecthead">게스트가 묵게 될 숙소 유형을 골라주세요.</div>    
-		       	<select  class="select" name="fk_roomType_idx" style="width: 35%; padding: 9px;">
-		       		<option selected value="${roomvo.fk_roomType_idx }" disabled>${roomvo.roomType_name }</option>
+		       	<select id="fk_roomType_idx" class="select" name="fk_roomType_idx" style="width: 35%; padding: 9px;">
+		       		<option selected value="${roomvo.fk_roomType_idx }">${roomvo.roomType_name }</option>
 		        	<c:forEach items="${roomtype}" var="map">
 						<option value="${map.roomtype_idx}">${map.roomtype_name}</option> 
 					</c:forEach>
@@ -457,7 +485,7 @@ function bedAdd(bedroomCount){
     </div> -->
 
 	<hr class="line" align="left">
-	<button id="savebtn" type="button" class="btn"><span class="editbtn">저장하기</span></button>
+	<input id="savebtn" type="button" class="btn editbtn" value="저장하기" onclick="svaeBedRoomAndPerson();"/>
 	<button id="cancelbtn" class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>
 </div>
 </form>

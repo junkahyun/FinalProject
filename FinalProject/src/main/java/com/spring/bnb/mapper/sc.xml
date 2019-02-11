@@ -171,8 +171,8 @@
    	</select>
    
 	<update id="roomUpdate" parameterType="HashMap">
-		update room set fk_buildType_detail_idx = #{fk_buildType_detail_idx}, fk_roomType_idx = #{fk_roomType_idx}, basic_person = #{basic_person}
-						, max_person =#{max_person}, roomCount = #{roomCount}, bathCount = #{bathCount}
+		update room set fk_buildType_detail_idx = to_number(#{fk_buildType_detail_idx}), fk_roomType_idx = to_number(#{fk_roomType_idx}), basic_person = to_number(#{basic_person})
+						, max_person = to_number(#{max_person}), roomCount = to_number(#{roomCount}), bathCount = to_number(#{bathCount})
 		where roomcode = #{roomcode}
 	</update>
 </mapper>
