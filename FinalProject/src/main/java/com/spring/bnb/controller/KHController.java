@@ -6,17 +6,21 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
+import com.google.gson.JsonObject;
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
@@ -36,7 +40,7 @@ public class KHController {
 
 	// ***** 숙소이용규칙 확인하기 (예약) **** //
 	@RequestMapping(value="/reservationCheck.air", method= {RequestMethod.GET})
-	public String requireLogin_reservationCheck (HttpServletRequest req,HttpServletResponse  res) throws ParseException {
+	public String requireLogin_reservationCheck (HttpServletRequest req,HttpServletResponse res) throws ParseException {
 		
 		HttpSession session = req.getSession();
 		//===================================================
@@ -288,6 +292,44 @@ public class KHController {
 	      
 	      return "O"+year+month+day+"-"+ordcode;
    }
+	
+	@RequestMapping(value="/mycoupon.air", method = {RequestMethod.GET})
+	public String mycoupon (HttpServletRequest req, HttpSession session) {
+		
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginuser.getUserid();
+		
+		//나의 쿠폰 보기
+		List<HashMap<String,Object>> mycoupon = service.getmyCoupon(userid);
+		req.setAttribute("mycoupon", mycoupon);
+		
+		return "reservationAndPay/mycoupon.notiles";
+	}
+	// **쿠폰 사용하는 메소드 ** //
+	
+	@RequestMapping(value="/useMyCoupon.air", method = {RequestMethod.GET})
+	public String useCoupon(HttpServletRequest req,HttpSession session){
+		
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginuser.getUserid();
+		String code = req.getParameter("code");
+		System.out.println(userid);
+		HashMap<String,String> cpmap = new HashMap<String,String>();
+		cpmap.put("userid", userid);
+		cpmap.put("code", code);
+		
+		// 쿠폰 사용하는 메소드 //
+		int n = service.useMyCoupon(cpmap);
+		
+		JSONObject json = new JSONObject();
+
+		json.put("n", n);
+		String str_json = json.toString();
+		
+		req.setAttribute("str_json", str_json);
+		
+		return "reservationAndPay/couponJson.notiles";
+	}
 	
 
 }

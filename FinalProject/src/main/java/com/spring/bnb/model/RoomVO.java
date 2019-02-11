@@ -36,7 +36,9 @@ public class RoomVO {
 	private String room_warnCount;
 	private String bedCount;	
 	private String bedtype;	
-	
+	private String buildtype_idx;
+
+
 	private MultipartFile file;       // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
 	private String roomMainImg;		  // 진짜 파일명(강아지.png). 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
 	private String roomImgfilename;   // WAS(톰캣)에 저장될 파일명(20161121324325454354353333432.png)
@@ -372,4 +374,11 @@ public class RoomVO {
 		this.reservationList = reservationList;
 	}
 	
+	public String getBuildtype_idx() {
+		return buildtype_idx;
+	}
+
+	public void setBuildtype_idx(String buildtype_idx) {
+		this.buildtype_idx = buildtype_idx;
+	}
 }
