@@ -64,11 +64,6 @@ function goCancel() {
 	frm.action="goCancel.air";
 	frm.submit();
 }
-function goMessage() {
-	var url ="/bnb/messageSend.air?rsvcode=${myRsvDetail.rsvcode}&roomcode=${myRsvDetail.roomcode}";
-	window.open(url,"호스트에게 메세지 보내기"),"width=500,height=700");
-}
-
 </script>
 
 <div class="row" style="border: 0px soild red;">
@@ -187,10 +182,6 @@ function goMessage() {
 		</div>
        </div>
 	   </div>
-	 <div class="col-md-12" style="margin-top:2%;">
-	   		<div class="col-md-10"></div>
-	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default" href="#" onClick="goMessage();" >호스트에게 메세지 보내기</a></div>
-    </div>
 	<div class="col-md-12" style="margin-top:2%;">
 	   		<div class="col-md-10"></div>
 	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default">예약 취소</a></div>
