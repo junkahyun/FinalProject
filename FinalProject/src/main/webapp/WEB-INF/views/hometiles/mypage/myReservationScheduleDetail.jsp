@@ -54,7 +54,7 @@ $(document).ready(function(){
 
 });
 function showLocation(){
-	var url = "/bnb/myReservationMAP.air?rsvcode="+${myRsvDetail.rsvcode};
+	var url = "/bnb/myReservationMAP.air?rsvcode=${myRsvDetail.rsvcode}";
 	window.open(url,"숙소위치","width=500,height=350");
 	
 }

@@ -240,7 +240,7 @@
 
 <div class="row">
 	<div class="col-md-1">
-		<img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+		<img onclick="javascript:location.href='index.air'" src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
 	</div>
 	<div class="col-md-6" style="font-size: 18px; margin-top: 20px; padding-left: 0">3단계: 게스트를 맞이할 준비를 하세요</div>
 </div>

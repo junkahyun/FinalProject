@@ -59,5 +59,19 @@ public class KHService implements InterKHService {
 		return rvo;
 	}
 
+	// *** 나의 쿠폰보기 *** //
+	@Override
+	public List<HashMap<String, Object>> getmyCoupon(String userid) {
+		List<HashMap<String, Object>> mycoupon = dao.getmyCoupon(userid);
+		return mycoupon;
+	}
+	
+	// *** 쿠폰 사용하는 메소드 *** //
+	@Override
+	public int useMyCoupon(HashMap<String, String> cpmap) {
+		int n = dao.useMyCoupon(cpmap);
+		return n;
+	}
+
 	
 }
