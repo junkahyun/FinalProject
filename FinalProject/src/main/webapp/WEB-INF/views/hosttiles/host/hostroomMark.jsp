@@ -77,6 +77,11 @@ supports (--custom: properties ){ .
    width: 100%;
    border: 1px solid #d3d3d3;
 }
+
+.viewcountTab{
+	font-size: 20pt;
+	font-weight: bold;
+}
 </style> 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -105,6 +110,10 @@ $(document).ready(function(){
 	
 	$("#Monthselect").change(function(){
 		monthReservation();
+	});
+	
+	$("#roomSelect").change(function(){
+		roomViewCount();
 	});
 
 });
@@ -232,7 +241,7 @@ function reservation(){
 
 function monthReservation(){
 	var form_data = {userid:"${loginuser.userid}",month:$("#Monthselect").val()};
-	console.log(form_data);
+	//console.log(form_data);
 	$.ajax({
 		url:"monthReservation.air",
 		data:form_data,
@@ -254,6 +263,36 @@ function monthReservation(){
 		}
 	});
 }
+
+function roomViewCount(){
+	var form_data = {roomcode:$("#roomSelect").val()};
+	console.log(form_data);
+	$.ajax({
+		url:"roomViewCount.air",
+		data:form_data,
+		type:"POST",
+		dataType:"JSON",
+		success:function(json){
+			var html = "";
+			var html1 = "";
+			
+			if(json.roomcode == "selectRoom"){
+				html = '<span id="roomViewCount" class="viewcountTab">'+0+'</span>';
+				html1 = '<span id="roomViewCount" class="viewcountTab">'+0+'</span>';
+			} else {
+				html = '<span id="roomViewCount" class="viewcountTab">'+json.viewCount+'</span>';
+				html1 = '<span id="roomViewCount" class="viewcountTab">'+json.reservationCount+'</span>';
+			}
+			
+			$("#roomViewCount").empty().html(html);
+			$("#roomReservationCount").empty().html(html1);
+		},
+		error:function(){
+			
+		}
+	});
+}
+
 </script>
 
 <div class="container" style="width: 100%;">
@@ -321,15 +360,15 @@ function monthReservation(){
 									<div class="_1p75mxn1"
 										style="border: 0px solid red; margin-top: 10%;">
 										<div class="_1dl27thl" style="border: 0px solid red">
-											<h5 id="reviewCount">후기(0개)</h5>
+											<h5 id="reviewCount"></h5>
 											  <div id="reviewArea" class="noSpace">
 									          
 								               <div class="row noSpace homeDetailComment">
 								                  <div class="col-md-1">
-								                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"><img src="https://a0.muscache.com/im/pictures/user/853aa97c-2314-4993-88ef-75b05a3674a9.jpg?aki_policy=profile_x_medium" style="width:50px;height:50px;"></div>
+								                     <div style="border: 1px solid none; width:50px;height:50px;border-radius:25px;overflow:hidden;"></div>
 								                  </div>
 								                  <div class="col-md-10" style="padding-top:0.5%;"><div style="font-weight:bold;">${review.fk_userid }</div><div>${review.review_writedate }</div></div>
-								                  <div class="col-md-1">icon</div>
+								                  <div class="col-md-1"></div>
 								                  <div id="reviewContent" class="col-md-12" style="margin-top:2%;">${review.review_content }</div>
 								               </div>
 									            
@@ -438,8 +477,44 @@ function monthReservation(){
 					
 					<!-- 조회수 시작 -->
 					<div class="tab-pane tab-panel viewcount" id="hits">
+						<div style="margin-top: 5%;">
+							<div class="row">
+								<div class="col-lg-8">
+									<div style="margin-bottom: 1px;">
+										<div class="_9hxttoo" style="border: 0px solid red;">
+											<div style="margin-bottom: 8px;">
+												<label class="_rin72m" for="listingSelector">
+												<div class="_6mxuijo" style="border: 0px solid #008489;">숙소 선택</div></label>
+											</div>
+											<div style="border: margin-bottom: 5%; padding: 0;">
+												<div style="margin: 0; border: 0px solid red; padding: 0;">
+												<form name="selectRoomcode">
+													<select id="roomSelect" name="selected_listing"
+														class="_bwyiq2l">
+														<option value="selectRoom">숙소 선택</option>
+														<c:forEach var="room" items="${roomList}">
+															<option value="${room.roomcode}">${room.roomName}</option>
+														</c:forEach>
+													</select>
+												</form>
+												</div>
+											</div>
+										</div>
+										<div class="_1dl27thl" style="margin-top: 10%;">
+											<div class="col-md-4">
+												<span id="roomViewCount" class="viewcountTab">0</span>
+												<h5>숙소에 대한 조회수</h5>
+											</div>
+											<div class="col-md-4">
+												<span id="roomReservationCount" class="viewcountTab">0</span>
+												<h5>지난 한달 동안 받은 예약</h5>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						
-					
 					</div>
 					<!-- 조회수 끝 -->
 				</div>

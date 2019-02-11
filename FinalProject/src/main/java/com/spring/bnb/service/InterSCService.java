@@ -29,4 +29,12 @@ public interface InterSCService {
 	int allReservation(HashMap<String, String> paraMap); // 호스트이 총 수입 
 
 	int monthReservation(HashMap<String, String> paraMap);
+
+	HashMap<String, String> getViewAndReservationCount(String roomcode);
+
+	int changeRoomtitle(HashMap<String, String> paraMap);
+
+	List<HashMap<String, String>> selectbuildType();
+
+	List<String> selectroomtype();
 }

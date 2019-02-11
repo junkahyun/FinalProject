@@ -112,6 +112,30 @@ public class SCDAO implements InterSCDAO {
 		return sumReservation;
 	}
 
+	@Override
+	public HashMap<String, String> getViewAndReservationCount(String roomcode) {
+		HashMap<String, String> countMap = sqlsession.selectOne("sc.getViewAndReservationCount", roomcode);
+		return countMap;
+	}
+
+	@Override
+	public int changeRoomtitle(HashMap<String, String> paraMape) {
+		int result = sqlsession.update("sc.changeRoomtitle", paraMape);
+		return result;
+	}
+
+	@Override
+	public List<HashMap<String, String>> selectbuildType() {
+		List<HashMap<String, String>> buildTypeList = sqlsession.selectList("sc.selectbuildType");
+		return buildTypeList;
+	}
+
+	@Override
+	public List<String> selectroomtype() {
+		List<String> roomtype = sqlsession.selectList("sc.selectroomtype");
+		return roomtype;
+	}
+
 	
 
 }

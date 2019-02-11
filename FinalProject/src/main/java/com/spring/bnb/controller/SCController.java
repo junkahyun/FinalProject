@@ -270,15 +270,69 @@ public class SCController {
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
-	// 호스트 숙소 제목 수정
+	// 호스트 숙소 제목 수정 페이지 이동
 	@RequestMapping(value = "/hrTitleEdit.air", method = { RequestMethod.GET })
-	public String hrTitleEdit() {
+	public String hrTitleEdit(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		RoomVO roomvo = (RoomVO) service.getRoomInfo(roomcode);
+		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/hrTitleEdit.hosttiles_nofooter";
 	}
+	
+	// 호스트 숙소 제목 저장 취소시 기존 제목과 내용 불러오기 
+	@RequestMapping(value = "/savecancel.air", method = { RequestMethod.GET })
+	public String savecancel(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		System.out.println(roomcode);
+		RoomVO roomvo = (RoomVO) service.getRoomInfo(roomcode);
+	
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("roomcode", roomvo.getRoomcode());
+		jsonobj.put("roomname", roomvo.getRoomName());
+		jsonobj.put("roomInfo", roomvo.getRoomInfo());
 
+		String str_json = jsonobj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	// 호스트 숙소 제목 바꾸기
+	@RequestMapping(value = "/changeRoomInfo.air", method = { RequestMethod.POST })
+	public String changeRoomInfo(HttpServletRequest req) {
+		
+		String roomcode = req.getParameter("roomcode");
+		String roomname = req.getParameter("roomname");
+		String roomInfo = req.getParameter("roomInfo");
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("roomcode", roomcode);
+		paraMap.put("roomname", roomname);
+		paraMap.put("roomInfo", roomInfo);
+		
+		int result = service.changeRoomtitle(paraMap);
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("result", result);
+		if(result == 1) {
+			RoomVO roomvo = (RoomVO)service.getRoomInfo(roomcode);
+			jsonobj.put("roomcode", roomvo.getRoomcode());
+			jsonobj.put("roomname", roomvo.getRoomName());
+			jsonobj.put("roomInfo", roomvo.getRoomInfo());
+		}
+		String str_json = jsonobj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
 	// 호스트 숙소 침실 수정
 	@RequestMapping(value = "/bedroomEdit.air", method = { RequestMethod.GET })
-	public String bedroomEdit() {
+	public String bedroomEdit(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		RoomVO roomvo = service.getRoomInfo(roomcode);
+		
+		List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
+		List<String> roomtype = service.selectroomtype();// 숙소유형 가져오기
+		
+		req.setAttribute("roomtype", roomtype);
+		req.setAttribute("buildTypeList", buildTypeList);  
+		req.setAttribute("roomvo", roomvo);
 		return "hostRoomEdit/bedroomEdit.hosttiles_nofooter";
 	}
 
@@ -395,6 +449,30 @@ public class SCController {
 		
 		return "JSON";
 	}
+	
+	@RequestMapping(value = "/roomViewCount.air", method = { RequestMethod.POST })
+	public String roomViewCount(HttpServletRequest req, HttpServletResponse res) {
+		String roomcode = req.getParameter("roomcode");
+		System.out.println("roomcode:"+roomcode);
+		JSONObject jsonObj = new JSONObject();
+		String str_json = "";
+		if(roomcode.equals("selectRoom")) {
+			jsonObj.put("roomcode",roomcode);
+			str_json = jsonObj.toString();
+		} else {
+			HashMap<String,String> countMap = service.getViewAndReservationCount(roomcode);
+			
+			jsonObj.put("reservationCount", countMap.get("reservationCount"));
+			jsonObj.put("viewCount", countMap.get("viewCount"));	
+			jsonObj.put("roomcode", countMap.get("roomcode"));
+			str_json = jsonObj.toString();
+		}
+		
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////
 	
 	// ***** 호스트 등록된 숙소 수정하기(기본요금 수정) ***** //

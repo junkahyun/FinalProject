@@ -11,8 +11,14 @@
 	</select>
 	
 	<select id="getRoomInfo" parameterType="String" resultType="com.spring.bnb.model.RoomVO">
-		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person, fk_roomType_idx, fk_buildType_detail_idx
-		from room
+		select roomcode, roomName, roomMainImg, roomstatus, roomInfo, roomCount, bathCount, max_person, basic_person
+				, fk_roomType_idx, fk_buildType_detail_idx, roomType_name, buildType, buildType_detail_name, nvl(bedcount, 0) as bedCount, nvl(bedtype,'없음') as bedtype
+		from room R join roomtype RT on r.fk_roomtype_idx = rt.roomtype_idx 
+		            join buildtype_detail BD on r.fk_buildtype_detail_idx = BD.buildtype_detail_idx 
+		            join buildtype B on bd.fk_buildtype_idx = b.buildtype_idx
+		            left join bedroom BR on r.roomcode = br.fk_roomcode
+		            left join bed BED on br.bedroom_idx = bed.fk_bedroom_idx
+		            left join bedobj BO on bed.fk_bedobj_idx = bo.bedobj_idx
 		where roomcode = #{roomcode}
 		
 	</select>
@@ -108,4 +114,48 @@
 		where U.fk_userid = #{userid} and to_char(paydate, 'yyyy') = #{year} and to_char(paydate, 'mm') = to_number(#{month})
 	</select>
 	
+	
+	<resultMap type="HashMap" id="countMap">
+		<result property="reservationCount" column="reservationCount" javaType="String"/> 
+		<result property="roomcode" column="roomcode" javaType="String"/> 
+		<result property="viewCount" column="viewcount" javaType="String"/>
+	</resultMap>
+	<select id="getViewAndReservationCount" parameterType="String" resultMap="countMap">
+		select (select count(*) as reservationCount
+	        from room U join reservation R on roomcode = fk_roomcode
+	        where  u.roomcode = #{roomcode} and to_char(paydate, 'yyyy-mm') = to_char(add_months(sysdate,-1), 'yyyy-mm') )as reservationCount
+	        , roomcode, viewcount
+		from room 
+		where roomcode = #{roomcode}
+	</select>
+	
+	<update id="changeRoomtitle" parameterType="HashMap">
+		update room set roomName = #{roomname}, roomInfo = #{roomInfo}
+		where roomcode = #{roomcode}
+	</update>
+	
+	   <!-- 건물유형 가져오기 -->
+   <resultMap type="HashMap" id="bulidmap">
+        <result property="buildtype" column="buildType" javaType="String" />
+        <result property="buildtype_idx" column="buildType_idx" javaType="int" />
+   </resultMap>
+   
+   <select id="selectbuildType" resultMap="bulidmap">
+      select buildType, buildType_idx
+      from buildType
+      order by buildType_idx
+   </select>
+
+    <!-- 숙소유형 가져오기 -->
+   <resultMap type="HashMap" id="roomType">
+        <result property="roomtype_name" column="roomType_name" javaType="String" />
+        <result property="roomtype_idx" column="roomType_idx" javaType="String" />
+   </resultMap>
+
+   <select id="selectroomtype" resultMap="roomType">
+      select roomType_name, roomType_idx
+      from roomType
+      order by roomType_idx
+   </select>
+   
 </mapper>

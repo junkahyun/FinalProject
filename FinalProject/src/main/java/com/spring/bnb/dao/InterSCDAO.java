@@ -31,4 +31,12 @@ public interface InterSCDAO {
 
 	int monthReservation(HashMap<String, String> paraMap);
 
+	HashMap<String, String> getViewAndReservationCount(String roomcode);
+
+	int changeRoomtitle(HashMap<String, String> paraMape);
+
+	List<HashMap<String, String>> selectbuildType();
+
+	List<String> selectroomtype();
+
 }

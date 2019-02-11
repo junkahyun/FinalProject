@@ -76,4 +76,24 @@ public class SCService implements InterSCService {
 		int sumReservation = dao.monthReservation(paraMap);
 		return sumReservation;
 	}
+	@Override
+	public HashMap<String, String> getViewAndReservationCount(String roomcode) {
+		HashMap<String,String> countMap = dao.getViewAndReservationCount(roomcode);
+		return countMap;
+	}
+	@Override
+	public int changeRoomtitle(HashMap<String, String> paraMape) {
+		int result = dao.changeRoomtitle(paraMape);
+		return result;
+	}
+	@Override
+	public List<HashMap<String, String>> selectbuildType() {
+		List<HashMap<String, String>> buildTypeList = dao.selectbuildType();
+		return buildTypeList;
+	}
+	@Override
+	public List<String> selectroomtype() {
+		List<String> roomtype = dao.selectroomtype();
+		return roomtype;
+	}
 }
