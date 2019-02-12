@@ -320,7 +320,7 @@ h3{font-size: 14pt;
 		<br>
 		<div style="background-color: #fff7e6; border-top: 1px solid #ffad33; border-bottom: 1px solid #ffad33; padding: 3%; font-size: 12pt;">
 		 숙소에 화재 경보기 또는 일산화탄소 경보기가 설치되어 있는지 호스트가 신고하지 않았습니다. 휴대용 경보기를 챙겨가실 것을 권해드립니다.<br><br>
-		 <a href="#" style="color: #008489;">자세히 알아보기</a>
+		<!--  <a href="#" style="color: #008489;">자세히 알아보기</a> -->
 		</div>
 		<br><br>
 		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>

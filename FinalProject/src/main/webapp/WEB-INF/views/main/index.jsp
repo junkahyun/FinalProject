@@ -174,9 +174,9 @@
 					<c:forEach items="${roomList}" var="rvo" varStatus="status">
 						<c:if test="${status.count == 4 || status.count == 7 }">
 							<li onClick="goRoomDetail('${rvo.roomcode}')">      
-								<img class="img_room" src="${rvo.roomMainImg }" width="770" height="326" /> 
+								<img class="img_room" src="<%=ctxPath %>/resources/images/becomehost/${rvo.roomMainImg }" width="770" height="326" /> 
 			   				 	<div class="rooms_intro city_big">
-				        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg}" />
+				        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/profile/${rvo.host.profileimg}" />
 				        			<br/>
 							        <span class="room_name">${rvo.roomName }</span>
 							        <br/>
@@ -186,7 +186,7 @@
 						</c:if>
 						<c:if test="${status.count != 4 && status.count != 7 }">
 						<li onClick="goRoomDetail('${rvo.roomcode}')">     
-							<img class="img_room" src="${rvo.roomMainImg}" width="380" height="326" /> 
+							<img class="img_room" src="<%=ctxPath %>/resources/images/becomehost/${rvo.roomMainImg}" width="380" height="326" /> 
 		   				 	<div class="rooms_intro">
 			        			<img class="img_user_fd" src="<%=ctxPath%>/resources/images/${rvo.host.profileimg }" />
 						        <span class="room_name">${rvo.roomName}</span>
