@@ -41,4 +41,6 @@ public interface InterSCDAO {
 
 	List<HashMap<String, String>> selectbuildTypedetail(String buildType);
 
+	int roomUpdate(HashMap<String, String> paraMap);
+
 }
