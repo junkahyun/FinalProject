@@ -80,5 +80,11 @@ public class KHService implements InterKHService {
 		return dismoney;
 	}
 
+	@Override
+	public int NouseMyCoupon(HashMap<String, String> cpmap) {
+		int n = dao.NouseMyCoupon(cpmap);
+		return n;
+	}
+
 	
 }

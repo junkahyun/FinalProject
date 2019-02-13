@@ -135,39 +135,44 @@
 	</update>
 	
 	   <!-- 건물유형 가져오기 -->
-   <resultMap type="HashMap" id="bulidmap">
+   	<resultMap type="HashMap" id="bulidmap">
         <result property="buildtype" column="buildType" javaType="String" />
         <result property="buildtype_idx" column="buildType_idx" javaType="int" />
-   </resultMap>
+   	</resultMap>
    
-   <select id="selectbuildType" resultMap="bulidmap">
+   	<select id="selectbuildType" resultMap="bulidmap">
       select buildType, buildType_idx
       from buildType
       order by buildType_idx
-   </select>
+   	</select>
 
 	<!-- 건물세부유형 가져오기 -->
     <resultMap type="HashMap" id="buildType_detail">
         <result property="buildtype_detail_idx" column="buildType_detail_idx" javaType="String" />
         <result property="buildtype_detail_name" column="buildType_detail_name" javaType="String" /> 
-   </resultMap>
+	</resultMap>
    
     <select id="selectbuildTypedetail" parameterType="String" resultMap="buildType_detail">
-      select buildType_detail_idx, buildType_detail_name
-      from buildType_detail
-      where fk_buildType_idx = #{buildType}
-      order by buildType_detail_idx
-   </select>
+		select buildType_detail_idx, buildType_detail_name
+      	from buildType_detail
+      	where fk_buildType_idx = #{buildType}
+      	order by buildType_detail_idx
+   	</select>
     <!-- 숙소유형 가져오기 -->
-   <resultMap type="HashMap" id="roomType">
-        <result property="roomtype_name" column="roomType_name" javaType="String" />
+   	<resultMap type="HashMap" id="roomType">
+	    <result property="roomtype_name" column="roomType_name" javaType="String" />
         <result property="roomtype_idx" column="roomType_idx" javaType="String" />
-   </resultMap>
+   	</resultMap>
 
-   <select id="selectroomtype" resultMap="roomType">
-      select roomType_name, roomType_idx
-      from roomType
-      order by roomType_idx
-   </select>
+   	<select id="selectroomtype" resultMap="roomType">
+      	select roomType_name, roomType_idx
+      	from roomType
+		order by roomType_idx
+   	</select>
    
+	<update id="roomUpdate" parameterType="HashMap">
+		update room set fk_buildType_detail_idx = to_number(#{fk_buildType_detail_idx}), fk_roomType_idx = to_number(#{fk_roomType_idx}), basic_person = to_number(#{basic_person})
+						, max_person = to_number(#{max_person}), roomCount = to_number(#{roomCount}), bathCount = to_number(#{bathCount})
+		where roomcode = #{roomcode}
+	</update>
 </mapper>
