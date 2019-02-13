@@ -72,7 +72,25 @@ public class KHDAO implements InterKHDAO {
 		ReservationVO rvo = sqlsession.selectOne("kh.getOneReserve", map);
 		return rvo;
 	}
+
+	// *** 나의 쿠폰 리스트 보기 *** //
+	@Override
+	public List<HashMap<String, Object>> getmyCoupon(String userid) {
+		List<HashMap<String, Object>> mycoupon = sqlsession.selectList("kh.getmyCoupon", userid);
+		return mycoupon;
+	}
 	
-	
+	// ** 쿠폰 사용하는 메소드 ** //
+	@Override
+	public int useMyCoupon(HashMap<String, String> cpmap) {
+		int n = sqlsession.update("kh.useMyCoupon", cpmap);
+		return n;
+	}
+
+	@Override
+	public int getUseMyCopon(HashMap<String, String> map) {
+		int disMoney = sqlsession.selectOne("kh.getUseMyCopon",map);
+		return disMoney;
+	}
 	
 }

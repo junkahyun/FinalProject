@@ -107,5 +107,35 @@
 		on a.rule_idx = b.fk_rule_idx
 		where FK_ROOMCODE = #{roomcode}
 	</select>
+	
+	<resultMap type="HashMap" id="mycoupon">
+		<result column="cpname" property="cpname" javaType="String" />
+		<result column="cpexpire" property="cpexpire" javaType="String" />
+		<result column="dcmoney" property="dcmoney" javaType="int" />
+		<result column="USEDATE" property="USEDATE" javaType="String" />
+		<result column="CPCODE" property="CPCODE" javaType="String" />
+	</resultMap>
+	
+	<select id="getmyCoupon" parameterType="String" resultMap="mycoupon">
+		select cpname,to_char(cpexpire,'yyyy/mm/dd')as cpexpire ,dcmoney,USEDATE,CPCODE
+		from coupon A
+		join mycoupon B
+		on A.CPCODE = B.FK_CPCODE
+		where fk_userid = #{userid}
+	</select>
+	
+	<update id="useMyCoupon" parameterType="HashMap">
+		update mycoupon set USEDATE = sysdate
+		where fk_userid = #{userid}
+		and FK_CPCODE = #{code}
+	</update>
+	
+	<select id="getUseMyCopon" parameterType="HashMap" resultType="int">
+		select dcmoney
+		from coupon A
+		join mycoupon B
+		on A.CPCODE = B.FK_CPCODE
+		where fk_userid = #{userid} and cpcode = #{code}
+	</select>
 
 </mapper>

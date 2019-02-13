@@ -38,4 +38,6 @@ public interface InterHYDAO {
 
 	List<String> getSearchSido(String searchword);
 
+	List<HashMap<String, Object>> getHostIncome(String userid);
+
 }

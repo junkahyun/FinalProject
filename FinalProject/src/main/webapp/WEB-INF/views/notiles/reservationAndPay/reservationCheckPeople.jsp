@@ -396,7 +396,9 @@ h3{font-size: 14pt;
 		 <div class="dropdown" style="margin-bottom: 10%;">
 			 <div  class="panel panel-default people" >
 				<div class="panel-body" id="people"  data-toggle="dropdown">
-					<div class="col-md-10" >게스트<span class="pannelCount">${guestCount}명</span></div>
+					<div class="col-md-10" >게스트<span class="pannelCount">${guestCount}명
+						<c:if test="${babyCount != null}">,유아 ${babyCount}명</c:if></span>
+					</div>
 					<div class="col-md-2"> <i class="fas fa-chevron-down fa-lg"></i></div>
 				</div>
 				<ul class="dropdown-menu col-md-12" style="width: 45%; ">
@@ -425,7 +427,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info babym" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="0" min="0" max="${(sessionScope.oneRoom).max_person}"  id="babycount"/>
+						<input type="text" class="form-control text-center" value="${babyCount}" min="0" max="${(sessionScope.oneRoom).max_person}"  id="babycount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info babyp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -445,7 +447,7 @@ h3{font-size: 14pt;
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
 		<div class="col-md-3" style="margin-bottom: 5%;">
-		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
+		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; height:5%; margin-top: 3%;"/>
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
@@ -523,7 +525,8 @@ h3{font-size: 14pt;
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
 				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;" >게스트</span><span class="totaladCount"> ${guestCount}</span>명
-				<span class="totalbbCount"></span>
+				
+				<span class="totalbbCount"><c:if test="${babyCount != null}">,유아 ${babyCount}명</c:if></span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">

@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery.form.min.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function(){
 		$(".passIcon").addClass("passIconHide");
@@ -10,6 +7,9 @@
    		$("#loginpwd").keydown(function(event){
          	if(event.keyCode==13) goLogin();
       	});
+   		$("#goLoginBtn").click(function(){
+   			goLogin();
+   		});
       	$("#searchAddrBtn").click(function() {
           	new daum.Postcode({
                	oncomplete: function(data) {
@@ -18,6 +18,36 @@
                	}
            	}).open();
           	$("#detailaddr").focus();
+      	});
+      	$("#autoComplete").hide();
+      	$("#searchInput").focus(function(){
+      		$("#searchInput").keydown(function(e){
+       			var searchword = $("#searchInput").val().trim();
+       			if(searchword==""){
+       				return;
+       			}
+       			else{
+       				var form_data = {"searchword":searchword};
+       				$.ajax({
+       					url:"searchRoomInHeader.air",
+       					type:"GET",
+       					data:form_data,
+       					dataType:"JSON",
+       					success:function(json){
+       						var html = "<ul style='list-style:none;padding-top:5%;'>";
+       						$.each(json,function(entryIndex,entry){
+       							html += "<li class='searchSido' style='height:40px;font-size:1.2em;'>"+entry.sido+"</li>";
+       						});
+       						html += "</ul>";
+       						$("#autoComplete").html(html);
+       						$("#autoComplete").show();
+       					},
+       					error: function(request, status, error){
+       	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+       	                }
+       				});
+       			}
+      		});
       	});
        	$("#userid").blur(function(){
        		var userid = $("#userid").val().trim();
@@ -158,7 +188,6 @@
        			}
        		});
        		if(checkCnt==0){
-       			//var form_data = $("input[name=joinFrm]").serialize();
        			$("#joinFrm").ajaxForm({
        				url:"joinEnd.air",
        				type:"POST",
@@ -176,10 +205,6 @@
                     }
        			})
        			$("#joinFrm").submit();
-       			/* var frm = document.joinFrm;
-       			frm.method="POST";
-       			frm.action="joinEnd.air";
-       			frm.submit(); */
        		}
        	});
     }); // end of $(document).ready()-------------------
@@ -220,7 +245,7 @@
       });
    }
    function goRegistHost(){
-      location.href="roomstap1.air";
+      location.href="roomstep1.air";
    }
    function goMypage(){
       location.href="myEdit.air";
@@ -243,7 +268,7 @@
             var html = "";
             $.each(json, function(entryIndex,entry){
                html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
-                     + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
+                     + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.roomMainImg+"' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
             });
             $("#myLikeRoomList").html(html);
          },
@@ -272,7 +297,8 @@
          <div id="searchbarDiv">
             <div id="searchbar">
                <div id="logoDiv"><img src="<%= request.getContextPath() %>/resources/images/musica-searcher.png" style="width:20px;height:20px"></div>
-               <input type="text" name="birthday" id="searchInput" placeholder="검색" style="">
+               <input type="text" name="birthday" id="searchInput" placeholder="검색">
+               <div id="autoComplete" style="background-color: white;position: absolute;z-index:1;width: 479px;top:64px;border-bottom-left-radius:2px;border-bottom-right-radius:2px;box-shadow: 2px 2px 3px lightgray;"></div>
             </div>
          </div>
          <c:if test="${loginuser==null }">
@@ -305,8 +331,8 @@
             <div class="headermenu" onClick="">도움말</div>
 
             <div class="headermenu dropdown resize2" onClick="" style="padding:0; padding-top:5.5%;">
-               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid lightgray; width:30px;height:30px;background-color:gray; border-radius:100%; padding-top:1%;overflow:hidden;padding: 0 1%;">
-                  <img src="<%=request.getContextPath() %>/resources/images/user_white.png" style="width:24px;height:24px;margin-top:2px; margin-left:2px;">
+               <div class="dropdown-toggle" data-toggle="dropdown" style="border: 2px solid lightgray;background-color:gray; width:30px;height:30px; border-radius:100%;overflow:hidden;padding:0;">
+                  <img src="<%=request.getContextPath() %>/resources/images/profile/${loginuser.profileimg}" style="width:26px;height:26px;padding-top:0;margin:0;'">
                </div>
                <ul class="dropdown-menu dropdown-menu-right" style="padding:0;text-align:right;text-weight:500;">
                <li style="padding:0; width:50px; margin:0 auto;margin-top:5%;padding-bottom:2%; font-size:12pt;">${loginuser.userid }</li>
@@ -333,11 +359,11 @@
 			        <input placeholder="아이디" name="userid" class="input-data form-control" type="text" style="font-size: 13pt; margin:0 auto; border: 1px solid rightgray; height: 46px; border-radius: 10px;" />
 			        <input id="loginpwd" placeholder="비밀번호" name="pwd" class="input-data form-control" type="password" style="font-size: 13pt; margin-top: 2%; border: 1px solid rightgray; height: 46px; border-radius: 10px;" /> 
 		        	<input id="a" type="checkbox" style="cursor: pointer;vertical-align: middle;"  />
-		        	<label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">비밀번호 저장</label>
+		        	<label style="font-size: 10pt; margin-top: 0%; padding-top: 3%; cursor: pointer;" for="a">아이디 저장</label>
 		        	<div style="margin-top: 3%;">
 		        		<a type="text" style="border: 0px solid; color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#pwdfind" data-dismiss = "modal">비밀 번호가 생각나지 않으세요?</a>
 		        	</div>
-		    		<button type="button" onClick="goLogin();" class="login" style="width: 100%; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
+		    		<button type="button" id="goLoginBtn" class="login" style="width: 100%; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;margin-top: 2%;">로그인</button>
 		        </div>
 		    </div>
 			<div class="modal-footer" style="margin-top: 2%;">
@@ -459,30 +485,19 @@
 </div> 
 <%-- ****** 비밀번호찾기 Modal ****** --%>
 <div class="modal fade" id="pwdfind" role="dialog">
-   <div class="modal-dialog">
-       <!-- Modal content-->
-       <div class="modal-content" style="width: 568px; height: 372px;">   
-          <button type="button" class="myclose" data-dismiss="modal" style=" margin-left: 5%; background-color: white;  margin-top: 2%; margin-bottom: 5%; border: 0px;"><img src="<%=request.getContextPath() %>/resources/ymimg/cancel.png" alt="X"></button>
-           <span style="font-size: 15pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">비밀번호 재설정</span>
-            <span style="margin-top:5%; margin-left: 5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</span>
-            <span style="margin-left: 5%; font-size: 12pt; ">전송해 드립니다.</span>
-            <span style="font-size: 11pt; font-weight: bold; margin-left: 5%; margin-bottom: 5%;">이메일 주소</span>
-             <input  class="input-data form-control" type="text" style="font-size: 13pt; margin-left: 5%; margin-top: 2%; border: 1px solid rightgray;  width: 504px; height: 46px; border-radius: 10px;" />
-             <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
-         </div>
+	<div class="modal-dialog">
+	<!-- Modal content-->
+		<div class="modal-content" style="width: 100%; height: 350px;">   
+			<button type="button" class="myclose" data-dismiss="modal" style="margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
+           	<div style="padding: 3% 5%;">
+	           	<div style="font-size: 15pt;border-top:1px solid lightgray; padding-top:2%; font-weight: bold; margin-bottom: 5%;">비밀번호 재설정</div>
+	            <div style="margin-top:5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</div>
+	            <div style=" font-size: 12pt; ">전송해 드립니다.</div>
+	            <div style="font-size: 11pt; font-weight: bold; margin-bottom: 5%;">이메일 주소</div>
+	            <input  class="input-data form-control" type="text" style="font-size: 13pt; margin: 2% 0; border: 1px solid rightgray;  width: 100%; height: 46px; border-radius: 10px;" />
+	            <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
+        	</div>
+        </div>
     </div>
-    <div class="col-md-3 calc"  style="margin-left: 7%;">
-
-      <c:set var="year" value="2019"></c:set>
-        <select  style="width:100%; text-align: left; margin-left: 5%; overflow-y:scroll; border:none; font-size: 13pt; margin-top:9%;">
-           <option>년</option>
-           <c:forEach var="i" begin="1900" end="${year}" step="1" >
-           <option value="${year - i + 1900}">${year - i + 1900}</option>
-            </c:forEach>
-        </select>
-    </div>
-    <button type="button" class="login" style="width: 504px; height: 46px; border: 1px solid rightgray; border: none; background-color: #fd5a61; color: white; border-radius: 10px;  margin-left: 5%; margin-top: 2%; " onClick="join();">가입하기</button>
-    <div class="modal-footer" style="margin-top: 2%;">
-       <div class="join" style="font-size: 13pt;  text-align: center;" onClick="" >이미 에어비엔비 계정있나요? <a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></div> 
-    </div>    
 </div>
+

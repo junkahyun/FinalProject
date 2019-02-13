@@ -5,24 +5,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.tools.ant.types.resources.selectors.Date;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -113,7 +116,26 @@ public class HYController {
 	
 	// 호스트 메인페이지
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
-	public String hostMain() {
+	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
+		List<HashMap<String,Object>> income = null;
+		int thisMonthIcome = 0;
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		if(loginuser.getMyroomList().size()>0) {
+			income = service.getHostIncome(loginuser.getUserid());
+			Calendar cal = Calendar.getInstance();
+			int month = cal.get(Calendar.MONTH);
+			for(HashMap<String,Object> hash : income) {
+				if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
+			}
+		}
+		else{
+			req.setAttribute("msg", "호스트만 접근 가능합니다.");
+			req.setAttribute("loc", "index.air");
+			return "msg";
+		}
+		req.setAttribute("income", income);
+		req.setAttribute("thisMonthIcome", thisMonthIcome);
 		return "host/hostMain.hosttiles";
 	}
 	
@@ -162,7 +184,7 @@ public class HYController {
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);
 		paraMap.put("SAVETITLE", saveTitle);
-		int n = service.insertLikeRoom(paraMap);
+		service.insertLikeRoom(paraMap);
 		/*JSONObject jobj = new JSONObject();
 		jobj.put("n", n);
 		String str_json = jobj.toString();
@@ -203,23 +225,23 @@ public class HYController {
 		if (!profile.isEmpty()) { // 파일 있으면(업로드 했으면)
 			String root = req.getSession().getServletContext().getRealPath("/");
 			String realPath = root+File.separator+"resources"+File.separator+"images"+File.separator+"profile";
-			String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
+			//String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
 			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
 			// 엣지 브라우저 요청 파일이름 처리
 			int index = filename.lastIndexOf("\\");
 			filename = filename.substring(index + 1);
 	        File file = new File(realPath, filename);
-	        File gitfile = new File(gitrealPath, filename);
+	        //File gitfile = new File(gitrealPath, filename);
 	        if (file.exists()) { // 해당 경로에 동일한 파일명이 이미 존재하는 경우 파일명 앞에 업로드 시간 밀리초 붙여서 파일명 중복을 방지
 	        	filename = System.currentTimeMillis() + "_" + filename;
 	        	file = new File(realPath, filename);
-	        	gitfile = new File(gitrealPath, filename);
+	        	//gitfile = new File(gitrealPath, filename);
 	        }
 	        System.out.println("업로드 경로: " + realPath);
 	        System.out.println("업로드 파일명: " + filename);
 	        // 업로드 수행
 	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
-	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
+	        //IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
 			member.setProfileimg(filename);
 		} else {
 			System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");

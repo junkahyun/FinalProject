@@ -301,8 +301,7 @@ function codeCheckFun() {
 	    	
 	    }
 			
-	}); */
-} 
+	}); */ 
 </script>
 
 
