@@ -64,11 +64,15 @@ public class SWController {
 		// 전체 숙소리스트
 		List<RoomVO> roomList = service.getRoomList(paraMap);
 			
+		if(roomList.size() == 0) {
+			roomList = null;
+		}
+		 
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
 		req.setAttribute("roomRule", roomRule);
-		req.setAttribute("roomList", roomList);
+		req.setAttribute("roomList", roomList); 
 		req.setAttribute("SIDO", sido);
 		req.setAttribute("checkin", checkin);
 		req.setAttribute("checkout", checkout);
@@ -76,6 +80,7 @@ public class SWController {
 		req.setAttribute("GUGUN", gugun);
 		req.setAttribute("DONG", dong);
 		req.setAttribute("ADDRESS", sido+" "+gugun+" "+dong);
+		
 		
 		return "home/homeList.hometiles_nofooter";
 	}	
