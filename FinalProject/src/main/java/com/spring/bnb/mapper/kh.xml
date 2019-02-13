@@ -129,5 +129,21 @@
 		where fk_userid = #{userid}
 		and FK_CPCODE = #{code}
 	</update>
+	
+	<update id="NouseMyCoupon" parameterType="HashMap">
+		update mycoupon set USEDATE = ''
+		where fk_userid = #{userid}
+		and FK_CPCODE = #{code}
+	</update>
+	
+	<select id="getUseMyCopon" parameterType="HashMap" resultType="int">
+		select dcmoney
+		from coupon A
+		join mycoupon B
+		on A.CPCODE = B.FK_CPCODE
+		where fk_userid = #{userid} and cpcode = #{code}
+	</select>
+	
+	
 
 </mapper>

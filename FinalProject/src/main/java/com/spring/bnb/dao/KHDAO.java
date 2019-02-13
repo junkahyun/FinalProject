@@ -86,5 +86,17 @@ public class KHDAO implements InterKHDAO {
 		int n = sqlsession.update("kh.useMyCoupon", cpmap);
 		return n;
 	}
+
+	@Override
+	public int getUseMyCopon(HashMap<String, String> map) {
+		int disMoney = sqlsession.selectOne("kh.getUseMyCopon",map);
+		return disMoney;
+	}
+
+	@Override
+	public int NouseMyCoupon(HashMap<String, String> cpmap) {
+		int n = sqlsession.update("kh.NouseMyCoupon", cpmap);
+		return n;
+	}
 	
 }

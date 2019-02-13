@@ -663,7 +663,7 @@
 		            </div>         			            
 		         </div>
 		         
-				<h3> 침대 유형 </h3>
+<!-- 				<h3> 침대 유형 </h3>
 				<div style="margin-bottom: 27%;">
 				<div class="row" style="border: 0px solid black;padding:0;" id="addbed">
 					<div id="bedhtmladdHY" class="bedroomEach bedroom_1">
@@ -732,7 +732,7 @@
 			    	</div>
 		       	</div>
 		       	<div class="row" id="addarea"></div>
-		       	</div>
+		       	</div> -->
 		        <div class="col-md-4" style="background-color: white; position: fixed; bottom: 0; padding-bottom:10px; padding-top: 20px; padding-left: 0; padding-right: 130px" >
 		         	 <hr/>
 			         <div class="col-md-3" style="padding: 0;">

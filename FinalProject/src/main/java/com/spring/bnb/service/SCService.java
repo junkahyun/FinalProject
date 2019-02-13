@@ -101,4 +101,9 @@ public class SCService implements InterSCService {
 		List<HashMap<String, String>> buildtypedetailList = dao.selectbuildTypedetail(buildType);
 		return buildtypedetailList;
 	}
+	@Override
+	public int roomUpdate(HashMap<String, String> paraMap) {
+		int n = dao.roomUpdate(paraMap);
+		return n;
+	}
 }

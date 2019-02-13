@@ -32,4 +32,10 @@ public interface InterKHDAO {
 	
 	// ** 쿠폰 사용하는 메소드 ** //
 	int useMyCoupon(HashMap<String,String> cpmap);
+	
+	// ** 쿠폰 사용취소하는 메소드 ** //
+	int NouseMyCoupon(HashMap<String,String> cpmap);
+
+    // ** 쿠폰사용시 할인 금액 가져오기 ** //
+	int getUseMyCopon(HashMap<String, String> map);
 }
