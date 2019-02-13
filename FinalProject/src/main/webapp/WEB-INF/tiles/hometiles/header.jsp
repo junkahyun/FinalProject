@@ -192,6 +192,7 @@
        				url:"joinEnd.air",
        				type:"POST",
        				//data:form_data, 
+       				//contentType:"application/json",
        				dataType:"JSON",
        				success:function(json){
        					var n = json.n;

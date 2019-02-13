@@ -194,8 +194,15 @@ input{outline: none;
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">성수기 추가 요금</td>
-					<td >₩<fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></td>
+					<td >₩<fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></td>
 				</tr>
+				
+				<c:if test="${disCountMoney != 0 }">
+				<tr>
+					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">할인 요금</td>
+					<td >₩<fmt:formatNumber value="${disCountMoney}" pattern="#,###"/></td>
+				</tr>
+				</c:if>
 				
 				<tr >
 					<td style="width: 20%; font-weight: bold; background-color: #e5e5e5">추가 인원 요금</td>
@@ -223,7 +230,7 @@ input{outline: none;
 	</div>
 	<div class="col-md-12">
 		<button type="button" class="btn btn-danger" id="btnsubmit"><span style="color: white; ">확인</span></button> 
-		<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelModal" id="btnCancel"  style="margin-left: 3%;"><span style="color: white; ">예약 취소하기</span></button> 
+		<!-- <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelModal" id="btnCancel"  style="margin-left: 3%;"><span style="color: white; ">예약 취소하기</span></button> --> 
 	</div>	
 </div>
 

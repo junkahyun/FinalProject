@@ -356,7 +356,48 @@ public class SCController {
 		req.setAttribute("str_json", str_json);
 	  
 		return "JSON";      
-	}   
+	} 
+	@RequestMapping(value="/changebedroomcount.air", method={RequestMethod.GET})
+	public String changebedroomcount(HttpServletRequest req) {
+      
+		String bedroom = req.getParameter("bedroom");
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("bedroom",bedroom);
+		String str_json = jsonObj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";      
+	}
+	
+	@RequestMapping(value = "/bedAndPersonEdit.air", method = { RequestMethod.POST })
+	public String bedAndPersonEdit(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		String fk_buildType_detail_idx = req.getParameter("fk_buildType_detail_idx");
+		String fk_roomType_idx = req.getParameter("fk_roomType_idx");
+		String basic_person = req.getParameter("basic_person");
+		String max_person = req.getParameter("max_person");
+		String roomCount = req.getParameter("roomCount");
+		String bathCount = req.getParameter("bathCount");
+		
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("roomcode", roomcode);
+		paraMap.put("fk_buildType_detail_idx", fk_buildType_detail_idx);
+		paraMap.put("fk_roomType_idx", fk_roomType_idx);
+		paraMap.put("basic_person", basic_person);
+		paraMap.put("max_person", max_person);
+		paraMap.put("roomCount", roomCount);
+		paraMap.put("bathCount", bathCount);
+		int n = service.roomUpdate(paraMap);
+		RoomVO roomvo = service.getRoomInfo(roomcode);;
+		System.out.println(n);
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("n",n);
+		jsonObj.put("roomcode",roomvo.getRoomcode());
+
+		String str_json = jsonObj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
+	
 	// 숙소 페이지
 	@RequestMapping(value = "/hostroomPage.air", method = { RequestMethod.GET })
 	public String hostroomPage() {

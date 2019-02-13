@@ -103,8 +103,8 @@ public class HYService implements InterHYService {
 
 	@Override
 	public List<HashMap<String, Object>> getHostIncome(String userid) {
-		List<HashMap<String, Object>> income = dao.getHostIncome(userid);
-		return income;
+		List<HashMap<String, Object>> incomeList = dao.getHostIncome(userid);
+		return incomeList;
 	}
 
 }

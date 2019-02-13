@@ -10,18 +10,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.tools.ant.types.resources.selectors.Date;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -114,40 +113,21 @@ public class HYController {
 		return "JSON";
 	}
 	
-	// 호스트 메인페이지
-	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
-	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
-		List<HashMap<String,Object>> income = null;
-		int thisMonthIcome = 0;
-		HttpSession session = req.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		if(loginuser.getMyroomList().size()>0) {
-			income = service.getHostIncome(loginuser.getUserid());
-			Calendar cal = Calendar.getInstance();
-			int month = cal.get(Calendar.MONTH);
-			for(HashMap<String,Object> hash : income) {
-				if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
-			}
-		}
-		else{
-			req.setAttribute("msg", "호스트만 접근 가능합니다.");
-			req.setAttribute("loc", "index.air");
-			return "msg";
-		}
-		req.setAttribute("income", income);
-		req.setAttribute("thisMonthIcome", thisMonthIcome);
-		return "host/hostMain.hosttiles";
-	}
-	
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
-	public String login(HttpServletRequest req ,MemberVO member) {
+	public String login(HttpServletRequest req ,HttpServletResponse res,MemberVO member) throws ServletException, IOException {
 		member.setPwd(SHA256.encrypt(member.getPwd()));
 		System.out.println("userid : "+member.getUserid()+"/ pwd : "+member.getPwd());
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
 		if(loginuser==null) logincheck = "false";
+		else if("admin".equals(loginuser.getUserid())) {
+			HttpSession session = req.getSession();
+			session.setAttribute("loginuser", loginuser);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/admintiles/admin/index.jsp");
+			dispatcher.forward(req, res);
+		}
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
 			logincheck = "true";
@@ -198,7 +178,6 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		List<HashMap<String,Object>> resultMap = service.getMyLikeRoomList(userid);
 		JSONArray jsonArr = new JSONArray();
-		System.out.println(resultMap.get(0).get("roomMainImg"));
 		for(HashMap<String,Object> result :resultMap) jsonArr.put(result);
 		String str_json = jsonArr.toString();
 		req.setAttribute("str_json", str_json);
@@ -243,7 +222,8 @@ public class HYController {
 	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
 	        //IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
 			member.setProfileimg(filename);
-		} else {
+		} 
+		else {
 			System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
 			member.setProfileimg("user.png");
 		}
@@ -342,5 +322,34 @@ public class HYController {
 		req.setAttribute("str_json", jsonArr.toString());
 		return "JSON";
 	}
+
+	// 호스트 메인페이지
+	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
+	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
+		List<HashMap<String,Object>> income = null;
+		int thisMonthIcome = 0;
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		if(loginuser.getMyroomList().size()>0) {
+			income = service.getHostIncome(loginuser.getUserid());
+			Calendar cal = Calendar.getInstance();
+			//int month = cal.get(Calendar.MONTH);
+			for(HashMap<String,Object> hash : income) {
+				//if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
+				String roomname = service.getRoomByCode((String)hash.get("roomcode")).getRoomName();
+				hash.put("roomname", roomname);
+			}
+		}
+		else{
+			req.setAttribute("msg", "호스트만 접근 가능합니다.");
+			req.setAttribute("loc", "index.air");
+			return "msg";
+		}
+		System.out.println(income.size());
+		req.setAttribute("income", income);
+		req.setAttribute("thisMonthIcome", thisMonthIcome);
+		return "host/hostMain.hosttiles";
+	}
+	
 }
 

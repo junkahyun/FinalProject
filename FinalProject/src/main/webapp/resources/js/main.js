@@ -103,7 +103,8 @@ $(document).ready(function(){
 	          	$("#detailaddr").focus();
 	      	});
 	       	$("#userid").blur(function(){
-	       		var userid = $("#userid").val().trim();
+	       		var userid = $("#userid").
+	       		val().trim();
 	       		if(userid==""){
 	   				$("#userid").parent().find(".error").text("아이디를 입력해 주세요.");
 	   				$("#userid").parent().find(".passIcon").addClass("passIconHide");
