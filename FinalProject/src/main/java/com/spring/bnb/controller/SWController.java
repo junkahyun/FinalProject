@@ -201,8 +201,9 @@ public class SWController {
 		String userid = loginuser.getUserid();
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
-		System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
-		for(ReservationVO list : reservationList) {			
+		
+		for(ReservationVO list : reservationList) {	
+			System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
 			list.setRsv_email(aes.decrypt(list.getRsv_email()));
 			list.setRsv_phone(aes.decrypt(list.getRsv_phone()));			
 		}
