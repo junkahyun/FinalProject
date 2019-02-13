@@ -197,11 +197,18 @@
 		select count(*) from likeroom where fk_userid=#{USERID} and fk_roomcode=#{ROOMCODE}
 	</select>
 	
+ 	<resultMap type="HashMap" id="incomeMap">
+		<result property="roomcode" column="roomcode" javaType="String" />
+		<result property="totalprice" column="totalprice" javaType="Integer" />
+		<result property="paydate" column="paydate" javaType="String" />
+	</resultMap>
 	<!-- 호스트의 수입 가져오기 -->
-	<select id="getHostIncome" parameterType="HashMap" resultType="Integer">
-		select sum(totalPrice) from reservation where fk_userid=#{userid} and to_char(paydate,'mm') = #{month}
+	<select id="getHostIncome" parameterType="String" resultMap="incomeMap">
+		select v.fk_roomcode as roomcode,sum(totalPrice) as totalprice,to_char(v.paydate,'mm') as paydate
+		from Room r join reservation v on v.fk_roomcode=r.roomcode 
+		where r.fk_userid=#{userid}
+		group by grouping sets ((v.fk_roomcode,to_char(v.paydate,'mm')))
 	</select>
 	
-	<!--  -->
 </mapper>
 

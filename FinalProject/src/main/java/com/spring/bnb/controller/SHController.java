@@ -460,8 +460,20 @@ public class SHController {
 	@RequestMapping(value="/couponRegs.air", method= {RequestMethod.GET})
 	public String couponReg(HttpServletRequest req) {
 
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
-		return "admin/couponRegs.admintiles";
+		if(loginuser == null) {
+			return "main/index";
+		} 
+		else {
+			if(!loginuser.getUserid().equals("admin")) {
+				return "main/index";
+			}
+			
+			return "admin/couponRegs.admintiles";
+		}
+
 	}
 	
 	// 쿠폰등록 완료 요청

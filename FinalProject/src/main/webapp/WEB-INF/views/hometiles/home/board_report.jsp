@@ -171,6 +171,9 @@
 	</div> 
 	
 	<div class="container">	
+		<c:if test="${sessionScope.loginuser.userid == 'admin'}">
+			<button onClick="javascript:location.href='<%= request.getContextPath()%>/admin.air'">관리자홈</button>
+		</c:if>
 		<form name="memberFrm" style="">
 			<div id="searchbar" style="padding-top: 1%; text-align: right; border:none; box-shadow : none; width: 100%;">
 				<select id="searchType" name="searchType" style="">
