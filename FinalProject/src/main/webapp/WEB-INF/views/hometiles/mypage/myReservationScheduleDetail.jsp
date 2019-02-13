@@ -64,7 +64,6 @@ function goCancel() {
 	frm.action="goCancel.air";
 	frm.submit();
 }
-
 </script>
 
 <div class="row" style="border: 0px soild red;">
@@ -111,7 +110,7 @@ function goCancel() {
 				</div>
 			</div>
 			<div  class="col-md-12">			
-				<div class="col-md-3"><img src="${myRsvDetail.roommainimg}" width="200px"></div>					
+				<div class="col-md-3"><img src="<%= ctxPath %>/resources/images/becomehost/${myRsvDetail.roommainimg}" width="200px"></div>					
 				<div class="col-md-9 push_left">
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
 						<div class="col-md-5" style="border: 0px solid gray; float:left; padding-left: 3%;"><h5>예약 번호</h5></div>
@@ -183,57 +182,55 @@ function goCancel() {
 		</div>
        </div>
 	   </div>
-	   <div class="col-md-12" style="margin-top:2%;">
+	<div class="col-md-12" style="margin-top:2%;">
 	   		<div class="col-md-10"></div>
-	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default" data-toggle="modal" data-target="#myModal">예약 취소</a></div></div>
-     		 <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      
-		      <div class="modal-content">
-		        <c:if test="${myRsvDetail.daysRemaining > 3}">
-		        <div class="modal-header">
-		          <button type="button" class="close" data-dismiss="modal">&times;</button>
-		          <h4 class="modal-title">숙소 예약 취소</h4>
-		        </div>
-		      
-		        <div class="modal-body">
-		          <p><H4>${myRsvDetail.rsv_name} 님! </H4></p>
-		          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.roomname}</span>&nbsp;숙소를 취소하시겠습니까?
-		          	 <ul>
-		          	 	<li> 예약번호 &nbsp;:&nbsp;${myRsvDetail.rsvcode} </li>
-					 	<li> 체 크 인 &nbsp;&nbsp;:&nbsp;${myRsvDetail.rsv_checkindate}&nbsp;${myRsvDetail.checkInDay} </li>
-						<li> 체크아웃&nbsp;:&nbsp;${myRsvDetail.rsv_checkoutdate}&nbsp;${myRsvDetail.checkOutDay} </li>
-					 </ul> 	
-				   <p>예약 취소 시 취소가 불가 합니다!</p>			
-		        </div>		   
-		        <div class="modal-footer">
-		          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal" onClick="goCancel();">예약취소하기</button>
-		          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">취소</button>
-		        </div>
-		        </c:if> 
-			   <c:if test="${myRsvDetail.daysRemaining <= 3}">
+	   		<div class="col-md-2 row"><a class="btn btn-primary btn-default">예약 취소</a></div>
+	</div>
+	    <div class="modal fade" id="myModal" role="dialog">
+		    <div class="modal-dialog">		
+	      <!-- Modal content-->      
+			      <div class="modal-content">
+			        <c:if test="${myRsvDetail.daysRemaining > 3}">
 			        <div class="modal-header">
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title">숙소 예약 취소가 불가합니다!</h4>
-			        </div>			      
+			          <h4 class="modal-title">숙소 예약 취소</h4>
+			        </div>
+			      
 			        <div class="modal-body">
 			          <p><H4>${myRsvDetail.rsv_name} 님! </H4></p>
-			          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.daysRemaining} 일 밖에 남지 않았습니다!</span>	
-					   <p>예약 취소 시 취소가 불가 합니다! 호스트에게 문의해 주세요!</p>			
+			          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.roomname}</span>&nbsp;숙소를 취소하시겠습니까?
+			          	 <ul>
+			          	 	<li> 예약번호 &nbsp;:&nbsp;${myRsvDetail.rsvcode} </li>
+						 	<li> 체 크 인 &nbsp;&nbsp;:&nbsp;${myRsvDetail.rsv_checkindate}&nbsp;${myRsvDetail.checkInDay} </li>
+							<li> 체크아웃&nbsp;:&nbsp;${myRsvDetail.rsv_checkoutdate}&nbsp;${myRsvDetail.checkOutDay} </li>
+						 </ul> 	
+					   <p>예약 취소 시 취소가 불가 합니다!</p>			
 			        </div>		   
 			        <div class="modal-footer">
-			          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">확인</button>
+			          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal" onClick="goCancel();">예약취소하기</button>
+			          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">취소</button>
 			        </div>
-		         </c:if> 
-		      </div>     
-    </div>
-  </div>
+			        </c:if> 
+				   <c:if test="${myRsvDetail.daysRemaining <= 3}">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">숙소 예약 취소가 불가합니다!</h4>
+				        </div>			      
+				        <div class="modal-body">
+				          <p><H4>${myRsvDetail.rsv_name} 님! </H4></p>
+				          <span style="text-decoration:underline; color:#008489;font-weight:bold;">${myRsvDetail.daysRemaining} 일 밖에 남지 않았습니다!</span>	
+						   <p>예약 취소 시 취소가 불가 합니다! 호스트에게 문의해 주세요!</p>			
+				        </div>		   
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-primary btn-default" data-dismiss="modal">확인</button>
+				        </div>
+			         </c:if> 
+			      </div>     
+		    </div>
+	  </div>
      
-      </div>
-	  <div>
-</div>
+ </div>
+
 <form name="goCancelFrm">
 	<input type="hidden" name="rsvcode" value="${myRsvDetail.rsvcode}" />
 </form>

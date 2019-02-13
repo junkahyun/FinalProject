@@ -217,7 +217,7 @@ h3{font-size: 14pt;
 				frm.message.value = $("#host_error_message").val();
 				frm.totalpeople.value = $("#finalPeople").val();
 				frm.price.value=$("#Price").text();
-				frm.method="GET";
+				frm.method="POST";
 				frm.action = "<%=ctxPath%>/reservationCheckAndPay.air";
 				frm.submit();
 			 } 

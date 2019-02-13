@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,7 +105,7 @@ public class KHController {
 
 	
 	// ***** 예약 확인 및 결제하기 (예약) ***** //
-	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.POST})
 	public String reservationCheckAndPay (HttpServletRequest req,HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException{
 		
 		String babycount = req.getParameter("babycount");//최종적으로 변경된 유아인원
@@ -321,7 +322,7 @@ public class KHController {
 	}
 	
 	// *** 쿠폰 사용하는 메소드 *** //
-	@RequestMapping(value="/useMyCoupon.air", method = {RequestMethod.GET})
+	@RequestMapping(value="/useMyCoupon.air", method = {RequestMethod.POST})
 	public String useCoupon(HttpServletRequest req,HttpSession session){
 		
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -344,6 +345,33 @@ public class KHController {
 		req.setAttribute("s_json", s_json);
 		
 		return "reservationAndPay/couponJson.notiles";
+	}
+	
+	// *** 쿠폰 사용취소하는 메소드 *** //
+	@RequestMapping(value="/NouseMyCoupon.air", method = {RequestMethod.POST})
+	public String NouseMyCoupon(HttpServletRequest req,HttpSession session){
+		
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginuser.getUserid();
+		String code = req.getParameter("code");
+		session.setAttribute("code", code);
+		
+		//System.out.println(userid);
+		HashMap<String,String> cpmap = new HashMap<String,String>();
+		cpmap.put("userid", userid);
+		cpmap.put("code", code);
+		
+		// 쿠폰 사용취소하는 메소드 //
+		int n = service.NouseMyCoupon(cpmap);
+		
+		JSONObject json = new JSONObject();
+		json.put("cinsert", n);
+		String s_json = json.toString();
+		
+		req.setAttribute("s_json", s_json);
+		session.removeAttribute("code");
+		
+		return "reservationAndPay/NocouponJson.notiles";
 	}
 	
 

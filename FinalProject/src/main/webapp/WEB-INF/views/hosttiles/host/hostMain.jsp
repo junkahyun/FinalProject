@@ -10,33 +10,82 @@
 $(document).ready(function(){
 	var today = new Date();
 	var income = [];
-	for(var i=0;i<12;i++){
-		var monthlyIncome = $("#month"+i+"").val();
-		var title = "20"+today.getYear().toString().substring(1,3)+"년 수입현황";
-		income.push(parseInt(monthlyIncome));	
+	var title = "20"+today.getYear().toString().substring(1,3)+"년 수입현황";
+	var roomsize = "${loginuser.myroomList.size()}"
+	for(var i=0;i<parseInt(roomsize);i++){
+		for(var i=0;i<12;i++){
+			var roomcode = "${loginuser.myroomList.get(i).roomcode}";
+			if(roomcode=="${income.roomcode}"){
+				var paymonth = "${income.paydate}";
+				if(parseInt(paymonth)==i){
+					
+				}
+			}
+		}	
 	}
-	var chart = Highcharts.chart('container', {
+	Highcharts.chart('container', {
 	    title: {
-	        text: title
+	        text: 'Solar Employment Growth by Sector, 2010-2016'
 	    },
 	    subtitle: {
-	        text: 'Plain'
+	        text: 'Source: thesolarfoundation.com'
 	    },
-	    xAxis: {
-	        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	    yAxis: {
+	        title: {
+	            text: 'Number of Employees'
+	        }
+	    },
+	    legend: {
+	        layout: 'vertical',
+	        align: 'right',
+	        verticalAlign: 'middle'
+	    },
+	    plotOptions: {
+	        series: {
+	            label: {
+	                connectorAllowed: false
+	            },
+	            pointStart: 2010
+	        }
 	    },
 	    series: [{
-	        type: 'column',
-	        colorByPoint: true,
-	        data: income,
-	        showInLegend: false
-	    }]
+	        name: 'Installation',
+	        data: income
+	    }, {
+	        name: 'Manufacturing',
+	        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+	    }, {
+	        name: 'Sales & Distribution',
+	        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+	    }, {
+	        name: 'Project Development',
+	        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+	    }, {
+	        name: 'Other',
+	        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+	    }],
+	    responsive: {
+	        rules: [{
+	            condition: {
+	                maxWidth: 500
+	            },
+	            chartOptions: {
+	                legend: {
+	                    layout: 'horizontal',
+	                    align: 'center',
+	                    verticalAlign: 'bottom'
+	                }
+	            }
+	        }]
+	    }
 	});
 });
 </script>
 <div style="width:1280px;margin:0 auto;">
 	<c:forEach items="${income }" var="income" varStatus="status">
-		<input type="hidden" id="month${status.index }" value="${income.sumTotalPrice }">
+		<input type="text" value="${income.roomcode }">
+		<input type="text" value="${income.totalprice }">
+		<input type="text" value="${income.paydate }">
 	</c:forEach>
 	<h2 style="font-weight:bold;color:#4f4f4f;">알림판</h2>
 	<div class="row" style="padding:0;width:100%;margin-top:5%;border-bottom: 1px dotted lightgray;">
