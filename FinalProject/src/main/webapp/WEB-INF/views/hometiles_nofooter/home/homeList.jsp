@@ -48,7 +48,7 @@ div.modal button.finish_sido{
 
 
 <script type="text/javascript">
- 
+var flag5 = false;
  $(document).ready(function(){
 	//alert($("#sido").val());
 	
@@ -142,7 +142,7 @@ div.modal button.finish_sido{
 				data: form_data,
 				dataType: "JSON",
 				success: function(json){ 					
-					 $("#allList").empty();
+					 /* $("#allList").empty(); */
 					 								 
 					 if(json.OPTIONCHECK == 0){					
 							html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
@@ -171,7 +171,7 @@ div.modal button.finish_sido{
 									  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 									  + "</div>"
 									  + "<div>"
-									  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+									  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 									  + "</div>"
 									  + "<div>"
 									  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -350,16 +350,15 @@ div.modal button.finish_sido{
 		  type : "GET",
 		  dataType : "JSON",
 		  success : function(json){
-			  $("#allList").empty();  
+			 /*  $("#allList").empty();   */ 
 			  
 			  $.each(json, function(entryIndex, entry){									
 					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
-						 
+						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"					 
 						  + "</div>"
 						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>ddd</span>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 						  + "</div>"
 						  + "<div>"
 						  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -369,7 +368,7 @@ div.modal button.finish_sido{
 						  + "</div>"
 						  + "<div>"
 						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-						  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+						  + "<input type='hidden' class='roomcode' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
 						  + "</div>"
 						  + "</div>";
 					$("#allList").html(html); 
@@ -381,6 +380,14 @@ div.modal button.finish_sido{
 		  
 	  });
 	  
+   });
+   
+   $("#slider1").change(function(){
+	  alert("하하하");
+   });
+   
+   $("#slider2").change(function(){
+	   alert("하하하"); 
    });
       
    
@@ -408,8 +415,8 @@ div.modal button.finish_sido{
 			data : form_data,
 			dataType : "JSON",
 			success : function(json){
-				$("#allList").empty();  
-				//console.log(json.LISTCHECK)
+				/* $("#allList").empty();   */
+				console.log(typeof json.LISTCHECK);
 				if(json.LISTCHECK == 0){					
 					html2 += "<div class='col-md-12' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%; text-align: center;'>"
@@ -432,12 +439,12 @@ div.modal button.finish_sido{
 					$.each(json, function(entryIndex, entry){									
 						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"
 							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
 							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 							  + "</div>"
 							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 침대"+entry.BEDCOUNT+"개("+entry.BEDTYPE+") · 화장실 "+entry.BATHCOUNT+"개</span>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 							  + "</div>"
 							  + "<div>"
 							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -447,7 +454,7 @@ div.modal button.finish_sido{
 							  + "</div>"
 							  + "<div>"
 							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
-							  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
+							  + "<input type='hidden' class='roomcode' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
 							  + "</div>"
 							  + "</div>";
 						$("#allList").html(html); 
@@ -486,7 +493,7 @@ div.modal button.finish_sido{
       	showButtonPanel: true
     	});
     }); 
-   
+ 
 	// 가격대 슬라이드바
 	$(function () {
         'use strict';
@@ -511,21 +518,26 @@ div.modal button.finish_sido{
         			var endPrice = jbSplit[1]*10000;
                 	
         			$("#slider1").val(startPrice);
-	            	$("#slider2").val(endPrice); 
+	            	$("#slider2").val(endPrice);
+	            	if(flag5 == true){
+	            		fun_ajax();
+	            		
+	            		console.log(flag5);
+	            	}
+	            	flag5=true;
 	            	
-	            	fun_ajax(); 
-            				
                 }
             });
         };
         window.onload = init;
+        
     });
 	
 	
-	function goHomeDetail() {
+	function goHomeDetail(roomcode) {
 		
-		var frm = document.homeListFrm;
-		
+		var frm = document.detailFrm;
+		frm.roomcode.value = roomcode;
 		frm.method = "GET";
 		frm.action = "<%=ctxPath%>/homeDetail.air";
 		frm.submit();
@@ -616,9 +628,9 @@ div.modal button.finish_sido{
                 
          <div class="col-md-12 optionbox last_optionbox" >
            	<span class="optionname" style="margin-right: 3%;">가격 (만 원)</span>
-       		<input type="hidden" id="slider1" class="startprice" name="startprice" />
-       		<input type="hidden" id="slider2" class="endprice" name="endprice" />
-       		<input type="hidden" id="slider3" class="slider" />
+       		<input type="text" id="slider1" class="startprice" name="startprice" />
+       		<input type="text" id="slider2" class="endprice" name="endprice" />
+       		<input type="text" id="slider3" class="slider" />
    		 </div>
    		 
     </div> 
@@ -705,7 +717,7 @@ div.modal button.finish_sido{
         
         <div class="col-md-8" style="height:100%; padding: 1%;">
             <div id="allList" class="row" style="overflow: auto; height: 100%;">
-            <%-- <c:forEach items="${roomList}" var="RList" varStatus="status">
+            <c:forEach items="${roomList}" var="RList" varStatus="status">
                 <div  class="col-md-4" style="margin-bottom: 2%;">               
                     <div id="homeImg" style="margin-bottom: 3%;">
                         <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
@@ -714,11 +726,10 @@ div.modal button.finish_sido{
 	            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
                     </div>
                     <div>
-                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 ${RList.roomCount}개 · 침대 ${RList.bedtype}</span>
+                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
                     </div>
                     <div>
-                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>
-                        <span id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;">${RList.roomName }</span>
+                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>                       
                     </div>
                     <div>
                         <span id="money" class="money">₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
@@ -735,7 +746,7 @@ div.modal button.finish_sido{
                         <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                                   
                     </div>                
                 </div>
-            </c:forEach> --%>
+            </c:forEach>
             </div> 
         </div>
       
@@ -763,4 +774,7 @@ div.modal button.finish_sido{
 	     </div>
   	 </div>  
     </form>	
+    <form name="detailFrm">
+    	<input type="hidden" name="roomcode">
+    </form>
    
