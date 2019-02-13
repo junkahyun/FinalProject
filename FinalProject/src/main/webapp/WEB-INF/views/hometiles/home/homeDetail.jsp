@@ -396,6 +396,7 @@
          <div class="infoDiv" style="font-weight:bold;">
             <img src="<%=request.getContextPath()%>/resources/images/homeDetail/multiple-users-silhouette.png" />
             <span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명</span>
+            <span style="margin-right:5%;margin-left:1%;">최대인원 ${room.max_person }명</span>
             <span style="margin-right:5%;">침실갯수 ${room.bedroomList.size() }개</span>
             <span style="margin-right:5%;">침대갯수 ${room.bedroomList.size() }개</span>
             <span style="margin-right:5%;">단독사용욕실갯수 ${room.bathCount }</span>
