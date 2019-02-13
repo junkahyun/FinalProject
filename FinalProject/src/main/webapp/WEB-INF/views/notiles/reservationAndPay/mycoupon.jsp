@@ -28,7 +28,7 @@ th{font-weight: bold; font-size: 13pt;
 	function useMyCoupon(code,cpname){
 		var sido = "${oneRoom.roomSido}";
 		
-		if(sido == cpname.match(sido)){
+		if('해운대' == cpname.match('해운대')){
 			var bool = confirm("해당숙소는 사용이 가능합니다. 쿠폰을 사용하시겠습니까?");
 			if(bool == true){
 				goMyCoupon(code);	

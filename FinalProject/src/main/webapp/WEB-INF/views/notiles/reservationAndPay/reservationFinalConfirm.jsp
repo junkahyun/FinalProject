@@ -230,7 +230,7 @@ input{outline: none;
 	</div>
 	<div class="col-md-12">
 		<button type="button" class="btn btn-danger" id="btnsubmit"><span style="color: white; ">확인</span></button> 
-		<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelModal" id="btnCancel"  style="margin-left: 3%;"><span style="color: white; ">예약 취소하기</span></button> 
+		<!-- <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelModal" id="btnCancel"  style="margin-left: 3%;"><span style="color: white; ">예약 취소하기</span></button> --> 
 	</div>	
 </div>
 
