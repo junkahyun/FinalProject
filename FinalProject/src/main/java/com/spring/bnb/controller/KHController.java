@@ -103,7 +103,6 @@ public class KHController {
 	}
 
 	
-	
 	// ***** 예약 확인 및 결제하기 (예약) ***** //
 	@RequestMapping(value="/reservationCheckAndPay.air", method= {RequestMethod.GET})
 	public String reservationCheckAndPay (HttpServletRequest req,HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException{
