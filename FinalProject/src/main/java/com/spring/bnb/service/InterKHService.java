@@ -33,6 +33,9 @@ public interface InterKHService {
 
 	// *** 쿠폰 사용하는 메소드 *** //
 	int useMyCoupon(HashMap<String, String> cpmap);
+	
+	// *** 쿠폰 사용취소하는 메소드 *** //
+	int NouseMyCoupon(HashMap<String, String> cpmap);
 
 	
 	// *** 쿠폰 사용시 금액가져오는 메소드 *** //
