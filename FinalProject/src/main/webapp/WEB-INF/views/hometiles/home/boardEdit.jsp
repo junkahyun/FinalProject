@@ -65,7 +65,8 @@
 	       
 	        //폼 submit
 	        var writeFrm = document.writeFrm;
-			writeFrm.action = "<%= request.getContextPath() %>/vanWriteEnd.air";
+	        writeFrm.reportidx.value = $("#reportidx").val();
+			writeFrm.action = "<%= request.getContextPath() %>/boardEditEnd.air";
 			writeFrm.method = "POST";
 			writeFrm.submit();
 	    });
@@ -93,20 +94,21 @@
 
 		<div style="padding: 2%;">
 			<label class="input-group-text" for="inputGroupSelect02">제목</label>
-			<input type="text" class="form-control" placeholder="제목을 써주세요" id="report_subject" name="report_subject">
-			<span class="error2" style="font-weight: bold; color: red; font-size: 14pt;">제목을 적어주세요~</span>
+			<input type="text" class="form-control" placeholder="제목을 써주세요" id="report_subject" name="report_subject" value="${reportvo.report_subject}">
+			<span class="error2" style="font-weight: bold; color: red; font-size: 14pt;"></span>
 		</div>
 		
 		<div style="padding-left: 2%; padding-right: 2%; padding-bottom: 2%;">
 			<label class="input-group-text" for="inputGroupSelect03">내용</label>
-			<textarea name="report_content" rows="10" cols="100" style="width:100%; height:412px;" id="report_content"></textarea>
-			<span class="error3" style="font-weight: bold; color: red; font-size: 14pt;">내용을 적어주세요~</span>
+			<textarea name="report_content" rows="10" cols="100" style="width:100%; height:412px;" id="report_content">${reportvo.report_content}</textarea>
+			<span class="error3" style="font-weight: bold; color: red; font-size: 14pt;"></span>
 		</div>
 		
 		<div style="display:inline; text-align: center;">
 			<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
-			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">취소</button></div>
+			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:history.back();">취소</button></div>
 		</div>
+		<input type="text" name="reportidx" id="reportidx" value="${report_idx}">
 	</form>
 	
 </div>
