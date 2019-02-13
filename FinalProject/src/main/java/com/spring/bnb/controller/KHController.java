@@ -115,13 +115,14 @@ public class KHController {
 		String totalpeople = req.getParameter("totalpeople");//최종인원
 		String price = req.getParameter("price");//숙박일수*1박숙소 금액
 		
+		System.out.println(babycount);
+		
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		String code = (String)session.getAttribute("code");
 		
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("userid", loginuser.getUserid());
 		map.put("code",code);
-		System.out.println(code);
 		
 		int disCountMoney = 0;
 		if(code == null || "".equals(code)) {
@@ -165,7 +166,6 @@ public class KHController {
 		String roomname = oneroom.getRoomName();//결제창에 예약하는 숙소이름을 보여주기 위해 RoomVO에서 가져옴
 		
 		String roomname1 = roomname.substring(0,2);
-		System.out.println(roomname1);
 		
 		session.setAttribute("reservationPermission", "yes");
 		//예약확인페이지에서 새로고침시 

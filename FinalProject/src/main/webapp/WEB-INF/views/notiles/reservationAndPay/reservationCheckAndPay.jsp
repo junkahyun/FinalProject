@@ -265,7 +265,8 @@ input{outline: none;
 			<input class="reservationInfo" type="text" value="${checkin} " /><br><br>
 			
 			<span class="myinfomation">총인원</span><br>
-			<input class="reservationInfo" type="text" value="${sessionScope.totalpeople}명" /><br><br>
+			<input class="reservationInfo" type="text" value="성인 : ${guestcount}명" /><br>
+			<input class="reservationInfo" type="text" value="유아 : ${babycount}명" /><br><br>
 		</div>
 		
 		<div class="col-md-3" >
