@@ -243,7 +243,7 @@ input{outline: none;
 		<hr style="border: 0.5px solid gray;">
 		<div class="col-md-3"  align="center">
 			<span class="myinfomation">숙소이미지</span><br><br>
-			<img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 80%; height: 14%;"/>
+			<img src="<%=request.getContextPath() %>/resources/images/becomehost/${oneRoom.roomMainImg}" style="width: 80%; height: 14%;"/>
 		</div>
 		
 		<div class="col-md-3" >

@@ -546,12 +546,9 @@ var flag5 = false;
 </script> 
 	<form name=homeListFrm>
 	<div id="optionSection" class="row menu">
-	
         <div id="optionLeft" class="col-md-5">
-        
             <div id="locationField" class="optionbox">
             	<span class="optionname">지역 선택</span>
-            					             
 				<input class="ipt_search_l r_border" type="text" id="sidogugundong" name="sidogugundong" value="${ADDRESS}" size="10;" style="border-right: 1px solid gray; margin-left: 6%; margin-right: 7%; width: 20%; height: 80%;" data-toggle = "modal" data-target="#selectsido" data-dismiss = "modal" readonly > 
 				<input type="hidden" id="sido" name="sido" value="${SIDO}" />
 				<input type="hidden" id="gugun" name="gugun" value="${GUGUN}"/>
@@ -628,9 +625,9 @@ var flag5 = false;
                 
          <div class="col-md-12 optionbox last_optionbox" >
            	<span class="optionname" style="margin-right: 3%;">가격 (만 원)</span>
-       		<input type="text" id="slider1" class="startprice" name="startprice" />
-       		<input type="text" id="slider2" class="endprice" name="endprice" />
-       		<input type="text" id="slider3" class="slider" />
+       		<input type="hidden" id="slider1" class="startprice" name="startprice" />
+       		<input type="hidden" id="slider2" class="endprice" name="endprice" />
+       		<input type="hidden" id="slider3" class="slider" />
    		 </div>
    		 
     </div> 
@@ -716,37 +713,54 @@ var flag5 = false;
         </div>
         
         <div class="col-md-8" style="height:100%; padding: 1%;">
-            <div id="allList" class="row" style="overflow: auto; height: 100%;">
-            <c:forEach items="${roomList}" var="RList" varStatus="status">
-                <div  class="col-md-4" style="margin-bottom: 2%;">               
-                    <div id="homeImg" style="margin-bottom: 3%;">
-                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
-                    	<input type="hidden" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
-                    	<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
-	            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
-                    </div>
-                    <div>
-                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
-                    </div>
-                    <div>
-                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>                       
-                    </div>
-                    <div>
-                        <span id="money" class="money">₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
-                        <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
-                        	<input type="hidden" name="optionname" value="${oplist.OPTIONNAME }" />
-                        </c:forEach>
-                        <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
-                       	 	<input type="hidden" name="rulename" value="${rule.RULE_NAME}" />
-                        </c:forEach>                         
-                        <input type="hidden" name="roomtype_name" value="${RList.roomType_name }" />
-                        
-                    </div>
-                    <div>
-                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                                   
-                    </div>                
-                </div>
-            </c:forEach>
+            <div id="allList" class="row" style="overflow: auto; height: 574px; width: 100%;"> 
+            <c:if test="${roomList == null}"> 
+           		<div class="col-md-12" style="margin-bottom: 2%;"> 
+					<div id="homeImg" style="margin-bottom: 3%; text-align: center;">
+						<img src="resources/images/warning.png" style="width: 30%; height:30%;" />						 
+					</div>
+					<div style="text-align: center; margin-bottom: 1%;">
+						<span style="font-size: 20pt; font-weight: bold; color: red;">해당 조건에 만족하는 숙소가 없습니다.</span>
+					</div>
+					<div style="text-align: center; margin-bottom: 2%;">
+						<span style="font-size: 20pt; font-weight: bold; color: red;">검색조건을 다시 선택해주세요!</span>
+					</div>
+					<div style="text-align: center;">
+						<span style="font-size: 10pt; font-weight: bold; color: blue;">(오른쪽 상단의 <img src="resources/images/reload.png" style="width: 1.5%; height:1.5%;" /> 버튼을 클릭하시면 모든 옵션이 초기화 됩니다.)</span>
+					</div>
+				</div>									
+            </c:if>
+            <c:if test="${requestScope.roomList != null}">
+	            <c:forEach items="${roomList}" var="RList" varStatus="status">
+	                <div  class="col-md-4" style="margin-bottom: 2%;">               
+	                    <div id="homeImg" style="margin-bottom: 3%;">
+	                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
+	                    	<input type="hidden" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
+	                    	<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
+		            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
+	                    </div>
+	                    <div>
+	                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
+	                    </div>
+	                    <div>
+	                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>                       
+	                    </div>
+	                    <div>
+	                        <span id="money" class="money">₩<fmt:formatNumber value="${RList.roomPrice}" pattern="#,###"/></span>원
+	                        <c:forEach items="${RList.optionList}" var="oplist" varStatus="status">
+	                        	<input type="hidden" name="optionname" value="${oplist.OPTIONNAME }" />
+	                        </c:forEach>
+	                        <c:forEach items="${RList.ruleList}" var="rule" varStatus="status">                       
+	                       	 	<input type="hidden" name="rulename" value="${rule.RULE_NAME}" />
+	                        </c:forEach>                         
+	                        <input type="hidden" name="roomtype_name" value="${RList.roomType_name }" />	                        
+	                    </div>
+	                    <div>
+	                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                                   
+	                    </div>                
+	                </div>	               
+	            </c:forEach>
+             </c:if>
             </div> 
         </div>
       
