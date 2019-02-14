@@ -26,4 +26,16 @@ public interface InterKHDAO {
 	
 	// *** 예약자 정보 가져오기 *** //
 	ReservationVO getOneReserve(HashMap<String,Object> map);
+
+	// *** 나의 쿠폰 리스트 보기 *** //
+	List<HashMap<String, Object>> getmyCoupon(String userid);
+	
+	// ** 쿠폰 사용하는 메소드 ** //
+	int useMyCoupon(HashMap<String,String> cpmap);
+	
+	// ** 쿠폰 사용취소하는 메소드 ** //
+	int NouseMyCoupon(HashMap<String,String> cpmap);
+
+    // ** 쿠폰사용시 할인 금액 가져오기 ** //
+	int getUseMyCopon(HashMap<String, String> map);
 }

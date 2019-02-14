@@ -155,13 +155,13 @@ div{border: /* 1px solid gray;  */
 	}
 	
 	// 제목 수정
-	function goTitleEdit(){
-		location.href="<%=request.getContextPath()%>/hrTitleEdit.air";
+	function goTitleEdit(roomcode){
+		location.href="hrTitleEdit.air?roomcode="+roomcode;
 	}
 	
 	// 침실 수정
-	function goBedroomEdit(){
-		location.href="<%=request.getContextPath()%>/bedroomEdit.air";
+	function goBedroomEdit(roomcode){
+		location.href="bedroomEdit.air?roomcode="+roomcode;
 	}
 	
 	function goRoomEdit(roomcode){
@@ -247,7 +247,7 @@ div{border: /* 1px solid gray;  */
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn" onclick="goTitleEdit();"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn" onclick="goTitleEdit('${roomvo.roomcode}');"><span class="editbtn">수정</span></button>
 		    </div>
 	    </div>
 	    <hr align="left" > 
@@ -260,17 +260,17 @@ div{border: /* 1px solid gray;  */
 					<div class="col-md-6">기본 인원: <span class="number">${roomvo.basic_person }</span></div>
 				</div>
 				<div class="row bedAndPeople">
-					<div class="col-md-6">욕실: <span class="number">${roomvo.bathCount }</span></div>
+					<div class="col-md-6">숙소유형: <span class="number">개인실</span></div>	
 					<div class="col-md-6">건물유형: <span class="number">${roomvo.buildType_detail_name }</span></div>
 				</div>
 				<div class="row bedAndPeople">
-					<div class="col-md-6">침실갯수: <span class="number">8</span></div>
-					<div class="col-md-6">숙소유형: <span class="number">개인실</span></div>	
+					<div class="col-md-6">침실갯수: <span class="number">${roomvo.roomCount }</span></div>
+					<div class="col-md-6">욕실: <span class="number">${roomvo.bathCount }</span></div>
 				</div >
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn" onclick="goBedroomEdit()"><span class="editbtn">수정</span></button>
+		  		<button type="button" class="btn" onclick="goBedroomEdit('${roomvo.roomcode}')"><span class="editbtn">수정</span></button>
 		    </div>
 	    </div>   
 	    <hr align="left" > 

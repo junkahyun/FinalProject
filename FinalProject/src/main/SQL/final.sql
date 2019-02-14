@@ -294,17 +294,32 @@ update room set ROOMSTATUS = 99
 where ROOMCODE in (24,25,26);
 commit;
 
-select ROOMCODE, PROFILEIMG, ROOMMAINIMG, ROOMNAME, PROFILEIMG, ROOMPRICE, RNO 
-from(
-    select distinct(roomcode) AS ROOMCODE, avg((correct+communicate+clean+position+checkin+value)) AS SCORE, roomMainImg, roomname, C.profileImg as profileImg, roomprice, rownum as RNO
-    from room A JOIN review B
-    on A.roomcode = B.fk_roomcode
-    join member C
-    on B.fk_userid = C.userid 
-    group by roomcode, roomname, C.profileImg, roomprice, roomMainImg, 
-    rownum
-    order by roomcode asc
-)V
-where RNO between 1 and 7
+select  RNO, ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMPRICE 
+from (
+    select ROOMCODE, ROOMMAINIMG, ROOMNAME, ROOMPRICE, rownum AS RNO 
+    from(
+       select distinct(roomcode), avg((correct+communicate+clean+position+checkin+value)) AS SCORE, roomname, roomprice, roomMainImg
+        from room A JOIN review B
+        on A.roomcode = B.fk_roomcode
+        join member C
+        on B.fk_userid = C.userid 
+        group by roomcode, roomname, roomprice, roomMainImg 
+    )V
+)
+where RNO between 1 and 7;
+
+
+
+
+select *
+from review;
+
+
+
+
+
+
+
+
 
 

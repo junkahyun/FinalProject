@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,6 +37,13 @@ public class boboController {
    @RequestMapping(value="/roomstep1.air", method={RequestMethod.GET})
    public String roomstep1(HttpServletRequest req) {
       
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+	   
       /*// 세션에 입력값을 넣어서 한번에 insert하려고 RoomVO를 세션값에 저장
       HttpSession session = req.getSession();      
       RoomVO roomvo = new RoomVO();
@@ -47,6 +55,13 @@ public class boboController {
    @RequestMapping(value="/roomstep1page.air", method={RequestMethod.GET})
    public String roomstep1page(HttpServletRequest req) {
       
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }	   
+	   
       List<HashMap<String, String>> buildTypeList = service.selectbuildType();// 건물유형 가져오기
       req.setAttribute("buildTypeList", buildTypeList);      
 
@@ -97,10 +112,9 @@ public class boboController {
    public String bedroom(HttpServletRequest req) {
       
       String bedroomInfo = req.getParameter("bedroomInfo");
-      String[] bedroomInfoArr = bedroomInfo.split("/");
       
       HttpSession session = req.getSession();
-      session.setAttribute("bedroomInfoArr", bedroomInfoArr);
+      session.setAttribute("bedroomInfo", bedroomInfo);
    
       JSONObject json = new JSONObject();
       //json.put("n", n);
@@ -127,6 +141,12 @@ public class boboController {
    public String roomstep2(RoomVO roomvo, HttpServletRequest req) {
       
       HttpSession session = req.getSession();   
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+      
       String[] optionArr = req.getParameterValues("optionchk");
       
       if(optionArr != null) {
@@ -157,6 +177,13 @@ public class boboController {
    @RequestMapping(value="/roomstep2page.air", method={RequestMethod.GET})
    public String roomstep2page(HttpServletRequest req) {
       
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+	   
       return "become-host/room-step2-page";
    }
    
@@ -182,7 +209,7 @@ public class boboController {
          
          List<String> imgList = new ArrayList<String>();
          
-         for(int i=0; i<fileList.size(); i++) { 
+         for(int i=1; i<fileList.size(); i++) { 
              bytes = fileList.get(i).getBytes(); // 첨부파일의 내용물(byte)을 읽어옴.
              
              // 파일업로드 한 후 업로드되어진 파일명  가져오기
@@ -229,8 +256,13 @@ public class boboController {
    
    @RequestMapping(value="/roomstep3.air", method={RequestMethod.GET})
    public String roomstep3(HttpServletRequest req) {
-      
+       
       HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
       RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
       
       // 파라미터 값에 RoomVO 안들어가서 이렇게 했다 
@@ -248,6 +280,13 @@ public class boboController {
    
    @RequestMapping(value="/roomstep3page.air", method={RequestMethod.GET})
    public String roomstep3page(HttpServletRequest req) {
+	   
+	  HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
       
       return "become-host/room-step3-page";
    }
@@ -256,6 +295,12 @@ public class boboController {
    public String roomlaststep(HttpServletRequest req) {
       
       HttpSession session = req.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+      
       RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
       
       String checkInTime = req.getParameter("checkInTime");
@@ -282,9 +327,14 @@ public class boboController {
    @RequestMapping(value="/roomfinish.air", method={RequestMethod.GET})
    public String roomfinish(HttpServletRequest req) {
       
-      HttpSession session = req.getSession();      
+      HttpSession session = req.getSession();  
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
+	  if(loginuser == null) {
+		  return "become-host/error";
+	  }
+      
       RoomVO roomvo = (RoomVO) session.getAttribute("roomvo");
-      MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
       
       roomvo.setHost(loginuser);
       //System.out.println(roomvo.getHost().getUserid());
@@ -308,21 +358,27 @@ public class boboController {
          service.myrule(roomvo);   // 규칙 insert
       }
       
-      String[] bedroomInfoArr = (String[]) session.getAttribute("bedroomInfoArr");
+    /*  String bedroomInfo = (String) session.getAttribute("bedroomInfo");
+      String[] bedroomInfoArr = bedroomInfo.split("/");
 
       // for문을돌리면 하나의 침실정보가 String 형태로 나옴
-   /*   for(String str : bedroomInfoArr) {
+      for(String str : bedroomInfoArr) {
          System.out.println(str);
          HashMap<String,String> paraMap = new HashMap<String,String>();
          JSONObject jsonbedinfo = new JSONObject(str); // 가져온 String 형태를 JSON으로 변환
          Set<String> jsonkeys = jsonbedinfo.keySet(); // JSON으로 변환된 객체의 key들을 가져옴
          paraMap.put("buildType_detail_idx",roomvo.getFk_buildType_detail_idx());
          paraMap.put("roomType_idx",roomvo.getFk_roomType_idx());
-         for(String key :jsonkeys) paraMap.put(key, (String) jsonbedinfo.get(key)); // key값만큼 for문을 돌려서 hash맵 형태로 저장
+         for(String key :jsonkeys) {
+        	 paraMap.put(key, String.valueOf(jsonbedinfo.get(key))); // key값만큼 for문을 돌려서 hash맵 형태로 저장
+         }
          service.insertbedroom(paraMap);
-      }*/
-      
+      }
+      */
       if(n ==1) {
+    	  
+    	  
+    	  
          return "host/hostroomList.hosttiles";
       }
       else return "become-host/error";

@@ -42,7 +42,8 @@
 		});		
 	});
 	function showLocation(){
-		var url = "/bnb/myReservationMAP.air?rsvcode="+${resDetail.rsvcode};
+		alert("!111");
+		var url = "/bnb/myReservationMAP.air?rsvcode=${resDetail.rsvcode}";
 		window.open(url,"숙소위치","width=500,height=350");
 		
 	}
@@ -91,7 +92,7 @@
 				</div>
 			</div>
 			<div  class="col-md-12">			
-				<div class="col-md-3"><img src="<%= ctxPath%>/resources/images/boimg/${resDetail.roommainimg}" height="200px"; width="200px"></div>					
+				<div class="col-md-3"><img src="<%= ctxPath %>/resources/images/becomehost/${resDetail.roommainimg}" height="200px"; width="200px"></div>					
 				<div class="col-md-9 push_left">
 					<div  class="col-md-12" style="border-bottom: 1px solid #dbdfdf;">
 						<div class="col-md-5" style="float:left; padding-left: 4%;"><h5>예약 번호</h5></div>

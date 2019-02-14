@@ -43,11 +43,11 @@ public class SOController {
 	private FileManager fileManager;
 	
 	@RequestMapping(value = "/myCoupon.air", method = RequestMethod.GET)
-	public String requireLogin_myCoupon(HttpServletRequest req,HttpServletResponse res) {		
+	public String requireMyPageLogin_myCoupon(HttpServletRequest req,HttpServletResponse res) {		
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
 		String userid = mvoUser.getUserid();
-
+		
 		String date = MyUtil.getNowTime();				
 			
 		HashMap<String,String> paraMap = new HashMap<String,String>();
@@ -59,7 +59,7 @@ public class SOController {
 		
 	// 보유쿠폰 리스트 가져오기
 	@RequestMapping(value = "/possessionCoupon.air", method = {RequestMethod.POST,RequestMethod.GET})
-	public String requireLogin_RequpossessionCoupon(HttpServletRequest req,HttpServletResponse res) {
+	public String requireMyPageLogin_RequpossessionCoupon(HttpServletRequest req,HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
 		String userid = mvoUser.getUserid();
@@ -101,7 +101,7 @@ public class SOController {
 	
 	// 보유쿠폰 중 사용한 쿠폰 리스트 가져오기
 	@RequestMapping(value="/useCoupon.air",method={RequestMethod.POST,RequestMethod.GET})
-	public String requireLogin_useCoupon(HttpServletRequest req,HttpServletResponse res) {
+	public String requireMyPageLogin_useCoupon(HttpServletRequest req,HttpServletResponse res) {
 		
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
@@ -140,7 +140,7 @@ public class SOController {
 	
 	
 	@RequestMapping(value="/getTotalPage.air",method= {RequestMethod.GET})
-	public String requireLogin_getTotalPage(HttpServletRequest req,HttpServletResponse res){
+	public String requireMyPageLogin_getTotalPage(HttpServletRequest req,HttpServletResponse res){
 		HttpSession session = req.getSession();
 		MemberVO mvoUser = (MemberVO)session.getAttribute("loginuser");
 		String userid = mvoUser.getUserid();
@@ -175,7 +175,7 @@ public class SOController {
 	
 	
 	@RequestMapping(value="/myEdit.air", method = RequestMethod.GET)
-	public String requireLogin_myEditShowInfo(HttpServletRequest req, HttpServletResponse res) {
+	public String requireMyPageLogin_myEditShowInfo(HttpServletRequest req, HttpServletResponse res) {
 		
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
@@ -216,13 +216,24 @@ public class SOController {
 			req.setAttribute("loginMember", loginMember);
 				
 		} 
-			
-			
-		
-		
 		return "mypage/myEdit.hometiles";		  
 	}
 
+
+	@RequestMapping(value = "/emailChange.air", method = RequestMethod.POST)		
+	public String emailChange(HttpServletRequest req,HttpServletResponse res) {
+	
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+
+		JSONObject jobj = new JSONObject();
+		
+		jobj.put("ok", "ok");
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
+		return "JSON";
+	}
 	
 	@RequestMapping(value = "/verifyCertification.air", method = RequestMethod.GET)		
 	public String verifyCertification(HttpServletRequest req,HttpServletResponse res) {
@@ -330,7 +341,7 @@ public class SOController {
 			String introduction = req.getParameter("introduction");
 			String str_post = req.getParameter("post");
 			int post = Integer.parseInt(str_post);
-			String addr = req.getParameter("addr");
+			String addr = req.getParameter("address");
 			String detailAddr = req.getParameter("detailAddr");
 			
 			if(!"POST".equals(method)) {
@@ -390,9 +401,25 @@ public class SOController {
 				
 			return "msg"; 
 		}
-
+	
+	@RequestMapping(value = "/phoneCheck.air", method = RequestMethod.GET)
+	public String phoneCheck (HttpServletRequest req) {
+		
+		String phone = req.getParameter("phone");
+		
+		int check = service.getCheckPhone(phone);
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("check",check);
+		
+		String str_json = jobj.toString();
+		req.setAttribute("str_json", str_json);
+		req.setAttribute("check", check);
+		return "JSON";
+	}
+	
 	@RequestMapping(value = "/myReservation.air", method = RequestMethod.GET)
-	public String requireLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
+	public String requireMyPageLogin_myReservation(HttpServletRequest req, HttpServletResponse res) {
 
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
@@ -414,7 +441,7 @@ public class SOController {
 	
 	// 투숙 완료예약 상세보기
 	@RequestMapping(value = "/myReservationDetail.air", method = RequestMethod.GET)
-	public String requireLogin_myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
+	public String requireMyPageLogin_myReservationDetail(HttpServletRequest req, HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
@@ -435,6 +462,7 @@ public class SOController {
 		String email="";
 		String phone="";
 		try {
+			System.out.println("하하하");
 			email = aes.decrypt(resDetail.get("email"));
 			phone = aes.decrypt(resDetail.get("phone"));
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
@@ -451,7 +479,7 @@ public class SOController {
 	}
 	// 투숙 예정 예약 상세보기
 	@RequestMapping(value = "/myReservationScheduleDetail.air", method = RequestMethod.GET)
-	public String requireLogin_myReservationScheduleDetail(HttpServletRequest req, HttpServletResponse res) {
+	public String requireMyPageLogin_myReservationScheduleDetail(HttpServletRequest req, HttpServletResponse res) {
 		//	*** 아이디 정보 가져오기 ***
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
@@ -472,12 +500,19 @@ public class SOController {
 
 		String email="";
 		String phone="";
+		String rsv_email="";
+		String rsv_phone="";
 		try {
+			
 			email = aes.decrypt(myReservationScheduleDetail.get("email") );
 			phone = aes.decrypt(myReservationScheduleDetail.get("phone"));
+			rsv_email = aes.decrypt(myReservationScheduleDetail.get("rsv_email"));
+			rsv_phone = aes.decrypt(myReservationScheduleDetail.get("rsv_phone"));
 			myReservationScheduleDetail.put("email", email);
 			myReservationScheduleDetail.put("phone", phone);
-		
+			myReservationScheduleDetail.put("rsv_phone", rsv_phone);
+			myReservationScheduleDetail.put("rsv_email", rsv_email);
+			
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
 			System.out.println("예약 상세보기  이메일/전화번호 복호화 실패!");
 		}		 		
@@ -487,10 +522,19 @@ public class SOController {
 		
 	return "mypage/myReservationScheduleDetail.hometiles";
 }
-	
+	@RequestMapping(value="messageSend.air", method = RequestMethod.GET)
+	public String messageSend(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession();
+		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
+		String userid = loginMember.getUserid();
+		String rsvcode = req.getParameter("rsvcode");
+		String roomcode = req.getParameter("roomcode");
+		
+		return "mypage/messageSend.notiles";
+	}
 	// 투숙 예약 취소하기
 	@RequestMapping(value = "/goCancel.air", method = {RequestMethod.POST, RequestMethod.GET})
-	public String requireLogin_myReservationScheduleCancel(HttpServletRequest req, HttpServletResponse res) {
+	public String requireMyPageLogin_myReservationScheduleCancel(HttpServletRequest req, HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
 		String userid = loginMember.getUserid();
@@ -518,7 +562,7 @@ public class SOController {
 	}
 	// 나의 후기 보기
 	@RequestMapping(value = "/review.air", method = RequestMethod.GET)
-	public String requireLogin_review(HttpServletRequest req, HttpServletResponse res) {
+	public String requireMyPageLogin_review(HttpServletRequest req, HttpServletResponse res) {
 		//	*** 아이디 정보 가져오기 ***
 		HttpSession session = req.getSession();
 		MemberVO loginMember = (MemberVO)session.getAttribute("loginuser");
@@ -638,7 +682,7 @@ public class SOController {
 		MemberVO memberLogin= (MemberVO)session.getAttribute("loginuser");
 		String userid = memberLogin.getUserid();
 		String rsvcode = req.getParameter("rsvcode");
-		
+		System.out.println("지도"+rsvcode);
 		HashMap<String,String>  paraMap = new HashMap<String,String>();		
 		paraMap.put("rsvcode", rsvcode);
 		paraMap.put("userid", userid);

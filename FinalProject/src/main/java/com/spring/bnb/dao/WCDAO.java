@@ -25,7 +25,8 @@ public class WCDAO implements InterWCDAO {
 			String roomName = room.get("ROOMNAME");
 			String roomMainImg = room.get("ROOMMAINIMG");
 			String roomPrice = room.get("ROOMPRICE");
-			String profileImg = room.get("PROFILEIMG");
+			
+			String profileImg = sqlsession.selectOne("wc.getProfileImg", roomCode);
 			
 			RoomVO rvo = new RoomVO();
 			MemberVO mvo = new MemberVO();

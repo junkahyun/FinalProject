@@ -69,7 +69,7 @@
 								   genderTD+
 								   "<td>"+entry.PHONE+"</td>"+
 								   "<td>"+entry.ADDR+"&nbsp"+entry.DETAILADDR+"</td>"+
-								   "<td><button type='button' class='btn btn-warning' onClick='addWanr(\""+entry.USERID+"\");'>경고</button></td>"+
+								   "<td><button type='button' class='btn btn-warning' onClick='addWarn(\""+entry.USERID+"\");'>경고</button></td>"+
 								   "<td><button type='button' class='btn btn-danger' onClick='goDelete(\""+entry.USERID+"\");'>삭제</button></td>"+
 								   "</tr>"; 
 								   
@@ -176,7 +176,7 @@
 		var delFrm = document.delFrm;
 		delFrm.useridDel.value = userid;
 		delFrm.method = "GET";
-		delFrm.action = "<%=request.getContextPath()%>/adminMemberWarn.air"
+		delFrm.action = "<%=request.getContextPath()%>/adminMemberWarn.air";
 		delFrm.submit();
 		
 	}
@@ -186,7 +186,7 @@
 		var delFrm = document.delFrm;
 		delFrm.useridDel.value = userid;
 		delFrm.method = "GET";
-		delFrm.action = "<%=request.getContextPath()%>/adminMemberDel.air"
+		delFrm.action = "<%=request.getContextPath()%>/adminMemberDel.air";
 		delFrm.submit();
 		
 	}
@@ -247,7 +247,7 @@
 						  	
 						  </tbody>
 					</table>
-					<input type="text" name="useridDel" value=""/>
+					<input type="hidden" name="useridDel" value=""/>
 				</form>
 			</div>
 		</div>

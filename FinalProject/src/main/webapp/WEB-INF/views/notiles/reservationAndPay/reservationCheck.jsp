@@ -263,7 +263,7 @@ h3{font-size: 14pt;
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
     	<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
-    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/index.air'"/>
     	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 > </span> 2. 게스트 정보 입력 > 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
@@ -320,7 +320,7 @@ h3{font-size: 14pt;
 		<br>
 		<div style="background-color: #fff7e6; border-top: 1px solid #ffad33; border-bottom: 1px solid #ffad33; padding: 3%; font-size: 12pt;">
 		 숙소에 화재 경보기 또는 일산화탄소 경보기가 설치되어 있는지 호스트가 신고하지 않았습니다. 휴대용 경보기를 챙겨가실 것을 권해드립니다.<br><br>
-		 <a href="#" style="color: #008489;">자세히 알아보기</a>
+		<!--  <a href="#" style="color: #008489;">자세히 알아보기</a> -->
 		</div>
 		<br><br>
 		<h3 style="margin-bottom: 5%;">편의시설 및 이용규칙</h3>
@@ -371,7 +371,7 @@ h3{font-size: 14pt;
 				        후기${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${oneRoom.roomMainImg}" style="width: 100%; height: 8%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
@@ -460,7 +460,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" >
-				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			</div>

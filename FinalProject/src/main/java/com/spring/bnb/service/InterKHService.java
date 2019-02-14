@@ -26,6 +26,20 @@ public interface InterKHService {
 	
 	// *** 예약자 정보 가져오기 *** //
 	ReservationVO getOneReserve(HashMap<String,Object> map);
+
+	
+	// *** 나의 쿠폰보기 *** //
+	List<HashMap<String, Object>> getmyCoupon(String userid);
+
+	// *** 쿠폰 사용하는 메소드 *** //
+	int useMyCoupon(HashMap<String, String> cpmap);
+	
+	// *** 쿠폰 사용취소하는 메소드 *** //
+	int NouseMyCoupon(HashMap<String, String> cpmap);
+
+	
+	// *** 쿠폰 사용시 금액가져오는 메소드 *** //
+	int getUseMyCopon(HashMap<String, String> map);
 	
 	
 }

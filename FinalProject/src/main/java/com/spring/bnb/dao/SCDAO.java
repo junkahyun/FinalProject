@@ -28,6 +28,7 @@ public class SCDAO implements InterSCDAO {
 	// 룸정보 가져오기
 	@Override
 	public RoomVO getRoomInfo(String roomcode) {
+		
 		RoomVO roomvo = sqlsession.selectOne("sc.getRoomInfo",roomcode);
 
 		String buildType_detail_idx = roomvo.getFk_buildType_detail_idx();
@@ -42,7 +43,6 @@ public class SCDAO implements InterSCDAO {
 		List<HashMap<String,String>> optionList = sqlsession.selectList("sc.getRoomOptionList", roomcode); // 숙소 옵션 리스트
 		roomvo.setOptionList(optionList);
 		
-
 		return roomvo;
 	}
 	
@@ -98,6 +98,54 @@ public class SCDAO implements InterSCDAO {
 	public List<ReviewVO> getReview(String roomcode) {
 		 List<ReviewVO> reviewList = sqlsession.selectList("sc.getReview", roomcode);
 		return reviewList;
+	}
+
+	@Override
+	public int allReservation(HashMap<String, String> paraMap) {
+		int sumReservation = sqlsession.selectOne("sc.allReservation", paraMap);
+		return sumReservation;
+	}
+
+	@Override
+	public int monthReservation(HashMap<String, String> paraMap) {
+		int sumReservation = sqlsession.selectOne("sc.monthReservation", paraMap);
+		return sumReservation;
+	}
+
+	@Override
+	public HashMap<String, String> getViewAndReservationCount(String roomcode) {
+		HashMap<String, String> countMap = sqlsession.selectOne("sc.getViewAndReservationCount", roomcode);
+		return countMap;
+	}
+
+	@Override
+	public int changeRoomtitle(HashMap<String, String> paraMape) {
+		int result = sqlsession.update("sc.changeRoomtitle", paraMape);
+		return result;
+	}
+
+	@Override
+	public List<HashMap<String, String>> selectbuildType() {
+		List<HashMap<String, String>> buildTypeList = sqlsession.selectList("sc.selectbuildType");
+		return buildTypeList;
+	}
+
+	@Override
+	public List<String> selectroomtype() {
+		List<String> roomtype = sqlsession.selectList("sc.selectroomtype");
+		return roomtype;
+	}
+
+	@Override
+	public List<HashMap<String, String>> selectbuildTypedetail(String buildType) {
+		List<HashMap<String, String>> buildtypedetailList = sqlsession.selectList("sc.selectbuildTypedetail", buildType);
+		return buildtypedetailList;
+	}
+
+	@Override
+	public int roomUpdate(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("sc.roomUpdate", paraMap);
+		return n;
 	}
 
 	

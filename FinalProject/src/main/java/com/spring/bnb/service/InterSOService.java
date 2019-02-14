@@ -65,6 +65,9 @@ public interface InterSOService {
 	
 	// *** 예약 일주일전 예약 확인 메일 발송 ***
 	void scheduleTestEmailSending() throws Exception; // Spring Scheduler(스프링 스케줄러)를 사용한 email 발송하기 예제 
+	
+	// *** 회원정보 전화번호 확인 ***
+	int getCheckPhone(String phone);
 
 	
 

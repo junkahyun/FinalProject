@@ -23,7 +23,7 @@
 		
 		var frm = document.addWriteFrm;
 		var nameval = frm.name.value.trim();
-		
+
 		if(nameval == "") {	// 로그인을 안했다면
 			alert("먼저 로그인 하세요!");
 			return;
@@ -38,30 +38,11 @@
 			return;
 		}
 		
-		var queryString = $("form[name=addWriteFrm]").serialize();
-		// console.log(queryString);
-		// fk_userid=leess&name=(%EC%9D%B4%EC%88%9C%EC%8B%A0 이순신임)&content=Hello%20&parentSeq=2
+		frm.action = "<%= request.getContextPath() %>/insertComment.air";
+		frm.method = "POST";
+		frm.submit();
 		
-		$.ajax({
-			url:"<%=request.getContextPath()%>/insertComment.air",
-			data:queryString,
-			type:"POST",
-			dataType:"JSON",
-			success:function(json){
-				var html = "<tr>"+
-						   "<td style='text-align: center;'>"+json.NAME+"</td>"+
-						   "<td>"+json.CONTENT+"</td>"+
-						   "<td style='text-align: center;'>"+json.REGDATE+"</td>"+
-						   "</tr>";
-				
-				$("#commentDisplay").prepend(html);
-				frm.content.value="";
-			},
-			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-		});
-	
+		
 	} // end of function goAddWrite()--------------------------------
 	
 </script>
@@ -70,7 +51,7 @@
 <div class="container" style="padding: 2%; border: solid 0px gray; width: 83%; float:right; text-align: right;">
   
   <div style="margin-left: 8%; margin-bottom: 3%;">
-  	<h2 style="text-align: left;">신고게시판</h2>
+  	<h2 style="text-align: left;">글 보기</h2>
   </div>
   
   <div class="col-md-12" style="padding: 2%; float: center; padding-left: 8%;">
@@ -78,12 +59,15 @@
 	  	<col width="8%"/>
 	  	<col width="50%;"/>
 	  	  <tr>
-	        <th>신고유형</th>
+	        <th>글 유형</th>
 		        <c:if test="${reportvo.reporttype == 0}">
-		        	<td style="text-align: left;">투숙객신고</td>
+		        	<td style="text-align: left;">투숙객</td>
 		        </c:if>
 		        <c:if test="${reportvo.reporttype == 1}">
-		        	<td style="text-align: left;">호스트신고</td>
+		        	<td style="text-align: left;">호스트</td>
+		        </c:if>
+		        <c:if test="${reportvo.reporttype == 2}">
+		        	<td style="text-align: left;">자유 게시글</td>
 		        </c:if>
 	      </tr>
 	      <tr>
@@ -105,7 +89,7 @@
 	        <td style="text-align: left;">${reportvo.viewcnt}</td>
 	      </tr>
 	      <tr>
-	        <th>날짜</th>
+	        <th>등록일</th>
 	        <td style="text-align: left;">${reportvo.report_date}</td>
 	      </tr>
 	  </table>
@@ -120,7 +104,7 @@
 			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/deleteReport.air?report_idx=${report_idx}'">삭제</button>
 			  </c:if>
 			  <c:if test="${sessionScope.loginuser.userid == reportvo.fk_userid}">
-			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/#'">수정</button>
+			  	<button type="button" class="btn" onClick="javascript:location.href='<%= request.getContextPath()%>/boardEdit.air?report_idx=${report_idx}'">수정</button>
 			  </c:if>
 		  </div>
 		  <input type="hidden" name="report_idx" value="${report_idx}"/>
@@ -128,27 +112,40 @@
 	  
 	  <!-- 댓글쓰기 폼 -->
 	  <form name="addWriteFrm" style="text-align: left;">     
-		      <input type="hidden" name="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
-		성명 : <input type="text" name="name" value="${sessionScope.loginuser.username}" class="short" readonly/>
-	       댓글내용 : <input type="text" name="content" class="long" />
+		      <input type="hidden" name="fk_userid" id="fk_userid" value="${sessionScope.loginuser.userid}" readonly />
+		성명 : <input type="text" name="name" id="name" value="${sessionScope.loginuser.username}" class="short" readonly/>
+	       댓글내용 : <input type="text" name="content" id="content" class="long" />
 	    
 	    <!-- 댓글에 달리는 원게시물 글번호(즉, 댓글의 부모글 글번호) -->
-	    <input type="hidden" name="parentSeq" value="${report_idx}" />  
+	    <input type="hidden" name="reportidx" id="reportidx" value="${report_idx}" /> 
 	    
 	    <button type="button" class="btn" onClick="goAddWrite();" >쓰기</button>
 	  </form>
 	  
     </div>
     
+    <!-- 댓글 보여주기 -->
     <table  class="table table-bordered" id="table2" style="width: 80%; margin-top: 2%; margin-bottom: 3%; margin-left: 8%;">
 		<thead>
-			<tr>
-				<th style="width: 18%; text-align: center;">댓글작성자</th>
-				<th style="width: 67%; text-align: center;">내용</th>
-				<th style="text-align: center;">작성일</th>
+			<tr style="width: 80%;">
+				<th style="width: 10%; text-align: center;">댓글작성자</th>
+				<th style="width: 55%; text-align: center;">내용</th>
+				<th style="text-align: center; width: 13%;">작성일</th>
 			</tr>
 		</thead>
-		<tbody id="commentDisplay">
+		<tbody>
+			<c:forEach var="commentList" items="${commentList}">
+				<c:if test="${commentList != null}">
+					<tr>
+						<td style="text-align: left;">${commentList.name}</td>
+						<td style="text-align: left;">${commentList.content}</td>
+						<td style="text-align: left;">${commentList.regDate}</td>
+					</tr>
+				</c:if>
+				<c:if test="${commentList == ''}">
+					
+				</c:if>
+			</c:forEach>
 		</tbody>
 	</table>
 

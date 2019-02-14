@@ -943,9 +943,9 @@ select *
         ON A.fk_roomtype_idx = F.roomtype_idx
       
       
-      select * from member
+      select * from reservation
       
-      
+      select*from room;
        select *
 		from room A JOIN buildtype_detail B
 		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
@@ -974,4 +974,32 @@ select *
 		and roomsido like '%서울%'		
 		and max_person >= 1
         
-       select *from reservation
+        select * from room
+        
+      	select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
+		          JOIN bedroom C
+		          ON A.roomcode = C.fk_roomcode
+		          JOIN bed D
+		          ON C.bedroom_idx = D.fk_bedroom_idx
+		          JOIN bedobj E
+		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
+		where 1=1 		
+		and roomcode in (
+		select roomcode
+		from room							
+		minus
+		select roomcode
+		from room A JOIN reservation B
+		ON A.roomcode = B.fk_roomcode
+		JOIN buildtype_detail C
+		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
+		where '2019-02-06' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
+		and '2019-02-10' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))		
+	    and buildtype_detail_name = '개인실'	   
+	    and roomprice between to_number('1') and to_number('10000000')	   
+		and roomsido like '%서울%'		
+		and max_person >= 3

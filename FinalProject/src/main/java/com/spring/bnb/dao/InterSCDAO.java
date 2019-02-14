@@ -27,4 +27,20 @@ public interface InterSCDAO {
 
 	List<ReviewVO> getReview(String roomcode);
 
+	int allReservation(HashMap<String, String> paraMap); // 호스트의 총 수입 
+
+	int monthReservation(HashMap<String, String> paraMap);
+
+	HashMap<String, String> getViewAndReservationCount(String roomcode);
+
+	int changeRoomtitle(HashMap<String, String> paraMape);
+
+	List<HashMap<String, String>> selectbuildType();
+
+	List<String> selectroomtype();
+
+	List<HashMap<String, String>> selectbuildTypedetail(String buildType);
+
+	int roomUpdate(HashMap<String, String> paraMap);
+
 }

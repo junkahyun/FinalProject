@@ -5,11 +5,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -21,7 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -47,7 +50,7 @@ public class HYController {
 	@RequestMapping(value = "/homeDetail.air", method = RequestMethod.GET)
 	public String index(HttpServletRequest req) {
 		String roomcode = req.getParameter("roomcode");
-		if(roomcode==null) roomcode = "10";
+		//if(roomcode==null) roomcode = "10";
 		RoomVO roomvo = service.getRoomByCode(roomcode);
 		List<RoomVO> recommendRoomList = service.getRecommendRoomList(roomvo.getRoomSigungu());
 		int totalReviewCount = roomvo.getReviewList().size();
@@ -110,21 +113,21 @@ public class HYController {
 		return "JSON";
 	}
 	
-	// 호스트 메인페이지
-	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
-	public String hostMain() {
-		return "host/hostMain.hosttiles";
-	}
-	
 	// DB로 로그인 체크하기
 	@RequestMapping(value = "/login.air", method = RequestMethod.POST)
-	public String login(HttpServletRequest req ,MemberVO member) {
+	public String login(HttpServletRequest req ,HttpServletResponse res,MemberVO member) throws ServletException, IOException {
 		member.setPwd(SHA256.encrypt(member.getPwd()));
 		System.out.println("userid : "+member.getUserid()+"/ pwd : "+member.getPwd());
 		MemberVO loginuser = service.logincheck(member); // 로그인 검사하는 메소드
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
 		if(loginuser==null) logincheck = "false";
+		else if("admin".equals(loginuser.getUserid())) {
+			HttpSession session = req.getSession();
+			session.setAttribute("loginuser", loginuser);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/admintiles/admin/index.jsp");
+			dispatcher.forward(req, res);
+		}
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
 			logincheck = "true";
@@ -151,8 +154,8 @@ public class HYController {
 	}
 
 	// 숙소 관심테이블에 저장하기
-	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.POST)
-	public String likeRoom(HttpServletRequest req ,MemberVO member) {
+	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.GET)
+	public String requireLogin_likeRoom(HttpServletRequest req,HttpServletResponse res ,MemberVO member) {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
@@ -161,12 +164,12 @@ public class HYController {
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);
 		paraMap.put("SAVETITLE", saveTitle);
-		int n = service.insertLikeRoom(paraMap);
-		JSONObject jobj = new JSONObject();
+		service.insertLikeRoom(paraMap);
+		/*JSONObject jobj = new JSONObject();
 		jobj.put("n", n);
 		String str_json = jobj.toString();
-		req.setAttribute("str_json", str_json);
-		return "JSON";
+		req.setAttribute("str_json", str_json);*/
+		return "home/homeDetail.hometiles";
 	}
 	
 	// 로그인 유저의 관심 숙소 리스트 불러오기
@@ -201,25 +204,26 @@ public class HYController {
 		if (!profile.isEmpty()) { // 파일 있으면(업로드 했으면)
 			String root = req.getSession().getServletContext().getRealPath("/");
 			String realPath = root+File.separator+"resources"+File.separator+"images"+File.separator+"profile";
-			String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
+			//String gitrealPath = "C:/Users/user1/git/FinalProject/FinalProject/src/main/webapp/resources/images/profile";
 			filename = profile.getOriginalFilename(); // 업로드한 파일명 가져오기
 			// 엣지 브라우저 요청 파일이름 처리
 			int index = filename.lastIndexOf("\\");
 			filename = filename.substring(index + 1);
 	        File file = new File(realPath, filename);
-	        File gitfile = new File(gitrealPath, filename);
+	        //File gitfile = new File(gitrealPath, filename);
 	        if (file.exists()) { // 해당 경로에 동일한 파일명이 이미 존재하는 경우 파일명 앞에 업로드 시간 밀리초 붙여서 파일명 중복을 방지
 	        	filename = System.currentTimeMillis() + "_" + filename;
 	        	file = new File(realPath, filename);
-	        	gitfile = new File(gitrealPath, filename);
+	        	//gitfile = new File(gitrealPath, filename);
 	        }
 	        System.out.println("업로드 경로: " + realPath);
 	        System.out.println("업로드 파일명: " + filename);
 	        // 업로드 수행
 	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(file));
-	        IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
+	        //IOUtils.copy(profile.getInputStream(), new FileOutputStream(gitfile));
 			member.setProfileimg(filename);
-		} else {
+		} 
+		else {
 			System.out.println("파일이 존재하지 않거나 파일크기가 0 입니다.");
 			member.setProfileimg("user.png");
 		}
@@ -318,5 +322,34 @@ public class HYController {
 		req.setAttribute("str_json", jsonArr.toString());
 		return "JSON";
 	}
+
+	// 호스트 메인페이지
+	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
+	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
+		List<HashMap<String,Object>> income = null;
+		int thisMonthIcome = 0;
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		if(loginuser.getMyroomList().size()>0) {
+			income = service.getHostIncome(loginuser.getUserid());
+			Calendar cal = Calendar.getInstance();
+			//int month = cal.get(Calendar.MONTH);
+			for(HashMap<String,Object> hash : income) {
+				//if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
+				String roomname = service.getRoomByCode((String)hash.get("roomcode")).getRoomName();
+				hash.put("roomname", roomname);
+			}
+		}
+		else{
+			req.setAttribute("msg", "호스트만 접근 가능합니다.");
+			req.setAttribute("loc", "index.air");
+			return "msg";
+		}
+		System.out.println(income.size());
+		req.setAttribute("income", income);
+		req.setAttribute("thisMonthIcome", thisMonthIcome);
+		return "host/hostMain.hosttiles";
+	}
+	
 }
 

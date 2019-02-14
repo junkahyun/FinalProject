@@ -148,7 +148,7 @@ h3{font-size: 14pt;
 				$(".pannelCount").text(adultm+"명, 유아 "+babym+"명");
 			}
 			
-			$("#finalPeople").val(parseInt(babym)+parseInt(adultm));
+			$("#finalPeople").val(parseInt(adultm));
 			
 			var finalpeople = $("#finalPeople").val();//최종 인원수
 			var maxperson = ${oneRoom.max_person};//최대 인원수
@@ -217,7 +217,7 @@ h3{font-size: 14pt;
 				frm.message.value = $("#host_error_message").val();
 				frm.totalpeople.value = $("#finalPeople").val();
 				frm.price.value=$("#Price").text();
-				frm.method="GET";
+				frm.method="POST";
 				frm.action = "<%=ctxPath%>/reservationCheckAndPay.air";
 				frm.submit();
 			 } 
@@ -357,7 +357,7 @@ h3{font-size: 14pt;
 <div class="container-fluid">
   <div class="row" style="margin-top: 0.6%; ">
   		<div class="col-sm-1" style="margin-top: 0.7%; margin-left: 1%;">
-    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/list.air'"/>
+    	<img src="<%=ctxPath %>/resources/images/airLogo.png" style="width: 30px; cursor: pointer;" onclick="javascript:location.href='<%=request.getContextPath() %>/index.air'"/>
     	</div>
 		<div class="col-sm-8" style="font-size: 11pt; margin-top: 1%;"><span style="font-weight: bold;">1. 숙소 이용규칙 확인 >  2. 게스트 정보 입력 > </span> 3. 확인 및 결제  >  4. 예약완료</div>
   </div>
@@ -396,7 +396,9 @@ h3{font-size: 14pt;
 		 <div class="dropdown" style="margin-bottom: 10%;">
 			 <div  class="panel panel-default people" >
 				<div class="panel-body" id="people"  data-toggle="dropdown">
-					<div class="col-md-10" >게스트<span class="pannelCount">${guestCount}명</span></div>
+					<div class="col-md-10" >게스트<span class="pannelCount">${guestCount}명
+						<c:if test="${babyCount != null}">,유아 ${babyCount}명</c:if></span>
+					</div>
 					<div class="col-md-2"> <i class="fas fa-chevron-down fa-lg"></i></div>
 				</div>
 				<ul class="dropdown-menu col-md-12" style="width: 45%; ">
@@ -425,7 +427,7 @@ h3{font-size: 14pt;
 						<span class="input-group-btn data-dwn">
 							<button class="btn btn-default btn-info babym" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 						</span>
-						<input type="text" class="form-control text-center" value="0" min="0" max="${(sessionScope.oneRoom).max_person}"  id="babycount"/>
+						<input type="text" class="form-control text-center" value="${babyCount}" min="0" max="${(sessionScope.oneRoom).max_person}"  id="babycount"/>
 						<span class="input-group-btn data-up">
 							<button class="btn btn-default btn-info babyp" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 						</span>
@@ -445,7 +447,7 @@ h3{font-size: 14pt;
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
 		<div class="col-md-3" style="margin-bottom: 5%;">
-		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; margin-top: 3%;"/>
+		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; height:5%; margin-top: 3%;"/>
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
@@ -471,7 +473,7 @@ h3{font-size: 14pt;
 				         후기 ${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 100%;"/></div>
+				<div class="col-md-4"><img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 100%; height: 8%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
@@ -523,7 +525,8 @@ h3{font-size: 14pt;
 			<hr>
 			<div class="col-md-12" style="padding-top: 5%;">
 				<i class="fas fa-users fa-lg" style="color: #008489;"></i><span style="margin-left: 3%;" >게스트</span><span class="totaladCount"> ${guestCount}</span>명
-				<span class="totalbbCount"></span>
+				
+				<span class="totalbbCount"><c:if test="${babyCount != null}">,유아 ${babyCount}명</c:if></span>
 				<br>
 				<i class="far fa-calendar-alt fa-lg" style="color: #008489; margin-top: 5%;"></i>
 				<span style="margin-left: 4%;">
@@ -561,7 +564,7 @@ h3{font-size: 14pt;
 				         data-content="호스트가 청구하는 성수기 추가 비용입니다."></i>
 				</div>
 				<div class="col-md-3" style="margin-bottom: 3%;">
-				 ₩<span id="peakpay"><fmt:formatNumber value="${((sessionScope.oneRoom).roomPrice/100)*(oneRoom.peakper)}" pattern="#,###"/></span>
+				 ₩<span id="peakpay"><fmt:formatNumber value="${(oneRoom.peakper)}" pattern="#,###"/></span>
 				</div>
 			</div>
 			

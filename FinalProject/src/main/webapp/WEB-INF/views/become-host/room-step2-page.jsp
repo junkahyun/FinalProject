@@ -98,7 +98,7 @@
                
              var html = "";
              html += "<div id='fileTr_" + fileIndex + "'>"
-             html += (i+1)+". "+filesArr[i].name + " / " + filesArr[i].size + "MB "
+             html += (i+1)+". "+filesArr[i].name + " / " + filesArr[i].size + "MB"
              html += "</div>"
 
               $("#imgname").append(html);   
@@ -123,7 +123,7 @@
       //두번째 페이지 스크립트 끝 ------------------------------------------------------------------------------------------------
       
    });// $(document).ready(function()
-      
+		   
    // 버튼 함수들
    // first ---------------------------------------------------------
    function back1(){
@@ -142,7 +142,7 @@
       }
      
       var form = $('form')[0];
-       var formData = new FormData(form);
+      var formData = new FormData(form);
 
        $.ajax({
            url:"fileListJOSN.air",
@@ -205,7 +205,7 @@
 
 <div class="row">
    <div class="col-md-1">
-      <img src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
+      <img onclick="javascript:location.href='index.air'" src="<%=request.getContextPath() %>/resources/images/airLogo.png" style="padding-right:0; width: 30px; height: 30px; margin-top: 20px; margin-left: 40px;">
    </div>
    <div class="col-md-6" style="font-size: 18px; margin-top: 20px; padding-left: 0">2단계: 상세정보를 제공해 주세요</div>
 </div>
