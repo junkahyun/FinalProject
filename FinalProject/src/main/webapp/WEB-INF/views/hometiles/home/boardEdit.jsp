@@ -108,7 +108,6 @@
 			<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
 			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:history.back();">취소</button></div>
 		</div>
-		<input type="text" name="reportidx" id="reportidx" value="${report_idx}">
 	</form>
 	
 </div>

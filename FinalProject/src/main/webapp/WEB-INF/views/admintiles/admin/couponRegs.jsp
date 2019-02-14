@@ -8,6 +8,23 @@ $(document).ready(function(){
     $("#btnWrite").click(function(){
         
         var couponFrm = document.couponFrm;
+        
+		var cpnameval = couponFrm.cpname.value.trim();
+		if(cpnameval == "") {
+			alert("쿠폰명을 입력해주세요!");
+			frm.cpname.value="";
+			frm.cpname.focus();
+			return;
+		}
+        
+		var dcmoneyval = couponFrm.dcmoney.value.trim();
+		if(dcmoneyval == "") {
+			alert("할인금액을 입력해주세요!");
+			frm.dcmoney.value="";
+			frm.dcmoney.focus();
+			return;
+		}
+		
         couponFrm.action = "<%= request.getContextPath() %>/couponRegsEnd.air";
         couponFrm.method = "POST";
         couponFrm.submit();
@@ -23,18 +40,18 @@ $(document).ready(function(){
 
 		<div style="padding: 2%;">
 			<label class="input-group-text" for="inputGroupSelect02">쿠폰이름</label>
-			<input type="text" class="form-control" placeholder="쿠폰 이름을 써주세요" id="input2" name="cpname">
+			<input type="text" class="form-control" placeholder="쿠폰 이름을 써주세요" id="cpname" name="cpname">
 		</div>
 		
 		<div style="padding: 2%;">
 			<label class="input-group-text" for="inputGroupSelect02">할인가격</label>
-			<input type="text" class="form-control" placeholder="할인가격을 써주세요" id="input2" name="dcmoney">
+			<input type="text" class="form-control" placeholder="할인가격을 써주세요" id="dcmoney" name="dcmoney">
 		</div>
 		
 		
 		<div style="display:inline; text-align: center;">
 			<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
-			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onclick="javascript:history.back();">취소</button></div>
+			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:location.href='<%= request.getContextPath()%>/admin.air'">취소</button></div>
 		</div>
 	</form>
 	
