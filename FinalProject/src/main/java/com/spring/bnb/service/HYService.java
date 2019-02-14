@@ -107,4 +107,10 @@ public class HYService implements InterHYService {
 		return incomeList;
 	}
 
+	@Override
+	public int MemberCheckByIdAndEmail(HashMap<String, String> paraMap) {
+		int n = dao.MemberCheckByIdAndEmail(paraMap);
+		return n;
+	}
+
 }
