@@ -35,8 +35,8 @@
 					<li><a href="lodgingManage.air" class="inherits">숙소관리</a></li>
 					<li><a href="lodgingRegistManage.air" class="inherits">숙소등록관리</a></li>
 					<li><a href="#" class="inherits">1:1문의관리</a></li>
-					<li><a href="#" class="inherits">신고관리</a></li>
-					<li><a href="#" class="inherits">쿠폰등록</a></li>
+					<li><a href="board_report.air" class="inherits">게시판</a></li>
+					<li><a href="couponRegs.air" class="inherits">쿠폰등록</a></li>
 					<li><a href="https://center-pf.kakao.com/_qxnqxij/chats" class="inherits" target="_blank">1:1톡</a></li>
 					<li><a href="#" class="inherits">통계</a></li>    
 				</ul>

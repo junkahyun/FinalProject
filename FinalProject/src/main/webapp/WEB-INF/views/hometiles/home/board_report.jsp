@@ -46,18 +46,21 @@
 					$.each(json, function(entryIndex, entry){
 						var status = "";
 						
-						if(entry.report_status == 1) {
-							status = "<td style='text-align: center; font-weight: bold;'>해결</td>";
+						if(entry.reporttype == 0) {
+							status = "<td style='text-align: center; font-weight: bold;'>투숙객</td>";
 						}
-						else if(entry.report_status == 0) {
-							status = "<td style='text-align: center; font-weight: bold;'>미해결</td>";
+						else if(entry.reporttype == 1) {
+							status = "<td style='text-align: center; font-weight: bold;'>호스트</td>";
+						}
+						else if(entry.reporttype == 2) {
+							status = "<td style='text-align: center; font-weight: bold;'>자유글</td>";
 						}
 					
 						
 					    html += "<tr>"+
 								"<td>"+entry.rno+"</td>"+
 							    "<td>"+entry.fk_userid+"</td>"+
-							    "<td><a href='reportDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a></td>"+
+							    "<td><a href='reportDetail.air?report_idx="+entry.report_idx+"'>"+entry.report_subject+"</a><span style='font-weight: bold; color: red;'>["+entry.commentcount+"]</span></td>"+
 							    "<td style='text-align: center;'>"+entry.report_date+"</td>"+
 							    status+
 							    "</tr>";
@@ -164,10 +167,13 @@
 <div>
 
 	<div  class="" style="text-align: center; margin: 2%; padding: 1%;">
-		<h2>신고게시판</h2>
+		<h2>자유게시판</h2>
 	</div> 
 	
 	<div class="container">	
+		<c:if test="${sessionScope.loginuser.userid == 'admin'}">
+			<button onClick="javascript:location.href='<%= request.getContextPath()%>/admin.air'">관리자홈</button>
+		</c:if>
 		<form name="memberFrm" style="">
 			<div id="searchbar" style="padding-top: 1%; text-align: right; border:none; box-shadow : none; width: 100%;">
 				<select id="searchType" name="searchType" style="">
@@ -192,7 +198,7 @@
 					        <th>아이디</th>
 					        <th>제목</th>
 					        <th style="text-align: center;">날짜</th>
-					        <th style="text-align: center;">처리상태</th>
+					        <th style="text-align: center;">글유형</th>
 						</tr>
 			    	</thead>
 					<tbody id="result">

@@ -7,7 +7,7 @@ package com.spring.bnb.model;
 
 public class CommentVO {
 	
-	private String seq;          // 댓글번호
+	private String report_seq;          // 댓글번호
 	private String fk_userid;    // 사용자ID
 	private String name;         // 성명
 	private String content;      // 댓글내용
@@ -17,8 +17,8 @@ public class CommentVO {
 	
 	public CommentVO() { }
 	
-	public CommentVO(String seq, String fk_userid, String name, String content, String regDate, String parentSeq, String status) {
-		this.seq = seq;
+	public CommentVO(String report_seq, String fk_userid, String name, String content, String regDate, String parentSeq, String status) {
+		this.report_seq = report_seq;
 		this.fk_userid = fk_userid;
 		this.name = name;
 		this.content = content;
@@ -27,12 +27,12 @@ public class CommentVO {
 		this.status = status;
 	}
 
-	public String getSeq() {
-		return seq;
+	public String getReport_seq() {
+		return report_seq;
 	}
 
-	public void setSeq(String seq) {
-		this.seq = seq;
+	public void setReport_seq(String report_seq) {
+		this.report_seq = report_seq;
 	}
 
 	public String getFk_userid() {

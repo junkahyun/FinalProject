@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.bnb.model.CommentVO;
 import com.spring.bnb.model.MemberVO;
@@ -51,7 +51,20 @@ public class SHController {
 	@RequestMapping(value="/adminMember.air", method= {RequestMethod.GET})
 	public String adminMember(HttpServletRequest req) {
 		
-		return "admin/adminMember.admintiles";
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		if(loginuser == null) {
+			return "main/index";
+		} 
+		else {
+			if(!loginuser.getUserid().equals("admin")) {
+				return "main/index";
+			}
+			
+			return "admin/adminMember.admintiles";
+		}
+
 	}
 	
 	
@@ -232,21 +245,32 @@ public class SHController {
 		
 		String userid = req.getParameter("useridDel");
 		
-		int n = service.adminDeleteMember(userid);
-		// System.out.println(userid);
+		service.adminDeleteMember(userid);
 		
-		return "admin/adminMember.admintiles";
+		String msg = "삭제성공!";
+		String loc = req.getContextPath()+"/adminMember.air";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
 	}
 	
 	@RequestMapping(value="/adminMemberWarn.air", method= {RequestMethod.GET})
 	public String adminMemberWarn(HttpServletRequest req) {
 		
 		String userid = req.getParameter("useridDel");
+		// System.out.println(userid);
 		
 		service.adminWarnMember(userid);
-		System.out.println(userid+"1");
 		
-		return "admin/adminMember.admintiles";
+		String msg = "경고 성공!";
+		String loc = req.getContextPath()+"/adminMember.air";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
 	}
 	
 	@RequestMapping(value="/board_report.air", method= {RequestMethod.GET})
@@ -313,6 +337,7 @@ public class SHController {
 			jsonObj.put("report_status", reportvo.get(i).getReport_status());
 			jsonObj.put("report_subject", reportvo.get(i).getReport_subject());
 			jsonObj.put("rno", reportvo.get(i).getRno());
+			jsonObj.put("commentcount", reportvo.get(i).getCommentCount());
 			
 			jsonArr.put(jsonObj);			
 			
@@ -383,7 +408,7 @@ public class SHController {
 		
 	}
 	
-	// 신고 글쓰기 페이지 요청
+	// 게시판 글쓰기 페이지 요청
 	@RequestMapping(value="/vanWrite.air", method= {RequestMethod.GET})
 	public String vanWrite(HttpServletRequest req) {
 
@@ -391,7 +416,7 @@ public class SHController {
 		return "home/vanWrite.hometiles";
 	}
 	
-	// 신고 글쓰기 페이지 요청
+	// 게시판 글쓰기 등록하기 완료
 	@RequestMapping(value="/vanWriteEnd.air", method= {RequestMethod.POST})
 	public String vanWriteEnd(HttpServletRequest req) {
 		
@@ -404,14 +429,12 @@ public class SHController {
 			String fk_userid = loginuser.getUserid();
 
 			String reporttype = req.getParameter("reporttype");
-			String report_rsvcode = req.getParameter("report_rsvcode");
 			String report_subject = req.getParameter("report_subject");
 			String report_content = req.getParameter("report_content");
 			
 			HashMap<String, String> paramap = new HashMap<String, String>();
 			paramap.put("report_content", report_content);
 			paramap.put("reporttype", reporttype);
-			paramap.put("report_rsvcode", report_rsvcode);
 			paramap.put("report_subject", report_subject);
 			paramap.put("fk_userid", fk_userid);
 
@@ -437,8 +460,20 @@ public class SHController {
 	@RequestMapping(value="/couponRegs.air", method= {RequestMethod.GET})
 	public String couponReg(HttpServletRequest req) {
 
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
-		return "admin/couponRegs.admintiles";
+		if(loginuser == null) {
+			return "main/index";
+		} 
+		else {
+			if(!loginuser.getUserid().equals("admin")) {
+				return "main/index";
+			}
+			
+			return "admin/couponRegs.admintiles";
+		}
+
 	}
 	
 	// 쿠폰등록 완료 요청
@@ -479,9 +514,10 @@ public class SHController {
 	public String reportDetail(HttpServletRequest req) {
 		
 		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
-		System.out.println(report_idx);
+		// System.out.println(report_idx);
 		
 		ReportVO reportvo = new ReportVO();
+		List<CommentVO> commentList = new ArrayList<CommentVO>();
 		
 		HttpSession session = req.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -492,22 +528,25 @@ public class SHController {
 		
 		String userid = null;
 		
+		commentList = service.getComment(report_idx);
+		
 		if(readCountPermission != null && "yes".equals(readCountPermission)) {
 			
 			if(loginuser != null) {
 				userid = loginuser.getUserid();
 			}
-			// System.out.println(userid+"3");
+			
 			reportvo = service.getReportDetail(report_idx, userid);
 			session.removeAttribute("readCountPermission");
 		}
 		else {
 			reportvo = service.getReportDetailNo(report_idx);
-			// System.out.println("4");
+			
 		}
-		// System.out.println(reportvo+"5");
+		
 		req.setAttribute("reportvo", reportvo);	
 		req.setAttribute("report_idx", report_idx);
+		req.setAttribute("commentList", commentList);
 		
 		return "home/reportDetail.hometiles";
 	}
@@ -516,7 +555,7 @@ public class SHController {
 	public String deleteReport(HttpServletRequest req) {
 		
 		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
-		System.out.println(report_idx+"1");
+		// System.out.println(report_idx+"1");
 		
 		int n = service.deleteReport(report_idx);
 		// System.out.println(userid);
@@ -669,18 +708,102 @@ public class SHController {
 		
 	}// end of void multiplePhotoUpload(HttpServletRequest req, HttpServletResponse res)---------------- 
 	
-	/*@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
-	public HashMap<String, String> insertComment(HttpServletRequest req) {
+	// 글 수정하기 페이지
+	@RequestMapping(value="/boardEdit.air", method= {RequestMethod.GET})
+	public String boardEdit(HttpServletRequest req) {
 
-		int report_idx = Integer.parseInt(req.getParameter("report_idx"));
-		req.getParameter("")
-		
-		
-		// 댓글쓰기(ajax로 처리)
-		int n = service.insertComment(report_idx);
+		HttpSession session = req.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 
-		if(n == 1) {
+		if(loginuser != null) {
+			int report_idx = Integer.parseInt(req.getParameter("report_idx"));
 			
+			// 글 정보 가져오기
+			ReportVO reportvo = service.getReportDetailNo(report_idx);
+			
+			/*System.out.println(report_idx);
+			System.out.println(report_subject);
+			System.out.println(report_content);*/
+			
+			// 자신이 쓴 글이 아니라면
+			if (!loginuser.getUserid().equals(reportvo.getFk_userid())) {
+				String msg = "자신의 글만 수정이 가능합니다 ^^";
+				String loc = "javascript:history.back();";
+	
+				req.setAttribute("msg", msg);
+				req.setAttribute("loc", loc);
+	
+				return "msg";
+			}
+			// 자신이 쓴 글이라면
+			else {
+				req.setAttribute("report_idx", report_idx);
+				req.setAttribute("reportvo", reportvo);
+				
+				return "home/boardEdit.hometiles";
+			}
 		}
-	}*/
+		else {
+			return "home/board_report.hometiles";
+		}
+		
+	}
+	
+	// 글 수정하기 페이지 완료
+	@RequestMapping(value="/boardEditEnd.air", method= {RequestMethod.POST})
+	public String boardEditEnd(HttpServletRequest req) {
+		
+		String report_idx = req.getParameter("reportidx");
+		// System.out.println("수정하기"+report_idx);
+		
+		String reporttype = req.getParameter("reporttype");
+		String report_subject = req.getParameter("report_subject");
+		String report_content = req.getParameter("report_content");
+		
+		HashMap<String, String> paramap = new HashMap<String, String>();
+		paramap.put("report_content", report_content);
+		paramap.put("reporttype", reporttype);
+		paramap.put("report_subject", report_subject);
+		paramap.put("report_idx", report_idx);
+
+		service.writeEdit(paramap);
+		
+		return "home/board_report.hometiles";
+	}
+	
+	// 댓글쓰기
+	@RequestMapping(value = "/insertComment.air", method = {RequestMethod.POST})
+	public String insertComment(HttpServletRequest req) {
+
+		String report_idx = req.getParameter("reportidx");
+		String parentSeq = req.getParameter("reportidx");
+		String content = req.getParameter("content");
+		String name = req.getParameter("name");
+		String fk_userid = req.getParameter("fk_userid");
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("parentSeq", parentSeq);
+		paraMap.put("report_idx", report_idx);
+		paraMap.put("content", content);
+		paraMap.put("name", name);
+		paraMap.put("fk_userid", fk_userid);
+		
+		int n = service.insertComment(paraMap);
+		
+		if(n == 1) {
+			service.addCommentCount(paraMap);
+		}
+		else {
+			String msg = "글쓰기에 실패했습니다.";
+			String loc = "javascript:history.back();";
+			
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
+
+			return "msg";
+		}
+		
+		return "home/board_report.hometiles";
+		
+	}
 }

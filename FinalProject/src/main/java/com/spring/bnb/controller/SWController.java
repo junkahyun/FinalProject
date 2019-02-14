@@ -38,18 +38,20 @@ public class SWController {
 	@RequestMapping(value = "/list.air", method = RequestMethod.GET)
 	public String list(HttpServletRequest req) {
 		
-		String city = req.getParameter("city");
+		String sido = req.getParameter("city");
 		String checkin = req.getParameter("checkin");
 		String checkout = req.getParameter("checkout"); 
-		String sido = req.getParameter("sido");
+		/*String sido = req.getParameter("sido");*/
 		String gugun = req.getParameter("gugun");
 		String dong = req.getParameter("dong"); 
 		HashMap<String,String> paraMap = new HashMap<String,String>();
-		paraMap.put("CITY", city);
+		paraMap.put("SIDO", sido);
 		paraMap.put("CHECKIN", checkin);
 		paraMap.put("CHECKOUT", checkout);
+		paraMap.put("GUGUN", gugun);
+		paraMap.put("DONG", dong);
 		
-		/*System.out.println(paraMap);*/
+		//System.out.println(paraMap);
 		
 		// 숙소유형(대)
 		List<String> buildList = service.getBuildList();		
@@ -62,18 +64,23 @@ public class SWController {
 		// 전체 숙소리스트
 		List<RoomVO> roomList = service.getRoomList(paraMap);
 			
+		if(roomList.size() == 0) {
+			roomList = null;
+		}
+		 
 		req.setAttribute("buildList", buildList);
 		req.setAttribute("optionList", optionList);
 		req.setAttribute("roomType", roomType);
 		req.setAttribute("roomRule", roomRule);
-		req.setAttribute("roomList", roomList);
-		req.setAttribute("city", city);
+		req.setAttribute("roomList", roomList); 
+		req.setAttribute("SIDO", sido);
 		req.setAttribute("checkin", checkin);
 		req.setAttribute("checkout", checkout);
-		req.setAttribute("SIDO", sido);
+		/*req.setAttribute("SIDO", sido);*/
 		req.setAttribute("GUGUN", gugun);
 		req.setAttribute("DONG", dong);
 		req.setAttribute("ADDRESS", sido+" "+gugun+" "+dong);
+		
 		
 		return "home/homeList.hometiles_nofooter";
 	}	
@@ -140,6 +147,7 @@ public class SWController {
 		if(homeListByOption.size() <1) {
 			JSONObject jsonobj = new JSONObject();
 			jsonobj.put("LISTCHECK", homeListByOption.size()); 
+			//System.out.println(homeListByOption.size());
 			jsonArr.put(jsonobj);
 			req.setAttribute("str_json", jsonobj.toString()); 
 			return "JSON";
@@ -193,8 +201,9 @@ public class SWController {
 		String userid = loginuser.getUserid();
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
-		System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
-		for(ReservationVO list : reservationList) {			
+		
+		for(ReservationVO list : reservationList) {	
+			System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
 			list.setRsv_email(aes.decrypt(list.getRsv_email()));
 			list.setRsv_phone(aes.decrypt(list.getRsv_phone()));			
 		}
@@ -215,7 +224,9 @@ public class SWController {
 		String[] rulename = req.getParameterValues("rulename");
 		String[] roomtype_name = req.getParameterValues("roomtype_name");
 		String[] optionname = req.getParameterValues("optionname");
-		String city = req.getParameter("city");
+		String sido = req.getParameter("sido");
+		String gugun = req.getParameter("gugun");
+		String dong = req.getParameter("dong");
 			
 		String rulenameStr = "";
 		String roomtype_nameStr = "";
@@ -264,7 +275,9 @@ public class SWController {
 		paraMap.put("RULENAME", rulenameStr);
 		paraMap.put("ROOMTYPE_NAME", roomtype_nameStr);
 		paraMap.put("OPTIONNAME", optionnameStr);
-		paraMap.put("CITY", city);				
+		paraMap.put("SIDO", sido);
+		paraMap.put("GUGUN", gugun);
+		paraMap.put("DONG", dong);
 	
 		//System.out.println(paraMap);
 		
