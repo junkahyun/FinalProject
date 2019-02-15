@@ -333,7 +333,7 @@ var flag5 = false;
     
    // 모든 옵션 초기화하기
    $(".reset").click(function(){
-	  $("#sidogugundong").val("");
+	  $("#sidogugundong").val("서울특별시");
 	  $("#checkin").val("체크인 날짜");
 	  $("#checkout").val("체크아웃 날짜");
 	  $(".option").removeClass("subjectstyle");	
@@ -341,7 +341,7 @@ var flag5 = false;
 	  $("#student").val("0");
 	  $("#baby").val("0");
 	  $("#buildName1").val("");
-	  $("#buildName2").val("");
+	  $("#buildName2").val("");	  
 	  
 	  var html = "";
 	  
@@ -355,7 +355,9 @@ var flag5 = false;
 			  $.each(json, function(entryIndex, entry){									
 					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"					 
+						  + "<img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"						  
+						  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
+						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 						  + "</div>"
 						  + "<div>"
 						  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
@@ -372,6 +374,7 @@ var flag5 = false;
 						  + "</div>"
 						  + "</div>";
 					$("#allList").html(html); 
+					 markOnMap();
 				});// end of $.each()-------------
 		  },
 		  error: function(request, status, error){
@@ -379,6 +382,7 @@ var flag5 = false;
 	      }	
 		  
 	  });
+	 
 	  
    });
    

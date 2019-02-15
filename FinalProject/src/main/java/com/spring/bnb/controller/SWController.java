@@ -345,6 +345,8 @@ public class SWController {
 			jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
 			jsonObj.put("BATHCOUNT", roomvo.getBathCount());
 			jsonObj.put("ROOMSIDO", roomvo.getRoomSido());
+			jsonObj.put("LATITUDE", roomvo.getLatitude());
+			jsonObj.put("LONGITUDE", roomvo.getLongitude());			
 			
 			if(roomvo.getRoomName().length() >= 25) {
 				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
