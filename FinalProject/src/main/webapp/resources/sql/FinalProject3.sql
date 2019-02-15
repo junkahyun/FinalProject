@@ -974,4 +974,67 @@ select *
 		and roomsido like '%서울%'		
 		and max_person >= 1
         
-       select *from reservation
+        select * from room
+        
+        
+        
+        
+        
+        
+        
+        
+        select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx		          
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx
+                  JOIN roomrule C
+                  ON A.roomcode = C.fk_roomcode
+                  JOIN allrule D
+                  ON C.fk_rule_idx = D.rule_idx
+                  JOIN roomoption E
+                  ON A.roomcode = E.fk_roomcode
+                  JOIN options G
+                  ON E.fk_option_idx = G.option_idx
+        where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' 
+      
+                  
+                
+        select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx		          
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx          
+		where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' 		
+			and not exists(select rule_idx
+							from allrule
+							where rule_name in 							
+							('반려동물 입실가능')							
+							minus                  
+							select fk_rule_idx
+							from room A JOIN roomrule B
+							ON A.roomcode = B.fk_roomcode
+							where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동')
+			and not exists (select option_idx
+							from options
+							where optionname in 
+							('무선인터넷','난방','에어컨')
+							minus
+							select fk_option_idx
+							from room A JOIN roomoption B
+							ON A.roomcode = B.fk_roomcode
+							where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' )
+			and not exists (select roomtype_idx
+							from roomtype							
+							where roomtype_name in 							
+							('다인실')							
+							minus
+							select fk_roomtype_idx
+							from room 
+							where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' ) 
+        
+        
+        select * from options
+        select *
+							from room A JOIN roomoption B
+							ON A.roomcode = B.fk_roomcode

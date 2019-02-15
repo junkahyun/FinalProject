@@ -603,8 +603,8 @@
 <%-- 관심숙소 등록 modal --%>
 <div class="modal fade" id="likeRoom" role="dialog" >
 	<form name="likeroomFrm">
-	<input name="roomcode" value="${room.roomcode }">
-	<input name="userid" value="${loginuser.userid }">
+	<input type="hidden" name="roomcode" value="${room.roomcode }">
+	<input type="hidden" name="userid" value="${loginuser.userid }">
    	<div class="modal-dialog">
       	<div class="modal-content" style="padding:2%;">
          	<div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>

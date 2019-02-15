@@ -62,7 +62,7 @@ public class SHService implements InterSHService {
 		return mycoupon;
 	}
 
-	// 신고글 가져오기
+	// 신고글 가져오기(List)
 	@Override
 	public List<ReportVO> getReport(HashMap<String, String> paraMap) {
 		
@@ -128,11 +128,10 @@ public class SHService implements InterSHService {
 
 	// 회원삭제하기
 	@Override
-	public int adminDeleteMember(String userid) {
+	public void adminDeleteMember(String userid) {
 		
-		int n = dao.adminDeleteMember(userid);
-		
-		return n;
+		dao.adminDeleteMember(userid);
+
 	}
 
 	// 신고게시판의 글 총 갯수 알아오기
@@ -179,21 +178,46 @@ public class SHService implements InterSHService {
 		return n;
 	}
 
-	// 댓글 등록하기
-	@Override
-	public int insertComment(CommentVO commentvo) {
-
-		int n = dao.insertComment(commentvo);
-		
-		return n;
-	}
-
 	// 회원 경고주기
 	@Override
 	public void adminWarnMember(String userid) {
 
 		dao.adminWarnMember(userid);
 
+	}
+
+	// 글 수정하기
+	@Override
+	public void writeEdit(HashMap<String, String> paraMap) {
+		
+		dao.writeEdit(paraMap);
+
+	}
+
+	// 댓글 등록하기
+	@Override
+	public int insertComment(HashMap<String, String> paraMap) {
+		
+		int n = dao.insertComment(paraMap);
+		
+		return n;
+	}
+
+	// commentcount 올려주기
+	@Override
+	public void addCommentCount(HashMap<String, String> paraMap) {
+		
+		dao.addCommentCount(paraMap);
+		
+	}
+
+	// comment 가져오기
+	@Override
+	public List<CommentVO> getComment(int report_idx) {
+		
+		List<CommentVO> commentList = dao.getComment(report_idx);
+		
+		return commentList;
 	}
 	
 }

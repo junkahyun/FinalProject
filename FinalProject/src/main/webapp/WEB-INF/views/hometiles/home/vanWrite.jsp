@@ -37,44 +37,31 @@
 	        
 	       var reporttype = $("#reporttype").val();
 	       if(reporttype == "") {
-	    	   alert("신고유형을 선택해주세요");
+	    	   alert("게시글 유형을 선택해주세요.");
 	    	   return;
 	       }
 	       else {
-	    	   var rsvcode = $("#report_rsvcode").val().trim();
-		       if(rsvcode == "") {
-		    	   $(".error1").show();
+	    	   $(".error2").hide();
+	   		   $(".error3").hide();
+	    	   var report_subject = $("#report_subject").val().trim();
+		       if(report_subject == "") {
+		    	   $(".error2").show();
 		    	   return;
 		       }
 		       else {
-		    	   $(".error1").hide();
 		    	   $(".error2").hide();
 		   		   $(".error3").hide();
-		    	   var report_subject = $("#report_subject").val().trim();
-			       if(report_subject == "") {
-			    	   $(".error2").show();
+		    	   var report_content = $("#report_content").val().trim();
+			       if(report_content == "") {
+			    	   $(".error3").show();
 			    	   return;
-			       }
+		       	   }
 			       else {
-			    	   $(".error1").hide();
 			    	   $(".error2").hide();
 			   		   $(".error3").hide();
-			    	   var report_content = $("#report_content").val().trim();
-				       if(report_content == "") {
-				    	   $(".error3").show();
-				    	   return;
-			       	   }
-				       else {
-				    	   $(".error1").hide();
-				    	   $(".error2").hide();
-				   		   $(".error3").hide();
-				       }
 			       }
-		       }   
-	       }
-	       
-	      
-	       
+		       }
+	       }   
 	       
 	        //폼 submit
 	        var writeFrm = document.writeFrm;
@@ -90,25 +77,20 @@
 <div style="padding: 3%; width: 60%; margin:0 auto;">  
 
 	<form name="writeFrm" enctype = multipart/form-data>
-		<div style="padding-bottom: 2%; padding-left: 2%; padding-right: 2%; text-align: center; font-weight: bold;"><h2>신고 글쓰기</h2></div>
+		<div style="padding-bottom: 2%; padding-left: 2%; padding-right: 2%; text-align: center; font-weight: bold;"><h2>글쓰기</h2></div>
 		
 		<div class="input-group mb-3" style="padding: 2%;">
 		  <div class="input-group-prepend" style="padding: 1%;">
-		    <label class="input-group-text" for="inputGroupSelect01">신고유형</label>
+		    <label class="input-group-text" for="inputGroupSelect01">유형</label>
 		  </div>
 		  <select class="custom-select" id="reporttype" name="reporttype" style="width: 200px; height: 30px; padding-left: 10px; font-size: 18px; color: #352c31; border: 1px solid #352c31; border-radius: 3px;">
 		    <option selected value="">선택하기</option>
-		    <option value="0">투숙객신고</option>
-		    <option value="1">호스트신고</option>
+		    <option value="0">투숙객</option>
+		    <option value="1">호스트</option>
+		    <option value="2">자유글</option>
 		  </select>
 		</div>
-		
-		<div style="padding: 2%;">
-			<label class="input-group-text" for="inputGroupSelect01">예약코드</label>
-			<input type="text" class="form-control" placeholder="예약코드를 써주세요" id="report_rsvcode" name="report_rsvcode">
-			<span class="error1" style="font-weight: bold; color: red; font-size: 14pt;">예약코드를 적어주세요~</span>
-		</div>
-	  
+
 		<div style="padding: 2%;">
 			<label class="input-group-text" for="inputGroupSelect02">제목</label>
 			<input type="text" class="form-control" placeholder="제목을 써주세요" id="report_subject" name="report_subject">
@@ -123,7 +105,7 @@
 		
 		<div style="display:inline; text-align: center;">
 			<div style="float:left; width:50%;"><button type="button" class="btn btn-success" id="btnWrite" style="width: 20%;">확인</button></div>
-			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:history.back();">취소</button></div>
+			<div style="float:left; width:50%;"><button type="button" class="btn" style="width: 20%;" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">취소</button></div>
 		</div>
 	</form>
 	

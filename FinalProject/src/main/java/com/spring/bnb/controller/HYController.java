@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -326,18 +328,34 @@ public class HYController {
 	// 호스트 메인페이지
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
 	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
-		List<HashMap<String,Object>> income = null;
-		int thisMonthIcome = 0;
 		HttpSession session = req.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		List<HashMap<String,Object>> incomeMapList = null;
 		if(loginuser.getMyroomList().size()>0) {
-			income = service.getHostIncome(loginuser.getUserid());
-			Calendar cal = Calendar.getInstance();
-			//int month = cal.get(Calendar.MONTH);
-			for(HashMap<String,Object> hash : income) {
-				//if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
-				String roomname = service.getRoomByCode((String)hash.get("roomcode")).getRoomName();
-				hash.put("roomname", roomname);
+			List<HashMap<String,Object>> incomeList = service.getHostIncome(loginuser.getUserid());
+			
+			// 수입 차트를 그리기위한 알고리즘
+			incomeMapList = new ArrayList<HashMap<String,Object>>();
+			for(int i=0;i<loginuser.getMyroomList().size();i++) {
+				HashMap<String,Object> incomeMap = new HashMap<String,Object>();
+				incomeMap.put("name", loginuser.getMyroomList().get(i).getRoomName());
+				for(HashMap<String,Object> income : incomeList) {
+					if(income.get("roomcode").equals(loginuser.getMyroomList().get(i).getRoomcode())) {
+						int[] incomeArr = new int[12];
+						for(int j=0;j<12;j++) {
+							if(income.get(j)!=null) {
+								System.out.println("income.get(j) : "+income.get(j));
+								incomeArr[j]=(int) income.get(j);
+							}
+							else {
+								System.out.println("income.get(j) : null");
+								incomeArr[j]=0;
+							}
+						}
+						incomeMap.put("data", incomeArr);
+					}
+				}
+				incomeMapList.add(incomeMap);
 			}
 		}
 		else{
@@ -345,11 +363,29 @@ public class HYController {
 			req.setAttribute("loc", "index.air");
 			return "msg";
 		}
-		System.out.println(income.size());
-		req.setAttribute("income", income);
-		req.setAttribute("thisMonthIcome", thisMonthIcome);
+		req.setAttribute("incomeMapList", incomeMapList);
 		return "host/hostMain.hosttiles";
 	}
-	
+	@RequestMapping(value = "/MemberCheckByIdAndEmail.air", method = RequestMethod.POST)
+	public String MemberCheckByIdAndEmail(HttpServletRequest req) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		String repwdid = req.getParameter("repwdid");
+		String repwdemail = req.getParameter("repwdemail");
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("ID", repwdid);
+		paraMap.put("EMAIL", aes.encrypt(repwdemail));
+		int n = service.MemberCheckByIdAndEmail(paraMap);
+		JSONObject jobj = new JSONObject();
+		jobj.put("n", n);
+		req.setAttribute("str_json", jobj.toString());;
+		return "JSON";
+	}
+	/*@RequestMapping(value = "/sendCodeForPwd.air", method = RequestMethod.POST)
+	public String sendCodeForPwd(HttpServletRequest req) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		String email = req.getParameter("email");
+		JSONObject jobj = new JSONObject();
+		jobj.put("code", code);
+		req.setAttribute("str_json", jobj.toString());;
+		return "JSON";
+	}*/
 }
 
