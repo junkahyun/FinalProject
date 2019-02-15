@@ -343,8 +343,8 @@ public class HYController {
 					if(income.get("roomcode").equals(loginuser.getMyroomList().get(i).getRoomcode())) {
 						int[] incomeArr = new int[12];
 						for(int j=0;j<12;j++) {
-							if(income.get(j)!=null) {
-								System.out.println("income.get(j) : "+income.get(j));
+							if(income.get(String.valueOf(j))!=null) {
+								System.out.println("income.get(j) : "+income.get(String.valueOf(j)));
 								incomeArr[j]=(int) income.get(j);
 							}
 							else {
