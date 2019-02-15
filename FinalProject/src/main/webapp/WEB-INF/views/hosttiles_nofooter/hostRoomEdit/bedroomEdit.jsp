@@ -394,6 +394,7 @@ function bedAdd(bedroomCount){
     	</div>
 	</div>
 
+
 	<hr class="line" align="left">
 	<input id="savebtn" type="button" class="btn editbtn" value="저장하기" onclick="svaeBedRoomAndPerson();"/>
 	<button id="cancelbtn" class="btn" style="background-color:  #008489;"><span style="color: white; font-weight: bold;">취소하기</span></button>
