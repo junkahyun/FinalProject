@@ -4,6 +4,7 @@
 	$(document).ready(function(){
 		$(".passIcon").addClass("passIconHide");
 		$(".error").hide();
+		$("#codeInput").hide();
    		$("#loginpwd").keydown(function(event){
          	if(event.keyCode==13) goLogin();
       	});
@@ -208,7 +209,50 @@
        			$("#joinFrm").submit();
        		}
        	});
+       	$("#codeSendBtn").click(function(){
+       		var id = $("#repwdid").val();
+       		var email = $("#repwdemail").val();
+       		if(id==""||email==""){
+       			alert("아이디와 이메일을 작성 해 주세요.");
+       			return;
+       		}
+       		var form_data = {"repwdid":id,"repwdemail":email};
+       		$.ajax({
+       			url:"MemberCheckByIdAndEmail.air",
+       			type:"POST",
+       			data:form_data,
+       			dataType:"JSON",
+       			success:function(json){
+       				if(json.n=="1"){
+       					$("#repwdid").attr("disabled",true);
+       					$("#repwdemail").attr("disabled",true);
+       					$("#codeInput").show();
+       					/* $.ajax({
+       						url:"sendCodeForPwd.air",
+       						type:"POST",
+       						data:{"email":$("#repwdemail").val()},
+       						dataType:"JSON",
+       						success:function(json){
+       							$("#pwdChacngeCode").val(json.code);
+       						},
+		       				error: function(request, status, error){
+		                        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		                    }
+       					}); */
+       				}
+       				else{
+       					alert("해당 아이디와 이메일이 일치하는 회원이 존재하지 않습니다.");
+       					return;
+       				}
+       			},
+       			error: function(request, status, error){
+                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+                }
+       		});
+       	})
     }); // end of $(document).ready()-------------------
+    
+    // 로그인을 진행하는 함수
     function goLogin(){
       form_data = $("#loginFrm").serialize();
       $.ajax({
@@ -231,6 +275,8 @@
           }
       });
    }
+   
+    // 로그아웃 함수
    function goLogout(){
       $.ajax({
          url: "logout.air",
@@ -254,6 +300,7 @@
    function goHostMain(){
       location.href="hostMain.air";
    }
+   // 저장된 숙소 리스트 불러오는 함수
    function myLikeRoomList(){
       var form_data = {"userid":"${loginuser.userid}"};
       $.ajax({
@@ -488,16 +535,25 @@
 <div class="modal fade" id="pwdfind" role="dialog">
 	<div class="modal-dialog">
 	<!-- Modal content-->
-		<div class="modal-content" style="width: 100%; height: 350px;">   
+		<div class="modal-content" style="width: 100%; "> 
+		<input type="hidden" id="pwdChacngeCode">  
 			<button type="button" class="myclose" data-dismiss="modal" style="margin-left: 3%; background-color: white; border: 0px;margin-top:2%;"><img src="<%=request.getContextPath() %>/resources/images/cancel.png" style="width:24px;height:24px;"></button>
-           	<div style="padding: 3% 5%;">
+           	<%-- <div style="padding: 3% 5%;">
 	           	<div style="font-size: 15pt;border-top:1px solid lightgray; padding-top:2%; font-weight: bold; margin-bottom: 5%;">비밀번호 재설정</div>
-	            <div style="margin-top:5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 비밀번호 재설정 링크를</div>
-	            <div style=" font-size: 12pt; ">전송해 드립니다.</div>
-	            <div style="font-size: 11pt; font-weight: bold; margin-bottom: 5%;">이메일 주소</div>
-	            <input  class="input-data form-control" type="text" style="font-size: 13pt; margin: 2% 0; border: 1px solid rightgray;  width: 100%; height: 46px; border-radius: 10px;" />
+	            <div style="margin-top:5%; font-size: 12pt; ">계정으로 사용하는 이메일 주소를 입력하시면, 인증코드가 발송됩니다.</div>
+	            <input id="repwdid" class="input-data form-control" type="text" placeholder="ID"  style="height:45px;"/>
+	            <input id="repwdemail" class="input-data form-control" type="text" placeholder="E-Mail" style="margin-top:2%;height:45px;"/>
+	            <input id="codeInput" class="input-data form-control" type="text" style="margin-top:2%;height:45px;" placeholder="발송된 인증코드를 입력해 주세요."/>
+	            <button id="codeSendBtn" type="button" style="background-color:#148487;width:100%;border:none; height:40px;margin: 2% 0;color:white;font-weight:bold;border-radius:5px;">인증코드 발송</button>
 	            <div><img src="<%=request.getContextPath() %>/resources/ymimg/back.png" alt="X"><a style="color: #008489; font-weight: bold; cursor: pointer;" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인으로 돌아가기</a></div>  
-        	</div>
+        	</div> --%>
+        	<div style="padding: 3% 5%;">
+	           	<div style="font-size: 15pt;border-top:1px solid lightgray; padding-top:2%; font-weight: bold; margin-bottom: 5%;">비밀번호 재설정</div>
+	            <div style="margin-top:5%; font-size: 12pt; ">변경 할 패스워드를 동일하게 입력해주세요.</div>
+	            <input class="input-data form-control" type="password" style="margin-top:2%;height:45px;"/>
+	            <input class="input-data form-control" type="password" style="margin-top:2%;height:45px;" />
+	            <button id="codeSendBtn" type="button" style="background-color:#148487;width:100%;border:none; height:40px;margin: 2% 0;color:white;font-weight:bold;border-radius:5px;">변경하기</button>
+	        </div>
         </div>
     </div>
 </div>

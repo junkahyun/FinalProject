@@ -40,4 +40,6 @@ public interface InterHYService {
 
 	List<HashMap<String, Object>> getHostIncome(String userid);
 
+	int MemberCheckByIdAndEmail(HashMap<String, String> paraMap);
+
 }

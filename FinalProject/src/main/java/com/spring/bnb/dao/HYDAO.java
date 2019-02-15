@@ -176,4 +176,10 @@ public class HYDAO implements InterHYDAO {
 		List<HashMap<String,Object>> incomeList = sqlsession.selectList("hy.getHostIncome", userid);
 		return incomeList;
 	}
+
+	@Override
+	public int MemberCheckByIdAndEmail(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("hy.MemberCheckByIdAndEmail",paraMap);
+		return n;
+	}
 }
