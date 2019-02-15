@@ -49,7 +49,7 @@ public interface InterSHDAO {
 	int getTotalCount(HashMap<String, String> paraMap);
 
 	// memberList에서 회원삭제하기
-	int adminDeleteMember(String userid);
+	void adminDeleteMember(String userid);
 
 	// 신고게시판의 글 총 갯수 알아오기
 	int getTotalCounts(HashMap<String, String> paraMap);
@@ -63,9 +63,18 @@ public interface InterSHDAO {
 	// 신고게시글 삭제하기
 	int deleteReport(int report_idx);
 
-	// 댓글 등록하기
-	int insertComment(CommentVO commentvo);
-
 	// 회원 경고주기
 	void adminWarnMember(String userid);
+
+	// 글 수정하기
+	void writeEdit(HashMap<String, String> paraMap);
+
+	// 댓글 등록하기
+	int insertComment(HashMap<String, String> paraMap);
+
+	// commentcount 올려주기
+	void addCommentCount(HashMap<String, String> paraMap);
+
+	// comment 가져오기
+	List<CommentVO> getComment(int report_idx);
 }

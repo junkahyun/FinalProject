@@ -26,7 +26,7 @@
 		    select userid, username, pwd, email, phone, post, addr, detailAddr, gender
 		         , to_char(birthday,'yyyymmdd') as birthday, introduction, memberstatus, profileimg, warncount, regdate, rownum as rno
 		    from member
-		    where 1=1
+		    where memberstatus = 1
 		    and ${searchType} like '%'|| #{searchWord} ||'%'
 		)v
 		where rno between #{RNO1} and #{RNO2}
@@ -84,13 +84,13 @@
 	</resultMap> -->
 	
 	<select id="getReport" parameterType="HashMap" resultType="com.spring.bnb.model.ReportVO">
-		select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, rno
+		select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, rno, commentcount
 		from
 		(
-		    select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, rownum as rno
+		    select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, rownum as rno, commentcount
 		    from
 		    (
-		        select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject
+		        select report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, commentcount
 		        from report
 		        order by to_number(report_idx) desc
 		    )v
@@ -134,14 +134,14 @@
 	</insert>
 	
 	<insert id="vanAdd" parameterType="HashMap">
-		insert into report(report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject, report_rsvcode)
-		values(REPORT_IDX_SEQ.nextval, #{fk_userid}, #{reporttype}, #{report_content}, sysdate, 0, #{report_subject}, #{report_rsvcode})
+		insert into report(report_idx, fk_userid, reporttype, report_content, report_date, report_status, report_subject)
+		values(REPORT_IDX_SEQ.nextval, #{fk_userid}, #{reporttype}, #{report_content}, sysdate, 0, #{report_subject})
 	</insert>
 	
 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*)
 		from member
-		where ${searchType} like '%'|| #{searchWord} ||'%'
+		where memberstatus = 1 and ${searchType} like '%'|| #{searchWord} ||'%'
 	</select>
 	
 	<select id="getTotalCounts" parameterType="HashMap" resultType="int">
@@ -154,10 +154,10 @@
 		where ${searchType} like '%'|| #{searchWord} ||'%'
 	</select>
 	
-	<delete id="adminDeleteMember" parameterType="String">
-		delete from member
+	<update id="adminDeleteMember" parameterType="String">
+		update member set memberstatus = 0
 		where userid = #{userid}
-	</delete>
+	</update>
 	
 	<select id="getReportDetail" parameterType="int" resultType="com.spring.bnb.model.ReportVO">
 		select previousseq, PreviousTitle, Seq, report_subject, username, report_content, nextSeq, nextTitle, fk_userid, viewcnt, report_date, reporttype
@@ -192,9 +192,38 @@
 	</delete>
 	
 	<update id="adminWarnMember" parameterType="String">
-		update member set warncount = warncount + 1
+		UPDATE member SET warncount = 
+		CASE 
+		    WHEN warncount = 0 
+		       THEN 1
+		    WHEN warncount = 1
+		       THEN 2
+		    WHEN warncount = 2
+		       THEN 3
+		  ELSE  3
+		END
 		where userid = #{userid}
 	</update>
 	
+	<update id="writeEdit" parameterType="HashMap">
+		update report set report_content = #{report_content}, report_subject = #{report_subject}, reporttype = #{reporttype}, report_date = sysdate
+		where report_idx = #{report_idx}
+	</update>
+	
+	<insert id="insertComment" parameterType="HashMap">
+		insert into tblReportComment(report_seq, fk_userid, name, content, regDate, parentSeq)
+		values(report_commentSeq.nextval, #{fk_userid}, #{name}, #{content}, default, #{parentSeq})
+	</insert>
+	
+	<update id="addCommentCount" parameterType="HashMap">
+		update report set commentcount = commentcount + 1
+		where report_idx = #{report_idx}
+	</update>
+	
+	<select id="getComment" parameterType="int" resultType="com.spring.bnb.model.CommentVO">
+		select name, content, regDate
+		from tblReportComment
+		where parentSeq = #{report_idx}
+	</select>
 	
 </mapper>
