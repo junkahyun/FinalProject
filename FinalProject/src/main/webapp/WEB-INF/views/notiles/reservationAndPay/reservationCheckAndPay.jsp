@@ -146,7 +146,7 @@ input{outline: none;
 			frm.email.value = $("#email").val();
 			
 			
-			frm.method="GET";//post로 바꿔야함
+			frm.method="POST";//post로 바꿔야함
 			frm.action = "<%=ctxPath%>/paymentGateway.air";
 			frm.submit();
 			

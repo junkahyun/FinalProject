@@ -451,7 +451,7 @@ h3{font-size: 14pt;
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
-		<textarea id="host_error_message"  rows="4" required="required" placeholder="${(sessionScope.oneRoom).fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
+		<textarea id="host_error_message"  rows="4" required="required" placeholder="${(sessionScope.oneRoom).fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${day_between}박이 기다려집니다!"></textarea>
 		</div>
 		<div id="host_error_message2" >호스트에게 전할 메시지를 입력하세요!</div><br><br><br><br>
 		
@@ -584,7 +584,7 @@ h3{font-size: 14pt;
 				<div class="col-md-9">
 				 총 합계 (KRW)
 				</div>
-				<input type="text" id="pluspeople"/>
+				<!-- <input type="text" id="pluspeople"/> -->
 				<div class="col-md-3" style="margin-bottom: 3%;">
 				 ₩<span style="font-weight: bold;" id="roomtotalPrice">
 				 </span>

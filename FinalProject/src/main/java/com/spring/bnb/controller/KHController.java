@@ -12,16 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
 
-import com.google.gson.JsonObject;
 import com.spring.bnb.model.MemberVO;
 import com.spring.bnb.model.ReservationVO;
 import com.spring.bnb.model.RoomVO;
@@ -52,10 +48,6 @@ public class KHController {
 		String rsv_checkInDate = req.getParameter("rsv_checkInDate");//체크인날짜
 		String rsv_checkOutDate = req.getParameter("rsv_checkOutDate");//체크아웃날짜
 		
-		if(babyCount == null || "".equals(babyCount)) {
-			//넘어온 유아인원의 값이 null일 경우 기본으로 0값을 준다.
-			babyCount = "0";
-		}
 		//받아온 숙소코드를 map에 넣어서 넘겨준다.
 		//HashMap으로 안해도 되지만 한번한거 변경하기 귀찮아서 안바꿈.
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -89,7 +81,7 @@ public class KHController {
 	
 	
 	// ***** 일행 확인하기 (예약) ***** //
-	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/reservationCheckPeople.air", method= {RequestMethod.POST})
 	public String reservationCheckPeople (HttpServletRequest req,HttpSession session)  {
 		
 		String day_between = req.getParameter("day_between");//숙박일수
@@ -153,7 +145,7 @@ public class KHController {
 	
 	
 	// ***** 예약 확인 및 결제하기 (결제 창 띄우기) ***** //
-	@RequestMapping(value="/paymentGateway.air", method= {RequestMethod.GET})
+	@RequestMapping(value="/paymentGateway.air", method= {RequestMethod.POST})
 	public String paymentGateway(HttpServletRequest req,HttpSession session) {
 		
 		String totalprice = req.getParameter("totalprice");//총 결제금액
@@ -176,7 +168,8 @@ public class KHController {
 		session.setAttribute("reEmail", reEmail);
 		
 		session.setAttribute("totalprice", totalprice);
-		session.setAttribute("roomname", roomname1);
+		session.setAttribute("roomname1", roomname1);
+		session.setAttribute("roomname", roomname);
 		
 		return "paymentGateway";
 	}
