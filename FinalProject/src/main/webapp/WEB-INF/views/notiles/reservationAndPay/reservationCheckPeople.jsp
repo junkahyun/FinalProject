@@ -369,23 +369,18 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<%-- <c:if test="${(sessionScope.oneRoom).roomPrice < avgPrice}">
-					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
-					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-(sessionScope.oneRoom).roomPrice}" pattern="#,###" />저렴합니다.
-				    </div>
-				</c:if>
-				<c:if test="${(sessionScope.oneRoom).viewcount > 10}">
+				<c:if test="${oneRoom.viewcount < 10 }">
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/흔치않은기회.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-					      <strong>흔치 않은 기회입니다.</strong>${(sessionScope.oneRoom).fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
+					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
 				    </div>
-				</c:if> --%>
-				
+				</c:if>
+				<c:if test="${oneRoom.viewcount > 10 }">
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
 				    </div>
+				</c:if>
 			    
 			</div>
 		</div>
