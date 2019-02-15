@@ -171,7 +171,7 @@ var flag5 = false;
 									  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 									  + "</div>"
 									  + "<div>"
-									  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
+									  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 									  + "</div>"
 									  + "<div>"
 									  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -355,10 +355,10 @@ var flag5 = false;
 			  $.each(json, function(entryIndex, entry){									
 					html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 						  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-						  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"					 
+						  + "<img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"					 
 						  + "</div>"
 						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 						  + "</div>"
 						  + "<div>"
 						  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -439,12 +439,12 @@ var flag5 = false;
 					$.each(json, function(entryIndex, entry){									
 						html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 							  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-							  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"
+							  + "<img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail(\""+entry.ROOMCODE+"\")' />"
 							  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
 							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 							  + "</div>"
 							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 							  + "</div>"
 							  + "<div>"
 							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -713,7 +713,7 @@ var flag5 = false;
         </div>
         
         <div class="col-md-8" style="height:100%; padding: 1%;">
-            <div id="allList" class="row" style="overflow: auto; height: 574px; width: 100%;"> 
+            <div id="allList" class="row" style="overflow: auto; height: 575px; width: 100%;"> 
             <c:if test="${roomList == null}"> 
            		<div class="col-md-12" style="margin-bottom: 2%;"> 
 					<div id="homeImg" style="margin-bottom: 3%; text-align: center;">
@@ -734,13 +734,13 @@ var flag5 = false;
 	            <c:forEach items="${roomList}" var="RList" varStatus="status">
 	                <div  class="col-md-4" style="margin-bottom: 2%;">               
 	                    <div id="homeImg" style="margin-bottom: 3%;">
-	                        <img src="${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
+	                        <img src="<%=request.getContextPath() %>/resources/images/becomehost/${RList.roomMainImg }" style="border-radius: 5px; width: 100%; height:20em; cursor: pointer;" onClick="goHomeDetail()" />
 	                    	<input type="hidden" id="roomcode${status.index}"class="roomcode" name="roomcode" value="${RList.roomcode }" />
 	                    	<input type="hidden" id="lat${status.index}" class="lat" name="lat" value="${RList.latitude }" />
 		            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
 	                    </div>
 	                    <div>
-	                        <span style="font-size: 0.8em; font-weight: bold;">${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
+	                        <span style="font-size: 0.8em; font-weight: bold;">[${RList.roomSido}]&nbsp;${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
 	                    </div>
 	                    <div>
 	                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>                       

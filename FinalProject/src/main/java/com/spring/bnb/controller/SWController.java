@@ -173,6 +173,7 @@ public class SWController {
 				jsonObj.put("BEDCOUNT", roomvo.getBedCount());
 				jsonObj.put("BATHCOUNT", roomvo.getBathCount());
 				jsonObj.put("BEDTYPE", roomvo.getBedtype());
+				jsonObj.put("ROOMSIDO", roomvo.getRoomSido());
 				
 				jsonArr.put(jsonObj);
 			}
@@ -318,6 +319,7 @@ public class SWController {
 				jsonObj.put("BEDCOUNT", roomvo.getBedCount());
 				jsonObj.put("BATHCOUNT", roomvo.getBathCount());
 				jsonObj.put("BEDTYPE", roomvo.getBedtype());
+				jsonObj.put("ROOMSIDO", roomvo.getRoomSido());
 				
 				jsonArr.put(jsonObj);
 			}
@@ -339,6 +341,10 @@ public class SWController {
 			
 			jsonObj.put("ROOMMAINIMG", roomvo.getRoomMainImg());
 			jsonObj.put("ROOMPRICE", roomvo.getRoomPrice());
+			jsonObj.put("ROOMTYPENAME", roomvo.getRoomType_name());
+			jsonObj.put("ROOMCOUNT", roomvo.getRoomCount());
+			jsonObj.put("BATHCOUNT", roomvo.getBathCount());
+			jsonObj.put("ROOMSIDO", roomvo.getRoomSido());
 			
 			if(roomvo.getRoomName().length() >= 25) {
 				jsonObj.put("ROOMNAME", roomvo.getRoomName().substring(0, 25)+"....");
