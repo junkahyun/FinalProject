@@ -62,12 +62,12 @@
 				  	<c:forEach items="${roomList}" var="rvo" varStatus="status">
 				  		<tr> 
 						      <td>${rvo.roomcode}</td>
-						      <td><img src="${rvo.roomMainImg}" width="60%"/></td>
+						      <td><img src="<%=cxtPath%>/resources/images/becomehost/${rvo.roomMainImg}" width="60%"/></td>
 						      <td>${rvo.roomName}</td>
 						      <td>${rvo.roomSido}${rvo.roomSigungu}${rvo.roomBname}</td>
 						      <td>${rvo.host.username }</td>
 						      <td>￦<fmt:formatNumber pattern="###,###">${rvo.roomPrice}</fmt:formatNumber></td>
-						      <td><button type="button" class="btn btn-danger" onClick="goPermission(${rvo.roomcode})">등록허가</button></td>
+						      <td><button type="button" class="btn btn-danger" onClick="goPermission('${rvo.roomcode}')">등록허가</button></td>
 					    </tr> 
 				  	</c:forEach> 
 				  </tbody>
