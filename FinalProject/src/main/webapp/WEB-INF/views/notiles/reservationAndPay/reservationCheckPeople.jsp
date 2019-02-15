@@ -369,23 +369,18 @@ h3{font-size: 14pt;
 		<br>
 		<div class="panel panel-default" style="font-size: 12pt; ">
 			<div class="panel-body">
-				<%-- <c:if test="${(sessionScope.oneRoom).roomPrice < avgPrice}">
-					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/저렴한요금.gif" style="width: 55px;"/></div>
-					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-					     <strong>저렴한 요금</strong> 이 숙소는 평균 1박 요금보다 ₩ <fmt:formatNumber value="${avgPrice-(sessionScope.oneRoom).roomPrice}" pattern="#,###" />저렴합니다.
-				    </div>
-				</c:if>
-				<c:if test="${(sessionScope.oneRoom).viewcount > 10}">
+				<c:if test="${oneRoom.viewcount < 10 }">
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/흔치않은기회.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
-					      <strong>흔치 않은 기회입니다.</strong>${(sessionScope.oneRoom).fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
+					      <strong>흔치 않은 기회입니다.</strong>${oneRoom.fk_userid}님의 숙소는 보통 예약이 가득 차 있습니다.
 				    </div>
-				</c:if> --%>
-				
+				</c:if>
+				<c:if test="${oneRoom.viewcount > 10 }">
 					<div class="col-md-1" ><img src="<%=ctxPath %>/resources/images/reservation/아이콘.gif" style="width: 55px;"/></div>
 					<div class="col-md-10" style="margin-left: 2%; margin-top: 1%;">
 					     숙소 예약이 곧 마감될 수 있습니다.여행 트렌드를 분석해 보면, 조회하시는 기간 중 1박 이상의 예약이 곧 마감될 수 있습니다.
 				    </div>
+				</c:if>
 			    
 			</div>
 		</div>
@@ -447,11 +442,11 @@ h3{font-size: 14pt;
 		<div class="col-md-9" style="background-color: #e5e5e5; border-radius: 5px; padding: 2%;">
 		<span style="font-size: 12pt;">안녕하세요. 당신에 대해 소개해주시면 감사하겠습니다.^^</span> </div>
 		<div class="col-md-3" style="margin-bottom: 5%;">
-		<img src="<%=ctxPath %>/resources/images/${(sessionScope.oneRoom).host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; height:5%; margin-top: 3%;"/>
+		<img src="<%=request.getContextPath() %>/resources/images/profile/${oneRoom.host.profileimg}" alt="호스트프로필" style="border-radius: 55px; width:40%; height:5%; margin-top: 3%;"/>
 		</div>
 		<!-- 호스트에게 메시지 보내기 -->
 		<div>
-		<textarea id="host_error_message"  rows="4" required="required" placeholder="${(sessionScope.oneRoom).fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${checkday2-checkday1}박이 기다려집니다!"></textarea>
+		<textarea id="host_error_message"  rows="4" required="required" placeholder="${(sessionScope.oneRoom).fk_userid}님, 안녕하세요! 숙소에서 보낼 멋진 ${day_between}박이 기다려집니다!"></textarea>
 		</div>
 		<div id="host_error_message2" >호스트에게 전할 메시지를 입력하세요!</div><br><br><br><br>
 		
@@ -473,7 +468,7 @@ h3{font-size: 14pt;
 				         후기 ${reviewCount}개
 					  
 				</div> 
-				<div class="col-md-4"><img src="${(sessionScope.oneRoom).roomMainImg}" style="width: 100%; height: 8%;"/></div>
+				<div class="col-md-4"><img src="<%=request.getContextPath() %>/resources/images/becomehost/${oneRoom.roomMainImg}" style="width: 100%; height: 8%;"/></div>
 				<div class="infoDiv" >
 				<%-- 지역정보 --%>
 				<div id="map" style="height:350px;width:100%;border: 1px solid lightgray;margin-top:3%;padding:0;"></div>
@@ -584,7 +579,7 @@ h3{font-size: 14pt;
 				<div class="col-md-9">
 				 총 합계 (KRW)
 				</div>
-				<input type="text" id="pluspeople"/>
+				<!-- <input type="text" id="pluspeople"/> -->
 				<div class="col-md-3" style="margin-bottom: 3%;">
 				 ₩<span style="font-weight: bold;" id="roomtotalPrice">
 				 </span>
