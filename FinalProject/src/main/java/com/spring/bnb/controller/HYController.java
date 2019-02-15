@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -330,40 +331,37 @@ public class HYController {
 	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		List<HashMap<String,Object>> incomeMapList = null;
-		if(loginuser.getMyroomList().size()>0) {
-			List<HashMap<String,Object>> incomeList = service.getHostIncome(loginuser.getUserid());
-			
-			// 수입 차트를 그리기위한 알고리즘
-			incomeMapList = new ArrayList<HashMap<String,Object>>();
-			for(int i=0;i<loginuser.getMyroomList().size();i++) {
-				HashMap<String,Object> incomeMap = new HashMap<String,Object>();
-				incomeMap.put("name", loginuser.getMyroomList().get(i).getRoomName());
-				for(HashMap<String,Object> income : incomeList) {
-					if(income.get("roomcode").equals(loginuser.getMyroomList().get(i).getRoomcode())) {
-						int[] incomeArr = new int[12];
-						for(int j=0;j<12;j++) {
-							if(income.get(String.valueOf(j))!=null) {
-								System.out.println("income.get(j) : "+income.get(String.valueOf(j)));
-								incomeArr[j]=(int) income.get(j);
-							}
-							else {
-								System.out.println("income.get(j) : null");
-								incomeArr[j]=0;
-							}
-						}
-						incomeMap.put("data", incomeArr);
+		List<HashMap<String,Object>> incomeList = null;
+		List<HashMap<String,Object>> testList = null;
+		int myroomsize = loginuser.getMyroomList().size();
+		if(myroomsize>0) {
+			incomeList = service.getHostIncome(loginuser.getUserid());
+			testList = new ArrayList<HashMap<String,Object>>();
+			HashMap<String,Object> testMap = null;
+			for(RoomVO room : loginuser.getMyroomList()) {
+				testMap = new HashMap<String,Object>();
+				testMap.put("name", room.getRoomName());
+				int[] arr = new int[12];
+				for(HashMap<String,Object> income :incomeList) {
+					if(income.get("roomcode").equals(room.getRoomcode())) {
+						System.out.println("put!!");
+						arr[Integer.parseInt((String)income.get("paydate"))] = (int)income.get("totalprice");
 					}
 				}
-				incomeMapList.add(incomeMap);
+				testMap.put("data", Arrays.toString(arr));
 			}
+			testList.add(testMap);
 		}
 		else{
 			req.setAttribute("msg", "호스트만 접근 가능합니다.");
 			req.setAttribute("loc", "index.air");
 			return "msg";
 		}
-		req.setAttribute("incomeMapList", incomeMapList);
+		System.out.println(testList.size());
+		req.setAttribute("testList", testList);
+		req.setAttribute("testListsize", testList.size());
+		req.setAttribute("incomeList", incomeList);
+		req.setAttribute("myroomsize", myroomsize);
 		return "host/hostMain.hosttiles";
 	}
 	@RequestMapping(value = "/MemberCheckByIdAndEmail.air", method = RequestMethod.POST)
