@@ -168,22 +168,24 @@
        		}
        	});
        	$("#rsvBtn").click(function(){
-       		var checkinDate = new Date($("#checkInDate").val());
-       		var checkOutDate = new Date($("#checkOutDate").val());
-       		var diffrent = (checkOutDate-checkinDate)/(1000*60*60*24);
-       		if(checkinDate==""||checkOutDate==""){
+       		var checkincheck = $("#checkInDate").val();
+       		var checkoutcheck = $("#checkOutDate").val();
+       		if(checkincheck==""||checkoutcheck==""){
        			alert("예약날짜를 설정해 주세요.");
        			return;
        		}
+       		var checkinDate = new Date($("#checkInDate").val());
+       		var checkOutDate = new Date($("#checkOutDate").val());
+       		var diffrent = (checkOutDate-checkinDate)/(1000*60*60*24);
        		for(var i=0;i<diffrent;i++){
        			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
-       			/* for(var j=0;j<disabledDays.length;j++){
+       			for(var j=0;j<disabledDays.length;j++){
        				//alert(temp);
        				if(disabledDays[j].getTime()==temp.getTime()){
            				alert("예약 할 수 없는 날짜 입니다.");
            				return;
            			}
-       			}  */
+       			}
        		}
        		goReserve();
        	});
@@ -311,10 +313,26 @@
          	alert("저장 될 이름을 입력해주세요");
          	return;
       	}
-      	var frm = document.likeroomFrm;
-      	frm.method="GET";
-      	frm.action="likeRoom.air";
-      	frm.submit();
+      	var form_data = $("#likeroomFrm").serialize();
+      	$.ajax({
+      		url:"likeRoom.air",
+      		type:"POST",
+      		data:form_data,
+      		dataType:"JSON",
+      		success:function(json){
+      			if(json.n=="1"){
+      				alert("관심 숙소에 저장 되었습니다.");
+      				location.reload();
+      			}
+      			else{
+      				alert("이미 관심숙소에 저장된 숙소입니다.");
+      				location.reload();
+      			}
+      		},
+      		error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+      	});
 	}
   	function goReserve(){
   		var frm = document.reserveFrm;
@@ -383,7 +401,8 @@
          <%-- 침실/침대 --%>
          <div class="infoDiv" style="font-weight:bold;">
             <img src="<%=request.getContextPath()%>/resources/images/homeDetail/multiple-users-silhouette.png" />
-            <span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명(최대 ${room.max_person }명)</span>
+            <span style="margin-right:5%;margin-left:1%;">인원 ${room.basic_person }명</span>
+            <span style="margin-right:5%;margin-left:1%;">최대인원 ${room.max_person }명</span>
             <span style="margin-right:5%;">침실갯수 ${room.bedroomList.size() }개</span>
             <span style="margin-right:5%;">침대갯수 ${room.bedroomList.size() }개</span>
             <span style="margin-right:5%;">단독사용욕실갯수 ${room.bathCount }</span>
@@ -602,7 +621,7 @@
 </div>
 <%-- 관심숙소 등록 modal --%>
 <div class="modal fade" id="likeRoom" role="dialog" >
-	<form name="likeroomFrm">
+	<form name="likeroomFrm" id="likeroomFrm">
 	<input type="hidden" name="roomcode" value="${room.roomcode }">
 	<input type="hidden" name="userid" value="${loginuser.userid }">
    	<div class="modal-dialog">
