@@ -63,7 +63,7 @@ public class WCController {
 		 
 	}
 	// admin 로그아웃 세션에 저장된  loginuser 삭제하기
-	@RequestMapping(value = "/adminLogout.air", method = RequestMethod.POST)
+	@RequestMapping(value = "/adminLogout.air", method = RequestMethod.GET)
 	public String logout(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		session.invalidate();
