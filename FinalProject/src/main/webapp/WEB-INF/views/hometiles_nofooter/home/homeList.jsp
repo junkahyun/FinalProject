@@ -7,7 +7,12 @@
 	String ctxPath = request.getContextPath();
 %>
 <style type="text/css">
-	div.modal div#sido{
+
+body{
+	overflow-x : hidden;
+}
+
+div.modal div#sido{
 	margin:2%;
 } 
 div.modal button.myclose{
@@ -176,7 +181,7 @@ var flag5 = false;
 									  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 									  + "</div>"
 									  + "<div>"
-									  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
+									  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMGUNGU+" "+entry.ROOMDONG+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 									  + "</div>"
 									  + "<div>"
 									  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -386,7 +391,7 @@ var flag5 = false;
 						  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 						  + "</div>"
 						  + "<div>"
-						  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
+						  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMGUNGU+" "+entry.ROOMDONG+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 						  + "</div>"
 						  + "<div>"
 						  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -474,7 +479,7 @@ var flag5 = false;
 							  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 							  + "</div>"
 							  + "<div>"
-							  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMSIDO+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
+							  + "<span style='font-size: 0.8em; font-weight: bold;'>["+entry.ROOMGUNGU+" "+entry.ROOMDONG+"]&nbsp;"+entry.ROOMTYPENAME+" · 방 "+entry.ROOMCOUNT+"개 · 화장실 "+entry.BATHCOUNT+"개</span>"
 							  + "</div>"
 							  + "<div>"
 							  + "<span id='roomName"+entryIndex+"' style='font-weight:bold; font-size:1.2em; width: 100%; border: 0px;'>"+entry.ROOMNAME+"</span>"
@@ -770,7 +775,7 @@ var flag5 = false;
 		            		<input type="hidden" id="lng${status.index}" class="lng" name="lng" value="${RList.longitude }" />
 	                    </div>
 	                    <div>
-	                        <span style="font-size: 0.8em; font-weight: bold;">[${RList.roomSido}]&nbsp;${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
+	                        <span style="font-size: 0.8em; font-weight: bold;">[${RList.roomSigungu} ${RList.roomBname}]&nbsp;${RList.roomType_name} · 침실 ${RList.roomCount}개 · 화장실 ${RList.bathCount}개</span>
 	                    </div>
 	                    <div>
 	                        <input id="roomName${status.index}" style="font-weight:bold; font-size:1.2em; width: 100%; border: 0px;" value="${RList.roomName }" readonly="readonly"/>                       

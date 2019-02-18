@@ -4,6 +4,7 @@ import java.util.*;
  
 import javax.servlet.http.*;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,15 @@ public class WCController {
 			return "admin/index.admintiles";
 		}
 		 
+	}
+	// admin 로그아웃 세션에 저장된  loginuser 삭제하기
+	@RequestMapping(value = "/adminLogout.air", method = RequestMethod.GET)
+	public String logout(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		session.invalidate();
+		req.setAttribute("msg", "로그아웃 되었습니다");
+		req.setAttribute("loc", "index.air");
+		return "msg";
 	}
 	
 	@RequestMapping(value = "/lodgingManage.air", method = RequestMethod.GET)

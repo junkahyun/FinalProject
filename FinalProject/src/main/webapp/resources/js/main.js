@@ -57,6 +57,10 @@ $(document).ready(function(){
 				var checkin = $("#startdate").val();
 				var checkout = $("#enddate").val();				
 				
+				var indate = checkin.substring(8);
+				var outdate = checkout.substring(8);
+				//alert("checkin : " + checkin);
+				
 				var flag = false;
 				
 				if(city == "도시"){
@@ -74,12 +78,17 @@ $(document).ready(function(){
 					flag = true;
 					return;
 				}
+				 
 				if(!flag){
-					var frm = document.goListFrm;
-					//alert(frm.sido.value + frm.gugun.value + frm.dong.value);
-					frm.method = "GET"; 
-					frm.action = "list.air";
-					frm.submit();	
+					if(parseInt(outdate) - parseInt(indate) < 0 ){
+						alert("체크아웃 날짜가 체크인 날짜보다 먼저일 수 없습니다.");
+					}else{
+						var frm = document.goListFrm;
+						//alert(frm.sido.value + frm.gugun.value + frm.dong.value);
+						frm.method = "GET"; 
+						frm.action = "list.air";
+						frm.submit();	
+					} 
 				} 
 			});
 			
@@ -272,11 +281,16 @@ function goLogin(){
        dataType:"json",
        success:function(json){
           var logincheck = json.logincheck;
-          if(logincheck=="true"){
+          var userid = json.userid;
+          
+          //alert(userid);
+          if(logincheck=="true" && userid != "admin"){
              alert("로그인 되었습니다.");
              location.reload();
-          } 
-          else{
+          }else if(logincheck=="true" && userid == "admin"){
+        	  alert("관리자로 로그인 되었습니다.");
+        	  location.href="admin.air";
+          }else{
              alert("아이디와 비밀번호를 확인해주세요.");
           }
        },

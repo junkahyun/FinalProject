@@ -125,12 +125,6 @@ public class HYController {
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
 		if(loginuser==null) logincheck = "false";
-		else if("admin".equals(loginuser.getUserid())) {
-			HttpSession session = req.getSession();
-			session.setAttribute("loginuser", loginuser);
-			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/admintiles/admin/index.jsp");
-			dispatcher.forward(req, res);
-		}
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
 			logincheck = "true";
@@ -138,6 +132,7 @@ public class HYController {
 			session.setAttribute("loginuser", loginuser);
 		}
 		jobj.put("logincheck", logincheck);
+		jobj.put("userid", loginuser.getUserid());
 		String str_json = jobj.toString();
 		System.out.println(str_json);
 		req.setAttribute("str_json", str_json);
@@ -157,22 +152,22 @@ public class HYController {
 	}
 
 	// 숙소 관심테이블에 저장하기
-	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.POST)
 	public String requireLogin_likeRoom(HttpServletRequest req,HttpServletResponse res ,MemberVO member) {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
-		System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
+		//System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);
 		paraMap.put("SAVETITLE", saveTitle);
-		service.insertLikeRoom(paraMap);
-		/*JSONObject jobj = new JSONObject();
+		int n = service.insertLikeRoom(paraMap);
+		JSONObject jobj = new JSONObject();
 		jobj.put("n", n);
 		String str_json = jobj.toString();
-		req.setAttribute("str_json", str_json);*/
-		return "home/homeDetail.hometiles";
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 	
 	// 로그인 유저의 관심 숙소 리스트 불러오기
@@ -337,9 +332,8 @@ public class HYController {
 		if(myroomsize>0) {
 			incomeList = service.getHostIncome(loginuser.getUserid());
 			testList = new ArrayList<HashMap<String,Object>>();
-			HashMap<String,Object> testMap = null;
 			for(RoomVO room : loginuser.getMyroomList()) {
-				testMap = new HashMap<String,Object>();
+				HashMap<String,Object> testMap = new HashMap<String,Object>();
 				testMap.put("name", room.getRoomName());
 				int[] arr = new int[12];
 				for(HashMap<String,Object> income :incomeList) {
@@ -349,8 +343,9 @@ public class HYController {
 					}
 				}
 				testMap.put("data", Arrays.toString(arr));
+				testList.add(testMap);
 			}
-			testList.add(testMap);
+			
 		}
 		else{
 			req.setAttribute("msg", "호스트만 접근 가능합니다.");

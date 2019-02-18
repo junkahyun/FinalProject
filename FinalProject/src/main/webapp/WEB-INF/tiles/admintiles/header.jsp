@@ -28,7 +28,7 @@
 		
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="<%= request.getContextPath() %>/index.air">Visit Site</a></li>
-			<li><a href="#">로그아웃</a></li> 
+			<li><a href="adminLogout.air">로그아웃</a></li> 
 		</ul> 
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
