@@ -162,17 +162,17 @@ public class HYController {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
 		String saveTitle = req.getParameter("saveTitle");
-		System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
+		//System.out.println("roomcode : "+roomcode+"/ userid : "+userid+"/saveTitle : "+saveTitle);
 		HashMap<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("USERID", userid);
 		paraMap.put("ROOMCODE", roomcode);
 		paraMap.put("SAVETITLE", saveTitle);
-		service.insertLikeRoom(paraMap);
-		/*JSONObject jobj = new JSONObject();
+		int n = service.insertLikeRoom(paraMap);
+		JSONObject jobj = new JSONObject();
 		jobj.put("n", n);
 		String str_json = jobj.toString();
-		req.setAttribute("str_json", str_json);*/
-		return "home/homeDetail.hometiles";
+		req.setAttribute("str_json", str_json);
+		return "JSON";
 	}
 	
 	// 로그인 유저의 관심 숙소 리스트 불러오기
