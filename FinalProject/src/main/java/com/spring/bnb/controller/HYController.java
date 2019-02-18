@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -326,30 +329,61 @@ public class HYController {
 	// 호스트 메인페이지
 	@RequestMapping(value = "/hostMain.air", method = RequestMethod.GET)
 	public String requireLogin_hostMain(HttpServletRequest req,HttpServletResponse res) {
-		List<HashMap<String,Object>> income = null;
-		int thisMonthIcome = 0;
 		HttpSession session = req.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		if(loginuser.getMyroomList().size()>0) {
-			income = service.getHostIncome(loginuser.getUserid());
-			Calendar cal = Calendar.getInstance();
-			//int month = cal.get(Calendar.MONTH);
-			for(HashMap<String,Object> hash : income) {
-				//if((int)hash.get("month")==(month+1)) thisMonthIcome = (int) hash.get("sumTotalPrice");
-				String roomname = service.getRoomByCode((String)hash.get("roomcode")).getRoomName();
-				hash.put("roomname", roomname);
+		List<HashMap<String,Object>> incomeList = null;
+		List<HashMap<String,Object>> testList = null;
+		int myroomsize = loginuser.getMyroomList().size();
+		if(myroomsize>0) {
+			incomeList = service.getHostIncome(loginuser.getUserid());
+			testList = new ArrayList<HashMap<String,Object>>();
+			HashMap<String,Object> testMap = null;
+			for(RoomVO room : loginuser.getMyroomList()) {
+				testMap = new HashMap<String,Object>();
+				testMap.put("name", room.getRoomName());
+				int[] arr = new int[12];
+				for(HashMap<String,Object> income :incomeList) {
+					if(income.get("roomcode").equals(room.getRoomcode())) {
+						System.out.println("put!!");
+						arr[Integer.parseInt((String)income.get("paydate"))] = (int)income.get("totalprice");
+					}
+				}
+				testMap.put("data", Arrays.toString(arr));
 			}
+			testList.add(testMap);
 		}
 		else{
 			req.setAttribute("msg", "호스트만 접근 가능합니다.");
 			req.setAttribute("loc", "index.air");
 			return "msg";
 		}
-		System.out.println(income.size());
-		req.setAttribute("income", income);
-		req.setAttribute("thisMonthIcome", thisMonthIcome);
+		System.out.println(testList.size());
+		req.setAttribute("testList", testList);
+		req.setAttribute("testListsize", testList.size());
+		req.setAttribute("incomeList", incomeList);
+		req.setAttribute("myroomsize", myroomsize);
 		return "host/hostMain.hosttiles";
 	}
-	
+	@RequestMapping(value = "/MemberCheckByIdAndEmail.air", method = RequestMethod.POST)
+	public String MemberCheckByIdAndEmail(HttpServletRequest req) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		String repwdid = req.getParameter("repwdid");
+		String repwdemail = req.getParameter("repwdemail");
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("ID", repwdid);
+		paraMap.put("EMAIL", aes.encrypt(repwdemail));
+		int n = service.MemberCheckByIdAndEmail(paraMap);
+		JSONObject jobj = new JSONObject();
+		jobj.put("n", n);
+		req.setAttribute("str_json", jobj.toString());;
+		return "JSON";
+	}
+	/*@RequestMapping(value = "/sendCodeForPwd.air", method = RequestMethod.POST)
+	public String sendCodeForPwd(HttpServletRequest req) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		String email = req.getParameter("email");
+		JSONObject jobj = new JSONObject();
+		jobj.put("code", code);
+		req.setAttribute("str_json", jobj.toString());;
+		return "JSON";
+	}*/
 }
 

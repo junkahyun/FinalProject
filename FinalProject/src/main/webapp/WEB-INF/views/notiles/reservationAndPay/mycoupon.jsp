@@ -132,7 +132,7 @@ th{font-weight: bold; font-size: 13pt;
 						</c:if>
 						<c:if test="${mycoupon.USEDATE != null}">
 							<td>사용불가</td>
-							<td><button class="btn btn-danger" id="useCoupon" onclick="NouseMyCoupon('${mycoupon.CPCODE}','${mycoupon.cpname}')">취소</button></td>			
+							<td><button class="btn btn-danger" id="useCoupon" onclick="NouseMyCoupon('${mycoupon.CPCODE}','${mycoupon.cpname}')" disabled="disabled">사용</button></td>			
 						</c:if>
 						
 							

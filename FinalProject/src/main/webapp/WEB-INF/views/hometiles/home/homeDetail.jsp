@@ -177,13 +177,13 @@
        		}
        		for(var i=0;i<diffrent;i++){
        			var temp = new Date(checkinDate.getFullYear(),checkinDate.getMonth(),checkinDate.getDate()+(i+1));
-       			/* for(var j=0;j<disabledDays.length;j++){
+       			for(var j=0;j<disabledDays.length;j++){
        				//alert(temp);
        				if(disabledDays[j].getTime()==temp.getTime()){
            				alert("예약 할 수 없는 날짜 입니다.");
            				return;
            			}
-       			}  */
+       			}
        		}
        		goReserve();
        	});
@@ -604,8 +604,8 @@
 <%-- 관심숙소 등록 modal --%>
 <div class="modal fade" id="likeRoom" role="dialog" >
 	<form name="likeroomFrm">
-	<input name="roomcode" value="${room.roomcode }">
-	<input name="userid" value="${loginuser.userid }">
+	<input type="hidden" name="roomcode" value="${room.roomcode }">
+	<input type="hidden" name="userid" value="${loginuser.userid }">
    	<div class="modal-dialog">
       	<div class="modal-content" style="padding:2%;">
          	<div style="text-align:center;margin-bottom:3%;font-weight:bold;">관심 숙소로 등록 될 이름을 입력해주세요</div>

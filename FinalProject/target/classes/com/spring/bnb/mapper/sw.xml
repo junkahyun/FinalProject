@@ -178,7 +178,7 @@
 	</select>
 	
 	<select id="getAllHomeList" resultType="com.spring.bnb.model.RoomVO">
-		select * from room
+		select * from room A join roomType B on A.fk_roomtype_idx = B.roomtype_idx
 	</select>
 
 </mapper>

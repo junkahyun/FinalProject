@@ -44,11 +44,23 @@
 	<resultMap type="HashMap" id="optionList">
 		<result property="optionname" column="optionname" javaType="String"/>
 		<result property="optionicon" column="optionicon" javaType="String"/>
+		<result property="option_idx" column="option_idx" javaType="String"/>
 	</resultMap>
 	
 	<select id="getRoomOptionList" parameterType="String" resultMap="optionList">
-		select optionname, optionicon
+		select optionname, optionicon, option_idx
 		from roomoption ro join options o on option_idx = fk_option_idx
+		where fk_roomcode = #{roomcode}
+	</select>
+	
+	<resultMap type="HashMap" id="ruleList">
+		<result property="rule_name" column="rule_name" javaType="String"/>
+		<result property="fk_rule_idx" column="fk_rule_idx" javaType="String"/>
+	</resultMap>
+	
+	<select id="getRoomRuleList" parameterType="String" resultMap="ruleList">
+		select fk_rule_idx, rule_name
+		from roomrule r join allrule a on a.rule_idx = r.fk_rule_idx
 		where fk_roomcode = #{roomcode}
 	</select>
 	
@@ -175,4 +187,46 @@
 						, max_person = to_number(#{max_person}), roomCount = to_number(#{roomCount}), bathCount = to_number(#{bathCount})
 		where roomcode = #{roomcode}
 	</update>
+	
+	<!-- 옵션 가져오기 -->
+    <resultMap type="HashMap" id="options">
+        <result property="option_idx" column="option_idx" javaType="String" />
+        <result property="optionname" column="optionName" javaType="String" />
+   </resultMap>
+   
+    <select id="getOptionList" resultMap="options">
+      select option_idx, optionName
+      from options
+      order by option_idx
+   </select>
+   
+   	<!-- 이용규칙 가져오기 -->
+    <resultMap type="HashMap" id="rule">
+        <result property="rule_idx" column="rule_idx" javaType="String" />
+		<result property="rule_name" column="rule_name" javaType="String" />
+   	</resultMap>
+   
+    <select id="getRuleList" resultMap="rule">
+      	select rule_idx, rule_name
+      	from allrule
+      	order by rule_idx
+   	</select>
+   
+   	<delete id="deleteOption" parameterType="String">
+		delete roomoption where fk_roomcode = #{roomcode}
+   	</delete>
+   	
+   	<delete id="deleteRule" parameterType="String">
+   		delete roomrule where fk_roomcode = #{roomcode} 
+   	</delete>
+   	
+   	<insert id="insertOption" parameterType="HashMap">
+		insert into roomOption(roomoption_idx, fk_option_idx, fk_roomcode)
+      	values(roomoption_idx_sep.nextval, #{option}, #{roomcode})
+   	</insert>
+   	
+   	<insert id="insertRule" parameterType="HashMap">
+   		insert into roomrule(roomrule_idx, fk_rule_idx, fk_roomcode)
+      	values(roomrule_idx_seq.nextval, #{rule}, #{roomcode})
+    </insert> 
 </mapper>

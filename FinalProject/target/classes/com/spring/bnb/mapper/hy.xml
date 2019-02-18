@@ -210,5 +210,8 @@
 		group by grouping sets ((v.fk_roomcode,to_char(v.paydate,'mm')))
 	</select>
 	
+	<select id="MemberCheckByIdAndEmail" parameterType="HashMap" resultType="Integer">
+		select count(*) from member where userid=#{ID} and email=#{EMAIL}
+	</select>
 </mapper>
 

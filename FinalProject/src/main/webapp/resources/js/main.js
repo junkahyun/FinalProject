@@ -57,6 +57,10 @@ $(document).ready(function(){
 				var checkin = $("#startdate").val();
 				var checkout = $("#enddate").val();				
 				
+				var indate = checkin.substring(8);
+				var outdate = checkout.substring(8);
+				//alert("checkin : " + checkin);
+				
 				var flag = false;
 				
 				if(city == "도시"){
@@ -74,12 +78,17 @@ $(document).ready(function(){
 					flag = true;
 					return;
 				}
+				 
 				if(!flag){
-					var frm = document.goListFrm;
-					//alert(frm.sido.value + frm.gugun.value + frm.dong.value);
-					frm.method = "GET"; 
-					frm.action = "list.air";
-					frm.submit();	
+					if(parseInt(outdate) - parseInt(indate) < 0 ){
+						alert("체크아웃 날짜가 체크인 날짜보다 먼저일 수 없습니다.");
+					}else{
+						var frm = document.goListFrm;
+						//alert(frm.sido.value + frm.gugun.value + frm.dong.value);
+						frm.method = "GET"; 
+						frm.action = "list.air";
+						frm.submit();	
+					} 
 				} 
 			});
 			
@@ -308,30 +317,7 @@ function goLogin(){
  function goHostMain(){
     location.href="hostMain.air";
  }
- function myLikeRoomList(){
-    var form_data = {"userid":"${loginuser.userid}"};
-    $.ajax({
-       url:"myLikeRoomList.air",
-       type:"GET",
-       data:form_data,
-       dataType:"JSON",
-       success:function(json){
-          if(json.length<1){
-             alert("저장 된 숙소가 없습니다.");
-             return;
-          }
-          var html = "";
-          $.each(json, function(entryIndex,entry){
-             html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
-                   + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
-          });
-          $("#myLikeRoomList").html(html);
-       },
-       error: function(request, status, error){
-            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-        }
-    });
- }
+ 
  function readURL(input) {
      if (input.files && input.files[0]) {
          var reader = new FileReader();

@@ -9,30 +9,28 @@
 <script>
 $(document).ready(function(){
 	var today = new Date();
-	var income = [];
+	var dataArr = [];
 	var title = "20"+today.getYear().toString().substring(1,3)+"년 수입현황";
-	var roomsize = "${loginuser.myroomList.size()}"
-	for(var i=0;i<parseInt(roomsize);i++){
-		for(var i=0;i<12;i++){
-			var roomcode = "${loginuser.myroomList.get(i).roomcode}";
-			if(roomcode=="${income.roomcode}"){
-				var paymonth = "${income.paydate}";
-				if(parseInt(paymonth)==i){
-					
-				}
-			}
-		}	
+	var testListsize = parseInt("${testListsize}");
+	if(${income.size()==0}){
+		alert("숙소 수입이 없어여 ㅠㅠ");
+	}
+	else{
+		for(var i=0;i<testListsize;i++){
+			dataArr.push({"name":"${testList.get(i).name}","data":${testList.get(i).data}});
+		}
+		console.log(dataArr);
 	}
 	Highcharts.chart('container', {
 	    title: {
-	        text: 'Solar Employment Growth by Sector, 2010-2016'
+	        text: title
 	    },
 	    subtitle: {
-	        text: 'Source: thesolarfoundation.com'
+	        text: ''
 	    },
 	    yAxis: {
 	        title: {
-	            text: 'Number of Employees'
+	            text: 'income'
 	        }
 	    },
 	    legend: {
@@ -45,29 +43,14 @@ $(document).ready(function(){
 	            label: {
 	                connectorAllowed: false
 	            },
-	            pointStart: 2010
+	            pointStart: 1
 	        }
 	    },
-	    series: [{
-	        name: 'Installation',
-	        data: income
-	    }, {
-	        name: 'Manufacturing',
-	        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-	    }, {
-	        name: 'Sales & Distribution',
-	        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-	    }, {
-	        name: 'Project Development',
-	        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-	    }, {
-	        name: 'Other',
-	        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-	    }],
+	    series: dataArr,
 	    responsive: {
 	        rules: [{
 	            condition: {
-	                maxWidth: 500
+	                maxWidth: 600
 	            },
 	            chartOptions: {
 	                legend: {
@@ -95,23 +78,23 @@ $(document).ready(function(){
 			<%-- </c:if> --%>
 		</div>
 		<div class="col-md-3" style="width: 250px;margin: 100px 2%;">
-			<c:set var="thisMonthIncome" value="${thisMonthIcome }" />
+			<%-- <c:set var="thisMonthIncome" value="${thisMonthIcome }" /> 
 			<c:set var="fees" value="${Math.round(thisMonthIcome*0.3) }" />
-			<c:set var="thisMonthSum" value="${thisMonthIncome-fees }" />
-			<div style="margin: 2% 0;"><b>이번달 수입 : <span style="text-align:right;"><fmt:formatNumber pattern="#,###" value="${thisMonthIncome }" />won</span></b></div>
-			<div style="margin: 2% 0;"><b>수수료 : <fmt:formatNumber pattern="#,###" value="${fees }" />won</b></div>
-			<div style="border-top: 4px double #efefef; padding-top: 3%;"><b>순 수익 : <fmt:formatNumber pattern="#,###" value="${thisMonthSum }" />won</b></div>
+			<c:set var="thisMonthSum" value="${thisMonthIncome-fees }" /> --%>
+			<div style="margin: 2% 0;"><b>이번달 수입 : <span style="text-align:right;"><fmt:formatNumber pattern="#,###" value="1000" />won</span></b></div>
+			<div style="margin: 2% 0;"><b>수수료 : <fmt:formatNumber pattern="#,###" value="1000" />won</b></div>
+			<div style="border-top: 4px double #efefef; padding-top: 3%;"><b>순 수익 : <fmt:formatNumber pattern="#,###" value="1000" />won</b></div>
 		</div>
 	</div>
 	<div class="row" style="padding:0;">
-		<div class="col-md-9 card" style="margin-top:3%;padding:0;">
+		<div class="col-md-12 card" style="margin-top:3%;padding:0;">
 			<div style="width:100%; box-shadow: 3px 3px lightgray;border: 1px solid #efefef;">
 				<div style="padding: 1%; font-size:1.5em;height:50px;font-weight:bold; color:gray;border-bottom: 4px double #efefef;">
 					New Reservation
 					<img src="<%=request.getContextPath()%>/resources/images/cancel.png" style="position:absolute;width:28px;height:28px; right: 10px; cursor: pointer;" onClick="" />
 				</div>
 				<div class="row" style="padding:0;margin: 5px 1%;height:250px;">
-					<div class="col-md-8" style="padding: 3%;">
+					<div class="col-md-9" style="padding: 3%;">
 						<div>rsv.roomcode</div>
 						<div>rsv.예약자명</div>
 						<div>rsv.예약자연락처</div>
@@ -122,7 +105,7 @@ $(document).ready(function(){
 						<div>rsv.결제날짜 및 결제 요금</div>
 						<div>rsv.메세지</div>
 					</div>
-					<div class="col-md-4" style="padding:0;border: 1px solid;"><img src="" style="height:240px;width:100%;"></div>
+					<div class="col-md-3" style="padding:0;border: 1px solid;"><img src="" style="height:240px;width:100%;"></div>
 				</div>
 			</div>
 		</div>
