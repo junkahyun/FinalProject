@@ -5,10 +5,12 @@
 <head>
 <meta charset="UTF-8">
 </head>
+
+
 <body>
 	<div align="center">
 		<div class="col-md-6">df</div>
-		<div class="col-md-6">dfsdf</div>
+		<div class="col-md-6">${msg}</div>
 	</div>
 </body>
 </html>

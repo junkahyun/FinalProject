@@ -9,21 +9,28 @@
 <script>
 $(document).ready(function(){
 	var today = new Date();
-	var income = [];
+	var dataArr = [];
 	var title = "20"+today.getYear().toString().substring(1,3)+"년 수입현황";
+	var testListsize = parseInt("${testListsize}");
 	if(${income.size()==0}){
 		alert("숙소 수입이 없어여 ㅠㅠ");
 	}
+	else{
+		for(var i=0;i<testListsize;i++){
+			dataArr.push({"name":"${testList.get(i).name}","data":${testList.get(i).data}});
+		}
+		console.log(dataArr);
+	}
 	Highcharts.chart('container', {
 	    title: {
-	        text: 'Solar Employment Growth by Sector, 2010-2016'
+	        text: title
 	    },
 	    subtitle: {
-	        text: 'Source: thesolarfoundation.com'
+	        text: ''
 	    },
 	    yAxis: {
 	        title: {
-	            text: 'Number of Employees'
+	            text: 'income'
 	        }
 	    },
 	    legend: {
@@ -39,23 +46,11 @@ $(document).ready(function(){
 	            pointStart: 1
 	        }
 	    },
-	    series: [{
-	        name: 'Installation',
-	        data: income
-	    }, {
-	        name: 'Manufacturing',
-	        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-	    }, {
-	        name: 'Sales & Distribution',
-	        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-	    }, {
-	        name: 'Project Development',
-	        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-	    }],
+	    series: dataArr,
 	    responsive: {
 	        rules: [{
 	            condition: {
-	                maxWidth: 500
+	                maxWidth: 600
 	            },
 	            chartOptions: {
 	                legend: {

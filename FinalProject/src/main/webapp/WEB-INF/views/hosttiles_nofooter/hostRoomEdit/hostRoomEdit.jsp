@@ -169,21 +169,22 @@ div{border: /* 1px solid gray;  */
 		
 	}
 	
+	function gochangeConvenienceAndRule() {
+		var frm = document.changeConvenienceAndRule;
+		frm.action = "changeConvenienceAndRule.air";
+		frm.method = "POST";
+		frm.submit();
+	}
+	
 </script>
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
 	<div class="col-md-8">
 	<h2 align="left" style="font-weight: bold; margin-left: 1.2%;">${roomvo.roomName }</h2>
 	</div>
-	<button type="button" class="btn" style="margin-left: 50%;"><span class="editbtn">달력보기</span></button>
-	<button type="button" class="btn" style="background-color: #008489;">
-	<span style="color: white; font-weight: bold;">숙소미리보기</span>
-	</button>
-	
-	
-	
+		
 	<!-- 드롭다운 -->
-	<div class="dropdown" align="left" style="margin-top: 2%;">
+	<div class="dropdown col-md-12" align="left" style="margin-top: 2%;">
     <span class="dropdown-toggle" data-toggle="dropdown" style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; margin-left: 1.2%;">숙소변경하기
     <span class="caret"></span></span>
 	    <ul class="dropdown-menu" style="width: 45%; font-size: 15pt;padding:0;">
@@ -240,10 +241,7 @@ div{border: /* 1px solid gray;  */
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >제목 및 설명</h4>
 				<span style="font-weight: bold; font-size: 	11pt;">${roomvo.roomName }</span><br><br>
-				<span style=" font-size: 13pt; ">${roomvo.roomInfo }</span><br><br>
-				<a href="#">숙소 이름 변경</a><br><br>
-				<a href="#">숙소 상세설명</a><br><br>
-				<a href="#">기타 메모 추가</a><br><br>
+				<span style=" font-size: 13pt; ">${roomvo.roomInfo }</span>
 			</div>
 			
 			<div class="col-md-2" style="margin-top: 3%; ">
@@ -278,26 +276,40 @@ div{border: /* 1px solid gray;  */
 	    <div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h4 >편의시설 및 이용규칙</h4>
-				<div class="bedAndPeople" >
-					<span style="margin-right: 45%;">숙박가능인원: <span class="number">5</span></span>
-					<span>침대 수: <span class="number">5</span></span>
+				<h4>편의 시설</h4>
+				<div class="col-md-12" style="margin-bottom: 1%;">
+				<c:forEach items="${roomvo.optionList}" var="map" varStatus="status"> 
+				 	<div class="row col-md-6" style="border: 0px solid red; padding-left: 15px;"> 
+                        <div class="col-md-1" style="border: 0px solid black; padding: 0 ">
+                        	<img alt="" src="<%=request.getContextPath()%>/resources/images/optionicon/${map.optionicon }">
+                        </div>
+                        <div class="col-md-10" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
+                              <label for="${status.count}option">
+                              	<span id="cklist">${map.optionname }</span><br/>
+                              	<input type="hidden" value="${map.option_idx}"/>		                              
+                              </label>		                            
+                        </div>  
+                 	</div>
+				</c:forEach>
 				</div>
-				<div class="bedAndPeople">
-					<span style="margin-right: 55%;">욕실: <span class="number">1</span></span>
-					<span>건물유형: <span class="number">${roomvo.buildType }</span></span>
-				</div>
-				<div class="bedAndPeople">
-					<span style="margin-right: 46%;">침대종류: <span class="number">침대</span></span>
-					<span>숙소유형: <span class="number">개인실</span></span>
-				</div >
-				<div class="bedAndPeople">
-					<span style="margin-right: 45%;">침실: <span class="number">8</span></span>
-				</div>
+				<h4>이용 규칙</h4>
+				<c:forEach items="${roomvo.ruleList}" var="map" varStatus="status"> 
+				 	<div class="row col-md-6" style="border: 0px solid red; padding-left: 15px;"> 
+                        <div class="col-md-11" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
+                              <label for="${status.count}option">
+                              	<span id="cklist">${map.rule_name }</span><br/>
+                              	<input type="hidden" value="${map.fk_rule_idx}"/>		                              
+                              </label>		                            
+                        </div>  
+                 	</div>
+				</c:forEach>	
 			</div>
-			
-			<div class="col-md-2" style="margin-top: 3%; ">
-		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
+			<form name="changeConvenienceAndRule">
+			<div class="col-md-2" style="margin-top: 3%;">
+		  		<input type="button" class="btn editbtn" value="수정" onclick="gochangeConvenienceAndRule();"/>
+		  		<input type="hidden" id="roomcode" name="roomcode" value="${roomvo.roomcode }">
 		    </div>
+		    </form>
 	    </div>
 	    <hr align="left" > 
 	    
@@ -414,7 +426,7 @@ div{border: /* 1px solid gray;  */
 	    </div>
 	    
 	    <!-- 숙박인원 -->
-	    <div class="col-md-12" >
+	    <!-- <div class="col-md-12" >
 			<div class="col-md-9" align="left" id="detail" class="tabcontent" style="margin-bottom: 2%;">
 				<h3 >숙박 인원</h3>
 				<div class="bedAndPeople" style="margin-top: 8%;">
@@ -434,7 +446,7 @@ div{border: /* 1px solid gray;  */
 			<div class="col-md-2" style="margin-top: 3%; ">
 		  		<button type="button" class="btn"><span class="editbtn">수정</span></button>
 		    </div>
-	    </div>
+	    </div> -->
 	</div>
 	<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
 	

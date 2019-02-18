@@ -52,6 +52,32 @@
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/bootstrap.min.js"></script>	
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript" src="<%=ctxPath %>/resources/js/main.js"></script>
+	<script type="text/javascript">
+	function myLikeRoomList(){
+	    var form_data = {"userid":"${loginuser.userid}"};
+	    $.ajax({
+	       url:"myLikeRoomList.air",
+	       type:"GET",
+	       data:form_data,
+	       dataType:"JSON",
+	       success:function(json){
+	          if(json.length<1){
+	             alert("저장 된 숙소가 없습니다.");
+	             return;
+	          }
+	          var html = "";
+	          $.each(json, function(entryIndex,entry){
+	             html+="<div class='row likeRoom noSpace' style='width:100%;border-bottom: 1px solid lightgray;margin-top:3%;padding-bottom:3%;'><div class='col-md-8' style='color:#148781'>"+entry.saveTitle+"</div>"
+	                   + "<div class='col-md-4 noSpace'><img src='<%=request.getContextPath() %>/resources/images/homeDetail/68d2bca8-bf81-489a-9ba7-b6a24f91557d.webp' style='width:100%; height:80px;padding:0;margin:0;'></div></div>";
+	          });
+	          $("#myLikeRoomList").html(html);
+	       },
+	       error: function(request, status, error){
+	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	        }
+	    });
+	 }
+	</script>
 </head>
 <body ondragstart="return false;" ondrop="return false;">
 	<header>
@@ -62,13 +88,14 @@
 			<div class="col-md-6">
 			<c:if test="${loginuser==null }">
 				<ul id="util_menu" class="no_margin-right">
+					<li><a href="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">게시판</a></li>
 					<li><a href="#">도움말</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></li>
 				 </c:if>	 
 		         <c:if test="${loginuser!=null }">
 		         <ul id="util_menu" > 
-		         <div class="headermenus">
+		         <div class="headermenus" style="width: 120%;">
 		            <c:if test="${loginuser.myroomList==null }">
 		           		<div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
 		            </c:if>
@@ -87,7 +114,7 @@
 			               </li>
 			             </ul> 
 		            </div>
-		            <div class="headermenu" onClick="">게시판</div>
+		            <div class="headermenu" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">게시판</div>
 		            <div class="headermenu" onClick="">메세지</div>
 		            <div class="headermenu" onClick="">도움말</div>
 		

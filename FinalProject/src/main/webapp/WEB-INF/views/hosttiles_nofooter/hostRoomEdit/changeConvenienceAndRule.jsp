@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<meta charset="utf-8">
+<!-- <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <title>Insert title here</title>
 </head>
 
@@ -48,35 +48,67 @@ select:focus {
 
 	$(document).ready(function(){
 		
-		$(".successbtn").css('opacity',0.5);
+		$(".option").click(function(){
+
+  	      $(".option").each(function(){
+  	      	var check = $(this).prop("checked");
+  	      	
+  	      	if(check){
+  	      		$(this).parent().find("label").css("background-color","#148487");
+  	      	}
+  	      	else{
+  	      		$(this).parent().find("label").css("background-color","white");
+  	      	}
+  	      });
+  	      		
+    	});
 		
-		$(".panel-default").click(function(){
-			$(this).addClass("click");
-			$(".successbtn").css('opacity',1); 
+		$(".rule").click(function(){
+		
+		   $(".rule").each(function(){
+		   	var check = $(this).prop("checked");
+		   	
+		   	if(check){
+		   		$(this).parent().find("label").css("background-color","#148487");
+		   	}
+		   	else{
+		   		$(this).parent().find("label").css("background-color","white");
+		   	}
+		   });
+		   	
 		});
-		
-		
 	});
 	
-	function changeCheckInOut(){
-		alert("이용요금 변경 확인");
+	function goRoomList(roomcode){
+		location.href="hostRoomEdit.air?roomcode="+roomcode;
+	}
+	
+	function saveOptionAndRule(){
+		var frm = document.optionAndrule;
 		
-		var frm = document.changeInOut;
-		frm.method="POST";
-		frm.action="";
-		//frm.submit();
+		var optionchk = $('input[name="optionchk"]:checked').val();
+		var rulechk = $('input[name="rulechk"]:checked').val();
+		
+		if(optionchk == null || rulechk == null){
+			alert("옵션 또는 규칙을 정해주세요.");
+			return;
+		}
+		frm.action = "changeOptionAndRule.air";
+		frm.method = "GET";
+		frm.submit();
 	}
 
 </script>
 
 
 <div class="col-md-12" style="margin-top: 5%; width: 75%; margin-left: 22%;">
-   <i class="fas fa-angle-left"></i>&nbsp;<a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; ">뒤로</a>
+   <i class="fas fa-angle-left"></i>&nbsp;
+   <a style="font-size: 13pt; color: #008489; cursor: pointer; font-weight: bold; "onclick="goRoomList('${roomcode }');">수정사항으로 돌아가기</a>
 
 	<h3 >어떤 편의시설을 제공하시나요?</h3>
 	<!-- 체크인과 체크아웃 -->
 	<hr style="width: 50%;" align="left">
-	<div>
+	<!-- <div>
 		<div class="col-md-6" style="width:25%;">
 			<div style="font-size: 0.7rem; margin-bottom: 5%;">
 				<i class="fas fa-check-square fa-3x" style="cursor: pointer; color: #008489;"></i>&nbsp;&nbsp;
@@ -91,13 +123,59 @@ select:focus {
 			</div>
 			
 		</div>
+	</div> -->
+	<form name="optionAndrule">
+	<input type="hidden" id="roomcode" name="roomcode" value="${roomcode }">
+	<div class="row" id="fourth">
+         <div class="row" style="padding: 0; border: 0px solid green;"  >
+            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid blue;  width: 50%;">
+            
+				<c:forEach items="${options}" var="map" varStatus="status"> 
+				 	<div class="row" style="border: 0px solid red; padding-left: 15px;"> 
+                        <div class="col-md-1" style="border: 0px solid black;">
+                              <input type="checkbox" value="${map.option_idx}" name="optionchk" class="option" id="${status.count}option" style="display: none;"/>
+                              <label for="${status.count}option" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
+                        </div>
+                        <div class="col-md-10" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
+                              <label for="${status.count}option">
+                              	<span id="cklist">${map.optionname }</span><br/>
+                              	<input type="hidden" value="${map.option_idx}"/>		                              
+                              </label>		                            
+                        </div>  
+                 	</div>
+                 </c:forEach>	
+                 	                 
+            </div>
+         </div>
+
+       
+        
+        <h3>이용규칙을 정해주세요</h3>
+         <div class="row" style="padding: 0; border: 0px solid green;" >
+            <div class="col-md-12" style="font-size: 16px; font-weight:bold; margin-top: 30px; border: 0px solid blue; width: 50%;">
+            
+				<c:forEach items="${rule}" var="map" varStatus="status"> 
+				 	<div class="row" style="border: 0px solid red; padding-left: 15px;"> 
+                        <div class="col-md-1" style="border: 0px solid black;">
+                              <input type="checkbox" value="${map.rule_idx}" name="rulechk" class="rule" id="${status.count}rule" style="display: none;"/>
+                              <label for="${status.count}rule" style="width: 20px; height: 20px; border: 1px solid #bcbcbc; display: inline-block;"></label>
+                        </div>
+                        <div class="col-md-10" style="border: 0px solid blue; margin-bottom: 20px;" >		                        	
+                              <label for="${status.count}rule">
+                              	<span id="rulelist">${map.rule_name}</span><br/>
+                              	<input type="hidden" value="${map.rule_idx}"/>		                              
+                              </label>		                            
+                        </div>  
+                 	</div>
+                 </c:forEach>	
+                 	                 
+            </div>
+		</div>
 	</div>
-	
-	<!-- <hr style="width: 50%;" align="left"> -->
-	
-	<!-- 이용규칙 -->
-	<h3 >어떤 이용규칙이 있나요?</h3>
-	
+	</form>
 	<hr style="width: 50%;" align="left">
-	<button class="btn successbtn" onClick="changeCheckInOut();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn cancelbtn" onclick="javascript:history.back();">취소</button>
+	<div style="padding-bottom: 5%;">
+	<button class="btn successbtn" onClick="saveOptionAndRule();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;
+	<button class="btn cancelbtn"  onclick="goRoomList('${roomcode }');">취소</button>
+	</div>
 </div>
