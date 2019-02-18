@@ -69,6 +69,7 @@ public class HYDAO implements InterHYDAO {
 		int result = 0;
 		int n = sqlsession.selectOne("hy.checkLikeRoom", paraMap);
 		if(n==0) result = sqlsession.insert("hy.insertLikeRoom", paraMap);
+		System.out.println("n : "+n+"result : "+result);
 		return result;
 	}
 

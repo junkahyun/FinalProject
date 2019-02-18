@@ -180,7 +180,7 @@ var flag5 = false;
 									  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
 									  + "</div>"
 									  + "<div>"
-									  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+									  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span></span>"
 									  + "<input type='hidden' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
 									  + "</div>"
 									  + "</div>";
@@ -369,7 +369,7 @@ var flag5 = false;
 						  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
 						  + "</div>"
 						  + "<div>"
-						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+						  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span></span>"
 						  + "<input type='hidden' class='roomcode' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
 						  + "</div>"
 						  + "</div>";
@@ -457,7 +457,7 @@ var flag5 = false;
 							  + "<span>₩<fmt:formatNumber pattern='#,###' value=''/>"+entry.ROOMPRICE+"</span>원"
 							  + "</div>"
 							  + "<div>"
-							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span>203</span>"
+							  + "<span style='font-size: 0.8em;'><span style='color: #148387'>★★★★★</span></span>"
 							  + "<input type='hidden' class='roomcode' name='roomcode' value='"+entry.ROOMCODE+"'/>" 
 							  + "</div>"
 							  + "</div>";
@@ -760,7 +760,7 @@ var flag5 = false;
 	                        <input type="hidden" name="roomtype_name" value="${RList.roomType_name }" />	                        
 	                    </div>
 	                    <div>
-	                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span>203</span>                                   
+	                        <span style="font-size: 0.8em;"><span style="color: #148387">★★★★★</span></span>                                   
 	                    </div>                
 	                </div>	               
 	            </c:forEach>
