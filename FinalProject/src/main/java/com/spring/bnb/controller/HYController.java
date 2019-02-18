@@ -157,7 +157,7 @@ public class HYController {
 	}
 
 	// 숙소 관심테이블에 저장하기
-	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.GET)
+	@RequestMapping(value = "/likeRoom.air", method = RequestMethod.POST)
 	public String requireLogin_likeRoom(HttpServletRequest req,HttpServletResponse res ,MemberVO member) {
 		String userid = req.getParameter("userid");
 		String roomcode = req.getParameter("roomcode");
@@ -337,9 +337,8 @@ public class HYController {
 		if(myroomsize>0) {
 			incomeList = service.getHostIncome(loginuser.getUserid());
 			testList = new ArrayList<HashMap<String,Object>>();
-			HashMap<String,Object> testMap = null;
 			for(RoomVO room : loginuser.getMyroomList()) {
-				testMap = new HashMap<String,Object>();
+				HashMap<String,Object> testMap = new HashMap<String,Object>();
 				testMap.put("name", room.getRoomName());
 				int[] arr = new int[12];
 				for(HashMap<String,Object> income :incomeList) {
@@ -349,8 +348,9 @@ public class HYController {
 					}
 				}
 				testMap.put("data", Arrays.toString(arr));
+				testList.add(testMap);
 			}
-			testList.add(testMap);
+			
 		}
 		else{
 			req.setAttribute("msg", "호스트만 접근 가능합니다.");
