@@ -312,7 +312,7 @@
          	return;
       	}
       	var frm = document.likeroomFrm;
-      	frm.method="GET";
+      	frm.method="POST";
       	frm.action="likeRoom.air";
       	frm.submit();
 	}
