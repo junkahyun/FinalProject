@@ -136,7 +136,7 @@
 </style>
 
 <body>
-${reservationList.get(0).rsv_email}
+
   <div id='calendar' style="margin-top: 3%;">
   	<c:forEach items="${reservationList}" var="rsv">
 	  	<input type="hidden" id="client" class="client" value="${rsv.rsv_name}"/>

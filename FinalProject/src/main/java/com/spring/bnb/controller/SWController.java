@@ -203,8 +203,7 @@ public class SWController {
 		
 		List<ReservationVO> reservationList = service.getReservationList(userid); 
 		
-		for(ReservationVO list : reservationList) {	
-			System.out.println(aes.decrypt(reservationList.get(0).getRsv_email()));
+		for(ReservationVO list : reservationList) {		
 			list.setRsv_email(aes.decrypt(list.getRsv_email()));
 			list.setRsv_phone(aes.decrypt(list.getRsv_phone()));			
 		}

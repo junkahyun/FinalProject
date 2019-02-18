@@ -130,7 +130,7 @@
 		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx		          
 		          JOIN roomtype F
         		  ON A.fk_roomtype_idx = F.roomtype_idx
-		where roomsido||roomsigungu||roombname like #{SIDO}||#{GUGUN}||#{DONG}
+		where roomsido||roomsigungu||roombname like #{SIDO}||#{GUGUN}||#{DONG}	
 		<if test="RULENAME != ''">
 			and not exists(select rule_idx
 							from allrule
@@ -142,7 +142,7 @@
 							select fk_rule_idx
 							from room A JOIN roomrule B
 							ON A.roomcode = B.fk_roomcode
-							where roomsido||roomsigungu||roombname like #{SIDO}||#{GUGUN}||#{DONG})
+							where roomsido||roomsigungu||roombname like #{SIDO}||#{GUGUN}||#{DONG})							
 		</if>
 		<if test="OPTIONNAME != ''">		                                   
 			and not exists (select option_idx

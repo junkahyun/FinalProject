@@ -125,7 +125,12 @@ var flag5 = false;
 	      }
 	  		
 	      jQuery.ajaxSettings.traditional = true;
-	     
+	    
+	      if($("#sidogugundong").val() == ""){
+	    	 alert("지역을 먼저 선택하세요.");
+	    	 $(".option").removeClass("subjectstyle");
+	    	 return;
+	      }
 	      var form_data = {"rulename" : rulenameArr,
 	    		  		   "roomtype_name" : roomtypenameArr,
 	    		  		   "optionname" : optionnameArr,
@@ -166,7 +171,7 @@ var flag5 = false;
 							$.each(json, function(entryIndex, entry){									
 								html += "<div class='col-md-4' style='margin-bottom: 2%;'>" 					     
 									  + "<div id='homeImg' style='margin-bottom: 3%;'>"
-									  + "<img src='"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
+									  + "<img src='<%=request.getContextPath() %>/resources/images/becomehost/"+entry.ROOMMAINIMG+"' style='border-radius: 5px; width: 100%; height:20em; cursor: pointer;' onClick='goHomeDetail()' />"
 									  + "<input type='hidden' id='lat"+entryIndex+"' class='lat' name='lat' value='"+entry.LATITUDE+"' />"
 									  + "<input type='hidden' id='lng"+entryIndex+"' class='lng' name='lat' value='"+entry.LONGITUDE+"' />"
 									  + "</div>"
@@ -237,7 +242,10 @@ var flag5 = false;
             else if (ui.value < 0) { 
                $(this).spinner("value", 0);
                return false;
-            }                    
+            }else if($("#sidogugundong").val() == ""){
+            	alert("지역을 먼저 선택하세요.");           	 
+            	return false;
+            }
           var adult = ui.value;                  
           $("#adult").val(adult);
           
@@ -248,8 +256,7 @@ var flag5 = false;
           var allperson = parseInt(adult)+parseInt(student)+parseInt(baby);
           $("#allperson").val(allperson);
           fun_ajax();                         
-         }
-	 
+         } 
       }); // end of $(".person").spinner();---------------  
      
       $("#student").spinner({				 
@@ -261,7 +268,11 @@ var flag5 = false;
              else if (ui.value < 0) { 
                 $(this).spinner("value", 0);
                 return false;
-             }                    
+             }else if($("#sidogugundong").val() == ""){
+            	 alert("지역을 먼저 선택하세요.");            	 
+             	return false;
+             }
+          
            var student = ui.value;                   
            $("#student").val(student);
 
@@ -284,7 +295,11 @@ var flag5 = false;
               else if (ui.value < 0) { 
                  $(this).spinner("value", 0);
                  return false;
-              }                    
+              } else if($("#sidogugundong").val() == ""){
+            	  alert("지역을 먼저 선택하세요.");
+             	  return false;
+              }   
+             
             var baby = ui.value;                    
             $("#baby").val(baby);
             
@@ -293,14 +308,25 @@ var flag5 = false;
             var baby = $("#baby").val();
             
             var allperson = parseInt(adult)+parseInt(student)+parseInt(baby);
-            $("#allperson").val(allperson);
+            $("#allperson").val(allperson);	
             fun_ajax();
            }
         }); // end of $(".person").spinner();---------------          
                  
       // 건물유형 대/소분류 Ajax 처리
+      $("#buildName1").click(function(){
+    	 if($("#sidogugundong").val() == ""){
+    		 alert("지역을 먼저 선택하세요.");
+    		 return;
+    	 } 
+      });
+      
       $("#buildName1").change(function(){
-    	  
+    	  if($("sidogugundong").val() == ""){
+    		  alert("지역을 먼저 선택하세요.");
+    		  $("#buildName1").val(":::선택하세요:::");
+    		  return;
+    	  }
     	  var form_data = {buildName1 : $("#buildName1").val()};
     	  var html = "";   	  
     	 
@@ -333,7 +359,7 @@ var flag5 = false;
     
    // 모든 옵션 초기화하기
    $(".reset").click(function(){
-	  $("#sidogugundong").val("서울특별시");
+	  $("#sidogugundong").val("");
 	  $("#checkin").val("체크인 날짜");
 	  $("#checkout").val("체크아웃 날짜");
 	  $(".option").removeClass("subjectstyle");	
@@ -341,8 +367,8 @@ var flag5 = false;
 	  $("#student").val("0");
 	  $("#baby").val("0");
 	  $("#buildName1").val("");
-	  $("#buildName2").val("");	  
-	  
+	  $("#buildName2").val("");
+	 	  
 	  var html = "";
 	  
 	  $.ajax({		 
@@ -385,18 +411,18 @@ var flag5 = false;
 	 
 	  
    });
-   
-   $("#slider1").change(function(){
-	  alert("하하하");
-   });
-   
-   $("#slider2").change(function(){
-	   alert("하하하"); 
-   });
       
-   
  });
     function fun_ajax() {
+    	
+    	if($("#sidogugundong").val() == ""){
+ 	    	 alert("지역을 먼저 선택하세요.");
+ 	    	 $(".option").removeClass("subjectstyle");	
+	 	 	 $("input[name=pqty]]").val("0");
+	 	 	 $("#buildName1").val("");
+	 	 	 $("#buildName2").val("");
+ 	    	 return;
+ 	     }
     	
      //	alert("여기오니?");        	
        	var form_data = {checkin : $("#checkin").val(),
