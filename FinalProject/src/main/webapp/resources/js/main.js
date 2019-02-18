@@ -281,10 +281,13 @@ function goLogin(){
        dataType:"json",
        success:function(json){
           var logincheck = json.logincheck;
-          if(logincheck=="true"){
+          if(logincheck=="true" && "${(sessionScope.loginuser).getUserid}" != "admin"){
              alert("로그인 되었습니다.");
              location.reload();
-          } 
+          }else if(logincheck=="true" && "${(sessionScope.loginuser).getUserid}" == "admin") {
+        	  alert("로그인 되었습니다.");
+              location.href="/admin.air";
+          }
           else{
              alert("아이디와 비밀번호를 확인해주세요.");
           }

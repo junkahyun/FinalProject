@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <%
-	String ctxPath = request.getContextPath();
+	String ctxPath = request.getContextPath();   
 %>    
 <!DOCTYPE html>
 <html lang="kor">
