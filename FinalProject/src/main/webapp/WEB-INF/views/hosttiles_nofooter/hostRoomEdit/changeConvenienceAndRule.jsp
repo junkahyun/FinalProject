@@ -176,6 +176,6 @@ select:focus {
 	<hr style="width: 50%;" align="left">
 	<div style="padding-bottom: 5%;">
 	<button class="btn successbtn" onClick="saveOptionAndRule();">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;
-	<button class="btn cancelbtn"  onclick="goRoomList('${roomcode }');">취소</button>
+	<button class="btn cancelbtn"  onclick="javascript:location.reload();">취소</button>
 	</div>
 </div>
