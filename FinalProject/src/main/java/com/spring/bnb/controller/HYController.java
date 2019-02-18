@@ -132,6 +132,7 @@ public class HYController {
 			session.setAttribute("loginuser", loginuser);
 		}
 		jobj.put("logincheck", logincheck);
+		jobj.put("userid", loginuser.getUserid());
 		String str_json = jobj.toString();
 		System.out.println(str_json);
 		req.setAttribute("str_json", str_json);
