@@ -106,4 +106,29 @@ public class SCService implements InterSCService {
 		int n = dao.roomUpdate(paraMap);
 		return n;
 	}
+	@Override
+	public List<String> getOptionList() {
+		List<String> optionList = dao.getOptionList();
+		return optionList;
+	}
+	@Override
+	public List<String> getRuleList() {
+		List<String> ruleList = dao.getRuleList();
+		return ruleList;
+	}
+	@Override
+	public int deleteOptionAndRule(String roomcode) {
+		int n = dao.deleteOptionAndRule(roomcode);
+		return n;
+	}
+	@Override
+	public void insertOption(HashMap<String, String> paraMap) {
+		dao.insertOption(paraMap);
+		
+	}
+	@Override
+	public void insertRule(HashMap<String, String> paraMap) {
+		dao.insertRule(paraMap);
+		
+	}
 }

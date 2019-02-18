@@ -533,8 +533,60 @@ public class SCController {
 		req.setAttribute("str_json", str_json);
 		return "JSON";
 	}
+	// ***** 호스트 등록된 숙소 수정하기(편의시설 및 이용규칙 수정) ***** //
+	@RequestMapping(value="/changeConvenienceAndRule.air", method= {RequestMethod.POST})
+	public String changeConvenienceAndRule(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		//System.out.println(roomcode);
+		List<String> options = service.getOptionList();// 옵션 가져오기
+		List<String> rule = service.getRuleList();// 이용규칙 가져오기
+		
+		req.setAttribute("roomcode", roomcode);
+		req.setAttribute("options", options);
+		req.setAttribute("rule", rule);
+		
+		return "hostRoomEdit/changeConvenienceAndRule.hosttiles_nofooter";
+	}
 	
 	
+	@RequestMapping(value="/changeOptionAndRule.air", method= {RequestMethod.GET})
+	public String changeOptionAndRule(HttpServletRequest req) {
+		String roomcode = req.getParameter("roomcode");
+		String[] option = req.getParameterValues("optionchk");
+		String[] rule = req.getParameterValues("rulechk");
+		if(option != null && rule != null) {
+			int n = service.deleteOptionAndRule(roomcode);
+			
+			HashMap<String,String> paraMap = new HashMap<String, String>();
+			for(int i=0; i<option.length; i++) {
+				paraMap.put("option", option[i]);
+				paraMap.put("roomcode", roomcode);
+				service.insertOption(paraMap);
+			}
+			
+			for(int i=0; i<rule.length; i++) {
+				paraMap.put("rule", rule[i]);
+				paraMap.put("roomcode", roomcode);
+				service.insertRule(paraMap);
+			}
+			
+		}
+		
+		HttpSession session = req.getSession(); 
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser"); 
+		String userid = null;
+		if(loginuser != null) { 
+			userid = loginuser.getUserid(); 
+		}
+		List<RoomVO> roomList = null;
+		roomList = service.getRoomList(userid);
+		
+		RoomVO roomvo = service.getRoomInfo(roomcode);
+		
+		req.setAttribute("roomList", roomList);
+		req.setAttribute("roomvo", roomvo);
+		return "hostRoomEdit/hostRoomEdit.hosttiles_nofooter";
+	}
 	///////////////////////////////////////////////////////////////////////////////////
 	
 	// ***** 호스트 등록된 숙소 수정하기(기본요금 수정) ***** //
@@ -555,16 +607,5 @@ public class SCController {
 		return "hostRoomEdit/changeCheckInCheckOut.hosttiles_nofooter";
 	}
 
-	// ***** 호스트 등록된 숙소 수정하기(숙박인원 수정) ***** //
-	@RequestMapping(value="/changeHostingPeople.air", method= {RequestMethod.GET})
-	public String changeHostingPeople (HttpServletRequest req) {
-		return "hostRoomEdit/changeHostingPeople.hosttiles_nofooter";
-	}
 
-	// ***** 호스트 등록된 숙소 수정하기(편의시설 및 이용규칙 수정) ***** //
-	@RequestMapping(value="/changeConvenienceAndRule.air", method= {RequestMethod.GET})
-	public String changeConvenienceAndRule (HttpServletRequest req) {
-		
-		return "hostRoomEdit/changeConvenienceAndRule.hosttiles_nofooter";
-	}
 }

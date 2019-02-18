@@ -976,30 +976,65 @@ select *
         
         select * from room
         
-      	select *
+        
+        
+        
+        
+        
+        
+        
+        select *
 		from room A JOIN buildtype_detail B
-		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx
-		          JOIN bedroom C
-		          ON A.roomcode = C.fk_roomcode
-		          JOIN bed D
-		          ON C.bedroom_idx = D.fk_bedroom_idx
-		          JOIN bedobj E
-		          ON D.fk_bedobj_idx = E.bedobj_idx
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx		          
 		          JOIN roomtype F
         		  ON A.fk_roomtype_idx = F.roomtype_idx
-		where 1=1 		
-		and roomcode in (
-		select roomcode
-		from room							
-		minus
-		select roomcode
-		from room A JOIN reservation B
-		ON A.roomcode = B.fk_roomcode
-		JOIN buildtype_detail C
-		ON A.fk_buildtype_detail_idx = C.buildtype_detail_idx							
-		where '2019-02-06' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd')
-		and '2019-02-10' between to_char(B.rsv_checkindate,'yyyy-mm-dd') and to_char(B.rsv_checkoutdate, 'yyyy-mm-dd'))		
-	    and buildtype_detail_name = '개인실'	   
-	    and roomprice between to_number('1') and to_number('10000000')	   
-		and roomsido like '%서울%'		
-		and max_person >= 3
+                  JOIN roomrule C
+                  ON A.roomcode = C.fk_roomcode
+                  JOIN allrule D
+                  ON C.fk_rule_idx = D.rule_idx
+                  JOIN roomoption E
+                  ON A.roomcode = E.fk_roomcode
+                  JOIN options G
+                  ON E.fk_option_idx = G.option_idx
+        where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' 
+      
+                  
+                
+        select *
+		from room A JOIN buildtype_detail B
+		          ON A.fk_buildtype_detail_idx = B.buildtype_detail_idx		          
+		          JOIN roomtype F
+        		  ON A.fk_roomtype_idx = F.roomtype_idx          
+		where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' 		
+			and not exists(select rule_idx
+							from allrule
+							where rule_name in 							
+							('반려동물 입실가능')							
+							minus                  
+							select fk_rule_idx
+							from room A JOIN roomrule B
+							ON A.roomcode = B.fk_roomcode
+							where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동')
+			and not exists (select option_idx
+							from options
+							where optionname in 
+							('무선인터넷','난방','에어컨')
+							minus
+							select fk_option_idx
+							from room A JOIN roomoption B
+							ON A.roomcode = B.fk_roomcode
+							where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' )
+			and not exists (select roomtype_idx
+							from roomtype							
+							where roomtype_name in 							
+							('다인실')							
+							minus
+							select fk_roomtype_idx
+							from room 
+							where roomsido||roomsigungu||roombname like '충남'||'아산시'||'좌부동' ) 
+        
+        
+        select * from options
+        select *
+							from room A JOIN roomoption B
+							ON A.roomcode = B.fk_roomcode

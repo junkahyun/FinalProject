@@ -41,4 +41,14 @@ public interface InterSCService {
 	List<HashMap<String, String>> selectbuildTypedetail(String buildType);
 
 	int roomUpdate(HashMap<String, String> paraMap);
+
+	List<String> getOptionList();
+
+	List<String> getRuleList();
+
+	int deleteOptionAndRule(String roomcode);
+
+	void insertOption(HashMap<String, String> paraMap);
+
+	void insertRule(HashMap<String, String> paraMap);
 }

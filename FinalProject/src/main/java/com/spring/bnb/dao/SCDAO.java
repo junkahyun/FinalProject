@@ -43,6 +43,9 @@ public class SCDAO implements InterSCDAO {
 		List<HashMap<String,String>> optionList = sqlsession.selectList("sc.getRoomOptionList", roomcode); // 숙소 옵션 리스트
 		roomvo.setOptionList(optionList);
 		
+		List<HashMap<String,String>> ruleList = sqlsession.selectList("sc.getRoomRuleList", roomcode);// 숙소 규칙 리스트 
+		roomvo.setRuleList(ruleList);
+		
 		return roomvo;
 	}
 	
@@ -146,6 +149,38 @@ public class SCDAO implements InterSCDAO {
 	public int roomUpdate(HashMap<String, String> paraMap) {
 		int n = sqlsession.update("sc.roomUpdate", paraMap);
 		return n;
+	}
+
+	@Override
+	public List<String> getOptionList() {
+		List<String> optionList = sqlsession.selectList("sc.getOptionList");
+		return optionList;
+	}
+
+	@Override
+	public List<String> getRuleList() {
+		List<String> ruleList = sqlsession.selectList("sc.getRuleList");
+		return ruleList;
+	}
+
+	@Override
+	public int deleteOptionAndRule(String roomcode) {
+		int n = sqlsession.delete("sc.deleteOption", roomcode);
+	
+		n = sqlsession.delete("sc.deleteRule", roomcode);
+
+		return n;
+	}
+
+	@Override
+	public void insertOption(HashMap<String, String> paraMap) {
+		sqlsession.insert("sc.insertOption",paraMap);
+	}
+
+	@Override
+	public void insertRule(HashMap<String, String> paraMap) {
+		sqlsession.insert("sc.insertRule", paraMap);
+		
 	}
 
 	

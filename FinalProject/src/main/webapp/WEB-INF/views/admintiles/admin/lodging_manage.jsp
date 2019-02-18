@@ -110,7 +110,7 @@
 				  		 <tr style="background-color:#ff0;">
 				  		 </c:if>
 						      <td>${rvo.roomcode}</td>
-						      <td><img src="${rvo.roomMainImg}" width="60%"/></td>
+						      <td><img src="<%=cxtPath%>/resources/images/becomehost/${rvo.roomMainImg}" width="60%"/></td>
 						      <td>${rvo.roomName}</td>
 						      <td>${rvo.roomSido}&nbsp;${rvo.roomSigungu}&nbsp;${rvo.roomBname}</td>
 						      <td>${rvo.host.username }</td>
@@ -118,14 +118,14 @@
 						      <c:if test="${rvo.roomstatus == 1}">
 						  	  <td>정상영업중</td>
 						  	  </c:if>
-						  	  <c:if test="${rvo.roomstatus == 0 }">
+						  	  <c:if test="${rvo.roomstatus == 0}">
 						  	  <td>영업정지</td>
 						      </c:if>
 						      <c:if test="${rvo.roomstatus == 1}">
-						  	  <td><button type="button" class="btn btn-danger" onClick="goSuspension(${rvo.roomcode})">영업정지</button></td>
+						  	  <td><button type="button" class="btn btn-danger" onClick="goSuspension('${rvo.roomcode}')">영업정지</button></td>
 						  	  </c:if>
 						  	  <c:if test="${rvo.roomstatus == 0 }">
-						  	  <td><button type="button" class="btn btn-success" onClick="goContinue(${rvo.roomcode})">영업활성화</button></td>
+						  	  <td><button type="button" class="btn btn-success" onClick="goContinue('${rvo.roomcode}')">영업활성화</button></td>
 						      </c:if>
 					    </tr> 
 				  	</c:forEach> 
