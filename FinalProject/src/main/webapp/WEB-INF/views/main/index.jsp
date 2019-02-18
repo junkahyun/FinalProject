@@ -87,14 +87,15 @@
 			</div>
 			<div class="col-md-6">
 			<c:if test="${loginuser==null }">
-				<ul id="util_menu" class="no_margin-right"> 
+				<ul id="util_menu" class="no_margin-right">
+					<li><a href="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">게시판</a></li>
 					<li><a href="#">도움말</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></li>
 				 </c:if>	 
 		         <c:if test="${loginuser!=null }">
 		         <ul id="util_menu" > 
-		         <div class="headermenus">
+		         <div class="headermenus" style="width: 120%;">
 		            <c:if test="${loginuser.myroomList==null }">
 		           		<div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
 		            </c:if>
@@ -113,6 +114,7 @@
 			               </li>
 			             </ul> 
 		            </div>
+		            <div class="headermenu" onClick="javascript:location.href='<%= request.getContextPath()%>/board_report.air'">게시판</div>
 		            <div class="headermenu" onClick="">메세지</div>
 		            <div class="headermenu" onClick="">도움말</div>
 		

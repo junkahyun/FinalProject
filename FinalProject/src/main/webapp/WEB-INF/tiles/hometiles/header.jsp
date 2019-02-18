@@ -351,6 +351,7 @@
          </div>
          <c:if test="${loginuser==null }">
          <div class="headermenus">
+         	<div class="headermenu" onClick="javascript:location.href='board_report.air'">게시판</div>
             <div class="headermenu" onClick="">도움말</div>
             <div class="headermenu" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</div>
             <div class="headermenu" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</div>
@@ -362,6 +363,7 @@
             <div class="headermenu" onClick="goRegistHost();">호스트가 되어보세요</div>
             </c:if>
             <c:if test="${loginuser.myroomList!=null }">
+            <div class="headermenu" onClick="javascript:location.href='board_report.air'">게시판</div>
             <div class="headermenu" onClick="goRegistHost();">숙소추가</div>
             <div class="headermenu" onClick="goHostMain();">호스트</div>
             </c:if>
