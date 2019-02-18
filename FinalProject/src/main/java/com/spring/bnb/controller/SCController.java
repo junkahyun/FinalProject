@@ -263,10 +263,10 @@ public class SCController {
 			n2 = service.setRoomImg(paraMap);
 		}
 		
-		if(n2==1) {
-			RoomVO roomvo = (RoomVO) service.getRoomInfo(roomcode);
-			req.setAttribute("roomvo", roomvo);
-		}
+		
+		RoomVO roomvo = service.getRoomInfo(roomcode);
+		req.setAttribute("roomvo", roomvo);
+	
 		return "hostRoomEdit/hrPhotoEdit.hosttiles_nofooter";
 	}
 	
