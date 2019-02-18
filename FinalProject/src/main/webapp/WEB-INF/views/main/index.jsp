@@ -61,7 +61,7 @@
 			</div>
 			<div class="col-md-6">
 			<c:if test="${loginuser==null }">
-				<ul id="util_menu" class="no_margin-right"> 
+				<ul id="util_menu" class="no_margin-right">
 					<li><a href="#">도움말</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#join" data-dismiss = "modal">회원가입</a></li>
 					<li><a href="#" data-toggle = "modal" data-target="#login" data-dismiss = "modal">로그인</a></li>
@@ -87,6 +87,7 @@
 			               </li>
 			             </ul> 
 		            </div>
+		            <div class="headermenu" onClick="">게시판</div>
 		            <div class="headermenu" onClick="">메세지</div>
 		            <div class="headermenu" onClick="">도움말</div>
 		
