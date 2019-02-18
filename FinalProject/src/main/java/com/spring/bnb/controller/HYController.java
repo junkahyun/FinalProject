@@ -125,12 +125,6 @@ public class HYController {
 		JSONObject jobj = new JSONObject();
 		String logincheck = "";
 		if(loginuser==null) logincheck = "false";
-		else if("admin".equals(loginuser.getUserid())) {
-			HttpSession session = req.getSession();
-			session.setAttribute("loginuser", loginuser);
-			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/admintiles/admin/index.jsp");
-			dispatcher.forward(req, res);
-		}
 		else {
 			// 로그인 성공시 세션에 해당 유저정보저장
 			logincheck = "true";

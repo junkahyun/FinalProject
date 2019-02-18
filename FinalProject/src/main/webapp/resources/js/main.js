@@ -285,7 +285,7 @@ function goLogin(){
              alert("로그인 되었습니다.");
              location.reload();
           }else if(logincheck=="true" && "${(sessionScope.loginuser).getUserid}" == "admin") {
-        	  alert("로그인 되었습니다.");
+        	  alert("관리자 로그인 되었습니다.");
               location.href="/admin.air";
           }
           else{
