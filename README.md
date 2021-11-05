@@ -1,4 +1,4 @@
-FORK된 해당 프로젝트는 국비지원 다닐때 Final Project로 진행한 작업물 입니다. 😃 
+FORK된 해당 프로젝트는 국비지원 교육시 Final Project로 진행한 작업물 입니다. 😃 
 
 팀원들의 작업물이 전체로 올라와 있어
 1. 프로젝트 전체 설명
@@ -21,11 +21,11 @@ Final Project 진행 당시 특별한 아이디어가 없었던 저희 팀은
 
 &nbsp;
 
-나머지 팀원분들은 그외 나머지 기능들을 분담해서 작업을 하였습니다.
+나머지 팀원분들은 그외 기능들을 분담해서 작업을 하였습니다.
 
 &nbsp;
 
-## 2. 나의 작업은?
+## 2-1. 나의 작업은?
 저는 당시 개발실력이 뛰어난 편은 아니었지만
 해보지 않은 것에 도전해보고 싶은 마음이 커서
 **예약 / 결제 페이지 구현과 기능**을 담당하였습니다.
@@ -53,7 +53,7 @@ Final Project 진행 당시 특별한 아이디어가 없었던 저희 팀은
 
 &nbsp;
 
-## 2-2. 나의 작업 파일 경로
+## 2-3. 나의 작업 파일 경로
 **spring**
 
 - controller : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/controller/KHController.java
@@ -71,6 +71,53 @@ Final Project 진행 당시 특별한 아이디어가 없었던 저희 팀은
 
 &nbsp;
 
-## 2-3. 완성된 화면
----
-
+## 2-4. 완성된 화면
+<details>
+  <summary>숙소 이용 규칙 확인 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/roomRuels_check.PNG" />
+  </div>
+</details>
+<details>
+  <summary>일행 확인 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/people_check.PNG" />
+  </div>
+</details>
+<details>
+  <summary>예약 정보 확인 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/reserve_check.PNG" />
+  </div>
+</details>
+<details>
+  <summary>쿠폰 선택 팝업 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/coupon_use.PNG" />
+  </div>
+</details>
+<details>
+  <summary>결제 팝업 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/reserve_popup.PNG" />
+  </div>
+</details>
+<details>
+  <summary>예약 완료 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/reserve_succes.PNG" />
+  </div>
+</details>
+<details>
+  <summary>예약 확정 이메일 화면</summary>
+  <br />
+  <div markdown="1">
+    <image src="https://github.com/junkahyun/KHFinalProject/blob/master/screenimage/reserve_email.PNG" />
+  </div>
+</details>
