@@ -9,7 +9,7 @@ FORK된 해당 프로젝트는 국비지원 다닐때 Final Project로 진행한
 
 ## 1. 어떤 프로젝트 인가? 
 Final Project 진행 당시 특별한 아이디어가 없었던 저희 팀은
-다들 한번씩 개발해보고 싶다던, **에어비앤비** 사이트를 본떠 똑같이 만들었습니다.
+다들 한번씩 개발해보고 싶다던, **에어비앤비** 사이트를 모방하여 만들었습니다.
 
 &nbsp;
 
@@ -30,6 +30,47 @@ Final Project 진행 당시 특별한 아이디어가 없었던 저희 팀은
 해보지 않은 것에 도전해보고 싶은 마음이 커서
 **예약 / 결제 페이지 구현과 기능**을 담당하였습니다.
 
-## 2-1. 나의 작업 파일 경로
+&nbsp;
 
+## 2-2. 개발 환경 / 기술 스택은?
+**개발환경**
+
+- STS 
+- Apache Tomcat 8.0
+- jsp
+- Mybatis
+- maven
+
+**기술 스택**
+
+- Java(jdk 1.8.0)
+- spring Framework / MVC 아키텍처 패턴 
+- Oracle DB
+- vanila javascript
+- jQuery
+- HTML5
+- CSS
+
+&nbsp;
+
+## 2-2. 나의 작업 파일 경로
+**spring**
+
+- controller : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/controller/KHController.java
+- dao(인터페이스) :  https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/dao/InterKHDAO.java
+- dao : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/dao/KHDAO.java
+- service(인터페이스) : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/service/InterKHService.java
+- service : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/service/KHService.java
+- mapper(mybatis) : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/mapper/kh.xml
+
+&nbsp;
+
+**jsp**
+
+- https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/webapp/WEB-INF/views/notiles/reservationAndPay
+
+&nbsp;
+
+## 2-3. 완성된 화면
+---
 
