@@ -63,8 +63,6 @@ Final Project 진행 당시 특별한 아이디어가 없었던 저희 팀은
 - service : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/service/KHService.java
 - mapper(mybatis) : https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/java/com/spring/bnb/mapper/kh.xml
 
-&nbsp;
-
 **jsp**
 
 - https://github.com/junkahyun/FinalProject/tree/master/FinalProject/src/main/webapp/WEB-INF/views/notiles/reservationAndPay
